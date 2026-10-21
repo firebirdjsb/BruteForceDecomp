@@ -21,3 +21,11 @@ Unknown ABI or unresolved indirect calls must be recorded, not guessed. Even `Se
 3. Update the local viewer/Codex batch runner to generate **.c** instead of **.cpp**.
 4. Add 32-bit compiler/build checks and targeted regression tests before marking drafts verified.
 5. Continue with unresolved x86 control-flow and ABI investigation.
+
+## 2026-10-21 — Complete legacy C11 migration package prepared
+
+- **All 103 legacy C++ drafts** now have generated ISO C11 counterparts with preserved function address and original body hash.
+- **103/103 pass Clang C11 syntax-only** under warnings that tolerate unresolved prototypes, pointer/int conversions, and unknown external ABI. This is **not** Xbox compilation or behavioral verification.
+- The existing four C11 drafts already on GitHub remain protected; the remaining 99 sources and full migration metadata are staged in the downloadable `BruteForce_C11_All_103.zip` workspace. **They are not yet pushed to GitHub.**
+- Local script `Sync-103-C11-To-Private-GitHub.ps1` checks repository visibility and source digests, then uploads 99 new `.c` drafts, unresolved-symbol declarations, and per-function tracking. It never uploads the original XBE, ISO, full decompiler exports or backup CPP archive.
+- No new function has been marked ABI-verified, behavior-verified or byte-identical. Recovered signatures, SSE/x87 semantics, data symbols, stack layouts, and virtual-call prototypes are still under review.
