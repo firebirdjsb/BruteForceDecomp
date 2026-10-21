@@ -1,0 +1,30 @@
+# Proprietary game content and archives
+*.xbe
+*.xiso
+*.iso
+*.img
+*.bin
+*.pak
+*.tgz
+*.xwb
+*.xpr
+*.bik
+*.mgf
+*.jwad
+*.zip
+# Ghidra, REA, and decompiler evidence stay on disk
+GhidraProjects/
+FunctionExport/
+LiveReview/
+*.gpr
+*.gbf
+*.sqlite3
+# Legacy C++ drafts are not active C-only sources
+*.cpp
+*.cxx
+*.cc
+# Local tool caches
+__pycache__/
+*.pyc
+.vscode/
+.idea/
