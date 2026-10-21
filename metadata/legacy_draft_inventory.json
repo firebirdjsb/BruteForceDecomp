@@ -1,0 +1,1038 @@
+{
+  "schema_version": 1,
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "ghidra_discovered_functions": 13694,
+  "legacy_cpp_drafts": 103,
+  "records": [
+    {
+      "entry": "0x00012000",
+      "function_idx": 0,
+      "original_name": "FUN_00012000",
+      "body_sha256": "CC4EDD09EF3836CDAFF6F647B64566BFACBAE0E2B722ED4CF9691E99BF36B8F3",
+      "legacy_draft_sha256": "7ad8c2a4e08681fb0feae032652f0cd6ece3fdbd471801a819e6926f03c63a90",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012050",
+      "function_idx": 1,
+      "original_name": "FUN_00012050",
+      "body_sha256": "EC243CEEE4EEC3F10EE90908D7EDB829E943FFE308D6D8E44C837A83016EA995",
+      "legacy_draft_sha256": "71ef464b920d533ce2a9b0fdd906872fc5c7188b5ff07ae9809a8551eabac29f",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012080",
+      "function_idx": 2,
+      "original_name": "FUN_00012080",
+      "body_sha256": "C820898F593F971E27447B5C0A6E3EF5B2E49B796859CCE4F04B1B5D89A733C9",
+      "legacy_draft_sha256": "8080736c76da00a231634f2ec9ce5fb7b34e210c3a1c86c806832484a43a3b9f",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012090",
+      "function_idx": 3,
+      "original_name": "FUN_00012090",
+      "body_sha256": "235FCF69BE230A5F1819EB3C1FD332A6502769F76638871A2D4BC4969770C599",
+      "legacy_draft_sha256": "dc46f2520cba7cf906a95781882f898e305c5729dd39574bfff7b34df7d22341",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000120d0",
+      "function_idx": 4,
+      "original_name": "FUN_000120d0",
+      "body_sha256": "A64E91D3471A4FB7B85953214F39CA5876EC33002C6118E5540DA1D2A0FD8AF6",
+      "legacy_draft_sha256": "ad511e3a0a2f2a96ea8d9d0becb69baa6c943e94f8936f0625be1db033d556e8",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000120f0",
+      "function_idx": 5,
+      "original_name": "FUN_000120f0",
+      "body_sha256": "9FEFE68C61CEC0943A913B1988495825BFD1E3F128E1F92DB0A3DA5D8376BB9C",
+      "legacy_draft_sha256": "945992cb4a3d0be49ff528f04f22967ebeb4926dd79a50047005748d797942c5",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012140",
+      "function_idx": 6,
+      "original_name": "FUN_00012140",
+      "body_sha256": "B41F5E57DD95D9D7FD50C405664C79D502AD2C419BAE3759363645D2FE195A73",
+      "legacy_draft_sha256": "a4a528af3dc39807acf21321e3b5cf8d6b89a94c923339de40cde45364c8fd94",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012180",
+      "function_idx": 7,
+      "original_name": "FUN_00012180",
+      "body_sha256": "17A592864808E74E026CEB87586E23608BAB5AD3AE582DDF6953280205D1BE7E",
+      "legacy_draft_sha256": "e7815d39b315cbea663617569ab256a44a2a1ae82eb77369a0fd604ffb0a3ed6",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000121c0",
+      "function_idx": 8,
+      "original_name": "FUN_000121c0",
+      "body_sha256": "9C401A0D0DCE3C6F513F25707A23EED551B1F731B8DDA84F21A641EEE28904A0",
+      "legacy_draft_sha256": "918701027274378592f5af6ad35167c980a2af3d274dd9eca129e8b89f1bc574",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000121f0",
+      "function_idx": 9,
+      "original_name": "FUN_000121f0",
+      "body_sha256": "3246E5F66F7F172FD466411DEE384DB3C2D26430FB637211F7476F32D3DE5410",
+      "legacy_draft_sha256": "9796a0ff0be249cfc4080299e14fb2c7dde6e3eb14033846c24f6da327ae9729",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012220",
+      "function_idx": 10,
+      "original_name": "FUN_00012220",
+      "body_sha256": "2C47E26B673E9A7FB8D76791B93267C5CB7DF639C7BF1C92D76869D3BDF0498A",
+      "legacy_draft_sha256": "4e299ab5fc54716cf7daeb3be45801517aa64a53699ae5c39952879f12bea9c0",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012250",
+      "function_idx": 11,
+      "original_name": "FUN_00012250",
+      "body_sha256": "C163367CD5660605F6EF9E6E595330B0080582F54B72C123E6E18BBDE0C43E30",
+      "legacy_draft_sha256": "0645b0d38064b556defb386bc81143ec9db5a98f2f69877bb8d97ad7bf1fcd43",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012290",
+      "function_idx": 12,
+      "original_name": "FUN_00012290",
+      "body_sha256": "6BBE0A35786A275D4F6ABEB7284509C4B59D1E7D9A706C64862D357B3CF7DA70",
+      "legacy_draft_sha256": "18e3fd409924a0b5bca38a2f71474659c6e53f8fb815efcdcfac103e9c4c66bb",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000122a0",
+      "function_idx": 13,
+      "original_name": "FUN_000122a0",
+      "body_sha256": "530F9549D550357BBE1C2EE1A4C9F1DD7302F7B672EE9D2E6271C0F49B115603",
+      "legacy_draft_sha256": "ef31a37b3acee1655614aaedb2efa33ae5bfef9153581cc0d53f185ec95dd2d0",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000122d0",
+      "function_idx": 14,
+      "original_name": "FUN_000122d0",
+      "body_sha256": "37ED1F33991EBC143041D39338E1A2DD09A0F97812E20B41DE03AC95C45457C1",
+      "legacy_draft_sha256": "d56ebaf96233be820b7b285fec49198d7b2971851bb71b32bc2b087d428f9b8d",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012320",
+      "function_idx": 15,
+      "original_name": "FUN_00012320",
+      "body_sha256": "09DF5F57AB66CA1D79AC7A0FB48234BFAD09EDAA4737F016616473C9F3143917",
+      "legacy_draft_sha256": "1893469b40550c560a7e18d637b031dceb808e14c25374214dff6b2cf0441dae",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000123f0",
+      "function_idx": 16,
+      "original_name": "FUN_000123f0",
+      "body_sha256": "85C3ADB4857D0D003318E621EF2589E74D08F5372F34930695205DBEF18EF55C",
+      "legacy_draft_sha256": "fe9ab534da1eeb2f1c7dfd37f1198a1eb8e711ce0c0eb67f322765acc4f21aff",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012440",
+      "function_idx": 17,
+      "original_name": "FUN_00012440",
+      "body_sha256": "13315B827ED2EE66B7AFD9AF3DF4ECCB0AA1F94B40D4F4E83D6D48B8EB5A39A2",
+      "legacy_draft_sha256": "ed9d52ea92cc04915ea4abeb2722fbbad51125514a7002d1df1f589d5cff1fc2",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012470",
+      "function_idx": 18,
+      "original_name": "FUN_00012470",
+      "body_sha256": "769BD46305C5E88C8BBD58B6FF6C6C9A6FEA903184208C14F8CB2424BFBFB15D",
+      "legacy_draft_sha256": "e1dba579c7dc02b3b8d96ddf6e4dc5730b786ba1edf48fa3e2b92fcd7ec71289",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000124f0",
+      "function_idx": 19,
+      "original_name": "FUN_000124f0",
+      "body_sha256": "BBAECFB8F22ECFA11B389C9B2C6CCE9ADA43F5E256F99CE836CB30ADB884567F",
+      "legacy_draft_sha256": "10c8e5177433badb0217cb71f45ecd42ce5359cd73445e09facab28db66bb09e",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012520",
+      "function_idx": 20,
+      "original_name": "FUN_00012520",
+      "body_sha256": "B6E9B38830E77DD7F97200DC70D71A3C045C05489DB632936111745DEB3C11FB",
+      "legacy_draft_sha256": "29a12065c3193245350b665ed8c44458e3eed0b8c7905749f1d585ccd199f842",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012540",
+      "function_idx": 21,
+      "original_name": "FUN_00012540",
+      "body_sha256": "17ECDF624151AA6A24020748FA3D463DCB4EB707EA1E78CB6D33999629EE9522",
+      "legacy_draft_sha256": "d3f8c79620409a54b73ddaa6124b56463b987ee20e1dc9da8077898b8ee0d6a3",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012560",
+      "function_idx": 22,
+      "original_name": "FUN_00012560",
+      "body_sha256": "A4987E9DD603D07022A8978F9FE6B6B5D9C515265BFEEE1C4D44B4C427E7FF00",
+      "legacy_draft_sha256": "9c8654571b6f9392588f78d30faa40a4e47f436fd0671476ee6a3efafe0beb65",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012580",
+      "function_idx": 23,
+      "original_name": "FUN_00012580",
+      "body_sha256": "D6AE4EF79DDFFB82A65842393A312D0E5F9F6D8539293EE1A8DDBDE9E3819976",
+      "legacy_draft_sha256": "22793529c82a17b0d68e1df0305a295b02a174010de5c0a142e20ffc12831423",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000125b0",
+      "function_idx": 24,
+      "original_name": "FUN_000125b0",
+      "body_sha256": "F8B4AF484F569D9858ADAC5F30AAFBCC519B955FDAF54621C7E74B7CDD3380DE",
+      "legacy_draft_sha256": "550e0a4263035c2f950ca64ada564a5c2ae1bb0944576486aaaa3bcdbce61776",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000125d0",
+      "function_idx": 25,
+      "original_name": "FUN_000125d0",
+      "body_sha256": "0FFC927226D9159F9242157E88A8F77E69B3F8741801DE70B943F09F656F4D2C",
+      "legacy_draft_sha256": "cf3b58ff0c3f03decec0d116cb9214ce558821aed6f7b99e6a9a9904f6683805",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012600",
+      "function_idx": 26,
+      "original_name": "FUN_00012600",
+      "body_sha256": "0636FAD612D8CF7DF63BBD0E255069EB9AFF32CEBEBD41D494599C4681F63B41",
+      "legacy_draft_sha256": "c3c31d529f67d86257da478acc8dba73496b58dca433f5e2de322e940a6757fe",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012620",
+      "function_idx": 27,
+      "original_name": "FUN_00012620",
+      "body_sha256": "7B732ED957C09DCA63BE754E0193F2B2CE69DCF1EDF9A607B339BA1F2BEC4E01",
+      "legacy_draft_sha256": "cb0da034b12b17d63ba225ee5f4124558a559855b2b0af21f2c3896db9440397",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012650",
+      "function_idx": 28,
+      "original_name": "FUN_00012650",
+      "body_sha256": "DEBEE5D52D081D080F59330972F8698A24CA49929257AACD17FD740B5F29BD03",
+      "legacy_draft_sha256": "1315d40c644f920a98699a83602c76e072cc8e72e8659b076dd2908222958411",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012680",
+      "function_idx": 29,
+      "original_name": "FUN_00012680",
+      "body_sha256": "C66B021C0B6083655CF55F91FB1020B5454C1FFCC4FA98C342802D48EF6206B4",
+      "legacy_draft_sha256": "30bed5a3afb8e5fa19423bdf981a9de3a1dc216b8b78322db1f94c73b1841c16",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000126f0",
+      "function_idx": 30,
+      "original_name": "FUN_000126f0",
+      "body_sha256": "B208383B20B3623029E37FC22F013170684CF43244C6D371DF1BDBD25C2ADEC3",
+      "legacy_draft_sha256": "6421eeee34b71f7e8613258dd2ff2402127c54677b6573cdc328820c3adb2d16",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012750",
+      "function_idx": 31,
+      "original_name": "FUN_00012750",
+      "body_sha256": "91EAFC71190F7BD016EF7A199C60E16295DDDBC5249D3A5EC1665E7249EF0EB4",
+      "legacy_draft_sha256": "58e98c02491003df90ff310bfb0c95a567cd6bab6a04550e0fd2d39d9c9e938e",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012820",
+      "function_idx": 32,
+      "original_name": "FUN_00012820",
+      "body_sha256": "DA40E838350FC6BD3F4EC4AD43993C8482B7E26CA2473E2B9ECD0EA64B7E4BEC",
+      "legacy_draft_sha256": "7b1dc1955838e064c0cb78e06ca7678dcc587f5fc32452b47f6ae40938bc9acb",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000128c0",
+      "function_idx": 33,
+      "original_name": "FUN_000128c0",
+      "body_sha256": "362107485C209A64AF64A8DA5B0B4A708E0A17C0A4AB7C53E956499B811D888C",
+      "legacy_draft_sha256": "fbc1a032df3494d0f439f12ada0e5b2a670e666c1cad3b804fe4df2694f47c65",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012920",
+      "function_idx": 34,
+      "original_name": "FUN_00012920",
+      "body_sha256": "C96E85F4C4E21460A2382F55511172EE15CD7E85A7C1B9A2FE8727451C0D66C4",
+      "legacy_draft_sha256": "da83bdced1a1b7684cbcaae513ac57cbdd60b0094a93edd817dfd00d44440b63",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000129f0",
+      "function_idx": 35,
+      "original_name": "FUN_000129f0",
+      "body_sha256": "09036DB276DC921F509E9673909FFE4F6A6CB07EC493A79889455AF83A2F94DB",
+      "legacy_draft_sha256": "00e3980b62f5e58e20377a741c1a13b403dc807092de76787f3203b9c236cfff",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012a50",
+      "function_idx": 36,
+      "original_name": "FUN_00012a50",
+      "body_sha256": "0B8920E9FD39778488BFC3422420B51B045A3559D028CC5D2237A6547EE905A8",
+      "legacy_draft_sha256": "e404ca50dd9062fbafc810bc23488afc97b4687ba510b5835d330b4f9760c2ec",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012a90",
+      "function_idx": 37,
+      "original_name": "FUN_00012a90",
+      "body_sha256": "BC3AC183B4EFB9C1A2EE1EDFAE1B41F01F72EF7CC9114162677252222D784975",
+      "legacy_draft_sha256": "395eb196d7df43541947a9303f750c20396c55c38fc015e384fb688a847974f9",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012af0",
+      "function_idx": 38,
+      "original_name": "FUN_00012af0",
+      "body_sha256": "59C4BC174566BC81B0A51B317495DEB93BC33C207388478FAAF6CB4ABDED087E",
+      "legacy_draft_sha256": "fc5a85c1ba2ff1a1725d9a1a83b793645670a04417261758f24e3e42d5c82282",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00012b40",
+      "function_idx": 39,
+      "original_name": "FUN_00012b40",
+      "body_sha256": "6384DC072D6DF539A6480919851D722CE8F3F9381E45D7F3AA9D2305404BC563",
+      "legacy_draft_sha256": "3c5341f585df606f65b68aea88ff0ddc3b3dae4fa8b17c928388563d775af2c2",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00015f30",
+      "function_idx": 40,
+      "original_name": "FUN_00015f30",
+      "body_sha256": "5025E23714D954A90E4EDA5E48801637DFC420DC50917CCD30AE480A336323DD",
+      "legacy_draft_sha256": "d266597df62decb57649917d6c97a6296652d36caf898fea28e7fde615b178b0",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00015f80",
+      "function_idx": 41,
+      "original_name": "FUN_00015f80",
+      "body_sha256": "46944BDE93CACAC236E2744F46EC746CA169DC29643CC7D75DE51A78196C9659",
+      "legacy_draft_sha256": "71157c782c7c100110e2ad5ede5050ed792b61c59bc4b4ba9aba731a62d92540",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00015fe0",
+      "function_idx": 42,
+      "original_name": "FUN_00015fe0",
+      "body_sha256": "D914CDF5F37B6C496336A51874676FF4B86B2521D3F60CDB4E57A32134CD48EB",
+      "legacy_draft_sha256": "cbea6a28687b4af00852ec2d5cbda0b7ad155f7052b9c2df41529675f6ddf8ee",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00016030",
+      "function_idx": 43,
+      "original_name": "FUN_00016030",
+      "body_sha256": "BBAE3DEB6248A92BBC70C7A92D4353A89867C2B1207A2C543C1B9CD5776B43EB",
+      "legacy_draft_sha256": "ba6487f49330b9b78d1875190f6410fef1babfb7b3a567a20edc9e2c6a610742",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00016150",
+      "function_idx": 44,
+      "original_name": "FUN_00016150",
+      "body_sha256": "566A49401C9AFA6171DCB84B92247B528DC6E995CA6F0D9C978B7099AA98B77E",
+      "legacy_draft_sha256": "416fcfa95c9df24ba787908d4290b868f689ff6a04be43541545406857f082f6",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00016190",
+      "function_idx": 45,
+      "original_name": "FUN_00016190",
+      "body_sha256": "CE6279A2CEE991D7F9F06781C09E437FC7547273FD82426CFF2E206BA99F9BC5",
+      "legacy_draft_sha256": "0279adfdaa2d3f76f3ce0b867014ecade5342fdf84ba89b7d3a7a951cc515464",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000161b0",
+      "function_idx": 46,
+      "original_name": "FUN_000161b0",
+      "body_sha256": "3894195F122FA28333B8EAE48D7D9A0CF5D9D465EFCA9CA0C02E5077EFBCA6B0",
+      "legacy_draft_sha256": "6e97eb53971e3a48f9061f69906945f15f6526f117552ce0c6a45d5c520579c3",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00016200",
+      "function_idx": 47,
+      "original_name": "FUN_00016200",
+      "body_sha256": "FFC7B0728B56316B0C6461235B21A40DD2071DFDC56FC490305B8F5D1426436B",
+      "legacy_draft_sha256": "282b16873cc11f86e42cbf1dff3513c57fb650109e27735c9edf06a44efffe42",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000162c0",
+      "function_idx": 48,
+      "original_name": "FUN_000162c0",
+      "body_sha256": "CC08EA1CC975D14E9A464E5FCD52CBF6FB28217D83BAC808FFBE8FE71E979E53",
+      "legacy_draft_sha256": "813a78cc780ac5fda13f111b7daa71ef79fa094942302eabd1011b919b558341",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00016300",
+      "function_idx": 49,
+      "original_name": "FUN_00016300",
+      "body_sha256": "8DDBD702B85386932D251B28C97ACC28DBDBE6693BD6F3FBE782B677F602DE66",
+      "legacy_draft_sha256": "e96f550b173bec7ab9dae91a267f758330c32fca24a0f94d8b5f46c2668d1edd",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00016350",
+      "function_idx": 50,
+      "original_name": "FUN_00016350",
+      "body_sha256": "8F3D0BBDC2A82358A14B43A1822DCF1654420734D51FA51E9F22C56FB4456096",
+      "legacy_draft_sha256": "a1593b4c3b43da488de7b4fc7a749709b3dc32e3e95cc8e64768b49ed8b20504",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000163a0",
+      "function_idx": 51,
+      "original_name": "FUN_000163a0",
+      "body_sha256": "28E5F3896CC50F82E921EC1B5B616DAB50417DED515A31C95F9C0D7EBDFF09CD",
+      "legacy_draft_sha256": "2ca154deb35896c91ec857997efe48e0c69d7816c299e97f8a511face0681446",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000163f0",
+      "function_idx": 52,
+      "original_name": "FUN_000163f0",
+      "body_sha256": "BF79F5757CEC6817F733441D21164A18BBDEA2A06C276D40B6B84AE6FA5365D5",
+      "legacy_draft_sha256": "7785d141f00e951107d6ffb959920744c3262381b673738b5157f7ac99a5fda1",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00016fd0",
+      "function_idx": 53,
+      "original_name": "FUN_00016fd0",
+      "body_sha256": "D714070AEE179A110F9F9BA07E92B7448AF28A313393515119A39209D9BC94E1",
+      "legacy_draft_sha256": "0fd5ad2b54aff4806be0d30b78fb7b69bc1616603e8f7baa431b355c4300519c",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00016ff0",
+      "function_idx": 54,
+      "original_name": "FUN_00016ff0",
+      "body_sha256": "B3358D5E3F4BEE0EF1BBCBBE7155F13F53EC477E17D6D2FC7362FB55AB316B09",
+      "legacy_draft_sha256": "0c84612ca1930d176cd3297e6831e5f9fd969a33b72ac2c0936df8fd020b5aac",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00017770",
+      "function_idx": 55,
+      "original_name": "FUN_00017770",
+      "body_sha256": "06E9CE4EB3AEC0B8C2FEBBCF845D4B307790AEF5A51DD083BA03A5FD471C5E54",
+      "legacy_draft_sha256": "ab2c3437d6f9ba664aa7b991d48852bf902faba3624312100c3fd45d1608bae3",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00017af0",
+      "function_idx": 56,
+      "original_name": "FUN_00017af0",
+      "body_sha256": "BCB790A5AAB12CD73DCB380E976F71944B75711186082E2EEDE77CAD3FAEFBB9",
+      "legacy_draft_sha256": "6bb353fde3ab50884486a8b7e7066351e6a46c00078fdbe83b4c2d37453fc08d",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00017b60",
+      "function_idx": 57,
+      "original_name": "FUN_00017b60",
+      "body_sha256": "04F7A26D35078CC9748101932148C14F20680412009400231903A64602E97D5E",
+      "legacy_draft_sha256": "d29d4d9658e95f9be19d3e17c5da54117e24841cf315c6be04d3af528cee2c90",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00017f80",
+      "function_idx": 58,
+      "original_name": "FUN_00017f80",
+      "body_sha256": "99DEE2D9EB7B28E832576666E75C01EF7843738538442D2888107E78AD9C5E1F",
+      "legacy_draft_sha256": "0f09df0cb8a2d5d4090697359eac53cfb18b37ba5ff63541694b228ae93c8c5e",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00018000",
+      "function_idx": 59,
+      "original_name": "FUN_00018000",
+      "body_sha256": "BA3F88D0ABF5D4D17589E1EC4F4CE0BDB9DA7F07C9C4C74EB1E3D599EE7B8B26",
+      "legacy_draft_sha256": "a81c1cc30372e37ec3e4cbdd8648782b88f5fea42eacdc204d2c621973edef82",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00018040",
+      "function_idx": 60,
+      "original_name": "FUN_00018040",
+      "body_sha256": "D09AB1829C4C3624C629F135B9BAB941FCFF691F8FAFFFC280D65876F27737B2",
+      "legacy_draft_sha256": "3a039483920978b1dac4fe9fb7d0fa756996d89bc5ca62367a393db7ba3a967d",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00018150",
+      "function_idx": 61,
+      "original_name": "FUN_00018150",
+      "body_sha256": "F77A00EEFC1043094213EC9D419470E9CB4FAB97CD904BE66AF17FAD4CE9FA14",
+      "legacy_draft_sha256": "09e2013e27cc141b66ac7fb74c63c8a971033a97bf93da8734682edaf421dbdb",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00018230",
+      "function_idx": 62,
+      "original_name": "FUN_00018230",
+      "body_sha256": "F2BCFF373B1781E16BCF37097FC2115C2581E145BC1DAC073489F237E2D42F5C",
+      "legacy_draft_sha256": "1594fc34500d592fa266f0620b41858c903ec3d30b782e09d521efe2e19f819e",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000182c0",
+      "function_idx": 63,
+      "original_name": "FUN_000182c0",
+      "body_sha256": "53F0FA7D65AC336A387ED801D9CC45D8266F57DFA13580BD8338EE684F76327E",
+      "legacy_draft_sha256": "3528d08642f6c4f25d4647bddd76c2bc97da763fda03c51fa2105f185b8d920f",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00018390",
+      "function_idx": 64,
+      "original_name": "FUN_00018390",
+      "body_sha256": "68CF03F3E6AA82D7308AC308EA86DFE301E3ECBE3E750919E686FD5EB30F0304",
+      "legacy_draft_sha256": "028e67a0d332a34f7a156d7155fc8051b7055351ca73daf5139da21627c779ab",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000184c0",
+      "function_idx": 65,
+      "original_name": "FUN_000184c0",
+      "body_sha256": "FFEEBB35E2D552E973B7403CF956FE56EB4FB89D13E23002BC12FB6592FBD244",
+      "legacy_draft_sha256": "398f88412b8cf81c06e8e674b05d8ad651c4affc32d618c63938dd9c25f70467",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00018510",
+      "function_idx": 66,
+      "original_name": "FUN_00018510",
+      "body_sha256": "8A11D68B4D11F271E6F0F1E833761F57BFA991CAF0B67F5738AA2F3E88D8AFE1",
+      "legacy_draft_sha256": "220c0ffd2c32af043699f00d1e38ff4a7293efa08561084fddfd235922ba781b",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00018b50",
+      "function_idx": 67,
+      "original_name": "FUN_00018b50",
+      "body_sha256": "98CF562D59F01C5811091C482555C95F163D7C791E1369BE20CB96AF800D26E3",
+      "legacy_draft_sha256": "ad4f16284f8e04cb305acfec18f3b3df67cc8d8cad1ff3439079d4b17af66f0b",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00018c40",
+      "function_idx": 68,
+      "original_name": "FUN_00018c40",
+      "body_sha256": "95574CF2F80D742D1965DCA2D8CD7EF4F037AD1F62199D67D52EFD09624760CF",
+      "legacy_draft_sha256": "a68b075538afd9d3e1da4fae32271150a35149aebd6694d06d4d2512d020c539",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x000198e0",
+      "function_idx": 69,
+      "original_name": "FUN_000198e0",
+      "body_sha256": "39C84AA96546131D0FBBC9B5C6767CB2BFE29657F7C28807B874362B2B8468DD",
+      "legacy_draft_sha256": "aa31d30969a880ff1e6c454e04bbaf89b0e0a8fa5bd05afc7b27c5a1d73f507a",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00019a20",
+      "function_idx": 70,
+      "original_name": "FUN_00019a20",
+      "body_sha256": "C01DBA9994B1B9613AB1C989CF03D7E057EC5BE3B8312D963E9871D5B95BC748",
+      "legacy_draft_sha256": "18be1900b2155209092519d9bf9fa5a8c44f5a0ff5701cab9be436d26f2194a0",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00019a70",
+      "function_idx": 71,
+      "original_name": "FUN_00019a70",
+      "body_sha256": "AAEB7CF149F79BE9CC2937F8C1D77AABB4F0F436F02441292A3E23045CAFC9D6",
+      "legacy_draft_sha256": "602aa996c1e3fc8da8e572882fc809bb861bf0686a9d1ceb2b2061778bc6b3df",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00019ab0",
+      "function_idx": 72,
+      "original_name": "FUN_00019ab0",
+      "body_sha256": "82670D09C08E8A31D1B87CB5361DCAA664750E229DF10470FBD031D6FD45FB51",
+      "legacy_draft_sha256": "cc276226ca2152d6133c31026e571232354d4cacc04138f91892b29cfc40207d",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00019af0",
+      "function_idx": 73,
+      "original_name": "FUN_00019af0",
+      "body_sha256": "25881B20D047F2AF8B77BF6CDE29829EAB334712F5AA8E7FAB4B187EF5AE0366",
+      "legacy_draft_sha256": "9d5ef4deace29cbadf784f820aa6f2e8b600109ba56c8011c6020fc905af0143",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x00019ed0",
+      "function_idx": 74,
+      "original_name": "FUN_00019ed0",
+      "body_sha256": "1BDC4AF673F18A1880F7AD02091F6814471583EC6EDE44E6D8CE67A7DDA0254D",
+      "legacy_draft_sha256": "3195b174d595c772e368364faa35241b3201baeae3f6bc8fb0bd72389e3f2418",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001a420",
+      "function_idx": 75,
+      "original_name": "FUN_0001a420",
+      "body_sha256": "8E3B5B19D4AE1C9EF87ABAA1323830C79151CDBD1D6CC1C50C04B8CB7F1D894A",
+      "legacy_draft_sha256": "64e29acb23cc6dff3167ce9398368b45a1422c5e32dcd42a72f76cbc0b129f6e",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001a4e0",
+      "function_idx": 76,
+      "original_name": "FUN_0001a4e0",
+      "body_sha256": "2C8D93A51F207FEB38B8784AE19E06FE53FBCDD18D2A5B24EFF2314B8834B08A",
+      "legacy_draft_sha256": "dbc5b2066b0b88ad91bbdcbe2dce4f768ddf6df8750b0a851a65a9bbdf6e0af1",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001a760",
+      "function_idx": 77,
+      "original_name": "FUN_0001a760",
+      "body_sha256": "9FAF11106865B95EB62BF6FC94AA3954D8FBD483F2CABAAC548AEBC50CEC8B7A",
+      "legacy_draft_sha256": "4fc5881ca96a55bf4ee0310c3686f26909d9bd3f599bf0af0d0f0b7240a153b7",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001a7e0",
+      "function_idx": 78,
+      "original_name": "FUN_0001a7e0",
+      "body_sha256": "9398ED2C4C4A4AED4528F54D8B5142A668B6A429BD06CB13191B4362E87212D6",
+      "legacy_draft_sha256": "2fc76c91ff89c60eb504a9d64ca0b796cda2eb79255262f54e903e05301aa867",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001a850",
+      "function_idx": 79,
+      "original_name": "FUN_0001a850",
+      "body_sha256": "F2A20964307838C0A44EEF10C27874B4A837CA79EBC604D0A4A81DADE69C7FF9",
+      "legacy_draft_sha256": "16883235885b42f51f73b130458e09fffb905ffdd7b27a67e769b5d3e75c7387",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001a910",
+      "function_idx": 80,
+      "original_name": "FUN_0001a910",
+      "body_sha256": "FD5A7EFC732E3D45FD330C38E025858C8CF4B6FD0774EB68B0AE505167DCFDE5",
+      "legacy_draft_sha256": "279fa008439637c50629ee1645d66d416991d1e399236e46dbb760d8f80f855a",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001ab90",
+      "function_idx": 81,
+      "original_name": "FUN_0001ab90",
+      "body_sha256": "9789228CE612EBFC7113CBA720DE0276D87EB561EAC1A1EB8E5103D19109E2D5",
+      "legacy_draft_sha256": "1e786c5c3a298fecd2401091aeecca66d675a1892a859365512850451b8f655c",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001ad50",
+      "function_idx": 82,
+      "original_name": "FUN_0001ad50",
+      "body_sha256": "570B82CEEA69C96148C24E6D056FED5AAD343FDFEC02C651E953D50EFAA3A756",
+      "legacy_draft_sha256": "16d4792c2a67bee0d41ebed7b58e5b73457402a252227487e559113ce9ca7c94",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001adf0",
+      "function_idx": 83,
+      "original_name": "FUN_0001adf0",
+      "body_sha256": "85C7898AEB9C9503356ADA6DFDFA9994EB9F7691075146B80920DA8BC5C7AD8B",
+      "legacy_draft_sha256": "19dceefb4b8dfed76517fd2c3fd2b521dcd10d8275d522d70dbc4992a4d62331",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001aeb0",
+      "function_idx": 84,
+      "original_name": "FUN_0001aeb0",
+      "body_sha256": "E9ECD032EE8BBD7FD238375D9038FC6100F19410929E68CE93FC6702A7248EF9",
+      "legacy_draft_sha256": "9d65333ffa3bc61b9078a6a1c4251a4a7293684ee3cc98e1986be07b94ed8036",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001afe0",
+      "function_idx": 85,
+      "original_name": "FUN_0001afe0",
+      "body_sha256": "DE9E1F6ADADEA17BE167A4AD3D89B36F5C91BDF39B2CE438124480326D2ED017",
+      "legacy_draft_sha256": "6e074fe91db2ad8ba129e1cffa2107b15a434d30cd6d2b6fc50a3b94dcc0f75b",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001b460",
+      "function_idx": 86,
+      "original_name": "FUN_0001b460",
+      "body_sha256": "B12940C17163949D88C584A998D26D211159CCC0D42631FCFDE38DEFCEA4D578",
+      "legacy_draft_sha256": "1c62788917d93212df5a757a6d4d7ac662371f434b797205012e53dab94076c8",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001b4b0",
+      "function_idx": 87,
+      "original_name": "FUN_0001b4b0",
+      "body_sha256": "45E3D8FC5CE2F9DE33D1D1827AB05232AFF5E9CC33F9F39BD73045BCDF24AFC5",
+      "legacy_draft_sha256": "c4f399af61cfedf6319930c867045080681be4e139cee59693ad95d8b1f2627e",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001b650",
+      "function_idx": 88,
+      "original_name": "FUN_0001b650",
+      "body_sha256": "FF8BB39FA468AA129F0F09006D512C692BC91644ED6A2FC939B6317A9E9EBF72",
+      "legacy_draft_sha256": "f91a6bc4ec0efa626c60a84f21717ca968d84120f3adfdbe638dd37fe171642a",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001b750",
+      "function_idx": 89,
+      "original_name": "FUN_0001b750",
+      "body_sha256": "1CF6CBCFA3367B5FEC033589069EF3041089E3D500558906020CE03F6DF7E89E",
+      "legacy_draft_sha256": "809fad3bd90bd33564dc306b96a07f249f17767122ec202f5289b6cbed553ba5",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001b7a0",
+      "function_idx": 90,
+      "original_name": "FUN_0001b7a0",
+      "body_sha256": "9148CE791C180F1D7A41BF51D157F5A1DFD97911992563280C160D668BCCBCF1",
+      "legacy_draft_sha256": "eb3052927cc9eb2342bc29e2611180aeb2b20632c47c9f1211a4d2518af27106",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001b8c0",
+      "function_idx": 91,
+      "original_name": "FUN_0001b8c0",
+      "body_sha256": "08F8C0A67166587745AD6B770679B1F9A9F150FFB0F9BA5ED0EA28E4943C57ED",
+      "legacy_draft_sha256": "2bc76c8a92f5e87428c8596fa70f20c2c6bb370b30d291e9fa997553e1443e84",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001b910",
+      "function_idx": 92,
+      "original_name": "FUN_0001b910",
+      "body_sha256": "AB0F0A91B60C0EE7DE5B77E6F74EF8A663772108F99E42374F8BAF7F53C3354B",
+      "legacy_draft_sha256": "e57f554375775af61a67cad67e0b72cd9cc6ae9b8915bdd19c5c26193332b11d",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001ba10",
+      "function_idx": 93,
+      "original_name": "FUN_0001ba10",
+      "body_sha256": "B71FC57047A148FDED2D83A9EB8EC06548C0344CFEF0F0C7224292D19814C4CD",
+      "legacy_draft_sha256": "f8935d754ede98e33649156494edea059849bfb4991fb10dfcfb7e1dbbd72a43",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001ba60",
+      "function_idx": 94,
+      "original_name": "FUN_0001ba60",
+      "body_sha256": "F0B9B68124F2A41EBC665EF1F961A0FF8E1A58DF296B8BC137679FBB1DABE455",
+      "legacy_draft_sha256": "f59d87f664b4513f6305f239b3dd04c907da729b4792c5c838969bd6dc471ac1",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001bb00",
+      "function_idx": 95,
+      "original_name": "FUN_0001bb00",
+      "body_sha256": "374D662DF1450C529157BC92250DA06168753BD465EC2616BA2C87329EF85708",
+      "legacy_draft_sha256": "7371ac8180f909462da327f539cc717461d01f2a78ffe75a4d4cdb3c0e0de544",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001bb30",
+      "function_idx": 96,
+      "original_name": "FUN_0001bb30",
+      "body_sha256": "2AE314284A10EA75B0669649D1067FE501AAC897DFA2D3D04339729FBF15B14C",
+      "legacy_draft_sha256": "ab70c08bd409f95e8b47ab7c9d3774cdce2b7fd6b2d5f3375d9ac2a6fc787edd",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001bc70",
+      "function_idx": 97,
+      "original_name": "FUN_0001bc70",
+      "body_sha256": "6673464EE542E9C79B331DC17745A78C949275EABD1C9BD25C822089FE12F741",
+      "legacy_draft_sha256": "c42bbde79017ef0139114913adfa71d599a3e427d219d5a5dc3034f4c9d2346c",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001bc90",
+      "function_idx": 98,
+      "original_name": "FUN_0001bc90",
+      "body_sha256": "ADD9343F03507F779FEFB12145429EE54AF3D87365FFC0AB15F30ADC5810AC2C",
+      "legacy_draft_sha256": "ca0f6bd0adea4c0c7411bee7d3cbbbdcf355216592c8ab03b7adcc9eb93bd341",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001bd30",
+      "function_idx": 99,
+      "original_name": "FUN_0001bd30",
+      "body_sha256": "77DE8B9889C1C4BD16F53F4E010BEEA5AF68D4BD14786B723A261BF7663430CD",
+      "legacy_draft_sha256": "5e9e3e89d7d7959b5cac45f632b4a17009f7ed74ad80e170e6ef1bed0d4a2fa0",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001bd90",
+      "function_idx": 100,
+      "original_name": "FUN_0001bd90",
+      "body_sha256": "E4A705F98ADCC82D469E28BEC35D9FBDB3C85E0D2BF93A8AEB7B76DA43A38B14",
+      "legacy_draft_sha256": "6a03f14988af5325ac7f3852c8007f6d7807626e8530d7ee7a50a26400393390",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001c120",
+      "function_idx": 101,
+      "original_name": "FUN_0001c120",
+      "body_sha256": "2F738009CF1DC855BFA6008CFD431FCB06C029C92FB775A3EE9FC791044981AC",
+      "legacy_draft_sha256": "284036aea80e4061ac243e13c0a45184c0e1f55d371dab45b27fe344c4f26fd3",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    },
+    {
+      "entry": "0x0001c1a0",
+      "function_idx": 102,
+      "original_name": "FUN_0001c1a0",
+      "body_sha256": "2A63F7E1FB49FE389FB73B82EA7043BDE830031982EB3B6AD2049A3099C97AC0",
+      "legacy_draft_sha256": "a2a40b2ec8f48b7d026d8752ab1400ad82471e620122708aea0e5d64ce3fade8",
+      "legacy_source_type": "C++",
+      "migration": "C11_Pending",
+      "review": "Unverified"
+    }
+  ]
+}
