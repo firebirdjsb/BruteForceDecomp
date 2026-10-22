@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_xonline_context_bytes_x86.h"
 int __thiscall XONLINES__listen(XONLINES *this,int __fd,int __n)
 
 {
