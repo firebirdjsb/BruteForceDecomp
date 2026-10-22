@@ -54,7 +54,7 @@ jobs:
           set -euo pipefail
           clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude             src/0x002ff500.c tests/test_double_format.c -o /tmp/test_double_format
           /tmp/test_double_format
-          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror             src/0x00349413.c tests/test_xnet_context.c -o /tmp/test_xnet_context
+          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude             src/0x00349413.c tests/test_xnet_context.c -o /tmp/test_xnet_context
           /tmp/test_xnet_context
       - name: XNET callee plus wrapper host dependency mocks
         shell: bash
