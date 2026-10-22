@@ -15,6 +15,9 @@ on:
       - "tests/test_double_format.c"
       - "tests/test_xnet_context.c"
       - "tests/test_xnet_record.c"
+      - "analysis/bf_6a610_call_preparation.c"
+      - "analysis/bf_6a610_call_preparation.h"
+      - "tests/test_6a610_call_preparation.c"
       - ".github/workflows/reviewed-c11.yml"
   pull_request:
     paths:
@@ -64,6 +67,13 @@ jobs:
             src/0x00349366.c src/0x00349413.c tests/test_xnet_record.c \
             -o /tmp/test_xnet_record
           /tmp/test_xnet_record
+      - name: Register and caller-stack preparation analysis models
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -target i386-pc-windows-msvc -std=c11 -pedantic-errors -Wall -Wextra -Werror -Ianalysis -fsyntax-only analysis/bf_6a610_call_preparation.c
+          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Ianalysis analysis/bf_6a610_call_preparation.c tests/test_6a610_call_preparation.c -o /tmp/test_6a610_prep
+          /tmp/test_6a610_prep
       - name: Check 32-bit x86 stack cleanup opcode in tagged record wrapper
         shell: bash
         run: |
