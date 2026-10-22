@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE opcode model; XMM upper lanes remain unobserved.
+ * ABI/behavior remain unverified despite host C11 syntax repair. */
 void FUN_00216560(undefined4 param_1,int param_2,float *param_3,float param_4,float param_5,
                  float param_6,float *param_7,float *param_8,float *param_9,float *param_10,
                  float *param_11,float *param_12,float *param_13,float *param_14,int param_15,
@@ -21,7 +24,7 @@ void FUN_00216560(undefined4 param_1,int param_2,float *param_3,float param_4,fl
   float fVar7;
   int iVar8;
   undefined1 in_XMM0 [16];
-  undefined1 auVar9 [16];
+  __m128 auVar9;
   float local_38;
   float local_34;
   float local_30;
@@ -57,16 +60,16 @@ void FUN_00216560(undefined4 param_1,int param_2,float *param_3,float param_4,fl
       fVar2 = *param_11 - *param_10;
       fVar3 = param_11[1] - param_10[1];
       fVar4 = param_11[2] - param_10[2];
-      auVar9 = rsqrtss(in_XMM0,fVar2 * fVar2 + fVar3 * fVar3 + fVar4 * fVar4);
-      fVar5 = auVar9._0_4_ * param_4;
+      auVar9 = _mm_rsqrt_ss(_mm_set_ss(fVar2 * fVar2 + fVar3 * fVar3 + fVar4 * fVar4));
+      fVar5 = _mm_cvtss_f32(auVar9) * param_4;
       fVar2 = fVar2 * fVar5;
       fVar3 = fVar3 * fVar5;
       fVar5 = fVar5 * fVar4;
       fVar4 = fVar3 * *param_13 - fVar2 * param_13[1];
       fVar6 = fVar2 * param_13[2] - fVar5 * *param_13;
       fVar7 = fVar5 * param_13[1] - fVar3 * param_13[2];
-      auVar9 = rsqrtss(auVar9,fVar7 * fVar7 + fVar6 * fVar6 + fVar4 * fVar4);
-      param_4 = auVar9._0_4_ * param_4;
+      auVar9 = _mm_rsqrt_ss(_mm_set_ss(fVar7 * fVar7 + fVar6 * fVar6 + fVar4 * fVar4));
+      param_4 = _mm_cvtss_f32(auVar9) * param_4;
       local_2c = fVar7 * param_4 * 0.5;
       local_38 = (*param_14 - fVar2 * 0.8660254) - local_2c;
       local_28 = param_4 * fVar6 * 0.5;

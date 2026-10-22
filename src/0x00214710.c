@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE opcode model; XMM upper lanes remain unobserved.
+ * ABI/behavior remain unverified despite host C11 syntax repair. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0046cfdc;
@@ -23,7 +26,7 @@ int FUN_00214710(int param_1,undefined4 param_2,undefined4 param_3,float *param_
   float *pfVar8;
   int iVar9;
   float10 fVar10;
-  undefined1 auVar11 [16];
+  __m128 auVar11;
   float *pfVar12;
   float *pfVar13;
   float local_f0;
@@ -186,8 +189,8 @@ LAB_00214d20:
                     fStack_e0 = *param_4;
                     fStack_d4 = fStack_88 * fStack_88 +
                                 fStack_80 * fStack_80 + fStack_e0 * fStack_e0;
-                    auVar11 = rsqrtss(auVar11,fStack_d4);
-                    fStack_b0 = auVar11._0_4_;
+                    auVar11 = _mm_rsqrt_ss(_mm_set_ss(fStack_d4));
+                    fStack_b0 = _mm_cvtss_f32(auVar11);
                     fStack_e0 = fStack_b0 * fStack_e0;
                     fStack_dc = fStack_88 * fStack_b0;
                     fStack_d8 = fStack_80 * fStack_b0;
@@ -204,9 +207,9 @@ LAB_00214d20:
                     fStack_e4 = fStack_c8 * fStack_e0 - fStack_dc * fStack_cc;
                     fStack_e8 = fStack_d8 * fStack_cc - fStack_c4 * fStack_e0;
                     fStack_ec = fStack_c4 * fStack_dc - fStack_c8 * fStack_d8;
-                    auVar11 = rsqrtss(auVar11,fStack_e8 * fStack_e8 +
-                                              fStack_e4 * fStack_e4 + fStack_ec * fStack_ec);
-                    fStack_94 = auVar11._0_4_;
+                    auVar11 = _mm_rsqrt_ss(_mm_set_ss(fStack_e8 * fStack_e8 +
+                                              fStack_e4 * fStack_e4 + fStack_ec * fStack_ec));
+                    fStack_94 = _mm_cvtss_f32(auVar11);
                     fStack_ec = fStack_94 * fStack_ec;
                     fStack_e8 = fStack_e8 * fStack_94;
                     fStack_e4 = fStack_e4 * fStack_94;
@@ -215,8 +218,8 @@ LAB_00214d20:
                     fStack_c0 = fStack_e4 * fStack_c8 - fStack_e8 * fStack_c4;
                     fStack_d0 = fStack_bc * fStack_bc +
                                 fStack_d4 * fStack_d4 + fStack_c0 * fStack_c0;
-                    auVar11 = rsqrtss(auVar11,fStack_d0);
-                    fStack_90 = auVar11._0_4_;
+                    auVar11 = _mm_rsqrt_ss(_mm_set_ss(fStack_d0));
+                    fStack_90 = _mm_cvtss_f32(auVar11);
                     fStack_c0 = fStack_90 * fStack_c0;
                     fStack_bc = fStack_bc * fStack_90;
                     fStack_b8 = fStack_d4 * fStack_90;

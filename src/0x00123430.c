@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra RSQRTSS scalar opcode model; original XMM upper lanes not recovered.
+ * ABI/behavior remain unverified, despite C11 syntax repair. */
 undefined4 FUN_00123430(int param_1,int *param_2,float param_3)
 
 {
@@ -18,7 +21,7 @@ undefined4 FUN_00123430(int param_1,int *param_2,float param_3)
   undefined4 *puVar7;
   float10 fVar8;
   undefined1 in_XMM0 [16];
-  undefined1 auVar9 [16];
+  __m128 auVar9;
   int unaff_retaddr;
   undefined1 auStack_70 [12];
   undefined4 uStack_64;
@@ -73,13 +76,13 @@ undefined4 FUN_00123430(int param_1,int *param_2,float param_3)
         fVar2 = *(float *)(*(int *)(unaff_retaddr + 0x6c) + 0x40) - *(float *)(iVar6 + 0x2c);
         fVar3 = *(float *)(*(int *)(unaff_retaddr + 0x6c) + 0x38) - *(float *)(iVar6 + 0x24);
         fVar2 = fVar3 * fVar3 + fVar2 * fVar2;
-        auVar9 = rsqrtss(in_XMM0,fVar2);
+        auVar9 = _mm_rsqrt_ss(_mm_set_ss(fVar2));
         if (iStack_28 != 0) {
           fVar8 = (float10)FUN_001259b0();
           fStack_18 = (float)(fVar8 * (float10)fStack_18);
         }
         pfVar5 = (float *)(**(code **)(piVar1[0x6d] + 0x30))(auStack_70);
-        if (fVar2 * *pfVar5 + auVar9._0_4_ * fVar3 * pfVar5[1] + auVar9._0_4_ * 0.0 * pfVar5[2] <
+        if (fVar2 * *pfVar5 + _mm_cvtss_f32(auVar9) * fVar3 * pfVar5[1] + _mm_cvtss_f32(auVar9) * 0.0 * pfVar5[2] <
             -0.4) {
           local_1c = local_1c * 5.0;
         }

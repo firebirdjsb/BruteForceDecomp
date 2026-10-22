@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE opcode model; XMM upper lanes remain unobserved.
+ * ABI/behavior remain unverified despite host C11 syntax repair. */
 bool FUN_00213e60(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,int param_5,
                  float param_6,undefined4 param_7,undefined4 param_8,undefined4 param_9,
                  undefined4 param_10,undefined4 param_11)
@@ -13,15 +16,15 @@ bool FUN_00213e60(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 
 {
   float fVar1;
   int iVar2;
-  undefined1 auVar3 [16];
+  __m128 auVar3;
   
   if (*(char *)(param_5 + 0x21) == '\0') {
     fVar1 = *(float *)(param_5 + 0x28);
     if (*(float *)(param_5 + 0x28) <= *(float *)(param_5 + 0x2c)) {
       fVar1 = *(float *)(param_5 + 0x2c);
     }
-    auVar3 = rsqrtss(ZEXT416((uint)fVar1),fVar1 * param_6);
-    if (((auVar3._0_4_ * fVar1 * param_6 - 0.35) * 0.9629629 + 0.6) * 0.5 <
+    auVar3 = _mm_rsqrt_ss(_mm_set_ss(fVar1 * param_6));
+    if (((_mm_cvtss_f32(auVar3) * fVar1 * param_6 - 0.35) * 0.9629629 + 0.6) * 0.5 <
         *(float *)(*param_1 + 0xc58)) {
       return false;
     }

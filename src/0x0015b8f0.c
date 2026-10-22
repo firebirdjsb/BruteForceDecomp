@@ -6,16 +6,19 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE opcode model; XMM upper lanes remain unobserved.
+ * ABI/behavior remain unverified despite host C11 syntax repair. */
 float * FUN_0015b8f0(float *param_1,float param_2)
 
 {
   float fVar1;
-  undefined1 auVar2 [16];
+  __m128 auVar2;
   
   fVar1 = SQRT(param_1[2] * param_1[2] + param_1[1] * param_1[1] + *param_1 * *param_1);
   if (param_2 < fVar1) {
-    auVar2 = rcpss(ZEXT416((uint)fVar1),ZEXT416((uint)fVar1));
-    fVar1 = auVar2._0_4_;
+    auVar2 = _mm_rcp_ss(_mm_set_ss(fVar1));
+    fVar1 = _mm_cvtss_f32(auVar2);
     *param_1 = *param_1 * fVar1;
     *(ulonglong *)(param_1 + 1) =
          CONCAT44((float)((ulonglong)*(undefined8 *)(param_1 + 1) >> 0x20) * fVar1,

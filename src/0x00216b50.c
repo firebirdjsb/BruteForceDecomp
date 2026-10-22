@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE opcode model; XMM upper lanes remain unobserved.
+ * ABI/behavior remain unverified despite host C11 syntax repair. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t _DAT_00407060;
@@ -34,8 +37,8 @@ FUN_00216b50(undefined4 param_1,int param_2,float *param_3,float param_4,undefin
   int iVar15;
   float10 fVar16;
   float fVar17;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar18 [16];
+  __m128 in_XMM0;
+  __m128 auVar18;
   float local_90;
   float local_8c;
   float local_88;
@@ -84,8 +87,8 @@ FUN_00216b50(undefined4 param_1,int param_2,float *param_3,float param_4,undefin
           fVar7 = local_8c * *param_7 - local_90 * param_7[1];
           fVar1 = local_90 * param_7[2] - local_88 * *param_7;
           local_90 = local_88 * param_7[1] - local_8c * param_7[2];
-          in_XMM0 = rsqrtss(in_XMM0,local_90 * local_90 + fVar1 * fVar1 + fVar7 * fVar7);
-          local_84 = in_XMM0._0_4_;
+          in_XMM0 = _mm_rsqrt_ss(_mm_set_ss(local_90 * local_90 + fVar1 * fVar1 + fVar7 * fVar7));
+          local_84 = _mm_cvtss_f32(in_XMM0);
           local_90 = local_84 * local_90;
           local_8c = fVar1 * local_84;
           local_88 = fVar7 * local_84;
@@ -118,8 +121,8 @@ FUN_00216b50(undefined4 param_1,int param_2,float *param_3,float param_4,undefin
       param_4 = local_80 / param_4;
       local_58[0] = 1.0 - param_4 * param_4 * param_4;
       local_6c = local_6c - local_80 * local_80;
-      auVar18 = rsqrtss(in_XMM0,local_6c);
-      fVar7 = auVar18._0_4_ * 0.5;
+      auVar18 = _mm_rsqrt_ss(_mm_set_ss(local_6c));
+      fVar7 = _mm_cvtss_f32(auVar18) * 0.5;
       FUN_002183c0();
       iVar2 = *(int *)(*(int *)(param_2 + 4) + 4);
       pfVar11 = (float *)(iVar2 + 0x10);
@@ -143,8 +146,8 @@ FUN_00216b50(undefined4 param_1,int param_2,float *param_3,float param_4,undefin
         puVar12[2] = (char)((uint)fVar17 >> 8);
         puVar12[3] = (char)((uint)fVar17 >> 0x10);
         puVar12[4] = (char)((uint)fVar17 >> 0x18);
-        auVar18 = rsqrtss(auVar18,fVar9 * fVar9 + fVar8 * fVar8 + fVar1 * fVar1);
-        fVar17 = auVar18._0_4_;
+        auVar18 = _mm_rsqrt_ss(_mm_set_ss(fVar9 * fVar9 + fVar8 * fVar8 + fVar1 * fVar1));
+        fVar17 = _mm_cvtss_f32(auVar18);
         fVar1 = fVar17 * fVar9 * *pfVar4 + fVar8 * fVar17 * pfVar4[1] + fVar1 * fVar17 * pfVar4[2];
         if (fVar1 <= -1.0) {
           fVar1 = 0.0;

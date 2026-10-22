@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra RSQRTSS scalar opcode model; original XMM upper lanes not recovered.
+ * ABI/behavior remain unverified, despite C11 syntax repair. */
 void FUN_00167810(undefined4 param_1,float param_2,float param_3)
 
 {
@@ -13,12 +16,12 @@ void FUN_00167810(undefined4 param_1,float param_2,float param_3)
   float *in_ECX;
   float *in_EDX;
   undefined1 in_XMM0 [16];
-  undefined1 auVar2 [16];
+  __m128 auVar2;
   
   fVar1 = in_EDX[2] * in_EDX[2] + *in_EDX * *in_EDX;
   if (1.1920929e-07 < fVar1) {
-    auVar2 = rsqrtss(in_XMM0,fVar1);
-    param_3 = auVar2._0_4_ * param_3;
+    auVar2 = _mm_rsqrt_ss(_mm_set_ss(fVar1));
+    param_3 = _mm_cvtss_f32(auVar2) * param_3;
     *in_ECX = param_3 * *in_EDX;
     if (in_EDX[1] < 0.0) {
       param_2 = -param_2;

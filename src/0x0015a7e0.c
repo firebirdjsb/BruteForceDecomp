@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra RSQRTSS scalar opcode model; original XMM upper lanes not recovered.
+ * ABI/behavior remain unverified, despite C11 syntax repair. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0040c858;
@@ -36,7 +39,7 @@ void FUN_0015a7e0(int *param_1)
   int unaff_EBX;
   float fVar10;
   undefined1 in_XMM0 [16];
-  undefined1 auVar11 [16];
+  __m128 auVar11;
   float fStack_80;
   float fStack_78;
   float fStack_74;
@@ -106,8 +109,8 @@ void FUN_0015a7e0(int *param_1)
         fStack_64 = 0.0;
       }
       fVar5 = fStack_64 * fStack_64 + fStack_68 * fStack_68 + fStack_60 * fStack_60;
-      auVar11 = rsqrtss(in_XMM0,fVar5);
-      fVar10 = auVar11._0_4_;
+      auVar11 = _mm_rsqrt_ss(_mm_set_ss(fVar5));
+      fVar10 = _mm_cvtss_f32(auVar11);
       fStack_78 = 0.0;
       fVar5 = fVar10 * fVar5;
       if (fStack_74 < fVar5) {

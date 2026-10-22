@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE opcode model; XMM upper lanes remain unobserved.
+ * ABI/behavior remain unverified despite host C11 syntax repair. */
 void FUN_001f3400(undefined4 param_1,float *param_2,float *param_3,float param_4)
 
 {
@@ -13,7 +16,7 @@ void FUN_001f3400(undefined4 param_1,float *param_2,float *param_3,float param_4
   float fVar2;
   float fVar3;
   undefined1 in_XMM0 [16];
-  undefined1 auVar4 [16];
+  __m128 auVar4;
   
   fVar2 = *param_2 * *param_2 + *param_3 * *param_3;
   if (fVar2 <= param_4 * param_4) {
@@ -21,8 +24,8 @@ void FUN_001f3400(undefined4 param_1,float *param_2,float *param_3,float param_4
     *param_2 = 0.0;
     return;
   }
-  auVar4 = rsqrtss(in_XMM0,fVar2);
-  fVar3 = auVar4._0_4_;
+  auVar4 = _mm_rsqrt_ss(_mm_set_ss(fVar2));
+  fVar3 = _mm_cvtss_f32(auVar4);
   fVar1 = *param_3;
   fVar2 = (fVar3 * fVar2 - param_4) / (1.0 - param_4);
   *param_2 = fVar3 * *param_2 * fVar2;

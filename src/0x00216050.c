@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE opcode model; XMM upper lanes remain unobserved.
+ * ABI/behavior remain unverified despite host C11 syntax repair. */
 void FUN_00216050(float *param_1,float *param_2,float param_3,float *param_4,float *param_5)
 
 {
@@ -21,13 +24,13 @@ void FUN_00216050(float *param_1,float *param_2,float param_3,float *param_4,flo
   float *unaff_EDI;
   float fVar7;
   undefined1 in_XMM0 [16];
-  undefined1 auVar8 [16];
+  __m128 auVar8;
   
   fVar3 = *unaff_ESI - *in_ECX;
   fVar4 = unaff_ESI[1] - in_ECX[1];
   fVar5 = unaff_ESI[2] - in_ECX[2];
-  auVar8 = rsqrtss(in_XMM0,fVar3 * fVar3 + fVar4 * fVar4 + fVar5 * fVar5);
-  fVar7 = auVar8._0_4_;
+  auVar8 = _mm_rsqrt_ss(_mm_set_ss(fVar3 * fVar3 + fVar4 * fVar4 + fVar5 * fVar5));
+  fVar7 = _mm_cvtss_f32(auVar8);
   fVar3 = fVar7 * fVar3;
   fVar4 = fVar7 * fVar4;
   fVar7 = fVar7 * fVar5;
@@ -64,15 +67,15 @@ void FUN_00216050(float *param_1,float *param_2,float param_3,float *param_4,flo
       fVar5 = fVar4 * *param_2 - fVar3 * param_2[1];
       fVar3 = fVar3 * param_2[2] - fVar7 * *param_2;
       fVar4 = fVar7 * param_2[1] - fVar4 * param_2[2];
-      auVar8 = rsqrtss(auVar8,fVar4 * fVar4 + fVar3 * fVar3 + fVar5 * fVar5);
-      fVar7 = auVar8._0_4_;
+      auVar8 = _mm_rsqrt_ss(_mm_set_ss(fVar4 * fVar4 + fVar3 * fVar3 + fVar5 * fVar5));
+      fVar7 = _mm_cvtss_f32(auVar8);
       fVar4 = fVar7 * fVar4;
       fVar3 = fVar7 * fVar3;
       fVar7 = fVar7 * fVar5;
       if (param_3 < fVar4 * (*param_1 - *in_EDX) +
                     fVar3 * (param_1[1] - in_EDX[1]) + fVar7 * (param_1[2] - in_EDX[2])) {
-        auVar8 = rsqrtss(auVar8,fVar4 * fVar4 + fVar3 * fVar3 + fVar7 * fVar7);
-        param_3 = auVar8._0_4_ * param_3;
+        auVar8 = _mm_rsqrt_ss(_mm_set_ss(fVar4 * fVar4 + fVar3 * fVar3 + fVar7 * fVar7));
+        param_3 = _mm_cvtss_f32(auVar8) * param_3;
         *param_5 = fVar4 * param_3 + *in_EDX;
         param_5[1] = param_3 * fVar3 + in_EDX[1];
         param_5[2] = param_3 * fVar7 + in_EDX[2];

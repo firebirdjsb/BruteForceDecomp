@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE opcode model; XMM upper lanes remain unobserved.
+ * ABI/behavior remain unverified despite host C11 syntax repair. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003f7f20;
@@ -30,7 +33,7 @@ void FUN_001f4240(float *param_1,int *param_2)
   float10 fVar15;
   float10 fVar16;
   undefined1 in_XMM0 [16];
-  undefined1 auVar17 [16];
+  __m128 auVar17;
   
   iVar12 = *(int *)((int)param_1[6] + 0x18);
   uVar11 = FUN_0006e6b0(0x7fffffff,&LAB_001f3710,param_1);
@@ -60,8 +63,8 @@ void FUN_001f4240(float *param_1,int *param_2)
     fVar16 = (float10)(**(code **)(param_2[0x12] + 0x3c))();
     fVar14 = (float10)(float)fVar14 * (float10)(float)fVar14 +
              (float10)(float)fVar15 * (float10)(float)fVar15 + fVar16 * fVar16;
-    auVar17 = rsqrtss(in_XMM0,(float)fVar14);
-    fVar7 = auVar17._0_4_ * (float)fVar14;
+    auVar17 = _mm_rsqrt_ss(_mm_set_ss((float)fVar14));
+    fVar7 = _mm_cvtss_f32(auVar17) * (float)fVar14;
     iVar12 = (**(code **)(*param_2 + 0x40))();
     if (((((fVar7 + *(float *)(iVar12 + 0x24) < fVar2) ||
           (fVar8 = *(float *)(iVar12 + 0x24) - fVar7, fVar8 < fVar3 == (fVar8 == fVar3))) ||

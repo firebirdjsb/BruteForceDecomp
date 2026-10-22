@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra RSQRTSS scalar opcode model; original XMM upper lanes not recovered.
+ * ABI/behavior remain unverified, despite C11 syntax repair. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004699b0;
@@ -28,7 +31,7 @@ void FUN_00153210(byte *param_1,float param_2)
   int iVar8;
   int iVar9;
   float fVar10;
-  undefined1 in_XMM0 [16];
+  __m128 in_XMM0;
   int local_1c;
   int local_18;
   
@@ -65,8 +68,8 @@ void FUN_00153210(byte *param_1,float param_2)
               fVar2 = *(float *)(iVar7 + 0x30) + *(float *)(iVar6 + 0x30);
               fVar3 = *(float *)(iVar7 + 0x34) + *(float *)(iVar6 + 0x34);
               fVar4 = *(float *)(iVar7 + 0x38) + *(float *)(iVar6 + 0x38);
-              in_XMM0 = rsqrtss(in_XMM0,fVar2 * fVar2 + fVar3 * fVar3 + fVar4 * fVar4);
-              fVar10 = in_XMM0._0_4_;
+              in_XMM0 = _mm_rsqrt_ss(_mm_set_ss(fVar2 * fVar2 + fVar3 * fVar3 + fVar4 * fVar4));
+              fVar10 = _mm_cvtss_f32(in_XMM0);
               *(float *)(iVar7 + 0x34) = fVar3 * fVar10;
               *(float *)(iVar7 + 0x30) = fVar10 * fVar2;
               *(float *)(iVar7 + 0x38) = fVar4 * fVar10;
