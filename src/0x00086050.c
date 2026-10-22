@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Address-only XBE labels; symbol definitions / roles pending. */
+extern unsigned char LAB_003075d0; /* VA 0x003075d0 */
+
 undefined4 * FUN_00086050(undefined4 param_1,undefined4 param_2,undefined4 param_3)
 
 {

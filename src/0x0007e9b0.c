@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Address-only XBE labels; symbol definitions / roles pending. */
+extern unsigned char LAB_00401f50; /* VA 0x00401f50 */
+extern unsigned char LAB_00401f58; /* VA 0x00401f58 */
+
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0046d064;
