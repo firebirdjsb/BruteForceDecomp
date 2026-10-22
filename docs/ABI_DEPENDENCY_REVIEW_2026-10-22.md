@@ -20,7 +20,7 @@
 **Register-heavy helper**
 
 - `0x0006A610` consumes incoming EBX and EDI as pointer bases plus one stack-passed pointer. Three observed exits (`0x0006A64D`, `0x0006A6BD`, `0x0006A6D3`) each execute `ret 4`.
-- Ghidra's direct-call inventory lists **59 caller functions** targeting `0x0006A610`; not all caller preparations have been verified. Existing (0x0006A5F0, 0x000907A0) assembly evidence is in `docs/STACK_ABI_EVIDENCE_6A5F0_907A0.md`.
+- Ghidra's direct-call inventory lists **57 distinct caller functions** targeting `0x0006A610` (re-counted from `reports/direct_calls.csv`); not all caller preparations have been verified. Existing (0x0006A5F0, 0x000907A0) assembly evidence is in `docs/STACK_ABI_EVIDENCE_6A5F0_907A0.md`.
 - Until the register contract is modeled consistently across callers, replacing `&stack0x...` with any uninitialized local or guessing an ordinary C prototype is prohibited.
 
 ## Validation and remaining limits
