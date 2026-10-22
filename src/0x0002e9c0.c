@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra indicates scalar RCPSS; use the x86 low-lane approximation, not 1/x or 1/sqrt(x).
+ * Upper XMM lanes are not reconstructed; original opcode/ABI remain UNVERIFIED. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 undefined4 FUN_0002e9c0(undefined4 *param_1)
@@ -25,7 +28,7 @@ undefined4 FUN_0002e9c0(undefined4 *param_1)
   float10 fVar11;
   float10 fVar12;
   float fVar13;
-  undefined1 auVar14 [16];
+  __m128 auVar14;
   undefined4 local_e4;
   float local_d8;
   float local_d4;
@@ -87,8 +90,8 @@ undefined4 FUN_0002e9c0(undefined4 *param_1)
     fVar11 = (float10)FUN_00023e40();
     fVar12 = (float10)FUN_00023da0();
     fVar1 = (float)((fVar12 + (float10)(float)(fVar11 * (float10)3.0)) * (float10)0.25);
-    auVar14 = rcpss(ZEXT416((uint)local_bc),ZEXT416((uint)local_bc));
-    fVar13 = auVar14._0_4_;
+    auVar14 = _mm_rcp_ss(_mm_set_ss(local_bc));
+    fVar13 = _mm_cvtss_f32(auVar14);
     iVar9 = (**(code **)(*piVar8 + 0x40))();
     fVar2 = *(float *)(iVar9 + 0x2c);
     fVar3 = *(float *)(iVar9 + 0x28);

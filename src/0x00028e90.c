@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra indicates scalar RCPSS; use the x86 low-lane approximation, not 1/x or 1/sqrt(x).
+ * Upper XMM lanes are not reconstructed; original opcode/ABI remain UNVERIFIED. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t switchD_000290c0_caseD_1[];
@@ -26,7 +29,7 @@ undefined4 FUN_00028e90(undefined4 param_1)
   int *piVar8;
   float10 fVar9;
   float10 fVar10;
-  undefined1 auVar11 [16];
+  __m128 auVar11;
   int *piVar12;
   undefined4 uVar13;
   int *piStack_b8;
@@ -79,8 +82,8 @@ undefined4 FUN_00028e90(undefined4 param_1)
   fStack_8c = *(float *)(iVar4 + 0x28) - *(float *)(iVar5 + 0x28);
   fStack_90 = *pfVar7 - *(float *)(iVar5 + 0x24);
   fStack_94 = SQRT(fStack_8c * fStack_8c + fStack_88 * fStack_88 + fStack_90 * fStack_90);
-  auVar11 = rcpss(ZEXT416((uint)fStack_94),ZEXT416((uint)fStack_94));
-  fStack_a8 = auVar11._0_4_;
+  auVar11 = _mm_rcp_ss(_mm_set_ss(fStack_94));
+  fStack_a8 = _mm_cvtss_f32(auVar11);
   fStack_b0 = fStack_a8 * fStack_90;
   fStack_ac = fStack_a8 * fStack_8c;
   fStack_a8 = fStack_a8 * fStack_88;

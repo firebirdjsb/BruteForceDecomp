@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra indicates scalar RSQRTSS; use the x86 low-lane approximation, not 1/x or 1/sqrt(x).
+ * Upper XMM lanes are not reconstructed; original opcode/ABI remain UNVERIFIED. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 undefined4 FUN_00026a50(undefined4 param_1,int param_2,int param_3)
@@ -23,7 +26,7 @@ undefined4 FUN_00026a50(undefined4 param_1,int param_2,int param_3)
   float fVar10;
   float fVar12;
   undefined1 in_XMM0 [16];
-  undefined1 auVar11 [16];
+  __m128 auVar11;
   float fVar13;
   float fStack_30;
   float fStack_2c;
@@ -53,12 +56,12 @@ undefined4 FUN_00026a50(undefined4 param_1,int param_2,int param_3)
   fStack_c = *(float *)(iVar5 + 0x24);
   fVar10 = fVar1 - fStack_4;
   fVar13 = fVar2 - fStack_c;
-  auVar11 = rsqrtss(in_XMM0,fVar13 * fVar13 +
-                            fVar10 * fVar10 + (fVar3 - fStack_8) * (fVar3 - fStack_8));
-  fVar10 = auVar11._0_4_ * fVar10;
-  fVar13 = -(auVar11._0_4_ * fVar13);
-  auVar11 = rsqrtss(auVar11,fVar10 * fVar10 + fVar13 * fVar13 + 0.0);
-  fVar9 = auVar11._0_4_;
+  auVar11 = _mm_rsqrt_ss(_mm_set_ss(fVar13 * fVar13 +
+                            fVar10 * fVar10 + (fVar3 - fStack_8) * (fVar3 - fStack_8)));
+  fVar10 = _mm_cvtss_f32(auVar11) * fVar10;
+  fVar13 = -(_mm_cvtss_f32(auVar11) * fVar13);
+  auVar11 = _mm_rsqrt_ss(_mm_set_ss(fVar10 * fVar10 + fVar13 * fVar13 + 0.0));
+  fVar9 = _mm_cvtss_f32(auVar11);
   fVar10 = fVar9 * fVar10 * 0.8;
   fVar12 = fVar9 * 0.0 * 0.8;
   fVar13 = fVar13 * fVar9 * 0.8;

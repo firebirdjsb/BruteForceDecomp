@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra indicates scalar RSQRTSS; use the x86 low-lane approximation, not 1/x or 1/sqrt(x).
+ * Upper XMM lanes are not reconstructed; original opcode/ABI remain UNVERIFIED. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00469b58;
@@ -23,7 +26,7 @@ void FUN_00024200(int param_1)
   int iVar9;
   int iVar10;
   float fVar11;
-  undefined1 in_XMM0 [16];
+  __m128 in_XMM0;
   undefined4 uStack_84;
   float fStack_78;
   float fStack_74;
@@ -72,8 +75,8 @@ void FUN_00024200(int param_1)
         fVar3 = *(float *)(iVar10 + 0x2c) - fStack_5c;
         fVar4 = *(float *)(iVar10 + 0x28) - fStack_60;
         fVar5 = *(float *)(iVar10 + 0x24) - fStack_64;
-        in_XMM0 = rsqrtss(in_XMM0,fVar3 * fVar3 + fVar5 * fVar5 + fVar4 * fVar4);
-        fVar11 = in_XMM0._0_4_;
+        in_XMM0 = _mm_rsqrt_ss(_mm_set_ss(fVar3 * fVar3 + fVar5 * fVar5 + fVar4 * fVar4));
+        fVar11 = _mm_cvtss_f32(in_XMM0);
         if (0.985 <= fStack_78 * fVar11 * fVar5 +
                      fStack_74 * fVar4 * fVar11 + fStack_70 * fVar3 * fVar11) {
           fVar11 = fStack_78 * fVar5 + fStack_70 * fVar3 + fStack_74 * fVar4;

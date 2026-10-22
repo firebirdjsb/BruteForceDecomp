@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra indicates scalar RSQRTSS; use the x86 low-lane approximation, not 1/x or 1/sqrt(x).
+ * Upper XMM lanes are not reconstructed; original opcode/ABI remain UNVERIFIED. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 void FUN_0004c120(float *param_1,int param_2,int param_3,int *param_4,float param_5,float *param_6,
@@ -22,7 +25,7 @@ void FUN_0004c120(float *param_1,int param_2,int param_3,int *param_4,float para
   undefined4 *puVar8;
   float fVar9;
   undefined1 in_XMM0 [16];
-  undefined1 auVar10 [16];
+  __m128 auVar10;
   
   if (*param_4 == 0) {
     piVar1 = *(int **)(param_9 + 8);
@@ -58,8 +61,8 @@ void FUN_0004c120(float *param_1,int param_2,int param_3,int *param_4,float para
       }
     }
     else {
-      auVar10 = rsqrtss(in_XMM0,fVar9);
-      fVar9 = auVar10._0_4_;
+      auVar10 = _mm_rsqrt_ss(_mm_set_ss(fVar9));
+      fVar9 = _mm_cvtss_f32(auVar10);
       if (param_7 < fVar9 * fVar6 * *param_6 +
                     fVar9 * fVar4 * param_6[2] + fVar9 * fVar5 * param_6[1]) {
         *param_4 = param_2;

@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra indicates scalar RCPSS; use the x86 low-lane approximation, not 1/x or 1/sqrt(x).
+ * Upper XMM lanes are not reconstructed; original opcode/ABI remain UNVERIFIED. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t switchD_0002d944_caseD_2[];
@@ -25,7 +28,7 @@ undefined4 FUN_0002d710(undefined4 *param_1)
   bool bVar7;
   float10 fVar8;
   float10 fVar9;
-  undefined1 auVar10 [16];
+  __m128 auVar10;
   undefined4 local_198;
   int local_18c;
   int local_180;
@@ -128,8 +131,8 @@ LAB_0002d873:
       fVar8 = (float10)FUN_00023da0();
       fStack_110 = local_174;
       fStack_124 = (float)((fVar8 + (float10)(float)(fVar9 * (float10)3.0)) * (float10)0.25);
-      auVar10 = rcpss(ZEXT416((uint)local_174),ZEXT416((uint)local_174));
-      fStack_118 = auVar10._0_4_;
+      auVar10 = _mm_rcp_ss(_mm_set_ss(local_174));
+      fStack_118 = _mm_cvtss_f32(auVar10);
       fStack_120 = fStack_118 * fStack_16c;
       fStack_11c = fStack_118 * fStack_168;
       fStack_118 = fStack_118 * fStack_164;
