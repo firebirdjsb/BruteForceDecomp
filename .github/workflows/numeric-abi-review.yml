@@ -8,6 +8,7 @@ on:
       - 'src/0x0001d0c0.c'
       - 'src/0x0002bf60.c'
       - 'src/0x00026060.c'
+      - 'src/0x00025870.c'
       - 'src/0x00024c00.c'
       - 'src/0x000213e0.c'
       - 'src/0x002b6490.c'
@@ -77,7 +78,7 @@ jobs:
             -Wno-int-to-pointer-cast -Wno-return-type \
             -Wno-deprecated-non-prototype -Wno-literal-range \
             src/0x0001d0c0.c src/0x000213e0.c src/0x00024c00.c \
-            src/0x00026060.c src/0x0002bf60.c
+            src/0x00026060.c src/0x0002bf60.c src/0x00025870.c
 
 # All checks above validate local C syntax / mocked argument flow only.
 # Original game ABI, x87 precision, linked behavior, and binary identity remain unverified.
