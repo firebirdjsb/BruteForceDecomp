@@ -1,19 +1,24 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox: formatted-output forwarding wrapper.
+ * Entry: 0x0033df31
  * Input x86 body SHA-256: 676D72C6A0EE88D3504DDEAC155CCB294288B1C4F2EA9609015268672DB2D3F8
- * Entry: 0x0033df31, Ghidra index: 12602, label: FUN_0033df31
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * Evidence: original x86 0x0033df31..0x0033df58, stack-based cdecl ret,
+ * [ebp+0x14] first variable-argument address, and call 0x002eb322.
+ * Status: C11 syntax / x86 stack-shape checked. Link and behavior unverified.
  */
-#include "bf_ghidra_types.h"
-int FUN_0033df31(undefined4 param_1,int param_2,undefined4 param_3)
+#include "bf_format_x86.h"
 
+int32_t FUN_0033df31(char *output_buffer, int32_t output_capacity,
+                     const char *format, ...)
 {
-  int iVar1;
-  
-  if ((param_2 != 0) &&
-     (iVar1 = FUN_002eb322(param_1,param_2,param_3,&stack0x00000010), iVar1 != param_2)) {
-    return iVar1;
-  }
-  return -1;
+    int32_t result;
+    va_list arguments;
+    if (output_capacity == 0)
+        return -1;
+
+    va_start(arguments, format);
+    result = FUN_002eb322(output_buffer, output_capacity, format, arguments);
+    va_end(arguments);
+
+    /* Preserves the original nonstandard 'exactly full => -1' rule. */
+    return (result == output_capacity) ? -1 : result;
 }
