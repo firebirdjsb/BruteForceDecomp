@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra SSE scalar low lane only; no verified ABI or Xbox runtime equivalence.
+ * High-lane vector contents remain unmodeled. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 float * FUN_002a2900(float *param_1,float *param_2)
@@ -17,7 +20,7 @@ float * FUN_002a2900(float *param_1,float *param_2)
   float fVar4;
   float fVar5;
   float fVar6;
-  undefined1 auVar7 [16];
+  __m128 auVar7;
   
   fVar2 = param_2[2] - param_1[2];
   fVar3 = param_2[1] - param_1[1];
@@ -36,8 +39,8 @@ float * FUN_002a2900(float *param_1,float *param_2)
   if (param_1[3] <= fVar5 + fVar1) {
     fVar1 = (fVar5 + param_1[3] + fVar1) * 0.5;
     if (fVar5 < 1e-06 == (fVar5 == 1e-06)) {
-      auVar7 = rcpss(ZEXT416((uint)fVar5),ZEXT416((uint)fVar5));
-      fVar6 = auVar7._0_4_;
+      auVar7 = _mm_rcp_ss(_mm_set_ss(fVar5));
+      fVar6 = _mm_cvtss_f32(auVar7);
       fVar5 = fVar1 - param_1[3];
       *param_1 = fVar5 * fVar4 * fVar6 + *param_1;
       param_1[1] = fVar5 * fVar3 * fVar6 + param_1[1];

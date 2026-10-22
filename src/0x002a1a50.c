@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra SSE scalar low lane only; no verified ABI or Xbox runtime equivalence.
+ * High-lane vector contents remain unmodeled. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00101a10;
@@ -51,7 +54,7 @@ undefined4 FUN_002a1a50(int param_1)
   float10 fVar12;
   float10 fVar13;
   undefined1 in_XMM0 [16];
-  undefined1 auVar14 [16];
+  __m128 auVar14;
   undefined1 local_1b4 [112];
   undefined1 local_144 [48];
   undefined1 local_114 [24];
@@ -131,14 +134,14 @@ undefined4 FUN_002a1a50(int param_1)
     local_34 = local_bc;
     local_68 = local_ac;
     local_38 = local_c8;
-    auVar14 = rsqrtss(in_XMM0,local_d4 * local_d4 + local_c8 * local_c8 + local_bc * local_bc);
-    _DAT_004038d8 = auVar14._0_4_;
+    auVar14 = _mm_rsqrt_ss(_mm_set_ss(local_d4 * local_d4 + local_c8 * local_c8 + local_bc * local_bc));
+    _DAT_004038d8 = _mm_cvtss_f32(auVar14);
     local_3c = _DAT_004038d8 * local_d4;
     _DAT_004038d4 = local_c8 * _DAT_004038d8;
     _DAT_004038d8 = local_bc * _DAT_004038d8;
     local_30 = local_d0;
-    auVar14 = rsqrtss(auVar14,local_d0 * local_d0 + local_c4 * local_c4 + local_b8 * local_b8);
-    local_14 = auVar14._0_4_;
+    auVar14 = _mm_rsqrt_ss(_mm_set_ss(local_d0 * local_d0 + local_c4 * local_c4 + local_b8 * local_b8));
+    local_14 = _mm_cvtss_f32(auVar14);
     local_d0 = (float)local_14 * local_d0;
     local_21 = *(int *)(param_1 + 0xdc) != 0;
     local_c4 = local_c4 * (float)local_14;

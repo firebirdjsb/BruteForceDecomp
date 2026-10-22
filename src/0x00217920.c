@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra SSE scalar opcode model; only observed low lane is reconstructed.
+ * Original ABI, upper lanes and game behavior remain UNVERIFIED. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00407058;
@@ -24,7 +27,7 @@ void FUN_00217920(int *param_1,int param_2,float *param_3,float *param_4,float *
   int iVar7;
   int *piVar8;
   char cVar9;
-  undefined1 auVar10 [16];
+  __m128 auVar10;
   int local_554;
   float local_54c;
   float local_548;
@@ -198,8 +201,8 @@ joined_r0x00217bf0:
               fStack_538 = fStack_52c * param_4[1] - fStack_530 * param_4[2];
               fStack_4f4 = fStack_538 * fStack_538 +
                            fStack_4b8 * fStack_4b8 + fStack_520 * fStack_520;
-              auVar10 = rsqrtss(auVar10,fStack_4f4);
-              fStack_51c = auVar10._0_4_;
+              auVar10 = _mm_rsqrt_ss(_mm_set_ss(fStack_4f4));
+              fStack_51c = _mm_cvtss_f32(auVar10);
               fStack_528 = fStack_51c * fStack_538;
               fStack_524 = fStack_4b8 * fStack_51c;
               fStack_520 = fStack_520 * fStack_51c;

@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra SSE scalar opcode model; only observed low lane is reconstructed.
+ * Original ABI, upper lanes and game behavior remain UNVERIFIED. */
 void FUN_0021c220(int param_1,undefined4 *param_2)
 
 {
@@ -14,7 +17,7 @@ void FUN_0021c220(int param_1,undefined4 *param_2)
   undefined4 *puVar3;
   float *pfVar4;
   undefined1 in_XMM0 [16];
-  undefined1 auVar5 [16];
+  __m128 auVar5;
   float local_8;
   
   puVar3 = *(undefined4 **)(param_1 + 0xe4);
@@ -32,8 +35,8 @@ void FUN_0021c220(int param_1,undefined4 *param_2)
     }
     *(undefined4 **)(param_1 + 0xe4) = puVar3;
     pfVar4 = *(float **)(param_1 + 0xe4);
-    auVar5 = rsqrtss(in_XMM0,pfVar4[2] * pfVar4[2] + pfVar4[1] * pfVar4[1] + *pfVar4 * *pfVar4);
-    local_8 = auVar5._0_4_;
+    auVar5 = _mm_rsqrt_ss(_mm_set_ss(pfVar4[2] * pfVar4[2] + pfVar4[1] * pfVar4[1] + *pfVar4 * *pfVar4));
+    local_8 = _mm_cvtss_f32(auVar5);
   }
   else {
     uVar1 = param_2[2];
@@ -42,8 +45,8 @@ void FUN_0021c220(int param_1,undefined4 *param_2)
     puVar3[1] = uVar2;
     puVar3[2] = uVar1;
     pfVar4 = *(float **)(param_1 + 0xe4);
-    auVar5 = rsqrtss(in_XMM0,pfVar4[2] * pfVar4[2] + pfVar4[1] * pfVar4[1] + *pfVar4 * *pfVar4);
-    local_8 = auVar5._0_4_;
+    auVar5 = _mm_rsqrt_ss(_mm_set_ss(pfVar4[2] * pfVar4[2] + pfVar4[1] * pfVar4[1] + *pfVar4 * *pfVar4));
+    local_8 = _mm_cvtss_f32(auVar5);
   }
   *pfVar4 = local_8 * *pfVar4;
   pfVar4[1] = local_8 * pfVar4[1];

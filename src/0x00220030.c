@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra SSE scalar opcode model; only observed low lane is reconstructed.
+ * Original ABI, upper lanes and game behavior remain UNVERIFIED. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 undefined4 FUN_00220030(void)
@@ -19,7 +22,7 @@ undefined4 FUN_00220030(void)
   float *unaff_ESI;
   float fVar4;
   undefined1 in_XMM0 [16];
-  undefined1 auVar5 [16];
+  __m128 auVar5;
   
   fVar1 = *in_ECX * in_EAX[1] - in_ECX[1] * *in_EAX;
   fVar2 = in_ECX[2] * *in_EAX - in_EAX[2] * *in_ECX;
@@ -30,8 +33,8 @@ undefined4 FUN_00220030(void)
                     (ushort)(fVar4 < 4e-06) << 8 | (ushort)isnan(fVar4) << 10 |
                     (ushort)(fVar4 == 4e-06) << 0xe);
   }
-  auVar5 = rsqrtss(in_XMM0,fVar4);
-  fVar4 = auVar5._0_4_;
+  auVar5 = _mm_rsqrt_ss(_mm_set_ss(fVar4));
+  fVar4 = _mm_cvtss_f32(auVar5);
   *unaff_ESI = fVar4 * fVar3;
   unaff_ESI[2] = fVar4 * fVar1;
   unaff_ESI[1] = fVar4 * fVar2;

@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra SSE scalar low lane only; no verified ABI or Xbox runtime equivalence.
+ * High-lane vector contents remain unmodeled. */
 void FUN_00265e50(void)
 
 {
@@ -13,7 +16,7 @@ void FUN_00265e50(void)
   float *unaff_ESI;
   float10 fVar1;
   float fVar2;
-  undefined1 auVar3 [16];
+  __m128 auVar3;
   float local_8;
   float fStack_4;
   
@@ -25,9 +28,9 @@ void FUN_00265e50(void)
     fVar2 = 1.0;
   }
   if (1e-05 <= ABS(1.0 - fVar2)) {
-    auVar3 = rsqrtss(ZEXT416((uint)fVar2),1.0 - fVar2 * fVar2);
+    auVar3 = _mm_rsqrt_ss(_mm_set_ss(1.0 - fVar2 * fVar2));
     fVar1 = (float10)FUN_00306c80();
-    fStack_4 = (float)(fVar1 * (float10)auVar3._0_4_);
+    fStack_4 = (float)(fVar1 * (float10)_mm_cvtss_f32(auVar3));
     fVar2 = fStack_4 * in_ECX[1];
     local_8 = fStack_4 * (float)*(undefined8 *)(in_ECX + 2);
     fStack_4 = fStack_4 * (float)((ulonglong)*(undefined8 *)(in_ECX + 2) >> 0x20);
