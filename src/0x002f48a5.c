@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Call target FUN_00110000 has this exact signature in its current C draft.
+ * Callback ABI, register inputs and Xbox behavior remain ABI_UNVERIFIED. */
+extern uint FUN_00110000(void);
 bool FUN_002f48a5(undefined4 param_1)
 
 {

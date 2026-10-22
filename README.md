@@ -16,6 +16,10 @@ Private, evidence-driven research workspace for the original Xbox 32-bit x86 `de
 4. Never commit the original executable, game assets, ISOs, Ghidra project databases, full decompiler dumps, private local paths, or authentication credentials. Git stores small metadata, scripts and carefully scoped reconstructions only.
 5. Review every generated change. Keep a function-by-function audit trail and test C syntax before marking any draft buildable.
 
+## End goal: native PC game
+
+The long-term objective is a **faithful, natively executable PC Brute Force reconstruction** followed by optional high-refresh-rate rendering, widescreen and HD texture support, 64-player multiplayer, and modding. These are future deliverables, **not present features**. See [the native PC port goals and validation gates](docs/NATIVE_PC_PORT_GOALS.md).
+
 ## Getting started
 
 Clone `https://github.com/firebirdjsb/BruteForceDecomp.git` to Windows. Keep the existing `D:\Downloads\BruteForce-Decompilation` directory as the *local evidence store*, outside this Git checkout. See `AGENTS.md` and `docs/STATUS.md` for workflow, and the companion C-only local viewer/runner package for continued work.

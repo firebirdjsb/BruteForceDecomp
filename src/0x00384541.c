@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Call target FUN_00384353 has this exact signature in its current C draft.
+ * Callback ABI, register inputs and Xbox behavior remain ABI_UNVERIFIED. */
+extern void FUN_00384353(int param_1,undefined4 param_2);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0041280a;
