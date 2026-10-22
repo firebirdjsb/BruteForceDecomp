@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE mapped address 0x00307d40; label semantic type and definition not recovered. */
+extern unsigned char LAB_00307d40;
+
 void FUN_00143fe0(int param_1)
 
 {
