@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar RCPSS low-lane opcode model; upper lanes omitted.
+ * Original x86 ABI/behavior still ABI_UNVERIFIED. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 void FUN_00073710(float *param_1,float param_2,float *param_3)
@@ -18,7 +21,7 @@ void FUN_00073710(float *param_1,float param_2,float *param_3)
   float fVar5;
   float fVar6;
   float fVar7;
-  undefined1 auVar8 [16];
+  __m128 auVar8;
   
   fVar4 = param_1[5] - *param_3;
   fVar5 = param_1[6] - param_3[1];
@@ -45,8 +48,8 @@ void FUN_00073710(float *param_1,float param_2,float *param_3)
       param_1[3] = fVar3;
       param_1[4] = fVar7;
     }
-    auVar8 = rcpss(ZEXT416((uint)fVar2),ZEXT416((uint)fVar2));
-    fVar7 = auVar8._0_4_;
+    auVar8 = _mm_rcp_ss(_mm_set_ss(fVar2));
+    fVar7 = _mm_cvtss_f32(auVar8);
     fVar2 = *param_1;
     param_1[5] = fVar4 * fVar7 * fVar2 + param_1[2];
     param_1[6] = fVar5 * fVar7 * fVar2 + param_1[3];

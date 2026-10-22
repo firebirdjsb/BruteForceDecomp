@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra RSQRTSS scalar low-lane opcode model; unobserved upper lanes omitted.
+ * Original x86 ABI/behavior still ABI_UNVERIFIED. */
 undefined4 FUN_0004c530(float *param_1)
 
 {
@@ -14,7 +17,7 @@ undefined4 FUN_0004c530(float *param_1)
   float *in_EAX;
   float fVar3;
   undefined1 in_XMM0 [16];
-  undefined1 auVar4 [16];
+  __m128 auVar4;
   
   fVar3 = in_EAX[2];
   fVar2 = in_EAX[1];
@@ -24,8 +27,8 @@ undefined4 FUN_0004c530(float *param_1)
   param_1[1] = 0.0;
   fVar3 = param_1[2] * param_1[2] + *param_1 * *param_1;
   if (1.1920929e-07 <= fVar3) {
-    auVar4 = rsqrtss(in_XMM0,fVar3);
-    fVar3 = auVar4._0_4_;
+    auVar4 = _mm_rsqrt_ss(_mm_set_ss(fVar3));
+    fVar3 = _mm_cvtss_f32(auVar4);
     uVar1 = *(undefined8 *)(param_1 + 1);
     *param_1 = *param_1 * fVar3;
     param_1[1] = (float)uVar1 * fVar3;

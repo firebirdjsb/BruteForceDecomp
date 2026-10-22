@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar RSQRTSS low-lane opcode model; upper lanes omitted.
+ * Original x86 ABI/behavior still ABI_UNVERIFIED. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0046cfd8;
@@ -20,7 +23,7 @@ void FUN_0006f330(int param_1)
   uint uVar6;
   float fVar7;
   undefined1 in_XMM0 [16];
-  undefined1 auVar8 [16];
+  __m128 auVar8;
   float local_14;
   float local_c;
   float local_8;
@@ -65,8 +68,8 @@ LAB_0006f365:
       local_8 = pfVar4[1];
       local_c = *pfVar4;
       if (uVar6 == 0) {
-        auVar8 = rsqrtss(in_XMM0,local_c * local_c + local_4 * local_4);
-        fVar7 = auVar8._0_4_;
+        auVar8 = _mm_rsqrt_ss(_mm_set_ss(local_c * local_c + local_4 * local_4));
+        fVar7 = _mm_cvtss_f32(auVar8);
         local_c = fVar7 * local_c;
         local_8 = fVar7 * 0.0;
         local_4 = local_4 * fVar7;
@@ -119,8 +122,8 @@ LAB_0006f365:
     local_8 = pfVar4[1];
     local_c = *pfVar4;
     if (uVar6 == 0) {
-      auVar8 = rsqrtss(in_XMM0,local_c * local_c + local_4 * local_4);
-      fVar7 = auVar8._0_4_;
+      auVar8 = _mm_rsqrt_ss(_mm_set_ss(local_c * local_c + local_4 * local_4));
+      fVar7 = _mm_cvtss_f32(auVar8);
       local_c = fVar7 * local_c;
       local_8 = fVar7 * 0.0;
       local_4 = local_4 * fVar7;

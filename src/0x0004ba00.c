@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra RSQRTSS scalar low-lane opcode model; unobserved upper lanes omitted.
+ * Original x86 ABI/behavior still ABI_UNVERIFIED. */
 /* WARNING: Removing unreachable block (ram,0x0004ba5e) */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
@@ -23,7 +26,7 @@ uint FUN_0004ba00(int param_1,float *param_2,float *param_3,float param_4,undefi
   int iVar8;
   float fVar9;
   undefined1 in_XMM0 [16];
-  undefined1 auVar10 [16];
+  __m128 auVar10;
   
   iVar1 = *(int *)(in_EAX + 8);
   FUN_00058b60();
@@ -45,8 +48,8 @@ uint FUN_0004ba00(int param_1,float *param_2,float *param_3,float param_4,undefi
                      (ushort)(fVar9 < 0.0) << 8 | (ushort)isnan(fVar9) << 10 |
                      (ushort)(fVar9 == 0.0) << 0xe);
     if (fVar9 < 0.0 == 0 && (fVar9 == 0.0) == 0) {
-      auVar10 = rsqrtss(in_XMM0,fVar9);
-      fVar9 = auVar10._0_4_;
+      auVar10 = _mm_rsqrt_ss(_mm_set_ss(fVar9));
+      fVar9 = _mm_cvtss_f32(auVar10);
       fVar3 = fVar4 * fVar9 * *param_3 + fVar9 * 0.0 * param_3[1] + fVar3 * fVar9 * param_3[2];
       uVar6 = CONCAT22((short)((uint)param_3 >> 0x10),
                        (ushort)(fVar3 < param_4) << 8 | (ushort)(isnan(fVar3) || isnan(param_4)) << 10 |

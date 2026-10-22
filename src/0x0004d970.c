@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra RSQRTSS scalar low-lane opcode model; unobserved upper lanes omitted.
+ * Original x86 ABI/behavior still ABI_UNVERIFIED. */
 int FUN_0004d970(int *param_1,float *param_2,int param_3,char param_4,char param_5)
 
 {
@@ -16,7 +19,7 @@ int FUN_0004d970(int *param_1,float *param_2,int param_3,char param_4,char param
   uint uVar5;
   float fVar6;
   undefined1 in_XMM0 [16];
-  undefined1 auVar7 [16];
+  __m128 auVar7;
   undefined4 uVar8;
   
   if (param_2[2] * param_2[2] + param_2[1] * param_2[1] + *param_2 * *param_2 < 1e-32) {
@@ -40,8 +43,8 @@ int FUN_0004d970(int *param_1,float *param_2,int param_3,char param_4,char param
     iVar4 = FUN_00055aa0();
     param_3 = *(int *)(iVar4 + 0x94);
   }
-  auVar7 = rsqrtss(in_XMM0,param_2[2] * param_2[2] + param_2[1] * param_2[1] + *param_2 * *param_2);
-  fVar6 = auVar7._0_4_;
+  auVar7 = _mm_rsqrt_ss(_mm_set_ss(param_2[2] * param_2[2] + param_2[1] * param_2[1] + *param_2 * *param_2));
+  fVar6 = _mm_cvtss_f32(auVar7);
   *param_2 = fVar6 * *param_2;
   param_2[1] = fVar6 * param_2[1];
   param_2[2] = fVar6 * param_2[2];

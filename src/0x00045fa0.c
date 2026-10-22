@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra RSQRTSS scalar low-lane opcode model; unobserved upper lanes omitted.
+ * Original x86 ABI/behavior still ABI_UNVERIFIED. */
 undefined4 FUN_00045fa0(float *param_1)
 
 {
@@ -23,7 +26,7 @@ undefined4 FUN_00045fa0(float *param_1)
   undefined4 uVar11;
   float fVar12;
   undefined1 in_XMM0 [16];
-  undefined1 auVar13 [16];
+  __m128 auVar13;
   undefined4 uVar14;
   
   piVar6 = (int *)FUN_000120f0();
@@ -53,10 +56,10 @@ undefined4 FUN_00045fa0(float *param_1)
     *(float *)(in_ECX + 0x450) = fVar12 - fVar1;
     *(undefined4 *)(in_ECX + 0x44c) = 0;
     pfVar10 = (float *)(in_ECX + 0x448);
-    auVar13 = rsqrtss(in_XMM0,*(float *)(in_ECX + 0x450) * *(float *)(in_ECX + 0x450) +
+    auVar13 = _mm_rsqrt_ss(_mm_set_ss(*(float *)(in_ECX + 0x450) * *(float *)(in_ECX + 0x450) +
                               *(float *)(in_ECX + 0x44c) * *(float *)(in_ECX + 0x44c) +
-                              *pfVar10 * *pfVar10);
-    fVar12 = auVar13._0_4_;
+                              *pfVar10 * *pfVar10));
+    fVar12 = _mm_cvtss_f32(auVar13);
     uVar11 = 3;
     *pfVar10 = fVar12 * *pfVar10;
     *(float *)(in_ECX + 0x44c) = fVar12 * *(float *)(in_ECX + 0x44c);

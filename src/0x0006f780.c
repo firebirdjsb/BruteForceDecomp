@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar RCPSS low-lane opcode model; upper lanes omitted.
+ * Original x86 ABI/behavior still ABI_UNVERIFIED. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0040de24;
@@ -30,7 +33,7 @@ void FUN_0006f780(int param_1,float param_2)
   float fVar14;
   float fVar15;
   float fVar16;
-  undefined1 auVar17 [16];
+  __m128 auVar17;
   undefined4 local_6c;
   undefined4 local_68;
   undefined4 local_64;
@@ -99,8 +102,8 @@ void FUN_0006f780(int param_1,float param_2)
       fVar16 = DAT_0040de24;
     }
     fVar16 = fVar16 * param_2;
-    auVar17 = rcpss(ZEXT416((uint)fVar15),ZEXT416((uint)fVar15));
-    fVar15 = auVar17._0_4_;
+    auVar17 = _mm_rcp_ss(_mm_set_ss(fVar15));
+    fVar15 = _mm_cvtss_f32(auVar17);
     *(float *)(param_1 + 0x21c) = fVar16 * fVar14 * fVar15 + *(float *)(param_1 + 0x21c);
     *(float *)(param_1 + 0x220) = fVar16 * fVar4 * fVar15 + *(float *)(param_1 + 0x220);
     *(float *)(param_1 + 0x224) = fVar16 * fVar3 * fVar15 + *(float *)(param_1 + 0x224);
