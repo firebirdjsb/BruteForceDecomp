@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Matched to C-draft definitions, NOT verified original Xbox callback ABI. */
+extern undefined4 FUN_0035f8d0(undefined4 *param_1,undefined4 param_2,uint param_3);
+extern undefined1 * FUN_0035a8c0(int param_1);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00387b18;

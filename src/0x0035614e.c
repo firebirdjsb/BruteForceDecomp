@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Matched to C-draft definitions, NOT verified original Xbox callback ABI. */
+extern void FUN_00355d8a(undefined4 param_1);
 int FUN_0035614e(undefined4 param_1)
 
 {
