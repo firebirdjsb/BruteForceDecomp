@@ -1,0 +1,64 @@
+name: Numeric and EAX-stack C11 review
+
+on:
+  push:
+    paths:
+      - 'src/0x0002ac80.c'
+      - 'src/0x000481c0.c'
+      - 'src/0x0001d0c0.c'
+      - 'src/0x000563b0.c'
+      - 'include/bf_eax_stack_dispatch.h'
+      - 'include/bf_recovered_function_names.h'
+      - 'tests/test_eax_stack_dispatch.c'
+      - '.github/workflows/numeric-abi-review.yml'
+  pull_request:
+    paths:
+      - 'src/0x0002ac80.c'
+      - 'src/0x000481c0.c'
+      - 'src/0x0001d0c0.c'
+      - 'src/0x000563b0.c'
+      - 'include/bf_eax_stack_dispatch.h'
+
+permissions:
+  contents: read
+
+jobs:
+  source-models:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Register and stack cleanup C11 model
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude \
+            src/0x000563b0.c tests/test_eax_stack_dispatch.c -o /tmp/test_eax_dispatch
+          /tmp/test_eax_dispatch
+          clang -target i386-pc-windows-msvc -std=c11 -O1 -Iinclude -masm=intel \
+            -S src/0x000563b0.c -o /tmp/eax_dispatch.s
+          grep -Eiq 'ret[[:space:]]+4' /tmp/eax_dispatch.s
+          clang -std=c11 -Iinclude -c src/0x000563b0.c -o /tmp/eax_dispatch.o
+          nm /tmp/eax_dispatch.o | grep -q 'FUN_000563b0'
+      - name: x87 pointer-merge fixes — lenient syntax only
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -fsyntax-only -Iinclude \
+            -Wno-implicit-function-declaration -Wno-int-conversion \
+            -Wno-incompatible-pointer-types -Wno-pointer-to-int-cast \
+            -Wno-int-to-pointer-cast -Wno-return-type \
+            -Wno-deprecated-non-prototype \
+            src/0x0002ac80.c src/0x000481c0.c
+      - name: rsqrtss scalar lane — lenient syntax only
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -msse -fsyntax-only -Iinclude \
+            -Wno-implicit-function-declaration -Wno-int-conversion \
+            -Wno-incompatible-pointer-types -Wno-pointer-to-int-cast \
+            -Wno-int-to-pointer-cast -Wno-return-type \
+            -Wno-deprecated-non-prototype -Wno-literal-range \
+            src/0x0001d0c0.c
+
+# All checks above validate local C syntax / mocked argument flow only.
+# Original game ABI, x87 precision, linked behavior, and binary identity remain unverified.
