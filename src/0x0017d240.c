@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE mapped VA 0x003070c0; address-only evidence, symbol role unknown. */
+extern unsigned char LAB_003070c0;
 void FUN_0017d240(void)
 
 {
