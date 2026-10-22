@@ -1,0 +1,41 @@
+name: Full C11 draft syntax inventory
+on:
+  push:
+    paths:
+      - 'tools/sweep_c11.py'
+      - '.github/workflows/full-c11-inventory.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Audit only — failures expected, not a build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Identify exact checked out SHA
+        run: |
+          echo "AUDITED_COMMIT=${GITHUB_SHA}"
+          clang --version | head -n 1
+      - name: Audit all 13,694 discovered function source files
+        run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
+      - name: Upload audit and per-address error diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-c11-inventory
+          path: c11_sweep_results/
+          if-no-files-found: warn
+      - name: Explicitly report the pass/fail counts
+        run: |
+          python3 - <<'PY'
+          import json
+          r=json.load(open('c11_sweep_results/c11_sweep_report.json'))
+          print('Host Clang C11 syntax pass:', r['counts'].get('pass', 0))
+          print('Host Clang C11 syntax fail:', r['counts'].get('fail', 0))
+          print('Source provenance mismatches:', r['body_hash_mismatches'])
+          print('This workflow is an inventory, not a validated reconstruction.')
+          PY
