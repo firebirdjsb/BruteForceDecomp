@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original Xbox image mapped address 0x003079a0; address-only declaration.
+ * Linked definition, actual type and semantic role remain unverified. */
+extern unsigned char LAB_003079a0;
 void FUN_0016af10(int param_1)
 
 {

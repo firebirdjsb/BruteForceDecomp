@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original Xbox image mapped address 0x003074f0; address-only declaration.
+ * Linked definition, actual type and semantic role remain unverified. */
+extern unsigned char LAB_003074f0;
 int FUN_001617e0(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
                 undefined4 param_5,undefined4 param_6)
 

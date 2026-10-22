@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original Xbox image mapped address 0x0014f480; address-only declaration.
+ * Linked definition, actual type and semantic role remain unverified. */
+extern unsigned char LAB_0014f480;
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003f7f1c;
