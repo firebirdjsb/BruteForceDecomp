@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Address-tied callee source: FUN_000c72a0; callback ABI remains ABI_UNVERIFIED.
+ * Provisional C11 declaration only; not a verified link/runtime contract. */
+extern void FUN_000c72a0(void);
 /* WARNING: Removing unreachable block (ram,0x001566f1) */
 /* WARNING: Removing unreachable block (ram,0x00156761) */
 /* WARNING: Removing unreachable block (ram,0x001567dd) */

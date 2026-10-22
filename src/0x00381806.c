@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Address-tied callee source: FUN_0038156d; callback ABI remains ABI_UNVERIFIED.
+ * Provisional C11 declaration only; not a verified link/runtime contract. */
+extern void FUN_0038156d(undefined4 *param_1,uint param_2);
 void FUN_00381806(void)
 
 {
