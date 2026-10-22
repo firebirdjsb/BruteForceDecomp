@@ -57,4 +57,6 @@ jobs:
               raise SystemExit('INTEGRITY FAILURE: unexpected number of source files')
           if r['body_hash_mismatches']:
               raise SystemExit('INTEGRITY FAILURE: one or more original x86 body hash labels differ from the inventory')
+          if r['body_hash_missing']:
+              raise SystemExit('INTEGRITY FAILURE: one or more sources lack embedded original x86 body hash provenance')
           PY
