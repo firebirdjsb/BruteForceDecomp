@@ -1,33 +1,26 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox — bounded variadic output.
+ * Entry: 0x002eaa19
  * Input x86 body SHA-256: 4AF2DF1E50706CA8ACF946EF2B28D50106962FCE202D9427FF04064C3DF66418
- * Entry: 0x002eaa19, Ghidra index: 10593, label: FUN_002eaa19
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * Original 87-byte CDECL frame / stack va args, flags 0x42; not original source.
  */
-#include "bf_ghidra_types.h"
-undefined4 FUN_002eaa19(undefined1 *param_1,int param_2,undefined4 param_3)
-
+#include "bf_format_x86.h"
+int32_t FUN_002eaa19(char *buffer,int32_t capacity,const char *format,...)
 {
-  undefined4 uVar1;
-  undefined1 *local_24;
-  int local_20;
-  undefined1 *local_1c;
-  undefined4 local_18;
-  
-  local_20 = param_2;
-  local_18 = 0x42;
-  local_1c = param_1;
-  local_24 = param_1;
-  uVar1 = FUN_002edbde(&local_24,param_3,&stack0x00000010);
-  if (param_1 != (undefined1 *)0x0) {
-    local_20 = local_20 + -1;
-    if (local_20 < 0) {
-      __flsbuf(0,&local_24);
+    BF_FormatSinkState state;
+    state.cursor=buffer;
+    state.remaining_bits=(uint32_t)capacity;
+    state.initial_buffer=buffer;
+    state.flags=UINT32_C(0x42);
+    va_list args;
+    va_start(args,format);
+    const int32_t result=FUN_002edbde(&state,format,args);
+    va_end(args);
+    if (buffer!=NULL) {
+        state.remaining_bits-=UINT32_C(1);
+        if ((state.remaining_bits & UINT32_C(0x80000000)) != 0)
+            (void)__flsbuf(0,&state);
+        else
+            *state.cursor='\0';
     }
-    else {
-      *local_24 = 0;
-    }
-  }
-  return uVar1;
+    return result;
 }

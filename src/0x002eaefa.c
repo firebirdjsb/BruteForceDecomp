@@ -1,30 +1,23 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox — format into an existing NUL-terminated buffer.
+ * Entry: 0x002eaefa
  * Input x86 body SHA-256: 803FB23A2A0CD428A97F0F08BFFAA4BB7AB190734BB736449A632DEBE6CB517F
- * Entry: 0x002eaefa, Ghidra index: 10605, label: FUN_002eaefa
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * Original 58-byte CDECL frame / stack varargs, flags 0x49.
+ * No safety bound or underlying FUN_002EE515 semantics have been invented.
  */
-#include "bf_ghidra_types.h"
-void FUN_002eaefa(char *param_1,undefined4 param_2)
-
+#include "bf_format_x86.h"
+extern int32_t FUN_002ee515(void *state,const char *format,va_list arguments);
+void FUN_002eaefa(char *output,const char *format,...)
 {
-  char *pcVar1;
-  char cVar2;
-  char *local_24;
-  int local_20;
-  char *local_1c;
-  undefined4 local_18;
-  
-  local_18 = 0x49;
-  local_1c = param_1;
-  local_24 = param_1;
-  pcVar1 = param_1 + 1;
-  do {
-    cVar2 = *param_1;
-    param_1 = param_1 + 1;
-  } while (cVar2 != '\0');
-  local_20 = (int)param_1 - (int)pcVar1;
-  FUN_002ee515(&local_24,param_2,&stack0x0000000c);
-  return;
+    BF_FormatSinkState state;
+    uint32_t initial_length=0;
+    const char *scan=output;
+    while (*scan++!='\0') initial_length++;
+    state.cursor=output;
+    state.remaining_bits=initial_length;
+    state.initial_buffer=output;
+    state.flags=UINT32_C(0x49);
+    va_list args;
+    va_start(args,format);
+    (void)FUN_002ee515(&state,format,args);
+    va_end(args);
 }
