@@ -13,7 +13,11 @@ def main():
     parser.add_argument('--refresh', action='store_true', help='update only the c_sha256 inventory column after review')
     args = parser.parse_args()
     root = args.root.resolve()
-    inventory = root / 'metadata' / 'function_inventory.csv'
+    # The repository's canonical inventory is bulk_13694_inventory.csv.
+    # Do not accidentally read an obsolete legacy file or silently skip it.
+    inventory = root / 'metadata' / 'bulk_13694_inventory.csv'
+    if not inventory.is_file():
+        raise SystemExit('Canonical 13,694-function inventory missing')
     with inventory.open(encoding='utf-8', newline='') as stream:
         rows = list(csv.DictReader(stream))
         columns = list(rows[0])
