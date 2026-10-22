@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_d3d_device_x86.h"
 uint FUN_000e6c70(undefined4 param_1,undefined4 *param_2)
 
 {
