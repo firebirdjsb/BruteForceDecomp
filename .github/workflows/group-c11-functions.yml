@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'tools/classify_c11_functions.py'
+      - 'metadata/asm_supported_readable_names.csv'
       - '.github/workflows/group-c11-functions.yml'
   workflow_dispatch:
 
