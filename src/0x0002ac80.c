@@ -43,9 +43,9 @@ undefined4 FUN_0002ac80(float *param_1)
     iVar6 = (**(code **)(piVar5[0x6d] + 0x28))();
     fStack_c = *(float *)(iVar6 + 0x20);
     fStack_10 = *(float *)(iVar6 + 0x14);
-    local_18 = (int *)-fStack_10;
+    /* x87 FCHS produces a negated float. Ghidra merged this stack slot with\n     * an unrelated pointer temporary in the other branch. */
     *param_1 = -*(float *)(iVar6 + 8);
-    param_1[1] = (float)local_18;
+    param_1[1] = -fStack_10;
     param_1[2] = -fStack_c;
     FUN_0004d970(iVar1,param_1,1,1,1);
     return 1;

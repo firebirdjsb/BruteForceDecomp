@@ -23,18 +23,18 @@ float10 FUN_000481c0(float *param_1)
     }
     bVar1 = true;
   }
-LAB_000481fb:
-  param_1 = (float *)0x3f800000;
-  if (bVar1) {
-    param_1 = (float *)0x3f933333;
-  }
+LAB_000481fb: ;
+  /* Original stores exact IEEE-754 float bit patterns, not pointers. */
+  uint32_t scale_bits = bVar1 ? UINT32_C(0x3f933333) : UINT32_C(0x3f800000);
+  float scale_value;
+  memcpy(&scale_value, &scale_bits, sizeof scale_value);
   iVar3 = FUN_000120f0();
   iVar3 = *(int *)(iVar3 + 0x2e8);
   cVar2 = (**(code **)(*(int *)(iVar3 + 0x144) + 0x20))();
   if ((((cVar2 != '\0') && (iVar3 = *(int *)(iVar3 + 0x164), iVar3 != 0)) &&
       (*(int *)(*(int *)(iVar3 + 0xc) + 4) == 0x14)) &&
      ((iVar3 != 0 && (*(int *)(*(int *)(iVar3 + 0x228) + 0x16c) != 0)))) {
-    return (float10)(float)param_1 * (float10)3.0;
+    return (float10)scale_value * (float10)3.0;
   }
-  return (float10)(float)param_1;
+  return (float10)scale_value;
 }
