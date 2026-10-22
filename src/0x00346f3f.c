@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_socket_abi_draft.h"
+#include "bf_xbox_xonline_context_bytes_x86.h"
 ssize_t __thiscall XONLINES__send(XONLINES *this,int __fd,void *__buf,size_t __n,int __flags)
 
 {
