@@ -29,3 +29,11 @@ Unknown ABI or unresolved indirect calls must be recorded, not guessed. Even `Se
 - The existing four C11 drafts already on GitHub remain protected; the remaining 99 sources and full migration metadata are staged in the downloadable `BruteForce_C11_All_103.zip` workspace. **They are not yet pushed to GitHub.**
 - Local script `Sync-103-C11-To-Private-GitHub.ps1` checks repository visibility and source digests, then uploads 99 new `.c` drafts, unresolved-symbol declarations, and per-function tracking. It never uploads the original XBE, ISO, full decompiler exports or backup CPP archive.
 - No new function has been marked ABI-verified, behavior-verified or byte-identical. Recovered signatures, SSE/x87 semantics, data symbols, stack layouts, and virtual-call prototypes are still under review.
+
+## Bulk C11 draft staging — 2026-10-21
+
+- Local generated package: `BruteForce_C11_13694_v1.zip`. It has **13,694** C files (one per Ghidra-discovered function); **103** preserve existing translated draft candidates; **13,591** are mechanical C-form output from Ghidra pseudocode.
+- **13,694/13,694** checked with host Clang 17 `-std=c11 -fsyntax-only`, with some warning categories permitted for unresolved prototypes/pointers. **11,703 passed**, **1,991 failed**. This is **not** an Xbox build.
+- Function-level SHA-256 provenance and compiler diagnostics are in the package inventory. **No** ABI or behavior equivalence has been established for the 13,694, and several aliases and unknown data declarations require repair.
+- **Private GitHub source upload is pending.** The optional local `Push-C11-Batches-Every-5-Minutes.ps1` script stages up to 200 new source files at a time, verifies that this repository remains private, preserves existing C files, and commits and pushes at approximately five-minute intervals **only while running on the user's machine**.
+- The source XBE, original ISO, full Ghidra project, and complete pseudocode exports stay **out of this repository**. Do not mark functions complete solely because files were generated or parsed.
