@@ -3,6 +3,12 @@ on:
   push:
     paths:
       - 'tools/sweep_c11.py'
+      # Focused evidence-based fixes also refresh the cumulative failure total.
+      - 'src/0x000213e0.c'
+      - 'src/0x00025870.c'
+      - 'src/0x00026060.c'
+      - 'src/0x0002bf60.c'
+      - 'src/0x00024c00.c'
       - '.github/workflows/full-c11-inventory.yml'
   workflow_dispatch:
 
