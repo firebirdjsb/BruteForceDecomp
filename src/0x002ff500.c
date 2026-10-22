@@ -1,18 +1,37 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox x86: format-and-forward diagnostic text.
+ * Entry: 0x002ff500
  * Input x86 body SHA-256: 6D864C33CF3C54F3159B5EA6F50B8DBBA0767EBC786933AAC79AFF4ADB9F7A44
- * Entry: 0x002ff500, Ghidra index: 11065, label: FUN_002ff500
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * Original instructions reuse address of caller's 3rd stack argument for
+ * CRT vprintf + vsprintf-like calls; 2048-byte output buffer is NOT bounded
+ * by the second call. Status: C11 draft, ABI stack shape checked, runtime TBD.
  */
-#include "bf_ghidra_types.h"
-void FUN_002ff500(undefined4 param_1,char *param_2)
+#include <stdint.h>
+#include <stdarg.h>
 
+extern int32_t FID_conflict__vprintf(const char *format, va_list arguments);
+extern int32_t FUN_002eba94(char *output, const char *format, va_list arguments);
+extern void XAPILIB__OutputDebugStringA(const char *message);
+
+void FUN_002ff500(uint32_t ignored_first_stack_arg, const char *format, ...)
 {
-  undefined1 local_800 [2048];
-  
-  FID_conflict__vprintf(param_2,&stack0x0000000c);
-  FUN_002eba94(local_800,param_2,&stack0x0000000c);
-  XAPILIB__OutputDebugStringA(local_800);
-  return;
+    char debug_text[0x800];
+    va_list arguments;
+    va_list first_pass;
+    va_list second_pass;
+    (void)ignored_first_stack_arg; /* original never reads [esp+4] */
+
+    va_start(arguments, format);
+    /* Both original functions receive the same caller-stack va_list pointer.
+     * Copying is necessary to model by-value x86 va_list on other hosts. */
+    va_copy(first_pass, arguments);
+    (void)FID_conflict__vprintf(format, first_pass);
+    va_end(first_pass);
+
+    va_copy(second_pass, arguments);
+    (void)FUN_002eba94(debug_text, format, second_pass);
+    va_end(second_pass);
+    va_end(arguments);
+
+    /* Does not make the unbounded formatter safe: behavior preserved. */
+    XAPILIB__OutputDebugStringA(debug_text);
 }
