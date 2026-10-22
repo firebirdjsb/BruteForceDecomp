@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "src/0x002eb322.c"
+      - "src/0x002ebce0.c"
       - "src/0x002ff500.c"
       - "src/0x0033df31.c"
       - "src/0x0037a3e0.c"
@@ -12,6 +13,7 @@ on:
       - "include/bf_format_x86.h"
       - "include/bf_xnet_record_x86.h"
       - "tests/test_format_callee.c"
+      - "tests/test_global_stream_format.c"
       - "tests/test_double_format.c"
       - "tests/test_xnet_context.c"
       - "tests/test_xnet_record.c"
@@ -42,7 +44,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          sources=(src/0x002eb322.c src/0x002ff500.c src/0x0033df31.c src/0x0037a3e0.c src/0x00349413.c src/0x00349366.c)
+          sources=(src/0x002eb322.c src/0x002ebce0.c src/0x002ff500.c src/0x0033df31.c src/0x0037a3e0.c src/0x00349413.c src/0x00349366.c)
           clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsyntax-only "${sources[@]}"
           clang -target i386-pc-windows-msvc -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsyntax-only "${sources[@]}"
       - name: Three-function formatting integration with mocked dependencies
@@ -59,6 +61,13 @@ jobs:
           /tmp/test_double_format
           clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude             src/0x00349413.c tests/test_xnet_context.c -o /tmp/test_xnet_context
           /tmp/test_xnet_context
+      - name: CRT stream format stack wrapper with mocked backend
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude \
+            src/0x002ebce0.c tests/test_global_stream_format.c -o /tmp/test_global_stream_format
+          /tmp/test_global_stream_format
       - name: XNET callee plus wrapper host dependency mocks
         shell: bash
         run: |
