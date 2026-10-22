@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original XBE mapped VA 0x003084f0; extern label; definition/role pending. */
+extern unsigned char LAB_003084f0;
+
 int FUN_0010b470(int param_1)
 
 {
