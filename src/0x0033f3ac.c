@@ -1,6 +1,6 @@
 /* Brute Force original Xbox x86: FUN_0033f3ac
- * Entry: 0x0033f3ac, original body SHA-256:
- * B6FE405D734D63457C3F7BD678E66D1D70E1C8D44ED631F67EFA20A5D761DA69
+ * Entry: 0x0033f3ac
+ * Original body SHA-256: B6FE405D734D63457C3F7BD678E66D1D70E1C8D44ED631F67EFA20A5D761DA69
  * READABLE ROLE (supported): forward a 64-bit system-time value to NtSetSystemTime.
  * Evidence: XONLINE machine code at 0x0033f3ac-0x0033f3bb, kernel import
  * thunk 0x003864bc = ordinal 228 (NtSetSystemTime), and ret 8.
