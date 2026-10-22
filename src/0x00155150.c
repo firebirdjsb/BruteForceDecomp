@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE mapped VA 0x00307510; address-only external declaration.
+ * Linked symbol definition, role and calling convention are unverified. */
+extern unsigned char LAB_00307510;
 int FUN_00155150(undefined4 param_1,undefined4 param_2,undefined4 param_3)
 
 {
