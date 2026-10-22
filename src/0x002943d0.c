@@ -1,0 +1,39 @@
+/* Brute Force original Xbox - independent, unverified C11 draft.
+ * Input x86 body SHA-256: ED5B26F1DE50AFFA83EC6162192BCFAF0C195093453EF11A014CC9B0EFE95E35
+ * Entry: 0x002943d0, Ghidra index: 9286, label: FUN_002943d0
+ * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
+ * may be inaccurate. C syntax validity never proves original runtime behavior.
+ */
+#include "bf_ghidra_types.h"
+/* TODO: Ghidra data labels have unresolved type and storage identities.
+ * These declarations only allow syntax analysis; they are NOT verified types. */
+extern uint32_t DAT_00469888;
+extern uint32_t PTR_DAT_003b9760;
+extern uint32_t _DAT_00469884;
+extern char s_not_enough_memory_00404860[];
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_002943d0(void)
+
+{
+  int iVar1;
+  int iVar2;
+  
+  PTR_DAT_003b9760 = (undefined *)0x404874;
+  _DAT_00469884 = 0x47;
+  iVar2 = FUN_00067c30(0,0x2e8);
+  if (iVar2 == 0) {
+    FUN_0028ab50(s_not_enough_memory_00404860);
+  }
+  iVar1 = DAT_00469888;
+  *(int *)(DAT_00469888 + 0x60) = iVar2;
+  iVar2 = 0;
+  do {
+    *(undefined4 *)(iVar2 + *(int *)(iVar1 + 0x60)) = 0;
+    *(undefined4 *)(*(int *)(iVar1 + 0x60) + 4 + iVar2) = 0;
+    *(undefined4 *)(*(int *)(iVar1 + 0x60) + 8 + iVar2) = 0;
+    iVar2 = iVar2 + 0xc;
+  } while (iVar2 < 0x2e8);
+  return;
+}

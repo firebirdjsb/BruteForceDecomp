@@ -1,0 +1,55 @@
+/* Brute Force original Xbox - independent, unverified C11 draft.
+ * Input x86 body SHA-256: 2E43187772AA754C8373EFC1BD630F4E7BF98FC93E1762E117C70084E9CB4069
+ * Entry: 0x002a6100, Ghidra index: 9580, label: FUN_002a6100
+ * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
+ * may be inaccurate. C syntax validity never proves original runtime behavior.
+ */
+#include "bf_ghidra_types.h"
+/* WARNING: Restarted to delay deadcode elimination for space: stack */
+
+undefined4 FUN_002a6100(int *param_1,undefined4 param_2)
+
+{
+  char cVar1;
+  undefined4 uVar2;
+  int iVar3;
+  int *unaff_EBP;
+  int *piStack_10;
+  undefined4 *puStack_c;
+  int *piStack_8;
+  int iStack_4;
+  
+  uVar2 = (**(code **)(*param_1 + 0x10))();
+  iStack_4 = 0;
+  (**(code **)(*param_1 + 0x2c))();
+  if (piStack_10 != (int *)0x0) {
+    (**(code **)(*piStack_10 + 0x7c))(piStack_10);
+    if (unaff_EBP != (int *)0x0) {
+      (**(code **)(*unaff_EBP + 8))(unaff_EBP);
+    }
+    return 0x80004005;
+  }
+  (**(code **)(*piStack_8 + 0x80))(piStack_8,param_2);
+  if (puStack_c != (undefined4 *)0x0) {
+    *puStack_c = uVar2;
+  }
+  (**(code **)(*piStack_8 + 4))(piStack_8);
+  (**(code **)(*piStack_8 + 4))(piStack_8);
+  iVar3 = FUN_002a78b0(&stack0xffffffcc);
+  cVar1 = *(char *)(iVar3 + 4);
+  (**(code **)(*piStack_8 + 8))(piStack_8);
+  (**(code **)(*piStack_8 + 8))(piStack_8);
+  if (cVar1 != '\0') {
+    FUN_002a79d0();
+    param_1[1] = param_1[1] + 1;
+    if (&iStack_4 != (int *)0x0) {
+      (**(code **)(iStack_4 + 8))(&iStack_4);
+    }
+    return 0;
+  }
+  if (&iStack_4 != (int *)0x0) {
+    (**(code **)(iStack_4 + 8))(&iStack_4);
+  }
+  return 0x80004005;
+}

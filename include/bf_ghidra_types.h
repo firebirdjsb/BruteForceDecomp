@@ -1,0 +1,29 @@
+/* Ghidra's pseudo-C scalar aliases for x86 32-bit source inspection only.
+ * Many constructs (24-bit values, x87, SIMD, external registers) need review.
+ * Not a linking or runtime-compatibility layer. */
+#ifndef BF_GHIDRA_TYPES_H
+#define BF_GHIDRA_TYPES_H
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
+#include <string.h>
+#include <math.h>
+typedef uint8_t undefined, undefined1, byte, uchar;
+typedef int8_t sbyte;
+typedef uint16_t undefined2, ushort, word;
+typedef uint32_t undefined4, uint, dword, ulong, _UNKNOWN;
+typedef uint64_t undefined8, ulonglong, qword;
+typedef int64_t longlong;
+typedef long double float10;
+typedef uint32_t undefined3, uint3; /* TODO: actual width 24 bits, not 32 */
+typedef int32_t int3;  /* TODO: actual width 24 bits, not 32 */
+typedef uint64_t undefined5, undefined6, undefined7;
+typedef struct { uint64_t v[2]; } undefined16;
+typedef uintptr_t code(); /* TODO: external function ABI, signature and return unknown */
+#ifndef __thiscall
+#define __thiscall /* unverified Xbox x86 calling convention */
+#endif
+#ifndef __fastcall
+#define __fastcall /* unverified Xbox x86 calling convention */
+#endif
+#endif

@@ -1,0 +1,54 @@
+/* Brute Force original Xbox - independent, unverified C11 draft.
+ * Input x86 body SHA-256: EBDBA2A30740BA3E965E80D66CB752F4F2577881FBB1FE1DC5BDF2C304B24034
+ * Entry: 0x002fe601, Ghidra index: 11028, label: __wcsnicmp
+ * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
+ * may be inaccurate. C syntax validity never proves original runtime behavior.
+ */
+#include "bf_ghidra_types.h"
+/* TODO: Ghidra data labels have unresolved type and storage identities.
+ * These declarations only allow syntax analysis; they are NOT verified types. */
+extern uint32_t DAT_0040f518;
+/* Library Function - Single Match
+    __wcsnicmp
+   
+   Library: Visual Studio 2003 Release */
+
+int __wcsnicmp(ushort *param_1,ushort *param_2,int param_3)
+
+{
+  ushort uVar1;
+  ushort uVar2;
+  int iVar3;
+  
+  iVar3 = 0;
+  if (param_3 != 0) {
+    if (DAT_0040f518 == 0) {
+      do {
+        uVar2 = *param_1;
+        if ((uVar2 < 0x41) || (uVar1 = uVar2 + 0x20, 0x5a < uVar2)) {
+          uVar1 = uVar2;
+        }
+        uVar2 = *param_2;
+        if ((0x40 < uVar2) && (uVar2 < 0x5b)) {
+          uVar2 = uVar2 + 0x20;
+        }
+        param_1 = param_1 + 1;
+        param_2 = param_2 + 1;
+        param_3 = param_3 + -1;
+      } while (((param_3 != 0) && (uVar1 != 0)) && (uVar1 == uVar2));
+    }
+    else {
+      do {
+        uVar1 = FUN_002ff361(*param_1);
+        param_1 = param_1 + 1;
+        uVar2 = FUN_002ff361(*param_2);
+        param_2 = param_2 + 1;
+        param_3 = param_3 + -1;
+        if ((param_3 == 0) || (uVar1 == 0)) break;
+      } while (uVar1 == uVar2);
+    }
+    iVar3 = (uint)uVar1 - (uint)uVar2;
+  }
+  return iVar3;
+}

@@ -1,0 +1,41 @@
+/* Brute Force original Xbox - independent, unverified C11 draft.
+ * Input x86 body SHA-256: A319D00E1C9A80B490D381243024003B716D90FEE5E2858E2C7BBF3B9A97ECD7
+ * Entry: 0x0031b1cd, Ghidra index: 12291, label: FUN_0031b1cd
+ * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
+ * may be inaccurate. C syntax validity never proves original runtime behavior.
+ */
+#include "bf_ghidra_types.h"
+/* TODO: Ghidra data labels have unresolved type and storage identities.
+ * These declarations only allow syntax analysis; they are NOT verified types. */
+extern uint32_t DAT_0032ffe8;
+extern uint32_t _DAT_fe8020d4;
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_0031b1cd(int param_1,int param_2,int *param_3)
+
+{
+  undefined4 uVar1;
+  int iVar2;
+  int *in_ECX;
+  undefined4 *puVar3;
+  undefined4 *puVar4;
+  
+  iVar2 = *in_ECX - in_ECX[1];
+  in_ECX[1] = in_ECX[1] - param_2;
+  if (param_2 != 0) {
+    puVar3 = (undefined4 *)(DAT_0032ffe8 + iVar2 * 8);
+    puVar4 = (undefined4 *)(param_1 + 4);
+    do {
+      uVar1 = *puVar4;
+      puVar3[1] = 0;
+      *puVar3 = uVar1;
+      puVar3 = puVar3 + 2;
+      puVar4 = puVar4 + 4;
+      param_2 = param_2 + -1;
+    } while (param_2 != 0);
+  }
+  _DAT_fe8020d4 = *in_ECX - in_ECX[1];
+  *param_3 = iVar2 * 0x1000;
+  return;
+}

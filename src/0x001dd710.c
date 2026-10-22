@@ -1,0 +1,29 @@
+/* Brute Force original Xbox - independent, unverified C11 draft.
+ * Input x86 body SHA-256: AD70D72740A1AEC2DEB7F8FB24A97A2F43A24BD15EC064CB35878FB839CE69FE
+ * Entry: 0x001dd710, Ghidra index: 6631, label: FUN_001dd710
+ * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
+ * may be inaccurate. C syntax validity never proves original runtime behavior.
+ */
+#include "bf_ghidra_types.h"
+int FUN_001dd710(int param_1,int param_2,int param_3)
+
+{
+  undefined4 *unaff_FS_OFFSET;
+  undefined4 local_10;
+  undefined1 *puStack_c;
+  undefined4 local_8;
+  
+  puStack_c = &LAB_003091d0;
+  local_10 = *unaff_FS_OFFSET;
+  *unaff_FS_OFFSET = &local_10;
+  local_8 = 0;
+  for (; param_1 != param_2; param_1 = param_1 + 0xac) {
+    if (param_3 != 0) {
+      FUN_001c9470();
+    }
+    param_3 = param_3 + 0xac;
+  }
+  *unaff_FS_OFFSET = local_10;
+  return param_3;
+}

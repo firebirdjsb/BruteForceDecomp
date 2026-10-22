@@ -1,0 +1,40 @@
+/* Brute Force original Xbox - independent, unverified C11 draft.
+ * Input x86 body SHA-256: 01E3204544B494586C9E62D948F1A977FFF2C612C5AEB1E6023B38BE72B97E86
+ * Entry: 0x0023ba50, Ghidra index: 7916, label: FUN_0023ba50
+ * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
+ * may be inaccurate. C syntax validity never proves original runtime behavior.
+ */
+#include "bf_ghidra_types.h"
+/* TODO: Ghidra data labels have unresolved type and storage identities.
+ * These declarations only allow syntax analysis; they are NOT verified types. */
+extern uint32_t PTR_FUN_00394088;
+extern uint32_t PTR_LAB_0039406c;
+extern uint32_t PTR_LAB_003940c0;
+void FUN_0023ba50(void)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  undefined4 uVar3;
+  int unaff_EBX;
+  undefined4 *unaff_ESI;
+  
+  *unaff_ESI = &PTR_FUN_00394088;
+  uVar3 = FUN_0023bce0(unaff_ESI + 1);
+  unaff_ESI[2] = uVar3;
+  unaff_ESI[3] = 0;
+  *unaff_ESI = &PTR_LAB_003940c0;
+  puVar1 = unaff_ESI + 5;
+  *puVar1 = &PTR_LAB_0039406c;
+  unaff_ESI[6] = 1;
+  unaff_ESI[7] = unaff_ESI;
+  iVar2 = *(int *)(unaff_EBX + 8);
+  unaff_ESI[4] = iVar2;
+  if (iVar2 == 0) {
+    unaff_ESI[4] = puVar1;
+    return;
+  }
+  **(int **)(unaff_EBX + 0xc) = (int)puVar1;
+  return;
+}

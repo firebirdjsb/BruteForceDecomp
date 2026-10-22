@@ -1,0 +1,39 @@
+/* Brute Force original Xbox - independent, unverified C11 draft.
+ * Input x86 body SHA-256: BA6F260E080900130F2ADEB2D720C6FC1A33F176A00CF7619FC8A55A4A2E8955
+ * Entry: 0x0024f250, Ghidra index: 8315, label: FUN_0024f250
+ * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
+ * may be inaccurate. C syntax validity never proves original runtime behavior.
+ */
+#include "bf_ghidra_types.h"
+void FUN_0024f250(float *param_1)
+
+{
+  int *piVar1;
+  int *piVar2;
+  int *piVar3;
+  int unaff_EDI;
+  
+  piVar1 = *(int **)(unaff_EDI + 4);
+  if (piVar1 == (int *)0x0) {
+    piVar3 = (int *)0x0;
+  }
+  else {
+    piVar3 = (int *)*piVar1;
+  }
+  do {
+    while( true ) {
+      piVar2 = piVar3;
+      if (piVar2 == piVar1) {
+        return;
+      }
+      if ((float)piVar2[2] == *param_1) break;
+      piVar3 = (int *)*piVar2;
+    }
+    piVar3 = (int *)*piVar2;
+  } while (piVar2 == *(int **)(unaff_EDI + 4));
+  *(int *)piVar2[1] = *piVar2;
+  *(int *)(*piVar2 + 4) = piVar2[1];
+                    /* WARNING: Subroutine does not return */
+  thunk_FUN_00237ec0(piVar2);
+}

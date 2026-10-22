@@ -1,0 +1,811 @@
+/* The original 32-bit x86 ABI is not established by this C11 translation. */
+#include <stdint.h>
+#include "bf_external_symbols.h"
+#include <limits.h>
+#include <stddef.h>
+#include <stdbool.h>
+#include <string.h>
+#include <math.h>
+#if defined(__SSE__) || defined(__x86_64__)
+#include <xmmintrin.h>
+#include <emmintrin.h>
+#endif
+#ifndef __fastcall
+#define __fastcall /* TODO: Calling convention unresolved */
+#endif
+#ifndef __thiscall
+#define __thiscall /* TODO: Calling convention unresolved */
+#endif
+/* TODO: Ghidra float10 is x87 extended precision; target ABI unverified. */
+typedef long double float10;
+static inline int32_t BF_u32_to_i32(uint32_t n){int32_t o;memcpy(&o,&n,4);return o;}
+static inline uint32_t BF_i32_to_u32(int32_t n){uint32_t o;memcpy(&o,&n,4);return o;}
+static inline float BF_u32_to_float(uint32_t n){float o;memcpy(&o,&n,4);return o;}
+static inline uint32_t BF_float_to_u32(float n){uint32_t o;memcpy(&o,&n,4);return o;}
+static inline int32_t BF_float_to_i32(float n){uint32_t b=BF_float_to_u32(n);return BF_u32_to_i32(b);}
+#define BF_BITS_TO_I32(x) _Generic((x), float:BF_float_to_i32, default:BF_u32_to_i32)((x))
+#define BF_BITS_TO_U32(x) _Generic((x), float:BF_float_to_u32, default:BF_i32_to_u32)((x))
+#define BF_BITS_TO_F32(x) BF_u32_to_float((uint32_t)(uintptr_t)(x))
+
+// Brute Force: 0x00012b40 | Ghidra label FUN_00012b40
+// Ghidra function-body SHA-256: 6384DC072D6DF539A6480919851D722CE8F3F9381E45D7F3AA9D2305404BC563
+// HUMAN REVIEW REQUIRED. Not compiled, tested or byte-equivalent.
+
+// DRAFT: not validated against the original executable.
+// Function index: 39; entry: 0x00012b40.
+// Recorded body SHA256:
+// 6384DC072D6DF539A6480919851D722CE8F3F9381E45D7F3AA9D2305404BC563
+#include <stdint.h>
+
+void /* TODO: The unaff_EBX parameter(s) explicitly MODEL incoming register/FS or post-call values.
+   They are NOT established original stack parameters or ABI declarations. */
+FUN_00012b40(uint32_t * unaff_EBX)
+{
+    typedef uint32_t u32;
+    typedef int32_t s32;
+
+    /* TODO: original x86 is 32-bit; host pointer width need not be 32-bit. */
+    #if UINTPTR_MAX == UINT32_MAX
+    _Static_assert(sizeof(int) == 4, "This draft assumes 32-bit int arithmetic.");
+#endif
+
+    // TODO: Supply an ABI-specific binding named unaff_EBX, of type u32*,
+    // representing the incoming EBX value. Ghidra provides no initialization
+    // or ordinary parameter for it. The void(void) prototype is unverified.
+    //
+    // TODO: Supply declarations and original address bindings for all referenced
+    // PTR_FUN_*, LAB_*, DAT_* and FUN_* symbols. Their types, calling conventions,
+    // hidden register inputs, and stack arguments are not established here.
+    // Taking a symbol's address below does not establish that it is callable.
+    //
+    // TODO: Confirm signed address arithmetic and unsigned-to-signed conversions
+    // against the instructions. This transcription retains Ghidra's signed
+    // iVar2 and mixed signed/unsigned expressions; ISO C++ signed overflow is
+    // undefined and is not a portable model of wrapping x86 arithmetic.
+
+    u32* puVar1;
+    s32 iVar2;
+    u32* puVar3;
+    u32 auStack_8c[15];
+    u32 uStack_50;
+
+    // u32 indexing advances by four bytes: indices 3, 4, 5, and 1 correspond
+    // to byte offsets +0x0c, +0x10, +0x14, and +0x04.
+    *unaff_EBX = ((u32)(&PTR_FUN_003a4050));
+    unaff_EBX[3] = 0;
+    unaff_EBX[4] = 0;
+    unaff_EBX[5] = 0;
+    unaff_EBX[1] = 0;
+
+    // TODO: These stack writes resemble return-address artifacts. Their actual
+    // stack placement and relationship to the calls require instruction review.
+    uStack_50 = 0x12b69;
+    FUN_0001b910();
+    uStack_50 = 0x12b72;
+    puVar1 = (u32*)FUN_00012af0();
+
+    puVar3 = auStack_8c;
+    // TODO: Ghidra declares 15 four-byte elements but copies 16 (0x40 bytes).
+    // The final write is outside this C++ array. The named stack offsets suggest
+    // a relationship to uStack_50, but separate C++ locals cannot reproduce it.
+    // Preserve the discrepancy pending stack-layout and call-ABI reconstruction.
+    for (iVar2 = 0x10; iVar2 != 0; iVar2 = iVar2 + -1) {
+        *puVar3 = *puVar1;
+        puVar1 = puVar1 + 1;
+        puVar3 = puVar3 + 1;
+    }
+
+    // TODO: The copied stack words may participate in an unrecognized calling
+    // convention. No explicit arguments are shown in the supplied pseudocode.
+    FUN_0001c250();
+
+    iVar2 = 0;
+    do {
+        // Offsets are bytes; each indexed store below writes four bytes.
+        // Reload unaff_EBX[3] at every address calculation, as shown by Ghidra.
+        puVar1 = ((u32*)(iVar2 + 0x20 + unaff_EBX[3]));
+        *puVar1 = ((u32)(&LAB_0001dfc0));
+        puVar1[1] = 0;
+        puVar1[2] = 0;
+        puVar1[3] = 0;
+
+        puVar1 = ((u32*)(iVar2 + 0x30 + unaff_EBX[3]));
+        *puVar1 = ((u32)(&LAB_0001e330));
+        puVar1[1] = 0;
+        puVar1[2] = 0;
+        puVar1[3] = 0;
+
+        puVar1 = ((u32*)(unaff_EBX[3] + iVar2));
+        *puVar1 = ((u32)(&LAB_0001f4a0));
+        puVar1[1] = 0;
+        puVar1[2] = 0;
+        puVar1[3] = 0;
+
+        puVar1 = ((u32*)(iVar2 + 0x10 + unaff_EBX[3]));
+        *puVar1 = ((u32)(&DAT_0001dc50));
+        puVar1[1] = 0;
+        iVar2 = iVar2 + 0x40;
+        puVar1[2] = 0;
+        puVar1[3] = 0;
+    } while (iVar2 < 0x21c0);
+
+    // This textual macro keeps the following repeated stores readable without
+    // introducing a helper function, loop, cached base, or inferred structure.
+    // Each expansion reloads the unsigned four-byte word at unaff_EBX + 0x0c
+    // into signed iVar2, then writes four consecutive four-byte words:
+    // the supplied address/value at byte offset o, followed by zero at
+    // o+4, o+8, and o+12. All offsets below are signed int constants.
+    // Decimal offsets in the evidence are expressed as equal hexadecimal values.
+    //
+    // The C-style cast accepts either an unresolved symbol address or the two
+    // explicit integer values. It models a four-byte stored value only.
+    // TODO: Resolve the actual pointer/object types and aliasing requirements.
+#define FUN_00012b40_STORE4(o, value)                              \
+    iVar2 = ((s32)(unaff_EBX[3]));                        \
+    *((u32*)(iVar2 + (o))) = (u32)(value);           \
+    *((u32*)(iVar2 + ((o) + 4))) = 0;                \
+    *((u32*)(iVar2 + ((o) + 8))) = 0;                \
+    *((u32*)(iVar2 + ((o) + 12))) = 0
+
+    FUN_00012b40_STORE4(0x0060, &LAB_0001edb0);
+    FUN_00012b40_STORE4(0x0070, &LAB_0001f130);
+    FUN_00012b40_STORE4(0x0040, &LAB_0001e6b0);
+    FUN_00012b40_STORE4(0x0050, &LAB_0001ea30);
+
+    FUN_00012b40_STORE4(0x00a0, &LAB_0001dfb0);
+    FUN_00012b40_STORE4(0x00b0, &LAB_0001e320);
+    FUN_00012b40_STORE4(0x0080, &LAB_0001f490);
+    FUN_00012b40_STORE4(0x0090, &LAB_0001dc40);
+
+    FUN_00012b40_STORE4(0x00e0, &LAB_0001eda0);
+    FUN_00012b40_STORE4(0x00f0, &LAB_0001f120);
+    FUN_00012b40_STORE4(0x00c0, &LAB_0001e6a0);
+    FUN_00012b40_STORE4(0x00d0, &LAB_0001ea20);
+
+    FUN_00012b40_STORE4(0x0120, &LAB_0001dfa0);
+    FUN_00012b40_STORE4(0x0130, &LAB_0001e310);
+    FUN_00012b40_STORE4(0x0100, &LAB_0001f480);
+    FUN_00012b40_STORE4(0x0110, &LAB_0001dc30);
+
+    FUN_00012b40_STORE4(0x0160, &LAB_0001ed90);
+    FUN_00012b40_STORE4(0x0170, &LAB_0001f110);
+    FUN_00012b40_STORE4(0x0140, &LAB_0001e690);
+    FUN_00012b40_STORE4(0x0150, &LAB_0001ea10);
+
+    FUN_00012b40_STORE4(0x01a0, &LAB_0001df90);
+    FUN_00012b40_STORE4(0x01b0, &LAB_0001e300);
+    FUN_00012b40_STORE4(0x0180, &LAB_0001f470);
+    FUN_00012b40_STORE4(0x0190, &LAB_0001dc20);
+
+    FUN_00012b40_STORE4(0x01e0, &LAB_0001ed80);
+    FUN_00012b40_STORE4(0x01f0, &LAB_0001f100);
+    FUN_00012b40_STORE4(0x01c0, &LAB_0001e680);
+    FUN_00012b40_STORE4(0x01d0, &LAB_0001ea00);
+
+    FUN_00012b40_STORE4(0x0220, &LAB_0001df80);
+    FUN_00012b40_STORE4(0x0230, &LAB_0001e2f0);
+    FUN_00012b40_STORE4(0x0200, &LAB_0001f460);
+    FUN_00012b40_STORE4(0x0210, &LAB_0001dc10);
+
+    FUN_00012b40_STORE4(0x0260, &LAB_0001ed70);
+    FUN_00012b40_STORE4(0x0270, &LAB_0001f0f0);
+    FUN_00012b40_STORE4(0x0240, &LAB_0001e670);
+    FUN_00012b40_STORE4(0x0250, &LAB_0001e9f0);
+
+    FUN_00012b40_STORE4(0x02a0, &LAB_0001df70);
+    FUN_00012b40_STORE4(0x02b0, &LAB_0001e2e0);
+    FUN_00012b40_STORE4(0x0280, &LAB_0001f450);
+    FUN_00012b40_STORE4(0x0290, &LAB_0001dc00);
+
+    FUN_00012b40_STORE4(0x03a0, &LAB_0001ed60);
+    FUN_00012b40_STORE4(0x03b0, &LAB_0001f0e0);
+    FUN_00012b40_STORE4(0x0380, &LAB_0001e660);
+    FUN_00012b40_STORE4(0x0390, &LAB_0001e9e0);
+
+    FUN_00012b40_STORE4(0x03e0, &LAB_0001df60);
+    FUN_00012b40_STORE4(0x03f0, &LAB_0001e2d0);
+    FUN_00012b40_STORE4(0x03c0, &LAB_0001f440);
+    FUN_00012b40_STORE4(0x03d0, &LAB_0001dbf0);
+
+    FUN_00012b40_STORE4(0x02e0, &LAB_0001ed50);
+    FUN_00012b40_STORE4(0x02f0, &LAB_0001f0d0);
+    FUN_00012b40_STORE4(0x02c0, &LAB_0001e650);
+    FUN_00012b40_STORE4(0x02d0, &LAB_0001e9d0);
+
+    FUN_00012b40_STORE4(0x0320, &LAB_0001df50);
+    FUN_00012b40_STORE4(0x0330, &LAB_0001e2c0);
+    FUN_00012b40_STORE4(0x0300, &LAB_0001f430);
+    FUN_00012b40_STORE4(0x0310, &LAB_0001dbe0);
+
+    FUN_00012b40_STORE4(0x0360, &LAB_0001ed40);
+    FUN_00012b40_STORE4(0x0370, &LAB_0001f0c0);
+    FUN_00012b40_STORE4(0x0340, &LAB_0001e640);
+    FUN_00012b40_STORE4(0x0350, &LAB_0001e9c0);
+
+    FUN_00012b40_STORE4(0x0420, &LAB_0001df40);
+    FUN_00012b40_STORE4(0x0430, &LAB_0001e2b0);
+    FUN_00012b40_STORE4(0x0400, &LAB_0001f420);
+    FUN_00012b40_STORE4(0x0410, &LAB_0001dbd0);
+
+    FUN_00012b40_STORE4(0x0460, &LAB_0001ed30);
+    FUN_00012b40_STORE4(0x0470, &LAB_0001f0b0);
+    FUN_00012b40_STORE4(0x0440, &LAB_0001e630);
+    FUN_00012b40_STORE4(0x0450, &LAB_0001e9b0);
+
+    FUN_00012b40_STORE4(0x04a0, &LAB_0001df30);
+    FUN_00012b40_STORE4(0x04b0, &LAB_0001e2a0);
+    FUN_00012b40_STORE4(0x0480, &LAB_0001f410);
+    FUN_00012b40_STORE4(0x0490, &LAB_0001dbc0);
+
+    FUN_00012b40_STORE4(0x04e0, &LAB_0001ed20);
+    FUN_00012b40_STORE4(0x04f0, &LAB_0001f0a0);
+    FUN_00012b40_STORE4(0x04c0, &LAB_0001e620);
+    FUN_00012b40_STORE4(0x04d0, &LAB_0001e9a0);
+
+    FUN_00012b40_STORE4(0x0520, &LAB_0001df20);
+    FUN_00012b40_STORE4(0x0530, &LAB_0001e290);
+    FUN_00012b40_STORE4(0x0500, &LAB_0001f400);
+    FUN_00012b40_STORE4(0x0510, &LAB_0001dbb0);
+
+    FUN_00012b40_STORE4(0x0560, &LAB_0001ed10);
+    FUN_00012b40_STORE4(0x0570, &LAB_0001f090);
+    FUN_00012b40_STORE4(0x0540, &LAB_0001e610);
+    FUN_00012b40_STORE4(0x0550, &LAB_0001e990);
+
+    FUN_00012b40_STORE4(0x05a0, &LAB_0001df10);
+    FUN_00012b40_STORE4(0x05b0, &LAB_0001e280);
+    FUN_00012b40_STORE4(0x0580, &LAB_0001f3f0);
+    FUN_00012b40_STORE4(0x0590, &LAB_0001dba0);
+
+    FUN_00012b40_STORE4(0x05e0, &LAB_0001ed00);
+    FUN_00012b40_STORE4(0x05f0, &LAB_0001f080);
+    FUN_00012b40_STORE4(0x05c0, &LAB_0001e600);
+    FUN_00012b40_STORE4(0x05d0, &LAB_0001e980);
+
+    FUN_00012b40_STORE4(0x0620, &LAB_0001df00);
+    FUN_00012b40_STORE4(0x0630, &LAB_0001e270);
+    FUN_00012b40_STORE4(0x0600, &LAB_0001f3e0);
+    FUN_00012b40_STORE4(0x0610, &LAB_0001db90);
+
+    FUN_00012b40_STORE4(0x0660, &LAB_0001ecf0);
+    FUN_00012b40_STORE4(0x0670, &LAB_0001f070);
+    FUN_00012b40_STORE4(0x0640, &LAB_0001e5f0);
+    FUN_00012b40_STORE4(0x0650, &LAB_0001e970);
+
+    FUN_00012b40_STORE4(0x06a0, &LAB_0001def0);
+    FUN_00012b40_STORE4(0x06b0, &LAB_0001e260);
+    FUN_00012b40_STORE4(0x0680, &LAB_0001f3d0);
+    FUN_00012b40_STORE4(0x0690, &LAB_0001db80);
+
+    FUN_00012b40_STORE4(0x06e0, &LAB_0001ece0);
+    FUN_00012b40_STORE4(0x06f0, &LAB_0001f060);
+    FUN_00012b40_STORE4(0x06c0, &LAB_0001e5e0);
+    FUN_00012b40_STORE4(0x06d0, &LAB_0001e960);
+
+    FUN_00012b40_STORE4(0x0720, &LAB_0001dee0);
+    FUN_00012b40_STORE4(0x0730, &LAB_0001e250);
+    FUN_00012b40_STORE4(0x0700, &LAB_0001f3c0);
+    FUN_00012b40_STORE4(0x0710, &LAB_0001db70);
+
+    FUN_00012b40_STORE4(0x0760, &LAB_0001ecd0);
+    FUN_00012b40_STORE4(0x0770, &LAB_0001f050);
+    FUN_00012b40_STORE4(0x0740, &LAB_0001e5d0);
+    FUN_00012b40_STORE4(0x0750, &LAB_0001e950);
+
+    FUN_00012b40_STORE4(0x07a0, &LAB_0001ded0);
+    FUN_00012b40_STORE4(0x07b0, &LAB_0001e240);
+    FUN_00012b40_STORE4(0x0780, &LAB_0001f3b0);
+    FUN_00012b40_STORE4(0x0790, &LAB_0001db60);
+
+    FUN_00012b40_STORE4(0x07e0, &LAB_0001ecc0);
+    FUN_00012b40_STORE4(0x07f0, &LAB_0001f040);
+    FUN_00012b40_STORE4(0x07c0, &LAB_0001e5c0);
+    FUN_00012b40_STORE4(0x07d0, &LAB_0001e940);
+
+    FUN_00012b40_STORE4(0x0820, &LAB_0001dec0);
+    FUN_00012b40_STORE4(0x0830, &LAB_0001e230);
+    FUN_00012b40_STORE4(0x0800, &LAB_0001f3a0);
+    FUN_00012b40_STORE4(0x0810, &LAB_0001db50);
+
+    FUN_00012b40_STORE4(0x0860, &LAB_0001edb0);
+    FUN_00012b40_STORE4(0x0870, &LAB_0001f130);
+    FUN_00012b40_STORE4(0x0840, &LAB_0001e6b0);
+    FUN_00012b40_STORE4(0x0850, &LAB_0001ea30);
+
+    FUN_00012b40_STORE4(0x08a0, &LAB_0001ecb0);
+    FUN_00012b40_STORE4(0x08b0, &LAB_0001f030);
+    FUN_00012b40_STORE4(0x0880, &LAB_0001e5b0);
+    FUN_00012b40_STORE4(0x0890, &LAB_0001e930);
+
+    FUN_00012b40_STORE4(0x08e0, &LAB_0001deb0);
+    FUN_00012b40_STORE4(0x08f0, &LAB_0001e220);
+    FUN_00012b40_STORE4(0x08c0, &LAB_0001f390);
+    FUN_00012b40_STORE4(0x08d0, &LAB_0001db40);
+
+    FUN_00012b40_STORE4(0x0920, &LAB_0001eca0);
+    FUN_00012b40_STORE4(0x0930, &LAB_0001f020);
+    FUN_00012b40_STORE4(0x0900, &LAB_0001e5a0);
+    FUN_00012b40_STORE4(0x0910, &LAB_0001e920);
+
+    // Ghidra uses a data-symbol address here; retain that distinction.
+    FUN_00012b40_STORE4(0x0960, &DAT_0001dea0);
+    FUN_00012b40_STORE4(0x0970, &LAB_0001e210);
+    FUN_00012b40_STORE4(0x0940, &LAB_0001f380);
+    FUN_00012b40_STORE4(0x0950, &LAB_0001db30);
+
+    FUN_00012b40_STORE4(0x09a0, &LAB_0001ec90);
+    FUN_00012b40_STORE4(0x09b0, &LAB_0001f010);
+    FUN_00012b40_STORE4(0x0980, &LAB_0001e590);
+    FUN_00012b40_STORE4(0x0990, &LAB_0001e910);
+
+    FUN_00012b40_STORE4(0x1ae0, &LAB_0001de90);
+    FUN_00012b40_STORE4(0x1af0, &LAB_0001e200);
+    FUN_00012b40_STORE4(0x1ac0, &LAB_0001f370);
+    FUN_00012b40_STORE4(0x1ad0, &LAB_0001db20);
+
+    FUN_00012b40_STORE4(0x09e0, &LAB_0001ec80);
+    // Explicit integer in the evidence; do not infer a pointer or symbol.
+    FUN_00012b40_STORE4(0x09f0, 0x1f000);
+    FUN_00012b40_STORE4(0x09c0, &LAB_0001e580);
+    FUN_00012b40_STORE4(0x09d0, &LAB_0001e900);
+
+    FUN_00012b40_STORE4(0x0a20, &LAB_0001de80);
+    FUN_00012b40_STORE4(0x0a30, &LAB_0001e1f0);
+    FUN_00012b40_STORE4(0x0a00, &LAB_0001f360);
+    FUN_00012b40_STORE4(0x0a10, &LAB_0001db10);
+
+    FUN_00012b40_STORE4(0x0a60, &LAB_0001ec70);
+    FUN_00012b40_STORE4(0x0a70, &LAB_0001eff0);
+    FUN_00012b40_STORE4(0x0a40, &LAB_0001e570);
+    FUN_00012b40_STORE4(0x0a50, &LAB_0001e8f0);
+
+    FUN_00012b40_STORE4(0x0aa0, &LAB_0001de70);
+    FUN_00012b40_STORE4(0x0ab0, &LAB_0001e1e0);
+    FUN_00012b40_STORE4(0x0a80, &LAB_0001f350);
+    FUN_00012b40_STORE4(0x0a90, &LAB_0001db00);
+
+    FUN_00012b40_STORE4(0x0ae0, &LAB_0001ec60);
+    FUN_00012b40_STORE4(0x0af0, &LAB_0001efe0);
+    FUN_00012b40_STORE4(0x0ac0, &LAB_0001e560);
+    FUN_00012b40_STORE4(0x0ad0, &LAB_0001e8e0);
+
+    FUN_00012b40_STORE4(0x0b20, &LAB_0001de60);
+    FUN_00012b40_STORE4(0x0b30, &LAB_0001e1d0);
+    FUN_00012b40_STORE4(0x0b00, &LAB_0001f340);
+    FUN_00012b40_STORE4(0x0b10, &LAB_0001daf0);
+
+    FUN_00012b40_STORE4(0x0b60, &LAB_0001ec50);
+    FUN_00012b40_STORE4(0x0b70, &LAB_0001efd0);
+    FUN_00012b40_STORE4(0x0b40, &LAB_0001e550);
+    FUN_00012b40_STORE4(0x0b50, &LAB_0001e8d0);
+
+    FUN_00012b40_STORE4(0x0ba0, &LAB_0001ec40);
+    FUN_00012b40_STORE4(0x0bb0, &LAB_0001efc0);
+    FUN_00012b40_STORE4(0x0b80, &LAB_0001e540);
+    FUN_00012b40_STORE4(0x0b90, &LAB_0001e8c0);
+
+    FUN_00012b40_STORE4(0x0be0, &LAB_0001de50);
+    FUN_00012b40_STORE4(0x0bf0, &LAB_0001e1c0);
+    FUN_00012b40_STORE4(0x0bc0, &LAB_0001f330);
+    FUN_00012b40_STORE4(0x0bd0, &LAB_0001dae0);
+
+    FUN_00012b40_STORE4(0x0c20, &LAB_0001ec30);
+    FUN_00012b40_STORE4(0x0c30, &LAB_0001efb0);
+    FUN_00012b40_STORE4(0x0c00, &LAB_0001e530);
+    FUN_00012b40_STORE4(0x0c10, &LAB_0001e8b0);
+
+    FUN_00012b40_STORE4(0x0c60, &LAB_0001de40);
+    FUN_00012b40_STORE4(0x0c70, &LAB_0001e1b0);
+    FUN_00012b40_STORE4(0x0c40, &LAB_0001f320);
+    FUN_00012b40_STORE4(0x0c50, &LAB_0001dad0);
+
+    FUN_00012b40_STORE4(0x0ca0, &LAB_0001ec40);
+    FUN_00012b40_STORE4(0x0cb0, &LAB_0001efc0);
+    FUN_00012b40_STORE4(0x0c80, &LAB_0001e540);
+    FUN_00012b40_STORE4(0x0c90, &LAB_0001e8c0);
+
+    FUN_00012b40_STORE4(0x0ce0, &LAB_0001de30);
+    FUN_00012b40_STORE4(0x0cf0, &LAB_0001e1a0);
+    FUN_00012b40_STORE4(0x0cc0, &LAB_0001f310);
+    FUN_00012b40_STORE4(0x0cd0, &LAB_0001dac0);
+
+    FUN_00012b40_STORE4(0x0d20, &LAB_0001ec20);
+    FUN_00012b40_STORE4(0x0d30, &LAB_0001efa0);
+    FUN_00012b40_STORE4(0x0d00, &LAB_0001e520);
+    FUN_00012b40_STORE4(0x0d10, &LAB_0001e8a0);
+
+    FUN_00012b40_STORE4(0x0d60, &LAB_0001de20);
+    FUN_00012b40_STORE4(0x0d70, &LAB_0001e190);
+    FUN_00012b40_STORE4(0x0d40, &LAB_0001f300);
+    FUN_00012b40_STORE4(0x0d50, &LAB_0001dab0);
+
+    FUN_00012b40_STORE4(0x0da0, &LAB_0001ec10);
+    FUN_00012b40_STORE4(0x0db0, &LAB_0001ef90);
+    FUN_00012b40_STORE4(0x0d80, &LAB_0001e510);
+    FUN_00012b40_STORE4(0x0d90, &LAB_0001e890);
+
+    FUN_00012b40_STORE4(0x0de0, &LAB_0001de10);
+    FUN_00012b40_STORE4(0x0df0, &LAB_0001e180);
+    FUN_00012b40_STORE4(0x0dc0, &LAB_0001f2f0);
+    FUN_00012b40_STORE4(0x0dd0, &LAB_0001daa0);
+
+    FUN_00012b40_STORE4(0x0e20, &LAB_0001ec00);
+    FUN_00012b40_STORE4(0x0e30, &LAB_0001ef80);
+    FUN_00012b40_STORE4(0x0e00, &LAB_0001e500);
+    FUN_00012b40_STORE4(0x0e10, &LAB_0001e880);
+
+    FUN_00012b40_STORE4(0x0e60, &LAB_0001de00);
+    FUN_00012b40_STORE4(0x0e70, &LAB_0001e170);
+    FUN_00012b40_STORE4(0x0e40, &LAB_0001f2e0);
+    FUN_00012b40_STORE4(0x0e50, &LAB_0001da90);
+
+    FUN_00012b40_STORE4(0x0ea0, &LAB_0001ddf0);
+    FUN_00012b40_STORE4(0x0eb0, &LAB_0001e160);
+    FUN_00012b40_STORE4(0x0e80, &LAB_0001f2d0);
+    FUN_00012b40_STORE4(0x0e90, &LAB_0001da80);
+
+    FUN_00012b40_STORE4(0x0ee0, &LAB_0001ebf0);
+    FUN_00012b40_STORE4(0x0ef0, &LAB_0001ef70);
+    FUN_00012b40_STORE4(0x0ec0, &LAB_0001e4f0);
+    FUN_00012b40_STORE4(0x0ed0, &LAB_0001e870);
+
+    FUN_00012b40_STORE4(0x0f20, &LAB_0001dde0);
+    FUN_00012b40_STORE4(0x0f30, &LAB_0001e150);
+    FUN_00012b40_STORE4(0x0f00, &LAB_0001f2c0);
+    FUN_00012b40_STORE4(0x0f10, &LAB_0001da70);
+
+    FUN_00012b40_STORE4(0x0f60, &LAB_0001ebe0);
+    FUN_00012b40_STORE4(0x0f70, &LAB_0001ef60);
+    FUN_00012b40_STORE4(0x0f40, &LAB_0001e4e0);
+    FUN_00012b40_STORE4(0x0f50, &LAB_0001e860);
+
+    FUN_00012b40_STORE4(0x0fa0, &LAB_0001ddd0);
+    FUN_00012b40_STORE4(0x0fb0, &LAB_0001e140);
+    FUN_00012b40_STORE4(0x0f80, &LAB_0001f2b0);
+    FUN_00012b40_STORE4(0x0f90, &LAB_0001da60);
+
+    FUN_00012b40_STORE4(0x0fe0, &LAB_0001ebd0);
+    FUN_00012b40_STORE4(0x0ff0, &LAB_0001ef50);
+    FUN_00012b40_STORE4(0x0fc0, &LAB_0001e4d0);
+    FUN_00012b40_STORE4(0x0fd0, &LAB_0001e850);
+
+    FUN_00012b40_STORE4(0x1020, &LAB_0001ebc0);
+    FUN_00012b40_STORE4(0x1030, &LAB_0001ef40);
+    FUN_00012b40_STORE4(0x1000, &LAB_0001e4c0);
+    FUN_00012b40_STORE4(0x1010, &LAB_0001e840);
+
+    FUN_00012b40_STORE4(0x1060, &LAB_0001ddc0);
+    FUN_00012b40_STORE4(0x1070, &LAB_0001e130);
+    FUN_00012b40_STORE4(0x1040, &LAB_0001f2a0);
+    FUN_00012b40_STORE4(0x1050, &LAB_0001da50);
+
+    FUN_00012b40_STORE4(0x10a0, &LAB_0001ebb0);
+    FUN_00012b40_STORE4(0x10b0, &LAB_0001ef30);
+    FUN_00012b40_STORE4(0x1080, &LAB_0001e4b0);
+    FUN_00012b40_STORE4(0x1090, &LAB_0001e830);
+
+    FUN_00012b40_STORE4(0x10e0, &LAB_0001ddb0);
+    FUN_00012b40_STORE4(0x10f0, &LAB_0001e120);
+    FUN_00012b40_STORE4(0x10c0, &LAB_0001f290);
+    FUN_00012b40_STORE4(0x10d0, &LAB_0001da40);
+
+    FUN_00012b40_STORE4(0x1120, &LAB_0001eba0);
+    FUN_00012b40_STORE4(0x1130, &LAB_0001ef20);
+    FUN_00012b40_STORE4(0x1100, &LAB_0001e4a0);
+    FUN_00012b40_STORE4(0x1110, &LAB_0001e820);
+
+    FUN_00012b40_STORE4(0x1160, &LAB_0001dda0);
+    FUN_00012b40_STORE4(0x1170, &LAB_0001e110);
+    FUN_00012b40_STORE4(0x1140, &LAB_0001f280);
+    FUN_00012b40_STORE4(0x1150, &LAB_0001da30);
+
+    FUN_00012b40_STORE4(0x11a0, &LAB_0001eb90);
+    FUN_00012b40_STORE4(0x11b0, &LAB_0001ef10);
+    FUN_00012b40_STORE4(0x1180, &LAB_0001e490);
+    FUN_00012b40_STORE4(0x1190, &LAB_0001e810);
+
+    FUN_00012b40_STORE4(0x11e0, &LAB_0001dd90);
+    FUN_00012b40_STORE4(0x11f0, &LAB_0001e100);
+    FUN_00012b40_STORE4(0x11c0, &LAB_0001f270);
+    FUN_00012b40_STORE4(0x11d0, &LAB_0001da20);
+
+    FUN_00012b40_STORE4(0x1220, &LAB_0001eb80);
+    FUN_00012b40_STORE4(0x1230, &LAB_0001ef00);
+    FUN_00012b40_STORE4(0x1200, &LAB_0001e480);
+    FUN_00012b40_STORE4(0x1210, &LAB_0001e800);
+
+    FUN_00012b40_STORE4(0x1260, &LAB_0001dd80);
+    FUN_00012b40_STORE4(0x1270, &LAB_0001e0f0);
+    FUN_00012b40_STORE4(0x1240, &LAB_0001f260);
+    FUN_00012b40_STORE4(0x1250, &LAB_0001da10);
+
+    FUN_00012b40_STORE4(0x12a0, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x12b0, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1280, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1290, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x12e0, &LAB_0001eb60);
+    FUN_00012b40_STORE4(0x12f0, &LAB_0001eee0);
+    FUN_00012b40_STORE4(0x12c0, &LAB_0001e460);
+    FUN_00012b40_STORE4(0x12d0, &LAB_0001e7e0);
+
+    FUN_00012b40_STORE4(0x1320, &LAB_0001dd70);
+    FUN_00012b40_STORE4(0x1330, &LAB_0001e0e0);
+    FUN_00012b40_STORE4(0x1300, &LAB_0001f250);
+    FUN_00012b40_STORE4(0x1310, &LAB_0001da00);
+
+    FUN_00012b40_STORE4(0x1360, &LAB_0001eb50);
+    FUN_00012b40_STORE4(0x1370, &LAB_0001eed0);
+    FUN_00012b40_STORE4(0x1340, &LAB_0001e450);
+    FUN_00012b40_STORE4(0x1350, &LAB_0001e7d0);
+
+    FUN_00012b40_STORE4(0x13a0, &LAB_0001dd60);
+    FUN_00012b40_STORE4(0x13b0, &LAB_0001e0d0);
+    FUN_00012b40_STORE4(0x1380, &LAB_0001f240);
+    FUN_00012b40_STORE4(0x1390, &LAB_0001d9f0);
+
+    FUN_00012b40_STORE4(0x13e0, &LAB_0001eb40);
+    FUN_00012b40_STORE4(0x13f0, &LAB_0001eec0);
+    FUN_00012b40_STORE4(0x13c0, &LAB_0001e440);
+    FUN_00012b40_STORE4(0x13d0, &LAB_0001e7c0);
+
+    FUN_00012b40_STORE4(0x1420, &LAB_0001dd50);
+    FUN_00012b40_STORE4(0x1430, &LAB_0001e0c0);
+    FUN_00012b40_STORE4(0x1400, &LAB_0001f230);
+    FUN_00012b40_STORE4(0x1410, &LAB_0001d9e0);
+
+    FUN_00012b40_STORE4(0x1460, &LAB_0001eb30);
+    FUN_00012b40_STORE4(0x1470, &LAB_0001eeb0);
+    FUN_00012b40_STORE4(0x1440, &LAB_0001e430);
+    FUN_00012b40_STORE4(0x1450, &LAB_0001e7b0);
+
+    FUN_00012b40_STORE4(0x14a0, &LAB_0001dd40);
+    FUN_00012b40_STORE4(0x14b0, &LAB_0001e0b0);
+    FUN_00012b40_STORE4(0x1480, &LAB_0001f220);
+    FUN_00012b40_STORE4(0x1490, &LAB_0001d9d0);
+
+    FUN_00012b40_STORE4(0x14e0, &LAB_0001eb20);
+    FUN_00012b40_STORE4(0x14f0, &LAB_0001eea0);
+    FUN_00012b40_STORE4(0x14c0, &LAB_0001e420);
+    FUN_00012b40_STORE4(0x14d0, &LAB_0001e7a0);
+
+    FUN_00012b40_STORE4(0x1520, &LAB_0001dd30);
+    FUN_00012b40_STORE4(0x1530, &LAB_0001e0a0);
+    FUN_00012b40_STORE4(0x1500, &LAB_0001f210);
+    FUN_00012b40_STORE4(0x1510, &LAB_0001d9c0);
+
+    FUN_00012b40_STORE4(0x1560, &LAB_0001eb10);
+    FUN_00012b40_STORE4(0x1570, &LAB_0001ee90);
+    FUN_00012b40_STORE4(0x1540, &LAB_0001e410);
+    FUN_00012b40_STORE4(0x1550, &LAB_0001e790);
+
+    FUN_00012b40_STORE4(0x1aa0, &LAB_0001dd20);
+    FUN_00012b40_STORE4(0x1ab0, &LAB_0001e090);
+    FUN_00012b40_STORE4(0x1a80, &LAB_0001f200);
+    FUN_00012b40_STORE4(0x1a90, &LAB_0001d9b0);
+
+    FUN_00012b40_STORE4(0x1b20, &LAB_0001eb00);
+    FUN_00012b40_STORE4(0x1b30, &LAB_0001ee80);
+    FUN_00012b40_STORE4(0x1b00, &LAB_0001e400);
+    FUN_00012b40_STORE4(0x1b10, &LAB_0001e780);
+
+    FUN_00012b40_STORE4(0x15a0, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x15b0, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1580, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1590, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x15e0, &LAB_0001dd10);
+    FUN_00012b40_STORE4(0x15f0, &LAB_0001e080);
+    FUN_00012b40_STORE4(0x15c0, &LAB_0001f1f0);
+    FUN_00012b40_STORE4(0x15d0, &LAB_0001d9a0);
+
+    FUN_00012b40_STORE4(0x1620, &LAB_0001eaf0);
+    FUN_00012b40_STORE4(0x1630, &LAB_0001ee70);
+    FUN_00012b40_STORE4(0x1600, &LAB_0001e3f0);
+    FUN_00012b40_STORE4(0x1610, &LAB_0001e770);
+
+    FUN_00012b40_STORE4(0x1660, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x1670, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1640, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1650, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x16a0, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x16b0, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1680, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1690, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x16e0, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x16f0, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x16c0, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x16d0, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x1720, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x1730, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1700, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1710, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x1760, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x1770, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1740, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1750, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x17a0, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x17b0, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1780, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1790, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x1f20, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x1f30, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1f00, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1f10, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x1f60, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x1f70, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1f40, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1f50, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x1860, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x1870, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1840, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1850, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x18a0, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x18b0, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1880, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1890, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x18e0, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x18f0, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x18c0, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x18d0, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x1920, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x1930, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1900, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1910, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x1960, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x1970, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1940, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1950, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x19a0, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x19b0, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1980, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1990, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x19e0, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x19f0, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x19c0, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x19d0, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x1a20, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x1a30, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1a00, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1a10, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x1a60, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x1a70, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1a40, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1a50, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x1b60, &LAB_0001eb70);
+    FUN_00012b40_STORE4(0x1b70, &LAB_0001eef0);
+    FUN_00012b40_STORE4(0x1b40, &LAB_0001e470);
+    FUN_00012b40_STORE4(0x1b50, &LAB_0001e7f0);
+
+    FUN_00012b40_STORE4(0x1ba0, &LAB_0001dd00);
+    FUN_00012b40_STORE4(0x1bb0, &LAB_0001e070);
+    FUN_00012b40_STORE4(0x1b80, &LAB_0001f1e0);
+    FUN_00012b40_STORE4(0x1b90, &LAB_0001d990);
+
+    FUN_00012b40_STORE4(0x1be0, &LAB_0001eae0);
+    FUN_00012b40_STORE4(0x1bf0, &LAB_0001ee60);
+    FUN_00012b40_STORE4(0x1bc0, &LAB_0001e3e0);
+    FUN_00012b40_STORE4(0x1bd0, &LAB_0001e760);
+
+    FUN_00012b40_STORE4(0x1c20, &LAB_0001dcf0);
+    FUN_00012b40_STORE4(0x1c30, &LAB_0001e060);
+    FUN_00012b40_STORE4(0x1c00, &LAB_0001f1d0);
+    FUN_00012b40_STORE4(0x1c10, &LAB_0001d980);
+
+    FUN_00012b40_STORE4(0x1c60, &LAB_0001ead0);
+    FUN_00012b40_STORE4(0x1c70, &LAB_0001ee50);
+    FUN_00012b40_STORE4(0x1c40, &LAB_0001e3d0);
+    FUN_00012b40_STORE4(0x1c50, &LAB_0001e750);
+
+    FUN_00012b40_STORE4(0x1ca0, &LAB_0001dce0);
+    FUN_00012b40_STORE4(0x1cb0, &LAB_0001e050);
+    FUN_00012b40_STORE4(0x1c80, &LAB_0001f1c0);
+    FUN_00012b40_STORE4(0x1c90, &LAB_0001d970);
+
+    FUN_00012b40_STORE4(0x1ce0, &LAB_0001eac0);
+    FUN_00012b40_STORE4(0x1cf0, &LAB_0001ee40);
+    FUN_00012b40_STORE4(0x1cc0, &LAB_0001e3c0);
+    FUN_00012b40_STORE4(0x1cd0, &LAB_0001e740);
+
+    FUN_00012b40_STORE4(0x1d20, &LAB_0001dcd0);
+    FUN_00012b40_STORE4(0x1d30, &LAB_0001e040);
+    FUN_00012b40_STORE4(0x1d00, &LAB_0001f1b0);
+    FUN_00012b40_STORE4(0x1d10, &LAB_0001d960);
+
+    FUN_00012b40_STORE4(0x1d60, &LAB_0001eab0);
+    FUN_00012b40_STORE4(0x1d70, &LAB_0001ee30);
+    FUN_00012b40_STORE4(0x1d40, &LAB_0001e3b0);
+    FUN_00012b40_STORE4(0x1d50, &LAB_0001e730);
+
+    FUN_00012b40_STORE4(0x1da0, &LAB_0001dcc0);
+    FUN_00012b40_STORE4(0x1db0, &LAB_0001e030);
+    FUN_00012b40_STORE4(0x1d80, &LAB_0001f1a0);
+    FUN_00012b40_STORE4(0x1d90, &LAB_0001d950);
+
+    FUN_00012b40_STORE4(0x1de0, &LAB_0001eaa0);
+    FUN_00012b40_STORE4(0x1df0, &LAB_0001ee20);
+    FUN_00012b40_STORE4(0x1dc0, &LAB_0001e3a0);
+    FUN_00012b40_STORE4(0x1dd0, &LAB_0001e720);
+
+    FUN_00012b40_STORE4(0x1e20, &LAB_0001dcb0);
+    FUN_00012b40_STORE4(0x1e30, &LAB_0001e020);
+    FUN_00012b40_STORE4(0x1e00, &LAB_0001f190);
+    FUN_00012b40_STORE4(0x1e10, &LAB_0001d940);
+
+    FUN_00012b40_STORE4(0x1e60, &LAB_0001ea90);
+    FUN_00012b40_STORE4(0x1e70, &LAB_0001ee10);
+    FUN_00012b40_STORE4(0x1e40, &LAB_0001e390);
+    FUN_00012b40_STORE4(0x1e50, &LAB_0001e710);
+
+    FUN_00012b40_STORE4(0x1ea0, &LAB_0001dca0);
+    FUN_00012b40_STORE4(0x1eb0, &LAB_0001e010);
+    FUN_00012b40_STORE4(0x1e80, &LAB_0001f180);
+    FUN_00012b40_STORE4(0x1e90, &LAB_0001d930);
+
+    FUN_00012b40_STORE4(0x1ee0, &LAB_0001ea80);
+    FUN_00012b40_STORE4(0x1ef0, &LAB_0001ee00);
+    FUN_00012b40_STORE4(0x1ec0, &LAB_0001e380);
+    FUN_00012b40_STORE4(0x1ed0, &LAB_0001e700);
+
+    FUN_00012b40_STORE4(0x1fa0, &LAB_0001dc90);
+    // Explicit integer in the evidence; do not infer a pointer or symbol.
+    FUN_00012b40_STORE4(0x1fb0, 0x1e000);
+    FUN_00012b40_STORE4(0x1f80, &LAB_0001f170);
+    FUN_00012b40_STORE4(0x1f90, &LAB_0001d920);
+
+    FUN_00012b40_STORE4(0x1fe0, &LAB_0001ea70);
+    FUN_00012b40_STORE4(0x1ff0, &LAB_0001edf0);
+    FUN_00012b40_STORE4(0x1fc0, &LAB_0001e370);
+    FUN_00012b40_STORE4(0x1fd0, &LAB_0001e6f0);
+
+    FUN_00012b40_STORE4(0x2020, &LAB_0001dc80);
+    FUN_00012b40_STORE4(0x2030, &LAB_0001dff0);
+    FUN_00012b40_STORE4(0x2000, &LAB_0001f160);
+    FUN_00012b40_STORE4(0x2010, &LAB_0001d910);
+
+    FUN_00012b40_STORE4(0x2060, &LAB_0001ea60);
+    FUN_00012b40_STORE4(0x2070, &LAB_0001ede0);
+    FUN_00012b40_STORE4(0x2040, &LAB_0001e360);
+    FUN_00012b40_STORE4(0x2050, &LAB_0001e6e0);
+
+    FUN_00012b40_STORE4(0x20a0, &LAB_0001dc70);
+    FUN_00012b40_STORE4(0x20b0, &LAB_0001dfe0);
+    FUN_00012b40_STORE4(0x2080, &LAB_0001f150);
+    FUN_00012b40_STORE4(0x2090, &LAB_0001d900);
+
+    FUN_00012b40_STORE4(0x20e0, &LAB_0001ea50);
+    FUN_00012b40_STORE4(0x20f0, &LAB_0001edd0);
+    FUN_00012b40_STORE4(0x20c0, &LAB_0001e350);
+    FUN_00012b40_STORE4(0x20d0, &LAB_0001e6d0);
+
+    FUN_00012b40_STORE4(0x2120, &LAB_0001dc60);
+    FUN_00012b40_STORE4(0x2130, &LAB_0001dfd0);
+    FUN_00012b40_STORE4(0x2100, &LAB_0001f140);
+    FUN_00012b40_STORE4(0x2110, &LAB_0001d8f0);
+
+    FUN_00012b40_STORE4(0x2160, &LAB_0001ea40);
+    FUN_00012b40_STORE4(0x2170, &LAB_0001edc0);
+    FUN_00012b40_STORE4(0x2140, &LAB_0001e340);
+    FUN_00012b40_STORE4(0x2150, &LAB_0001e6c0);
+
+#undef FUN_00012b40_STORE4
+
+    return;
+}

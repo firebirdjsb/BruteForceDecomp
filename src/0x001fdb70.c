@@ -1,0 +1,14 @@
+/* Brute Force original Xbox - independent, unverified C11 draft.
+ * Input x86 body SHA-256: 4B346552E5733AFFC27E072AFDB76A3EE013653BC22FB1D5286BE27A899A858F
+ * Entry: 0x001fdb70, Ghidra index: 7209, label: FUN_001fdb70
+ * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
+ * may be inaccurate. C syntax validity never proves original runtime behavior.
+ */
+#include "bf_ghidra_types.h"
+void FUN_001fdb70(void)
+
+{
+                    /* WARNING: Subroutine does not return */
+  FUN_001fe080();
+}

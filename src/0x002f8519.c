@@ -1,0 +1,13 @@
+/* Brute Force original Xbox - independent, unverified C11 draft.
+ * Input x86 body SHA-256: 4A4D7665A07C98FA3FBCFB6BB98C2B953B89940AC0B4BB47C3F909B23E4A75DA
+ * Entry: 0x002f8519, Ghidra index: 10951, label: XGetAVPack
+ * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
+ * may be inaccurate. C syntax validity never proves original runtime behavior.
+ */
+#include "bf_ghidra_types.h"
+undefined4 XAPILIB__XGetAVPack(void)
+
+{
+  return *(undefined4 *)HalBootSMCVideoMode_exref;
+}

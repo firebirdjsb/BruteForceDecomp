@@ -1,0 +1,26 @@
+/* Brute Force original Xbox - independent, unverified C11 draft.
+ * Input x86 body SHA-256: 32A3DE536FE796B59FC65660C41D37265BBCE4A0181409745B5E60166A032973
+ * Entry: 0x00074d30, Ghidra index: 1336, label: FUN_00074d30
+ * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
+ * may be inaccurate. C syntax validity never proves original runtime behavior.
+ */
+#include "bf_ghidra_types.h"
+void FUN_00074d30(void)
+
+{
+  undefined1 *in_EAX;
+  undefined1 *unaff_EDI;
+  
+  *unaff_EDI = *in_EAX;
+  unaff_EDI[1] = in_EAX[1];
+  unaff_EDI[2] = in_EAX[2];
+  *(undefined4 *)(unaff_EDI + 4) = *(undefined4 *)(in_EAX + 4);
+  *(undefined4 *)(unaff_EDI + 8) = *(undefined4 *)(in_EAX + 8);
+  *(undefined4 *)(unaff_EDI + 0xc) = *(undefined4 *)(in_EAX + 0xc);
+  *(undefined4 *)(unaff_EDI + 0x14) = 0;
+  if (*(int *)(in_EAX + 0x14) != 0) {
+    FUN_0008f6a0(*(int *)(in_EAX + 0x14));
+  }
+  return;
+}

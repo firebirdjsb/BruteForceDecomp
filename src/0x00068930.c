@@ -1,0 +1,30 @@
+/* Brute Force original Xbox - independent, unverified C11 draft.
+ * Input x86 body SHA-256: 5AB7A8E339D1C6A2A9BAB215B2C058F2DA4577559E50B1BAE561BFAB7F15399E
+ * Entry: 0x00068930, Ghidra index: 1153, label: FUN_00068930
+ * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
+ * may be inaccurate. C syntax validity never proves original runtime behavior.
+ */
+#include "bf_ghidra_types.h"
+void FUN_00068930(void)
+
+{
+  int unaff_ESI;
+  
+  if (0xf < *(uint *)(unaff_ESI + 0x28)) {
+                    /* WARNING: Subroutine does not return */
+    thunk_FUN_00237ec0(*(undefined4 *)(unaff_ESI + 0x14));
+  }
+  *(undefined4 *)(unaff_ESI + 0x28) = 0xf;
+  *(undefined4 *)(unaff_ESI + 0x24) = 0;
+  *(undefined1 *)(unaff_ESI + 0x14) = 0;
+  if (*(int *)(unaff_ESI + 4) != 0) {
+    FUN_000762d0();
+                    /* WARNING: Subroutine does not return */
+    thunk_FUN_00237ec0(*(undefined4 *)(unaff_ESI + 4));
+  }
+  *(undefined4 *)(unaff_ESI + 4) = 0;
+  *(undefined4 *)(unaff_ESI + 8) = 0;
+  *(undefined4 *)(unaff_ESI + 0xc) = 0;
+  return;
+}

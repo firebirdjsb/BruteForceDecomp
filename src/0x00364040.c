@@ -1,0 +1,148 @@
+/* Brute Force original Xbox - independent, unverified C11 draft.
+ * Input x86 body SHA-256: EB17FD0352353D4A5BF495D1DB33E94C3D8025AEA8AC4F9D1CEE1C9630613314
+ * Entry: 0x00364040, Ghidra index: 13237, label: FUN_00364040
+ * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
+ * may be inaccurate. C syntax validity never proves original runtime behavior.
+ */
+#include "bf_ghidra_types.h"
+void FUN_00364040(char *param_1,int param_2,undefined4 param_3,undefined4 param_4,char *param_5)
+
+{
+  int iVar1;
+  char local_40;
+  char local_3f;
+  char local_3e;
+  char local_3d;
+  char local_3c;
+  char local_3b;
+  char local_3a;
+  char local_39;
+  char local_38;
+  char local_37;
+  char local_36;
+  char local_35;
+  char local_34;
+  char local_33;
+  char local_32;
+  char local_31;
+  char local_30;
+  char local_2f;
+  char local_2e;
+  char local_2d;
+  char local_2c;
+  char local_2b;
+  char local_2a;
+  char local_29;
+  char local_28;
+  char local_27;
+  char local_26;
+  char local_25;
+  char local_24;
+  char local_23;
+  char local_22;
+  char local_21;
+  char local_20;
+  char local_1f;
+  char local_1e;
+  char local_1d;
+  char local_1c;
+  char local_1b;
+  char local_1a;
+  char local_19;
+  char local_18;
+  char local_17;
+  char local_16;
+  char local_15;
+  char local_14;
+  char local_13;
+  char local_12;
+  char local_11;
+  char local_10;
+  char local_f;
+  char local_e;
+  char local_d;
+  char local_c;
+  char local_b;
+  char local_a;
+  char local_9;
+  char local_8;
+  char local_7;
+  char local_6;
+  char local_5;
+  char local_4;
+  char local_3;
+  char local_2;
+  char local_1;
+  
+  FUN_00363b40(&local_40,param_3,param_4);
+  *param_1 = *param_5 + local_40;
+  param_1[1] = param_5[1] + local_3f;
+  param_1[2] = param_5[2] + local_3c;
+  param_1[3] = param_5[3] + local_3b;
+  param_1[4] = param_5[4] + local_38;
+  param_1[5] = param_5[5] + local_37;
+  param_1[6] = param_5[6] + local_34;
+  param_1[7] = param_5[7] + local_33;
+  param_1[param_2] = param_5[8] + local_3e;
+  param_1[param_2 + 1] = param_5[9] + local_3d;
+  param_1[param_2 + 2] = param_5[10] + local_3a;
+  param_1[param_2 + 3] = param_5[0xb] + local_39;
+  param_1[param_2 + 4] = param_5[0xc] + local_36;
+  param_1[param_2 + 5] = param_5[0xd] + local_35;
+  param_1[param_2 + 6] = param_5[0xe] + local_32;
+  param_1[param_2 + 7] = param_5[0xf] + local_31;
+  param_1 = param_1 + param_2 * 2;
+  *param_1 = param_5[0x10] + local_28;
+  param_1[1] = param_5[0x11] + local_27;
+  param_1[2] = param_5[0x12] + local_14;
+  param_1[3] = param_5[0x13] + local_13;
+  param_1[4] = param_5[0x14] + local_30;
+  param_1[5] = param_5[0x15] + local_2f;
+  param_1[6] = param_5[0x16] + local_2c;
+  param_1[7] = param_5[0x17] + local_2b;
+  param_1[param_2] = param_5[0x18] + local_26;
+  param_1[param_2 + 1] = param_5[0x19] + local_25;
+  param_1[param_2 + 2] = param_5[0x1a] + local_12;
+  param_1[param_2 + 3] = param_5[0x1b] + local_11;
+  param_1[param_2 + 4] = param_5[0x1c] + local_2e;
+  param_1[param_2 + 5] = param_5[0x1d] + local_2d;
+  param_1[param_2 + 6] = param_5[0x1e] + local_2a;
+  param_1[param_2 + 7] = param_5[0x1f] + local_29;
+  param_1 = param_1 + param_2 * 2;
+  *param_1 = param_5[0x20] + local_24;
+  param_1[1] = param_5[0x21] + local_23;
+  param_1[2] = param_5[0x22] + local_20;
+  param_1[3] = param_5[0x23] + local_1f;
+  param_1[4] = param_5[0x24] + local_10;
+  param_1[5] = param_5[0x25] + local_f;
+  param_1[6] = param_5[0x26] + local_c;
+  param_1[7] = param_5[0x27] + local_b;
+  param_1[param_2] = param_5[0x28] + local_22;
+  param_1[param_2 + 1] = param_5[0x29] + local_21;
+  param_1[param_2 + 2] = param_5[0x2a] + local_1e;
+  param_1[param_2 + 3] = param_5[0x2b] + local_1d;
+  param_1[param_2 + 4] = param_5[0x2c] + local_e;
+  param_1[param_2 + 5] = param_5[0x2d] + local_d;
+  param_1[param_2 + 6] = param_5[0x2e] + local_a;
+  param_1[param_2 + 7] = param_5[0x2f] + local_9;
+  param_1[param_2 * 2] = param_5[0x30] + local_1c;
+  iVar1 = param_2 * 2;
+  param_1[iVar1 + 1] = param_5[0x31] + local_1b;
+  param_1[iVar1 + 2] = param_5[0x32] + local_18;
+  param_1[iVar1 + 3] = param_5[0x33] + local_17;
+  param_1[iVar1 + 4] = param_5[0x34] + local_8;
+  param_1[iVar1 + 5] = param_5[0x35] + local_7;
+  param_1[iVar1 + 6] = param_5[0x36] + local_4;
+  param_1[iVar1 + 7] = param_5[0x37] + local_3;
+  param_1[param_2 * 3] = param_5[0x38] + local_1a;
+  param_2 = param_2 * 3;
+  param_1[param_2 + 1] = param_5[0x39] + local_19;
+  param_1[param_2 + 2] = param_5[0x3a] + local_16;
+  param_1[param_2 + 3] = param_5[0x3b] + local_15;
+  param_1[param_2 + 4] = param_5[0x3c] + local_6;
+  param_1[param_2 + 5] = param_5[0x3d] + local_5;
+  param_1[param_2 + 6] = param_5[0x3e] + local_2;
+  param_1[param_2 + 7] = param_5[0x3f] + local_1;
+  return;
+}

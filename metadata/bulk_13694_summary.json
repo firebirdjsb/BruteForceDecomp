@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "ghidra_discovered": 13694,
+  "c11_source_files": 13694,
+  "legacy_c11_sources_retained": 103,
+  "auto_converted_from_ghidra": 13591,
+  "c11_syntax_checked": 13694,
+  "behaviorally_verified": 0,
+  "caveat": "Generated drafts from Ghidra pseudocode. No original ABI or behavioral fidelity proven.",
+  "host_clang_syntax_ok": 11762,
+  "host_clang_syntax_failed": 1932,
+  "abi_verified": 0,
+  "cross_compiler_verified": 0,
+  "last_migration_status": "All functions have C draft files; 1,991 fail syntax-only; C11 drafts are not original reconstructed C source.",
+  "validation_scope": "Incremental: recompiled all 73 touched NAN(x) files, plus 0x12000. Unmodified prior file statuses carried forward.",
+  "original_ghidra_memory_hashes_verified": 13694,
+  "original_sha256_verified": true,
+  "known_safe_repairs": {
+    "functions_changed": 73,
+    "nan_predicate_occurrences": 172,
+    "newly_syntax_passing": 59
+  },
+  "known_corrected_register_stack_model": "0x00012000; XBE original x86 instruction evidence; ABI model still unverified"
+}

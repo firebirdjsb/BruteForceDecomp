@@ -1,0 +1,27 @@
+/* Brute Force original Xbox - independent, unverified C11 draft.
+ * Input x86 body SHA-256: 08122B770D85B67068A555D01F2EF80FCB9010284F47E3AC3A3A3A9FC7636FD1
+ * Entry: 0x002e3070, Ghidra index: 10388, label: FUN_002e3070
+ * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
+ * may be inaccurate. C syntax validity never proves original runtime behavior.
+ */
+#include "bf_ghidra_types.h"
+uint FUN_002e3070(undefined4 param_1)
+
+{
+  int iVar1;
+  uint uVar2;
+  undefined4 *in_ECX;
+  
+  iVar1 = FUN_003450b4(*in_ECX,param_1,0x10);
+  if (iVar1 == 0) {
+    return 0;
+  }
+  iVar1 = XAPILIB__GetLastError();
+  if (iVar1 < 1) {
+    uVar2 = XAPILIB__GetLastError();
+    return uVar2;
+  }
+  uVar2 = XAPILIB__GetLastError();
+  return uVar2 & 0xffff | 0x80070000;
+}
