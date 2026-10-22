@@ -11,6 +11,7 @@ on:
       - "src/0x0033df31.c"
       - "src/0x0037a3e0.c"
       - "src/0x00349413.c"
+      - "src/0x00347fe3.c"
       - "src/0x00349366.c"
       - "include/bf_format_x86.h"
       - "include/bf_xnet_record_x86.h"
@@ -20,6 +21,7 @@ on:
       - "tests/test_double_format.c"
       - "tests/test_xnet_context.c"
       - "tests/test_xnet_record.c"
+      - "tests/test_xnet_record_header.c"
       - "analysis/bf_6a610_call_preparation.c"
       - "analysis/bf_6a610_call_preparation.h"
       - "tests/test_6a610_call_preparation.c"
@@ -47,7 +49,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          sources=(src/0x002eb322.c src/0x002ebce0.c src/0x002eaa19.c src/0x002eaefa.c src/0x002ff500.c src/0x0033df31.c src/0x0037a3e0.c src/0x00349413.c src/0x00349366.c)
+          sources=(src/0x002eb322.c src/0x002ebce0.c src/0x002eaa19.c src/0x002eaefa.c src/0x002ff500.c src/0x0033df31.c src/0x0037a3e0.c src/0x00349413.c src/0x00349366.c src/0x00347fe3.c)
           clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsyntax-only "${sources[@]}"
           clang -target i386-pc-windows-msvc -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsyntax-only "${sources[@]}"
       - name: Three-function formatting integration with mocked dependencies
@@ -94,6 +96,15 @@ jobs:
           clang -target i386-pc-windows-msvc -std=c11 -pedantic-errors -Wall -Wextra -Werror -Ianalysis -fsyntax-only analysis/bf_6a610_call_preparation.c
           clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Ianalysis analysis/bf_6a610_call_preparation.c tests/test_6a610_call_preparation.c -o /tmp/test_6a610_prep
           /tmp/test_6a610_prep
+      - name: ECX record header writer — isolated strict C11 and host mock
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude \
+            src/0x00347fe3.c tests/test_xnet_record_header.c -o /tmp/test_xnet_header
+          /tmp/test_xnet_header
+          clang -target i386-pc-windows-msvc -std=c11 -pedantic-errors \
+            -Wall -Wextra -Werror -Iinclude -fsyntax-only src/0x00347fe3.c
       - name: Check 32-bit x86 stack cleanup opcode in tagged record wrapper
         shell: bash
         run: |
