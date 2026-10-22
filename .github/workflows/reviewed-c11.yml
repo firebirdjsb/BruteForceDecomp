@@ -1,0 +1,64 @@
+name: Reviewed C11 ABI models
+
+on:
+  push:
+    paths:
+      - "src/0x002eb322.c"
+      - "src/0x002ff500.c"
+      - "src/0x0033df31.c"
+      - "src/0x0037a3e0.c"
+      - "src/0x00349413.c"
+      - "include/bf_format_x86.h"
+      - "tests/test_format_callee.c"
+      - "tests/test_double_format.c"
+      - "tests/test_xnet_context.c"
+      - ".github/workflows/reviewed-c11.yml"
+  pull_request:
+    paths:
+      - "src/0x002eb322.c"
+      - "src/0x002ff500.c"
+      - "src/0x0033df31.c"
+      - "src/0x0037a3e0.c"
+      - "src/0x00349413.c"
+      - "include/bf_format_x86.h"
+      - "tests/**"
+      - ".github/workflows/reviewed-c11.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  reviewed-c11:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Host and Windows-x86 C11 syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          sources=(src/0x002eb322.c src/0x002ff500.c src/0x0033df31.c src/0x0037a3e0.c src/0x00349413.c)
+          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsyntax-only "${sources[@]}"
+          clang -target i386-pc-windows-msvc -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsyntax-only "${sources[@]}"
+      - name: Three-function formatting integration with mocked dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsanitize=address,undefined             src/0x002eb322.c src/0x0033df31.c src/0x0037a3e0.c tests/test_format_callee.c             -o /tmp/test_format_callee
+          /tmp/test_format_callee
+      - name: Additional independently mocked wrapper checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude             src/0x002ff500.c tests/test_double_format.c -o /tmp/test_double_format
+          /tmp/test_double_format
+          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror             src/0x00349413.c tests/test_xnet_context.c -o /tmp/test_xnet_context
+          /tmp/test_xnet_context
+      - name: Check 32-bit x86 stack cleanup opcode in tagged record wrapper
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -target i386-pc-windows-msvc -O1 -S -masm=intel src/0x00349413.c -o /tmp/xnet-context.s
+          grep -Eiq 'ret[[:space:]]+8' /tmp/xnet-context.s
+
+# All tests above use mocks / isolated compilation.
+# Success does NOT imply original Xbox ABI, game runtime, or byte equivalence.
