@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbe_data_label_00404598.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern char s___100s__last_token_read_____50s__00404560[];
@@ -18,7 +19,7 @@ void FUN_002958c0(undefined4 param_1)
   
   FUN_002953d0();
   if (*in_EAX == '\0') {
-    in_EAX = s_<eof>_00404598;
+    in_EAX = BF_XBE_DATA_00404598;
   }
   FUN_00295370(s___100s__last_token_read_____50s__00404560,param_1,in_EAX,
                *(undefined4 *)(unaff_EDI + 0x1c),local_50);

@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbe_data_label_00404598.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00469888;
@@ -45,7 +46,7 @@ LAB_00295ed8:
     pcVar8 = (char *)(*(int *)(DAT_00469888 + 0x20) + *(int *)(DAT_00469888 + 0x1c));
     FUN_002953d0();
     if (*pcVar8 == '\0') {
-      pcVar8 = s_<eof>_00404598;
+      pcVar8 = BF_XBE_DATA_00404598;
     }
     FUN_00295370(s___100s__last_token_read_____50s__00404560,s_unfinished_long_string_00404454,
                  pcVar8,unaff_ESI[7],auStack_54);
