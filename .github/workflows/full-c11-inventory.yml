@@ -12,6 +12,8 @@ on:
       # Reviewed mapped-label repairs; grouped failure inventory stays current.
       - 'src/0x00156240.c'
       - 'src/0x0016d310.c'
+      - 'src/0x0017c620.c'
+      - 'src/0x0017d8a0.c'
       - '.github/workflows/full-c11-inventory.yml'
   workflow_dispatch:
 
