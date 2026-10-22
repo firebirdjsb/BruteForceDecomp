@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_d3d_device_x86.h"
 uint * D3D8LTCG__D3DDevice_GetBackBuffer2_0__LTCG_eax1(void)
 
 {

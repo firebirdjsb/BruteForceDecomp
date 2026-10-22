@@ -11,7 +11,7 @@
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037ec88;
 /* x86 instruction mov esi,[0x0037dd88]: global holds a pointer VALUE. */
-extern uint32_t *D3D8__D3D_g_pDevice;
+#include "bf_xbox_d3d_device_x86.h"
 undefined4 bf_emit_three_word_d3d_command(undefined4 param_1,int param_2,int param_3,int param_4)
 
 {
