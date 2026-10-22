@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Xbox VA 0x00307190; original label address; definition and semantics pending. */
+extern unsigned char LAB_00307190;
+
 void FUN_000b1240(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 *param_4)
 
 {
