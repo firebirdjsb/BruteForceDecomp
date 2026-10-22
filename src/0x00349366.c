@@ -1,52 +1,61 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox: construct a tagged byte record.
+ * Entry: 0x00349366
  * Input x86 body SHA-256: 327EB0E73F75FB3D50A148A1166C6C1CADCB731A12A3DD5FA96CA70E2C63764C
- * Entry: 0x00349366, Ghidra index: 12913, label: FUN_00349366
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * Observed incoming ECX + 6 stack words; ret 24. C11 model, not
+ * established original source / complete runtime-equivalent implementation.
  */
-#include "bf_ghidra_types.h"
-void FUN_00349366(int param_1,undefined2 param_2,undefined4 *param_3,uint param_4,
-                 undefined4 *param_5,uint param_6)
-
+#include "bf_xnet_record_x86.h"
+/* Original Xbox x86 little-endian DWORD copies, in forward granularity.
+ * A single bulk memcpy could change the behavior if source/dest overlap. */
+static uint32_t get_le32(const uint8_t *p)
 {
-  int iVar1;
-  undefined4 *puVar2;
-  uint uVar3;
-  undefined4 *puVar4;
-  
-  iVar1 = FUN_0034cb5a(0x7654454e,0x40004,param_4 + 4 + param_6,0,0,0);
-  if (iVar1 != 0) {
-    FUN_00347fe3(iVar1,*(undefined4 *)(param_1 + 4),0);
-    puVar2 = (undefined4 *)FUN_0034c932();
-    *(undefined2 *)puVar2 = param_2;
-    *(short *)((int)puVar2 + 2) = (short)param_6 + 4 + (short)param_4;
-    if (param_4 != 0) {
-      puVar4 = puVar2;
-      for (uVar3 = param_4 >> 2; puVar4 = puVar4 + 1, uVar3 != 0; uVar3 = uVar3 - 1) {
-        *puVar4 = *param_3;
-        param_3 = param_3 + 1;
-      }
-      for (uVar3 = param_4 & 3; uVar3 != 0; uVar3 = uVar3 - 1) {
-        *(undefined1 *)puVar4 = *(undefined1 *)param_3;
-        param_3 = (undefined4 *)((int)param_3 + 1);
-        puVar4 = (undefined4 *)((int)puVar4 + 1);
-      }
+    return (uint32_t)p[0] | ((uint32_t)p[1] << 8) |
+           ((uint32_t)p[2] << 16) | ((uint32_t)p[3] << 24);
+}
+static void put_le32(uint8_t *p,uint32_t v)
+{
+    p[0]=(uint8_t)v;p[1]=(uint8_t)(v>>8);
+    p[2]=(uint8_t)(v>>16);p[3]=(uint8_t)(v>>24);
+}
+static void put_le16(uint8_t *p,uint16_t v)
+{
+    p[0]=(uint8_t)v;p[1]=(uint8_t)(v>>8);
+}
+static void copy_x86_forward(uint8_t *dst,const uint8_t *src,uint32_t len)
+{
+    uint32_t words=len>>2;
+    uint32_t tail=len & UINT32_C(3);
+    while (words-- != 0) {
+        const uint32_t value=get_le32(src);
+        put_le32(dst,value);
+        src+=4;dst+=4;
     }
-    if (param_6 != 0) {
-      puVar2 = (undefined4 *)((int)puVar2 + param_4 + 4);
-      for (uVar3 = param_6 >> 2; uVar3 != 0; uVar3 = uVar3 - 1) {
-        *puVar2 = *param_5;
-        param_5 = param_5 + 1;
-        puVar2 = puVar2 + 1;
-      }
-      for (param_6 = param_6 & 3; param_6 != 0; param_6 = param_6 - 1) {
-        *(undefined1 *)puVar2 = *(undefined1 *)param_5;
-        param_5 = (undefined4 *)((int)param_5 + 1);
-        puVar2 = (undefined4 *)((int)puVar2 + 1);
-      }
-    }
-    FUN_00348e95(iVar1,param_1,0);
-  }
-  return;
+    while (tail-- != 0) *dst++=*src++;
+}
+/* The descriptive names below reflect observed byte movements/arguments,
+ * NOT a recovered XNET wire protocol or source-level class layout. */
+void BF_X86_CONTEXTCALL FUN_00349366(
+    void *incoming_ecx_context,
+    const void *first_stack_arg,
+    uint16_t header_tag,
+    const void *first_bytes,
+    uint32_t first_byte_count,
+    const void *second_bytes,
+    uint32_t second_byte_count)
+{
+    const uint32_t total=first_byte_count+second_byte_count+UINT32_C(4);
+    const uintptr_t handle=FUN_0034cb5a(
+        UINT32_C(0x7654454e),UINT32_C(0x40004),total,0,0,0);
+    if (handle==0) return;
+    const uint32_t field=get_le32((const uint8_t *)first_stack_arg+4);
+    FUN_00347fe3(incoming_ecx_context,handle,field,0);
+    uint8_t *data=(uint8_t *)FUN_0034c932(handle);
+    put_le16(data,header_tag);
+    put_le16(data+2,(uint16_t)total);
+    if (first_byte_count!=0)
+        copy_x86_forward(data+4,(const uint8_t *)first_bytes,first_byte_count);
+    if (second_byte_count!=0)
+        copy_x86_forward(data+4+first_byte_count,
+                         (const uint8_t *)second_bytes,second_byte_count);
+    FUN_00348e95(incoming_ecx_context,handle,first_stack_arg,0);
 }
