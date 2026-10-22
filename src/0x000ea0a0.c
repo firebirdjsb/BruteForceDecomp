@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE low-lane opcode model; unknown high lanes not represented.
+ * No assembly/ABI or behavior equivalence has been established. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0046d034;
@@ -21,7 +24,7 @@ FUN_000ea0a0(undefined4 param_1,undefined4 *param_2,undefined4 *param_3,float *p
   int iVar3;
   float fVar4;
   undefined1 in_XMM0 [16];
-  undefined1 auVar5 [16];
+  __m128 auVar5;
   float local_260;
   float local_25c;
   float local_258;
@@ -122,16 +125,16 @@ FUN_000ea0a0(undefined4 param_1,undefined4 *param_2,undefined4 *param_3,float *p
     local_21c = *param_4 * 0.0 - param_4[1];
     local_228 = param_4[2] - *param_4 * 0.0;
     local_234 = param_4[1] * 0.0 - param_4[2] * 0.0;
-    auVar5 = rsqrtss(in_XMM0,local_234 * local_234 + local_228 * local_228 + local_21c * local_21c);
-    fVar4 = auVar5._0_4_;
+    auVar5 = _mm_rsqrt_ss(_mm_set_ss(local_234 * local_234 + local_228 * local_228 + local_21c * local_21c));
+    fVar4 = _mm_cvtss_f32(auVar5);
     local_234 = fVar4 * local_234;
     local_228 = local_228 * fVar4;
     local_21c = local_21c * fVar4;
     local_220 = local_234 * param_4[1] - local_228 * *param_4;
     local_22c = local_21c * *param_4 - local_234 * param_4[2];
     local_250 = local_228 * param_4[2] - local_21c * param_4[1];
-    auVar5 = rsqrtss(auVar5,local_250 * local_250 + local_22c * local_22c + local_220 * local_220);
-    fVar4 = auVar5._0_4_;
+    auVar5 = _mm_rsqrt_ss(_mm_set_ss(local_250 * local_250 + local_22c * local_22c + local_220 * local_220));
+    fVar4 = _mm_cvtss_f32(auVar5);
     local_238 = fVar4 * local_250;
     local_22c = local_22c * fVar4;
     local_220 = local_220 * fVar4;

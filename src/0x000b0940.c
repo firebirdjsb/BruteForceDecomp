@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE low-lane opcode model; unknown high lanes not represented.
+ * No assembly/ABI or behavior equivalence has been established. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 uint FUN_000b0940(int param_1,float *param_2,float *param_3,char param_4)
@@ -19,7 +22,7 @@ uint FUN_000b0940(int param_1,float *param_2,float *param_3,char param_4)
   uint3 uVar6;
   float fVar7;
   undefined1 in_XMM0 [16];
-  undefined1 auVar8 [16];
+  __m128 auVar8;
   
   fVar3 = param_2[2] - *(float *)(param_1 + 0xd0);
   fVar4 = *param_2 - *(float *)(param_1 + 200);
@@ -37,8 +40,8 @@ uint FUN_000b0940(int param_1,float *param_2,float *param_3,char param_4)
     return CONCAT31(uVar6,1);
   }
   if (param_4 != '\0') {
-    auVar8 = rsqrtss(in_XMM0,fVar5);
-    fVar7 = auVar8._0_4_;
+    auVar8 = _mm_rsqrt_ss(_mm_set_ss(fVar5));
+    fVar7 = _mm_cvtss_f32(auVar8);
     fVar2 = *(float *)(param_1 + 0x90);
     fVar1 = *(float *)(param_1 + 0xd0);
     fVar5 = fVar2 * fVar7 * 0.0 + *(float *)(param_1 + 0xcc);

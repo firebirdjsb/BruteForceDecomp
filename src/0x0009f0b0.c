@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE low-lane opcode model; unknown high lanes not represented.
+ * No assembly/ABI or behavior equivalence has been established. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t _DAT_003c0284;
@@ -32,7 +35,7 @@ void FUN_0009f0b0(uint param_1,float *param_2,float param_3,char param_4)
   float fVar11;
   float fVar12;
   undefined1 in_XMM0 [16];
-  undefined1 auVar13 [16];
+  __m128 auVar13;
   float fVar14;
   float fStack_18;
   float fStack_14;
@@ -41,8 +44,8 @@ void FUN_0009f0b0(uint param_1,float *param_2,float param_3,char param_4)
   fVar6 = param_2[2] - in_EAX[2];
   fVar7 = param_2[1] - in_EAX[1];
   fVar8 = *param_2 - *in_EAX;
-  auVar13 = rsqrtss(in_XMM0,fVar8 * fVar8 + fVar7 * fVar7 + fVar6 * fVar6);
-  fVar11 = auVar13._0_4_;
+  auVar13 = _mm_rsqrt_ss(_mm_set_ss(fVar8 * fVar8 + fVar7 * fVar7 + fVar6 * fVar6));
+  fVar11 = _mm_cvtss_f32(auVar13);
   uVar1 = param_1 + in_EDX * 8;
   do {
     if (uVar1 <= param_1) {
@@ -72,8 +75,8 @@ void FUN_0009f0b0(uint param_1,float *param_2,float param_3,char param_4)
           *(int **)(unaff_EBX + 8 + *unaff_EDI * 0xc) = piVar4;
           fVar12 = SQRT(fVar12);
           if (0.0 < fVar12) {
-            auVar13 = rcpss(ZEXT416((uint)fVar12),ZEXT416((uint)fVar12));
-            fVar14 = auVar13._0_4_;
+            auVar13 = _mm_rcp_ss(_mm_set_ss(fVar12));
+            fVar14 = _mm_cvtss_f32(auVar13);
             fStack_18 = fStack_18 * fVar14;
             fStack_14 = fStack_14 * fVar14;
             fStack_10 = fStack_10 * fVar14;

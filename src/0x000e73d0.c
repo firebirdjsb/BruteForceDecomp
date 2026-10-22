@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE low-lane opcode model; unknown high lanes not represented.
+ * No assembly/ABI or behavior equivalence has been established. */
 void FUN_000e73d0(void)
 
 {
@@ -22,14 +25,14 @@ void FUN_000e73d0(void)
   float fVar9;
   float fVar10;
   undefined1 in_XMM0 [16];
-  undefined1 auVar11 [16];
+  __m128 auVar11;
   float local_1c;
   
   fVar1 = in_EAX[2];
   fVar2 = in_EAX[1];
   fVar3 = *in_EAX;
-  auVar11 = rsqrtss(in_XMM0,fVar2 * fVar2 + fVar3 * fVar3 + fVar1 * fVar1);
-  fVar8 = auVar11._0_4_;
+  auVar11 = _mm_rsqrt_ss(_mm_set_ss(fVar2 * fVar2 + fVar3 * fVar3 + fVar1 * fVar1));
+  fVar8 = _mm_cvtss_f32(auVar11);
   fVar9 = ABS(fVar8 * fVar2);
   if (fVar9 < 0.9848 == (fVar9 == 0.9848)) {
     fVar9 = 0.0;
@@ -45,16 +48,16 @@ void FUN_000e73d0(void)
   fVar3 = fVar5 * 0.0 - fVar9 * fVar1;
   fVar8 = local_1c * fVar1 - fVar4 * 0.0;
   fVar2 = fVar9 * fVar4 - local_1c * fVar5;
-  auVar11 = rsqrtss(auVar11,fVar2 * fVar2 + fVar8 * fVar8 + fVar3 * fVar3);
-  fVar9 = auVar11._0_4_;
+  auVar11 = _mm_rsqrt_ss(_mm_set_ss(fVar2 * fVar2 + fVar8 * fVar8 + fVar3 * fVar3));
+  fVar9 = _mm_cvtss_f32(auVar11);
   fVar2 = fVar9 * fVar2;
   fVar8 = fVar8 * fVar9;
   fVar3 = fVar3 * fVar9;
   fVar9 = fVar8 * fVar1 - fVar2 * fVar5;
   fVar6 = fVar4 * fVar2 - fVar3 * fVar1;
   fVar7 = fVar3 * fVar5 - fVar8 * fVar4;
-  auVar11 = rsqrtss(auVar11,fVar7 * fVar7 + fVar6 * fVar6 + fVar9 * fVar9);
-  fVar10 = auVar11._0_4_;
+  auVar11 = _mm_rsqrt_ss(_mm_set_ss(fVar7 * fVar7 + fVar6 * fVar6 + fVar9 * fVar9));
+  fVar10 = _mm_cvtss_f32(auVar11);
   *in_ECX = fVar2;
   in_ECX[4] = fVar8;
   in_ECX[8] = fVar3;

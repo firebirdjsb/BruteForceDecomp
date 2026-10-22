@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra RSQRTSS scalar low lane, not an exact source/ABI reconstruction.
+ * Original upper XMM lanes and machine-code correspondence remain unverified. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t _DAT_0046d314;
@@ -25,7 +28,7 @@ void FUN_001195c0(float param_1)
   byte bVar9;
   float10 fVar10;
   float fVar11;
-  undefined1 auVar12 [16];
+  __m128 auVar12;
   int *unaff_retaddr;
   undefined4 uVar13;
   float local_a4;
@@ -126,11 +129,10 @@ LAB_001197df:
   }
   *(byte *)(unaff_retaddr + 0x1df) = *(byte *)(unaff_retaddr + 0x1df) & 0xfb;
   fStack_94 = (float)unaff_retaddr[0x17c];
-  auVar12 = rsqrtss(ZEXT416((uint)fVar1),
-                    fStack_94 * fStack_94 +
+  auVar12 = _mm_rsqrt_ss(_mm_set_ss(fStack_94 * fStack_94 +
                     (float)unaff_retaddr[0x17b] * (float)unaff_retaddr[0x17b] +
-                    (float)unaff_retaddr[0x17a] * (float)unaff_retaddr[0x17a]);
-  fStack_94 = auVar12._0_4_ * fStack_94;
+                    (float)unaff_retaddr[0x17a] * (float)unaff_retaddr[0x17a]));
+  fStack_94 = _mm_cvtss_f32(auVar12) * fStack_94;
   cVar6 = FUN_000d4440();
   if (cVar6 == '\0') {
     fVar1 = 0.4;
@@ -206,15 +208,15 @@ LAB_00119b14:
   pfVar7 = (float *)FUN_0001fdd0();
   fVar1 = -pfVar7[2];
   fVar4 = -*pfVar7;
-  auVar12 = rsqrtss(auVar12,fVar4 * fVar4 + fVar1 * fVar1);
-  fVar11 = auVar12._0_4_;
+  auVar12 = _mm_rsqrt_ss(_mm_set_ss(fVar4 * fVar4 + fVar1 * fVar1));
+  fVar11 = _mm_cvtss_f32(auVar12);
   FUN_0012b2a0();
   FUN_0001f9c0();
   piVar3 = piStack_4;
-  auVar12 = rsqrtss(auVar12,fStack_70 * fStack_70 + fStack_78 * fStack_78);
-  fStack_90 = auVar12._0_4_ * fStack_78;
+  auVar12 = _mm_rsqrt_ss(_mm_set_ss(fStack_70 * fStack_70 + fStack_78 * fStack_78));
+  fStack_90 = _mm_cvtss_f32(auVar12) * fStack_78;
   local_a4 = 400.0;
-  fStack_88 = auVar12._0_4_ * fStack_70;
+  fStack_88 = _mm_cvtss_f32(auVar12) * fStack_70;
   if (((piStack_4[0x7c] != 0) && (local_a4 = 5.0, piStack_4[0x7c] == 3)) &&
      (0.0 < (float)piStack_4[0x1f7])) {
     local_a4 = 400.0;

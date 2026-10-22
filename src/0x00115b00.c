@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra RSQRTSS scalar low lane, not an exact source/ABI reconstruction.
+ * Original upper XMM lanes and machine-code correspondence remain unverified. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 undefined2 FUN_00115b00(int param_1,float param_2,float *param_3)
@@ -15,7 +18,7 @@ undefined2 FUN_00115b00(int param_1,float param_2,float *param_3)
   float fVar2;
   char cVar3;
   undefined1 in_XMM0 [16];
-  undefined1 auVar4 [16];
+  __m128 auVar4;
   float local_38;
   float local_34;
   float local_30;
@@ -37,8 +40,8 @@ undefined2 FUN_00115b00(int param_1,float param_2,float *param_3)
   if (fVar2 <= 0.0001) {
     return 0;
   }
-  auVar4 = rsqrtss(in_XMM0,fVar2);
-  fStack_1c = auVar4._0_4_;
+  auVar4 = _mm_rsqrt_ss(_mm_set_ss(fVar2));
+  fStack_1c = _mm_cvtss_f32(auVar4);
   local_24 = fStack_1c * *(float *)(param_1 + 0x470);
   local_20 = fStack_1c * (float)*(undefined8 *)(param_1 + 0x474);
   fStack_1c = fStack_1c * (float)((ulonglong)*(undefined8 *)(param_1 + 0x474) >> 0x20);

@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE low-lane opcode model; unknown high lanes not represented.
+ * No assembly/ABI or behavior equivalence has been established. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0046d034;
@@ -23,7 +26,7 @@ FUN_000e98a0(undefined4 param_1,undefined4 *param_2,undefined4 *param_3,float *p
   int iVar5;
   float fVar6;
   undefined1 in_XMM0 [16];
-  undefined1 auVar7 [16];
+  __m128 auVar7;
   float fStack_270;
   float fStack_26c;
   float fStack_268;
@@ -135,18 +138,18 @@ FUN_000e98a0(undefined4 param_1,undefined4 *param_2,undefined4 *param_3,float *p
       fStack_270 = param_4[1] * 0.0 - *param_4 * 1.0;
       fStack_22c = *param_4 * 0.0 - param_4[2] * 0.0;
       fStack_238 = param_4[2] * 1.0 - param_4[1] * 0.0;
-      auVar7 = rsqrtss(in_XMM0,fStack_22c * fStack_22c +
-                               fStack_270 * fStack_270 + fStack_238 * fStack_238);
-      fVar6 = auVar7._0_4_;
+      auVar7 = _mm_rsqrt_ss(_mm_set_ss(fStack_22c * fStack_22c +
+                               fStack_270 * fStack_270 + fStack_238 * fStack_238));
+      fVar6 = _mm_cvtss_f32(auVar7);
       fStack_238 = fVar6 * fStack_238;
       fStack_22c = fStack_22c * fVar6;
       fStack_270 = fStack_270 * fVar6;
       fStack_264 = fStack_22c * *param_4 - fStack_238 * param_4[1];
       fStack_268 = fStack_238 * param_4[2] - fStack_270 * *param_4;
       fStack_250 = fStack_270 * param_4[1] - fStack_22c * param_4[2];
-      auVar7 = rsqrtss(auVar7,fStack_268 * fStack_268 +
-                              fStack_264 * fStack_264 + fStack_250 * fStack_250);
-      fVar6 = auVar7._0_4_;
+      auVar7 = _mm_rsqrt_ss(_mm_set_ss(fStack_268 * fStack_268 +
+                              fStack_264 * fStack_264 + fStack_250 * fStack_250));
+      fVar6 = _mm_cvtss_f32(auVar7);
       fStack_26c = fVar6 * fStack_250;
       fStack_268 = fStack_268 * fVar6;
       fStack_264 = fStack_264 * fVar6;
@@ -155,18 +158,18 @@ FUN_000e98a0(undefined4 param_1,undefined4 *param_2,undefined4 *param_3,float *p
       fStack_264 = *param_4 * 0.0 - param_4[1];
       fStack_268 = param_4[2] - *param_4 * 0.0;
       fStack_26c = param_4[1] * 0.0 - param_4[2] * 0.0;
-      auVar7 = rsqrtss(in_XMM0,fStack_268 * fStack_268 +
-                               fStack_264 * fStack_264 + fStack_26c * fStack_26c);
-      fVar6 = auVar7._0_4_;
+      auVar7 = _mm_rsqrt_ss(_mm_set_ss(fStack_268 * fStack_268 +
+                               fStack_264 * fStack_264 + fStack_26c * fStack_26c));
+      fVar6 = _mm_cvtss_f32(auVar7);
       fStack_26c = fVar6 * fStack_26c;
       fStack_268 = fStack_268 * fVar6;
       fStack_264 = fStack_264 * fVar6;
       fStack_270 = fStack_26c * param_4[1] - fStack_268 * *param_4;
       fStack_22c = fStack_264 * *param_4 - fStack_26c * param_4[2];
       fStack_250 = fStack_268 * param_4[2] - fStack_264 * param_4[1];
-      auVar7 = rsqrtss(auVar7,fStack_22c * fStack_22c +
-                              fStack_270 * fStack_270 + fStack_250 * fStack_250);
-      fVar6 = auVar7._0_4_;
+      auVar7 = _mm_rsqrt_ss(_mm_set_ss(fStack_22c * fStack_22c +
+                              fStack_270 * fStack_270 + fStack_250 * fStack_250));
+      fVar6 = _mm_cvtss_f32(auVar7);
       fStack_238 = fVar6 * fStack_250;
       fStack_22c = fStack_22c * fVar6;
       fStack_270 = fStack_270 * fVar6;

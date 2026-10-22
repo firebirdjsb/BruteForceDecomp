@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE low-lane opcode model; unknown high lanes not represented.
+ * No assembly/ABI or behavior equivalence has been established. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00469aac;
@@ -17,7 +20,7 @@ undefined1 FUN_000bf2f0(int param_1,int param_2,undefined4 *param_3,float *param
   char cVar3;
   int iVar4;
   undefined1 in_XMM0 [16];
-  undefined1 auVar5 [16];
+  __m128 auVar5;
   int unaff_retaddr;
   float fVar6;
   float fStack_154;
@@ -59,8 +62,8 @@ undefined1 FUN_000bf2f0(int param_1,int param_2,undefined4 *param_3,float *param
       param_4[2] = fStack_12c;
       fStack_134 = fStack_134 - *(float *)(iVar4 + 0x24);
       fStack_12c = fStack_12c - *(float *)(iVar4 + 0x2c);
-      auVar5 = rsqrtss(in_XMM0,fStack_134 * fStack_134 + fStack_12c * fStack_12c);
-      fVar6 = (fStack_140 * fStack_134 + fStack_138 * fStack_12c) * auVar5._0_4_;
+      auVar5 = _mm_rsqrt_ss(_mm_set_ss(fStack_134 * fStack_134 + fStack_12c * fStack_12c));
+      fVar6 = (fStack_140 * fStack_134 + fStack_138 * fStack_12c) * _mm_cvtss_f32(auVar5);
       if (0.0 <= fVar6) {
         if ((0.5 <= fVar6) || (*(char *)(param_2 + 0x79) == '\x02')) {
           FUN_00023940();
@@ -73,8 +76,8 @@ undefined1 FUN_000bf2f0(int param_1,int param_2,undefined4 *param_3,float *param
               param_3[2] = fVar6;
               fVar6 = fStack_14c * fVar2;
               fVar2 = fVar2 * fStack_154;
-              auVar5 = rsqrtss(auVar5,fVar6 * fVar6 + fVar2 * fVar2);
-              *param_3 = auVar5._0_4_;
+              auVar5 = _mm_rsqrt_ss(_mm_set_ss(fVar6 * fVar6 + fVar2 * fVar2));
+              *param_3 = _mm_cvtss_f32(auVar5);
             }
             return 1;
           }

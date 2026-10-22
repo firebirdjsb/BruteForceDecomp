@@ -6,12 +6,15 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra RSQRTSS scalar low lane, not an exact source/ABI reconstruction.
+ * Original upper XMM lanes and machine-code correspondence remain unverified. */
 float * FUN_0011e680(int param_1,float *param_2)
 
 {
   float fVar1;
   undefined1 in_XMM0 [16];
-  undefined1 auVar2 [16];
+  __m128 auVar2;
   float local_c;
   float local_4;
   
@@ -30,8 +33,8 @@ float * FUN_0011e680(int param_1,float *param_2)
     return param_2;
   }
   FUN_0001f9c0();
-  auVar2 = rsqrtss(in_XMM0,local_c * local_c + local_4 * local_4);
-  fVar1 = auVar2._0_4_;
+  auVar2 = _mm_rsqrt_ss(_mm_set_ss(local_c * local_c + local_4 * local_4));
+  fVar1 = _mm_cvtss_f32(auVar2);
   *param_2 = fVar1 * local_c;
   param_2[1] = fVar1 * 0.0;
   param_2[2] = local_4 * fVar1;

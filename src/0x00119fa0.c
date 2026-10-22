@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra RSQRTSS scalar low lane, not an exact source/ABI reconstruction.
+ * Original upper XMM lanes and machine-code correspondence remain unverified. */
 void FUN_00119fa0(float param_1,float param_2)
 
 {
@@ -18,7 +21,7 @@ void FUN_00119fa0(float param_1,float param_2)
   float fVar7;
   float fVar8;
   undefined1 in_XMM0 [16];
-  undefined1 auVar9 [16];
+  __m128 auVar9;
   int unaff_retaddr;
   float fVar10;
   float fVar11;
@@ -30,8 +33,8 @@ void FUN_00119fa0(float param_1,float param_2)
   }
   fVar10 = -*(float *)((int)param_1 + 0x5dc);
   fVar11 = -*(float *)((int)param_1 + 0x5c4);
-  auVar9 = rsqrtss(in_XMM0,fVar11 * fVar11 + fVar10 * fVar10);
-  fVar7 = auVar9._0_4_;
+  auVar9 = _mm_rsqrt_ss(_mm_set_ss(fVar11 * fVar11 + fVar10 * fVar10));
+  fVar7 = _mm_cvtss_f32(auVar9);
   if (*(float *)((int)param_1 + 0x5f8) != 0.0) {
     uVar12 = *(undefined4 *)((int)param_1 + 0x5f4);
     FUN_0011e7c0(param_1,0);
@@ -52,8 +55,8 @@ void FUN_00119fa0(float param_1,float param_2)
   }
   fVar4 = -*(float *)(*(int *)((int)param_1 + 0x6c) + 0x34);
   fVar3 = -*(float *)(*(int *)((int)param_1 + 0x6c) + 0x1c);
-  auVar9 = rsqrtss(auVar9,fVar4 * fVar4 + fVar3 * fVar3);
-  fVar8 = auVar9._0_4_;
+  auVar9 = _mm_rsqrt_ss(_mm_set_ss(fVar4 * fVar4 + fVar3 * fVar3));
+  fVar8 = _mm_cvtss_f32(auVar9);
   iVar5 = (**(code **)(**(int **)(*(int *)((int)param_1 + 8) + 0xbec) + 0xc))
                     (param_1,fVar8 * 0.0 * fVar7 * 0.0 +
                              fVar7 * fVar10 * fVar8 * fVar4 + fVar8 * fVar3 * fVar7 * fVar11);

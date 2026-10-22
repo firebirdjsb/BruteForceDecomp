@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra scalar SSE low-lane opcode model; unknown high lanes not represented.
+ * No assembly/ABI or behavior equivalence has been established. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003f7f1c;
@@ -26,7 +29,7 @@ uint FUN_000c70a0(int param_1)
   undefined4 *puVar6;
   float10 fVar7;
   undefined1 in_XMM0 [16];
-  undefined1 auVar8 [16];
+  __m128 auVar8;
   float local_180;
   float *pfStack_17c;
   float fStack_178;
@@ -63,8 +66,8 @@ uint FUN_000c70a0(int param_1)
     fStack_174 = pfVar4[1] - local_164;
     fStack_178 = *pfVar4 - local_15c[0];
     fVar2 = fStack_178 * fStack_178 + fStack_174 * fStack_174 + fStack_170 * fStack_170;
-    auVar8 = rsqrtss(in_XMM0,fVar2);
-    fStack_16c = auVar8._0_4_;
+    auVar8 = _mm_rsqrt_ss(_mm_set_ss(fVar2));
+    fStack_16c = _mm_cvtss_f32(auVar8);
     fVar2 = fStack_16c * fVar2;
     pfStack_17c = &fStack_178;
     local_180 = 0.5;
