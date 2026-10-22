@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Original RSQRTSS affects low scalar lane; upper lanes not consumed. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0040e740;
@@ -26,8 +28,7 @@ undefined1 FUN_00024c00(int param_1,float *param_2,float *param_3)
   float *pfVar7;
   undefined1 uVar8;
   float10 fVar9;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar10 [16];
+  __m128 reciprocal_sqrt_low_lane;
   float fStack_44;
   float fStack_34;
   float fStack_30;
@@ -56,9 +57,9 @@ undefined1 FUN_00024c00(int param_1,float *param_2,float *param_3)
       fStack_2c = param_3[2];
       fStack_30 = param_3[1];
       fStack_34 = *param_3;
-      auVar10 = rsqrtss(in_XMM0,fStack_34 * fStack_34 +
-                                fStack_30 * fStack_30 + fStack_2c * fStack_2c);
-      fStack_20 = auVar10._0_4_;
+      reciprocal_sqrt_low_lane = _mm_rsqrt_ss(_mm_set_ss(fStack_34 * fStack_34 +
+                                fStack_30 * fStack_30 + fStack_2c * fStack_2c));
+      fStack_20 = _mm_cvtss_f32(reciprocal_sqrt_low_lane);
       fStack_28 = fStack_20 * fStack_34;
       uStack_1c = 0;
       fStack_24 = fStack_30 * fStack_20;

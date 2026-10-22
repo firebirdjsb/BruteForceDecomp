@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Original RSQRTSS affects low scalar lane; upper lanes not consumed. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_LAB_0039cc18;
@@ -22,8 +24,7 @@ undefined4 FUN_0002bf60(undefined4 param_1)
   int iVar8;
   int *in_ECX;
   float fVar9;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar10 [16];
+  __m128 reciprocal_sqrt_low_lane;
   int local_180;
   int local_17c;
   int local_178;
@@ -61,8 +62,8 @@ undefined4 FUN_0002bf60(undefined4 param_1)
       fVar1 = *(float *)(iVar8 + 0x2c) - *(float *)(iVar7 + 0x2c);
       fVar2 = *(float *)(iVar8 + 0x28) - *(float *)(iVar7 + 0x28);
       fVar3 = *(float *)(iVar8 + 0x24) - *(float *)(iVar7 + 0x24);
-      auVar10 = rsqrtss(in_XMM0,fVar3 * fVar3 + fVar2 * fVar2 + fVar1 * fVar1);
-      fVar9 = auVar10._0_4_;
+      reciprocal_sqrt_low_lane = _mm_rsqrt_ss(_mm_set_ss(fVar3 * fVar3 + fVar2 * fVar2 + fVar1 * fVar1));
+      fVar9 = _mm_cvtss_f32(reciprocal_sqrt_low_lane);
       in_ECX[0x114] = (int)(fVar1 * fVar9);
       in_ECX[0x113] = (int)(fVar2 * fVar9);
       in_ECX[0x112] = (int)(fVar9 * fVar3);

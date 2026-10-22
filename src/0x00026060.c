@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Original RSQRTSS affects low scalar lane; upper lanes not consumed. */
 uint FUN_00026060(void)
 
 {
@@ -26,8 +28,7 @@ uint FUN_00026060(void)
   ushort uVar12;
   float10 fVar13;
   float10 fVar14;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar15 [16];
+  __m128 reciprocal_sqrt_low_lane;
   
   iVar9 = (**(code **)(*in_ECX + 0x40))();
   pfVar11 = (float *)(iVar9 + 0x24);
@@ -55,8 +56,8 @@ uint FUN_00026060(void)
   fVar7 = fVar3 * fVar3 + fVar2 * fVar2 + fVar1 * fVar1;
   fVar8 = fVar6 * fVar6 + fVar5 * fVar5 + fVar4 * fVar4;
   if (((fVar8 < fVar7) && (0.0 < fVar8)) && (0.0 < fVar7)) {
-    auVar15 = rsqrtss(in_XMM0,fVar8 * fVar7);
-    fVar1 = (fVar3 * fVar6 + fVar5 * fVar2 + fVar4 * fVar1) * auVar15._0_4_;
+    reciprocal_sqrt_low_lane = _mm_rsqrt_ss(_mm_set_ss(fVar8 * fVar7));
+    fVar1 = (fVar3 * fVar6 + fVar5 * fVar2 + fVar4 * fVar1) * _mm_cvtss_f32(reciprocal_sqrt_low_lane);
     if (fVar1 >= 0.25 && (fVar1 == 0.25) == 0) {
       return (uint)(ushort)((ushort)(fVar1 < 0.25) << 8 | (ushort)isnan(fVar1) << 10 |
                            (ushort)(fVar1 == 0.25) << 0xe);
