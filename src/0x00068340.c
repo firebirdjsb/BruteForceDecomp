@@ -9,6 +9,9 @@
 /* Source-matched callback/address references (not an ABI verification).
  * Original x86 register, stack and indirect call contracts remain ABI_UNVERIFIED. */
 extern float10 FUN_00233b90(void);
+/* TODO(ABI_UNVERIFIED): DAT_00469830 receives this function address in a
+ * reconstructed 32-bit word. Validate the original XBE's storage width and
+ * eventual PC callback/address translation; host pointer width is not proof. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003ffb80;
