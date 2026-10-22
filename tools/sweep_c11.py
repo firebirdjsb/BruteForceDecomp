@@ -27,7 +27,7 @@ def check(task):
     clang, root, row = task
     name = row["entry"]
     path = root / "src" / (name + ".c")
-    result = {"entry":name, "original_body_sha256":row["original_body_sha256"]}
+    result = {"entry":name, "original_body_sha256":row.get("original_body_sha256","")}
     if not path.is_file():
         result.update(status="missing_source", diagnostic="Source file missing")
         return result
@@ -39,8 +39,10 @@ def check(task):
     text = content.decode("utf-8", "replace")
     m = BODY.search(text)
     result["body_provenance"] = (
-        "match" if m and m.group(1).upper()==row["original_body_sha256"].upper()
-        else "mismatch" if m else "missing"
+        "match" if m and row.get("original_body_sha256") and
+                   m.group(1).upper()==row["original_body_sha256"].upper()
+        else "mismatch" if m and row.get("original_body_sha256")
+        else "unindexed" if m else "missing"
     )
     try:
         p = subprocess.run(
@@ -66,8 +68,35 @@ def main():
     args.out.mkdir(parents=True,exist_ok=True)
     compiler=shutil.which("clang")
     if not compiler: raise SystemExit("clang required")
-    with (root/"metadata/function_inventory.csv").open(newline="",encoding="utf-8") as f:
-        rows=list(csv.DictReader(f))
+    # Uploaded GitHub repository names this file bulk_13694_inventory.csv.
+    # Enumerate exact source tree; do not silently skip source files absent
+    # from a metadata table. Keep old source hashes separate from XBE body hashes.
+    original_index={}
+    for path in (root/"metadata/bulk_13694_inventory.csv",
+                 root/"metadata/function_tracking.csv",
+                 root/"metadata/function_inventory.csv"):
+        if not path.is_file():
+            continue
+        with path.open(newline="",encoding="utf-8-sig") as stream:
+            rdr=csv.DictReader(stream)
+            if "entry" not in (rdr.fieldnames or []):
+                continue
+            for row in rdr:
+                key=row["entry"].lower()
+                if key not in original_index:
+                    original_index[key]=row
+                elif (row.get("original_body_sha256") and
+                      not original_index[key].get("original_body_sha256")):
+                    original_index[key]=row
+    sources=sorted((root/"src").glob("0x????????.c"))
+    rows=[]
+    for src in sources:
+        entry=src.stem.lower()
+        row=dict(original_index.get(entry,{}))
+        row["entry"]=entry
+        rows.append(row)
+    if len(rows)!=13694:
+        raise SystemExit(f"Expected 13694 source files, found {len(rows)}")
     before=time.monotonic()
     with ThreadPoolExecutor(max_workers=max(1,min(args.jobs,16))) as pool:
         results=list(pool.map(check,((compiler,root,row) for row in rows)))
@@ -78,6 +107,7 @@ def main():
         "source_tree_entries":len(results),"counts":dict(count),
         "body_hash_mismatches":sum(r["body_provenance"]=="mismatch" for r in results),
         "body_hash_missing":sum(r["body_provenance"]=="missing" for r in results),
+        "body_hash_unindexed":sum(r["body_provenance"]=="unindexed" for r in results),
         "c_source_hash_drift":sum(not r.get("c_sha256_matches_inventory",False) for r in results),
         "duration_seconds":round(time.monotonic()-before,1),
         "top_error_groups":groups.most_common(30),
