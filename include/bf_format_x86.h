@@ -21,7 +21,9 @@ _Static_assert(offsetof(BF_FormatSinkState, remaining_bits) == 4,
 #endif
 /* The following declarations model x86 stack arguments only, not full
  * verified SDK types or a portable Windows linker contract. */
-extern int32_t FUN_002edbde(BF_FormatSinkState *state,
+/* The backend also accepts a larger global CRT stream state; the common
+ * pointer is opaque because one local 16-byte struct is not its only layout. */
+extern int32_t FUN_002edbde(void *output_state,
                              const char *format, va_list arguments);
 extern int32_t __flsbuf(int32_t byte_value, BF_FormatSinkState *state);
 extern int32_t FUN_002eb322(char *buffer, int32_t capacity,

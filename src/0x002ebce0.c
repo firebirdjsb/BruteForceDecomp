@@ -1,28 +1,24 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox: global CRT stream variadic output wrapper.
+ * Entry: 0x002ebce0
  * Input x86 body SHA-256: 62E170FCBAC1EFAD7BDB740FA4AE8B94D5302DA69729F2757DD2C2E35934E261
- * Entry: 0x002ebce0, Ghidra index: 10640, label: FID_conflict:_wprintf
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * Original 49-byte body 0x002EBCE0..0x002EBD10; cdecl plain ret.
+ * The Ghidra name FID_conflict__wprintf is ambiguous (_printf/_wprintf).
+ * No assumption is made about the concrete global stream structure.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_003b69a8;
-/* Library Function - Multiple Matches With Different Base Names
-    _printf
-    _wprintf
-   
-   Library: Visual Studio 2003 Release */
+#include "bf_format_x86.h"
+/* Address-only symbol corresponding to VA 0x003B69A8 in original XBE. */
+extern unsigned char DAT_003b69a8;
+extern uint32_t __stbuf(void *stream);
+extern void __ftbuf(uint32_t prior_state,void *stream);
 
-int __cdecl FID_conflict__wprintf(char *__format,...)
-
+int32_t FID_conflict__wprintf(const char *format, ...)
 {
-  undefined4 uVar1;
-  int iVar2;
-  
-  uVar1 = __stbuf(&DAT_003b69a8);
-  iVar2 = FUN_002edbde(&DAT_003b69a8,__format,&stack0x00000008);
-  __ftbuf(uVar1,&DAT_003b69a8);
-  return iVar2;
+    void *stream = &DAT_003b69a8;
+    const uint32_t prior_state=__stbuf(stream);
+    va_list arguments;
+    va_start(arguments,format);
+    const int32_t written=FUN_002edbde(stream,format,arguments);
+    va_end(arguments);
+    __ftbuf(prior_state,stream);
+    return written;
 }

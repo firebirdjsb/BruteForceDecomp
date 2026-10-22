@@ -12,7 +12,8 @@ extern void FUN_0037a3e0(const char *fmt,...);
 static int backend_calls, flush_calls, debug_calls;
 static char debug_text[300];
 
-int32_t FUN_002edbde(BF_FormatSinkState *s, const char *fmt, va_list arguments) {
+int32_t FUN_002edbde(void *opaque_state, const char *fmt, va_list arguments) {
+    BF_FormatSinkState *s = (BF_FormatSinkState *)opaque_state;
     char tmp[1024];
     int n = vsnprintf(tmp,sizeof tmp,fmt,arguments);
     backend_calls++;
