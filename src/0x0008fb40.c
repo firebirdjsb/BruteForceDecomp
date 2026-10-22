@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Callee source declares FUN_0008f670(void), but uses incoming ECX implicitly.
+ * Callback/register ABI is ABI_UNVERIFIED; declaration enables C11 inspection only. */
+extern void FUN_0008f670(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_00443308;

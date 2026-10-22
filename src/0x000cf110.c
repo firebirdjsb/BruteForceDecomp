@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Callee source declares FUN_000a3d50(void).  Xbox callback/register ABI remains
+ * ABI_UNVERIFIED; this forward declaration is for C11 source inspection only. */
+extern void FUN_000a3d50(void);
 void FUN_000cf110(int param_1,int *param_2,char param_3)
 
 {
