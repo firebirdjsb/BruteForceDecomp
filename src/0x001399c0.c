@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Label VA 0x00307550 verified mapped; data/code role unknown. */
+extern unsigned char LAB_00307550;
+
 void FUN_001399c0(undefined4 param_1,int param_2)
 
 {
