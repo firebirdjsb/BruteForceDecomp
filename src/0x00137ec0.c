@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Xbox image address 0x00307d50; address-only label pending link definition. */
+extern unsigned char LAB_00307d50;
+
 void FUN_00137ec0(int param_1)
 
 {

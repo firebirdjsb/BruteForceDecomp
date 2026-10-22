@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Xbox image address 0x00308950; address-only label pending link definition. */
+extern unsigned char LAB_00308950;
+
 /* WARNING: Removing unreachable block (ram,0x00138c13) */
 
 void FUN_001388d0(int param_1,int param_2,uint param_3,int param_4)
