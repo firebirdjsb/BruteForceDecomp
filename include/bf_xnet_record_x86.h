@@ -24,7 +24,7 @@ uintptr_t BF_X86_STACKCALL FUN_0034cb5a(
  uint32_t zero_1,uint32_t zero_2,uint32_t zero_3);
 void BF_X86_CONTEXTCALL FUN_00347fe3(
  void *incoming_ecx_context,uintptr_t handle,
- uint32_t field_from_first_stack_arg,uint32_t zero);
+ uint32_t field_from_first_stack_arg, uint32_t byte_flag);
 void *BF_X86_CONTEXTCALL FUN_0034c932(uintptr_t handle);
 void BF_X86_CONTEXTCALL FUN_00348e95(
  void *incoming_ecx_context,uintptr_t handle,
