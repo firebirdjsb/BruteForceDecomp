@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Original rsqrtss uses only the low single-precision lane. */
 undefined4 FUN_000213e0(int param_1,undefined4 *param_2,undefined1 *param_3)
 
 {
@@ -23,8 +25,7 @@ undefined4 FUN_000213e0(int param_1,undefined4 *param_2,undefined1 *param_3)
   float *pfVar10;
   float fVar11;
   float fVar12;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar13 [16];
+  __m128 approximate_reciprocal_sqrt;
   
   bVar7 = false;
   if (*(int *)(param_1 + 0x6f4) == 0) {
@@ -47,13 +48,13 @@ LAB_0002144c:
       fVar1 = pfVar10[2];
       fVar2 = pfVar10[1];
       fVar3 = *pfVar10;
-      auVar13 = rsqrtss(in_XMM0,fVar3 * fVar3 + fVar2 * fVar2 + fVar1 * fVar1);
-      fVar11 = auVar13._0_4_;
+      approximate_reciprocal_sqrt = _mm_rsqrt_ss(_mm_set_ss(fVar3 * fVar3 + fVar2 * fVar2 + fVar1 * fVar1));
+      fVar11 = _mm_cvtss_f32(approximate_reciprocal_sqrt);
       fVar4 = -*(float *)(param_3 + 0x28);
       fVar5 = -*(float *)(param_3 + 0x24);
       fVar6 = -*(float *)(param_3 + 0x20);
-      auVar13 = rsqrtss(auVar13,fVar6 * fVar6 + fVar5 * fVar5 + fVar4 * fVar4);
-      fVar12 = auVar13._0_4_;
+      approximate_reciprocal_sqrt = _mm_rsqrt_ss(_mm_set_ss(fVar6 * fVar6 + fVar5 * fVar5 + fVar4 * fVar4));
+      fVar12 = _mm_cvtss_f32(approximate_reciprocal_sqrt);
       if (fVar12 * fVar6 * fVar11 * fVar3 +
           fVar5 * fVar12 * fVar2 * fVar11 + fVar4 * fVar12 * fVar1 * fVar11 <= 0.2) {
         bVar7 = false;
