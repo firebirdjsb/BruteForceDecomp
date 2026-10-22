@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original XBE mapped VA 0x0025b9f2; extern address-only, definition TODO. */
+extern unsigned char LAB_0025b9f2;
+
 void FUN_001098a0(void)
 
 {
