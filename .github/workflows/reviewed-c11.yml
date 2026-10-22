@@ -68,7 +68,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          clang -target i386-pc-windows-msvc -O1 -S -masm=intel src/0x00349413.c -o /tmp/xnet-context.s
+          clang -target i386-pc-windows-msvc -O1 -Iinclude -S -masm=intel src/0x00349413.c -o /tmp/xnet-context.s
           grep -Eiq 'ret[[:space:]]+8' /tmp/xnet-context.s
           clang -target i386-pc-windows-msvc -O1 -Iinclude -S -masm=intel src/0x00349366.c -o /tmp/xnet-record.s
           grep -Eiq 'ret[[:space:]]+24' /tmp/xnet-record.s
