@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_d3d_state_globals_x86.h"
+#include "bf_xbox_d3d_device_x86.h"
 void FUN_00372d90(int param_1)
 
 {
