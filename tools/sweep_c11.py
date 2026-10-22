@@ -2,6 +2,7 @@
 """Repository-wide C11 audit. A syntax pass does NOT verify Xbox behavior."""
 from __future__ import annotations
 import argparse
+import os
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 import csv
@@ -103,6 +104,8 @@ def main():
     count=Counter(r["status"] for r in results)
     groups=Counter(err for r in results if r["status"]=="fail" for err in r.get("errors",[])[:1])
     output={
+        "checked_commit_sha":os.environ.get("GITHUB_SHA","local-checkout"),
+        "group_index_present":(root/"metadata/function_groups/all_13694_functions.csv").is_file(),
         "scope":"Exact checked-out repository, individual host Clang C11 syntax; ABI/linking/behavior NOT verified",
         "source_tree_entries":len(results),"counts":dict(count),
         "body_hash_mismatches":sum(r["body_provenance"]=="mismatch" for r in results),
