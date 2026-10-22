@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Xbox image VA 0x003085b0; address-only label. Link definition and role unverified. */
+extern unsigned char LAB_003085b0;
+
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_FUN_003a3f80;

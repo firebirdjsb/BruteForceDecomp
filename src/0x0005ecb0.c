@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Xbox image VA 0x003076e0; address-only label. Link definition and role unverified. */
+extern unsigned char LAB_003076e0;
+
 void FUN_0005ecb0(undefined4 param_1,int param_2)
 
 {
