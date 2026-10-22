@@ -8,10 +8,13 @@ on:
       - "src/0x0033df31.c"
       - "src/0x0037a3e0.c"
       - "src/0x00349413.c"
+      - "src/0x00349366.c"
       - "include/bf_format_x86.h"
+      - "include/bf_xnet_record_x86.h"
       - "tests/test_format_callee.c"
       - "tests/test_double_format.c"
       - "tests/test_xnet_context.c"
+      - "tests/test_xnet_record.c"
       - ".github/workflows/reviewed-c11.yml"
   pull_request:
     paths:
@@ -36,7 +39,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          sources=(src/0x002eb322.c src/0x002ff500.c src/0x0033df31.c src/0x0037a3e0.c src/0x00349413.c)
+          sources=(src/0x002eb322.c src/0x002ff500.c src/0x0033df31.c src/0x0037a3e0.c src/0x00349413.c src/0x00349366.c)
           clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsyntax-only "${sources[@]}"
           clang -target i386-pc-windows-msvc -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsyntax-only "${sources[@]}"
       - name: Three-function formatting integration with mocked dependencies
@@ -53,12 +56,22 @@ jobs:
           /tmp/test_double_format
           clang -std=c11 -pedantic-errors -Wall -Wextra -Werror             src/0x00349413.c tests/test_xnet_context.c -o /tmp/test_xnet_context
           /tmp/test_xnet_context
+      - name: XNET callee plus wrapper host dependency mocks
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsanitize=address,undefined \
+            src/0x00349366.c src/0x00349413.c tests/test_xnet_record.c \
+            -o /tmp/test_xnet_record
+          /tmp/test_xnet_record
       - name: Check 32-bit x86 stack cleanup opcode in tagged record wrapper
         shell: bash
         run: |
           set -euo pipefail
           clang -target i386-pc-windows-msvc -O1 -S -masm=intel src/0x00349413.c -o /tmp/xnet-context.s
           grep -Eiq 'ret[[:space:]]+8' /tmp/xnet-context.s
+          clang -target i386-pc-windows-msvc -O1 -Iinclude -S -masm=intel src/0x00349366.c -o /tmp/xnet-record.s
+          grep -Eiq 'ret[[:space:]]+24' /tmp/xnet-record.s
 
 # All tests above use mocks / isolated compilation.
 # Success does NOT imply original Xbox ABI, game runtime, or byte equivalence.
