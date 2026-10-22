@@ -4,7 +4,8 @@
  * Incoming ECX context, two stack args, ret 8; x86 thiscall model.
  */
 #include "bf_xnet_record_x86.h"
-void BF_X86_CONTEXTCALL FUN_00349413(
+#include "bf_recovered_function_names.h"
+void BF_X86_CONTEXTCALL bf_forward_tagged_four_byte_word(
     void *incoming_ecx_context,const void *first_stack_arg,
     uint32_t four_byte_payload_word)
 {

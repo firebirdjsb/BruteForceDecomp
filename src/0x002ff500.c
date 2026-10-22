@@ -6,13 +6,14 @@
  * by the second call. Status: C11 draft, ABI stack shape checked, runtime TBD.
  */
 #include <stdint.h>
+#include "bf_recovered_function_names.h"
 #include <stdarg.h>
 
 extern int32_t FID_conflict__vprintf(const char *format, va_list arguments);
 extern int32_t FUN_002eba94(char *output, const char *format, va_list arguments);
 extern void XAPILIB__OutputDebugStringA(const char *message);
 
-void FUN_002ff500(uint32_t ignored_first_stack_arg, const char *format, ...)
+void bf_format_then_output_debug_text(uint32_t ignored_first_stack_arg, const char *format, ...)
 {
     char debug_text[0x800];
     va_list arguments;

@@ -4,7 +4,8 @@
  * Original 87-byte CDECL frame / stack va args, flags 0x42; not original source.
  */
 #include "bf_format_x86.h"
-int32_t FUN_002eaa19(char *buffer,int32_t capacity,const char *format,...)
+#include "bf_recovered_function_names.h"
+int32_t bf_format_varargs_to_counted_buffer(char *buffer,int32_t capacity,const char *format,...)
 {
     BF_FormatSinkState state;
     state.cursor=buffer;

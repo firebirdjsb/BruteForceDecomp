@@ -6,12 +6,13 @@
  * No assumption is made about the concrete global stream structure.
  */
 #include "bf_format_x86.h"
+#include "bf_recovered_function_names.h"
 /* Address-only symbol corresponding to VA 0x003B69A8 in original XBE. */
 extern unsigned char DAT_003b69a8;
 extern uint32_t __stbuf(void *stream);
 extern void __ftbuf(uint32_t prior_state,void *stream);
 
-int32_t FID_conflict__wprintf(const char *format, ...)
+int32_t bf_format_to_global_crt_stream(const char *format, ...)
 {
     void *stream = &DAT_003b69a8;
     const uint32_t prior_state=__stbuf(stream);

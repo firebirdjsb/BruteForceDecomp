@@ -6,8 +6,9 @@
  * Status: C11 syntax / x86 stack-shape checked. Link and behavior unverified.
  */
 #include "bf_format_x86.h"
+#include "bf_recovered_function_names.h"
 
-void FUN_0037a3e0(const char *format, ...)
+void bf_format_then_debug_print(const char *format, ...)
 {
     char diagnostic_text[0x104];
     va_list arguments;

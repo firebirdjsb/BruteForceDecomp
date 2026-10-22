@@ -6,8 +6,9 @@
  * Status: C11 + x86 layout syntax verified; original callee behavior unverified.
  */
 #include "bf_format_x86.h"
+#include "bf_recovered_function_names.h"
 
-int32_t FUN_002eb322(char *buffer, int32_t capacity,
+int32_t bf_format_to_counted_buffer(char *buffer, int32_t capacity,
                      const char *format, va_list arguments)
 {
     BF_FormatSinkState state;

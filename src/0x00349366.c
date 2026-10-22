@@ -5,6 +5,7 @@
  * established original source / complete runtime-equivalent implementation.
  */
 #include "bf_xnet_record_x86.h"
+#include "bf_recovered_function_names.h"
 /* Original Xbox x86 little-endian DWORD copies, in forward granularity.
  * A single bulk memcpy could change the behavior if source/dest overlap. */
 static uint32_t get_le32(const uint8_t *p)
@@ -34,7 +35,7 @@ static void copy_x86_forward(uint8_t *dst,const uint8_t *src,uint32_t len)
 }
 /* The descriptive names below reflect observed byte movements/arguments,
  * NOT a recovered XNET wire protocol or source-level class layout. */
-void BF_X86_CONTEXTCALL FUN_00349366(
+void BF_X86_CONTEXTCALL bf_construct_tagged_byte_record(
     void *incoming_ecx_context,
     const void *first_stack_arg,
     uint16_t header_tag,

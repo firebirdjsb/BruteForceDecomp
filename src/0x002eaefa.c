@@ -5,8 +5,9 @@
  * No safety bound or underlying FUN_002EE515 semantics have been invented.
  */
 #include "bf_format_x86.h"
+#include "bf_recovered_function_names.h"
 extern int32_t FUN_002ee515(void *state,const char *format,va_list arguments);
-void FUN_002eaefa(char *output,const char *format,...)
+void bf_format_with_existing_buffer_length(char *output,const char *format,...)
 {
     BF_FormatSinkState state;
     uint32_t initial_length=0;

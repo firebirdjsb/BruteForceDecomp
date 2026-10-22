@@ -7,6 +7,7 @@
  * Status: C11 syntax-checked; Xbox linker and runtime semantics untested.
  */
 #include <stdint.h>
+#include "bf_recovered_function_names.h"
 #include <stddef.h>
 
 #if defined(_MSC_VER) && defined(_M_IX86)
@@ -25,7 +26,7 @@ extern BF_NTSTATUS BF_XBOX_STDCALL NtSetSystemTime(
     int64_t *previous_time);
 
 /* The original ABI consumes one 8-byte argument and returns with ret 8. */
-void BF_XBOX_STDCALL FUN_0033f3ac(int64_t requested_system_time)
+void BF_XBOX_STDCALL bf_set_system_time_wrapper(int64_t requested_system_time)
 {
     (void)NtSetSystemTime(&requested_system_time, NULL);
 }

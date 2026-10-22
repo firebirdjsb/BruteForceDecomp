@@ -6,8 +6,9 @@
  * Status: C11 syntax / x86 stack-shape checked. Link and behavior unverified.
  */
 #include "bf_format_x86.h"
+#include "bf_recovered_function_names.h"
 
-int32_t FUN_0033df31(char *output_buffer, int32_t output_capacity,
+int32_t bf_format_with_capacity_check(char *output_buffer, int32_t output_capacity,
                      const char *format, ...)
 {
     int32_t result;
