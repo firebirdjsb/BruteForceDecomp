@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Ghidra RCPSS low-lane opcode model; x87-to-float conversion retained.
+ * Caller register ABI and Xbox behavior remain UNVERIFIED. */
 undefined4 FUN_0016fa00(void)
 
 {
@@ -17,7 +20,7 @@ undefined4 FUN_0016fa00(void)
   float *unaff_ESI;
   float10 fVar2;
   float fVar3;
-  undefined1 auVar4 [16];
+  __m128 auVar4;
   undefined1 local_24 [32];
   
   unaff_ESI[1] = (in_ECX[3] * *in_EAX * in_EDX[2] +
@@ -39,8 +42,8 @@ undefined4 FUN_0016fa00(void)
   fVar2 = (float10)FUN_001716a0();
   fVar1 = (float10)1e-05;
   if (fVar2 >= fVar1 && (fVar2 == fVar1) == 0) {
-    auVar4 = rcpss(ZEXT416((uint)(float)fVar2),ZEXT416((uint)(float)fVar2));
-    fVar3 = auVar4._0_4_;
+    auVar4 = _mm_rcp_ss(_mm_set_ss((float)fVar2));
+    fVar3 = _mm_cvtss_f32(auVar4);
     *unaff_ESI = *unaff_ESI * fVar3;
     unaff_ESI[1] = unaff_ESI[1] * fVar3;
     unaff_ESI[2] = unaff_ESI[2] * fVar3;
