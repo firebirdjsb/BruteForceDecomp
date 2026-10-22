@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* TODO: Address from mapped original XBE; ABI/runtime mapping remains unverified. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_FUN_003a4f68;
@@ -19,7 +20,7 @@ undefined4 * FUN_00039270(int param_1,int param_2,undefined4 *param_3)
   undefined1 *puStack_c;
   undefined4 local_8;
   
-  puStack_c = &LAB_003085f0;
+  puStack_c = ((unsigned char *)(uintptr_t)0x003085f0u);
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   local_8 = 0;
