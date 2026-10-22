@@ -27,7 +27,7 @@ LABELS={
 "XNET":"Xbox networking support", "D3D":"Xbox graphics support",
 "XPP":"XPP section — purpose unverified"}
 CALL=re.compile(r"\bFUN_([0-9a-fA-F]{8})\s*\(")
-HASH=re.compile(r"(?:Input x86 body SHA-256|Original body SHA-256):\s*([A-Fa-f0-9]{64})")
+from body_hash_labels import read_body_digest
 def section(va):
     for name,start,end in SECTIONS:
         if start<=va<end:return name
@@ -62,8 +62,9 @@ def main():
             if deps:group="MAIN-references-"+"+".join(deps)
             else:group="MAIN-undetermined-address-band-"+format(va>>16,"04X")
         else:group="LIBRARY-"+sec
-        match=HASH.search(content)
+        embedded_hash, hash_conflict=read_body_digest(content)
         risks=[]
+        if hash_conflict:risks.append("conflicting-embedded-body-hashes")
         if re.search(r"\bstack0x[0-9a-f]+",content,re.I):risks.append("unresolved-stack")
         if re.search(r"\b(?:in|unaff|extraout)_(?:EAX|EBX|ECX|EDX|ESI|EDI)",content):risks.append("implicit-register")
         if "rsqrtss" in content or "in_XMM" in content:risks.append("SIMD")
@@ -75,7 +76,7 @@ def main():
             "role_evidence":"assembly-reviewed" if entry in roles else "unverified",
             "observed_library_call_references":";".join(deps),
             "named_call_targets_in_C":len(refs),
-            "original_body_sha256_embedded":match.group(1).upper() if match else "",
+            "original_body_sha256_embedded":embedded_hash or "",
             "review_flags":";".join(risks),"source_file":p.relative_to(ROOT).as_posix()}
         rows.append(row);counts[sec]+=1;groups[group]+=1
     with (OUT/"all_13694_functions.csv").open("w",newline="",encoding="utf-8") as f:

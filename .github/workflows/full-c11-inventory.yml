@@ -9,6 +9,10 @@ on:
       - 'metadata/**'
       - 'tools/sweep_c11.py'
       - 'tools/audit_entrypoint_symbols.py'
+      - 'tools/body_hash_labels.py'
+      - 'tools/test_body_hash_labels.py'
+      - 'tools/recheck_c11_provenance.py'
+      - 'tools/classify_c11_functions.py'
       - '.github/workflows/full-c11-inventory.yml'
   workflow_dispatch:
 
@@ -26,6 +30,8 @@ jobs:
         run: |
           echo "AUDITED_COMMIT=${GITHUB_SHA}"
           clang --version | head -n 1
+      - name: Verify all accepted provenance label formats
+        run: python3 tools/test_body_hash_labels.py
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
       - name: Inventory candidate C entrypoint identities without asserting linkage

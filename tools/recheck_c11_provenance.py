@@ -4,9 +4,8 @@ import argparse
 import csv
 import hashlib
 import pathlib
-import re
 
-BODY_HASH_RE = re.compile(r'(?:Input x86 body SHA-256|Original body SHA-256):\s*([0-9A-Fa-f]{64})')
+from body_hash_labels import read_body_digest
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -31,10 +30,10 @@ def main():
         new_digest = hashlib.sha256(raw).hexdigest()
         if new_digest.lower() != row['c_sha256'].lower():
             changed.append(entry)
-        found = BODY_HASH_RE.search(raw.decode('utf-8', 'replace'))
-        if found is None:
+        digest, conflict = read_body_digest(raw.decode('utf-8', 'replace'))
+        if digest is None and not conflict:
             not_embedded.append(entry)
-        elif found.group(1).lower() != row['original_body_sha256'].lower():
+        elif conflict or digest.lower() != row['original_body_sha256'].lower():
             mismatched.append(entry)
         if args.refresh:
             row['c_sha256'] = new_digest

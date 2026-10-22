@@ -15,7 +15,7 @@ import shutil
 import subprocess
 import time
 
-BODY = re.compile(r"(?:Input x86 body SHA-256|Original body SHA-256):\s*([A-Fa-f0-9]{64})")
+from body_hash_labels import read_body_digest
 ERR = re.compile(r"error:\s*([^\n]+)")
 FLAGS = [
     "-std=c11", "-fsyntax-only", "-ferror-limit=3",
@@ -38,12 +38,12 @@ def check(task):
         result["c_sha256_actual"].lower() == row.get("c_sha256","").lower()
     )
     text = content.decode("utf-8", "replace")
-    m = BODY.search(text)
+    embedded, conflict = read_body_digest(text)
+    indexed = row.get("original_body_sha256", "").upper()
     result["body_provenance"] = (
-        "match" if m and row.get("original_body_sha256") and
-                   m.group(1).upper()==row["original_body_sha256"].upper()
-        else "mismatch" if m and row.get("original_body_sha256")
-        else "unindexed" if m else "missing"
+        "mismatch" if conflict or (embedded and indexed and embedded != indexed)
+        else "match" if embedded and indexed
+        else "unindexed" if embedded else "missing"
     )
     try:
         p = subprocess.run(
