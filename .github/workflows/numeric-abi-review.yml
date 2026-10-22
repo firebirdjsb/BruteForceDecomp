@@ -6,6 +6,8 @@ on:
       - 'src/0x0002ac80.c'
       - 'src/0x000481c0.c'
       - 'src/0x0001d0c0.c'
+      - 'src/0x002b6490.c'
+      - 'tests/test_scalar_rsqrtss.c'
       - 'src/0x000563b0.c'
       - 'include/bf_eax_stack_dispatch.h'
       - 'include/bf_recovered_function_names.h'
@@ -16,6 +18,8 @@ on:
       - 'src/0x0002ac80.c'
       - 'src/0x000481c0.c'
       - 'src/0x0001d0c0.c'
+      - 'src/0x002b6490.c'
+      - 'tests/test_scalar_rsqrtss.c'
       - 'src/0x000563b0.c'
       - 'include/bf_eax_stack_dispatch.h'
 
@@ -39,6 +43,16 @@ jobs:
           grep -Eiq 'ret[[:space:]]+4' /tmp/eax_dispatch.s
           clang -std=c11 -Iinclude -c src/0x000563b0.c -o /tmp/eax_dispatch.o
           nm /tmp/eax_dispatch.o | grep -q 'FUN_000563b0'
+      - name: Actual 27-byte scalar RSQRTSS x86 function
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -msse -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude \
+            src/0x002b6490.c tests/test_scalar_rsqrtss.c -lm -o /tmp/test_scalar_rsqrt
+          /tmp/test_scalar_rsqrt
+          clang -target i386-pc-windows-msvc -msse -O1 -Iinclude -S \
+            src/0x002b6490.c -o /tmp/rsqrtss.s
+          grep -Eiq '\\brsqrtss\\b' /tmp/rsqrtss.s
       - name: x87 pointer-merge fixes — lenient syntax only
         shell: bash
         run: |
