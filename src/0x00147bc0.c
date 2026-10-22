@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched declaration of FUN_00310250; callback ABI and behavior remain
+ * ABI_UNVERIFIED. This only resolves name lookup in the C11 draft. */
+extern void FUN_00310250(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004a88e8;

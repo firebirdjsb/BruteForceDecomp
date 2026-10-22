@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched declaration of FUN_0034c826; callback ABI and behavior remain
+ * ABI_UNVERIFIED. This only resolves name lookup in the C11 draft. */
+extern void FUN_0034c826(int param_1);
 void FUN_0034eea9(int param_1)
 
 {
