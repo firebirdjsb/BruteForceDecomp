@@ -1,0 +1,45 @@
+name: Group all C source functions
+on:
+  push:
+    paths:
+      - 'tools/classify_c11_functions.py'
+      - '.github/workflows/group-c11-functions.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  classify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Build all 13694 groups from current private C source
+        run: python3 tools/classify_c11_functions.py
+      - name: Check complete inventory and source identities
+        run: |
+          python3 - <<'PY'
+          import csv, pathlib
+          p=pathlib.Path('metadata/function_groups/all_13694_functions.csv')
+          rows=list(csv.DictReader(p.open(encoding='utf-8',newline='')))
+          assert len(rows)==13694
+          assert len(set(r['entry'] for r in rows))==13694
+          assert all(pathlib.Path(r['source_file']).exists() for r in rows)
+          print('Group inventory validated: 13,694 unique addresses and source files')
+          PY
+      - name: Commit only generated grouping metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add metadata/function_groups/
+          if git diff --cached --quiet; then
+            echo "No grouping changes"
+          else
+            git commit -m "docs: organize all 13694 functions by conservative source evidence"
+            # Never force-push. If concurrent changes occurred, report conflict.
+            git push origin HEAD:main
+          fi
