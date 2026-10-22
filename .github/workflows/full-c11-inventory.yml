@@ -2,6 +2,7 @@ name: Full C11 draft syntax inventory
 on:
   push:
     paths:
+      - 'src/**'
       - 'tools/sweep_c11.py'
       # Focused evidence-based fixes also refresh the cumulative failure total.
       - 'src/0x000213e0.c'
