@@ -17,4 +17,9 @@ typedef struct BF_XAPI_DEVICE_TYPE_LAYOUT_UNVERIFIED BF_XAPI_DEVICE_TYPE_LAYOUT_
 extern BF_XAPI_DEVICE_TYPE_LAYOUT_UNVERIFIED XAPILIB__g_DeviceType_Gamepad;
 extern uint8_t *XAPILIB__g_DeviceTypeInfoTableBegin;
 extern uint8_t *XAPILIB__g_DeviceTypeInfoTableEnd;
+/* Unprefixed aliases in XAPI 0x0037FC3C/0x0037FC73 drafts.
+ * Source walks consecutive pointer entries; the adjacency and actual
+ * 32-bit Xbox table addresses are NOT verified C objects or layout. */
+extern uint8_t *g_DeviceTypeInfoTableBegin;
+extern uint8_t *g_DeviceTypeInfoTableEnd;
 #endif
