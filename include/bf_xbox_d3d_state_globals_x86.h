@@ -17,5 +17,22 @@ extern uint32_t D3D8__D3DRS_TwoSidedLighting;
 extern uint32_t D3D8__D3DRS_StencilCullEnable;
 extern uint32_t D3D8__D3DRS_OcclusionCullEnable;
 extern uint32_t D3D8__D3DRS_StencilEnable;
+/* Other DWORD render states observed as scalar references in existing D3D C drafts.
+ * Original Xbox memory offsets, initialization and actual ABI unverified. */
+extern uint32_t D3D8__D3DRS_CullMode;
+extern uint32_t D3D8__D3DRS_FrontFace;
+extern uint32_t D3D8__D3DRS_Dxt1NoiseEnable;
+extern uint32_t D3D8__D3DRS_YuvEnable;
+extern uint32_t D3D8__D3DRS_RopZCmpAlwaysRead;
+extern uint32_t D3D8__D3DRS_RopZRead;
+extern uint32_t D3D8__D3DRS_DoNotCullUncompressed;
+extern uint32_t D3D8__D3DRS_ZBias;
+extern uint32_t D3D8__D3DRS_MultiSampleAntiAlias;
+extern uint32_t D3D8__D3DRS_MultiSampleMask;
+extern uint32_t D3D8__D3DRS_SampleAlpha;
+extern uint32_t D3D8__D3DRS_LogicOp;
+extern uint32_t D3D8__D3DRS_BackFillMode;
+extern uint32_t D3D8__D3DRS_PSTextureModes;
+extern uint32_t D3D8__D3DRS_FogEnable;
 extern uint32_t D3D8__D3DRS_StencilFail;
 #endif
