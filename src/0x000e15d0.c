@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE mapped VA 0x00308590; address reference only, symbol linkage unverified. */
+extern unsigned char LAB_00308590;
+
 /* WARNING: Removing unreachable block (ram,0x000e18e8) */
 
 int FUN_000e15d0(int param_1,int param_2,uint param_3,undefined4 param_4)
