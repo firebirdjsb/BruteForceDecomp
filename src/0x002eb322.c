@@ -1,33 +1,31 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox: formatted output to a counted buffer.
+ * Entry: 0x002eb322
  * Input x86 body SHA-256: 22687E9F81A4EDA6B9CCBB70C2E30F015110C3B601DB77F650C785B3362382E4
- * Entry: 0x002eb322, Ghidra index: 10617, label: FUN_002eb322
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * Evidence: 0x002eb322..0x002eb377, 16-byte on-stack state at EBP-0x20;
+ * calls 0x002edbde and 0x002ed1ef (__flsbuf), cdecl ret.
+ * Status: C11 + x86 layout syntax verified; original callee behavior unverified.
  */
-#include "bf_ghidra_types.h"
-undefined4 FUN_002eb322(undefined1 *param_1,int param_2,undefined4 param_3,undefined4 param_4)
+#include "bf_format_x86.h"
 
+int32_t FUN_002eb322(char *buffer, int32_t capacity,
+                     const char *format, va_list arguments)
 {
-  undefined4 uVar1;
-  undefined1 *local_24;
-  int local_20;
-  undefined1 *local_1c;
-  undefined4 local_18;
-  
-  local_20 = param_2;
-  local_18 = 0x42;
-  local_1c = param_1;
-  local_24 = param_1;
-  uVar1 = FUN_002edbde(&local_24,param_3,param_4);
-  if (param_1 != (undefined1 *)0x0) {
-    local_20 = local_20 + -1;
-    if (local_20 < 0) {
-      __flsbuf(0,&local_24);
+    BF_FormatSinkState state;
+    int32_t format_result;
+    state.cursor = buffer;
+    state.remaining_bits = (uint32_t)capacity;
+    state.initial_buffer = buffer;
+    state.flags = UINT32_C(0x42);
+
+    format_result = FUN_002edbde(&state, format, arguments);
+    if (buffer != NULL) {
+        /* x86 DEC wraps in 32 bits. Signed decrement at INT32_MIN is UB. */
+        state.remaining_bits -= UINT32_C(1);
+        if ((state.remaining_bits & UINT32_C(0x80000000)) != 0) {
+            (void)__flsbuf(0, &state);
+        } else {
+            *state.cursor = '\0';
+        }
     }
-    else {
-      *local_24 = 0;
-    }
-  }
-  return uVar1;
+    return format_result;
 }
