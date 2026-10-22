@@ -1,30 +1,27 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox register/stack model.
+ * Entry: 0x000563b0
  * Input x86 body SHA-256: 2B41EC3E748E911C3564529F86F1C082B674F5D19B6F0BC15D9F4AD7CF1FE8C1
- * Entry: 0x000563b0, Ghidra index: 828, label: FUN_000563b0
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * Source of field writes: original x86 0x000563B0..0x000563ED.
+ * Input EAX context + one stack word, ret 4.
+ * Callee FUN_000384a0 is not yet ABI-consistent as reconstructed C.
  */
-#include "bf_ghidra_types.h"
-void FUN_000563b0(void)
-
+#include "bf_eax_stack_dispatch.h"
+#include "bf_recovered_function_names.h"
+void BF_X86_EAX_STACKCALL bf_advance_counter_then_forward_word(
+    BF_CounterState_563B0 *context, uint32_t stack_word)
 {
-  uint uVar1;
-  int in_EAX;
-  uint uVar2;
-  
-  uVar1 = *(uint *)(in_EAX + 0x10);
-  if ((*(uint *)(in_EAX + 0x14) <= uVar1) && (uVar1 != 0)) {
-    uVar2 = *(int *)(in_EAX + 0xc) + 1;
-    *(uint *)(in_EAX + 0xc) = uVar2;
-    if ((uint)(*(int *)(in_EAX + 8) << 2) <= uVar2) {
-      *(undefined4 *)(in_EAX + 0xc) = 0;
+    uint32_t remaining=context->remaining_at_10;
+    if (remaining>=context->threshold_at_14 && remaining!=0) {
+        uint32_t next=context->rolling_index_at_0c+UINT32_C(1);
+        context->rolling_index_at_0c=next;
+        if ((context->capacity_word_at_08<<2)<=next)
+            context->rolling_index_at_0c=0;
+        remaining-=UINT32_C(1);
+        context->remaining_at_10=remaining;
+        if (remaining==0)
+            context->rolling_index_at_0c=0;
     }
-    *(uint *)(in_EAX + 0x10) = uVar1 - 1;
-    if (uVar1 - 1 == 0) {
-      *(undefined4 *)(in_EAX + 0xc) = 0;
-    }
-  }
-  FUN_000384a0(&stack0x00000004);
-  return;
+    /* The original uses EAX for context and pushes the caller's stack
+     * word address. The x86 prototype below is an assembly-backed model. */
+    FUN_000384a0(context,&stack_word);
 }

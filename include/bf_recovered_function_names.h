@@ -13,4 +13,5 @@
 #define bf_format_varargs_to_counted_buffer FUN_002eaa19 /* 0x002eaa19 */
 #define bf_format_with_existing_buffer_length FUN_002eaefa /* 0x002eaefa */
 #define bf_set_system_time_wrapper FUN_0033f3ac /* 0x0033f3ac */
+#define bf_advance_counter_then_forward_word FUN_000563b0 /* 0x000563B0 */
 #endif
