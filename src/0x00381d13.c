@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* These addresses have matching definitions in current recovered C drafts.
+ * Indirect-call ABI and 32-bit pointer storage remain ABI_UNVERIFIED. */
+extern void FUN_00381955(undefined4 *param_1,int param_2);
+extern void FUN_00381b3b(undefined4 *param_1,int param_2);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0040f664;

@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* These addresses have matching definitions in current recovered C drafts.
+ * Indirect-call ABI and 32-bit pointer storage remain ABI_UNVERIFIED. */
+extern void FUN_00331db8(int param_1);
+extern void FUN_003321a5(int param_1);
 int FUN_0033222d(int param_1,undefined4 param_2,undefined4 *param_3)
 
 {

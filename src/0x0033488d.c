@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* These addresses have matching definitions in current recovered C drafts.
+ * Indirect-call ABI and 32-bit pointer storage remain ABI_UNVERIFIED. */
+extern undefined4 FUN_003338cb(uint param_1);
+extern void FUN_003335a5(int param_1);
 int * XONLINES__CXo_XOnlineLogon
                 (int *param_1,int param_2,int param_3,int param_4,undefined4 *param_5)
 
