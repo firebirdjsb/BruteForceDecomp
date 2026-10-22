@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Mapped Xbox image address 0x0012ddb0; extern label with unresolved link definition. */
+extern unsigned char LAB_0012ddb0;
+
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0038db80;

@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Mapped Xbox image address 0x00307110; extern label with unresolved link definition. */
+extern unsigned char LAB_00307110;
+
 void FUN_0012b000(undefined4 param_1,int param_2)
 
 {
