@@ -120,7 +120,7 @@ def main():
         for r in results:
             if r["status"]!="pass":
                 writer.writerow([r["entry"],r["status"],(r.get("errors") or [r.get("diagnostic","")])[0][:900]])
-    summary=f"Checked {len(results)} functions; pass {count['pass']}; fail {count['fail']}; other {len(results)-count['pass']-count['fail']}; XBE body hash mismatches {output['body_hash_mismatches']}; C source digest drift {output['c_source_hash_drift']}; time {output['duration_seconds']}s."
+    summary=f"Checked {len(results)} functions; pass {count['pass']}; fail {count['fail']}; other {len(results)-count['pass']-count['fail']}; XBE body hash mismatches {output['body_hash_mismatches']}; missing embedded body hashes {output['body_hash_missing']}; C source digest drift {output['c_source_hash_drift']}; time {output['duration_seconds']}s."
     print(summary,flush=True)
     github_summary=os.environ.get("GITHUB_STEP_SUMMARY")
     if github_summary:
