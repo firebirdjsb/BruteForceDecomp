@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbe_mapped_data_addresses_x86.h"
 #include "bf_xbox_d3d_state_globals_x86.h"
 #include "bf_xbox_d3d_device_x86.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
