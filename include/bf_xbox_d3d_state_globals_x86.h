@@ -19,6 +19,7 @@ extern uint32_t D3D8__D3DRS_OcclusionCullEnable;
 extern uint32_t D3D8__D3DRS_StencilEnable;
 /* Other DWORD render states observed as scalar references in existing D3D C drafts.
  * Original Xbox memory offsets, initialization and actual ABI unverified. */
+extern uint32_t D3D8__D3DRS_FillMode;
 extern uint32_t D3D8__D3DRS_CullMode;
 extern uint32_t D3D8__D3DRS_FrontFace;
 extern uint32_t D3D8__D3DRS_Dxt1NoiseEnable;

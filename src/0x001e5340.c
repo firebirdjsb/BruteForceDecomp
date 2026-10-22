@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_xapi_device_identities_x86.h"
 undefined4 FUN_001e5340(void)
 
 {
