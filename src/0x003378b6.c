@@ -10,6 +10,11 @@
  * Original x86 register, stack and indirect call contracts remain ABI_UNVERIFIED. */
 extern int FUN_00335c99(int param_1);
 extern int FUN_003369c7(int *param_1);
+extern int FUN_00335cbd(int param_1);
+extern int FUN_00337458(int param_1);
+extern void FUN_003357da(int param_1);
+extern int FUN_00335e86(int param_1);
+extern void FUN_003357a4(int param_1);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00335ce1;
