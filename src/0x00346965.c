@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_external_import_addresses_x86.h"
 int FUN_00346965(int param_1,int *param_2)
 
 {

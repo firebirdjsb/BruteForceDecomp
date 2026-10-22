@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_external_import_addresses_x86.h"
 void XAPILIB__XComputeContentSignatureKey(undefined4 param_1,undefined4 param_2)
 
 {
