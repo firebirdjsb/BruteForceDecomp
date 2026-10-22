@@ -14,6 +14,7 @@ The shared declaration now belongs to `include/bf_xbox_d3d_device_x86.h`, rather
 - `e2bc551710cb775ac2c7195baafbbeb5ddb5c368`: six more source-matched D3D callers: `0x0036C8A0`, `0x0036CA20`, `0x0036CCF0`, `0x0036CD50`, `0x0036CDB0`, `0x0036D870`.
 - `3ac4be6a67893a805bb44e8968595045e4b19319`: five more callers: `0x0036E2B0`, `0x0036E420`, `0x0036E5D0`, `0x0036E6E0`, `0x0036E800`.
 - `a03d5ef90b4302ae15b5fbae4bf0c91830cbfa66`: ten additional callers: `0x0036F9F0`, `0x0036FA70`, `0x0036FB10`, `0x0036FF70`, `0x00370180`, `0x003701C0`, `0x00370200`, `0x00370260`, `0x003702E0`, `0x00370330`.
+- `53e2d8a6870725304e0618d2c9be1e729b4b12ce`: six more D3D command writers: `0x00370380`, `0x00370420`, `0x003704B0`, `0x00370530`, `0x00370590`, `0x00370600`.
 
 These patches add includes and one header only. They do not rewrite original Ghidra C instruction bodies, add unverified platform API prototypes, or change the original x86-body hashes.
 
@@ -23,7 +24,8 @@ These patches add includes and one header only. They do not rewrite original Ghi
 - Commit `09ba90c37995b5c4648ff7e8d901c51256a9ee70`: **12,109 pass / 1,585 fail**.
 - Commit `e2bc551710cb775ac2c7195baafbbeb5ddb5c368`: **12,115 pass / 1,579 fail**.
 - Commit `3ac4be6a67893a805bb44e8968595045e4b19319`: **12,120 pass / 1,574 fail**; **0** embedded-original-body hash mismatches and **0** missing labels after the shared parser fix.
-- The `a03d5ef90b4302ae15b5fbae4bf0c91830cbfa66` batch still requires its own exact-tree audit before reporting a new compiler pass count.
+- Commit `a03d5ef90b4302ae15b5fbae4bf0c91830cbfa66`: **12,127 pass / 1,567 fail**. The remaining failures include unverified D3D render-state globals and the `LAB_00210000` label.
+- The `53e2d8a6870725304e0618d2c9be1e729b4b12ce` batch still requires its exact-tree audit.
 
 ## Critical limitations for actual 1:1 reconstruction and a native PC build
 
