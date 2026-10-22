@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* TODO: Original mapped address; ABI/relocations unverified. */
 void FUN_00050250(int param_1,int param_2,uint param_3)
 
 {
@@ -23,7 +24,7 @@ void FUN_00050250(int param_1,int param_2,uint param_3)
   undefined4 local_8;
   
   local_8 = 0xffffffff;
-  puStack_c = &LAB_00309000;
+  puStack_c = ((unsigned char *)(uintptr_t)0x00309000u);
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   FUN_00050650();
