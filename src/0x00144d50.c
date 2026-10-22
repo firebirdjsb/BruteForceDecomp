@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE original .text section mapped VA 0x00308f90.
+ * Address-only declaration. Symbol definition, function/handler role
+ * and original ECX/EDX register ABI are still unverified. */
+extern unsigned char LAB_00308f90;
 int FUN_00144d50(int param_1,int param_2,int param_3,undefined4 param_4)
 
 {
