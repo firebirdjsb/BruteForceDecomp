@@ -7,7 +7,7 @@
  */
 #include "bf_ghidra_types.h"
 #include <xmmintrin.h>
-/* Original x86 RC PSS (RC PSS = reciprocal approximation) low-lane scalar. */
+/* Original x86 RCPSS approximate reciprocal: scalar low lane only. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 int FUN_00025870(float param_1)
