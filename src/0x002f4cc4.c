@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_xapi_tls_filter_source.h"
 undefined4 XAPILIB__UnhandledExceptionFilter(undefined4 param_1)
 
 {
