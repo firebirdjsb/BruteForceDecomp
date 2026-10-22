@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched callback/address references (not an ABI verification).
+ * Original x86 register, stack and indirect call contracts remain ABI_UNVERIFIED. */
+extern void FUN_000493e0(void);
 void FUN_003571b0(void)
 
 {

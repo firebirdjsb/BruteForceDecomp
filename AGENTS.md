@@ -9,3 +9,4 @@
 - Never commit the XBE, ISO, copyrighted assets, complete decompiler dump, Ghidra databases, local absolute paths, tokens, passwords or credentials.
 - Existing 103 C++ drafts are *legacy evidence* to migrate manually or through verified, explicit C conversions. Do not rename a `.cpp` to `.c` and claim it is converted.
 - Prefer small batches and keep function identity, byte hashes, testing results and Git commit references current.
+- **Single-branch policy:** `main` is the canonical and only intended long-lived source branch. Commit reviewed, provenance-preserving C11 fixes directly to `main` in small atomic commits, with an exact-tree compile audit; do not leave repair branches or open PRs as alternate sources. Do not mark unverified changes 1:1 or runtime-tested merely because `main` compiled.

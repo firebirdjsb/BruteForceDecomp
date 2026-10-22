@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched callback/address references (not an ABI verification).
+ * Original x86 register, stack and indirect call contracts remain ABI_UNVERIFIED. */
+extern void FUN_003778b0(undefined4 param_1,int *param_2);
+extern undefined4 FUN_00377790(undefined4 param_1,int *param_2);
 bool D3D8LTCG__CMiniport_InitHardware(void)
 
 {
