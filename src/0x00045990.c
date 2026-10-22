@@ -85,10 +85,11 @@ undefined4 FUN_00045990(undefined4 param_1)
         in_ECX[0x114] = (int)(fVar12 - fVar1);
         in_ECX[0x113] = 0;
         pfVar11 = (float *)(in_ECX + 0x112);
+        /* Balanced intrinsic calls preserve the draft's original scalar
+         * rsqrtss operand; x86 SIMD lanes and ABI remain unverified. */
         auVar13 = _mm_rsqrt_ss(_mm_set_ss((float)in_ECX[0x114] * (float)in_ECX[0x114] +
-                                  (float)in_ECX[0x113] * (float)in_ECX[0x113] + *pfVar11 * *pfVar11)
-        ;
-        fVar12 = _mm_cvtss_f32(auVar13));
+                                  (float)in_ECX[0x113] * (float)in_ECX[0x113] + *pfVar11 * *pfVar11));
+        fVar12 = _mm_cvtss_f32(auVar13);
         uVar15 = 0;
         uVar14 = 0x41c80000;
         *pfVar11 = fVar12 * *pfVar11;
