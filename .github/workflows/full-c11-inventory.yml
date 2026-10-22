@@ -4,6 +4,7 @@ on:
     paths:
       - 'src/**'
       - 'tools/sweep_c11.py'
+      - 'tools/audit_entrypoint_symbols.py'
       # Focused evidence-based fixes also refresh the cumulative failure total.
       - 'src/0x000213e0.c'
       - 'src/0x00025870.c'
@@ -21,6 +22,7 @@ on:
     paths:
       - 'src/**'
       - 'tools/sweep_c11.py'
+      - 'tools/audit_entrypoint_symbols.py'
       - '.github/workflows/full-c11-inventory.yml'
 
 permissions:
@@ -39,6 +41,8 @@ jobs:
           clang --version | head -n 1
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
+      - name: Inventory candidate C entrypoint identities without asserting linkage
+        run: python3 tools/audit_entrypoint_symbols.py --root . --out c11_sweep_results/entry_symbol_audit.csv
       - name: Upload audit and per-address error diagnostics
         if: always()
         uses: actions/upload-artifact@v4
