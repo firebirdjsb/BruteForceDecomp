@@ -6,10 +6,13 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_recovered_function_names.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037ec88;
-undefined4 FUN_00062230(undefined4 param_1)
+/* Xbox x86 mov esi, [0x0037dd88] loads a pointer VALUE. */
+extern uint32_t *D3D8__D3D_g_pDevice;
+undefined4 bf_emit_two_word_d3d_command(undefined4 param_1)
 
 {
   undefined4 *puVar1;

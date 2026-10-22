@@ -17,4 +17,5 @@
 #define bf_initialize_observed_record_header FUN_00347fe3 /* VA 0x00347fe3 */
 #define bf_approximate_reciprocal_sqrt_scalar FUN_002b6490 /* 0x002b6490 */
 #define bf_emit_three_word_d3d_command FUN_00062170 /* 0x00062170 */
+#define bf_emit_two_word_d3d_command FUN_00062230 /* VA 0x00062230 */
 #endif
