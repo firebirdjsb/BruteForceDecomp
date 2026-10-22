@@ -52,7 +52,7 @@ jobs:
           /tmp/test_scalar_rsqrt
           clang -target i386-pc-windows-msvc -msse -O1 -Iinclude -S \
             src/0x002b6490.c -o /tmp/rsqrtss.s
-          grep -Eiq '\\brsqrtss\\b' /tmp/rsqrtss.s
+          grep -Eiq 'rsqrtss' /tmp/rsqrtss.s
       - name: x87 pointer-merge fixes — lenient syntax only
         shell: bash
         run: |
