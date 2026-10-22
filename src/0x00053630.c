@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* TODO: Original mapped XBE image address; ABI/relocations unverified. */
 void FUN_00053630(int param_1)
 
 {
@@ -22,7 +23,7 @@ void FUN_00053630(int param_1)
   undefined4 local_8;
   
   local_8 = 0xffffffff;
-  puStack_c = &LAB_00307e80;
+  puStack_c = ((unsigned char *)(uintptr_t)0x00307e80u);
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   iVar3 = *(int *)(in_EDX + 4);
