@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Original x86 RC PSS (RC PSS = reciprocal approximation) low-lane scalar. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 int FUN_00025870(float param_1)
@@ -23,7 +25,7 @@ int FUN_00025870(float param_1)
   ushort uVar7;
   float fVar8;
   float fVar9;
-  undefined1 auVar10 [16];
+  __m128 approximate_reciprocal;
   float fVar11;
   float local_8;
   float fStack_4;
@@ -42,8 +44,8 @@ int FUN_00025870(float param_1)
     local_8 = 0.0;
   }
   else {
-    auVar10 = rcpss(ZEXT416((uint)fVar8),ZEXT416((uint)fVar8));
-    fVar11 = auVar10._0_4_;
+    approximate_reciprocal = _mm_rcp_ss(_mm_set_ss(fVar8));
+    fVar11 = _mm_cvtss_f32(approximate_reciprocal);
     fVar9 = fVar11 * fVar9;
     local_8 = fVar11 * local_8;
     fVar11 = fVar11 * fVar4;
