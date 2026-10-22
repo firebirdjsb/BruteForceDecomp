@@ -6,6 +6,12 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Verified XBE .data addresses 0x003FFCA4, 0x003FFCC4, 0x003FFCE4.
+ * Declarations preserve Ghidra address expressions; definitions, sizes,
+ * storage layout and semantics are NOT yet recovered. */
+extern unsigned char LAB_003ffca4;
+extern unsigned char LAB_003ffcc4;
+extern unsigned char LAB_003ffce4;
 void FUN_0004ece0(void)
 
 {
