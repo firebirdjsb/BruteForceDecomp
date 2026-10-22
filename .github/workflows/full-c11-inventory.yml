@@ -9,6 +9,9 @@ on:
       - 'src/0x00026060.c'
       - 'src/0x0002bf60.c'
       - 'src/0x00024c00.c'
+      # Reviewed mapped-label repairs; grouped failure inventory stays current.
+      - 'src/0x00156240.c'
+      - 'src/0x0016d310.c'
       - '.github/workflows/full-c11-inventory.yml'
   workflow_dispatch:
 
