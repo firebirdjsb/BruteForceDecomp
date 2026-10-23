@@ -37,11 +37,13 @@ LAB_00050a21:
     iVar1 = local_4;
     param_3 = param_3 / 2 + (param_3 / 2) / 2;
     if ((int)(local_8 - param_1 & 0xfffffffcU) < (int)(param_2 - local_4 & 0xfffffffcU)) {
-      FUN_00050980(param_1);
+      /* Original 0x000509F7: stack words (param_1, local_4, param_3). */
+      FUN_00050980(param_1,local_4,param_3);
       param_1 = iVar1;
     }
     else {
-      FUN_00050980(local_4);
+      /* Original 0x00050A09: stack words (local_4, param_2, param_3). */
+      FUN_00050980(local_4,param_2,param_3);
       param_2 = local_8;
     }
     iVar1 = param_2 - param_1;
