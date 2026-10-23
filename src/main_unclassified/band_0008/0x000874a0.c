@@ -28,6 +28,10 @@ void FUN_000874a0(int param_1)
          * The high 24 bits are not initialized by this instruction.
          * Preserve the original byte store; ABI_UNVERIFIED for the callee. */
         ((unsigned char *)&local_4)[0] = uVar2;
+        /* x86 0x000874E2-0x000874EA: first pushed word is EBX,
+         * original EAX=EBP is the actual range start. This Ghidra C
+         * call syntax is NOT an ABI-complete native binding.
+         * The subsequent words are caller-owned; see the call-edge ledger. */
         FUN_00087630(iVar1,piVar4 + -1,local_4);
                     /* WARNING: Subroutine does not return */
         thunk_FUN_00237ec0(*piVar4);
