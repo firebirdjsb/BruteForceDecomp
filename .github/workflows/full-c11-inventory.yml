@@ -9,6 +9,8 @@ on:
       - 'metadata/**'
       - 'tools/sweep_c11.py'
       - 'tools/audit_xbe_first_100.py'
+      - 'tools/audit_xbe_kernel_imports.py'
+      - 'tools/test_xbe_kernel_imports.py'
       - 'tools/audit_entrypoint_symbols.py'
       - 'tools/test_audit_entrypoint_symbols.py'
       - 'tools/body_hash_labels.py'
@@ -53,6 +55,8 @@ jobs:
         run: |
           clang -std=c11 -Wall -Wextra -Werror -pedantic-errors -I include tools/test_x86_float_lanes.c -o /tmp/bf_x86_float_lane_test
           /tmp/bf_x86_float_lane_test
+      - name: Verify synthetic Xbox kernel thunk parsing
+        run: python3 tools/test_xbe_kernel_imports.py
       - name: Verify sorted source layout and exact function identities
         run: python3 tools/test_source_layout.py
       - name: Refresh local evidence-limited function groups for relocated sources
