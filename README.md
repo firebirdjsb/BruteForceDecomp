@@ -1,15 +1,31 @@
-# Brute Force — Original Xbox Static Reconstruction (C11)
+# BruteForce: Reloaded
+
+**An unofficial, evidence-driven reconstruction of Brute Force (2003) for native Windows PC.** BruteForceDecomp remains the original Xbox C11 reconstruction workspace; BruteForce: Reloaded is the planned native PC release with an optional enhanced mode. Neither the playable PC game nor enhancement features exist yet.
 
 <!-- BF_PROGRESS_START -->
 ## Reconstruction progress
 
 [![C11 source audit](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/full-c11-inventory.yml/badge.svg?branch=main)](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/full-c11-inventory.yml)
 
+![Overall roadmap tracking: 12.93%](docs/progress/overall.svg)
+
+**Overall tracked roadmap: 12.93%** (conservative milestone indicator, **not verified game completion**). Seven equally weighted phases: the audited C11 syntax pass fraction contributes to one phase, while the other six are unverified and receive zero completion credit until evidence-based metrics exist. This is a planning proxy, not a verified 1:1 or playable-game percentage.
+
 ![C11 source syntax coverage: 90.53%](docs/progress/c11-syntax.svg)
 
 **90.53% C11 syntax coverage** · **12,397 / 13,694** individually checked functions · **1,297** still fail. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/ee320b0833e804df4889c2423a4465e7cca589a0) · [GitHub Actions report](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/39999450394).
 
 **Native PC game: NOT buildable/playable yet.** A syntax pass is not Xbox ABI verification, cross-function linking, platform compatibility, or a 1:1 match. This percentage is **not** game-completion percentage.
+
+| Roadmap phase | Credited progress |
+| --- | --- |
+| 1. Isolated host C11 syntax | 90.53% source drafts passing |
+| 2. Original Xbox ABI, types and structures | Unverified |
+| 3. Cross-function linking | Unverified |
+| 4. Original 1:1 behavioral testing | Unverified |
+| 5. Xbox-to-Windows platform services | Unverified |
+| 6. Playable native Windows baseline | Unverified |
+| 7. Optional Reloaded enhancements | Unverified |
 
 [Machine-readable progress](docs/progress/current.json) · [Detailed status](docs/STATUS.md) · [Native PC milestones](docs/NATIVE_PC_PORT_GOALS.md)
 
@@ -31,9 +47,16 @@ Public, evidence-driven research workspace for the original Xbox 32-bit x86 `def
 4. Never commit the original executable, game assets, ISOs, Ghidra project databases, full decompiler dumps, private local paths, or authentication credentials. Git stores small metadata, scripts and carefully scoped reconstructions only.
 5. Review every generated change. Keep a function-by-function audit trail and test C syntax before marking any draft buildable.
 
-## End goal: native PC game
+## One faithful game core, two planned modes
 
-The long-term objective is a **faithful, natively executable PC Brute Force reconstruction** followed by optional high-refresh-rate rendering, widescreen and HD texture support, 64-player multiplayer, and modding. These are future deliverables, **not present features**. See [the native PC port goals and validation gates](docs/NATIVE_PC_PORT_GOALS.md).
+**BruteForceDecomp** is the original Xbox 1:1 C11 reconstruction and provenance research. **BruteForce: Reloaded** is the name of the planned **native Windows PC game** built from that core, not an Xbox emulator.
+
+- **Original Mode (planned):** recreate the original Xbox gameplay, physics, timing, level flow, and original multiplayer rules as faithfully as verified evidence permits, using native PC replacements for Xbox hardware and platform services.
+- **Reloaded Mode (planned):** offer optional widescreen and ultrawide resolutions, high-refresh-rate-safe simulation and rendering, HD texture support, modern input, expanded multiplayer with a **64-player goal**, and modding support.
+
+Both modes would use the same reconstructed original game core. Keep verified 1:1 functions and original x86 identities unchanged; isolate Windows backends, compatibility fixes and optional enhancements behind independently tested interfaces. Do not claim exact 1:1 behavior from syntax checks, and do not rewrite verified game code for an enhancement. The existing [source layout](src/README.md) is evidence-based; separate platform/enhancement modules are a future architectural goal, not folders claimed to exist today.
+
+**Neither mode is currently buildable or playable.** Expanded multiplayer requires network architecture work and load testing, not just increasing a player-limit constant. See [native PC port goals and verification gates](docs/NATIVE_PC_PORT_GOALS.md).
 
 ## Collaborate
 
