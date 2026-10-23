@@ -8,7 +8,9 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t *DAT_00414b38;
+/* 0x00360b02/0x00360c05/0x00360c92/0x00360e02 call DWORD [0x00414b38].
+ * ABI_UNVERIFIED: host pointer width and callee prototype remain unknown. */
+extern code *DAT_00414b38;
 extern uint32_t DAT_004be760;
 extern uint32_t DAT_004be764;
 extern uint32_t DAT_004be768;

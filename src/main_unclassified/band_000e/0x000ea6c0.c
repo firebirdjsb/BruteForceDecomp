@@ -11,7 +11,8 @@
 extern uint32_t DAT_004a8cf0;
 extern uint32_t _DAT_0040cf4c;
 extern uint32_t _DAT_0040cf50;
-extern uint32_t *_DAT_0040cf54;
+/* XBE 0xea861 multiplies by the f32 stored at [0x0040cf54]. */
+extern float _DAT_0040cf54;
 extern uint32_t _DAT_004a8cf0;
 extern uint32_t _DAT_004a8cf4;
 extern uint32_t _DAT_004a8cf8;

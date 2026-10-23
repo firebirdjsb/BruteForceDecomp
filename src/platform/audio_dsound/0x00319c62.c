@@ -9,7 +9,8 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0032f6e8;
-extern uint32_t *_DAT_0032f690;
+/* XBE 0x319c72/9a/c0 use [0x0032f690] as an x87 f32 operand. */
+extern float _DAT_0032f690;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void FUN_00319c62(float param_1)

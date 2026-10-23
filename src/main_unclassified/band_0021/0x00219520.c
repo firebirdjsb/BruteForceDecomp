@@ -12,7 +12,9 @@ extern uint32_t DAT_004001d0;
 extern uint32_t *DAT_004432f8;
 extern uint32_t DAT_00469868;
 extern uint32_t *DAT_0046986c;
-extern uint32_t *DAT_004698d4;
+/* 0x0021961e/0x00219698 load DWORD [0x004698d4] for indirect calls.
+ * ABI_UNVERIFIED: host pointer width and callee prototype remain unknown. */
+extern code *DAT_004698d4;
 extern uint32_t DAT_004698d8;
 extern uint32_t DAT_004a5b4c;
 undefined4 FUN_00219520(int param_1)

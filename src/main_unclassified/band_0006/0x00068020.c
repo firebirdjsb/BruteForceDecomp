@@ -9,20 +9,23 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003ffb84;
-extern uint32_t *DAT_003ffb88;
-extern uint32_t *DAT_003ffb94;
-extern uint32_t *DAT_003ffba4;
-extern uint32_t *DAT_003ffbb4;
+/* Original 0x00068033/51/73/94 and 0x000680b5/d6/f7/0x00068118/39
+ * use these 4-byte words directly as IMUL operands, not host pointers.
+ * Their wider storage layout and linked symbol binding remain unverified. */
+extern uint32_t DAT_003ffb88;
+extern uint32_t DAT_003ffb94;
+extern uint32_t DAT_003ffba4;
+extern uint32_t DAT_003ffbb4;
 extern uint32_t DAT_003ffbb8;
-extern uint32_t *DAT_003ffbc4;
+extern uint32_t DAT_003ffbc4;
 extern uint32_t DAT_003ffbc8;
-extern uint32_t *DAT_003ffbd4;
+extern uint32_t DAT_003ffbd4;
 extern uint32_t DAT_003ffbd8;
-extern uint32_t *DAT_003ffbe4;
+extern uint32_t DAT_003ffbe4;
 extern uint32_t DAT_003ffbe8;
-extern uint32_t *DAT_003ffbf4;
+extern uint32_t DAT_003ffbf4;
 extern uint32_t DAT_003ffbf8;
-extern uint32_t *DAT_003ffc04;
+extern uint32_t DAT_003ffc04;
 extern uint32_t DAT_003ffc08;
 extern uint32_t PTR_FUN_003ffba8;
 extern uint32_t PTR_LAB_003ffb98;

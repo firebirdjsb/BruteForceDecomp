@@ -9,7 +9,8 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_004432f8;
-extern uint32_t *DAT_004698d4;
+/* XBE 0x0025e47a/0x0025e4a3/0x0025e4c9 CALL EAX after loading [0x004698d4]; signature/host width ABI_UNVERIFIED. */
+extern code *DAT_004698d4;
 extern uint32_t DAT_004698d8;
 undefined1 FUN_0025e3c0(int *param_1)
 

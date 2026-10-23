@@ -15,7 +15,8 @@ extern uint32_t DAT_003c055c;
 extern uint32_t *DAT_00469940;
 extern uint32_t DAT_0046d304;
 extern uint32_t DAT_0046d30c;
-extern uint32_t *_DAT_003c0564;
+/* XBE 0x12c1a6 multiplies by the f32 stored at [0x003c0564]. */
+extern float _DAT_003c0564;
 extern uint32_t _DAT_003c0568;
 extern uint32_t _DAT_003c056c;
 extern uint32_t *_DAT_003c0570;

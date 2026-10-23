@@ -10,7 +10,9 @@
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00407498;
 extern uint32_t *DAT_00443310;
-extern uint32_t *DAT_004698d4;
+/* 0x001e15e0/0x001e169f load DWORD [0x004698d4] for indirect calls.
+ * ABI_UNVERIFIED: host pointer width and callee prototype remain unknown. */
+extern code *DAT_004698d4;
 extern uint32_t DAT_004698d8;
 extern uint32_t PTR_s_Sound_Libraries_00400668;
 extern char s_post__s_004075a4[];

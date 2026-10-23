@@ -8,7 +8,8 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t *DAT_004698d4;
+/* XBE 0x001e4e10 CALL EAX after loading [0x004698d4]; signature/host width ABI_UNVERIFIED. */
+extern code *DAT_004698d4;
 extern uint32_t DAT_004698d8;
 undefined4 FUN_001e4df0(void)
 

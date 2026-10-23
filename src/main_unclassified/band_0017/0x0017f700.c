@@ -9,7 +9,9 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_004432f8;
-extern uint32_t *DAT_004698d4;
+/* 0x0017f700/0x0017f7fd load DWORD [0x004698d4] for indirect calls.
+ * ABI_UNVERIFIED: host pointer width and callee prototype remain unknown. */
+extern code *DAT_004698d4;
 extern uint32_t DAT_004698d8;
 extern char s_sounds_dsstdfx_bin_0040c50c[];
 void FUN_0017f700(void)

@@ -10,7 +10,8 @@
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00414da0;
 extern uint32_t DAT_004a5900;
-extern uint32_t *_DAT_004021a8;
+/* XBE 0x59003/0x59026 use [0x004021a8] as an x87 f32 operand. */
+extern float _DAT_004021a8;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 undefined1 FUN_00059000(int param_1,uint param_2,int param_3)

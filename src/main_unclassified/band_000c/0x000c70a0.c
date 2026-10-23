@@ -12,7 +12,9 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003f7f1c;
-extern uint32_t *DAT_003f7f20;
+/* 0x000c70ce: IMUL ECX,[0x003f7f20] consumes a 4-byte integer word.
+ * This is not a host pointer operand; symbol binding is still unverified. */
+extern uint32_t DAT_003f7f20;
 extern uint32_t DAT_0046995c;
 extern uint32_t DAT_00469aac;
 extern uint32_t PTR_LAB_0039f2f0;

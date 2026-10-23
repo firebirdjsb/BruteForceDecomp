@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <string.h>
 void FUN_002f21ca(undefined2 *param_1,uint param_2,int param_3)
 
 {
@@ -13,10 +14,9 @@ void FUN_002f21ca(undefined2 *param_1,uint param_2,int param_3)
   uint uVar2;
   int iVar3;
   ushort *puVar4;
-  ushort local_10;
-  undefined4 local_e;
-  undefined2 uStack_a;
-  undefined4 uStack_8;
+  /* Original scratch at [EBP-0xc..EBP-1]: 12 raw bytes, with no field model. */
+  uint16_t scratch_words[6];
+  uint32_t overlapping_word;
   
   iVar3 = 0x3b7288;
   if (param_2 != 0) {
@@ -35,13 +35,17 @@ void FUN_002f21ca(undefined2 *param_1,uint param_2,int param_3)
       if (uVar2 != 0) {
         puVar4 = (ushort *)(iVar3 + uVar2 * 0xc);
         if (0x7fff < *puVar4) {
-          local_10 = (ushort)*(undefined4 *)puVar4;
-          local_e._0_2_ = (undefined2)((uint)*(undefined4 *)puVar4 >> 0x10);
-          local_e._2_2_ = (undefined2)*(undefined4 *)(puVar4 + 2);
-          uStack_a = (undefined2)((uint)*(undefined4 *)(puVar4 + 2) >> 0x10);
-          uStack_8 = *(undefined4 *)(puVar4 + 4);
-          local_e = CONCAT22(local_e._2_2_,(undefined2)local_e) + -1;
-          puVar4 = &local_10;
+          /* 0x002f2220-0x002f2222: three MOVSD copies, totaling 12 bytes.
+           * 0x002f2223: DEC dword [EBP-0xa], two bytes into that scratch.
+           * memcpy preserves the unaligned 4-byte overlap; subtraction wraps
+           * as a 32-bit word. The callee's data format remains ABI_UNVERIFIED. */
+          memcpy(scratch_words, puVar4, sizeof(scratch_words));
+          memcpy(&overlapping_word, (unsigned char *)scratch_words + 2,
+                 sizeof(overlapping_word));
+          overlapping_word -= UINT32_C(1);
+          memcpy((unsigned char *)scratch_words + 2, &overlapping_word,
+                 sizeof(overlapping_word));
+          puVar4 = scratch_words;
         }
         FUN_002f1fa8(param_1,puVar4);
       }

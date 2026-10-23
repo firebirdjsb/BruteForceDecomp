@@ -12,7 +12,8 @@ extern uint32_t *DAT_00469940;
 extern uint32_t DAT_00469984;
 extern uint32_t DAT_0046cfd8;
 extern uint32_t DAT_0046d064;
-extern uint32_t *_DAT_003c0564;
+/* XBE 0x12bc95 multiplies by the f32 stored at [0x003c0564]. */
+extern float _DAT_003c0564;
 extern uint32_t _DAT_003c0568;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

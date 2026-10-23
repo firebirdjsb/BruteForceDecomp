@@ -12,8 +12,10 @@ extern uint32_t DAT_0037bd48;
 extern uint32_t DAT_0037e038;
 extern uint32_t DAT_00469b0c;
 extern uint32_t *DAT_00469b54;
-extern uint32_t *_DAT_003f7dfc;
-extern uint32_t *_DAT_003f7e00;
+/* XBE 0x95088/0x950f2 load [0x003f7dfc] as f32. */
+extern float _DAT_003f7dfc;
+/* XBE 0x950be/0x9511c load [0x003f7e00] as f32. */
+extern float _DAT_003f7e00;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void FUN_00095070(int param_1)

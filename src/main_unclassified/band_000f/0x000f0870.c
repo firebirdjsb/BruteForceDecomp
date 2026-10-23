@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00469b58;
@@ -30,7 +31,10 @@ undefined4 FUN_000f0870(void)
   }
   uStack_4 = 7;
   iStack_8 = 0;
-  uStack_18 = (wchar_t *)((uint)uStack_18._2_2_ << 0x10);
+  /* 0x000f08a9: MOV word [ESP+0x20],BX, with BX zero.
+   * Write only the two low bytes; stack layout and wchar_t ABI are unverified. */
+  bf_x86_word_store_byte(&uStack_18, 0U, UINT8_C(0));
+  bf_x86_word_store_byte(&uStack_18, 1U, UINT8_C(0));
   FUN_00087940(auStack_1c,0,0xffffffff);
   (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x58))();
   __s2 = (wchar_t *)FUN_001e97c0();

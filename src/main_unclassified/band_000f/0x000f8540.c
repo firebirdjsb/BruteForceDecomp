@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0040cd20;
@@ -30,7 +31,10 @@ undefined4 FUN_000f8540(void)
     iVar3 = *(int *)(iVar3 + 0x3c);
     uStack_4 = 7;
     uStack_8 = 0;
-    uStack_18 = (uint)uStack_18._2_2_ << 0x10;
+    /* 0x000f8590: MOV word [ESP+0x14],BX, with BX zero.
+     * Preserve the unknown high bytes without reading them. ABI_UNVERIFIED. */
+    bf_x86_word_store_byte(&uStack_18, 0U, UINT8_C(0));
+    bf_x86_word_store_byte(&uStack_18, 1U, UINT8_C(0));
     for (; iVar3 != iVar1; iVar3 = iVar3 + 0x18) {
       cVar2 = FUN_000f8310(iVar3,auStack_1c);
       if (cVar2 != '\0') {

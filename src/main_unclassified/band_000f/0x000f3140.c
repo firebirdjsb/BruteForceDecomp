@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 undefined1 FUN_000f3140(int param_1,undefined4 param_2)
 
 {
@@ -23,7 +24,11 @@ undefined1 FUN_000f3140(int param_1,undefined4 param_2)
     if (iVar2 == 4) {
       uStack_4 = 7;
       uStack_8 = 0;
-      uStack_18 = (undefined4 *)((uint)uStack_18._2_2_ << 0x10);
+      /* 0x000f3181: MOV word [ESP+0x1c],BX, with BX zero.
+       * Write the two low bytes without reading the uninitialized high bytes.
+       * The surrounding stack-object and call ABI remain unverified. */
+      bf_x86_word_store_byte(&uStack_18, 0U, UINT8_C(0));
+      bf_x86_word_store_byte(&uStack_18, 1U, UINT8_C(0));
       FUN_00087940(auStack_1c,0,0xffffffff);
       puVar3 = uStack_18;
       if (uStack_4 < 8) {

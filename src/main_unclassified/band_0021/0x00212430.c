@@ -13,7 +13,8 @@ extern uint32_t _DAT_0040706c;
 extern uint32_t _DAT_00407070;
 extern uint32_t _DAT_00407074;
 extern uint32_t _DAT_00407078;
-extern uint32_t *_DAT_0040707c;
+/* XBE 0x2125a6/0x212691 use [0x0040707c] as f32. */
+extern float _DAT_0040707c;
 extern uint32_t _DAT_004a7120;
 extern uint32_t _DAT_004a7124;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */

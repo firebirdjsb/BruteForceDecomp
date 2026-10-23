@@ -9,7 +9,9 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00414da0;
-extern uint32_t *DAT_004698d4;
+/* 0x000d80c3 loads DWORD [0x004698d4]; 0x000d80d3 calls EAX.
+ * ABI_UNVERIFIED: host pointer width and callee prototype remain unknown. */
+extern code *DAT_004698d4;
 extern uint32_t DAT_004698d8;
 void FUN_000d7d80(void)
 

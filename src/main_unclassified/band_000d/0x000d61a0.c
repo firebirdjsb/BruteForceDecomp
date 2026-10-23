@@ -10,7 +10,9 @@
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_00443300;
 extern uint32_t *DAT_00443308;
-extern uint32_t *DAT_004698d4;
+/* 0x000d6270/0x000d629e/0x000d62b0/0x000d62cd load DWORD [0x004698d4].
+ * ABI_UNVERIFIED: host pointer width and callee prototype remain unknown. */
+extern code *DAT_004698d4;
 extern uint32_t DAT_004698d8;
 extern uint32_t *DAT_00469980;
 void FUN_000d61a0(int param_1)

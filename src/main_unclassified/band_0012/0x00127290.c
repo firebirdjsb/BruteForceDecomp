@@ -11,7 +11,8 @@
 extern uint32_t DAT_0040cbdc;
 extern uint32_t DAT_0040cbe0;
 extern uint32_t DAT_0040cbe4;
-extern uint32_t *DAT_0040cbe8;
+/* XBE 0x1278c6/8f0/8fe use [0x0040cbe8] as f32; 0x127995 loads it. */
+extern float DAT_0040cbe8;
 extern uint32_t DAT_0046d064;
 extern uint32_t PTR_FUN_003bc650;
 extern uint32_t PTR_LAB_0038e620;

@@ -15,8 +15,12 @@ extern uint32_t DAT_00387b18;
 extern uint32_t DAT_00387b28;
 extern uint32_t DAT_004128d0;
 extern uint32_t DAT_004128d8;
-extern uint32_t *DAT_004b1680;
-extern uint32_t *DAT_004b1684;
+/* 0x00357f95/0x00357fb7 access DWORD [0x004b1680], then 0x00357fbe
+ * calls EAX; 0x00357f7e/0x00357fc9 load DWORD [0x004b1684], then
+ * 0x003580a2 calls EDI. ABI_UNVERIFIED: host pointer width and both
+ * callee prototypes remain unknown. */
+extern code *DAT_004b1680;
+extern code *DAT_004b1684;
 extern uint32_t DAT_004b1688;
 extern uint32_t DAT_004b168c;
 extern uint32_t DAT_004b1690;

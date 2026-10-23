@@ -10,7 +10,8 @@
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004b50cc;
 extern uint32_t DAT_004b50d0;
-extern uint32_t *DAT_004b50dc;
+/* XBE 0x0035a5c1 CALL EAX after loading [0x004b50dc]; signature/host width ABI_UNVERIFIED. */
+extern code *DAT_004b50dc;
 extern uint32_t DAT_004b50ec;
 extern uint32_t _DAT_004b50e8;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */

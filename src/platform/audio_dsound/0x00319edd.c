@@ -8,7 +8,8 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t _DAT_0032f690;
+/* XBE 0x319f56/0x319f6e load [0x0032f690] as f32. */
+extern float _DAT_0032f690;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void FUN_00319edd(int param_1,float param_2,float param_3,float param_4,undefined4 param_5)
