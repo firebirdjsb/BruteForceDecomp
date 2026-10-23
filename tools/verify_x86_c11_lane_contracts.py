@@ -116,7 +116,16 @@ FINGERPRINTS = {
     # EDI is zero and only two low bytes of the recycled DWORD are cleared.
     0x000AA4C4: "33 ff",
     0x000AA4D3: "66 89 7c 24 30",
-    0x000AA4D8: "e8 93 05 24 00", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
+    0x000AA4D8: "e8 93 05 24 00",
+    # 0x447b0 writes the low bit only to an existing guest DWORD;
+    # the other three bytes are not overwritten by this operation.
+    0x00044D63: "c1 e9 04",
+    0x00044D66: "80 e1 01",
+    0x00044D6B: "88 4c 24 40",
+    # 0x5c730 stores SETE's AL/CL byte, then consumes full stack DWORD.
+    0x0005C879: "0f 94 c1",
+    0x0005C87E: "88 4c 24 18",
+    0x0005C884: "8b 5c 24 18", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
@@ -155,6 +164,15 @@ DIRECT_CALLS = {
 }
 
 SOURCE_EXPECTATIONS = {
+    "src/main_unclassified/band_0004/0x000447b0.c": (
+        ["((uint8_t *)&uStack_118)[0] =",
+         "(uint8_t)((*(uint *)(local_120 + 0x80) >> 4) & 1U);"],
+        ["uStack_118._1_3_", "CONCAT31(uStack_118"],
+    ),
+    "src/main_unclassified/band_0005/0x0005c730.c": (
+        ["((uint8_t *)&local_10)[0] = (uint8_t)(param_3 == iVar3);"],
+        ["local_10._1_3_", "CONCAT31(local_10"],
+    ),
     "src/main_unclassified/band_0006/0x0006c840.c": (
         ["- -(-fVar1) * *(float *)(param_1 + 0x88)",
          "= -(-(float)fVar3);"],
