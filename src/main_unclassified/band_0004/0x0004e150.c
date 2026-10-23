@@ -10,8 +10,8 @@ void FUN_0004e150(int param_1,int param_2,int param_3)
 
 {
   int iVar1;
-  int local_8;
-  int local_4;
+  /* Original 32-bit stack allocates two contiguous partition result DWORDs. */
+  int partition_bounds[2];
   
   iVar1 = param_2 - param_1;
   do {
@@ -19,7 +19,8 @@ void FUN_0004e150(int param_1,int param_2,int param_3)
     if (iVar1 < 0x21) {
 LAB_0004e1f1:
       if (1 < iVar1) {
-        FUN_0004e4d0();
+        /* x86 pushes EDI(end), EBX(start) before this call. */
+        FUN_0004e4d0(param_1,param_2);
       }
       return;
     }
@@ -28,23 +29,26 @@ LAB_0004e1f1:
         if (8 < (int)(param_2 - param_1 & 0xfffffff8U)) {
           FUN_0004e650(param_1,param_2);
         }
-        FUN_0004e470();
+        /* x86 pushes EDI(end), EBX(start) before this call. */
+        FUN_0004e470((undefined4 *)(uintptr_t)param_1,param_2);
         return;
       }
       goto LAB_0004e1f1;
     }
-    FUN_0004e260(&local_8);
-    iVar1 = local_4;
+    /* 0x0004E18A: pushes output pointer plus the two range endpoints. */
+    FUN_0004e260((undefined4 *)partition_bounds,
+              (undefined4 *)(uintptr_t)param_1, (undefined4 *)(uintptr_t)param_2);
+    iVar1 = partition_bounds[1];
     param_3 = param_3 / 2 + (param_3 / 2) / 2;
-    if ((int)(local_8 - param_1 & 0xfffffff8U) < (int)(param_2 - local_4 & 0xfffffff8U)) {
-      /* Original 0x0004E1C7: stack words (param_1, local_8, param_3). */
-      FUN_0004e150(param_1,local_8,param_3);
+    if ((int)(partition_bounds[0] - param_1 & 0xfffffff8U) < (int)(param_2 - partition_bounds[1] & 0xfffffff8U)) {
+      /* Original 0x0004E1C7: stack words (param_1, partition_bounds[0], param_3). */
+      FUN_0004e150(param_1,partition_bounds[0],param_3);
       param_1 = iVar1;
     }
     else {
-      /* Original 0x0004E1D9: stack words (local_4, param_2, param_3). */
-      FUN_0004e150(local_4,param_2,param_3);
-      param_2 = local_8;
+      /* Original 0x0004E1D9: stack words (partition_bounds[1], param_2, param_3). */
+      FUN_0004e150(partition_bounds[1],param_2,param_3);
+      param_2 = partition_bounds[0];
     }
     iVar1 = param_2 - param_1;
   } while( true );
