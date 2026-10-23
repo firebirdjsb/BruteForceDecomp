@@ -72,7 +72,14 @@ FINGERPRINTS = {
     0x0010B228: "77 55",
     0x0010B27F: "85 c0",
     0x0010B291: "77 41",
-    0x0010B2D4: "8b 4c 24 10", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
+    0x0010B2D4: "8b 4c 24 10",
+    # 0x8A560 saves incoming guest pointer, then reuses its argument stack
+    # byte as a boolean; only the byte is read back for the AL return.
+    0x0008A58E: "8b 5c 24 10",
+    0x0008A5A3: "c6 44 24 10 00",
+    0x0008A6CF: "c6 44 24 10 01",
+    0x0008A70E: "8a 44 24 10",
+    0x0008A715: "c2 04 00", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
@@ -103,9 +110,16 @@ DIRECT_CALLS = {
     0x00082966: 0x00081D10,
     0x001E8D45: 0x001E8B20,
     0x001E8D56: 0x001E8B90,
+    0x0008A6E7: 0x0008A720,
+    0x0008A745: 0x0008A560,
 }
 
 SOURCE_EXPECTATIONS = {
+    "src/main_unclassified/band_0008/0x0008a560.c": (
+        ["uint8_t status_low_byte;", "status_low_byte = 0;",
+         "status_low_byte = 1;", "return status_low_byte;"],
+        ["param_1._0_1_"],
+    ),
     "src/main_unclassified/band_001e/0x001e8cd0.c": (
         ["uint16_t secondary_max_low16;", "secondary_max_low16 = 0;",
          "secondary_max_low16 = uVar4;", "secondary_max_low16 < uVar4"],
