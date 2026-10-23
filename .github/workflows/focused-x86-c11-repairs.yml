@@ -4,6 +4,9 @@ on:
     branches: [main]
     paths:
       - 'src/main_unclassified/band_0002/0x00024f80.c'
+      - 'src/main_unclassified/band_0003/0x000388b0.c'
+      - 'src/main_unclassified/band_0003/0x0003d970.c'
+      - 'src/main_unclassified/band_0004/0x00043470.c'
       - 'src/main_unclassified/band_0004/0x000435f0.c'
       - 'src/main_unclassified/band_0005/0x0005c5e0.c'
       - 'src/main_unclassified/band_0028/0x002876a0.c'
@@ -18,14 +21,14 @@ permissions:
 
 jobs:
   focused-c11:
-    name: Five original entries — isolated host syntax only
+    name: Eight original entries — isolated host syntax only
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - name: Check scoped source transformations without XBE
         run: python3 tools/verify_x86_c11_lane_contracts.py --root .
-      - name: Compile five original C11 drafts individually
+      - name: Compile eight original C11 drafts individually
         shell: bash
         run: |
           set -euo pipefail
@@ -39,6 +42,9 @@ jobs:
           )
           for name in \
             src/main_unclassified/band_0002/0x00024f80.c \
+            src/main_unclassified/band_0003/0x000388b0.c \
+            src/main_unclassified/band_0003/0x0003d970.c \
+            src/main_unclassified/band_0004/0x00043470.c \
             src/main_unclassified/band_0004/0x000435f0.c \
             src/main_unclassified/band_0005/0x0005c5e0.c \
             src/main_unclassified/band_0028/0x002876a0.c \
@@ -47,4 +53,4 @@ jobs:
             echo "Checking ${name}"
             clang "${flags[@]}" "${name}"
           done
-          echo "Five isolated C11 syntax checks passed; no Xbox ABI, linking, or runtime equivalence claimed."
+          echo "Eight isolated C11 syntax checks passed; no Xbox ABI, linking, or runtime equivalence claimed."
