@@ -10,6 +10,9 @@ import hashlib
 import json
 import pathlib
 import re
+import sys
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / 'tools'))
+from source_layout import source_path
 
 
 def read_index(root):
@@ -42,7 +45,7 @@ def main():
             raise ValueError('Invalid entry address ' + entry)
         if not re.fullmatch(r'[0-9A-F]{64}', body_hash):
             raise ValueError('Invalid source body hash ' + entry)
-        file = root / 'src' / (entry + '.c')
+        file = source_path(root, entry)
         state = 'C11_Pending'
         item = {'entry': entry, 'original_body_sha256': body_hash, 'c11_status': state,
                 'review_status': 'Unverified'}

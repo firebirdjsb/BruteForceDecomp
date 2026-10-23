@@ -28,6 +28,7 @@ LABELS={
 "XPP":"XPP section — purpose unverified"}
 CALL=re.compile(r"\bFUN_([0-9a-fA-F]{8})\s*\(")
 from body_hash_labels import read_body_digest
+from source_layout import discovered_sources
 def section(va):
     for name,start,end in SECTIONS:
         if start<=va<end:return name
@@ -43,7 +44,7 @@ def readroles():
                 result[r["entry"].lower()]=r["readable_alias"]
     return result
 def main():
-    paths=sorted((ROOT/"src").glob("0x????????.c"))
+    paths=discovered_sources(ROOT)
     if len(paths)!=13694:
         raise SystemExit("Expected 13694 sources; found "+str(len(paths)))
     roles=readroles()

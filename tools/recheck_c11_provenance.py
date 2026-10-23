@@ -6,6 +6,7 @@ import hashlib
 import pathlib
 
 from body_hash_labels import read_body_digest
+from source_layout import source_path
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -26,7 +27,7 @@ def main():
     changed, missing, mismatched, not_embedded = [], [], [], []
     for row in rows:
         entry = row['entry']
-        path = root / 'src' / (entry + '.c')
+        path = source_path(root, entry)
         if not path.is_file():
             missing.append(entry)
             continue

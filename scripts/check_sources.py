@@ -1,35 +1,30 @@
 #!/usr/bin/env python3
-"""Fail closed for C++ syntax, source provenance mistakes, and binary uploads.
-
-This is a static hygiene check; it does not prove semantic or ABI equivalence.
-"""
+"""C11-only, XBE-body-label and exact inventory hygiene; not behavioral verification."""
+import csv
 import pathlib
 import re
 import sys
-
-from update_migration_status import read_index
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "tools"))
+from source_layout import discovered_sources
+from body_hash_labels import read_body_digest
 
 root = pathlib.Path(__file__).resolve().parents[1]
 prohibited = {'.xbe', '.xiso', '.iso', '.img', '.bin', '.pak', '.tgz', '.xwb',
               '.xpr', '.bik', '.mgf', '.jwad', '.gbf', '.sqlite3', '.cpp', '.cxx', '.cc'}
-for file in root.rglob('*'):
-    if not file.is_file() or '.git' in file.parts:
-        continue
-    if file.suffix.lower() in prohibited:
-        print('PROHIBITED ARTIFACT:', file)
-        sys.exit(2)
-entries = read_index(root)
-for file in (root / 'src').glob('*.c'):
-    code = file.read_text(encoding='utf-8')
-    if re.search(r'\b(?:reinterpret_cast|static_cast|dynamic_cast|const_cast|nullptr|namespace|class|template|using|auto)\b|std::|#include\s*<c(?:stdint|stddef|string)>|::', code):
-        print('C++ CONSTRUCT FOUND:', file)
-        sys.exit(3)
-    address = file.stem.lower()
-    if address not in entries:
-        print('FUNCTION NOT IN BASELINE INVENTORY:', file)
-        sys.exit(4)
-    match = re.search(r'Original body SHA-256:\s*([A-Fa-f0-9]{64})', code)
-    if not match or match.group(1).upper() != entries[address]:
-        print('BAD OR MISSING BODY SHA-256:', file)
-        sys.exit(5)
-print('C-only, provenance, and artifact checks passed; behavior remains unverified.')
+for path in root.rglob('*'):
+    if path.is_file() and '.git' not in path.parts and path.suffix.lower() in prohibited:
+        raise SystemExit(f"PROHIBITED ARTIFACT: {path}")
+with (root / "metadata/bulk_13694_inventory.csv").open(encoding="utf-8", newline="") as stream:
+    indexed = {r["entry"].lower(): r["original_body_sha256"].upper() for r in csv.DictReader(stream)}
+paths = discovered_sources(root)
+if len(paths) != 13694 or len(indexed) != 13694:
+    raise SystemExit("Full 13694-function inventory is incomplete")
+for path in paths:
+    source = path.read_text(encoding="utf-8")
+    if re.search(r'\b(?:reinterpret_cast|static_cast|dynamic_cast|const_cast|nullptr|namespace|class|template|using|auto)\b|std::|#include\s*<c(?:stdint|stddef|string)>|::', source):
+        raise SystemExit(f"C++ CONSTRUCT FOUND: {path}")
+    embedded, conflict = read_body_digest(source)
+    if conflict or embedded != indexed.get(path.stem.lower()):
+        raise SystemExit(f"BAD OR MISSING XBE BODY SHA-256: {path}")
+print("13694 C11 source locations and original XBE body-label provenance checked.")
+print("Host compiler, Xbox ABI, PC linking and behavioral equivalence remain independent gates.")

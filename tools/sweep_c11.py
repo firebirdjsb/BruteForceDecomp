@@ -16,6 +16,7 @@ import subprocess
 import time
 
 from body_hash_labels import read_body_digest
+from source_layout import discovered_sources, source_path
 ERR = re.compile(r"error:\s*([^\n]+)")
 FLAGS = [
     "-std=c11", "-fsyntax-only", "-ferror-limit=3",
@@ -27,7 +28,7 @@ FLAGS = [
 def check(task):
     clang, root, row = task
     name = row["entry"]
-    path = root / "src" / (name + ".c")
+    path = source_path(root, name)
     result = {"entry":name, "original_body_sha256":row.get("original_body_sha256","")}
     if not path.is_file():
         result.update(status="missing_source", diagnostic="Source file missing")
@@ -89,7 +90,7 @@ def main():
                 elif (row.get("original_body_sha256") and
                       not original_index[key].get("original_body_sha256")):
                     original_index[key]=row
-    sources=sorted((root/"src").glob("0x????????.c"))
+    sources=discovered_sources(root)
     rows=[]
     for src in sources:
         entry=src.stem.lower()

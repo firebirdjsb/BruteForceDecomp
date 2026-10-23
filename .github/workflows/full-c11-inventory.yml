@@ -14,6 +14,8 @@ on:
       - 'tools/test_x86_word_lanes.c'
       - 'tools/recheck_c11_provenance.py'
       - 'tools/classify_c11_functions.py'
+      - 'tools/source_layout.py'
+      - 'tools/test_source_layout.py'
       - '.github/workflows/full-c11-inventory.yml'
   workflow_dispatch:
 
@@ -41,6 +43,10 @@ jobs:
         run: |
           clang -std=c11 -Wall -Wextra -Werror -pedantic-errors -I include tools/test_x86_float_lanes.c -o /tmp/bf_x86_float_lane_test
           /tmp/bf_x86_float_lane_test
+      - name: Verify sorted source layout and exact function identities
+        run: python3 tools/test_source_layout.py
+      - name: Refresh local evidence-limited function groups for relocated sources
+        run: python3 tools/classify_c11_functions.py
       - name: Recheck original body digests against canonical inventory
         run: python3 tools/recheck_c11_provenance.py --root .
       - name: Audit all 13,694 discovered function source files

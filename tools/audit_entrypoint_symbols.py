@@ -6,6 +6,7 @@ import csv
 import re
 from collections import Counter
 from pathlib import Path
+from source_layout import discovered_sources
 
 ALIAS = re.compile(r"(?m)^[ \t]*#define[ \t]+([A-Za-z_]\w*)[ \t]+(FUN_[0-9a-fA-F]{8})\b")
 C_FUNC = re.compile(r"\b([A-Za-z_]\w*)\s*\([^;{}]*\)\s*\{", re.S)
@@ -37,7 +38,7 @@ def main() -> None:
         for match in ALIAS.finditer(header.read_text(encoding="utf-8", errors="replace")):
             aliases.setdefault(match.group(2).upper(), []).append(match.group(1))
     rows = []
-    for path in sorted((args.root / "src").glob("0x????????.c")):
+    for path in discovered_sources(args.root):
         entry = path.stem.lower()
         source = path.read_text(encoding="utf-8", errors="replace")
         status, candidate = audit_source(entry, source, aliases)
