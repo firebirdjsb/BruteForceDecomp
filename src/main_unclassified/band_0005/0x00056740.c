@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 int * FUN_00056740(undefined4 param_1,undefined4 param_2,int param_3)
@@ -22,12 +23,13 @@ int * FUN_00056740(undefined4 param_1,undefined4 param_2,int param_3)
   int iVar9;
   float fVar10;
   float fVar11;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar12 [16];
+  __m128 x86_rsqrt_lane;
+  __m128 x86_scaled_lanes;
   float local_3c;
   int *local_34;
   float fStack_28;
-  undefined8 uStack_24;
+  float uStack_24_lo;
+  float uStack_24_hi;
   undefined1 auStack_10 [4];
   int *piStack_c;
   int *piStack_8;
@@ -43,17 +45,25 @@ int * FUN_00056740(undefined4 param_1,undefined4 param_2,int param_3)
     fVar3 = pfVar7[2] - pfVar6[2];
     fVar4 = pfVar7[1] - pfVar6[1];
     fStack_28 = *pfVar7 - *pfVar6;
-    uStack_24 = CONCAT44(fVar3,fVar4);
+    /* XBE 0x567B2-0x567B6 copies two original m32fp words; the
+     * following MOVHPS accesses both as floats, not as an integer. */
+    uStack_24_lo = fVar4;
+    uStack_24_hi = fVar3;
     fVar10 = fStack_28 * fStack_28 + fVar4 * fVar4 + fVar3 * fVar3;
     if (1.4210855e-14 < fVar10) {
-      auVar12 = rsqrtss(in_XMM0,fVar10);
-      fVar10 = auVar12._0_4_;
-      in_XMM0._0_4_ = fStack_28 * fVar10;
-      in_XMM0._4_4_ = fVar10 * 0.0;
-      in_XMM0._8_4_ = fVar4 * fVar10;
-      in_XMM0._12_4_ = fVar3 * fVar10;
-      uStack_24 = in_XMM0._8_8_;
-      fStack_28 = in_XMM0._0_4_;
+      /* XBE 0x567EB RSQRTSS, 0x56815 SHUFPS, 0x56819 MOVHPS,
+       * 0x5681D MULPS, 0x56820 MOVSS and 0x56824 MOVHPS.
+       * Only lanes 0,2,3 are stored by the original. The omitted
+       * original XMM0 lane 1 / floating exception state is unresolved. */
+      x86_rsqrt_lane = _mm_rsqrt_ss(_mm_set_ss(fVar10));
+      x86_scaled_lanes = _mm_mul_ps(
+          _mm_setr_ps(fStack_28, 0.0f, uStack_24_lo, uStack_24_hi),
+          _mm_shuffle_ps(x86_rsqrt_lane,x86_rsqrt_lane,0));
+      fStack_28 = _mm_cvtss_f32(x86_scaled_lanes);
+      uStack_24_lo = _mm_cvtss_f32(
+          _mm_shuffle_ps(x86_scaled_lanes,x86_scaled_lanes,0xaa));
+      uStack_24_hi = _mm_cvtss_f32(
+          _mm_shuffle_ps(x86_scaled_lanes,x86_scaled_lanes,0xff));
     }
     piStack_c = (int *)0x0;
     piStack_8 = (int *)0x0;
@@ -71,10 +81,14 @@ int * FUN_00056740(undefined4 param_1,undefined4 param_2,int param_3)
           fVar3 = *(float *)(iVar9 + 0x2c) - pfVar6[2];
           fVar4 = *(float *)(iVar9 + 0x28) - pfVar6[1];
           fVar10 = *(float *)(iVar9 + 0x24) - *pfVar6;
-          in_XMM0 = rsqrtss(in_XMM0,fVar10 * fVar10 + fVar4 * fVar4 + fVar3 * fVar3);
-          fVar11 = in_XMM0._0_4_;
+          /* XBE 0x568E4 FSTP m32fp then 0x568E8 RSQRTSS:
+           * the next operations use only the low scalar float. */
+          x86_rsqrt_lane = _mm_rsqrt_ss(_mm_set_ss(
+              fVar10 * fVar10 + fVar4 * fVar4 + fVar3 * fVar3));
+          fVar11 = _mm_cvtss_f32(x86_rsqrt_lane);
           fVar3 = fVar11 * fVar10 * fStack_28 +
-                  fVar4 * fVar11 * (float)uStack_24 + fVar3 * fVar11 * uStack_24._4_4_;
+                  fVar4 * fVar11 * uStack_24_lo +
+                  fVar3 * fVar11 * uStack_24_hi;
           if (local_3c < fVar3) {
             local_3c = fVar3;
             local_34 = piVar1;
