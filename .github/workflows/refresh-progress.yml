@@ -22,19 +22,18 @@ jobs:
           ref: main
           persist-credentials: true
           fetch-depth: 1
-      - name: Skip a stale audit if main has advanced
-        id: sha
+      - name: Accept only a newer exact audit report
+        id: freshness
         env:
-          AUDITED_SHA: ${{ github.event.workflow_run.head_sha }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
         run: |
-          if [ "$(git rev-parse HEAD)" != "$AUDITED_SHA" ]; then
-            echo "use_report=false" >> "$GITHUB_OUTPUT"
-            echo "main moved beyond audited source; newer audit will publish fresh progress"
-          else
-            echo "use_report=true" >> "$GITHUB_OUTPUT"
-          fi
+          python3 tools/test_progress_gate.py
+          python3 tools/progress_gate.py \
+            --current docs/progress/current.json \
+            --run-id "$RUN_ID" \
+            --github-output "$GITHUB_OUTPUT"
       - name: Download exact immutable audit artifact
-        if: steps.sha.outputs.use_report == 'true'
+        if: steps.freshness.outputs.use_report == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           RUN_ID: ${{ github.event.workflow_run.id }}
@@ -42,7 +41,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/progress_audit"
           gh run download "$RUN_ID" --repo "$GITHUB_REPOSITORY" --name full-c11-inventory --dir "$RUNNER_TEMP/progress_audit"
       - name: Regenerate progress and README from validated report
-        if: steps.sha.outputs.use_report == 'true'
+        if: steps.freshness.outputs.use_report == 'true'
         env:
           AUDITED_SHA: ${{ github.event.workflow_run.head_sha }}
           RUN_ID: ${{ github.event.workflow_run.id }}
@@ -52,7 +51,7 @@ jobs:
             --report "$RUNNER_TEMP/progress_audit/c11_sweep_report.json" \
             --run-id "$RUN_ID" --expected-sha "$AUDITED_SHA" --root .
       - name: Publish progress only to canonical main
-        if: steps.sha.outputs.use_report == 'true'
+        if: steps.freshness.outputs.use_report == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
