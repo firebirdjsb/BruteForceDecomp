@@ -64,7 +64,10 @@ LAB_000aa489:
     uVar3 = FUN_001e97c0();
     local_4 = 7;
     local_8 = 0;
-    local_18 = (wchar_t *)((uint)local_18._2_2_ << 0x10);
+    /* x86 0x000AA4D3: mov WORD PTR [esp+0x30],di (EDI=0).
+     * This clears exactly two low bytes in the same original stack
+     * DWORD; the upper 16 bits are not defined by this instruction. */
+    local_18 &= UINT32_C(0xffff0000);
     uVar3 = FUN_002eaa70(uVar3);
     FUN_000876a0(local_1c,uVar3);
     param_4 = 0;
