@@ -11,12 +11,17 @@ from pathlib import Path
 
 XBE_SHA256 = "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721"
 FUNCTIONS = (
+    (0x000B4F20, 366, "D84F53350DE361AB3328095AFAA8AA9B6DD10FD7712A672767D40F994AA1088B"),
     (0x00022790, 1032, "0364BD7A70443AF264B4160D61090206B3F0D79744199DD3CF1D3D6631FB9E65"),
     (0x000DC510, 803, "7016E00C4E198173D11C4C91B58EFA1753B0E24A56226F189240ABF1F8D7C087"),
     (0x00372270, 358, "A5CD890106CCF4EEAE3F779FA3A20803299B681A9DFA1081A7D78CF760E2FFD0"),
 )
 # Small instruction windows verified independently, not full proprietary disassembly.
 OPCODES = (
+    (0x000B4F20, "83ec1c"), (0x000B4F23, "8b4c2420"),
+    (0x000B4F33, "8b542428"), (0x000B4F9D, "d944242c"),
+    (0x000B4FCA, "d944242c"), (0x000B4FFD, "d944242c"),
+    (0x000B5087, "5e"), (0x000B508B, "c20800"),
     (0x0002282B, "d9475c"), (0x000228A1, "d90548e74000"),
     (0x000228AE, "d80d48e74000"), (0x000DC5DA, "d81dc4d54000"),
     (0x000DC5E7, "d905c4d54000"), (0x000DC5ED, "8b0dc4d54000"),
@@ -77,7 +82,7 @@ def verify(raw: bytes) -> None:
         actual, = struct.unpack("<I", source_slice(va, 4))
         if actual != expected:
             raise ValueError(f"Original float initialization mismatch: 0x{va:08X}")
-    print("Verified XBE SHA-256, 3 function bodies, 29 instruction windows,",
+    print("Verified XBE SHA-256, 4 function bodies, 37 instruction windows,",
           "and 5 original f32 initializers.")
     print("C11 syntax, ABI compatibility and 1:1 behavior are NOT established.")
 
