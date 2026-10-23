@@ -86,7 +86,11 @@ void FUN_0005c730(int param_1,float param_2,int param_3)
       iVar8 = *(int *)(*(int *)(param_1 + 8) + uVar10 * 4);
       if ((((iVar8 != 0) && (iVar3 = *(int *)(iVar8 + 4), iVar3 != 0)) &&
           (*(int *)(iVar8 + 0x14) != 0)) && ((bVar4 || (param_3 == iVar3)))) {
-        local_10 = (undefined4 *)CONCAT31(local_10._1_3_,param_3 == iVar3);
+        /* 0x0005C879 sete cl; 0x0005C87E mov [esp+0x18],cl;
+         * 0x0005C884 mov ebx,[esp+0x18] loads the full original
+         * DWORD, including its unknown upper 24 bits. Do not zero
+         * or manufacture these bits just to obtain C11 syntax. */
+        ((uint8_t *)&local_10)[0] = (uint8_t)(param_3 == iVar3);
         puVar2 = local_10;
         if (*(int *)(*(int *)(*(int *)(iVar8 + 0x14) + 0x30) + 0x58) != 0) {
           FUN_000b1bb0(local_10,1);
