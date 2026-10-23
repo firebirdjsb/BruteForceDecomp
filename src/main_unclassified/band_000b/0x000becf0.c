@@ -42,7 +42,14 @@ int FUN_000becf0(int param_1,undefined4 *param_2,int *param_3,undefined4 param_4
   fStack_4c = pfVar1[1];
   fStack_50 = *pfVar1;
   iVar2 = (**(code **)(*param_3 + 0x130))(fStack_4c);
-  _fStack_40 = CONCAT44(*(float *)(iVar2 + 0x20),*(float *)(iVar2 + 0x14));
+  /* Original 0x000BED94-0x000BEDB9: fld/fstp m32fp load the two
+   * observed source components independently, then MOV their raw
+   * 32-bit stack words into [esp+0x2c] and [esp+0x28]. Ghidra
+   * erroneously merged the two adjacent float locals into a
+   * synthetic 64-bit CONCAT44 assignment to an undeclared symbol.
+   * The vtable call producing iVar2 remains ABI_UNVERIFIED. */
+  fStack_3c = *(float *)(iVar2 + 0x20);
+  fStack_40 = *(float *)(iVar2 + 0x14);
   fVar5 = *(float *)(iVar2 + 8) * local_5c +
           *(float *)(iVar2 + 0x14) * local_58 + *(float *)(iVar2 + 0x20) * local_54;
   if (1.1920929e-07 < ABS(fVar5)) {
