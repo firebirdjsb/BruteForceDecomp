@@ -29,6 +29,8 @@ FINGERPRINTS = {
     0x0005C67F: "8b 54 24 1c",  # load full raw result DWORD
     0x0005C688: "89 50 08",  # write full raw result DWORD
     0x002876CB: "51 8b c4 89 38 51 8b c4 89 18 8d 44 24 18 50",
+    0x0029D2F8: "8a 44 24 40",  # byte read from argument stack word
+    0x0029D309: "84 c0",  # test al,al
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
@@ -52,6 +54,10 @@ SOURCE_EXPECTATIONS = {
         ["((unsigned char *)&local_4)[0] = (unsigned char)param_3;",
          "memcpy((unsigned char *)pfVar8 + 8, &local_4, sizeof local_4);"],
         ["local_4._1_3_", "(float)CONCAT31"],
+    ),
+    "src/main_unclassified/band_0029/0x0029d2a0.c": (
+        ["((const unsigned char *)&param_7)[0] == 0"],
+        ["param_7._0_1_"],
     ),
     "src/main_unclassified/band_0028/0x002876a0.c": (
         ["int partition_bounds[2];", "FUN_00287930((undefined4 *)partition_bounds",
