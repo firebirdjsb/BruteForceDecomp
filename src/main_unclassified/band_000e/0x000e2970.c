@@ -6,7 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_000e2970(int param_1,int param_2,int param_3)
+/* Original XBE: fourth incoming DWORD at entry ESP+0x10 is carried
+ * in EBP and forwarded by both recursive calls. Native ABI_UNVERIFIED. */
+void FUN_000e2970(int param_1,int param_2,int param_3, int original_stack_arg4)
 
 {
   int iVar1;
@@ -36,11 +38,13 @@ LAB_000e2a1f:
     FUN_000e3260(&local_8);
     param_3 = param_3 / 2 + (param_3 / 2) / 2;
     if ((int)(local_8 - param_1 & 0xfffffffcU) < (int)(param_2 - local_4 & 0xfffffffcU)) {
-      FUN_000e2970(param_1);
+      /* 0x000E29EF: left subrange [param_1,local_8), recursive stack words. */
+      FUN_000e2970(param_1,local_8,param_3,original_stack_arg4);
       param_1 = local_4;
     }
     else {
-      FUN_000e2970(local_4);
+      /* 0x000E2A03: right subrange [local_4,param_2), recursive stack words. */
+      FUN_000e2970(local_4,param_2,param_3,original_stack_arg4);
       param_2 = local_8;
     }
     iVar1 = param_2 - param_1;
