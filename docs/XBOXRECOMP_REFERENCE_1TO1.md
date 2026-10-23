@@ -39,6 +39,7 @@ Neither XboxRecomp's reusable runtime nor its coverage reports are direct measur
 - `0x000874A0`: `0x000874DA` writes `AL` into `[ESP+0x1C]`; `0x000874DE` immediately loads all four bytes from that same stack word into `EDX`. Its draft's former `local_4._1_3_` syntax was invalid, so the limited C11 fix writes only the low byte. **High 24 bits remain unknown.** The `0x000874EA -> 0x00087630` direct call was checked; any other implicit EAX/guest register contract is still unverified.
 - Keep the 13,694-function syntax pass/fail totals pinned to their actual audited commit. Do not subtract repairs or increase roadmap percentages until the next complete repository audit confirms results.
 - Build a narrow, provenance-backed function-call edge ledger before attempting any integrated native PC link. For each edge record caller VA, CALL site VA, callee VA, proven stack/register inputs, cleanup and uncertainties; do not invent dependency stubs just to satisfy a linker.
+  - Started: [`metadata/x86_verified_call_edges.csv`](../metadata/x86_verified_call_edges.csv) contains four partial original-XBE call edges, including the EAX-plus-stack contract at `0x000874EA -> 0x00087630`. This is an evidence ledger, not proof of ABI-complete linked functions.
 
 ## Fidelity status conventions
 
