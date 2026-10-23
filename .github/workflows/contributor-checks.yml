@@ -1,0 +1,34 @@
+name: Contributor security and source checks
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/check_repository_safety.py'
+      - 'tools/test_repository_safety.py'
+      - 'tools/test_progress.py'
+      - 'tools/update_progress.py'
+      - '.github/workflows/contributor-checks.yml'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Read-only PR/source hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check scanner against synthetic examples
+        run: python3 tools/test_repository_safety.py
+      - name: Audit every tracked source and file name without exposing token values
+        run: python3 tools/check_repository_safety.py --root .
+      - name: Test GitHub progress percentage and report validation
+        run: python3 tools/test_progress.py
+      - name: Preserve all function locations and body SHA-256 labels
+        run: |
+          python3 tools/test_source_layout.py
+          python3 tools/test_body_hash_labels.py
+          python3 scripts/check_sources.py
