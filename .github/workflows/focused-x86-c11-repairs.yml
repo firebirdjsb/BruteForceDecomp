@@ -16,6 +16,7 @@ on:
       - 'src/main_unclassified/band_0008/0x00081d10.c'
       - 'src/main_unclassified/band_0008/0x0008a560.c'
       - 'src/main_unclassified/band_000b/0x000becf0.c'
+      - 'src/main_unclassified/band_000c/0x000c4bc0.c'
       - 'src/main_unclassified/band_001e/0x001e8cd0.c'
       - 'src/main_unclassified/band_0028/0x002876a0.c'
       - 'src/main_unclassified/band_0029/0x0029d2a0.c'
@@ -31,7 +32,7 @@ permissions:
 
 jobs:
   focused-c11:
-    name: Sixteen original entries — isolated host syntax only
+    name: Seventeen original entries — isolated host syntax only
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -40,7 +41,7 @@ jobs:
         run: python3 tools/verify_x86_c11_lane_contracts.py --root .
       - name: Verify linked EAX plus stack call-site inventory
         run: python3 tools/verify_x86_callee_87630.py --root .
-      - name: Compile sixteen original C11 drafts individually
+      - name: Compile seventeen original C11 drafts individually
         shell: bash
         run: |
           set -euo pipefail
@@ -66,6 +67,7 @@ jobs:
             src/main_unclassified/band_0008/0x00081d10.c \
             src/main_unclassified/band_0008/0x0008a560.c \
             src/main_unclassified/band_000b/0x000becf0.c \
+            src/main_unclassified/band_000c/0x000c4bc0.c \
             src/main_unclassified/band_001e/0x001e8cd0.c \
             src/main_unclassified/band_0028/0x002876a0.c \
             src/main_unclassified/band_0029/0x0029d2a0.c
@@ -73,4 +75,4 @@ jobs:
             echo "Checking ${name}"
             clang "${flags[@]}" "${name}"
           done
-          echo "Sixteen isolated C11 syntax checks passed; no Xbox ABI, linking, or runtime equivalence claimed."
+          echo "Seventeen isolated C11 syntax checks passed; no Xbox ABI, linking, or runtime equivalence claimed."
