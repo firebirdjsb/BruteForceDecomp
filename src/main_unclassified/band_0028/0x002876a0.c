@@ -19,7 +19,8 @@ void FUN_002876a0(int param_1,int param_2,int param_3)
     if (iVar1 < 0x21) {
 LAB_00287741:
       if (1 < iVar1) {
-        FUN_00287e30();
+        /* 0x00287746-0x00287755: EBX=start, EDI=end; two stack DWORDs. */
+        FUN_00287e30(param_1,param_2);
       }
       return;
     }
@@ -28,7 +29,8 @@ LAB_00287741:
         if (4 < (int)(param_2 - param_1 & 0xfffffffcU)) {
           FUN_00288130(param_1,param_2);
         }
-        FUN_00287dc0();
+        /* 0x00287787-0x00287796: EBX=start, EDI=end; two stack DWORDs. */
+        FUN_00287dc0(param_1,param_2);
         return;
       }
       goto LAB_00287741;
