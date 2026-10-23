@@ -53,6 +53,42 @@ def contiguous_length(raw: bytes, sections, address: int, limit: int, digest: st
             return size
     return None
 
+# These exact ordered byte spans reproduce the labelled original SHA-256 when
+# concatenated. They were independently checked against the user's retail XBE.
+# This does NOT establish the original control-flow graph or Ghidra block map.
+# Offsets are relative to the function entry; no executable bytes are stored.
+TWO_OR_THREE_SPAN_MATCHES = {
+    "0x00012180": ((0,52),(55,61)),
+    "0x000123f0": ((0,59),(62,68)),
+    "0x00012580": ((0,37),(40,46)),
+    "0x00012a50": ((0,54),(57,64)),
+    "0x00015f30": ((0,22),(25,59),(62,68)),
+    "0x00015fe0": ((0,54),(57,79)),
+    "0x00016200": ((0,27),(30,64),(67,73)),
+    "0x000163a0": ((0,37),(40,46)),
+    "0x00016fd0": ((0,21),(24,30)),
+    "0x0001a420": ((0,87),(104,185)),
+    "0x0001b650": ((0,187),(190,224)),
+    "0x0001b7a0": ((0,220),(223,260)),
+    "0x0001b910": ((0,182),(185,221)),
+    "0x0001bb30": ((0,237),(243,283)),
+    "0x0001bc90": ((0,40),(44,67)),
+}
+
+def ordered_span_digest_match(raw, sections, address, bound, digest, spans):
+    if not spans or spans[0][0] != 0:
+        raise ValueError("Invalid initial original-XBE span")
+    prev=0
+    for start,end in spans:
+        if start < prev or end <= start or end > bound:
+            raise ValueError("Out-of-order or out-of-bounds original-XBE evidence span")
+        prev=end
+    body=mapped_span(raw,sections,address,prev)
+    combined=b"".join(body[start:end] for start,end in spans)
+    if hashlib.sha256(combined).hexdigest().upper()!=digest:
+        raise ValueError(f"Original-XBE selected-span digest mismatch at 0x{address:08X}")
+    return len(combined)
+
 def audit(root: Path, xbe: Path | None, output: Path):
     root = root.resolve()
     ordered = sorted((path for path in discovered_sources(root)
@@ -79,13 +115,21 @@ def audit(root: Path, xbe: Path | None, output: Path):
                          capture_output=True,text=True,errors="replace",timeout=60)
         body_size=(contiguous_length(original, sections, addr, next_entry-addr, digest)
                    if original is not None else None)
+        selected_size=None
+        if original is not None and body_size is None and entry in TWO_OR_THREE_SPAN_MATCHES:
+            selected_size=ordered_span_digest_match(
+                original,sections,addr,next_entry-addr,digest,
+                TWO_OR_THREE_SPAN_MATCHES[entry])
         status=("not_checked_no_xbe" if original is None else
                 "verified_contiguous_xbe_body" if body_size is not None else
+                "verified_selected_xbe_spans_cfg_unverified" if selected_size is not None else
                 "requires_block_map_review")
         errors=re.findall(r"error:\s*([^\n]+)",p.stderr)
         results.append({"pass":i+1,"entry":entry,"source_file":path.relative_to(root).as_posix(),
                         "original_body_sha256":digest,"original_xbe_check":status,
                         "verified_contiguous_body_bytes":body_size,
+                        "verified_selected_body_bytes":selected_size,
+                        "selected_spans_relative":TWO_OR_THREE_SPAN_MATCHES.get(entry),
                         "next_discovered_function":f"0x{next_entry:08x}",
                         "c11_syntax":"pass" if p.returncode==0 else "fail",
                         "first_error":errors[0] if errors else ""})
@@ -107,8 +151,10 @@ def audit(root: Path, xbe: Path | None, output: Path):
             print("C11_FAIL",item["entry"],item["first_error"][:150])
     if original is None:
         print("Original XBE not supplied: byte-level equivalence NOT tested on CI.")
-    elif xbe_counts["verified_contiguous_xbe_body"]!=82:
-        raise ValueError("Unexpected contiguous body-match count; investigate mapping")
+    elif (xbe_counts["verified_contiguous_xbe_body"]!=82 or
+          xbe_counts["verified_selected_xbe_spans_cfg_unverified"]!=15 or
+          xbe_counts["requires_block_map_review"]!=3):
+        raise ValueError("Unexpected original-XBE body-match distribution; investigate")
     return report
 
 if __name__=="__main__":
