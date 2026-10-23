@@ -25,7 +25,8 @@ void FUN_0005c5e0(undefined4 *param_1,float param_2,uint param_3)
   undefined4 *puVar10;
   undefined4 *local_10;
   float local_c;
-  float local_4;
+  /* 0x0005C661 writes only the low byte; upper three bytes remain unknown. */
+  uint32_t local_4;
   
   puVar4 = param_1;
   uVar9 = *in_EAX;
@@ -64,14 +65,15 @@ void FUN_0005c5e0(undefined4 *param_1,float param_2,uint param_3)
     }
   }
   else if (puVar2 == (undefined4 *)param_1[0xe]) {
-    local_4 = (float)CONCAT31(local_4._1_3_,(undefined1)param_3);
+    ((unsigned char *)&local_4)[0] = (unsigned char)param_3;
     local_c = param_2;
     param_1 = puVar5;
     param_3 = uVar9;
     pfVar8 = (float *)FUN_0005d2b0();
     *pfVar8 = local_c;
     pfVar8[1] = 1.4013e-45;
-    pfVar8[2] = local_4;
+    /* 0x0005C67F-0x0005C688: raw DWORD move, not integer-to-float conversion. */
+    ((uint32_t *)(void *)pfVar8)[2] = local_4;
     puVar5 = param_1;
   }
   else {
