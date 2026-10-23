@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_float_lane.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00080318;
@@ -37,7 +38,6 @@ void FUN_00372270(void)
   undefined4 *puVar10;
   uint uVar11;
   undefined4 *puVar12;
-  int extraout_ECX;
   int *unaff_ESI;
   
   puVar10 = (undefined4 *)*unaff_ESI;
@@ -70,29 +70,36 @@ void FUN_00372270(void)
       fVar3 = fVar3 + 4.2949673e+09;
     }
     fVar3 = fVar3 * DAT_0037df68;
-    *puVar10 = &LAB_00200a30;
+    /* XBE 0x00372346: writes a literal DWORD, not a native host pointer. */
+    *puVar10 = UINT32_C(0x00200a30);
     fVar3 = fVar1 / fVar3;
-    puVar10[4] = fVar1;
-    puVar10[5] = fVar1;
-    puVar10[6] = fVar1;
-    puVar10[8] = fVar4;
+    /* XBE 0x00372354/57/5A: three unchanged IEEE-754 DWORDs. */
+    bf_x86_store_f32_word(&puVar10[4],fVar1);
+    bf_x86_store_f32_word(&puVar10[5],fVar1);
+    bf_x86_store_f32_word(&puVar10[6],fVar1);
+    bf_x86_store_f32_word(&puVar10[8],fVar4);
     puVar12 = puVar10 + 9;
     fVar3 = fVar3 * fVar3;
-    puVar10[1] = fVar7 * fVar3;
-    puVar10[2] = fVar8 * fVar3;
-    puVar10[3] = fVar3 * fVar9;
-    puVar10[7] = -(fVar4 / fVar1);
+    /* XBE 0x00372371/7A/81: fstp m32fp, not numeric float->int. */
+    bf_x86_store_f32_word(&puVar10[1],fVar7 * fVar3);
+    bf_x86_store_f32_word(&puVar10[2],fVar8 * fVar3);
+    bf_x86_store_f32_word(&puVar10[3],fVar3 * fVar9);
+    bf_x86_store_f32_word(&puVar10[7],-(fVar4 / fVar1));
   }
   uVar5 = DAT_0037df70;
-  *puVar12 = &DAT_00080318;
+  /* XBE 0x0037239C: immediate 0x00080318, not &host-global. */
+  *puVar12 = UINT32_C(0x00080318);
   puVar12[1] = iVar6;
   puVar12[2] = uVar5;
   uVar11 = FUN_00373a30(fVar2 * 8.0 + 0.5);
   if (0x1ff < uVar11) {
     uVar11 = 0x1ff;
   }
-  *(undefined1 **)(extraout_ECX + 0xc) = &LAB_0004043c;
-  *(uint *)(extraout_ECX + 0x10) = uVar11;
-  *unaff_ESI = extraout_ECX + 0x14;
+  /* ECX points at puVar12 in both branches; 0x003723C3 writes DWORD 0x4043C. */
+  puVar12[3] = UINT32_C(0x0004043c);
+  puVar12[4] = uVar11;
+  /* Original 0x003723CD: mov [esi], ecx after add ecx,0x14.
+   * Address-width translation is still ABI_UNVERIFIED on a 64-bit host. */
+  *unaff_ESI = (int)(uintptr_t)(puVar12 + 5);
   return;
 }

@@ -26,6 +26,13 @@ OPCODES = (
     (0x00372310, "8b0d7cdf3700"), (0x0037231A, "8b0d80df3700"),
     (0x0037236B, "d944240c"), (0x00372374, "d9442410"),
     (0x0037237D, "d84c2414"),
+    (0x00372346, "c700300a2000"),
+    (0x00372354, "894810"), (0x00372357, "894814"),
+    (0x0037235A, "894818"), (0x00372361, "894820"),
+    (0x00372371, "d95804"), (0x0037237A, "d95808"),
+    (0x00372381, "d9580c"), (0x0037238E, "d9581c"),
+    (0x0037239C, "c70118030800"),
+    (0x003723C3, "c7410c3c040400"), (0x003723CD, "83c114"),
 )
 INITIAL_WORDS = (
     (0x003A551C, 0x42740000),  # 61.0f
@@ -70,7 +77,7 @@ def verify(raw: bytes) -> None:
         actual, = struct.unpack("<I", source_slice(va, 4))
         if actual != expected:
             raise ValueError(f"Original float initialization mismatch: 0x{va:08X}")
-    print("Verified XBE SHA-256, 3 function bodies, 17 instruction windows,",
+    print("Verified XBE SHA-256, 3 function bodies, 29 instruction windows,",
           "and 5 original f32 initializers.")
     print("C11 syntax, ABI compatibility and 1:1 behavior are NOT established.")
 

@@ -37,6 +37,10 @@ jobs:
         run: |
           clang -std=c11 -Wall -Wextra -Werror -I include tools/test_x86_word_lanes.c -o /tmp/bf_x86_word_lanes_test
           /tmp/bf_x86_word_lanes_test
+      - name: Verify x86 float word transfers
+        run: |
+          clang -std=c11 -Wall -Wextra -Werror -pedantic-errors -I include tools/test_x86_float_lanes.c -o /tmp/bf_x86_float_lane_test
+          /tmp/bf_x86_float_lane_test
       - name: Recheck original body digests against canonical inventory
         run: python3 tools/recheck_c11_provenance.py --root .
       - name: Audit all 13,694 discovered function source files
