@@ -16,11 +16,11 @@ void FUN_001aacf0(void)
   int iVar3;
   undefined4 *unaff_FS_OFFSET;
   undefined4 local_10;
-  undefined1 *puStack_c;
+  uint32_t puStack_c; /* guest SEH DWORD; native FS:0 bridge required */
   undefined4 local_8;
   
   local_8 = 0xffffffff;
-  puStack_c = &LAB_00307c90;
+  puStack_c = UINT32_C(0x00307c90); /* original x86 push imm32 at 0x001aacf5 */
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   if (in_ECX < 0x15555556) {
