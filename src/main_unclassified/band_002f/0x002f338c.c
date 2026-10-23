@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbe_certificate_layout.h"
 void XAPILIB__XCalculateSignatureBegin(undefined4 param_1)
 
 {

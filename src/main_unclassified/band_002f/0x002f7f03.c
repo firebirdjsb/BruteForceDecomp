@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbe_certificate_layout.h"
 void XAPILIB__XapiBootToDash(undefined4 param_1,undefined4 param_2,undefined4 param_3)
 
 {

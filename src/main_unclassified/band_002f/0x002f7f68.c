@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbe_certificate_layout.h"
 int FUN_002f7f68(int param_1)
 
 {

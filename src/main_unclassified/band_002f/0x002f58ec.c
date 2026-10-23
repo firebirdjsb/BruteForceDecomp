@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbe_certificate_layout.h"
 undefined4 * XAPILIB__XLoadContentSignaturesWithFileName(dword param_1,int param_2)
 
 {
