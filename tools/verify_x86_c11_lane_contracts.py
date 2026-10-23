@@ -108,7 +108,15 @@ FINGERPRINTS = {
     0x000C4C93: "c6 44 24 5f ff",
     0x000C4CAB: "51",
     0x000C4CAE: "ff 53 04",  # indirect target not established
-    0x000C4CB6: "c2 04 00", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
+    0x000C4CB6: "c2 04 00",
+    # x87 FCHS is a sign flip, never a C predecrement.
+    0x0006C9C6: "d9 e0",
+    0x0006CAA3: "d9 e0",
+    0x0006CA98: "d9 e0",
+    # EDI is zero and only two low bytes of the recycled DWORD are cleared.
+    0x000AA4C4: "33 ff",
+    0x000AA4D3: "66 89 7c 24 30",
+    0x000AA4D8: "e8 93 05 24 00", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
@@ -147,6 +155,15 @@ DIRECT_CALLS = {
 }
 
 SOURCE_EXPECTATIONS = {
+    "src/main_unclassified/band_0006/0x0006c840.c": (
+        ["- -(-fVar1) * *(float *)(param_1 + 0x88)",
+         "= -(-(float)fVar3);"],
+        ["--fVar1", "--(float)fVar3"],
+    ),
+    "src/main_unclassified/band_000a/0x000aa3b0.c": (
+        ["local_18 &= UINT32_C(0xffff0000);"],
+        ["local_18._2_2_", "CONCAT12((char)"],
+    ),
     "src/main_unclassified/band_000c/0x000c4bc0.c": (
         ["uint32_t packed_color_word;",
          "packed_color_word = UINT32_C(0xff000000)",
