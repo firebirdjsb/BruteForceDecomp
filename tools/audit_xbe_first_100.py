@@ -151,9 +151,14 @@ def audit(root: Path, xbe: Path | None, output: Path):
             print("C11_FAIL",item["entry"],item["first_error"][:150])
     if original is None:
         print("Original XBE not supplied: byte-level equivalence NOT tested on CI.")
-    elif (xbe_counts["verified_contiguous_xbe_body"]!=82 or
+    elif (xbe_counts["verified_contiguous_xbe_body"]!=83 or
           xbe_counts["verified_selected_xbe_spans_cfg_unverified"]!=15 or
-          xbe_counts["requires_block_map_review"]!=3):
+          xbe_counts["requires_block_map_review"]!=2 or
+          {r["entry"] for r in results
+           if r["original_xbe_check"]=="requires_block_map_review"} !=
+          {"0x00017770", "0x0001bd30"} or
+          next(r for r in results if r["entry"]=="0x0001afe0")
+          ["verified_contiguous_body_bytes"] != 1143):
         raise ValueError("Unexpected original-XBE body-match distribution; investigate")
     return report
 
