@@ -50,7 +50,7 @@ Original C drafts `0x000874A0` and `0x00087630` now document this mixed register
 
 ## Tests, reporting and next gates
 
-The existing [`tools/verify_x86_c11_lane_contracts.py`](../tools/verify_x86_c11_lane_contracts.py) now contains **48** exact-instruction fingerprints, **28** direct-call checks, and **13** focused source-invariant records. The optional `--xbe` mode requires the exact matching original binary; source-only checks run in public GitHub Actions without storing the executable.
+The existing [`tools/verify_x86_c11_lane_contracts.py`](../tools/verify_x86_c11_lane_contracts.py) now contains **53** exact-instruction fingerprints, **28** direct-call checks, and **13** focused source-invariant records. The optional `--xbe` mode requires the exact matching original binary; source-only checks run in public GitHub Actions without storing the executable.
 
 The additional [`tools/verify_x86_callee_87630.py`](../tools/verify_x86_callee_87630.py) verifies that the twelve-entry ledger is complete, has not been silently promoted to a full ABI, and, when supplied `--xbe`, that the direct targets, original callee prologue/RET and raw main-code E8 candidates match the input XBE.
 
