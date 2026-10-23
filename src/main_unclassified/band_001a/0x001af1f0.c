@@ -15,11 +15,11 @@ void FUN_001af1f0(uint param_1)
   uint uVar3;
   undefined4 *unaff_FS_OFFSET;
   undefined4 local_10;
-  undefined1 *puStack_c;
+  uint32_t puStack_c; /* guest32 SEH stack word, native FS:0 TBD */
   undefined4 local_8;
   
   local_8 = 0xffffffff;
-  puStack_c = &LAB_00308340;
+  puStack_c = UINT32_C(0x00308340); /* original push imm32 at 0x001af1f5 */
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   if (param_1 < 0x1e1e1e2) {
