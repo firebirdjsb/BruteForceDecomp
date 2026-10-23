@@ -1,5 +1,13 @@
 # Project status — 2026-10-21
 
+## Current repair evidence — 2026-10-23
+
+See [the current repair ledger](C11_REPAIR_PASS_2026-10-23.md) for nine
+instruction-backed float-storage corrections, restored CI after source relocation,
+and checks against the original XBE. The older upload and syntax totals below are
+historical snapshots. The latest whole-tree inventory is an audit, not a native
+PC build or proof of 1:1 behavior. ABI and runtime verification remain outstanding.
+
 ## Verified input identity
 
 - Game: Brute Force (original Xbox x86).
