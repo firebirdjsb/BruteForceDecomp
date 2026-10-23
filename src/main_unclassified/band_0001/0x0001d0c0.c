@@ -7,6 +7,7 @@
  */
 #include "bf_ghidra_types.h"
 #include <xmmintrin.h>
+#include <math.h>
 /* Original x86 rsqrtss instruction, scalar lane only. x87 rounding TBD. */
 void FUN_0001d0c0(void)
 
