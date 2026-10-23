@@ -6,7 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_0001c3b0(void)
+/* XBE 0x0001C3F6/0x0001C444: address of first caller stack word;
+ * both exits ret 12. Incoming EAX/ECX still ABI_UNVERIFIED. */
+void FUN_0001c3b0(undefined4 caller_stack_word_1,
+                  undefined4 caller_stack_word_2,
+                  undefined4 caller_stack_word_3)
 
 {
   uint in_EAX;
@@ -28,12 +32,12 @@ void FUN_0001c3b0(void)
     else {
       iVar2 = (*(int *)(in_ECX + 8) - iVar2) / 0xc;
     }
-    FUN_0001cc80(in_ECX,*(undefined4 *)(in_ECX + 8),in_EAX - iVar2,&stack0x00000004);
+    FUN_0001cc80(in_ECX,*(undefined4 *)(in_ECX + 8),in_EAX - iVar2,&caller_stack_word_1);
     return;
   }
   if (iVar2 != 0) {
     if (in_EAX < (uint)((*(int *)(in_ECX + 8) - iVar2) / 0xc)) {
-      FUN_0001cc20(in_ECX,&stack0x00000004,*(int *)(in_ECX + 4) + in_EAX * 0xc,*(int *)(in_ECX + 8))
+      FUN_0001cc20(in_ECX,&caller_stack_word_1,*(int *)(in_ECX + 4) + in_EAX * 0xc,*(int *)(in_ECX + 8))
       ;
     }
   }

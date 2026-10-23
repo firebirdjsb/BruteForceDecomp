@@ -8,6 +8,9 @@ on:
       - 'include/**'
       - 'metadata/**'
       - 'tools/sweep_c11.py'
+      - 'tools/audit_xbe_first_100.py'
+      - 'tools/audit_xbe_kernel_imports.py'
+      - 'tools/test_xbe_kernel_imports.py'
       - 'tools/audit_entrypoint_symbols.py'
       - 'tools/test_audit_entrypoint_symbols.py'
       - 'tools/body_hash_labels.py'
@@ -52,12 +55,16 @@ jobs:
         run: |
           clang -std=c11 -Wall -Wextra -Werror -pedantic-errors -I include tools/test_x86_float_lanes.c -o /tmp/bf_x86_float_lane_test
           /tmp/bf_x86_float_lane_test
+      - name: Verify synthetic Xbox kernel thunk parsing
+        run: python3 tools/test_xbe_kernel_imports.py
       - name: Verify sorted source layout and exact function identities
         run: python3 tools/test_source_layout.py
       - name: Refresh local evidence-limited function groups for relocated sources
         run: python3 tools/classify_c11_functions.py
       - name: Recheck original body digests against canonical inventory
         run: python3 tools/recheck_c11_provenance.py --root .
+      - name: Run 100 function-by-function x86 provenance and host C11 syntax passes
+        run: python3 tools/audit_xbe_first_100.py --root . --out c11_sweep_results/first_100_function_passes.json
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
       - name: Inventory candidate C entrypoint identities without asserting linkage

@@ -1,0 +1,8 @@
+# Two observed original-XBE stack contracts (2026-10-23)
+
+These are narrowly source-level repairs grounded in the user's original retail XBE SHA-256 `B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721`.
+
+- `0x0001C3B0`: 165 original bytes, body SHA-256 `D6E6F530F9042F63606B07F3BD954DC4319671CA3CBEA274434120442AA3BBB7`. `0x0001C3F6` (`8d 44 24 10`) and `0x0001C444` (`8d 54 24 18`) each form the address of the **first** original caller stack word after accounting for pushes. Both exits `0x0001C40F` and `0x0001C452` contain `ret 12`. The C draft now names all three incoming stack words and forwards the first word's address, instead of using an undeclared `stack0x...` token.
+- `0x000577C0`: 199 original bytes, body SHA-256 `39D4131D78AD6B0A2C38CEECB2614FDE7B89C91A7D2B4096ACF5A14F9CC01EB6`. `0x000577C5` reads the third caller word as a pointer; `0x000577E3` clears its low byte; `0x000577F9` passes the address of the third stack word; `0x00057823` retests its low byte; `0x00057884` uses `ret 12`. The C draft now models the low byte within one 32-bit stack-word argument rather than an undeclared Ghidra stack token.
+
+Both original body SHA-256 digests and the instruction windows above were independently compared with the supplied XBE. The C sources remain `ABI_UNVERIFIED`: `0x0001C3B0` depends on incoming EAX/ECX and other unresolved callees, while `0x000577C0` additionally derives implicit register inputs from the original pointer carried in the third stack word. Neither function is established as full behavioral 1:1, a linked PC implementation, or a safe substitute for the Xbox calling convention. No executable or original machine-code dump was committed.

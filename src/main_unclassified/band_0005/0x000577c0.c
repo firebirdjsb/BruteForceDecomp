@@ -6,13 +6,16 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_000577c0(undefined4 param_1)
+/* XBE ret 12: third incoming stack word originally holds an Xbox pointer;
+ * its low byte is cleared, passed by address, and retested. The hidden
+ * pointer/register operations are not yet modelled: ABI_UNVERIFIED. */
+void FUN_000577c0(undefined4 param_1, undefined4 param_2,
+                  uint32_t caller_stack_word_3)
 
 {
   bool bVar1;
   bool bVar2;
   bool bVar3;
-  char cStack0000000c;
   char local_5;
   char local_4;
   char local_3;
@@ -23,11 +26,11 @@ void FUN_000577c0(undefined4 param_1)
   local_1 = '\0';
   local_4 = '\0';
   local_3 = '\0';
-  cStack0000000c = '\0';
+  caller_stack_word_3 &= UINT32_C(0xffffff00);
   local_5 = '\0';
-  FUN_00057610(param_1,&stack0x0000000c,&local_4,&local_2);
+  FUN_00057610(param_1,&caller_stack_word_3,&local_4,&local_2);
   FUN_00057610(param_1,&local_5,&local_3,&local_1);
-  if ((cStack0000000c == '\0') && (local_5 == '\0')) {
+  if (((caller_stack_word_3 & UINT32_C(0xff)) == 0) && (local_5 == '\0')) {
     bVar1 = false;
   }
   else {

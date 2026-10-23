@@ -11,6 +11,14 @@ static inline void bf_x86_store_f32_word(uint32_t *destination, float value)
 {
     memcpy(destination,&value,sizeof(value));
 }
+/* Interpret one original 32-bit x86 m32fp storage word by bits, not by
+ * numerically converting an address or integer to float. */
+static inline float bf_x86_word_to_f32(uint32_t bits)
+{
+    float value;
+    memcpy(&value,&bits,sizeof(value));
+    return value;
+}
 static inline uint32_t bf_x86_f32_word(float value)
 {
     uint32_t bits;
