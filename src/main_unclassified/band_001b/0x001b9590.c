@@ -15,11 +15,11 @@ int FUN_001b9590(int param_1)
   uint uVar3;
   undefined4 *unaff_FS_OFFSET;
   undefined4 local_10;
-  undefined1 *puStack_c;
+  uint32_t puStack_c; /* original guest32 SEH word; native FS:0 adapter TBD */
   undefined4 local_8;
   
   local_8 = 0xffffffff;
-  puStack_c = &LAB_00308230;
+  puStack_c = UINT32_C(0x00308230); /* original x86 push imm32 at 0x001b9595 */
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   if (*(int *)(in_ECX + 4) == 0) {

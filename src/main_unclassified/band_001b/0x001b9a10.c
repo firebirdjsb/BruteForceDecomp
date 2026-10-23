@@ -21,11 +21,11 @@ void FUN_001b9a10(int param_1,uint param_2)
   undefined4 local_48 [13];
   undefined1 *local_14;
   undefined4 local_10;
-  undefined1 *puStack_c;
+  uint32_t puStack_c; /* original guest32 SEH word; native FS:0 adapter TBD */
   undefined4 local_8;
   
   local_8 = 0xffffffff;
-  puStack_c = &LAB_00308210;
+  puStack_c = UINT32_C(0x00308210); /* original x86 push imm32 at 0x001b9a15 */
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   local_14 = &stack0xffffff74;
