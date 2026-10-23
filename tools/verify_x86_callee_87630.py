@@ -47,9 +47,12 @@ def check_ledger(root: Path) -> None:
             raise ValueError(f"Unjustified ABI promotion at 0x{va:08x}")
     if len(found) != len(set(found)) or set(found) != set(ORIGINAL_CALL_SITES):
         raise ValueError("Missing, duplicated, or invented x86 call site")
-    uncertain = next(row for row in rows if row["call_va"] == "0x0010b2de")
-    if "path-sensitive" not in uncertain["incoming_eax_start_first_observation"]:
-        raise ValueError("The unresolved EAX provenance at 0x0010B2DE was erased")
+    recovered = next(row for row in rows if row["call_va"] == "0x0010b2de")
+    provenance = recovered["incoming_eax_start_first_observation"]
+    if not all(value in provenance for value in
+               ("0x0010B213", "0x0010B228", "0x0010B27F",
+                "0x0010B291", "0x0010B2D4")):
+        raise ValueError("Evidence-backed EAX CFG chain at 0x0010B2DE was erased")
     print("PASS: twelve original call sites indexed with partial-ABI boundaries")
 
 
