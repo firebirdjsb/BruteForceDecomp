@@ -8,7 +8,8 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t *_DAT_0040e748;
+/* XBE 0x000228A1 (fld) / 0x000228AE (fmul): 32-bit float, not a pointer. */
+extern float DAT_0040e748;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 undefined4 FUN_00022790(undefined4 param_1,undefined1 *param_2)
@@ -42,7 +43,8 @@ undefined4 FUN_00022790(undefined4 param_1,undefined1 *param_2)
         if (iVar7 != 10) {
           return 0;
         }
-        if (61.0 < (float)piVar2[0x17]) {
+        /* XBE 0x0002282B: fld dword ptr [edi+0x5c], an f32 field. */
+        if (61.0f < *(const float *)(piVar2 + 0x17)) {
           local_28 = 0x3e800000;
         }
         iVar7 = (**(code **)(*piVar6 + 0x40))();
@@ -53,9 +55,9 @@ undefined4 FUN_00022790(undefined4 param_1,undefined1 *param_2)
         if (fVar3 < 2.25) {
           fVar9 = (float10)FUN_0002fba0(unaff_ESI,piVar2 + 5,0x3f666666);
           *(float *)(unaff_ESI + 0x8a0) = (float)fVar9;
-          fVar4 = _DAT_0040e748;
+          fVar4 = DAT_0040e748;
           *(undefined1 *)(unaff_ESI + 0x89d) = 1;
-          if ((fVar3 < fVar4 * _DAT_0040e748) && ((*(byte *)(piVar2 + 0x19) & 3) != 0)) {
+          if ((fVar3 < fVar4 * DAT_0040e748) && ((*(byte *)(piVar2 + 0x19) & 3) != 0)) {
             (**(code **)(piVar2[3] + 8))();
             pfVar8 = (float *)FUN_0001fd10();
             fStack_20 = -pfVar8[2];

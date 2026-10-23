@@ -9,16 +9,17 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00080318;
-extern uint32_t *DAT_0037df68;
-extern uint32_t DAT_0037df6c;
+/* XBE 0x0037228A..0x0037237D: 32-bit words copied to x87 f32 lanes. */
+extern float DAT_0037df68;
+extern float DAT_0037df6c;
 extern uint32_t DAT_0037df70;
 extern uint32_t DAT_0037df74;
-extern uint32_t DAT_0037df78;
-extern uint32_t DAT_0037df7c;
-extern uint32_t DAT_0037df80;
-extern uint32_t DAT_0037df84;
+extern float DAT_0037df78;
+extern float DAT_0037df7c;
+extern float DAT_0037df80;
+extern float DAT_0037df84;
 extern uint32_t DAT_0037ec88;
-extern uint32_t _DAT_0037af5c;
+extern float _DAT_0037af5c;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void FUN_00372270(void)
