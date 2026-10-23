@@ -30,7 +30,8 @@ int FUN_0029d2a0(undefined4 param_1,float param_2,float param_3,int param_4,unde
     return 0;
   }
   bVar2 = *pfVar3 == param_2;
-  if (param_7._0_1_ == '\0') {
+  /* 0x0029D2F8: mov al,byte ptr [esp+0x40]; 0x0029D309: test al,al. */
+  if (((const unsigned char *)&param_7)[0] == 0) {
     if (bVar2) {
       do {
         if ((float *)(*(int *)(in_ECX + 0xc) + -8 + *(int *)(in_ECX + 0x10) * 8) <= pfVar3) break;
