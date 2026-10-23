@@ -9,8 +9,11 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00469b58;
-extern uint32_t _DAT_003c0604;
-extern uint32_t _DAT_003c0608;
+/* XBE 0x001049fa: fcom m32fp [0x003c0604], bits 0x40200000 (2.5f).
+ * XBE 0x001049ed/0x00104a09: fcom/fcomp m32fp [0x003c0608], bits 0x3e4ccccd.
+ * Both are four-byte floats; symbol linkage remains ABI_UNVERIFIED. */
+extern float _DAT_003c0604;
+extern float _DAT_003c0608;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 uint FUN_00104940(float param_1)

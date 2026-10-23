@@ -6,9 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_003c05fc;
+/* XBE 0x00123f17: fcomp m32fp [0x003c05fc], a four-byte float.
+ * Original file bits 0x40800000 (4.0f); symbol linkage remains ABI_UNVERIFIED. */
+extern float DAT_003c05fc;
 void FUN_00123ea0(void)
 
 {

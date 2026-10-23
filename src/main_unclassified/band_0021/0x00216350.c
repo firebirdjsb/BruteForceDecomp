@@ -10,7 +10,11 @@ uint FUN_00216350(float param_1,float param_2,float param_3,float param_4,float 
 
 {
   uint uVar1;
-  undefined4 local_4;
+  /* XBE 0x002163b3/0x00216406 store movss to [esp+4];
+   * 0x0021640c reads that four-byte lane with fld m32fp.
+   * Preserve float values, not numeric conversions to an integer temporary.
+   * SSE min/max NaN selection and the full EAX result remain ABI_UNVERIFIED. */
+  float local_4;
   
   if (param_2 <= param_1) {
     if (param_3 <= param_2) {
