@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004699a0;
@@ -36,7 +37,7 @@ void FUN_00155450(void)
     uVar3 = *(uint *)(PTR_DAT_00400864 + (uVar2 >> 5) * 4) & 1 << ((byte)uVar2 & 0x1f);
   }
   uVar3 = (uVar1 & 0xffff) >> 5;
-  DAT_004699a0 = CONCAT22(DAT_004699a0._2_2_,(ushort)uVar1);
+  DAT_004699a0 = bf_x86_word_replace_lo16(DAT_004699a0,(uint16_t)uVar1);
   *(uint *)(PTR_DAT_00400864 + uVar3 * 4) =
        *(uint *)(PTR_DAT_00400864 + uVar3 * 4) | 1 << ((byte)uVar1 & 0x1f);
   return;

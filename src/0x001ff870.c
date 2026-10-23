@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 char FUN_001ff870(undefined4 param_1,undefined4 param_2,undefined4 param_3)
 
 {
@@ -15,7 +16,7 @@ char FUN_001ff870(undefined4 param_1,undefined4 param_2,undefined4 param_3)
   
   uVar1 = param_2;
   cVar2 = FUN_001fedb0(param_1,param_2,param_3);
-  param_3 = CONCAT31(param_3._1_3_,cVar2);
+  param_3 = bf_x86_word_replace_lo8(param_3,(uint8_t)cVar2);
   if (cVar2 == '\0') {
     param_2 = 0xfe604ae;
     FUN_000ee560(*(undefined4 *)(in_ECX + 0x10),param_1,&param_2,uVar1,2);

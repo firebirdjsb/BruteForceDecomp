@@ -11,6 +11,7 @@ on:
       - 'tools/audit_entrypoint_symbols.py'
       - 'tools/body_hash_labels.py'
       - 'tools/test_body_hash_labels.py'
+      - 'tools/test_x86_word_lanes.c'
       - 'tools/recheck_c11_provenance.py'
       - 'tools/classify_c11_functions.py'
       - '.github/workflows/full-c11-inventory.yml'
@@ -32,6 +33,10 @@ jobs:
           clang --version | head -n 1
       - name: Verify all accepted provenance label formats
         run: python3 tools/test_body_hash_labels.py
+      - name: Validate Ghidra x86 DWORD subpiece normalization
+        run: |
+          clang -std=c11 -Wall -Wextra -Werror -I include tools/test_x86_word_lanes.c -o /tmp/bf_x86_word_lanes_test
+          /tmp/bf_x86_word_lanes_test
       - name: Recheck original body digests against canonical inventory
         run: python3 tools/recheck_c11_provenance.py --root .
       - name: Audit all 13,694 discovered function source files
