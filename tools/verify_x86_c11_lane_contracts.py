@@ -44,7 +44,18 @@ FINGERPRINTS = {
     0x000874DE: "8b 54 24 1c",  # mov edx,[esp+0x1c], retain unknown upper bytes
     0x000874E7: "53", # third visible stack push: EBX
     0x000874E8: "8b c5", # transfer EBP to implicit EAX before call
-    0x00087630: "55 8b 6c 24 08 57 8b f8", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
+    0x00087630: "55 8b 6c 24 08 57 8b f8",
+    # Verified register/stack contract at the original callee and its unique caller.
+    0x000874E2: "52 8d 46 fc 50 53 8b c5",  # stack (end, metadata, flags); EAX=EBP
+    0x00087631: "8b 6c 24 08 57 8b f8",  # first stack word -> EBP, incoming EAX -> EDI
+    0x00087668: "c3",  # RET (no callee stack cleanup)
+    0x00082962: "55 53 8b d6",  # two pushed inputs, EDX=ESI
+    0x00081D15: "8b 6c 24 74",  # one incoming 32-bit stack argument -> EBP
+    0x00081D5B: "88 5c 24 7c",  # low-byte write to incoming argument word
+    0x00081E78: "89 44 24 7c",  # full 32-bit write to the same word
+    0x00081FBF: "c6 44 24 7c 01",  # low-byte write, preserving upper 24 bits
+    0x00082020: "8a 44 24 7c",  # return AL from the stack word
+    0x0008202B: "c2 08 00",  # callee removes exactly two stack DWORDs # callee reads first stack word and incoming EAX # 4-byte records partition inputs
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
@@ -61,9 +72,27 @@ DIRECT_CALLS = {
     0x00050A30: 0x00051040,
     0x00050A71: 0x00050FF0,
     0x000874EA: 0x00087630,
+    0x00087569: 0x00087630,
+    0x000875C2: 0x00087630,
+    0x000875FB: 0x00087630,
+    0x0008761C: 0x00087630,
+    0x0010B240: 0x00087630,
+    0x0010B2DE: 0x00087630,
+    0x0010B38A: 0x00087630,
+    0x0010BB9F: 0x00087630,
+    0x001AA6DA: 0x00087630,
+    0x001B6A3A: 0x00087630,
+    0x001B6BD0: 0x00087630,
+    0x00082966: 0x00081D10,
 }
 
 SOURCE_EXPECTATIONS = {
+    "src/main_unclassified/band_0008/0x00081d10.c": (
+        ["((uint8_t *)&param_1)[0] = 0;",
+         "((uint8_t *)&param_1)[0] = uVar4;",
+         "((uint8_t *)&param_1)[0] = 1;"],
+        ["param_1._0_1_"],
+    ),
     "src/main_unclassified/band_0008/0x000874a0.c": (
         ["((unsigned char *)&local_4)[0] = uVar2;"],
         ["local_4._1_3_", "CONCAT31(local_4"],
