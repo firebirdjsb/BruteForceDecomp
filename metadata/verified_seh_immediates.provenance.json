@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "scope": "407 individual XBE-verified SEH push-immediate C11 syntax corrections",
+  "original_xbe_sha256": "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721",
+  "instruction": "push imm32",
+  "instruction_offset_from_function_entry": 5,
+  "verified_source_entries": 407,
+  "manifest": "metadata/verified_seh_immediates.csv",
+  "repair_commit": "b1bbde189fbc07314b61e2e1943a2999a843498d",
+  "local_original_xbe_byte_checks": "407/407 passed",
+  "local_clang_c11_syntax_checks": "407/407 passed",
+  "caveat": "Original Xbox FS:0/SEH behavior, stack ABI, linking and runtime 1:1 remain unverified; this is syntax-only."
+}
