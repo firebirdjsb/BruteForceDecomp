@@ -17,7 +17,7 @@
 - `0x00082020`: `mov al,byte ptr [esp+0x7c]`;
 - `0x0008202B`: `ret 8` — this callee consumes **two** caller stack words, and the original caller at `0x00082966` passes two stack words and **EDX=ESI**.
 
-Replaced three invalid `param_1._0_1_` pseudo-member accesses with low-byte `uint8_t` accesses in its existing C11 draft. This resolves only those syntax representations, not EDX state, second argument identity, or indirect virtual-call semantics. Commit `a5f91c22`.
+Replaced three invalid `param_1._0_1_` pseudo-member accesses with low-byte `uint8_t` accesses in its existing C11 draft. This resolves only those syntax representations, not EDX state, second argument identity, or indirect virtual-call semantics. Commits `a5f91c22` and `2d4b95c5` (the follow-up replaces the two remaining pseudo-field accesses). All three occurrences are now corrected; a fresh exact-source invariant check passed 13 of 13 records.
 
 **`0x001E8CD0`** — The original `f32` input is consumed at `0x001E8D00` via `fld m32fp`; the compiler subsequently reuses its **stack location** for a counter:
 
