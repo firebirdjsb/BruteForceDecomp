@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 void FUN_00382571(void)
 
 {
@@ -20,8 +21,11 @@ void FUN_00382571(void)
   }
   iVar2 = FUN_00380f6c();
   if (iVar2 != 0) {
-    local_8._1_3_ = (undefined3)((uint)in_ECX >> 8);
-    local_8 = CONCAT31(local_8._1_3_,pcVar1[4]) & 0xffffff7f;
+    /* Xbox ECX is a 32-bit address word. High 24 bits come from ECX;
+     * the low byte comes from pcVar1[4], then bit 7 is cleared.
+     * Native 64-bit pointer/address translation remains ABI_UNVERIFIED. */
+    local_8 = bf_x86_word_replace_lo8((uint32_t)(uintptr_t)in_ECX,
+                                      (uint8_t)pcVar1[4]) & UINT32_C(0xffffff7f);
     FUN_003824fa(local_8);
     FUN_00382132(local_8,5);
   }
