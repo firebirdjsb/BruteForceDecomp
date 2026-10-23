@@ -28,3 +28,23 @@ __pycache__/
 *.pyc
 .vscode/
 .idea/
+
+# Sensitive credentials and local auth files
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.p12
+*.pfx
+*.kdbx
+*.keystore
+id_rsa
+id_ed25519
+.npmrc
+.netrc
+.pypirc
+credentials.json
+service-account.json
+service_account.json

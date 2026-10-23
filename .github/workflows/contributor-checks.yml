@@ -3,6 +3,11 @@ on:
   push:
     branches: [main]
     paths:
+      - '.gitignore'
+      - 'SECURITY.md'
+      - 'CONTRIBUTING.md'
+      - 'README.md'
+      - 'docs/progress/**'
       - 'tools/check_repository_safety.py'
       - 'tools/test_repository_safety.py'
       - 'tools/test_progress.py'

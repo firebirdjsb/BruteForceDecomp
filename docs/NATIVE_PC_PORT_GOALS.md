@@ -22,6 +22,6 @@ This document records **requested goals**, not implemented functionality, recove
 - Use explicit statuses `C11_Pending` → `C11_Draft` → `C11_Syntax_OK` → `Reviewed` → `Semantics_Tested`. Maintain independent Xbox-ABI, cross-function link and PC-behavior gates.
 - Run repo-wide compiler checks after each focused repair pass; add 32-bit and then 64-bit builds with an explicit boundary for address translation. Record the exact audited commit, counts and exceptions.
 - Test original gameplay behavior separately from optional PC enhancements. Run regressions for asset loading, input, save compatibility, all levels and multiplayer edge cases.
-- Keep the repository private and source/evidence-only: **never commit** the retail XBE, complete decompiler export, Ghidra database, ISO, copyrighted assets, keys or user-local paths. Verify redistribution rights before publishing a finished game or packaged assets.
+- The repository is **public**, but remains source/evidence-only: **never commit** the retail XBE, complete decompiler export, Ghidra database, ISO, copyrighted assets, credentials or user-local secrets. Public visibility does not imply a redistribution license. Verify contribution and redistribution rights before publishing a finished game or assets.
 
 **Current state:** static, mostly unreviewed function-by-function C11 reconstruction with host syntax failures and unresolved register/stack ABI. The native executable and modern enhancements have **not yet been achieved**.

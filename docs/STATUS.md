@@ -1,6 +1,10 @@
 # Project status — 2026-10-23
 
-## Current exact-tree source and compiler checkpoint
+## Current progress source
+
+The current, automatically maintained C11 syntax percentage, source pass/fail counts and exact GitHub Actions audit commit are recorded in [docs/progress/current.json](progress/current.json) and displayed on the [repository README](../README.md#reconstruction-progress). **This is syntax coverage, not completion of the native PC game.**
+
+## Historical exact-tree source and compiler checkpoint
 
 - **Canonical branch:** `main` only. The last complete full-tree audit ran on commit [`985639aa`](https://github.com/firebirdjsb/BruteForceDecomp/commit/985639aa5dba1925558d6f674cf6f021b3ff341c).
 - **Function inventory:** exactly **13,694** distinct recovered C11 draft files, deterministically organized by original XBE section, otherwise by unclassified main-code address band; only 15 assembly-reviewed readable aliases have their own named folders.
