@@ -125,7 +125,14 @@ FINGERPRINTS = {
     # 0x5c730 stores SETE's AL/CL byte, then consumes full stack DWORD.
     0x0005C879: "0f 94 c1",
     0x0005C87E: "88 4c 24 18",
-    0x0005C884: "8b 5c 24 18", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
+    0x0005C884: "8b 5c 24 18",
+    # Callback guest VA is an immediate; stack flag is a single-byte store.
+    0x0008F5E4: "89 4c 24 08",
+    0x0008F63A: "8d 44 24 08",
+    0x0008F63F: "68 80 3f 0a 00",
+    0x0008F644: "c6 44 24 10 01",
+    0x0008F64C: "ff 52 30",
+    0x000A3F80: "83 ec 10", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
@@ -164,6 +171,11 @@ DIRECT_CALLS = {
 }
 
 SOURCE_EXPECTATIONS = {
+    "src/main_unclassified/band_0008/0x0008f5d0.c": (
+        ["((uint8_t *)&piStack_20)[0] = 1;",
+         "(void (*)(void))(uintptr_t)0x000a3f80U"],
+        ["piStack_20._1_3_", "&LAB_000a3f80"],
+    ),
     "src/main_unclassified/band_0004/0x000447b0.c": (
         ["((uint8_t *)&uStack_118)[0] =",
          "(uint8_t)((*(uint *)(local_120 + 0x80) >> 4) & 1U);"],
