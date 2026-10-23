@@ -15,3 +15,7 @@ The repair replaces only `puStack_c = &LAB_0030xxxx;` with an explicit `undefine
 - GitHub Actions applies the reviewed source changes to `main`, checks all 407 with Clang, and publishes only after a successful focused verification. The regular full-inventory workflow must then finish before any README syntax percentage changes. If CI cannot push, the source fixes are **not** counted as published progress.
 
 **Remaining blockers:** original Xbox FS:0/SEH behavior, stack/register calling contracts, external Xbox services, integrated linking, and native PC execution. Passing C11 syntax is not 1:1 semantic verification.
+
+## Published source checkpoint
+
+The reviewed 407-source repair was committed to canonical `main` as [`b1bbde18`](https://github.com/firebirdjsb/BruteForceDecomp/commit/b1bbde189fbc07314b61e2e1943a2999a843498d). The focused GitHub Actions verification completed successfully (run `40037255162`). A separate, subsequent complete Clang C11 audit is required before updating any public pass count or percentage; the earlier audit on the workflow-setup commit predates these 407 source changes.
