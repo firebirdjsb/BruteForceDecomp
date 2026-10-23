@@ -15,11 +15,11 @@ int FUN_001bc380(int param_1)
   uint uVar3;
   undefined4 *unaff_FS_OFFSET;
   undefined4 local_10;
-  undefined1 *puStack_c;
+  uint32_t puStack_c; /* original guest32 SEH stack word; FS:0 adapter pending */
   undefined4 local_8;
   
   local_8 = 0xffffffff;
-  puStack_c = &LAB_00308e80;
+  puStack_c = UINT32_C(0x00308e80); /* XBE push imm32 at 0x001bc385 */
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   if (*(int *)(in_ECX + 4) == 0) {
