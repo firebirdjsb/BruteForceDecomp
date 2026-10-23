@@ -1,0 +1,30 @@
+name: Native PC port workstream
+description: Coordinate platform, linking, and modernization work
+title: "[PC] "
+body:
+  - type: markdown
+    attributes:
+      value: "The native game is not yet buildable. Describe evidence and dependencies; do not attach commercial assets."
+  - type: dropdown
+    id: workstream
+    attributes:
+      label: Focus
+      options:
+        - C11 syntax and provenance
+        - Original x86 stack/register ABI
+        - Cross-function linking
+        - Xbox kernel/platform API
+        - Native Windows game runtime
+        - Future rendering, multiplayer, or modding
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and entry addresses
+    validations:
+      required: true
+  - type: textarea
+    id: tests
+    attributes:
+      label: Acceptance tests and evidence

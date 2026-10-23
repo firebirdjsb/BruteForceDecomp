@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "metric": "isolated host Clang C11 syntax coverage",
+  "audited_commit": "051b2e93078eb762e11c799422e715cf7864a3fe",
+  "workflow_run_id": 39992327184,
+  "total": 13694,
+  "passing": 12391,
+  "failing": 1303,
+  "other": 0,
+  "percentage": 90.48,
+  "body_hash_mismatches": 0,
+  "body_hash_missing": 0,
+  "native_pc_build": "not_yet_buildable_or_playable"
+}

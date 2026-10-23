@@ -1,0 +1,24 @@
+name: Function or x86 ABI defect
+description: Report a verified source, caller, dataflow or ABI problem
+title: "[XBE] "
+body:
+  - type: markdown
+    attributes:
+      value: "Do not upload executable bytes, original game assets, full Ghidra dumps or credentials."
+  - type: input
+    id: address
+    attributes:
+      label: Original x86 function entry address
+      placeholder: "0x00000000"
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Instruction evidence and observed failure
+    validations:
+      required: true
+  - type: textarea
+    id: limitations
+    attributes:
+      label: Unknowns, dependencies and test limitations
