@@ -89,7 +89,7 @@ undefined1 FUN_00081d10(int param_1)
     uVar10 = 0;
     while( true ) {
       iStack_54 = iVar8;
-      param_1._0_1_ = uVar4;
+      ((uint8_t *)&param_1)[0] = uVar4;
       if ((*(int *)(iVar7 + 0x14) == 0) ||
          ((uint)(*(int *)(iVar7 + 0x18) - *(int *)(iVar7 + 0x14) >> 4) <= uVar10))
       goto LAB_00081de3;
@@ -197,7 +197,7 @@ LAB_00081f5e:
           }
           FUN_00077eb0(iVar9,(float)iStack_58);
         }
-        param_1._0_1_ = 1;
+        ((uint8_t *)&param_1)[0] = 1;
         iVar8 = iStack_54;
       }
     }
