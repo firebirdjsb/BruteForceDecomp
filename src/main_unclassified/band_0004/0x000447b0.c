@@ -306,7 +306,11 @@ LAB_00044b57:
         }
       }
 LAB_00044d56:
-      uStack_118 = CONCAT31(uStack_118._1_3_,(char)(*(uint *)(local_120 + 0x80) >> 4)) & 0xffffff01;
+      /* 0x00044D63 shr ecx,4; 0x00044D66 and cl,1; 0x00044D6B
+       * mov [esp+0x40],cl. Only the low byte is written; leave the
+       * remaining 24 bits of this guest stack word unchanged. */
+      ((uint8_t *)&uStack_118)[0] =
+          (uint8_t)((*(uint *)(local_120 + 0x80) >> 4) & 1U);
       if (param_1[2] == 0) {
         piVar10 = param_1 + 3;
       }
