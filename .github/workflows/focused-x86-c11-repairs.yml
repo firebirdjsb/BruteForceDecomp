@@ -28,6 +28,11 @@ on:
       - 'include/**'
       - 'tools/verify_x86_c11_lane_contracts.py'
       - 'tools/verify_x86_callee_87630.py'
+      - 'tools/verify_x86_seh_immediates.py'
+      - 'src/main_unclassified/band_001a/**'
+      - 'src/main_unclassified/band_001b/**'
+      - 'src/main_unclassified/band_001c/**'
+      - 'src/main_unclassified/band_001d/**'
       - 'metadata/x86_callee_00087630_call_sites.csv'
       - '.github/workflows/focused-x86-c11-repairs.yml'
   workflow_dispatch:
@@ -46,6 +51,8 @@ jobs:
         run: python3 tools/verify_x86_c11_lane_contracts.py --root .
       - name: Verify linked EAX plus stack call-site inventory
         run: python3 tools/verify_x86_callee_87630.py --root .
+      - name: Verify original guest32 SEH handler words (source-only)
+        run: python3 tools/verify_x86_seh_immediates.py --root .
       - name: Compile twenty-two original C11 drafts individually
         shell: bash
         run: |
