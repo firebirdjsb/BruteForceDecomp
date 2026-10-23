@@ -43,6 +43,12 @@ undefined1 FUN_00081d10(int param_1)
   char cStack_20;
   char acStack_1f [31];
   
+  /* Original i386: [ESP+0x7c] is the first incoming DWORD after the
+   * 0x68-byte frame and four saved registers. Instructions 0x00081D5B
+   * and 0x00081FBF write only its low byte; 0x00081E78 writes a complete
+   * pointer DWORD to the same slot; 0x00082020 returns its low byte.
+   * Preserve these partial accesses. Guest pointer width/other ABI inputs
+   * are still ABI_UNVERIFIED for a native host. */
   iVar7 = param_1;
   piVar6 = local_50;
   for (iVar8 = 6; iVar8 != 0; iVar8 = iVar8 + -1) {
@@ -71,7 +77,7 @@ undefined1 FUN_00081d10(int param_1)
   }
   iVar9 = 0;
   uVar4 = 0;
-  param_1._0_1_ = 0;
+  ((uint8_t *)&param_1)[0] = 0;
   local_68 = 0;
   iVar8 = (**(code **)(iVar8 + 0x18))();
   iVar8 = *(int *)(iVar8 + 0xc4c);
