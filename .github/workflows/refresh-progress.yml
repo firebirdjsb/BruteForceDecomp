@@ -1,0 +1,65 @@
+name: Refresh README progress after successful full audit
+on:
+  workflow_run:
+    workflows: ["Full C11 draft syntax inventory"]
+    types: [completed]
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: update-progress-main
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.event == 'push' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+          fetch-depth: 1
+      - name: Skip a stale audit if main has advanced
+        id: sha
+        env:
+          AUDITED_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          if [ "$(git rev-parse HEAD)" != "$AUDITED_SHA" ]; then
+            echo "use_report=false" >> "$GITHUB_OUTPUT"
+            echo "main moved beyond audited source; newer audit will publish fresh progress"
+          else
+            echo "use_report=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Download exact immutable audit artifact
+        if: steps.sha.outputs.use_report == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/progress_audit"
+          gh run download "$RUN_ID" --repo "$GITHUB_REPOSITORY" --name full-c11-inventory --dir "$RUNNER_TEMP/progress_audit"
+      - name: Regenerate progress and README from validated report
+        if: steps.sha.outputs.use_report == 'true'
+        env:
+          AUDITED_SHA: ${{ github.event.workflow_run.head_sha }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          python3 tools/test_progress.py
+          python3 tools/update_progress.py \
+            --report "$RUNNER_TEMP/progress_audit/c11_sweep_report.json" \
+            --run-id "$RUN_ID" --expected-sha "$AUDITED_SHA" --root .
+      - name: Publish progress only to canonical main
+        if: steps.sha.outputs.use_report == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md docs/progress/current.json docs/progress/c11-syntax.svg
+          if git diff --cached --quiet; then
+            echo "Progress unchanged"
+          else
+            git commit -m "docs(progress): update exact C11 audit percentage"
+            git push origin HEAD:main
+          fi

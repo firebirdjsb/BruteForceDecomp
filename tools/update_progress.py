@@ -1,0 +1,121 @@
+#!/usr/bin/env python3
+"""Update README and docs/progress from an exact successful full-C11 audit report.
+
+Counts represent *isolated host syntax*, not original Xbox ABI/semantics, link,
+assets or runnable native PC game. No network operations or game binaries.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import re
+from pathlib import Path
+
+EXPECTED = 13694
+START = "<!-- BF_PROGRESS_START -->"
+END = "<!-- BF_PROGRESS_END -->"
+SHA = re.compile(r"[a-fA-F0-9]{40}\Z")
+
+
+def snapshot(report: dict, run_id: int, expected_sha: str) -> dict:
+    sha = report.get("checked_commit_sha", "")
+    if not SHA.fullmatch(sha) or sha.lower() != expected_sha.lower():
+        raise ValueError("Audit commit SHA does not match the trusted workflow run")
+    if report.get("source_tree_entries") != EXPECTED:
+        raise ValueError("Source count does not match original 13694-function inventory")
+    if report.get("body_hash_mismatches") or report.get("body_hash_missing"):
+        raise ValueError("Original body provenance failed; cannot publish progress")
+    counts = report.get("counts", {})
+    passing, failing = counts.get("pass"), counts.get("fail")
+    if type(passing) is not int or type(failing) is not int:
+        raise ValueError("Incomplete syntax result")
+    other = EXPECTED - passing - failing
+    if min(passing, failing, other) < 0 or other != 0:
+        raise ValueError("Missing, duplicate or unclassified source status")
+    if type(run_id) is not int or run_id <= 0:
+        raise ValueError("Invalid workflow run identifier")
+    return {
+        "schema_version": 1,
+        "metric": "isolated host Clang C11 syntax coverage",
+        "audited_commit": sha.lower(),
+        "workflow_run_id": run_id,
+        "total": EXPECTED,
+        "passing": passing,
+        "failing": failing,
+        "other": other,
+        "percentage": round(100 * passing / EXPECTED, 2),
+        "body_hash_mismatches": 0,
+        "body_hash_missing": 0,
+        "native_pc_build": "not_yet_buildable_or_playable",
+    }
+
+
+def progress_svg(s: dict) -> str:
+    passes, total, fails = s["passing"], s["total"], s["failing"]
+    pct = f'{s["percentage"]:.2f}'
+    width = f"{744 * passes / total:.2f}"
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="800" height="160" viewBox="0 0 800 160" role="img" aria-labelledby="title desc">
+<title id="title">C11 syntax coverage: {pct} percent</title>
+<desc id="desc">{passes} out of {total} source drafts pass isolated host C11 syntax checks; {fails} fail. The native PC game is not buildable.</desc>
+<rect width="800" height="160" rx="14" fill="#0f172a"/>
+<text x="28" y="42" fill="#e2e8f0" font-family="system-ui,Segoe UI,sans-serif" font-weight="700" font-size="21">C11 syntax coverage</text>
+<text x="772" y="42" fill="#7dd3fc" font-family="system-ui,Segoe UI,sans-serif" font-weight="700" font-size="29" text-anchor="end">{pct}%</text>
+<rect x="28" y="69" width="744" height="22" rx="11" fill="#334155"/>
+<rect x="28" y="69" width="{width}" height="22" rx="11" fill="#38bdf8"/>
+<text x="28" y="119" fill="#cbd5e1" font-family="system-ui,Segoe UI,sans-serif" font-size="16">{passes:,} / {total:,} syntax passing · {fails:,} remaining</text>
+<text x="28" y="144" fill="#94a3b8" font-family="system-ui,Segoe UI,sans-serif" font-size="12">Syntax only · no linked or playable native PC game yet</text>
+</svg>
+'''
+
+
+def readme_section(s: dict) -> str:
+    sha, run_id = s["audited_commit"], s["workflow_run_id"]
+    p, t, f = s["passing"], s["total"], s["failing"]
+    pct = f'{s["percentage"]:.2f}'
+    return f'''{START}
+## Reconstruction progress
+
+[![C11 source audit](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/full-c11-inventory.yml/badge.svg?branch=main)](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/full-c11-inventory.yml)
+
+![C11 source syntax coverage: {pct}%](docs/progress/c11-syntax.svg)
+
+**{pct}% C11 syntax coverage** · **{p:,} / {t:,}** individually checked functions · **{f:,}** still fail. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/{sha}) · [GitHub Actions report](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/{run_id}).
+
+**Native PC game: NOT buildable/playable yet.** A syntax pass is not Xbox ABI verification, cross-function linking, platform compatibility, or a 1:1 match. This percentage is **not** game-completion percentage.
+
+[Machine-readable progress](docs/progress/current.json) · [Detailed status](docs/STATUS.md) · [Native PC milestones](docs/NATIVE_PC_PORT_GOALS.md)
+
+{END}'''
+
+
+def update(root: Path, state: dict) -> None:
+    readme = root / "README.md"
+    current = readme.read_text(encoding="utf-8")
+    if current.count(START) != 1 or current.count(END) != 1:
+        raise ValueError("Exactly one pair of README progress markers is required")
+    before, following = current.split(START, 1)
+    _, after = following.split(END, 1)
+    changed = before + readme_section(state) + after
+    folder = root / "docs/progress"
+    folder.mkdir(parents=True, exist_ok=True)
+    readme.write_text(changed, encoding="utf-8")
+    (folder / "current.json").write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
+    (folder / "c11-syntax.svg").write_text(progress_svg(state), encoding="utf-8")
+
+
+def main() -> None:
+    p = argparse.ArgumentParser()
+    p.add_argument("--report", type=Path, required=True)
+    p.add_argument("--run-id", type=int, required=True)
+    p.add_argument("--expected-sha", required=True)
+    p.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
+    opts = p.parse_args()
+    state = snapshot(json.loads(opts.report.read_text(encoding="utf-8")),
+                     opts.run_id, opts.expected_sha)
+    update(opts.root, state)
+    print(f'Updated C11 syntax coverage: {state["percentage"]:.2f}% '
+          f'({state["passing"]}/{state["total"]}) from {state["audited_commit"]}')
+
+
+if __name__ == "__main__":
+    main()
