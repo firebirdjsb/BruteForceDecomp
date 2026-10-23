@@ -9,9 +9,6 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00414da0;
-extern uint32_t switchD_00027a13__switchdataD_00027dd4[];
-extern uint32_t switchD_00027a13_caseD_27a1a[];
-extern uint32_t switchD_00027a13_switchD[];
 undefined4 FUN_000279d0(float *param_1)
 
 {
@@ -43,10 +40,13 @@ undefined4 FUN_000279d0(float *param_1)
     return 1;
   }
 switchD_00027a13_switchD:
-  switch((&switchD_00027a13__switchdataD_00027dd4)[uVar8]) {
-  case (undefined *)0x27a1a:
+  /* 0x00027a13: JMP [EAX*4 + 0x00027dd4], bounded by unsigned EAX <= 4.
+   * The original five 4-byte entries map indices 0..4 to the destinations
+   * below. Switch on the index, not on Ghidra's pointer-valued case labels. */
+  switch(uVar8) {
+  case 1: /* Original destination: 0x00027a1a. */
     goto switchD_00027a13_caseD_27a1a;
-  case (undefined *)0x27bc4:
+  case 0: /* Original destination: 0x00027bc4. */
     iVar11 = FUN_0017c5a0();
     if (iVar11 == 0) {
       return 1;
@@ -75,7 +75,7 @@ switchD_00027a13_switchD:
     param_1[2] = -fVar4;
     FUN_0004d970(piVar1,param_1,1,1,1);
     break;
-  case (undefined *)0x27cea:
+  case 2: /* Original destination: 0x00027cea. */
     if (((*(byte *)(in_ECX + 0x1e8) & 1) != 0) &&
        ((float)in_ECX[0x1e7] < 0.0 == ((float)in_ECX[0x1e7] == 0.0))) {
       fVar4 = (float)in_ECX[0x1e5];
@@ -87,7 +87,7 @@ switchD_00027a13_switchD:
       return 1;
     }
     break;
-  case (undefined *)0x27d49:
+  case 3: /* Original destination: 0x00027d49. */
     in_ECX[0x16c] = 1;
     iVar11 = FUN_000120f0();
     if ((*(byte *)(*(int *)(iVar11 + 8) + 0xc50) & 0x10) != 0) {
@@ -100,7 +100,7 @@ switchD_00027a13_switchD:
     iVar11 = FUN_000337f0(piVar1,in_ECX + 0x16d,0x3f7851ec);
     in_ECX[0x16c] = (-(uint)(iVar11 != 0) & 3) + 1;
     return 1;
-  case (undefined *)0x27d9f:
+  case 4: /* Original destination: 0x00027d9f. */
     iVar11 = (**(code **)(*in_ECX + 0x5c0))(param_1);
     if (iVar11 == 1) {
       return 1;

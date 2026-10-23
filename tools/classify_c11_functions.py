@@ -68,7 +68,8 @@ def main():
         if hash_conflict:risks.append("conflicting-embedded-body-hashes")
         if re.search(r"\bstack0x[0-9a-f]+",content,re.I):risks.append("unresolved-stack")
         if re.search(r"\b(?:in|unaff|extraout)_(?:EAX|EBX|ECX|EDX|ESI|EDI)",content):risks.append("implicit-register")
-        if "rsqrtss" in content or "in_XMM" in content:risks.append("SIMD")
+        if ("rsqrtss" in content or "in_XMM" in content or
+                re.search(r"\b_mm_\w+\s*\(", content)):risks.append("SIMD")
         if "float10" in content:risks.append("x87")
         if "ABI_UNVERIFIED" in content:risks.append("ABI-unverified")
         row={

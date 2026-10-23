@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 void FUN_002c68a0(int *param_1,float *param_2)
 
 {
@@ -17,10 +18,10 @@ void FUN_002c68a0(int *param_1,float *param_2)
   float fVar6;
   int iVar7;
   float fVar8;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar9 [16];
   
-  fVar1 = param_2[2] * param_2[2] + param_2[1] * param_2[1] + *param_2 * *param_2;
+  /* 0x002c68af-0x002c68bf: sum the squared 4-byte lanes at offsets
+   * +0 and +4, then add the squared lane at +8. x87 precision is unverified. */
+  fVar1 = (*param_2 * *param_2 + param_2[1] * param_2[1]) + param_2[2] * param_2[2];
   if (fVar1 <= 1e-10) {
     *(undefined4 *)(*param_1 + 0x154) = 0;
     iVar7 = *param_1;
@@ -29,8 +30,9 @@ void FUN_002c68a0(int *param_1,float *param_2)
     *(undefined4 *)(iVar7 + 0x148) = 0;
   }
   else {
-    auVar9 = rsqrtss(in_XMM0,fVar1);
-    fVar8 = auVar9._0_4_;
+    /* 0x002c68e6 / 0x002c68ec: RSQRTSS reads the stored 4-byte
+     * fVar1 and MOVSS stores only its low 32-bit result. */
+    fVar8 = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(fVar1)));
     fVar1 = fVar8 * fVar1;
     fVar2 = fVar1 * fVar1 * fVar1;
     fVar1 = (fVar2 * 0.16666667 + fVar2 * fVar1 * fVar1 * 0.40414 + fVar1) *

@@ -6,14 +6,13 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 void FUN_000339c0(int param_1,int param_2)
 
 {
   int *piVar1;
   int iVar2;
   float fVar3;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar4 [16];
   float fStack_c;
   float fStack_8;
   float fStack_4;
@@ -24,8 +23,11 @@ void FUN_000339c0(int param_1,int param_2)
   fStack_4 = *(float *)(param_2 + 0x1c) - *(float *)(iVar2 + 0x2c);
   fStack_8 = *(float *)(param_2 + 0x18) - *(float *)(iVar2 + 0x28);
   fStack_c = *(float *)(param_2 + 0x14) - *(float *)(iVar2 + 0x24);
-  auVar4 = rsqrtss(in_XMM0,fStack_c * fStack_c + fStack_8 * fStack_8 + fStack_4 * fStack_4);
-  fVar3 = auVar4._0_4_;
+  /* 0x00033a15-0x00033a3b: sum fStack_4^2 + fStack_8^2, then
+   * fStack_c^2, round to a 4-byte float and apply RSQRTSS. Only the
+   * low 32-bit result is consumed; x87 intermediate precision is unverified. */
+  fVar3 = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(
+      (fStack_4 * fStack_4 + fStack_8 * fStack_8) + fStack_c * fStack_c)));
   fStack_c = fVar3 * fStack_c;
   fStack_8 = fStack_8 * fVar3;
   fStack_4 = fStack_4 * fVar3;

@@ -6,21 +6,25 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 void FUN_002c3cf0(int param_1,float param_2)
 
 {
   float fVar1;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar2 [16];
+  float rsqrt_scale;
   
-  fVar1 = *(float *)(param_1 + 0x3c) * *(float *)(param_1 + 0x3c) +
-          *(float *)(param_1 + 0x38) * *(float *)(param_1 + 0x38);
+  /* 0x002c3cfd-0x002c3d07: square the 4-byte lanes at +0x38, then
+   * +0x3c, and add in that order. x87 intermediate precision is unverified. */
+  fVar1 = *(float *)(param_1 + 0x38) * *(float *)(param_1 + 0x38) +
+          *(float *)(param_1 + 0x3c) * *(float *)(param_1 + 0x3c);
   if (param_2 * param_2 + 1e-06 < fVar1) {
-    auVar2 = rsqrtss(in_XMM0,fVar1);
+    /* 0x002c3d30 / 0x002c3d36: RSQRTSS reads the stored 4-byte
+     * fVar1 and MOVSS stores only its low 32-bit result. */
+    rsqrt_scale = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(fVar1)));
     *(float *)(param_1 + 0x48) =
-         (auVar2._0_4_ * fVar1 - param_2) * *(float *)(param_1 + 0x54) * *(float *)(param_1 + 0x44)
+         (rsqrt_scale * fVar1 - param_2) * *(float *)(param_1 + 0x54) * *(float *)(param_1 + 0x44)
          + *(float *)(param_1 + 0x48);
-    param_2 = auVar2._0_4_ * param_2;
+    param_2 = rsqrt_scale * param_2;
     *(float *)(param_1 + 0x38) = param_2 * *(float *)(param_1 + 0x38);
     *(float *)(param_1 + 0x3c) = param_2 * *(float *)(param_1 + 0x3c);
     *(undefined1 *)(param_1 + 0x60) = 1;
