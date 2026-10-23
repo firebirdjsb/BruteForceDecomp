@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 void FUN_000b1d70(float param_1,byte param_2)
 
 {
@@ -40,11 +41,11 @@ void FUN_000b1d70(float param_1,byte param_2)
       uVar5 = *puVar4;
       *(undefined1 *)(iVar2 + 0x3a) = puVar4[1];
       *(undefined1 *)(iVar2 + 0x39) = uVar6;
-      uStack_4._0_1_ = (undefined1)uVar1;
+      bf_x86_word_store_byte(&uStack_4,0U,(uint8_t)uVar1);
       *(undefined1 *)(iVar2 + 0x38) = uVar5;
-      uStack_4._2_1_ = (undefined1)((uint)uVar1 >> 0x10);
+      bf_x86_word_store_byte(&uStack_4,2U,(uint8_t)((uint32_t)uVar1 >> 16));
       uVar6 = (undefined1)uStack_4;
-      uVar5 = uStack_4._2_1_;
+      uVar5 = bf_x86_word_load_byte(&uStack_4,2U);
       uStack_4 = uVar1;
     }
   }
@@ -53,9 +54,9 @@ void FUN_000b1d70(float param_1,byte param_2)
     if (param_2 == 0) {
       puVar3 = (undefined4 *)FUN_000b87a0();
       uVar1 = *puVar3;
-      uStack_4._2_1_ = (undefined1)((uint)uVar1 >> 0x10);
+      bf_x86_word_store_byte(&uStack_4,2U,(uint8_t)((uint32_t)uVar1 >> 16));
       uVar6 = (char)uVar1;
-      uVar5 = uStack_4._2_1_;
+      uVar5 = bf_x86_word_load_byte(&uStack_4,2U);
       uStack_4 = uVar1;
     }
     else {
@@ -67,7 +68,7 @@ void FUN_000b1d70(float param_1,byte param_2)
   iVar2 = unaff_ESI[0xb];
   *(undefined1 *)(iVar2 + 0x38) = uVar6;
   *(undefined1 *)(iVar2 + 0x39) = uVar5;
-  *(undefined1 *)(iVar2 + 0x3a) = uStack_4._1_1_;
+  *(undefined1 *)(iVar2 + 0x3a) = bf_x86_word_load_byte(&uStack_4,1U);
   unaff_ESI[0x16] = (int)param_1;
   *(byte *)(unaff_ESI + 0x17) = *(byte *)(unaff_ESI + 0x17) & 0xfc | param_2 & 1;
   *(byte *)((int)unaff_ESI + 0x13) = *(byte *)((int)unaff_ESI + 0x13) & 0xfe;

@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 void FUN_00347bb6(undefined4 *param_1,undefined4 param_2,undefined4 *param_3,uint param_4,
                  undefined4 *param_5,uint param_6)
 
@@ -22,7 +23,7 @@ void FUN_00347bb6(undefined4 *param_1,undefined4 param_2,undefined4 *param_3,uin
   local_c = *param_1;
   local_8 = param_1[1];
   XcHMAC(in_ECX + 0xa90,0x10,&local_c,8,param_2,0x10,local_34);
-  local_c = CONCAT31(local_c._1_3_,(char)local_c + '\x01');
+  local_c = bf_x86_word_replace_lo8(local_c,(uint8_t)((uint8_t)local_c + 1U));
   XcHMAC(in_ECX + 0xa90,0x10,&local_c,8,param_2,0x10,local_20);
   puVar2 = local_34;
   for (uVar1 = param_4 >> 2; uVar1 != 0; uVar1 = uVar1 - 1) {

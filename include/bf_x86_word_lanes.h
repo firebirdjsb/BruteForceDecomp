@@ -34,4 +34,18 @@ static inline void bf_x86_word_store_byte(void *storage, unsigned lane, uint8_t 
 {
     ((unsigned char *)storage)[lane] = (unsigned char)value;
 }
+/* Byte object-representation reads require that this byte was initialized.
+ * The target Xbox and current host compiler are both little endian. */
+static inline uint8_t bf_x86_word_load_byte(const void *storage, unsigned lane)
+{
+    return ((const unsigned char *)storage)[lane];
+}
+/* Same 32-bit result as CONCAT13(b0,CONCAT12(b1,CONCAT11(b2,b3))). */
+static inline uint32_t bf_x86_word_reverse_byte_order(uint32_t word)
+{
+    return ((word & UINT32_C(0x000000ff)) << 24) |
+           ((word & UINT32_C(0x0000ff00)) << 8) |
+           ((word & UINT32_C(0x00ff0000)) >> 8) |
+           ((word & UINT32_C(0xff000000)) >> 24);
+}
 #endif

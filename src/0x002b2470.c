@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00402a38;
@@ -62,7 +63,7 @@ undefined4 FUN_002b2470(void)
     }
     goto LAB_002b24f9;
   }
-  if (uStack_4._3_1_ == '\0') {
+  if (bf_x86_word_load_byte(&uStack_4,3U) == '\0') {
     return 0;
   }
   *unaff_ESI = *unaff_ESI + 1;

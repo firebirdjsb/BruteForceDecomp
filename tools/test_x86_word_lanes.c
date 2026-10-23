@@ -12,6 +12,20 @@ int main(void)
     assert(bf_x86_word_replace_lo24(initial, UINT32_C(0x123456)) == UINT32_C(0xde123456));
     assert(bf_x86_word_replace_lo24(initial, UINT32_C(0xabcdef00)) == UINT32_C(0xdecdef00));
     assert(bf_x86_concat_u8(UINT8_C(0x12), UINT8_C(0x34)) == UINT16_C(0x1234));
+    assert(bf_x86_word_reverse_byte_order(UINT32_C(0x12345678)) == UINT32_C(0x78563412));
+    assert(bf_x86_word_reverse_byte_order(UINT32_C(0)) == 0U);
+    for (uint32_t k = 0; k < UINT32_C(65536); ++k) {
+        const uint32_t word = k * UINT32_C(0x9e3779b1);
+        assert(bf_x86_word_reverse_byte_order(bf_x86_word_reverse_byte_order(word)) == word);
+    }
+    {
+        uint32_t word = UINT32_C(0xaabbccdd);
+        assert(bf_x86_word_load_byte(&word, 0U) == UINT8_C(0xdd));
+        assert(bf_x86_word_load_byte(&word, 1U) == UINT8_C(0xcc));
+        bf_x86_word_store_byte(&word, 2U, UINT8_C(0x12));
+        assert(bf_x86_word_load_byte(&word, 2U) == UINT8_C(0x12));
+    }
+
     {
         uint32_t word = UINT32_C(0x11223344);
         bf_x86_word_store_byte(&word, 2U, UINT8_C(0xab));

@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 /* Library Function - Single Match
     __sptype
    
@@ -24,11 +25,11 @@ undefined4 __sptype(int param_1,uint param_2)
   else if ((param_2 == 0xfff00000) && (param_1 == 0)) {
     return 2;
   }
-  if ((param_2._2_2_ & 0x7ff8) == 0x7ff8) {
+  if ((((uint16_t)(param_2 >> 16)) & 0x7ff8) == 0x7ff8) {
     uStack_8 = 3;
   }
   else {
-    if (((param_2._2_2_ & 0x7ff8) != 0x7ff0) || (((param_2 & 0x7ffff) == 0 && (param_1 == 0)))) {
+    if (((((uint16_t)(param_2 >> 16)) & 0x7ff8) != 0x7ff0) || (((param_2 & 0x7ffff) == 0 && (param_1 == 0)))) {
       return 0;
     }
     uStack_8 = 4;

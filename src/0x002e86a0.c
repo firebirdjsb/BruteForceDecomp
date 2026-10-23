@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003b6974;
@@ -74,7 +75,7 @@ LAB_002e874f:
 LAB_002e8761:
     if (uVar7 == 0) goto LAB_002e888d;
     uStack_18 = (**(code **)(in_ECX + 0x38))();
-    uStack_c = CONCAT31(uStack_c._1_3_,1);
+    uStack_c = bf_x86_word_replace_lo8(uStack_c,UINT8_C(1));
     uStack_14 = 0;
     piStack_10 = (int *)0x0;
     uVar7 = DAT_003b6974;

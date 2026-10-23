@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 void FUN_00264900(void)
 
 {
@@ -17,7 +18,7 @@ void FUN_00264900(void)
   do {
     if (*(char *)(unaff_ESI + 5) == '\0') {
       (**(code **)(**(int **)(unaff_ESI + 8) + 0x34))(*(int **)(unaff_ESI + 8),(int)&uStack_4 + 3);
-      if (uStack_4._3_1_ == '\0') {
+      if (bf_x86_word_load_byte(&uStack_4,3U) == '\0') {
         return;
       }
     }

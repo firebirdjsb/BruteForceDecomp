@@ -6,12 +6,12 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 undefined4 FUN_003814f3(undefined4 param_1)
 
 {
   undefined4 local_8;
   
-  local_8 = CONCAT13((char)param_1,
-                     CONCAT12((char)((uint)param_1 >> 8),CONCAT11(param_1._2_1_,param_1._3_1_)));
+  local_8 = bf_x86_word_reverse_byte_order(param_1);
   return local_8;
 }
