@@ -13,7 +13,7 @@
 
 ![C11 source syntax coverage: 91.81%](docs/progress/c11-syntax.svg)
 
-**91.81% C11 syntax coverage** · **12,573 / 13,694** individually checked functions · **1,121** still fail. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/8e39fd227402927e70a8d7e62a7c591f715f6a4f) · [GitHub Actions report](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/40030507831).
+**91.81% C11 syntax coverage** · **12,573 / 13,694** individually checked functions · **1,121** still fail. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/5fb72bd6e24c1cb10efa969ec69289d6b8abb362) · [GitHub Actions report](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/40037255031).
 
 **Native PC game: NOT buildable/playable yet.** A syntax pass is not Xbox ABI verification, cross-function linking, platform compatibility, or a 1:1 match. This percentage is **not** game-completion percentage.
 
