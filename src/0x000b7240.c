@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004a5c78;
@@ -88,10 +89,10 @@ void FUN_000b7240(void)
              uVar17,uVar18,uVar19,uVar20,uVar21,piVar5,fVar6,iVar7);
   if ((DAT_004a5c7c & 1) == 0) {
     DAT_004a5c7c = DAT_004a5c7c | 1;
-    DAT_004a5c78._0_1_ = 0xff;
-    DAT_004a5c78._1_1_ = 0xff;
-    DAT_004a5c78._2_1_ = 0xff;
-    DAT_004a5c78._3_1_ = 0xff;
+    bf_x86_word_store_byte(&DAT_004a5c78,0U,UINT8_C(0xff));
+    bf_x86_word_store_byte(&DAT_004a5c78,1U,UINT8_C(0xff));
+    bf_x86_word_store_byte(&DAT_004a5c78,2U,UINT8_C(0xff));
+    bf_x86_word_store_byte(&DAT_004a5c78,3U,UINT8_C(0xff));
   }
   (**(code **)(*unaff_ESI + 4))
             (&DAT_004a5c78,0x41800000,0x41800000,unaff_ESI[0x27],unaff_ESI[0x28],0xff,1,1,

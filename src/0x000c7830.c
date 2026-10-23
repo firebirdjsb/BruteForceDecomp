@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00469ab0;
@@ -47,13 +48,13 @@ void FUN_000c7830(int param_1)
   *pbVar1 = *pbVar1 | 0x10;
   if ((uVar6 & 1) == 0) {
     _DAT_004a5ca4 = _DAT_004a5ca4 | 1;
-    DAT_004a5ca0._0_1_ = 0xc0;
-    DAT_004a5ca0._1_1_ = 0xd7;
-    DAT_004a5ca0._2_1_ = 0xff;
-    DAT_004a5ca0._3_1_ = 0xff;
+    bf_x86_word_store_byte(&DAT_004a5ca0,0U,UINT8_C(0xc0));
+    bf_x86_word_store_byte(&DAT_004a5ca0,1U,UINT8_C(0xd7));
+    bf_x86_word_store_byte(&DAT_004a5ca0,2U,UINT8_C(0xff));
+    bf_x86_word_store_byte(&DAT_004a5ca0,3U,UINT8_C(0xff));
   }
-  uVar5 = DAT_004a5ca0._2_1_;
-  uVar4 = DAT_004a5ca0._1_1_;
+  uVar5 = bf_x86_word_load_byte(&DAT_004a5ca0,2U);
+  uVar4 = bf_x86_word_load_byte(&DAT_004a5ca0,1U);
   iVar2 = *(int *)(*(int *)(param_1 + 0x60) + 0x2c);
   *(undefined1 *)(iVar2 + 0x38) = (undefined1)DAT_004a5ca0;
   *(undefined1 *)(iVar2 + 0x39) = uVar5;
