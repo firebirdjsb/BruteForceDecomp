@@ -9,6 +9,9 @@
 void FUN_0017e200(float param_1,float *param_2,char param_3)
 
 {
+  /* Ghidra _param_ alias is a draft-only temporary. Original x86 stack-slot
+   * aliasing and incoming register/stack ABI remain UNVERIFIED. */
+  float bf_scratch_float_lane;
   float fVar1;
   float fVar2;
   float *pfVar3;
@@ -77,17 +80,17 @@ void FUN_0017e200(float param_1,float *param_2,char param_3)
     pfVar3 = (float *)(iVar4 * 0x30 + 8 + (int)param_1);
     fVar1 = *pfVar3 * *in_EDX +
             pfVar3[3] * in_EDX[1] + *(float *)(iVar4 * 0x30 + 0x20 + (int)param_1) * in_EDX[2];
-    _param_3 = pfVar3[4] * in_EDX[1] + pfVar3[7] * in_EDX[2] + pfVar3[1] * *in_EDX;
+    bf_scratch_float_lane = pfVar3[4] * in_EDX[1] + pfVar3[7] * in_EDX[2] + pfVar3[1] * *in_EDX;
     param_1 = pfVar3[5] * in_EDX[1] + pfVar3[8] * in_EDX[2] + pfVar3[2] * *in_EDX;
   }
   else {
     pfVar3 = (float *)FUN_000a0c60();
     fVar1 = *pfVar3;
     param_1 = pfVar3[2];
-    _param_3 = pfVar3[1];
+    bf_scratch_float_lane = pfVar3[1];
   }
   *param_2 = fVar1;
-  param_2[1] = _param_3;
+  param_2[1] = bf_scratch_float_lane;
   param_2[2] = -param_1;
   return;
 }

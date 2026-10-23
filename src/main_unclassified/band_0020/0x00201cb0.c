@@ -9,6 +9,9 @@
 undefined1 FUN_00201cb0(char param_1,int *param_2,int *param_3,int param_4,char *param_5)
 
 {
+  /* Ghidra _param_ alias is a draft-only temporary. Original x86 stack-slot
+   * aliasing and incoming register/stack ABI remain UNVERIFIED. */
+  uint bf_scratch_loop_index;
   int iVar1;
   int iVar2;
   undefined1 uVar3;
@@ -27,10 +30,10 @@ undefined1 FUN_00201cb0(char param_1,int *param_2,int *param_3,int param_4,char 
         iVar2 = *(int *)(param_4 + 8) - *(int *)(param_4 + 4) >> 5;
       }
       FUN_0020be90(unaff_ESI + 0x94,iVar2);
-      _param_1 = 0;
+      bf_scratch_loop_index = 0;
       iVar2 = 0;
       while ((iVar1 = *(int *)(param_4 + 4), iVar1 != 0 &&
-             (_param_1 < (uint)(*(int *)(param_4 + 8) - iVar1 >> 5)))) {
+             (bf_scratch_loop_index < (uint)(*(int *)(param_4 + 8) - iVar1 >> 5)))) {
         iVar1 = iVar1 + iVar4;
         FUN_000d6ac0(*(undefined4 *)(unaff_ESI + 0x10),*(int *)(unaff_ESI + 0x98) + iVar2,0);
         *(undefined4 *)(iVar2 + 8 + *(int *)(unaff_ESI + 0x98)) = *(undefined4 *)(iVar1 + 4);
@@ -39,7 +42,7 @@ undefined1 FUN_00201cb0(char param_1,int *param_2,int *param_3,int param_4,char 
         *(undefined4 *)(iVar2 + 0xc + *(int *)(unaff_ESI + 0x98)) = *(undefined4 *)(iVar1 + 0x10);
         *(undefined4 *)(iVar2 + 0x1c + *(int *)(unaff_ESI + 0x98)) = *(undefined4 *)(iVar1 + 0x14);
         *(undefined4 *)(iVar2 + 0x20 + *(int *)(unaff_ESI + 0x98)) = *(undefined4 *)(iVar1 + 0x18);
-        _param_1 = _param_1 + 1;
+        bf_scratch_loop_index = bf_scratch_loop_index + 1;
         *(undefined4 *)(iVar2 + 0x18 + *(int *)(unaff_ESI + 0x98)) = *(undefined4 *)(iVar1 + 0x1c);
         iVar4 = iVar4 + 0x20;
         iVar2 = iVar2 + 0x24;

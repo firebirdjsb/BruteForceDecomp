@@ -10,6 +10,9 @@ undefined4
 FUN_00336410(int param_1,ushort param_2,undefined4 param_3,uint *param_4,undefined1 *param_5)
 
 {
+  /* Ghidra _param_ alias is a draft-only temporary. Original x86 stack-slot
+   * aliasing and incoming register/stack ABI remain UNVERIFIED. */
+  uint bf_scratch_record_index;
   char cVar1;
   ushort uVar2;
   undefined4 *puVar3;
@@ -24,7 +27,7 @@ FUN_00336410(int param_1,ushort param_2,undefined4 param_3,uint *param_4,undefin
   uVar4 = param_2;
   if (param_2 < 0x65) {
     *(undefined4 *)(param_1 + 8) = param_3;
-    _param_2 = 0;
+    bf_scratch_record_index = 0;
     *(ushort *)(param_1 + 0xc) = uVar4;
     puVar6 = (undefined4 *)(param_1 + 0x30);
     for (iVar7 = 0xb54; iVar7 != 0; iVar7 = iVar7 + -1) {
@@ -72,10 +75,10 @@ FUN_00336410(int param_1,ushort param_2,undefined4 param_3,uint *param_4,undefin
           puVar10 = (undefined4 *)((int)puVar10 + 1);
         }
         *param_4 = *param_4 + (uint)*(ushort *)(puVar3 + 2);
-        _param_2 = _param_2 + 1;
+        bf_scratch_record_index = bf_scratch_record_index + 1;
         puVar6[0x15] = param_3;
         puVar6 = puVar6 + 0x1d;
-      } while (_param_2 < uVar4);
+      } while (bf_scratch_record_index < uVar4);
     }
     iVar7 = FUN_00335afb(param_1,0);
     if (iVar7 == 0) {

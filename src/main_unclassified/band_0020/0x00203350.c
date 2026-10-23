@@ -12,6 +12,9 @@ extern uint32_t DAT_0046d064;
 undefined1 FUN_00203350(char param_1,int *param_2,int *param_3,int param_4,char *param_5)
 
 {
+  /* Ghidra _param_ alias is a draft-only temporary. Original x86 stack-slot
+   * aliasing and incoming register/stack ABI remain UNVERIFIED. */
+  uint bf_scratch_loop_index;
   byte *pbVar1;
   byte bVar2;
   int iVar3;
@@ -37,9 +40,9 @@ undefined1 FUN_00203350(char param_1,int *param_2,int *param_3,int param_4,char 
     uVar6 = 0;
     iVar7 = 0;
     if (param_1 == '\0') {
-      for (_param_1 = 0;
+      for (bf_scratch_loop_index = 0;
           (iVar5 = *(int *)(param_4 + 4), iVar5 != 0 &&
-          (_param_1 < (uint)((*(int *)(param_4 + 8) - iVar5) / 0x1c))); _param_1 = _param_1 + 1) {
+          (bf_scratch_loop_index < (uint)((*(int *)(param_4 + 8) - iVar5) / 0x1c))); bf_scratch_loop_index = bf_scratch_loop_index + 1) {
         *(undefined4 *)(*(int *)(unaff_ESI + 0x50) + iVar7) = *(undefined4 *)(uVar6 + 4 + iVar5);
         FUN_000d6ac0(*(undefined4 *)(unaff_ESI + 0x10),*(int *)(unaff_ESI + 0x50) + 4 + iVar7,1);
         FUN_000d6ac0(*(undefined4 *)(unaff_ESI + 0x10),*(int *)(unaff_ESI + 0x50) + 0xc + iVar7,2);

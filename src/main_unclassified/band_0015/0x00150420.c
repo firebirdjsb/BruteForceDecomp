@@ -9,6 +9,9 @@
 uint FUN_00150420(undefined4 param_1,char param_2,char param_3)
 
 {
+  /* Ghidra _param_ alias is a draft-only temporary. Original x86 stack-slot
+   * aliasing and incoming register/stack ABI remain UNVERIFIED. */
+  float bf_scratch_float_arg;
   float *pfVar1;
   undefined4 *in_EAX;
   int iVar2;
@@ -72,12 +75,12 @@ uint FUN_00150420(undefined4 param_1,char param_2,char param_3)
     }
     if (0.0 <= *(float *)(unaff_ESI + 0x434)) {
       fVar4 = (float10)FUN_0001fae0(*(float *)(unaff_ESI + 0x434) + 3.1415927);
-      _param_3 = (float)fVar4;
+      bf_scratch_float_arg = (float)fVar4;
     }
     else {
-      _param_3 = -1.0;
+      bf_scratch_float_arg = -1.0;
     }
-    iVar3 = FUN_0023d240(*(undefined4 *)(unaff_ESI + 500),pfVar1 + 5,auStack_30,_param_3);
+    iVar3 = FUN_0023d240(*(undefined4 *)(unaff_ESI + 500),pfVar1 + 5,auStack_30,bf_scratch_float_arg);
     *(int *)(unaff_ESI + 0x21c) = iVar3;
     if (iVar3 != 0) {
       *(byte *)(unaff_ESI + 0x261) = *(byte *)(unaff_ESI + 0x261) & 0xfd;

@@ -10,6 +10,9 @@ void FUN_003557ac(int param_1,int param_2,undefined2 param_3,undefined4 *param_4
                  undefined4 param_6,int param_7,int param_8)
 
 {
+  /* Ghidra _param_ alias is a draft-only temporary. Original x86 stack-slot
+   * aliasing and incoming register/stack ABI remain UNVERIFIED. */
+  uint bf_scratch_copy_size;
   int iVar1;
   undefined4 *puVar2;
   undefined4 uVar3;
@@ -65,13 +68,13 @@ void FUN_003557ac(int param_1,int param_2,undefined2 param_3,undefined4 *param_4
       *(int *)(*(int *)(iVar1 + 0x18) + 4) = param_2;
       *(undefined2 *)(*(int *)(iVar1 + 0x18) + 2) = param_3;
     }
-    _param_3 = uVar5;
+    bf_scratch_copy_size = uVar5;
     if (*(uint *)(iVar1 + 0x14) <= uVar5) {
-      _param_3 = *(uint *)(iVar1 + 0x14);
+      bf_scratch_copy_size = *(uint *)(iVar1 + 0x14);
     }
-    FUN_00345408(&local_20,param_4,0,*(undefined4 *)(iVar1 + 0x10),_param_3);
-    *(uint *)(param_8 + 8) = _param_3;
-    if (_param_3 < uVar5) {
+    FUN_00345408(&local_20,param_4,0,*(undefined4 *)(iVar1 + 0x10),bf_scratch_copy_size);
+    *(uint *)(param_8 + 8) = bf_scratch_copy_size;
+    if (bf_scratch_copy_size < uVar5) {
       *(undefined4 *)(param_8 + 4) = 0x8000;
       uVar3 = 0x80072738;
     }
