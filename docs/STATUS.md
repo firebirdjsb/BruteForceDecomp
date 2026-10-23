@@ -1,4 +1,15 @@
-# Project status — 2026-10-21
+# Project status — 2026-10-23
+
+## Current exact-tree source and compiler checkpoint
+
+- **Canonical branch:** `main` only. The last complete full-tree audit ran on commit [`985639aa`](https://github.com/firebirdjsb/BruteForceDecomp/commit/985639aa5dba1925558d6f674cf6f021b3ff341c).
+- **Function inventory:** exactly **13,694** distinct recovered C11 draft files, deterministically organized by original XBE section, otherwise by unclassified main-code address band; only 15 assembly-reviewed readable aliases have their own named folders.
+- **Complete Ubuntu host Clang C11 syntax audit:** **12,344 passing, 1,350 failing, 0 missing sources, 0 original body-hash label mismatches**, at [GitHub Actions run 39970983553](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/39970983553). The audit deliberately suppresses selected warnings and does not link the functions.
+- **Recent evidence-backed repairs:** `0x000E7780` original 32-bit x87 stack float word and unordered branch; `0x0006A5F0` and `0x000907A0` actual caller stack-word addresses; `0x0006A610` original immediate data word `0x003A3890`. These are partial dataflow/ABI observations, not complete behavioral equivalents.
+- **Original XBE provenance:** SHA-256 `B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721`; the game binary itself is not in GitHub.
+- **Native-PC build gate:** **not reached**. No 13,694-function integrated link, no resolved implicit x86-register calling contract, no complete Xbox-to-PC API adapters, no verified game launch. Before any widescreen, HD texture, high-refresh, 64-player or modding work can run, the core must compile, link and execute with verified semantics.
+
+The figures above are an **exact commit audit**, not an estimate of correctly reconstructed game functions. All older upload counts and status text below are historical and must not be read as current.
 
 ## Current repair evidence — 2026-10-23
 
