@@ -37,8 +37,8 @@ LAB_0004e1f1:
     iVar1 = local_4;
     param_3 = param_3 / 2 + (param_3 / 2) / 2;
     if ((int)(local_8 - param_1 & 0xfffffff8U) < (int)(param_2 - local_4 & 0xfffffff8U)) {
-      /* Original 0x0004E1C7: stack words (param_1, local_4, param_3). */
-      FUN_0004e150(param_1,local_4,param_3);
+      /* Original 0x0004E1C7: stack words (param_1, local_8, param_3). */
+      FUN_0004e150(param_1,local_8,param_3);
       param_1 = iVar1;
     }
     else {
