@@ -45,7 +45,10 @@ void FUN_0003d970(void)
   else {
     *(byte *)(*local_4 + 0x34) = *(byte *)(*local_4 + 0x34) | 1;
     FUN_0003d810();
-    local_4 = (int *)CONCAT31(local_4._1_3_,(char)in_ECX[5]);
+    /* x86 0x0003D99B: mov dl,[esi+0x14]; 0x0003D9A4: mov [esp+0xc],dl.
+     * Replace only the low byte of the original 32-bit stack word.
+     * TODO ABI_UNVERIFIED: host pointer width must be 32-bit for this draft. */
+    ((unsigned char *)&local_4)[0] = (unsigned char)in_ECX[5];
     if (4 < (int)(in_ECX[3] - in_ECX[2] & 0xfffffffcU)) {
       FUN_0001d4c0(in_ECX[2],in_ECX[3],local_4,0,0);
       return;
