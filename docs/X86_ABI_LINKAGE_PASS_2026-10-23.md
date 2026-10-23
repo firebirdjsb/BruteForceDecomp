@@ -44,7 +44,7 @@ The original callee prologue is `55 8B 6C 24 08 57 8B F8`, showing that its orig
 
 The original XBE contains **12 raw direct E8+rel32 instruction candidates** resolving to `0x00087630` in the main code range. These twelve are documented with the incoming EAX provenance, first stack word, cleanup observations and open uncertainties in [`metadata/x86_callee_00087630_call_sites.csv`](../metadata/x86_callee_00087630_call_sites.csv). These are confirmed instruction-level direct calls, not proof that all **indirect** callers are known.
 
-One incoming EAX value, at `0x0010B2DE`, still needs **path-sensitive tracing**. No unproven EAX source is filled in from the decompiler or from XboxRecomp.
+The formerly unresolved incoming EAX value at `0x0010B2DE` is now **path-traced** through the original function `0x0010B1E0`: `0x0010B213: mov eax,[esi+4]`; the taken `JA` at `0x0010B228` reaches `0x0010B27F`, and the taken `JA` at `0x0010B291` reaches `0x0010B2D4`, with no intervening write to EAX before `0x0010B2DE`. Here ESI holds the incoming ECX container, giving an evidenced guest start at `[ECX+4]` and end at `[ECX+8]`. The five relevant instruction windows are fingerprinted in the verifier. This does **not** establish a full native calling convention or test unobserved incoming control-flow paths.
 
 Original C drafts `0x000874A0` and `0x00087630` now document this mixed register/stack signature. **The existing C call expression and C callee signature do not yet encode it as a safe native interface.** Future native adapters must preserve 32-bit guest address-space semantics and be approved only after every relevant edge is verified.
 
@@ -58,6 +58,6 @@ The focused [C11 workflow](../.github/workflows/focused-x86-c11-repairs.yml) now
 
 Local independent read-only checks against the original XBE confirm the added two function repairs and the twelve-entry direct-call set. These are evidence and syntax repair steps only; no entire function is now marked 1:1 or behavior-tested.
 
-Next priority: resolve the *path-sensitive* EAX inputs, build precise guest32 address/register adapters, and link one real two-or-more-function C11 group with a test that rejects unresolved stubs and fabricated platform imports. Preserve original physics/gameplay in the core and keep modern PC enhancements separate.
+Next priority: review the remaining register preservation and indirect callers, build precise guest32 address/register adapters, and link one real two-or-more-function C11 group with a test that rejects unresolved stubs and fabricated platform imports. Preserve original physics/gameplay in the core and keep modern PC enhancements separate.
 
 Reference: [XboxRecomp investigation rules](XBOXRECOMP_REFERENCE_1TO1.md), [main evidence ledger](../metadata/x86_verified_call_edges.csv), [current project status](STATUS.md).
