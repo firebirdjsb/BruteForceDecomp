@@ -38,6 +38,8 @@ FINGERPRINTS = {
     0x00043539: "33 c0",  # EAX zero before byte clearing
     0x00043559: "88 44 24 1c",  # first byte clear
     0x0004355D: "88 44 24 1d",  # second byte clear
+    0x0004E17B: "51 8b c4 89 38 51 8b c4 89 18 8d 44 24 18 50", # 8-byte records partition inputs
+    0x000509AB: "51 8b c4 89 38 51 8b c4 89 18 8d 44 24 18 50", # 4-byte records partition inputs
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
@@ -47,9 +49,27 @@ DIRECT_CALLS = {
     0x0003D9C7: 0x0001D4C0,
     0x00043488: 0x000388B0,
     0x000434B9: 0x000388B0,
+    0x0004E18A: 0x0004E260,
+    0x0004E200: 0x0004E4D0,
+    0x0004E241: 0x0004E470,
+    0x000509BA: 0x00050E90,
+    0x00050A30: 0x00051040,
+    0x00050A71: 0x00050FF0,
 }
 
 SOURCE_EXPECTATIONS = {
+    "src/main_unclassified/band_0004/0x0004e150.c": (
+        ["int partition_bounds[2];", "FUN_0004e260((undefined4 *)partition_bounds",
+         "FUN_0004e4d0(param_1,param_2);",
+         "FUN_0004e470((undefined4 *)(uintptr_t)param_1,param_2);"],
+        ["FUN_0004e260(&local_8)", "FUN_0004e4d0();", "FUN_0004e470();"],
+    ),
+    "src/main_unclassified/band_0005/0x00050980.c": (
+        ["int partition_bounds[2];", "FUN_00050e90((undefined4 *)partition_bounds",
+         "FUN_00051040((undefined4 *)(uintptr_t)param_1,(undefined4 *)(uintptr_t)param_2);",
+         "FUN_00050ff0((undefined4 *)(uintptr_t)param_1,param_2);"],
+        ["FUN_00050e90(&local_8)", "FUN_00051040();", "FUN_00050ff0();"],
+    ),
     "src/main_unclassified/band_0003/0x000388b0.c": (
         ["_atexit((void (*)(void))(uintptr_t)0x0030de90U);"],
         ["(__func *)&LAB_0030de90"],
