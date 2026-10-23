@@ -69,3 +69,9 @@ python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
 ```
 
 See `AGENTS.md`, `docs/STATUS.md`, and `docs/C11_X86_LANE_LINKAGE_PASS_2026-10-23.md`. The former is a rulebook; this file supplements it without changing the original executable, game assets or runtime.
+
+
+## Example of a *blocked* syntax-only shortcut
+
+`0x00081D10` currently contains three invalid Ghidra pseudo-fields written as `param_1._0_1_`. Do **not** mechanically replace all three with `((uint8_t *)&param_1)[0]` and claim a repaired function. Original instructions show `0x00081D5B` writes the low byte at `[ESP+0x7C]`, `0x00081E78` writes a **whole pointer-sized guest DWORD** to that same stack slot, `0x00081FBF` writes another low byte, and `0x00082020` reads the low byte before returning. The C parameter and this reused stack slot have conflated identities in the decompiler output. Restore original stack-slot lifetimes and any register dependencies first, then fix C syntax with separately documented evidence. This is why the original x86 registers/guest stack matter more than simply eliminating compiler errors.
+
