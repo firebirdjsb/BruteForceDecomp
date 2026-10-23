@@ -65,7 +65,14 @@ FINGERPRINTS = {
     0x001E8DC1: "66 39 4c 24 18",  # subsequent 16-bit test
     0x001E8DCD: "66 8b 4c 24 18",  # low 16-bit load
     0x001E8DD8: "66 89 4e 1e",  # observable word-sized write
-    0x001E8DE0: "c2 04 00",  # one original float stack argument cleaned # callee reads first stack word and incoming EAX # 4-byte records partition inputs
+    0x001E8DE0: "c2 04 00",  # one original float stack argument cleaned
+    # x86 CFG 0x0010B228 JA => 0x0010B27F; 0x0010B291 JA => 0x0010B2D4.
+    # EAX survives both taken branches from its source at [ESI+4].
+    0x0010B213: "8b 46 04",
+    0x0010B228: "77 55",
+    0x0010B27F: "85 c0",
+    0x0010B291: "77 41",
+    0x0010B2D4: "8b 4c 24 10", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
