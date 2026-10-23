@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Recovered target definition agrees in current C draft; Xbox callback ABI unverified. */
+extern uint FUN_0029c4e0(int *param_1);
 #include "bf_xbox_crt_stream_opaque.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
