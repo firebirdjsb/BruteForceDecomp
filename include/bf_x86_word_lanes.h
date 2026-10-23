@@ -27,4 +27,11 @@ static inline uint16_t bf_x86_concat_u8(uint8_t high, uint8_t low)
 {
     return (uint16_t)(((uint16_t)high << 8) | (uint16_t)low);
 }
+/* Byte lvalue to an existing 32-bit object; does NOT read other bytes.
+ * This avoids inventing 24-bit C fields or initializing unknown stack bytes.
+ * Caller must supply lane 0..3; all uses are literals grounded in the draft. */
+static inline void bf_x86_word_store_byte(void *storage, unsigned lane, uint8_t value)
+{
+    ((unsigned char *)storage)[lane] = (unsigned char)value;
+}
 #endif

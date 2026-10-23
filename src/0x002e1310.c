@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 void FUN_002e1310(undefined4 param_1,undefined2 *param_2)
 
 {
@@ -14,14 +15,14 @@ void FUN_002e1310(undefined4 param_1,undefined2 *param_2)
   undefined4 local_18;
   undefined2 local_14;
   
-  local_18._2_1_ = 0;
+  bf_x86_word_store_byte(&local_18,2U,UINT8_C(0));
   puVar2 = &local_18;
   for (iVar1 = 6; iVar1 != 0; iVar1 = iVar1 + -1) {
     *puVar2 = 0;
     puVar2 = puVar2 + 1;
   }
   local_14 = *param_2;
-  local_18._3_1_ = 0x10;
+  bf_x86_word_store_byte(&local_18,3U,UINT8_C(0x10));
   FUN_002e3f50();
   FUN_002e0960(&local_18,param_1);
   return;
