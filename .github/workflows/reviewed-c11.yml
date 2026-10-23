@@ -3,16 +3,16 @@ name: Reviewed C11 ABI models
 on:
   push:
     paths:
-      - "src/0x002eb322.c"
-      - "src/0x002ebce0.c"
-      - "src/0x002eaefa.c"
-      - "src/0x002eaa19.c"
-      - "src/0x002ff500.c"
-      - "src/0x0033df31.c"
-      - "src/0x0037a3e0.c"
-      - "src/0x00349413.c"
-      - "src/0x00347fe3.c"
-      - "src/0x00349366.c"
+      - "src/reviewed_by_assembly/bf_format_to_counted_buffer/0x002eb322.c"
+      - "src/reviewed_by_assembly/bf_format_to_global_crt_stream/0x002ebce0.c"
+      - "src/reviewed_by_assembly/bf_format_with_existing_buffer_length/0x002eaefa.c"
+      - "src/reviewed_by_assembly/bf_format_varargs_to_counted_buffer/0x002eaa19.c"
+      - "src/reviewed_by_assembly/bf_format_then_output_debug_text/0x002ff500.c"
+      - "src/reviewed_by_assembly/bf_format_with_capacity_check/0x0033df31.c"
+      - "src/reviewed_by_assembly/bf_format_then_debug_print/0x0037a3e0.c"
+      - "src/reviewed_by_assembly/bf_forward_tagged_four_byte_word/0x00349413.c"
+      - "src/reviewed_by_assembly/bf_initialize_observed_record_header/0x00347fe3.c"
+      - "src/reviewed_by_assembly/bf_construct_tagged_byte_record/0x00349366.c"
       - "include/bf_format_x86.h"
       - "include/bf_xnet_record_x86.h"
       - "tests/test_format_callee.c"
@@ -28,11 +28,11 @@ on:
       - ".github/workflows/reviewed-c11.yml"
   pull_request:
     paths:
-      - "src/0x002eb322.c"
-      - "src/0x002ff500.c"
-      - "src/0x0033df31.c"
-      - "src/0x0037a3e0.c"
-      - "src/0x00349413.c"
+      - "src/reviewed_by_assembly/bf_format_to_counted_buffer/0x002eb322.c"
+      - "src/reviewed_by_assembly/bf_format_then_output_debug_text/0x002ff500.c"
+      - "src/reviewed_by_assembly/bf_format_with_capacity_check/0x0033df31.c"
+      - "src/reviewed_by_assembly/bf_format_then_debug_print/0x0037a3e0.c"
+      - "src/reviewed_by_assembly/bf_forward_tagged_four_byte_word/0x00349413.c"
       - "include/bf_format_x86.h"
       - "tests/**"
       - ".github/workflows/reviewed-c11.yml"
@@ -49,36 +49,36 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          sources=(src/0x002eb322.c src/0x002ebce0.c src/0x002eaa19.c src/0x002eaefa.c src/0x002ff500.c src/0x0033df31.c src/0x0037a3e0.c src/0x00349413.c src/0x00349366.c src/0x00347fe3.c)
+          sources=(src/reviewed_by_assembly/bf_format_to_counted_buffer/0x002eb322.c src/reviewed_by_assembly/bf_format_to_global_crt_stream/0x002ebce0.c src/reviewed_by_assembly/bf_format_varargs_to_counted_buffer/0x002eaa19.c src/reviewed_by_assembly/bf_format_with_existing_buffer_length/0x002eaefa.c src/reviewed_by_assembly/bf_format_then_output_debug_text/0x002ff500.c src/reviewed_by_assembly/bf_format_with_capacity_check/0x0033df31.c src/reviewed_by_assembly/bf_format_then_debug_print/0x0037a3e0.c src/reviewed_by_assembly/bf_forward_tagged_four_byte_word/0x00349413.c src/reviewed_by_assembly/bf_construct_tagged_byte_record/0x00349366.c src/reviewed_by_assembly/bf_initialize_observed_record_header/0x00347fe3.c)
           clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsyntax-only "${sources[@]}"
           clang -target i386-pc-windows-msvc -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsyntax-only "${sources[@]}"
       - name: Three-function formatting integration with mocked dependencies
         shell: bash
         run: |
           set -euo pipefail
-          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsanitize=address,undefined             src/0x002eb322.c src/0x0033df31.c src/0x0037a3e0.c tests/test_format_callee.c             -o /tmp/test_format_callee
+          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsanitize=address,undefined             src/reviewed_by_assembly/bf_format_to_counted_buffer/0x002eb322.c src/reviewed_by_assembly/bf_format_with_capacity_check/0x0033df31.c src/reviewed_by_assembly/bf_format_then_debug_print/0x0037a3e0.c tests/test_format_callee.c             -o /tmp/test_format_callee
           /tmp/test_format_callee
       - name: Additional independently mocked wrapper checks
         shell: bash
         run: |
           set -euo pipefail
-          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude             src/0x002ff500.c tests/test_double_format.c -o /tmp/test_double_format
+          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude             src/reviewed_by_assembly/bf_format_then_output_debug_text/0x002ff500.c tests/test_double_format.c -o /tmp/test_double_format
           /tmp/test_double_format
-          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude             src/0x00349413.c tests/test_xnet_context.c -o /tmp/test_xnet_context
+          clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude             src/reviewed_by_assembly/bf_forward_tagged_four_byte_word/0x00349413.c tests/test_xnet_context.c -o /tmp/test_xnet_context
           /tmp/test_xnet_context
       - name: CRT stream format stack wrapper with mocked backend
         shell: bash
         run: |
           set -euo pipefail
           clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude \
-            src/0x002ebce0.c tests/test_global_stream_format.c -o /tmp/test_global_stream_format
+            src/reviewed_by_assembly/bf_format_to_global_crt_stream/0x002ebce0.c tests/test_global_stream_format.c -o /tmp/test_global_stream_format
           /tmp/test_global_stream_format
       - name: Two additional CRT variadic stack wrappers
         shell: bash
         run: |
           set -euo pipefail
           clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsanitize=address,undefined \
-            src/0x002eaa19.c src/0x002eaefa.c tests/test_crt_variadic_stack.c \
+            src/reviewed_by_assembly/bf_format_varargs_to_counted_buffer/0x002eaa19.c src/reviewed_by_assembly/bf_format_with_existing_buffer_length/0x002eaefa.c tests/test_crt_variadic_stack.c \
             -o /tmp/test_crt_variadic_stack
           /tmp/test_crt_variadic_stack
       - name: XNET callee plus wrapper host dependency mocks
@@ -86,7 +86,7 @@ jobs:
         run: |
           set -euo pipefail
           clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude -fsanitize=address,undefined \
-            src/0x00349366.c src/0x00349413.c tests/test_xnet_record.c \
+            src/reviewed_by_assembly/bf_construct_tagged_byte_record/0x00349366.c src/reviewed_by_assembly/bf_forward_tagged_four_byte_word/0x00349413.c tests/test_xnet_record.c \
             -o /tmp/test_xnet_record
           /tmp/test_xnet_record
       - name: Register and caller-stack preparation analysis models
@@ -101,17 +101,17 @@ jobs:
         run: |
           set -euo pipefail
           clang -std=c11 -pedantic-errors -Wall -Wextra -Werror -Iinclude \
-            src/0x00347fe3.c tests/test_xnet_record_header.c -o /tmp/test_xnet_header
+            src/reviewed_by_assembly/bf_initialize_observed_record_header/0x00347fe3.c tests/test_xnet_record_header.c -o /tmp/test_xnet_header
           /tmp/test_xnet_header
           clang -target i386-pc-windows-msvc -std=c11 -pedantic-errors \
-            -Wall -Wextra -Werror -Iinclude -fsyntax-only src/0x00347fe3.c
+            -Wall -Wextra -Werror -Iinclude -fsyntax-only src/reviewed_by_assembly/bf_initialize_observed_record_header/0x00347fe3.c
       - name: Check 32-bit x86 stack cleanup opcode in tagged record wrapper
         shell: bash
         run: |
           set -euo pipefail
-          clang -target i386-pc-windows-msvc -O1 -Iinclude -S -masm=intel src/0x00349413.c -o /tmp/xnet-context.s
+          clang -target i386-pc-windows-msvc -O1 -Iinclude -S -masm=intel src/reviewed_by_assembly/bf_forward_tagged_four_byte_word/0x00349413.c -o /tmp/xnet-context.s
           grep -Eiq 'ret[[:space:]]+8' /tmp/xnet-context.s
-          clang -target i386-pc-windows-msvc -O1 -Iinclude -S -masm=intel src/0x00349366.c -o /tmp/xnet-record.s
+          clang -target i386-pc-windows-msvc -O1 -Iinclude -S -masm=intel src/reviewed_by_assembly/bf_construct_tagged_byte_record/0x00349366.c -o /tmp/xnet-record.s
           grep -Eiq 'ret[[:space:]]+24' /tmp/xnet-record.s
 
 # All tests above use mocks / isolated compilation.

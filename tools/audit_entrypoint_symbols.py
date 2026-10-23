@@ -32,17 +32,19 @@ def main() -> None:
     ap.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     ap.add_argument("--out", type=Path, default=Path("c11_sweep_results/entry_symbol_audit.csv"))
     args = ap.parse_args()
-    header = args.root / "include/bf_recovered_function_names.h"
+    # Layout discovery returns absolute paths, including when CI passes --root .
+    root = args.root.resolve()
+    header = root / "include/bf_recovered_function_names.h"
     aliases: dict[str, list[str]] = {}
     if header.exists():
         for match in ALIAS.finditer(header.read_text(encoding="utf-8", errors="replace")):
             aliases.setdefault(match.group(2).upper(), []).append(match.group(1))
     rows = []
-    for path in discovered_sources(args.root):
+    for path in discovered_sources(root):
         entry = path.stem.lower()
         source = path.read_text(encoding="utf-8", errors="replace")
         status, candidate = audit_source(entry, source, aliases)
-        rows.append((entry, path.relative_to(args.root).as_posix(), status, candidate))
+        rows.append((entry, path.relative_to(root).as_posix(), status, candidate))
     args.out.parent.mkdir(parents=True, exist_ok=True)
     with args.out.open("w", encoding="utf-8", newline="") as out:
         writer = csv.writer(out)

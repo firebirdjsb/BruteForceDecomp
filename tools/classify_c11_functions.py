@@ -44,7 +44,7 @@ def readroles():
                 result[r["entry"].lower()]=r["readable_alias"]
     return result
 def main():
-    paths=discovered_sources(ROOT)
+    paths=sorted(discovered_sources(ROOT),key=lambda path:path.stem)
     if len(paths)!=13694:
         raise SystemExit("Expected 13694 sources; found "+str(len(paths)))
     roles=readroles()
@@ -81,7 +81,7 @@ def main():
             "review_flags":";".join(risks),"source_file":p.relative_to(ROOT).as_posix()}
         rows.append(row);counts[sec]+=1;groups[group]+=1
     with (OUT/"all_13694_functions.csv").open("w",newline="",encoding="utf-8") as f:
-        writer=csv.DictWriter(f,fieldnames=rows[0].keys())
+        writer=csv.DictWriter(f,fieldnames=rows[0].keys(),lineterminator="\n")
         writer.writeheader();writer.writerows(rows)
     with (OUT/"groups_summary.csv").open("w",newline="",encoding="utf-8") as f:
         writer=csv.writer(f)
