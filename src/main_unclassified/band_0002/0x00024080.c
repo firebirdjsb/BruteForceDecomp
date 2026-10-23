@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0046d028;
@@ -22,11 +23,7 @@ uint FUN_00024080(int param_1,float *param_2,float param_3)
   uint uVar5;
   float *pfVar6;
   float10 fVar7;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar8 [16];
-  float in_XMM1_Da;
   float fVar10;
-  undefined1 auVar9 [16];
   float local_28;
   float local_24;
   float fStack_20;
@@ -40,9 +37,11 @@ uint FUN_00024080(int param_1,float *param_2,float param_3)
   local_1c = *param_2 - *pfVar6;
   fVar10 = local_1c * local_1c + local_14 * local_14;
   if (0.0 < fVar10) {
-    auVar8 = rsqrtss(in_XMM0,fVar10);
-    local_1c = auVar8._0_4_ * local_1c;
-    local_14 = auVar8._0_4_ * local_14;
+    /* Scalar low-lane approximation from recovered RSQRTSS pseudocode.
+     * TODO(ABI_UNVERIFIED): confirm instruction and x87 operand rounding in XBE. */
+    fVar10 = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(fVar10)));
+    local_1c = fVar10 * local_1c;
+    local_14 = fVar10 * local_14;
   }
   if ((*(int *)(param_1 + 0x1ec) == 0) || ((*(byte *)(param_1 + 0x21c) & 2) == 0)) {
     pfVar4 = (float *)&DAT_0046d028;
@@ -53,17 +52,11 @@ uint FUN_00024080(int param_1,float *param_2,float param_3)
   fStack_20 = pfVar4[2] - *(float *)(iVar3 + 0x2c);
   local_24 = pfVar4[1] - *(float *)(iVar3 + 0x28);
   local_28 = *pfVar4 - *pfVar6;
-  in_XMM1_Da = in_XMM1_Da + local_28 * local_28;
-  fVar10 = local_24 * local_24 + fStack_20 * fStack_20;
-  auVar8._4_4_ = in_XMM1_Da;
-  auVar8._0_4_ = fVar10;
-  auVar8._8_4_ = in_XMM1_Da;
-  auVar8._12_4_ = in_XMM1_Da;
-  auVar9._4_12_ = auVar8._4_12_;
-  auVar9._0_4_ = fVar10 + local_28 * local_28;
-  if (2e-05 <= auVar9._0_4_) {
-    auVar8 = rsqrtss(auVar9,auVar9);
-    fVar10 = auVar8._0_4_;
+  /* All consumers of the packed temporary use only its low float lane.
+   * The high-lane source register is unresolved and is not modeled here. */
+  fVar10 = (local_24 * local_24 + fStack_20 * fStack_20) + local_28 * local_28;
+  if (2e-05 <= fVar10) {
+    fVar10 = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(fVar10)));
     local_28 = local_28 * fVar10;
     local_24 = local_24 * fVar10;
     fStack_20 = fStack_20 * fVar10;
