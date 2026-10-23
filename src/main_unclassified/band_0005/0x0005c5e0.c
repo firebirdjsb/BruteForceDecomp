@@ -73,7 +73,7 @@ void FUN_0005c5e0(undefined4 *param_1,float param_2,uint param_3)
     *pfVar8 = local_c;
     pfVar8[1] = 1.4013e-45;
     /* 0x0005C67F-0x0005C688: raw DWORD move, not integer-to-float conversion. */
-    ((uint32_t *)(void *)pfVar8)[2] = local_4;
+    memcpy((unsigned char *)pfVar8 + 8, &local_4, sizeof local_4);
     puVar5 = param_1;
   }
   else {
