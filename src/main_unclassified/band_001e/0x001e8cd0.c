@@ -15,6 +15,13 @@ void FUN_001e8cd0(float param_1)
   ushort uVar4;
   byte in_CL;
   ushort uVar5;
+  /* x86 0x001E8D14 writes a full zero to a recycled stack DWORD formerly
+   * holding the incoming float. 0x001E8D5B compares low 16 bits and
+   * 0x001E8DCD/0x001E8DD8 consume only its low 16 bits.
+   * High EAX bits from the 0x001E8D62 DWORD write are not reconstructed.
+   * TODO ABI_UNVERIFIED: preserve the full guest stack-word model if future
+   * original callers/exception paths make those high bits observable. */
+  uint16_t secondary_max_low16;
   int unaff_ESI;
   int *piVar6;
   
@@ -28,7 +35,7 @@ void FUN_001e8cd0(float param_1)
   }
   fVar2 = param_1 + *(float *)(unaff_ESI + 4);
   uVar5 = 0;
-  param_1._0_2_ = 0;
+  secondary_max_low16 = 0;
   if (*(undefined4 **)(unaff_ESI + 0xc) == (undefined4 *)0x0) {
     piVar6 = (int *)0x0;
   }
@@ -43,13 +50,13 @@ void FUN_001e8cd0(float param_1)
         *(float *)(unaff_ESI + 4) = fVar2;
         if ((*(byte *)(unaff_ESI + 0x14) & 1) == 0) {
           uVar5 = 0;
-          param_1._0_2_ = 0;
+          secondary_max_low16 = 0;
         }
-        else if ((uVar5 != 0) || (param_1._0_2_ != 0)) {
+        else if ((uVar5 != 0) || (secondary_max_low16 != 0)) {
           *(byte *)(unaff_ESI + 0x14) = *(byte *)(unaff_ESI + 0x14) | 2;
         }
         *(ushort *)(unaff_ESI + 0x1c) = uVar5;
-        *(ushort *)(unaff_ESI + 0x1e) = param_1._0_2_;
+        *(ushort *)(unaff_ESI + 0x1e) = secondary_max_low16;
         return;
       }
       if ((float)piVar3[5] < *(float *)(unaff_ESI + 4) !=
@@ -62,8 +69,8 @@ LAB_001e8d9c:
       uVar5 = uVar4;
     }
     uVar4 = FUN_001e8b90(piVar3 + 2,*(undefined4 *)(unaff_ESI + 4));
-    if (param_1._0_2_ < uVar4) {
-      param_1._0_2_ = uVar4;
+    if (secondary_max_low16 < uVar4) {
+      secondary_max_low16 = uVar4;
     }
     if ((float)piVar3[4] < fVar2 == ((float)piVar3[4] == fVar2)) goto LAB_001e8d9c;
     piVar6 = (int *)*piVar3;
