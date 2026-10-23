@@ -39,7 +39,9 @@ FINGERPRINTS = {
     0x00043559: "88 44 24 1c",  # first byte clear
     0x0004355D: "88 44 24 1d",  # second byte clear
     0x0004E17B: "51 8b c4 89 38 51 8b c4 89 18 8d 44 24 18 50", # 8-byte records partition inputs
-    0x000509AB: "51 8b c4 89 38 51 8b c4 89 18 8d 44 24 18 50", # 4-byte records partition inputs
+    0x000509AB: "51 8b c4 89 38 51 8b c4 89 18 8d 44 24 18 50",
+    0x000874DA: "88 44 24 1c",  # mov [esp+0x1c],al
+    0x000874DE: "8b 54 24 1c",  # mov edx,[esp+0x1c], retain unknown upper bytes # 4-byte records partition inputs
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
@@ -55,9 +57,14 @@ DIRECT_CALLS = {
     0x000509BA: 0x00050E90,
     0x00050A30: 0x00051040,
     0x00050A71: 0x00050FF0,
+    0x000874EA: 0x00087630,
 }
 
 SOURCE_EXPECTATIONS = {
+    "src/main_unclassified/band_0008/0x000874a0.c": (
+        ["((unsigned char *)&local_4)[0] = uVar2;"],
+        ["local_4._1_3_", "CONCAT31(local_4"],
+    ),
     "src/main_unclassified/band_0004/0x0004e150.c": (
         ["int partition_bounds[2];", "FUN_0004e260((undefined4 *)partition_bounds",
          "FUN_0004e4d0(param_1,param_2);",
