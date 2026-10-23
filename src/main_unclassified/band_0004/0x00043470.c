@@ -49,7 +49,9 @@ undefined1 FUN_00043470(int param_1,char param_2)
     local_40[1] = 0;
     local_40[2] = 0;
     local_40[3] = 0;
-    local_3c = (undefined **)((uint)local_3c._2_2_ << 0x10);
+    /* x86 0x00043559/0x0004355D: clear consecutive low bytes;
+     * upper half of this 32-bit stack word is not overwritten here. */
+    local_3c &= UINT32_C(0xffff0000);
     FUN_00043000(param_1,unaff_EBX,3);
     if (local_40[0] != '\0') {
       FUN_00012320(0x14);
