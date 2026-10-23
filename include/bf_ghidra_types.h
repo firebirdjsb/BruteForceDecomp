@@ -15,6 +15,13 @@ typedef uint32_t undefined4, uint, dword, ulong, _UNKNOWN;
 typedef uint64_t undefined8, ulonglong, qword;
 typedef int64_t longlong;
 typedef long double float10;
+/* Only four known 'unkbyte10' draft return values map to x87 ST(0):
+ * 0x0005A6E0 FPATAN, 0x0006EEE0 FPTAN, 0x001552A0 FPATAN,
+ * 0x002F05F8 FSCALE. Original result is extended precision (80 bits).
+ * Host long double is a SYNTAX-ONLY storage proxy: size/ABI may differ;
+ * original x87 entry/exit registers and rounding remain unverified.
+ * Do not treat this alias as a general 10-byte packed data type. */
+typedef float10 unkbyte10;
 typedef uint32_t undefined3, uint3; /* TODO: actual width 24 bits, not 32 */
 typedef int32_t int3;  /* TODO: actual width 24 bits, not 32 */
 typedef uint64_t undefined5, undefined6, undefined7;
