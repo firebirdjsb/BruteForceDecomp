@@ -21,11 +21,11 @@ int FUN_001b5fd0(int param_1,int param_2,uint param_3)
   uint local_18;
   undefined1 *local_14;
   undefined4 local_10;
-  undefined1 *puStack_c;
+  uint32_t puStack_c; /* original guest SEH 32-bit word; FS:0 pending */
   undefined4 local_8;
   
   local_8 = 0xffffffff;
-  puStack_c = &LAB_003082e0;
+  puStack_c = UINT32_C(0x003082e0); /* x86 push imm32 at 0x001b5fd5 */
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   local_14 = &stack0xffffff88;
