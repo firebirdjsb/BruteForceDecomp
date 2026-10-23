@@ -16,6 +16,7 @@ void FUN_000c4bc0(int param_1)
   int iVar2;
   int iVar3;
   uint uVar4;
+  uint32_t packed_color_word;
   int in_EDX;
   int *piVar5;
   int iVar6;
@@ -63,11 +64,18 @@ switchD_000c4c05_default:
   uVar8 = FUN_000c4cd0(in_EDX,param_1);
   piVar5 = (int *)((ulonglong)uVar8 >> 0x20);
   uVar4 = (int)uVar8 >> 2;
-  param_1 = (uVar4 & 0xff) << 8;
-  param_1._0_3_ = CONCAT12((char)uVar4,(undefined2)param_1);
-  param_1 = CONCAT13(0xff,(int3)CONCAT31((uint3)param_1 >> 8,(char)uVar8));
+  /* 0x000C4C3E and 0x000C4C42 set bytes 1 and 2 to CL=(EAX>>2).
+   * 0x000C4C5A sets byte 0 to AL (the original EAX return word).
+   * 0x000C4C93 sets byte 3 to 0xFF. The indirect call receives
+   * the address of these four contiguous guest bytes.
+   * Caller EDX/EAX 64-bit return modeling and indirect target
+   * remain ABI_UNVERIFIED; this restores only the observed byte pack. */
+  packed_color_word = UINT32_C(0xff000000) |
+      ((uVar4 & UINT32_C(0xff)) << 16) |
+      ((uVar4 & UINT32_C(0xff)) << 8) |
+      ((uint32_t)uVar8 & UINT32_C(0xff));
   (**(code **)(*piVar5 + 4))
-            (&param_1,(float)(int)*(short *)((int)piVar5 + 0xe),(float)(int)(short)piVar5[3],
+            (&packed_color_word,(float)(int)*(short *)((int)piVar5 + 0xe),(float)(int)(short)piVar5[3],
              (float)((2 - iVar1) * iVar7),(float)((2 - iVar1) * iVar6),(int)uVar8,1,1,piVar5[8],0,0,
              0,0,0x3f800000,0x3f800000,0,0,0);
   return;
