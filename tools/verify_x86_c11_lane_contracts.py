@@ -41,7 +41,10 @@ FINGERPRINTS = {
     0x0004E17B: "51 8b c4 89 38 51 8b c4 89 18 8d 44 24 18 50", # 8-byte records partition inputs
     0x000509AB: "51 8b c4 89 38 51 8b c4 89 18 8d 44 24 18 50",
     0x000874DA: "88 44 24 1c",  # mov [esp+0x1c],al
-    0x000874DE: "8b 54 24 1c",  # mov edx,[esp+0x1c], retain unknown upper bytes # 4-byte records partition inputs
+    0x000874DE: "8b 54 24 1c",  # mov edx,[esp+0x1c], retain unknown upper bytes
+    0x000874E7: "53", # third visible stack push: EBX
+    0x000874E8: "8b c5", # transfer EBP to implicit EAX before call
+    0x00087630: "55 8b 6c 24 08 57 8b f8", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
