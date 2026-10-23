@@ -6,6 +6,15 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original x86 ABI (evidence: 0x00087631-0x00087638, 0x00087668):
+ *   EAX = 32-bit guest range start; [entry ESP+4] = guest range end;
+ *   RET (no callee argument pop); record stride = 0x20 bytes.
+ * Twelve original direct CALL rel32 sites are recorded in
+ * metadata/x86_callee_00087630_call_sites.csv.
+ * The Ghidra draft below does NOT express EAX as a C formal parameter.
+ * ABI_UNVERIFIED: this standalone host-C body is NOT safely linkable
+ * without an evidence-reviewed 32-bit guest register/stack adapter.
+ */
 void FUN_00087630(int param_1)
 
 {
