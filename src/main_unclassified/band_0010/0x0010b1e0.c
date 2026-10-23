@@ -34,6 +34,10 @@ void FUN_0010b1e0(void)
       }
       if (uVar4 <= uVar6) {
         FUN_001d6530(iVar1,*(int *)(in_EAX + 8));
+        /* Original 0x0010B231 -> 0x0010B240: the preceding call's
+         * EAX result supplies the 0x00087630 guest range start;
+         * the first pushed stack word supplies the range end.
+         * Ghidra did NOT reconstruct this as a native C call contract. */
         FUN_00087630(*(undefined4 *)(in_ECX + 8));
         if (*(int *)(in_EAX + 4) == 0) {
           *(undefined4 *)(in_ECX + 8) = *(undefined4 *)(in_ECX + 4);
@@ -62,6 +66,11 @@ void FUN_0010b1e0(void)
         *(undefined4 *)(in_ECX + 8) = uVar3;
         return;
       }
+      /* Original x86 0x0010B213 loads EAX=[ESI+4]. The
+       * 0x0010B228 JA and 0x0010B291 JA branches reach 0x0010B2DE
+       * without overwriting EAX. Here ESI is the incoming ECX
+       * container: guest start=[in_ECX+4], end=[in_ECX+8].
+       * TODO ABI_UNVERIFIED: no native EAX-plus-stack bridge yet. */
       FUN_00087630(*(undefined4 *)(in_ECX + 8));
                     /* WARNING: Subroutine does not return */
       thunk_FUN_00237ec0(*(undefined4 *)(in_ECX + 4));
