@@ -21,11 +21,11 @@ void FUN_001b76b0(int param_1,uint param_2)
   undefined4 local_34 [8];
   undefined1 *local_14;
   undefined4 local_10;
-  undefined1 *puStack_c;
+  uint32_t puStack_c; /* Xbox guest32 SEH word, native FS:0 unresolved */
   undefined4 local_8;
   
   local_8 = 0xffffffff;
-  puStack_c = &LAB_00307e00;
+  puStack_c = UINT32_C(0x00307e00); /* x86 push imm32 at 0x001b76b5 */
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   local_14 = &stack0xffffff88;
