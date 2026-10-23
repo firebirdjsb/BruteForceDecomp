@@ -90,7 +90,15 @@ FINGERPRINTS = {
     0x00049183: "38 85 cd 03 00 00",
     0x00049189: "88 85 cc 03 00 00",
     0x000491E9: "89 54 24 18",
-    0x0004922D: "c2 08 00", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
+    0x0004922D: "c2 08 00",
+    # Two independent x87 m32fp stores followed by raw DWORD stack moves,
+    # not a synthetic 64-bit CONCAT44 assignment.
+    0x000BED94: "d9 40 20",
+    0x000BED97: "d9 5c 24 00",
+    0x000BED9B: "d9 40 14",
+    0x000BEDA2: "d9 5c 24 04",
+    0x000BEDAD: "89 54 24 2c",
+    0x000BEDB9: "89 4c 24 28", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
@@ -128,6 +136,11 @@ DIRECT_CALLS = {
 }
 
 SOURCE_EXPECTATIONS = {
+    "src/main_unclassified/band_000b/0x000becf0.c": (
+        ["fStack_3c = *(float *)(iVar2 + 0x20);",
+         "fStack_40 = *(float *)(iVar2 + 0x14);"],
+        ["_fStack_40 = CONCAT44"],
+    ),
     "src/main_unclassified/band_0004/0x00048da0.c": (
         ["uint8_t source_flag_bit3;",
          "source_flag_bit3 = (uint8_t)(*(byte *)(param_1 + 0x374) >> 3 & 1);",
