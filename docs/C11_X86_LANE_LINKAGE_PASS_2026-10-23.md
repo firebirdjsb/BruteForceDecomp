@@ -51,3 +51,24 @@ The earlier [exact published syntax audit](progress/current.json) remains **12,4
 - `f892e611` — `0x0029D2A0` low byte
 - `62304687` / `1c49e45f` — exact-XBE and source invariant verifier
 - `bf4d7f99` — five-file focused syntax CI
+
+
+## Continued evidence-backed pass — same day, on `main`
+
+These corrections were made after the original five-entry repair ledger above; the historical audit counters remain unchanged until another **complete, exact-tree C11 audit** finishes.
+
+| Original entry | XBE instruction evidence | Limited correction |
+| --- | --- | --- |
+| `0x000388B0` | `0x000388E3: push 0x0030DE90`; `0x000388E8: call 0x002EA4BF`. The executable at `0x0030DE90` begins with `push esi; mov esi,0x004A88D0`. | Replace undeclared Ghidra `__func` and `LAB` expression with the **observed raw callback address** cast to a C11 function-pointer type. Address translation to a **native** linked function remains **unresolved**. |
+| `0x0003D970` | `0x0003D99B: mov dl,[esi+0x14]`; `0x0003D9A4: mov [esp+0xc],dl`; `0x0003D9C7` calls `0x0001D4C0`. | Replace invalid pointer `._1_3_` member access with byte-only write to the original stack word. The original Xbox width is 32 bits; 64-bit Windows representation is **not** verified. |
+| `0x00043470` | `0x00043539: xor eax,eax`, then `0x00043559` and `0x0004355D` store zero AL into consecutive bytes. `0x00043488` and `0x000434B9` both call `0x000388B0`. | Replace invalid DWORD `._2_2_` access with a low-16-bit clear. Upper two bytes are left as previously observed; no initialization is invented. |
+| `0x0004E150` | `0x0004E17B-0x0004E189`: output pointer plus two range endpoints; `0x0004E18A: call 0x0004E260`. `0x0004E200` and `0x0004E241` call the small-range and fallback helpers with two stack arguments. | Restore the three-argument partition call, two adjacent output DWORDs, and two-argument helper calls for the 8-byte record path. |
+| `0x00050980` | `0x000509AB-0x000509B9`: same stack setup; `0x000509BA: call 0x00050E90`. `0x00050A30` and `0x00050A71` call the small-range and fallback helpers with two stack arguments. | Restore the three-argument partition call, two adjacent output DWORDs, and two-argument helper calls for the 4-byte record path. |
+
+**Instruction verification:** the continued pass checked **nine** exact XBE instruction windows (seven partial-word/callback locations plus two fifteen-byte partition-setup windows) and **ten** direct E8 call destinations against the input XBE. All matched. The source verifier was extended to contain these checks, along with expected post-repair C expressions; use `python3 tools/verify_x86_c11_lane_contracts.py --xbe path/to/default.xbe --root .` locally.
+
+**Compiler verification:** local Clang C11 syntax fixtures for the five repairs above passed under the same warning allowances as the inventory workflow. The five checked files were reconstructed as focused syntax fixtures, so this does **not** replace the exact repository-source CI. The focused CI workflow now checks ten original C files individually. **No new complete 13,694-source pass count or successful GitHub Actions status is asserted here.**
+
+**Remaining uncertainty:** the Ghidra-provided function types remain drafts. In `0x0004E150` and `0x00050980`, the fallback helper paths may still have partially unresolved unused caller stack slots: no argument was invented where the callee's semantic contract was not verified. Callback relocation, register-only inputs, indirect calls, global data ownership, i686 ABI compatibility, and full native linking remain independent requirements.
+
+Continued commits on `main`: `5ee86fc8`, `a0cf84de`, `02a959be`, `a659fb64`, `50a470b1`, `eccb1aa7`, `8238a376`, `36a874f2`, `58853be2`.
