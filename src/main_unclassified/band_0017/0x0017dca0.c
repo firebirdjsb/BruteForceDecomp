@@ -14,7 +14,8 @@ int FUN_0017dca0(int param_1,int param_2,int param_3,undefined4 param_4)
   undefined1 *puStack_c;
   undefined4 local_8;
   
-  puStack_c = &LAB_003088e0;
+  /* Original entry+5: push 0x003088e0; guest SEH handler VA, not a host symbol. */
+  puStack_c = (undefined1 *)(uintptr_t)0x003088e0U;
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   local_8 = 0;
