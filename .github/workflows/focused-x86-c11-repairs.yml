@@ -1,0 +1,50 @@
+name: Focused x86-supported C11 repairs
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_0002/0x00024f80.c'
+      - 'src/main_unclassified/band_0004/0x000435f0.c'
+      - 'src/main_unclassified/band_0005/0x0005c5e0.c'
+      - 'src/main_unclassified/band_0028/0x002876a0.c'
+      - 'src/main_unclassified/band_0029/0x0029d2a0.c'
+      - 'include/**'
+      - 'tools/verify_x86_c11_lane_contracts.py'
+      - '.github/workflows/focused-x86-c11-repairs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  focused-c11:
+    name: Five original entries — isolated host syntax only
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check scoped source transformations without XBE
+        run: python3 tools/verify_x86_c11_lane_contracts.py --root .
+      - name: Compile five original C11 drafts individually
+        shell: bash
+        run: |
+          set -euo pipefail
+          flags=(
+            -std=c11 -fsyntax-only -ferror-limit=10
+            -Wno-implicit-function-declaration -Wno-int-conversion
+            -Wno-incompatible-pointer-types -Wno-pointer-to-int-cast
+            -Wno-int-to-pointer-cast -Wno-return-type
+            -Wno-deprecated-non-prototype
+            -I include
+          )
+          for name in \
+            src/main_unclassified/band_0002/0x00024f80.c \
+            src/main_unclassified/band_0004/0x000435f0.c \
+            src/main_unclassified/band_0005/0x0005c5e0.c \
+            src/main_unclassified/band_0028/0x002876a0.c \
+            src/main_unclassified/band_0029/0x0029d2a0.c
+          do
+            echo "Checking ${name}"
+            clang "${flags[@]}" "${name}"
+          done
+          echo "Five isolated C11 syntax checks passed; no Xbox ABI, linking, or runtime equivalence claimed."
