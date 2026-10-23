@@ -55,7 +55,17 @@ FINGERPRINTS = {
     0x00081E78: "89 44 24 7c",  # full 32-bit write to the same word
     0x00081FBF: "c6 44 24 7c 01",  # low-byte write, preserving upper 24 bits
     0x00082020: "8a 44 24 7c",  # return AL from the stack word
-    0x0008202B: "c2 08 00",  # callee removes exactly two stack DWORDs # callee reads first stack word and incoming EAX # 4-byte records partition inputs
+    0x0008202B: "c2 08 00",  # callee removes exactly two stack DWORDs
+    # Float input consumed before its stack word is reused as a word counter.
+    0x001E8D00: "d9 44 24 10",  # FLD original float input
+    0x001E8D14: "89 4c 24 18",  # recycle its stack DWORD after consumption
+    0x001E8D5B: "66 3b 44 24 18",  # unsigned 16-bit comparison
+    0x001E8D62: "89 44 24 18",  # complete DWORD store (high bits not yet modeled)
+    0x001E8DB6: "89 4c 24 18",  # zero recycled DWORD
+    0x001E8DC1: "66 39 4c 24 18",  # subsequent 16-bit test
+    0x001E8DCD: "66 8b 4c 24 18",  # low 16-bit load
+    0x001E8DD8: "66 89 4e 1e",  # observable word-sized write
+    0x001E8DE0: "c2 04 00",  # one original float stack argument cleaned # callee reads first stack word and incoming EAX # 4-byte records partition inputs
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
@@ -84,9 +94,16 @@ DIRECT_CALLS = {
     0x001B6A3A: 0x00087630,
     0x001B6BD0: 0x00087630,
     0x00082966: 0x00081D10,
+    0x001E8D45: 0x001E8B20,
+    0x001E8D56: 0x001E8B90,
 }
 
 SOURCE_EXPECTATIONS = {
+    "src/main_unclassified/band_001e/0x001e8cd0.c": (
+        ["uint16_t secondary_max_low16;", "secondary_max_low16 = 0;",
+         "secondary_max_low16 = uVar4;", "secondary_max_low16 < uVar4"],
+        ["param_1._0_2_"],
+    ),
     "src/main_unclassified/band_0008/0x00081d10.c": (
         ["((uint8_t *)&param_1)[0] = 0;",
          "((uint8_t *)&param_1)[0] = uVar4;",
