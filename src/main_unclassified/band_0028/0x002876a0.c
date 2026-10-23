@@ -10,8 +10,8 @@ void FUN_002876a0(int param_1,int param_2,int param_3)
 
 {
   int iVar1;
-  int local_8;
-  int local_4;
+  /* 0x002876D5 passes an adjacent pair of stack DWORDs as the output buffer. */
+  int partition_bounds[2];
   
   iVar1 = param_2 - param_1;
   do {
@@ -35,18 +35,20 @@ LAB_00287741:
       }
       goto LAB_00287741;
     }
-    FUN_00287930(&local_8);
-    iVar1 = local_4;
+    /* 0x002876CB-0x002876DE: push end, start, &partition_bounds[0]. */
+    FUN_00287930((undefined4 *)partition_bounds,
+                 (int *)(uintptr_t)param_1, (int *)(uintptr_t)param_2);
+    iVar1 = partition_bounds[1];
     param_3 = param_3 / 2 + (param_3 / 2) / 2;
-    if ((int)(local_8 - param_1 & 0xfffffffcU) < (int)(param_2 - local_4 & 0xfffffffcU)) {
-      /* 0x00287717: left subrange [param_1,local_8), recursive stack words. */
-      FUN_002876a0(param_1,local_8,param_3);
+    if ((int)(partition_bounds[0] - param_1 & 0xfffffffcU) < (int)(param_2 - partition_bounds[1] & 0xfffffffcU)) {
+      /* 0x00287717: left subrange [param_1,partition_bounds[0]), recursive stack words. */
+      FUN_002876a0(param_1,partition_bounds[0],param_3);
       param_1 = iVar1;
     }
     else {
-      /* 0x00287729: right subrange [local_4,param_2), recursive stack words. */
-      FUN_002876a0(local_4,param_2,param_3);
-      param_2 = local_8;
+      /* 0x00287729: right subrange [partition_bounds[1],param_2), recursive stack words. */
+      FUN_002876a0(partition_bounds[1],param_2,param_3);
+      param_2 = partition_bounds[0];
     }
     iVar1 = param_2 - param_1;
   } while( true );
