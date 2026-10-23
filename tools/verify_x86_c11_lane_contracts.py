@@ -98,7 +98,17 @@ FINGERPRINTS = {
     0x000BED9B: "d9 40 14",
     0x000BEDA2: "d9 5c 24 04",
     0x000BEDAD: "89 54 24 2c",
-    0x000BEDB9: "89 4c 24 28", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
+    0x000BEDB9: "89 4c 24 28",
+    # Packed four-byte guest color passed by address to an indirect call.
+    0x000C4C37: "8b c8",
+    0x000C4C39: "c1 f9 02",
+    0x000C4C3E: "88 4c 24 35",
+    0x000C4C42: "88 4c 24 36",
+    0x000C4C5A: "88 44 24 4c",
+    0x000C4C93: "c6 44 24 5f ff",
+    0x000C4CAB: "51",
+    0x000C4CAE: "ff 53 04",  # indirect target not established
+    0x000C4CB6: "c2 04 00", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
@@ -133,9 +143,18 @@ DIRECT_CALLS = {
     0x0008A745: 0x0008A560,
     0x00049168: 0x000120F0,
     0x000491AF: 0x000120F0,
+    0x000C4C20: 0x000C4CD0,
 }
 
 SOURCE_EXPECTATIONS = {
+    "src/main_unclassified/band_000c/0x000c4bc0.c": (
+        ["uint32_t packed_color_word;",
+         "packed_color_word = UINT32_C(0xff000000)",
+         "((uVar4 & UINT32_C(0xff)) << 16)",
+         "((uint32_t)uVar8 & UINT32_C(0xff))",
+         "(&packed_color_word,"],
+        ["param_1._0_3_", "CONCAT12((char)uVar4", "CONCAT13(0xff"],
+    ),
     "src/main_unclassified/band_000b/0x000becf0.c": (
         ["fStack_3c = *(float *)(iVar2 + 0x20);",
          "fStack_40 = *(float *)(iVar2 + 0x14);"],
