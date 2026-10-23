@@ -15,6 +15,10 @@ The current, automatically maintained C11 syntax percentage, source pass/fail co
 
 The figures above are an **exact commit audit**, not an estimate of correctly reconstructed game functions. All older upload counts and status text below are historical and must not be read as current.
 
+## Continued original-XBE C11 repair checkpoint — 2026-10-23
+
+The [continued x86 repair ledger](X86_C11_REPAIR_PASS_2026-10-23_B.md) covers five additional narrowly grounded repairs (`0x0006C840`, `0x000AA3B0`, `0x000447B0`, `0x0005C730`, `0x0008F5D0`) and keeps unresolved high stack bytes, x87 behavior and callback relocation explicitly unverified. The focused CI scope is now 22 individual C11 files, with 100 original instruction fingerprints and 33 direct-call checks. Always consult [live verified audit metrics](progress/current.json) for the current count; **no overall percentage is changed merely by committing source fixes**.
+
 ## Verified x86 register/stack ABI checkpoint — 2026-10-23
 
 The [latest focused call-contract pass](X86_ABI_LINKAGE_PASS_2026-10-23.md) verifies two additional limited C11 repairs (`0x00081D10`, `0x001E8CD0`) against original instructions; it inventories twelve direct call sites to `0x00087630`, whose original interface uses EAX plus a stack word. The original XBE verifier now includes **82 exact instruction windows** and **33 known near-call destinations**, along with **17 source-invariant checks**. The original mixed-register ABI is **not yet represented by safe linked host-C signatures**. The focused CI compiles 17 repaired C files in isolation; passing that does not imply an integrated native link. The latest published pass/fail totals and their exact audited commit are maintained automatically in [docs/progress/current.json](progress/current.json); earlier counts in this document remain historical. No native-PC linked binary is claimed.
