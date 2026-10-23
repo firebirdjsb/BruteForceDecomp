@@ -25,6 +25,11 @@ on:
       - 'src/main_unclassified/band_001e/0x001e8cd0.c'
       - 'src/main_unclassified/band_0028/0x002876a0.c'
       - 'src/main_unclassified/band_0029/0x0029d2a0.c'
+      - 'src/main_unclassified/band_0005/0x0005a6e0.c'
+      - 'src/main_unclassified/band_0006/0x0006eee0.c'
+      - 'src/main_unclassified/band_0015/0x001552a0.c'
+      - 'src/main_unclassified/band_002f/0x002f05f8.c'
+      - 'tools/verify_x87_st0_returns.py'
       - 'include/**'
       - 'tools/verify_x86_c11_lane_contracts.py'
       - 'tools/verify_x86_callee_87630.py'
@@ -42,7 +47,7 @@ permissions:
 
 jobs:
   focused-c11:
-    name: Twenty-two original entries — isolated host syntax only
+    name: Twenty-six original entries — isolated host syntax only
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -51,9 +56,11 @@ jobs:
         run: python3 tools/verify_x86_c11_lane_contracts.py --root .
       - name: Verify linked EAX plus stack call-site inventory
         run: python3 tools/verify_x86_callee_87630.py --root .
+      - name: Verify x87 ST0 extended return identities without game binary
+        run: python3 tools/verify_x87_st0_returns.py --root .
       - name: Verify original guest32 SEH handler words (source-only)
         run: python3 tools/verify_x86_seh_immediates.py --root .
-      - name: Compile twenty-two original C11 drafts individually
+      - name: Compile twenty-six original C11 drafts individually
         shell: bash
         run: |
           set -euo pipefail
@@ -87,9 +94,13 @@ jobs:
             src/main_unclassified/band_000c/0x000c4bc0.c \
             src/main_unclassified/band_001e/0x001e8cd0.c \
             src/main_unclassified/band_0028/0x002876a0.c \
-            src/main_unclassified/band_0029/0x0029d2a0.c
+            src/main_unclassified/band_0029/0x0029d2a0.c \
+            src/main_unclassified/band_0005/0x0005a6e0.c \
+            src/main_unclassified/band_0006/0x0006eee0.c \
+            src/main_unclassified/band_0015/0x001552a0.c \
+            src/main_unclassified/band_002f/0x002f05f8.c
           do
             echo "Checking ${name}"
             clang "${flags[@]}" "${name}"
           done
-          echo "Twenty-two isolated C11 syntax checks passed; no Xbox ABI, linking, or runtime equivalence claimed."
+          echo "Twenty-six isolated C11 syntax checks passed; no Xbox ABI, linking, or runtime equivalence claimed."
