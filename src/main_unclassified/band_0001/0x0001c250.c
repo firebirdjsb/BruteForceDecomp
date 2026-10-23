@@ -6,7 +6,13 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_0001c250(void)
+/* XBE 0x0001C2B6: LEA EAX,[ESP+0x14] after four pushes yields
+ * the address of the FIRST original incoming stack word (entry ESP+4).
+ * The wrapper returns RET 0x40 at 0x0001C28F and 0x0001C2C3:
+ * source-level pointer models this address, NOT the original 64-byte
+ * by-value stack ABI or the implicit incoming EAX/ECX registers.
+ * ABI_UNVERIFIED: do not link as an ordinary native game entry. */
+void FUN_0001c250(undefined4 *original_first_stack_word)
 
 {
   uint in_EAX;
@@ -32,7 +38,7 @@ void FUN_0001c250(void)
     return;
   }
   if ((iVar2 != 0) && (in_EAX < (uint)(*(int *)(in_ECX + 8) - iVar2 >> 6))) {
-    FUN_0001c930(in_ECX,&stack0x00000004,in_EAX * 0x40 + *(int *)(in_ECX + 4),*(int *)(in_ECX + 8));
+    FUN_0001c930(in_ECX,original_first_stack_word,in_EAX * 0x40 + *(int *)(in_ECX + 4),*(int *)(in_ECX + 8));
   }
   return;
 }
