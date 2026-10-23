@@ -18,6 +18,8 @@ on:
       - 'src/main_unclassified/band_0029/0x0029d2a0.c'
       - 'include/**'
       - 'tools/verify_x86_c11_lane_contracts.py'
+      - 'tools/verify_x86_callee_87630.py'
+      - 'metadata/x86_callee_00087630_call_sites.csv'
       - '.github/workflows/focused-x86-c11-repairs.yml'
   workflow_dispatch:
 
@@ -33,6 +35,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check scoped source transformations without XBE
         run: python3 tools/verify_x86_c11_lane_contracts.py --root .
+      - name: Verify linked EAX plus stack call-site inventory
+        run: python3 tools/verify_x86_callee_87630.py --root .
       - name: Compile thirteen original C11 drafts individually
         shell: bash
         run: |
