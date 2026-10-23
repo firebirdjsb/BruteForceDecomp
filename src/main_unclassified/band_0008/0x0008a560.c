@@ -16,6 +16,12 @@ undefined1 FUN_0008a560(int *param_1)
   uint uVar5;
   int *piVar6;
   undefined4 uVar7;
+  /* x86 0x0008A5A3 writes one flag byte to [ESP+0x10],
+   * 0x0008A6CF writes 1 to that same byte, and 0x0008A70E
+   * returns its low byte in AL. The original stack slot previously
+   * held the incoming pointer, copied to EBX at 0x0008A58E.
+   * No following full-word read of this recycled slot was observed. */
+  uint8_t status_low_byte;
   int in_ECX;
   
   piVar2 = param_1;
@@ -32,7 +38,7 @@ LAB_0008a58e:
   if (piVar6 == param_1) {
     return 1;
   }
-  param_1._0_1_ = 0;
+  status_low_byte = 0;
   if (*(int *)(in_ECX + 0x28) == 0) {
     return 0;
   }
@@ -91,9 +97,9 @@ LAB_0008a58e:
       (**(code **)(**(int **)(in_ECX + 0x1c) + 0x30))(piVar2);
       *(int *)(*(int *)(in_ECX + 0x1c) + 0x1c) = in_ECX;
       FUN_00145060();
-      param_1._0_1_ = 1;
+      status_low_byte = 1;
     }
   }
   (**(code **)(**(int **)(*(int *)(in_ECX + 0x38) + 0xbec) + 0x1c))();
-  return param_1._0_1_;
+  return status_low_byte;
 }
