@@ -7,10 +7,12 @@ on:
       - 'src/main_unclassified/band_0003/0x000388b0.c'
       - 'src/main_unclassified/band_0003/0x0003d970.c'
       - 'src/main_unclassified/band_0004/0x00043470.c'
+      - 'src/main_unclassified/band_0004/0x000447b0.c'
       - 'src/main_unclassified/band_0004/0x00048da0.c'
       - 'src/main_unclassified/band_0004/0x0004e150.c'
       - 'src/main_unclassified/band_0004/0x000435f0.c'
       - 'src/main_unclassified/band_0005/0x0005c5e0.c'
+      - 'src/main_unclassified/band_0005/0x0005c730.c'
       - 'src/main_unclassified/band_0006/0x0006c840.c'
       - 'src/main_unclassified/band_0005/0x00050980.c'
       - 'src/main_unclassified/band_0008/0x000874a0.c'
@@ -34,7 +36,7 @@ permissions:
 
 jobs:
   focused-c11:
-    name: Nineteen original entries — isolated host syntax only
+    name: Twenty-one original entries — isolated host syntax only
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -43,7 +45,7 @@ jobs:
         run: python3 tools/verify_x86_c11_lane_contracts.py --root .
       - name: Verify linked EAX plus stack call-site inventory
         run: python3 tools/verify_x86_callee_87630.py --root .
-      - name: Compile nineteen original C11 drafts individually
+      - name: Compile twenty-one original C11 drafts individually
         shell: bash
         run: |
           set -euo pipefail
@@ -60,10 +62,12 @@ jobs:
             src/main_unclassified/band_0003/0x000388b0.c \
             src/main_unclassified/band_0003/0x0003d970.c \
             src/main_unclassified/band_0004/0x00043470.c \
+            src/main_unclassified/band_0004/0x000447b0.c \
             src/main_unclassified/band_0004/0x00048da0.c \
             src/main_unclassified/band_0004/0x0004e150.c \
             src/main_unclassified/band_0004/0x000435f0.c \
             src/main_unclassified/band_0005/0x0005c5e0.c \
+            src/main_unclassified/band_0005/0x0005c730.c \
             src/main_unclassified/band_0006/0x0006c840.c \
             src/main_unclassified/band_0005/0x00050980.c \
             src/main_unclassified/band_0008/0x000874a0.c \
@@ -79,4 +83,4 @@ jobs:
             echo "Checking ${name}"
             clang "${flags[@]}" "${name}"
           done
-          echo "Nineteen isolated C11 syntax checks passed; no Xbox ABI, linking, or runtime equivalence claimed."
+          echo "Twenty-one isolated C11 syntax checks passed; no Xbox ABI, linking, or runtime equivalence claimed."
