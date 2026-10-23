@@ -21,6 +21,8 @@ undefined1 FUN_00024f80(int *param_1,int *param_2,float param_3)
   int *piStack_40;
   float fStack_3c;
   float fStack_38;
+  /* Original 0x00025033 stores returned EAX as a DWORD, not an f32. */
+  int resolved_object_address;
   int *piStack_34;
   float fStack_30;
   float fStack_2c;
@@ -53,9 +55,9 @@ undefined1 FUN_00024f80(int *param_1,int *param_2,float param_3)
   }
   fStack_20 = fStack_38;
   fStack_1c = fStack_3c;
-  fStack_38 = (float)FUN_000388b0(param_1[0xd6]);
+  resolved_object_address = FUN_000388b0(param_1[0xd6]);
   piVar3 = piStack_40;
-  if (fStack_38 == 0.0) {
+  if (resolved_object_address == 0) {
     param_1[0xee] = 2;
     return 0;
   }
@@ -101,8 +103,8 @@ undefined1 FUN_00024f80(int *param_1,int *param_2,float param_3)
     param_1[0xee] = 7;
     return 0;
   }
-  if (((*(uint *)((int)fStack_38 + 0x80) >> 5 & 1) == 0) ||
-     ((*(uint *)((int)fStack_38 + 0x80) >> 3 & 1) == 0)) {
+  if (((*(uint *)(resolved_object_address + 0x80) >> 5 & 1) == 0) ||
+     ((*(uint *)(resolved_object_address + 0x80) >> 3 & 1) == 0)) {
     param_1[0xee] = 9;
     return 0;
   }
@@ -127,7 +129,8 @@ undefined1 FUN_00024f80(int *param_1,int *param_2,float param_3)
   if (fStack_24 * fStack_24 + fStack_20 * fStack_20 + fStack_1c * fStack_1c <= fVar1 * fVar1) {
     param_1[0xee] = 10;
 LAB_000252c7:
-    param_3 = (float)((uint)param_3 & 0xffffff00);
+    /* 0x000252C7: mov byte ptr [esp+0x60],0; preserve other 24 bits. */
+    ((unsigned char *)&param_3)[0] = 0;
   }
   else {
     cVar2 = FUN_0004dc10(param_1,pfVar6,param_3);
@@ -135,7 +138,8 @@ LAB_000252c7:
       param_1[0xee] = 0xb;
       goto LAB_000252c7;
     }
-    param_3 = (float)CONCAT31(param_3._1_3_,1);
+    /* 0x000252AA: mov byte ptr [esp+0x60],1; preserve other 24 bits. */
+    ((unsigned char *)&param_3)[0] = 1;
   }
   cVar2 = (**(code **)(*(int *)piStack_40[0x169] + 0x114))();
   if ((cVar2 != '\0') && (*(int *)(iVar5 + 0x1f8) == 0)) {
@@ -148,7 +152,7 @@ LAB_000252c7:
       return 0;
     }
   }
-  if (param_3._0_1_ == '\0') {
+  if (((const unsigned char *)&param_3)[0] == 0) {
     return 0;
   }
   param_1[0x1e1] = 0;
@@ -211,7 +215,7 @@ LAB_000252c7:
   }
   (**(code **)(iVar4 + 0x15c))(uVar8);
 LAB_0002556c:
-  if (param_3._0_1_ != '\0') {
+  if (((const unsigned char *)&param_3)[0] != 0) {
     FUN_0022dc60();
     param_1[0x202] = (int)fStack_c;
     param_1[0x203] = iStack_8;
