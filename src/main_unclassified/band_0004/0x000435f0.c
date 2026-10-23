@@ -32,6 +32,7 @@ undefined4 FUN_000435f0(int param_1,int *param_2)
   undefined4 uStack_48;
   byte bStack_44;
   
+  /* 0x000436A6 and 0x00043810 compare the low byte of a stack float. */
   piVar3 = (int *)FUN_000120f0();
   iVar4 = (**(code **)(*piVar3 + 0x40))();
   iVar5 = (**(code **)(*param_2 + 0x40))();
@@ -43,7 +44,7 @@ undefined4 FUN_000435f0(int param_1,int *param_2)
   if (2500.0 <= fVar1 * fVar1 + fStack_8c * fStack_8c + fStack_88 * fStack_88) {
     if ((*(uint *)(param_1 + 0x3c4) & 0x100) == 0) {
       cVar2 = FUN_000572a0(&fStack_8c,piVar3);
-      if ((cVar2 != '\0') && (fStack_8c._0_1_ != '\0')) {
+      if ((cVar2 != '\0') && (((const unsigned char *)&fStack_8c)[0] != 0)) {
         cVar2 = *(char *)(*(int *)(param_1 + 0x794) + 0xd);
         if (cVar2 == '\0') {
           *(undefined4 *)(*(int *)(param_1 + 0x794) + 0x14) = 0;
@@ -59,7 +60,7 @@ undefined4 FUN_000435f0(int param_1,int *param_2)
     iVar4 = FUN_000388b0(*(undefined4 *)(param_1 + 0x358));
     if (iVar4 == 0) {
       cVar2 = FUN_000572a0(&fStack_8c,piVar3);
-      if ((cVar2 != '\0') && (fStack_8c._0_1_ != '\0')) {
+      if ((cVar2 != '\0') && (((const unsigned char *)&fStack_8c)[0] != 0)) {
         FUN_00039880(5);
       }
     }
@@ -69,7 +70,8 @@ undefined4 FUN_000435f0(int param_1,int *param_2)
       puVar6 = puVar6 + 1;
     }
     ppuStack_78 = (undefined **)0x0;
-    uStack_74 = (uint)uStack_74._2_2_ << 0x10;
+    /* Upper 16-bit lane survives; lower 16 bits are cleared. */
+    uStack_74 &= 0xffff0000U;
     FUN_00043000(param_1,param_2,5);
     if ((char)ppuStack_78 != '\0') {
       FUN_00039880(5);
