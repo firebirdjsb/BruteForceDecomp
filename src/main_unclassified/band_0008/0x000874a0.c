@@ -24,7 +24,10 @@ void FUN_000874a0(int param_1)
       if (*piVar4 != 0) {
         iVar1 = piVar4[1];
         uVar2 = FUN_0024a840(&param_1,&param_1);
-        local_4 = CONCAT31(local_4._1_3_,uVar2);
+        /* 0x000874DA mov [esp+0x1c],al; 0x000874DE mov edx,[esp+0x1c].
+         * The high 24 bits are not initialized by this instruction.
+         * Preserve the original byte store; ABI_UNVERIFIED for the callee. */
+        ((unsigned char *)&local_4)[0] = uVar2;
         FUN_00087630(iVar1,piVar4 + -1,local_4);
                     /* WARNING: Subroutine does not return */
         thunk_FUN_00237ec0(*piVar4);
