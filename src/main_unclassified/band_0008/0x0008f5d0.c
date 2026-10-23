@@ -39,8 +39,13 @@ undefined4 FUN_0008f5d0(undefined4 param_1)
     (**(code **)(*(int *)*piVar1 + 0x18))((int *)*piVar1,local_8[0]);
     iStack_1c = *(int *)(*(int *)(unaff_ESI + 0xb80) + 0x14);
     if (0 < *(int *)(iStack_1c + 0xb8)) {
-      piStack_20 = (int *)CONCAT31(piStack_20._1_3_,1);
-      (**(code **)(*(int *)*piVar1 + 0x30))((int *)*piVar1,&LAB_000a3f80,&piStack_20);
+      /* 0x0008F644 writes only one byte of a previously existing stack
+       * DWORD; preserve its upper 24 bits without inventing their values. */
+      ((uint8_t *)&piStack_20)[0] = 1;
+      /* 0x0008F63F pushes the original executable code VA 0x000A3F80.
+       * This guest address is NOT a valid native pointer until relocated
+       * through an original-XBE-backed ABI adapter. */
+      (**(code **)(*(int *)*piVar1 + 0x30))((int *)*piVar1,(void (*)(void))(uintptr_t)0x000a3f80U,&piStack_20);
     }
     return 0;
   }
