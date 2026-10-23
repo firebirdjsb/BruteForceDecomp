@@ -40,8 +40,12 @@ void FUN_0006c840(int param_1)
   *(undefined4 *)(param_1 + 0x8c) = 0;
   *(float *)(param_1 + 0x88) = -(float)fVar3;
   *(float *)(param_1 + 0x90) = -(float)fVar4;
+  /* Original x86 applies FCHS to x87 values (e.g. 0x0006C9C6,
+   * 0x0006CAA3). No float decrement instructions occur here.
+   * Retain the three and two unary sign operations respectively;
+   * x87 precision and signed-zero equivalence remain unverified. */
   *(float *)(param_1 + 0x94) =
-       (*(float *)(param_1 + 0x8c) * 0.0 - --fVar1 * *(float *)(param_1 + 0x88)) +
+       (*(float *)(param_1 + 0x8c) * 0.0 - -(-fVar1) * *(float *)(param_1 + 0x88)) +
        *(float *)(param_1 + 0x90);
   fVar1 = *(float *)(iVar2 + 0x28);
   fVar4 = (float10)(*(float *)(iVar2 + 0x18) * 0.017453292);
@@ -52,7 +56,7 @@ void FUN_0006c840(int param_1)
   *(float *)(param_1 + 0x9c) = -(float)fVar3;
   *(float *)(param_1 + 0xa4) = *(float *)(param_1 + 0xa0) - fVar1 * *(float *)(param_1 + 0x9c);
   *(float *)(param_1 + 0xa8) = 0.0;
-  *(float *)(param_1 + 0xac) = --(float)fVar3;
+  *(float *)(param_1 + 0xac) = -(-(float)fVar3);
   *(float *)(param_1 + 0xb0) = -(float)fVar4;
   *(float *)(param_1 + 0xb4) =
        (*(float *)(param_1 + 0xa8) * 0.0 - -fVar1 * *(float *)(param_1 + 0xac)) +
