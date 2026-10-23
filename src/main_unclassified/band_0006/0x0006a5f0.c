@@ -5,10 +5,13 @@
  * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
-#include "bf_ghidra_types.h"
-void FUN_0006a5f0(void)
+#include "bf_6a610_stack_contract.h"
+/* XBE 0x0006A5F2: address of original caller first stack word.
+ * EAX/ECX -> EBX/EDI preparation is still absent from this ISO C draft.
+ * This function is NOT a valid native-PC ABI adapter yet. */
+void FUN_0006a5f0(int param_1)
 
 {
-  FUN_0006a610(&stack0x00000004);
+  FUN_0006a610(&param_1);
   return;
 }

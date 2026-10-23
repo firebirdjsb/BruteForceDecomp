@@ -5,10 +5,9 @@
  * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t PTR_LAB_003a3890;
+#include "bf_6a610_stack_contract.h"
+/* XBE 0x0006A699 stores the immediate x86 word 0x003A3890.
+ * This is not a read of, nor a numeric conversion of, a host C pointer. */
 undefined4 FUN_0006a610(int *param_1)
 
 {
@@ -53,7 +52,7 @@ undefined4 FUN_0006a610(int *param_1)
         *(int *)(iVar1 + -0x10) = unaff_EDI;
         *(undefined4 *)(iVar1 + -0xc) = uVar2;
         *(undefined4 *)(iVar1 + -8) = 0;
-        *puVar5 = &PTR_LAB_003a3890;
+        *puVar5 = UINT32_C(0x003A3890);
         *(int *)(iVar1 + -4) = *param_1;
       }
       *(undefined4 **)(unaff_EDI + 4) = puVar5;
