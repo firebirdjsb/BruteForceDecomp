@@ -17,7 +17,7 @@ The figures above are an **exact commit audit**, not an estimate of correctly re
 
 ## Verified x86 register/stack ABI checkpoint — 2026-10-23
 
-The [latest focused call-contract pass](X86_ABI_LINKAGE_PASS_2026-10-23.md) verifies two additional limited C11 repairs (`0x00081D10`, `0x001E8CD0`) against original instructions; it inventories twelve direct call sites to `0x00087630`, whose original interface uses EAX plus a stack word. The original XBE verifier now includes 48 exact instruction windows and 28 known near-call destinations. The original mixed-register ABI is **not yet represented by safe linked host-C signatures**. A focused 13-file syntax CI job was added, but no new completed full-tree report or native-PC linked binary is claimed. The published 12,401 / 1,293 exact audit checkpoint remains unchanged pending a fresh complete report.
+The [latest focused call-contract pass](X86_ABI_LINKAGE_PASS_2026-10-23.md) verifies two additional limited C11 repairs (`0x00081D10`, `0x001E8CD0`) against original instructions; it inventories twelve direct call sites to `0x00087630`, whose original interface uses EAX plus a stack word. The original XBE verifier now includes 53 exact instruction windows and 28 known near-call destinations. The original mixed-register ABI is **not yet represented by safe linked host-C signatures**. A focused 13-file syntax CI job was added, but no new completed full-tree report or native-PC linked binary is claimed. The published 12,401 / 1,293 exact audit checkpoint remains unchanged pending a fresh complete report.
 
 ## Current repair evidence — 2026-10-23
 
