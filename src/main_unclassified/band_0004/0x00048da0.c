@@ -13,6 +13,11 @@ void FUN_00048da0(int param_1,int param_2)
   undefined4 uVar2;
   int iVar3;
   byte bVar4;
+  /* XBE 0x00049157-0x00049162 writes the selected source flag to the
+   * low byte of an incoming argument stack DWORD after EBX has saved the
+   * original object pointer. 0x0004917F reads only that byte; a later
+   * 0x000491E9 full-word write reuses the same stack slot. */
+  uint8_t source_flag_bit3;
   int iVar5;
   undefined4 *puVar6;
   undefined4 *puVar7;
@@ -116,10 +121,10 @@ void FUN_00048da0(int param_1,int param_2)
   }
   FUN_00048bb0();
   FUN_00048d30();
-  param_1._0_1_ = *(byte *)(param_1 + 0x374) >> 3 & 1;
+  source_flag_bit3 = (uint8_t)(*(byte *)(param_1 + 0x374) >> 3 & 1);
   iVar5 = FUN_000120f0();
   if (((iVar5 != 0) && ((*(byte *)(*(int *)(iVar5 + 0xc) + 0x1a9) & 1) != 0)) &&
-     (*(byte *)(param_2 + 0x3cc) = (byte)param_1, *(byte *)(param_2 + 0x3cd) != (byte)param_1)) {
+     (*(byte *)(param_2 + 0x3cc) = source_flag_bit3, *(byte *)(param_2 + 0x3cd) != source_flag_bit3)) {
     *(undefined4 *)(param_2 + 0x3dc) = 0;
     *(undefined4 *)(param_2 + 0x3d4) = 0;
     *(byte *)(param_2 + 0x3d8) = *(byte *)(param_2 + 0x3d8) & 0xfa | 2;
