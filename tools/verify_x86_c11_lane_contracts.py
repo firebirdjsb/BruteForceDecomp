@@ -31,14 +31,37 @@ FINGERPRINTS = {
     0x002876CB: "51 8b c4 89 38 51 8b c4 89 18 8d 44 24 18 50",
     0x0029D2F8: "8a 44 24 40",  # byte read from argument stack word
     0x0029D309: "84 c0",  # test al,al
+    0x000388E3: "68 90 de 30 00",  # original callback address word
+    0x0030DE90: "56 be d0 88 4a 00",  # executable callback entry
+    0x0003D99B: "8a 56 14",  # read low incoming byte
+    0x0003D9A4: "88 54 24 0c",  # write low stack byte
+    0x00043539: "33 c0",  # EAX zero before byte clearing
+    0x00043559: "88 44 24 1c",  # first byte clear
+    0x0004355D: "88 44 24 1d",  # second byte clear
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
     0x0005C676: 0x0005D2B0,
     0x002876DA: 0x00287930,
+    0x000388E8: 0x002EA4BF,
+    0x0003D9C7: 0x0001D4C0,
+    0x00043488: 0x000388B0,
+    0x000434B9: 0x000388B0,
 }
 
 SOURCE_EXPECTATIONS = {
+    "src/main_unclassified/band_0003/0x000388b0.c": (
+        ["_atexit((void (*)(void))(uintptr_t)0x0030de90U);"],
+        ["(__func *)&LAB_0030de90"],
+    ),
+    "src/main_unclassified/band_0003/0x0003d970.c": (
+        ["((unsigned char *)&local_4)[0] = (unsigned char)in_ECX[5];"],
+        ["local_4._1_3_", "CONCAT31(local_4"],
+    ),
+    "src/main_unclassified/band_0004/0x00043470.c": (
+        ["local_3c &= UINT32_C(0xffff0000);"],
+        ["local_3c._2_2_"],
+    ),
     "src/main_unclassified/band_0002/0x00024f80.c": (
         ["resolved_object_address = FUN_000388b0",
          "((unsigned char *)&param_3)[0] = 1;",
