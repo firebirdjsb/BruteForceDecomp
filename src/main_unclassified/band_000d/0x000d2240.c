@@ -9,8 +9,10 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_00469b54;
-extern uint32_t *_DAT_004a8d34;
-extern uint32_t _DAT_004a8d38;
+/* Source-grounded f32 stores at +0x120 and +0x11c feed float arithmetic.
+ * ABI_UNVERIFIED: confirm both destination widths against original XBE. */
+extern float _DAT_004a8d34;
+extern float _DAT_004a8d38;
 extern uint32_t _DAT_004a8d3c;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
