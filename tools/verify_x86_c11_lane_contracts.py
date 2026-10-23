@@ -79,7 +79,18 @@ FINGERPRINTS = {
     0x0008A5A3: "c6 44 24 10 00",
     0x0008A6CF: "c6 44 24 10 01",
     0x0008A70E: "8a 44 24 10",
-    0x0008A715: "c2 04 00", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
+    0x0008A715: "c2 04 00",
+    # Copy source bit 3 into a byte of a guest argument word; original
+    # input pointer survives in EBX. Following reads consume the flag byte.
+    0x00049157: "8a 83 74 03 00 00",
+    0x0004915D: "c0 e8 03",
+    0x00049160: "24 01",
+    0x00049162: "88 44 24 18",
+    0x0004917F: "8a 44 24 18",
+    0x00049183: "38 85 cd 03 00 00",
+    0x00049189: "88 85 cc 03 00 00",
+    0x000491E9: "89 54 24 18",
+    0x0004922D: "c2 08 00", # callee reads first stack word and incoming EAX # 4-byte records partition inputs
 }
 DIRECT_CALLS = {
     0x00025033: 0x000388B0,
@@ -112,9 +123,17 @@ DIRECT_CALLS = {
     0x001E8D56: 0x001E8B90,
     0x0008A6E7: 0x0008A720,
     0x0008A745: 0x0008A560,
+    0x00049168: 0x000120F0,
+    0x000491AF: 0x000120F0,
 }
 
 SOURCE_EXPECTATIONS = {
+    "src/main_unclassified/band_0004/0x00048da0.c": (
+        ["uint8_t source_flag_bit3;",
+         "source_flag_bit3 = (uint8_t)(*(byte *)(param_1 + 0x374) >> 3 & 1);",
+         "*(byte *)(param_2 + 0x3cc) = source_flag_bit3"],
+        ["param_1._0_1_"],
+    ),
     "src/main_unclassified/band_0008/0x0008a560.c": (
         ["uint8_t status_low_byte;", "status_low_byte = 0;",
          "status_low_byte = 1;", "return status_low_byte;"],
