@@ -37,11 +37,13 @@ LAB_00287741:
     iVar1 = local_4;
     param_3 = param_3 / 2 + (param_3 / 2) / 2;
     if ((int)(local_8 - param_1 & 0xfffffffcU) < (int)(param_2 - local_4 & 0xfffffffcU)) {
-      FUN_002876a0(param_1);
+      /* 0x00287717: left subrange [param_1,local_8), recursive stack words. */
+      FUN_002876a0(param_1,local_8,param_3);
       param_1 = iVar1;
     }
     else {
-      FUN_002876a0(local_4);
+      /* 0x00287729: right subrange [local_4,param_2), recursive stack words. */
+      FUN_002876a0(local_4,param_2,param_3);
       param_2 = local_8;
     }
     iVar1 = param_2 - param_1;
