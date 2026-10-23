@@ -15,11 +15,11 @@ void FUN_001ad150(uint param_1)
   int iVar3;
   undefined4 *unaff_FS_OFFSET;
   undefined4 local_10;
-  undefined1 *puStack_c;
+  uint32_t puStack_c; /* original 32-bit SEH word; guest FS:0 pending */
   undefined4 local_8;
   
   local_8 = 0xffffffff;
-  puStack_c = &LAB_00309860;
+  puStack_c = UINT32_C(0x00309860); /* x86 push imm32 0x001ad155 */
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   if (param_1 < 0x3333334) {

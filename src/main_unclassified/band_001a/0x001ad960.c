@@ -15,11 +15,11 @@ void FUN_001ad960(void)
   uint in_EDX;
   undefined4 *unaff_FS_OFFSET;
   undefined4 local_10;
-  undefined1 *puStack_c;
+  uint32_t puStack_c; /* original 32-bit SEH word; guest FS:0 pending */
   undefined4 local_8;
   
   local_8 = 0xffffffff;
-  puStack_c = &LAB_00307c50;
+  puStack_c = UINT32_C(0x00307c50); /* x86 push imm32 0x001ad965 */
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   if (in_EDX < 0x10000000) {
