@@ -15,26 +15,38 @@ undefined4 FUN_000a1990(int param_1)
   int *piVar1;
   char cVar2;
   int *piVar3;
-  int *unaff_retaddr;
+  /* 0x000a19b1 zeros the entry ESP+4 slot (which formerly held param_1).
+   * EBX retains the original param_1 value. 0x000a19da passes that same
+   * slot's address to vtable+0x30; subsequent loads read the replacement
+   * object from the slot. The host local models its storage and lifetime,
+   * NOT the guest 32-bit pointer representation or virtual-call ABI. */
+  int *replacement_ref;
   
   cVar2 = FUN_00090930(param_1);
   if (cVar2 != '\0') {
+    replacement_ref = (int *)0x0;
     piVar3 = (int *)FUN_000a7770(param_1 + 0x3c);
     if (piVar3 != (int *)0x0) {
       (**(code **)(*piVar3 + 4))(piVar3);
-      if (unaff_retaddr != (int *)0x0) {
-        (**(code **)(*unaff_retaddr + 8))(unaff_retaddr);
+      if (replacement_ref != (int *)0x0) {
+        (**(code **)(*replacement_ref + 8))(replacement_ref);
       }
-      (**(code **)(*piVar3 + 0x30))(piVar3,0,&stack0x00000000);
+      replacement_ref = (int *)0x0;
+      (**(code **)(*piVar3 + 0x30))(piVar3,0,&replacement_ref);
     }
     piVar1 = *(int **)(param_1 + 0xc);
     if (piVar1 != (int *)0x0) {
       (**(code **)(*piVar1 + 8))(piVar1);
-      *(undefined4 *)(param_1 + 0xc) = 0;
     }
-    *(undefined4 *)(param_1 + 0xc) = 0;
+    *(int **)(param_1 + 0xc) = replacement_ref;
+    if (replacement_ref != (int *)0x0) {
+      (**(code **)(*replacement_ref + 4))(replacement_ref);
+    }
     if (piVar3 != (int *)0x0) {
       (**(code **)(*piVar3 + 8))(piVar3);
+    }
+    if (replacement_ref != (int *)0x0) {
+      (**(code **)(*replacement_ref + 8))(replacement_ref);
     }
   }
   return 1;
