@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 void FUN_0034c865(undefined2 param_1,undefined2 param_2)
 
 {
@@ -38,8 +39,10 @@ void FUN_0034c865(undefined2 param_1,undefined2 param_2)
     }
     pcVar5 = pcVar5 + ((uVar1 >> 5 & 0x7f8) - uVar3) + 0xc;
     if (uVar6 == 1) {
-      *pcVar5 = param_1._1_1_ + '\x18';
-      pcVar5[1] = param_2._1_1_ + '\x18';
+      /* 0x0034c8c8/0x0034c8d0 load byte 1 of each 16-bit stack input;
+       * the following ADD AL,0x18 and byte stores retain byte-width results. */
+      *pcVar5 = bf_x86_word_load_byte(&param_1,1U) + '\x18';
+      pcVar5[1] = bf_x86_word_load_byte(&param_2,1U) + '\x18';
       return;
     }
   }

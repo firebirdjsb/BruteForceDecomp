@@ -1,4 +1,4 @@
-# Three original x86 partial-byte operations
+# Five original x86 partial-byte operations
 
 Original XBE SHA-256:
 `B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721`.
@@ -10,6 +10,8 @@ instruction windows, full original body digests and source provenance.
 | 0x0031b3c5 | `0x0031b46d: LEA EAX,[EBP+0xf]` passes one output byte to 0x0031b31f; `0x0031b47d: XOR BL,[EBP+0xf]` consumes it | Read byte 3 of the existing four-byte parameter storage |
 | 0x00349b99 | `0x00349c27: MOV BYTE [ESP+0x10],AL`; `0x00349c9b: MOV CL,[ESP+0x10]` | Write only byte 0 of the existing local; preserve the other three bytes |
 | 0x00350cd7 | `0x00350cf5: MOV AX,[ECX+0xa36]`; `0x00350cfd: MOVZX BX,AH`; `0x00350d01: MOV BH,AL`; `0x00350d0e: MOV WORD [EBP-0x1a],BX` | Read the word once and store its swapped low two bytes without reading the local's unknown upper half |
+| 0x0034c865 | `0x0034c8c8`/`0x0034c8d0` load byte 1 of two stack inputs, then add 0x18 and store bytes | Read only byte 1 of each initialized input halfword |
+| 0x0034c8f1 | `0x0034c908`/`0x0034c90d` load high input bytes; `0x0034c912`/`0x0034c915` set AH/CH from low input bytes | Reconstruct the two swapped halfwords before the original subtraction/OR/16-bit comparison |
 
 Each draft failed the repository's isolated Clang C11 syntax check before
 this change and passes afterward on Windows x86 and x64. Independent review

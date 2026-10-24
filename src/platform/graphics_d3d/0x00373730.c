@@ -13,6 +13,8 @@ extern uint32_t DAT_0037b958;
 extern uint32_t DAT_0037dd90;
 extern uint32_t DAT_0037ec88;
 extern uint32_t DAT_00401760;
+/* XBE x86 loads indexed DWORDs from stream guest base 0x0037b950. */
+extern uint32_t D3D_g_Stream;
 void D3D8LTCG__CDevice_SetStateVB_8(undefined4 *param_1,int param_2)
 
 {

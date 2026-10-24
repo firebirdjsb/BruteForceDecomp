@@ -11,6 +11,8 @@
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037b958;
 extern uint32_t DAT_0037dd90;
+/* XBE x86 reads/writes stream DWORDs at guest base 0x0037b950 + index*12. */
+extern uint32_t D3D_g_Stream;
 void D3D8LTCG__D3DDevice_SetStreamSource_4(int param_1)
 
 {

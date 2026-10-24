@@ -12,6 +12,10 @@
  * This declaration is for isolated C11 syntax only: it is NOT a mapped
  * host array or an established cross-translation-unit definition. */
 extern uint32_t D3D8__D3D_g_RenderState;
+/* XBE x86 at 0x0036d486 loads a DWORD from guest table base 0x0037bb30. */
+extern uint32_t D3D8LTCG__D3D_g_DeferredTextureState;
+/* XBE x86 at 0x0036d4c5 loads the DWORD at guest address 0x0037dfb8. */
+extern uint32_t D3D8__D3DRS_PSTextureModes;
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037b5e8;

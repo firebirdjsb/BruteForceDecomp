@@ -10,6 +10,8 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037ec88;
+/* XBE x86 stores a DWORD at 0x0037bb30 + (stage*32+state)*4. */
+extern uint32_t D3D_g_DeferredTextureState;
 void D3D8LTCG__D3DDevice_SetTextureState_BumpEnv_8(int param_1,int param_2)
 
 {

@@ -12,6 +12,10 @@
  * This declaration is for isolated C11 syntax only: it is NOT a mapped
  * host array or an established cross-translation-unit definition. */
 extern uint32_t D3D8__D3D_g_RenderState;
+/* XBE x86 compares indexed DWORDs at guest table base 0x0037bb30. */
+extern uint32_t D3D8LTCG__D3D_g_DeferredTextureState;
+/* XBE x86 at 0x0036d63b/0x0036d65d stores DWORDs relative to 0x0037df08. */
+extern uint32_t D3D8__D3DRS_FogEnable;
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037b5e8;

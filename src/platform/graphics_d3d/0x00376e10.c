@@ -10,6 +10,8 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037b958;
+/* XBE x86 REP STOSD clears 0x30 DWORDs starting at guest address 0x0037b950. */
+extern uint32_t D3D8LTCG__D3D_g_Stream;
 void FUN_00376e10(void)
 
 {

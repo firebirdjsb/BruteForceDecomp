@@ -9,6 +9,7 @@
 /* Verified matching-XBE immediate guest32 addresses below are NOT
  * safe host pointers/callbacks. ABI and native relocation remain TODO. */
 #include <xmmintrin.h>
+#include "bf_xbox_d3d_device_x86.h"
 /* Ghidra scalar SSE opcode model; XMM upper lanes remain unobserved.
  * ABI/behavior remain unverified despite host C11 syntax repair. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.

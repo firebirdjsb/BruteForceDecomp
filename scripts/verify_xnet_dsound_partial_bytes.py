@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify three partial-byte repairs; no whole-function ABI/behavior claim."""
+"""Verify five partial-byte repairs; no whole-function ABI/behavior claim."""
 import argparse
 import hashlib
 from pathlib import Path
@@ -23,6 +23,13 @@ CASES = (
      "f95fdc433eb1a8fdcd93ddea77bd006eef552be4f5ef7a828fd191f2eb26faec",
      ((0x00350CF5, "668b81360a0000"), (0x00350CFD, "660fb6dc"),
       (0x00350D01, "8af8"), (0x00350D0E, "66895de6"))),
+    (0x0034C865, 0x0034C8F0,
+     "272bb2fecf7c933d5e084c1f172b8596e92ca4a60051cdbafd5994ee7b2fcbca",
+     ((0x0034C8C8, "8a44240d0418"), (0x0034C8D0, "8a442411"))),
+    (0x0034C8F1, 0x0034C931,
+     "c7948be380de995c00ddce09266dd2a45f33d3628e49648a481105d4eeb7d6ac",
+     ((0x0034C908, "660fb64509"), (0x0034C90D, "660fb64d0d"),
+      (0x0034C912, "8a6508"), (0x0034C915, "8a6d0c"))),
 )
 
 

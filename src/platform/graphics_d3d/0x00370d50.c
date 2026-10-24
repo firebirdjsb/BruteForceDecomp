@@ -11,6 +11,8 @@
 extern uint32_t DAT_0037bb60;
 extern uint32_t DAT_0037dd90;
 extern uint32_t DAT_003a1df0;
+/* XBE x86 accesses indexed DWORDs at guest base 0x0037bb30. */
+extern uint32_t D3D_g_DeferredTextureState;
 void D3D8LTCG__D3DDevice_SetTextureStageStateNotInline_0__LTCG_eax1_edx2_ecx3(void)
 
 {
