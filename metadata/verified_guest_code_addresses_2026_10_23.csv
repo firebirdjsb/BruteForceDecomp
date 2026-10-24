@@ -17,3 +17,4 @@ entry,original_instruction_va,original_bytes
 0x002f8be1,0x002f8be9,68 cf 8b 2f 00
 0x002c2630,0x002c2635,b9 20 26 2c 00
 0x002ccb80,0x002ccb85,b9 70 cb 2c 00
+0x0030f830,0x0030f830,c7 05 b8 13 40 00 a0 e3 39 00
