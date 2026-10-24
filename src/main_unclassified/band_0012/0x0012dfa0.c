@@ -10,6 +10,8 @@
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004699d0;
 extern uint32_t DAT_004699d4;
+/* XBE 0x0012e2db: MOV DWORD PTR [0x004699d8],2; guest global, 32-bit. */
+extern uint32_t uRam004699d8;
 extern uint32_t DAT_004699dc;
 extern uint32_t *DAT_00469b54;
 extern uint32_t PTR_FUN_0039db9c;
