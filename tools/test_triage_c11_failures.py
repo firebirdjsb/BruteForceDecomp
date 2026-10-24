@@ -23,6 +23,7 @@ for index, (error, expected) in enumerate(examples):
     results[index].update(status="fail", errors=[error])
 report = {"checked_commit_sha": sha, "source_tree_entries": 13694,
           "body_hash_mismatches": 0, "body_hash_missing": 0,
+          "body_hash_unindexed": 0, "group_index_present": True,
           "counts": {"pass": 13690, "fail": 4}, "results": results}
 summary, rows = triage(report)
 assert summary["counts"] == {"fail": 4, "pass": 13690}
@@ -31,6 +32,11 @@ assert [row["entry"] for row in rows] == entries[:4]
 for mutation in (
     lambda x: x["counts"].update(fail=3),
     lambda x: x.update(body_hash_missing=1),
+    lambda x: x.update(body_hash_unindexed=1),
+    lambda x: x.update(group_index_present=False),
+    lambda x: x.pop("body_hash_unindexed"),
+    lambda x: x["results"][2].update(status="check_error"),
+    lambda x: x["counts"].update(check_error=1),
     lambda x: x.update(checked_commit_sha="not-a-commit"),
     lambda x: x["results"].pop(),
     lambda x: x["results"][1].update(entry=x["results"][0]["entry"]),
@@ -44,4 +50,4 @@ for mutation in (
         pass
     else:
         raise AssertionError("Unsafe or incomplete audit was accepted")
-print("First-error triage: categories, 13,694 identities and six fail-closed cases passed")
+print("First-error triage: categories, 13,694 identities and twelve fail-closed cases passed")
