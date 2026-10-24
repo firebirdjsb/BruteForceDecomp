@@ -36,7 +36,8 @@ void FUN_002e97b0(ushort *param_1)
     else {
       bVar3 = *(byte *)(in_ECX[0xd] + in_ECX[0xf] * 2);
       in_ECX[0xc] = in_ECX[0xc] + 1;
-      param_1 = (ushort *)CONCAT31(param_1._1_3_,bVar3);
+      /* Original MOV BYTE PTR [ESP+0x0C],CL changes the low byte of the guest32 argument slot. */
+      param_1 = (ushort *)(uintptr_t)(((uint32_t)(uintptr_t)param_1 & UINT32_C(0xffffff00)) | bVar3);
       in_ECX[2] = in_ECX[2] + 1;
       iVar2 = 0;
     }
