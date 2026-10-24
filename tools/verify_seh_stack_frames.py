@@ -47,20 +47,28 @@ def verify(path):
         if data[start:start + len(expected)] != expected:
             raise ValueError(f"{entry:#010x}: original prologue differs")
         # Three SEH pushes + local allocation + three callee-saved pushes.
+        # EBP points at the saved caller EBP.  FS:[0] chain occupies
+        # EBP-0x0c..EBP-0x04; the locals follow the 0x50/0x7c SUB.
+        # EBX/ESI/EDI pushes then place ESP at EBP-(0x0c+alloc+0x0c).
         saved_esp = -(alloc + 0x18)
+        seh_record = (-0x0c, -0x08, -0x04)
+        copy_buffer = (-dst, -dst + 4 * count)
+        if not (saved_esp < copy_buffer[0] and copy_buffer[1] <= -0x10):
+            raise ValueError(f"{entry:#010x}: copied buffer overlaps frame metadata")
+        if seh_record != (-12, -8, -4):
+            raise ValueError("SEH record offsets changed")
         if decompiler_offset != saved_esp - 4:
             raise ValueError(f"{entry:#010x}: decompiler offset relationship changed")
         print(f"{entry:#010x}: PASS; saved ESP EBP{saved_esp:#x}, "
               f"decompiler offset EBP{decompiler_offset:#x}; difference 4 bytes")
     # Verify callee cleanup and the observed caller argument-setup bytes.
     # These checks are machine-code evidence, NOT a native C ABI proof.
-    for entry, *_ in FRAMES:
-        start = file_offset(data, entry)
-        returns = [entry + i for i in range(240)
-                   if data[start+i:start+i+3] == bytes.fromhex("c20800")]
-        if not returns:
-            raise ValueError(f"{entry:#010x}: expected ret 8 not found")
-        print(f"{entry:#010x}: PASS; ret 8 at {returns[0]:#010x}")
+    for entry, return_address in ((0x0001C630, 0x0001C6CC),
+                                  (0x0001C980, 0x0001C9FE)):
+        start = file_offset(data, return_address)
+        if data[start:start+3] != bytes.fromhex("c20800"):
+            raise ValueError(f"{entry:#010x}: expected ret 8 at {return_address:#010x}")
+        print(f"{entry:#010x}: PASS; ret 8 at {return_address:#010x}")
     calls = (
         (0x00137C56, 0x0001C630, "6a01518bc48bcf8918"),
         (0x001B3929, 0x0001C630, "57518bc48d5424188930"),
