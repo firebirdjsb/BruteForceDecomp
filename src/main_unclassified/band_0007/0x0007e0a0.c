@@ -36,7 +36,11 @@ undefined1 FUN_0007e0a0(int *param_1)
             return 1;
           }
         }
-        FUN_00085540(&stack0x00000000,iVar1);
+        /* Original x86 0x0007e109: LEA ECX,[ESP+0x14]; PUSH ECX.
+         * After three saved registers and the temporary PUSH at 0x0007e104,
+         * this addresses the incoming [entry ESP+4] argument slot (param_1).
+         * The target's Xbox ABI remains unverified. */
+        FUN_00085540(&param_1,iVar1);
       }
     }
   }
