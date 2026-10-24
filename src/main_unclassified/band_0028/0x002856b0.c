@@ -22,7 +22,7 @@ undefined4 FUN_002856b0(undefined4 *param_1)
     *param_1 = puVar1;
     return 1;
   }
-  uRam00000004 = 0;
+  /* XBE 0x002856df-0x002856e4: XOR EAX,EAX; MOV DWORD PTR [EAX+4],EAX.\n   * Preserve guest DWORD write to 0x00000004 (including possible guest fault);\n   * native Windows guest-memory translation remains ABI_UNVERIFIED. */\n  *(volatile undefined4 *)(uintptr_t)UINT32_C(0x00000004) = 0;
   *param_1 = 0;
   return 1;
 }
