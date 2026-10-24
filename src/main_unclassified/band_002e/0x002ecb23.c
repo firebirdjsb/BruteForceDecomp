@@ -41,9 +41,7 @@ float10 FUN_002ecb23(uint param_1,uint param_2,int *param_3)
     }
     while ((((uint8_t)(param_2 >> 16)) & 0x10) == 0) {
       iVar2 = (int)((uint32_t)param_2 << 1);
-      param_2 = (param_2 & UINT32_C(0xffff0000)) | (uint16_t)iVar2;
-      param_2 = (param_2 & UINT32_C(0xff00ffff)) | (((uint32_t)iVar2 & UINT32_C(0x00ff0000)));
-      param_2 = (param_2 & UINT32_C(0x00ffffff)) | ((uint32_t)iVar2 & UINT32_C(0xff000000));
+      param_2 = (uint32_t)iVar2; /* Three original partial stores reconstruct one 32-bit value. */
       if ((param_1 & 0x80000000) != 0) {
         param_2 |= UINT32_C(1);
       }
