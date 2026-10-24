@@ -17,7 +17,9 @@ undefined4 FUN_0005c040(void)
     return 0;
   }
   if (*(int *)(in_ECX + 4) == 0) {
-    return uRam00000004;
+    /* XBE 0x0005c055: XOR EAX,EAX; MOV EAX,[EAX+4].
+     * Original guest absolute read at 0x4; native mapping unverified. */
+    return *(volatile undefined4 *)(uintptr_t)UINT32_C(0x4);
   }
   return *(undefined4 *)(**(int **)(in_ECX + 8) + 4);
 }
