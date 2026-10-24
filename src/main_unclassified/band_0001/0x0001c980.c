@@ -19,7 +19,6 @@ void FUN_0001c980(int param_1,uint param_2)
   undefined4 *puVar6;
   undefined4 *unaff_FS_OFFSET;
   undefined4 local_54 [16];
-  undefined1 *local_14;
   undefined4 local_10;
   /* Original x86 pushes a guest 32-bit SEH handler address; this is
    * not a native host pointer or a completed Windows SEH adaptation. */
@@ -30,7 +29,11 @@ void FUN_0001c980(int param_1,uint param_2)
   puStack_c = UINT32_C(0x00307f00);
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
-  local_14 = &stack0xffffff68;
+  /* x86: mov [ebp-0x10], esp; original ESP = EBP-0x94 after
+   * the SEH setup, local allocation and EBX/ESI/EDI saves.
+   * Ghidra's stack0xffffff68 is a synthetic stack reference, not a
+   * host C object. This saved-ESP slot has no subsequent read in this
+   * decompiled C body. Guest stack/SEH emulation remains ABI_UNVERIFIED. */
   puVar6 = local_54;
   for (iVar3 = 0x10; iVar3 != 0; iVar3 = iVar3 + -1) {
     *puVar6 = *in_EDX;
