@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Syntax-only regression for two x86 SEH guest-stack draft repairs.
+"""Syntax-only regression for x86 guest-stack and stack-argument draft repairs.
 
 This test deliberately needs NO Xbox XBE and does not validate native ABI,
 guest pointer semantics, SEH behavior, or function equivalence.
@@ -23,6 +23,10 @@ FUNCTIONS = {
         "E710F94CC4E230DD1324C747FDD89B0B7A0C65F4B6DB7A12F2074D82EE1AF463",
         "stack0xffffff68",
     ),
+    "0x00063650": (
+        "FF3BFD86BCC43C5EFAF14B4197F350F3BD633A9D22815873059C9F7D4991442D",
+        "0x00063698",
+    ),
 }
 
 
@@ -30,8 +34,8 @@ def main() -> int:
     clang = shutil.which("clang")
     if not clang:
         raise SystemExit("clang is required")
-    for entry, (body_digest, old_stack_symbol) in FUNCTIONS.items():
-        path = ROOT / "src" / "main_unclassified" / "band_0001" / f"{entry}.c"
+    for entry, (body_digest, evidence_token) in FUNCTIONS.items():
+        path = ROOT / "src" / "main_unclassified" / f"band_{int(entry, 16) >> 16:04x}" / f"{entry}.c"
         source = path.read_text(encoding="utf-8")
         if f"Input x86 body SHA-256: {body_digest}" not in source:
             raise SystemExit(f"{entry}: original body digest annotation changed")
@@ -43,8 +47,16 @@ def main() -> int:
         without_comments = re.sub(r"/\*.*?\*/|//[^\n]*", "", source, flags=re.S)
         if re.search(r"\bstack0x[0-9a-fA-F]+\b", without_comments):
             raise SystemExit(f"{entry}: synthetic guest stack name remains in C")
-        if old_stack_symbol not in source:
+        if evidence_token not in source:
             raise SystemExit(f"{entry}: missing provenance explanation")
+        if entry == "0x00063650":
+            for expected in (
+                "void FUN_00063650(undefined4 param_1,undefined4 *param_2)",
+                "&param_1",
+                "*param_2 = (undefined4)(uintptr_t)piVar1;",
+            ):
+                if expected not in without_comments:
+                    raise SystemExit(f"{entry}: x86 stack argument/output mapping regressed: {expected}")
         result = subprocess.run(
             [clang, *FLAGS, "-I", str(ROOT / "include"), str(path)],
             capture_output=True, text=True, timeout=60, check=False,
