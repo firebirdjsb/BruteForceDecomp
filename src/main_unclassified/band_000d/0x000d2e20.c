@@ -13,6 +13,16 @@ extern uint32_t DAT_0046d028;
 extern uint32_t DAT_0046d02c;
 extern uint32_t DAT_0046d030;
 extern uint32_t _DAT_0046d004;
+/* Ghidra-split 32-bit guest-memory slots in a contiguous original x86
+ * MOVUPS/MOVSS copy region. These declarations are syntax-only storage
+ * identities, not host mappings or validated cross-TU linker definitions. */
+extern uint32_t uRam0046d008;
+extern uint32_t uRam0046d00c;
+extern uint32_t uRam0046d010;
+extern uint32_t uRam0046d014;
+extern uint32_t uRam0046d018;
+extern uint32_t uRam0046d01c;
+extern uint32_t uRam0046d020;
 extern uint32_t _DAT_0046d014;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
