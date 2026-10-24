@@ -11,6 +11,7 @@ on:
       - 'tools/triage_c11_failures.py'
       - 'tools/test_triage_c11_failures.py'
       - 'scripts/group_guest_stack_failures.py'
+      - 'scripts/verify_two_guest_interface_slots.py'
       - 'scripts/test_group_guest_stack_failures.py'
       - 'tools/audit_xbe_first_100.py'
       - 'tools/audit_xbe_kernel_imports.py'
@@ -115,6 +116,8 @@ jobs:
           /tmp/bf_guest_frame_test
           clang -std=c11 -Wall -Wextra -Werror -pedantic -O2 -DNDEBUG tests/guest_frame_contract.c -o /tmp/bf_guest_frame_test_release
           /tmp/bf_guest_frame_test_release
+      - name: Verify two virtual-callback guest stack slots (source-only CI)
+        run: python3 scripts/verify_two_guest_interface_slots.py --repo .
       - name: Verify synthetic Xbox kernel thunk parsing
         run: python3 tools/test_xbe_kernel_imports.py
       - name: Verify sorted source layout and exact function identities
