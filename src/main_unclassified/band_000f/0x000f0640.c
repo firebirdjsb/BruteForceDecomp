@@ -8,6 +8,13 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+/* Retail x86 0x000f06a3: LEA ECX,[ESP+0Ch] addresses the saved
+ * incoming ECX DWORD at entry ESP-4 (four saved registers).
+ * 0x000f06aa writes EBP (loaded from [EDI+14h]) to that same slot
+ * before 0x000f06ae calls 0x0010cb40. The callee reads exactly
+ * one DWORD through the supplied pointer. This explicit word models
+ * the call input; the original later POP ECX, guest register restoration,
+ * implicit register arguments, and native ABI are NOT yet modeled. */
 extern uint32_t DAT_00469b58;
 undefined1 FUN_000f0640(void)
 
@@ -15,6 +22,7 @@ undefined1 FUN_000f0640(void)
   char cVar1;
   int iVar2;
   undefined4 uVar3;
+  undefined4 guest_saved_ecx_word;
   byte *pbVar4;
   int *piVar5;
   undefined1 uVar6;
@@ -32,7 +40,8 @@ undefined1 FUN_000f0640(void)
     piVar5 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x58))();
     if (*piVar5 == -0x104e72d8) {
       iVar2 = *(int *)(pbVar4 + 0x14);
-      cVar1 = FUN_0010cb40(&stack0xfffffff8);
+      guest_saved_ecx_word = (undefined4)iVar2;
+      cVar1 = FUN_0010cb40(&guest_saved_ecx_word);
       if (cVar1 == '\0') {
         return 0;
       }
