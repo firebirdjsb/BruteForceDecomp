@@ -14,7 +14,7 @@
 float10 __set_exp(undefined8 param_1,short param_2)
 
 {
-  undefined8 local_c;
+  double local_c;
   
   uint64_t bits = (uint64_t)param_1;
   uint16_t exponent_word = (uint16_t)((uint32_t)((int32_t)param_2 + 0x3fe) << 4) |
