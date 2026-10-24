@@ -39,7 +39,7 @@ float10 FUN_002ecb23(uint param_1,uint param_2,int *param_3)
     else {
       bVar1 = true;
     }
-    exponent = -1022;
+    exponent = -1021;
     while ((((uint8_t)(param_2 >> 16)) & 0x10) == 0) {
       iVar2 = (int)((uint32_t)param_2 << 1);
       param_2 = (uint32_t)iVar2; /* Three original partial stores reconstruct one 32-bit value. */
