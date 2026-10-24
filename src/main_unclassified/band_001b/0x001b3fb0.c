@@ -6,7 +6,15 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_001b3fb0(void)
+/* Original Xbox x86 0x001b3fb0: LEA at 0x001b3fdd addresses entry ESP+4.
+ * Verified return cleanup is RET 8 (0x8).
+ * This models guest stack storage, not implicit register inputs or host ABI. */
+typedef struct {
+  undefined4 word_04;
+  undefined4 word_08;
+} bf_001b3fb0_guest_words;
+_Static_assert(sizeof(bf_001b3fb0_guest_words) == 8, "guest stack size");
+void FUN_001b3fb0(bf_001b3fb0_guest_words guest_words)
 
 {
   int iVar1;
@@ -24,7 +32,7 @@ void FUN_001b3fb0(void)
     uVar3 = *(int *)(unaff_ESI + 8) - iVar1 >> 3;
   }
   if (uVar3 < in_EAX) {
-    FUN_00263ec0(*(undefined4 *)(unaff_ESI + 8),&stack0x00000004);
+    FUN_00263ec0(*(undefined4 *)(unaff_ESI + 8),&guest_words.word_04);
     return;
   }
   if (((iVar1 != 0) && (iVar2 = *(int *)(unaff_ESI + 8), in_EAX < (uint)(iVar2 - iVar1 >> 3))) &&
