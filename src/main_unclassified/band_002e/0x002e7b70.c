@@ -47,6 +47,7 @@ int FUN_002e7b70(int param_1,int param_2,uint param_3,uint param_4)
       while( true ) {
         bVar2 = (char)uVar3 - 1;
         param_4 = (param_4 & UINT32_C(0xffff0000)) | ((uint32_t)bVar2 << 8) | (param_4 & UINT32_C(0xff));
+        /* The two-byte control word retains its low byte. */
         uVar3 = param_3;
         if (0x3fb < param_3) {
           uVar3 = 0x3fc;
