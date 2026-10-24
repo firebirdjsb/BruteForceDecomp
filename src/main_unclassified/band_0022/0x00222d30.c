@@ -15,9 +15,8 @@ void FUN_00222d30(undefined4 param_1)
 {
   undefined4 uVar1;
   char cVar2;
-  int in_ECX;
   int *unaff_EBX;
-  int unaff_ESI;
+  uint32_t guest_aux_word = 0; /* callback's reserved 32-bit local stack word */
   int *piVar3;
   
   uVar1 = param_1;
@@ -27,9 +26,9 @@ void FUN_00222d30(undefined4 param_1)
   if (cVar2 == '\0') {
     return;
   }
-  cVar2 = (**(code **)(*unaff_EBX + 0x18))(&stack0xfffffff8);
+  cVar2 = (**(code **)(*unaff_EBX + 0x18))(&guest_aux_word);
   if (cVar2 == '\0') {
-    if (in_ECX != DAT_0046d064) {
+    if (param_1 != DAT_0046d064) {
       piVar3 = (int *)FUN_000da800();
       if (piVar3 != (int *)0x0) {
         (**(code **)(*piVar3 + 0xe0))(uVar1,&DAT_0046d004);
@@ -39,9 +38,9 @@ void FUN_00222d30(undefined4 param_1)
       goto LAB_00222e04;
     }
   }
-  else if (in_ECX != DAT_0046d064) {
-    if ((unaff_ESI != 0) && (piVar3 = (int *)FUN_000da800(), piVar3 != (int *)0x0)) {
-      (**(code **)(*piVar3 + 0xdc))(uVar1,&stack0xfffffff4);
+  else if (param_1 != DAT_0046d064) {
+    if ((guest_aux_word != 0) && (piVar3 = (int *)FUN_000da800(), piVar3 != (int *)0x0)) {
+      (**(code **)(*piVar3 + 0xdc))(uVar1,&guest_aux_word);
       *(byte *)(piVar3 + 0x43) = *(byte *)(piVar3 + 0x43) | 2;
       FUN_0021c380(0x3f800000);
     }
