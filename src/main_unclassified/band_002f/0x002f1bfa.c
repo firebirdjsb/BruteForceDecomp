@@ -23,6 +23,8 @@ undefined2 __flswbuf(undefined2 param_1,int *param_2)
   int *piVar3;
   int iVar4;
   int iVar5;
+  uint16_t guest_write_word;
+  int guest_write_result;
   
   piVar3 = param_2;
   uVar1 = param_2[3];
@@ -50,8 +52,9 @@ LAB_002f1d10:
     }
     if ((*(ushort *)(piVar3 + 3) & 0x108) == 0) {
       iVar4 = 2;
-      param_2 = (int *)(uintptr_t)(((uint32_t)(uintptr_t)param_2 & UINT32_C(0xffff0000)) | (uint16_t)param_1);
-      param_2 = (int *)FUN_002ef4a5(uVar2,&param_2,2);
+      guest_write_word = (uint16_t)param_1;
+      guest_write_result = FUN_002ef4a5(uVar2,&guest_write_word,2);
+      param_2 = (int *)(uintptr_t)(uint32_t)guest_write_result;
     }
     else {
       iVar5 = piVar3[2];
