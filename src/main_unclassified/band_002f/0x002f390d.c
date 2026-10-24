@@ -17,7 +17,7 @@ undefined4 FUN_002f390d(undefined4 param_1,int param_2)
     XAPILIB__SetFilePointer(param_1,0,0,0);
   }
   iVar1 = XAPILIB__ReadFile(param_1,(int)&param_2 + 2,2,&local_8,0);
-  if (((iVar1 == 0) || (local_8 != 2)) && (param_2._2_2_ != -0x101)) {
+  if (((iVar1 == 0) || (local_8 != 2)) && ((int16_t)((uint32_t)param_2 >> 16) != (int16_t)0xfeff)) {
     uVar2 = 0;
   }
   else {
