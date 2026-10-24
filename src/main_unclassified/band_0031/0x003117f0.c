@@ -8,6 +8,8 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+/* Original 0x00311823: MOV WORD PTR [0x003ffdfa],SI, where SI=0. */
+extern uint16_t uRam003ffdfa;
 extern uint32_t DAT_003ffdfc;
 extern uint32_t DAT_003ffe00;
 extern uint32_t PTR_FUN_003bc654;
