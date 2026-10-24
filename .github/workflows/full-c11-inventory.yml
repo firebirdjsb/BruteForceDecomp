@@ -33,6 +33,8 @@ on:
       - 'tools/check_repository_safety.py'
       - 'tools/test_repository_safety.py'
       - 'tools/test_progress.py'
+      - 'tools/check_published_progress.py'
+      - 'tools/test_check_published_progress.py'
       - 'tools/test_guest_stack_repair.py'
       - 'tools/verify_incoming_stack_words.py'
       - 'tests/guest_frame_contract.c'
@@ -90,6 +92,8 @@ jobs:
           python3 tools/test_repository_safety.py
           python3 tools/check_repository_safety.py --root .
           python3 tools/test_progress.py
+          python3 tools/test_check_published_progress.py
+          python3 tools/check_published_progress.py --root .
       - name: Validate Ghidra x86 DWORD subpiece normalization
         run: |
           clang -std=c11 -Wall -Wextra -Werror -I include tools/test_x86_word_lanes.c -o /tmp/bf_x86_word_lanes_test
