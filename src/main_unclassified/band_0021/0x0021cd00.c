@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Verified matching-XBE immediate guest32 addresses below are NOT
+ * safe host pointers/callbacks. ABI and native relocation remain TODO. */
 /* Source-matched callback/address references (not an ABI verification).
  * Original x86 register, stack and indirect call contracts remain ABI_UNVERIFIED. */
 extern undefined4 FUN_0021ccc0(int param_1);
@@ -70,7 +72,7 @@ undefined1 FUN_0021cd00(int param_1,float param_2,undefined4 param_3)
         else {
           piVar11 = piVar7 + 1;
           *piVar7 = iVar9;
-          FUN_0001fe40(piVar11,4,iVar9,&LAB_0012de40);
+          FUN_0001fe40(piVar11,4,iVar9,UINT32_C(0x0012de40));
         }
         *piVar2 = (int)piVar11;
         piVar7 = *(int **)(param_1 + 0x9c);
@@ -84,7 +86,7 @@ undefined1 FUN_0021cd00(int param_1,float param_2,undefined4 param_3)
         }
         *(undefined4 *)
          (*(int *)(param_1 + 0x9c) + 4 + *(int *)(*(int *)(param_1 + 0x9c) + 0x74) * 4) = 0;
-        (**(code **)(*piVar6 + 0x30))(piVar6,&LAB_0021ca30,*(undefined4 *)(param_1 + 0x9c));
+        (**(code **)(*piVar6 + 0x30))(piVar6,UINT32_C(0x0021ca30),*(undefined4 *)(param_1 + 0x9c));
       }
       local_9 = 1;
     }

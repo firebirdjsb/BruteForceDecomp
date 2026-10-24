@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Verified matching-XBE immediate guest32 addresses below are NOT
+ * safe host pointers/callbacks. ABI and native relocation remain TODO. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004003e4;
@@ -66,7 +68,7 @@ void FUN_001e9150(void)
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(local_18);
   }
-  FUN_001eb0e0(local_1c,&LAB_001eb090);
+  FUN_001eb0e0(local_1c,UINT32_C(0x001eb090));
   FUN_0001f4f0(local_1c,0,0xffffffff);
   if (0xf < local_4) {
                     /* WARNING: Subroutine does not return */

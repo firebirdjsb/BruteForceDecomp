@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Verified matching-XBE immediate guest32 addresses below are NOT
+ * safe host pointers/callbacks. ABI and native relocation remain TODO. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004432f8;
@@ -49,7 +51,7 @@ int FUN_00264820(int param_1,int param_2)
                      piVar1);
   if (-1 < iVar4) {
     (**(code **)(*(int *)*piVar1 + 0x28))((int *)*piVar1,1);
-    (**(code **)(*(int *)*piVar1 + 0x30))((int *)*piVar1,&LAB_00264730,param_1);
+    (**(code **)(*(int *)*piVar1 + 0x30))((int *)*piVar1,UINT32_C(0x00264730),param_1);
     piVar6 = *(int **)(param_1 + 0x48);
     puVar7 = (undefined4 *)(param_1 + 0x48);
     if (piVar6 != (int *)0x0) {
@@ -60,7 +62,7 @@ int FUN_00264820(int param_1,int param_2)
     if (iVar4 < 0) {
       (**(code **)(*(int *)*piVar1 + 0xc))((int *)*piVar1);
     }
-    (**(code **)(*(int *)*puVar7 + 0xc))(&LAB_00264710,param_1);
+    (**(code **)(*(int *)*puVar7 + 0xc))(UINT32_C(0x00264710),param_1);
   }
   return iVar4;
 }

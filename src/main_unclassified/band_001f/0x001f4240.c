@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Verified matching-XBE immediate guest32 addresses below are NOT
+ * safe host pointers/callbacks. ABI and native relocation remain TODO. */
 #include <xmmintrin.h>
 /* Ghidra scalar SSE opcode model; XMM upper lanes remain unobserved.
  * ABI/behavior remain unverified despite host C11 syntax repair. */
@@ -36,7 +38,7 @@ void FUN_001f4240(float *param_1,int *param_2)
   __m128 auVar17;
   
   iVar12 = *(int *)((int)param_1[6] + 0x18);
-  uVar11 = FUN_0006e6b0(0x7fffffff,&LAB_001f3710,param_1);
+  uVar11 = FUN_0006e6b0(0x7fffffff,UINT32_C(0x001f3710),param_1);
   if ((uVar11 & 2) == 0) {
     if ((uVar11 & 4) == 0) {
       if (((uVar11 & 1) != 0) &&

@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Verified matching-XBE immediate guest32 addresses below are NOT
+ * safe host pointers/callbacks. ABI and native relocation remain TODO. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004a9080;
@@ -22,7 +24,7 @@ void FUN_002f8be1(void)
   undefined1 local_c [4];
   uint local_8;
   
-  KeInitializeDpc(&DAT_004a9080,&LAB_002f8bcf,0);
+  KeInitializeDpc(&DAT_004a9080,UINT32_C(0x002f8bcf),0);
   KeInitializeTimerEx(&DAT_004a90a0,0);
   DAT_004a90c8 = 0;
   _DAT_004a90cc = 0;
