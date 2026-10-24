@@ -84,6 +84,13 @@ def verify(path):
         displacement = struct.unpack_from("<i", data, start+1)[0]
         if call + 5 + displacement != target:
             raise ValueError(f"{call:#010x}: CALL target changed")
+        # Before CALL, ESP points at the first argument slot.  CALL itself
+        # pushes the return address, making that slot [callee EBP+8].
+        # The following byte patterns are checked above: PUSH/PUSH,
+        # MOV EAX,ESP, and MOV [EAX],reg.  Consequently there are two
+        # stack slots, not a pointer to the callee's local copy buffer.
+        assert prefix[:2] in (bytes.fromhex("6a01"), bytes.fromhex("5751"),
+                               bytes.fromhex("5051"))
         print(f"{call:#010x}: PASS; caller setup and CALL {target:#010x}")
     print("PASS: original x86 prologues verified; C ABI/runtime not verified")
 
