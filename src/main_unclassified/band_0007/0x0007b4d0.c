@@ -21,6 +21,11 @@ undefined4 FUN_0007b4d0(int param_1)
   int *unaff_ESI;
   char *pcVar3;
   int unaff_retaddr;
+  char guest_format_buffer[0x104];
+  /* Original x86 0x0007b575 and 0x0007b5a7 both form the same
+   * 260-byte stack-buffer address. The buffer is also passed via
+   * implicit EAX at 0x0007b5d1 to FUN_00077fb0. This draft's
+   * host call signature does not yet model that register contract. */
   
   puVar1 = (undefined4 *)FUN_002ea01d(0x2c);
   if (puVar1 == (undefined4 *)0x0) {
@@ -44,7 +49,7 @@ undefined4 FUN_0007b4d0(int param_1)
     if (DAT_00400568 < 0x10) {
       puVar1 = &DAT_00400554;
     }
-    FUN_002eaa19(&stack0xfffffef8,0x104,s_gameflags_s_0040dd3c,puVar1);
+    FUN_002eaa19(guest_format_buffer,0x104,s_gameflags_s_0040dd3c,puVar1);
   }
   else {
     if (*(uint *)(iVar2 + 0x1c) < 0x10) {
@@ -63,7 +68,7 @@ undefined4 FUN_0007b4d0(int param_1)
     else {
       iVar2 = *(int *)(iVar2 + 8);
     }
-    FUN_002eaa19(&stack0xfffffef8,0x104,&DAT_0040dd4c,iVar2,puVar1);
+    FUN_002eaa19(guest_format_buffer,0x104,&DAT_0040dd4c,iVar2,puVar1);
   }
   iVar2 = unaff_ESI[unaff_retaddr + 0x173];
   *(undefined4 *)(iVar2 + 0x20) = 0;
