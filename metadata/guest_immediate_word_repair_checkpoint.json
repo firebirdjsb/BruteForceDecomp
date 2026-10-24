@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "source_commit": "1ccd5d12439a879f0e9b71b5ce9364826c91c442",
+  "manifest": "metadata/verified_guest_immediate_words.csv",
+  "verified_repair_count": 49,
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "local_evidence": "49 original decoded x86 immediates and 49 isolated Clang C11 syntax passes",
+  "completion_scope": "syntax-only; no 1:1 ABI, linkage or playable PC build claim",
+  "full_audit_source": "docs/progress/current.json"
+}
