@@ -38,7 +38,7 @@ void FUN_001056f0(int *param_1)
       }
       uStack_4 = 7;
       uStack_8 = 0;
-      uStack_18 = (uint)uStack_18._2_2_ << 0x10;
+      /* 0x00105749 MOV WORD PTR [ESP+0x14],0: clear only the low 16 bits.\n       * Guest stack high 16 bits remain unknown (ABI_UNVERIFIED). */\n      uStack_18 &= UINT32_C(0xffff0000);
       uVar3 = FUN_002eaa70(&DAT_0040cd20);
       FUN_000876a0(auStack_1c,uVar3);
       puVar4 = &DAT_0038dc80;
