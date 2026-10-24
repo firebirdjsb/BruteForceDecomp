@@ -6,7 +6,17 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_00243940(void)
+/* Original retail XBE SHA and body digest verified; LEA 0x00243970
+ * addresses guest entry ESP+4 after saved-register/temporary pushes.
+ * Both exits (0x0024398c / 0x002439cb) use RET 40h.
+ * This models incoming guest storage only; x86 register ABI, native host
+ * ABI, indirect call contracts and behavior remain UNVERIFIED. */
+typedef struct {
+  undefined4 first_word;
+  undefined1 opaque_tail[60];
+} bf_00243940_guest_record;
+_Static_assert(sizeof(bf_00243940_guest_record) == 64, "guest incoming stack byte count");
+void FUN_00243940(bf_00243940_guest_record guest_record)
 
 {
   uint in_EAX;
@@ -30,7 +40,7 @@ void FUN_00243940(void)
       iVar2 = *(int *)(in_EDX + 8) - iVar2 >> 6;
     }
     FUN_002465d0(in_EDX,*(undefined4 *)(in_EDX + 8),in_EAX - iVar2);
-    FUN_00243040(&stack0x00000004);
+    FUN_00243040(&guest_record.first_word);
     return;
   }
   if (iVar2 != 0) {
@@ -38,6 +48,6 @@ void FUN_00243940(void)
       FUN_00246560(in_EDX,local_4,in_EAX * 0x40 + *(int *)(in_EDX + 4),*(int *)(in_EDX + 8));
     }
   }
-  FUN_00243040(&stack0x00000004);
+  FUN_00243040(&guest_record.first_word);
   return;
 }

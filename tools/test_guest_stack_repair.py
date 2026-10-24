@@ -59,6 +59,18 @@ FUNCTIONS = {
         "1030BB7B8D78563F861A6F93F0FDEABB0E5B7F46A07B83908ECC167F418C02EC",
         "0x001d5ff8",
     ),
+    "0x00243940": (
+        "A179A3C2D24976F70D0DD1666B9E5985537FC6EF5CDB93BBD10A0D79091CE5D9",
+        "0x00243970",
+    ),
+    "0x00243ee0": (
+        "98B85022A810F1EABE7675F5FF5E5024C93B747B42256F05D652C38E6D1A0F1A",
+        "0x00243f29",
+    ),
+    "0x00244000": (
+        "E375ED5ED8277D8D3ED125BEDA3C188B222F74B85989DDE11D7150BD78285152",
+        "0x00244049",
+    ),
 }
 
 
@@ -107,6 +119,9 @@ def main() -> int:
             "0x001b50f0": 8,
             "0x001b5300": 8,
             "0x001d5fd0": 4,
+            "0x00243940": 64,
+            "0x00243ee0": 44,
+            "0x00244000": 44,
         }
         if entry in guest_record_widths:
             width = guest_record_widths[entry]
