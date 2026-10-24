@@ -37,6 +37,8 @@ undefined4 FUN_000a1990(int param_1)
     piVar1 = *(int **)(param_1 + 0xc);
     if (piVar1 != (int *)0x0) {
       (**(code **)(*piVar1 + 8))(piVar1);
+      /* 0x000a19fa clears the field before 0x000a1a03 stores its replacement. */
+      *(undefined4 *)(param_1 + 0xc) = 0;
     }
     *(int **)(param_1 + 0xc) = replacement_ref;
     if (replacement_ref != (int *)0x0) {
