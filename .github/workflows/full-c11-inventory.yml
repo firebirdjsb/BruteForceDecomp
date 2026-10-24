@@ -10,6 +10,8 @@ on:
       - 'tools/sweep_c11.py'
       - 'tools/triage_c11_failures.py'
       - 'tools/test_triage_c11_failures.py'
+      - 'tools/verify_audit_artifact_consistency.py'
+      - 'tools/test_verify_audit_artifact_consistency.py'
       - 'scripts/group_guest_stack_failures.py'
       - 'scripts/verify_two_guest_interface_slots.py'
       - 'scripts/verify_0029e410_argument_word_contract.py'
@@ -239,6 +241,10 @@ jobs:
           python3 scripts/group_guest_stack_failures.py \
             c11_sweep_results/failure_triage.csv \
             --output c11_sweep_results/guest_stack_offsets.csv
+      - name: Cross-check full-audit CSV and JSON diagnostics against exact function results
+        run: |
+          python3 tools/test_verify_audit_artifact_consistency.py
+          python3 tools/verify_audit_artifact_consistency.py --artifact-dir c11_sweep_results
       - name: Inventory candidate C entrypoint identities without asserting linkage
         run: python3 tools/audit_entrypoint_symbols.py --root . --out c11_sweep_results/entry_symbol_audit.csv
       - name: Upload audit and per-address error diagnostics
