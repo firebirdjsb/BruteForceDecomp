@@ -6,7 +6,7 @@
  *          tests/guest_frame_contract.c -o guest_frame_contract
  */
 #include <stdint.h>
-#include <assert.h>
+#include <stdio.h>
 
 typedef struct {
     int32_t saved_esp_from_ebp;
@@ -25,16 +25,19 @@ static const bf_guest_frame_contract bf_frame_1c980 = {
     -0x94, -0x98, -0x50, -0x10, UINT32_C(0x00307f00), 16, 8
 };
 
-static void check(const bf_guest_frame_contract *f) {
-    assert(f->decompiler_stack_offset == f->saved_esp_from_ebp - 4);
-    assert(f->copy_end_from_ebp - f->copy_begin_from_ebp ==
-           (int32_t)(f->copy_dwords * 4));
-    assert(f->copy_begin_from_ebp > f->saved_esp_from_ebp);
-    assert(f->copy_end_from_ebp <= -0x10);
-    assert(f->callee_pop_bytes == 8);
+static int check(const bf_guest_frame_contract *f) {
+    return f->decompiler_stack_offset == f->saved_esp_from_ebp - 4 &&
+           f->copy_end_from_ebp - f->copy_begin_from_ebp ==
+               (int32_t)(f->copy_dwords * 4) &&
+           f->copy_begin_from_ebp > f->saved_esp_from_ebp &&
+           f->copy_end_from_ebp <= -0x10 &&
+           f->callee_pop_bytes == 8;
 }
 int main(void) {
-    check(&bf_frame_1c630);
-    check(&bf_frame_1c980);
+    if (!check(&bf_frame_1c630) || !check(&bf_frame_1c980)) {
+        fputs("FAIL: guest frame contract changed\\n", stderr);
+        return 1;
+    }
+    puts("PASS: guest frame offset model only (ABI unverified)");
     return 0;
 }
