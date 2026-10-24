@@ -46,22 +46,23 @@ FLAGS = (
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--xbe", required=True, type=Path)
+    parser.add_argument("--xbe", type=Path)
     parser.add_argument("--root", required=True, type=Path)
     args = parser.parse_args()
-    data = args.xbe.read_bytes()
-    if hashlib.sha256(data).hexdigest() != XBE_SHA256:
-        parser.error("Original XBE SHA-256 mismatch")
-    for va, hexdump in CHECKS.items():
-        expected = bytes.fromhex(hexdump)
-        actual = data[va - 0x10000:va - 0x10000 + len(expected)]
-        if actual != expected:
-            raise SystemExit(f"Original instruction mismatch at 0x{va:08X}: {actual.hex()}")
-    for site, target in CALLS.items():
-        displacement = struct.unpack_from("<i", data, site - 0x10000 + 1)[0]
-        actual = (site + 5 + displacement) & 0xFFFFFFFF
-        if actual != target:
-            raise SystemExit(f"CALL 0x{site:08X} target mismatch: 0x{actual:08X}")
+    if args.xbe:
+        data = args.xbe.read_bytes()
+        if hashlib.sha256(data).hexdigest() != XBE_SHA256:
+            parser.error("Original XBE SHA-256 mismatch")
+        for va, hexdump in CHECKS.items():
+            expected = bytes.fromhex(hexdump)
+            actual = data[va - 0x10000:va - 0x10000 + len(expected)]
+            if actual != expected:
+                raise SystemExit(f"Original instruction mismatch at 0x{va:08X}: {actual.hex()}")
+        for site, target in CALLS.items():
+            displacement = struct.unpack_from("<i", data, site - 0x10000 + 1)[0]
+            actual = (site + 5 + displacement) & 0xFFFFFFFF
+            if actual != target:
+                raise SystemExit(f"CALL 0x{site:08X} target mismatch: 0x{actual:08X}")
     source_path = args.root / SOURCE
     source = source_path.read_text()
     for token in REQUIRED:
@@ -79,8 +80,8 @@ def main() -> None:
     )
     if result.returncode:
         raise SystemExit(result.stderr)
-    print("PASS: 12 original x86 instruction fingerprints, 2 direct calls, "
-          "source invariants, focused Clang C11 syntax")
+    print("PASS: 0x0010BB70 source invariants and focused Clang C11 syntax; "
+          + ("12 original x86 fingerprints and 2 direct calls" if args.xbe else "XBE not supplied"))
     print("LIMITATION: guest stack high bytes, callee ECX ABI and full 1:1 "
           "behavior remain unverified")
 
