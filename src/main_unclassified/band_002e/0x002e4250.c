@@ -13,6 +13,7 @@ int FUN_002e4250(int *param_1,undefined4 *param_2)
   byte bVar2;
   int in_ECX;
   undefined4 *puStack_10;
+  uint32_t guest_return_word;
   
   puVar1 = param_2;
   if (param_1[1] == 0) {
@@ -43,8 +44,8 @@ int FUN_002e4250(int *param_1,undefined4 *param_2)
     if (((uint)puVar1 & 1) != 0) {
       (**(code **)(*param_1 + 0x18))(in_ECX + 0xb);
     }
-    FUN_002e4180();
-    FUN_002e9720(in_ECX + 0xc,&stack0xfffffff8);
+    guest_return_word = (uint32_t)FUN_002e4180();
+    FUN_002e9720(in_ECX + 0xc,(ushort *)&guest_return_word);
   }
   if ((*(byte *)(in_ECX + 3) & 1) != 0) {
     FUN_002e9720(in_ECX + 0x14,in_ECX + 0x10);
