@@ -30,7 +30,10 @@ LAB_0005be81:
     }
     if (uVar2 != 0xffffffff) {
       if (uVar1 <= uVar2) {
-        return uRam00000014;
+        /* XBE 0x0005bea0: XOR EAX,EAX; MOV EAX,[EAX+0x14].
+         * Preserve the original absolute guest read (0x14), including its
+         * potential fault; native-PC low-memory mapping remains unverified. */
+        return *(volatile undefined4 *)(uintptr_t)UINT32_C(0x14);
       }
       return *(undefined4 *)(*(int *)(*(int *)(unaff_ESI + 8) + uVar2 * 4) + 0x14);
     }
