@@ -77,7 +77,7 @@ int FUN_002e1800(int param_1,uint param_2)
         local_13 = local_13 + 1;
         local_12[local_13] = (byte)local_20;
         bVar6 = (uint8_t)(((uint8_t *)&local_18)[3] | (UINT32_C(1) << (((uint8_t *)&local_18)[3] >> 1 & 7)) << 4);
-        local_12[5] = local_12[5] | (char)param_2 << (((uint8_t *)&local_18)[3] & 0xe);
+        local_12[5] = (uint8_t)(local_12[5] | ((uint32_t)(uint8_t)param_2 << (((uint8_t *)&local_18)[3] & 0xe)));
         ((uint8_t *)&local_18)[3] = bVar6 ^ ((((uint8_t *)&local_18)[3] & 0xfe) + 2 ^ bVar6) & 0xe;
         local_24 = local_24 + '\x01';
         if (local_24 == '\0') {
