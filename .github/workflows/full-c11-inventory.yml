@@ -35,6 +35,8 @@ on:
       - 'scripts/check_sources.py'
       - 'scripts/verify_low_guest_address_reads.py'
       - 'scripts/verify_guest32_fallback_and_dpc_immediates.py'
+      - 'scripts/verify_0010bb70_low_byte.py'
+      - 'scripts/verify_0010_guest_word_clears.py'
       - '.github/workflows/full-c11-inventory.yml'
   workflow_dispatch:
 
@@ -106,6 +108,10 @@ jobs:
         run: python3 scripts/verify_low_guest_address_reads.py --root .
       - name: Verify guest null-base read and DPC code immediate (syntax only without XBE)
         run: python3 scripts/verify_guest32_fallback_and_dpc_immediates.py --root .
+      - name: Verify four original guest stack lane repairs (source-only CI)
+        run: |
+          python3 scripts/verify_0010bb70_low_byte.py --root .
+          python3 scripts/verify_0010_guest_word_clears.py --root .
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
       - name: Validate and categorize exact audit failures without XBE assumptions
