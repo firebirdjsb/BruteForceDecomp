@@ -13,6 +13,10 @@ void FUN_00147570(int *param_1)
   char cVar2;
   undefined4 uVar3;
   undefined4 *puVar4;
+  /* XBE 0x1475DC: after three pushes, ESP+0x10 is entry ESP+4.
+   * FUN_000e0350 writes a DWORD through this first guest argument slot
+   * and returns its address. Guest32/host stack aliasing is ABI_UNVERIFIED. */
+  uint32_t guest_first_arg_word = (uint32_t)(uintptr_t)param_1;
   
   cVar2 = (**(code **)(*param_1 + 0x58))();
   if (cVar2 != '\0') {
@@ -26,7 +30,7 @@ void FUN_00147570(int *param_1)
     iVar1 = param_1[8];
     *(undefined1 *)(iVar1 + 0x79) = 6;
     if (((*(byte *)(iVar1 + 0x26) & 0x10) == 0) && (*(int *)(iVar1 + 8) != 0)) {
-      puVar4 = (undefined4 *)FUN_000e0350(*(int *)(iVar1 + 8),&stack0x00000000,iVar1);
+      puVar4 = (undefined4 *)FUN_000e0350(*(int *)(iVar1 + 8),&guest_first_arg_word,iVar1);
       *(undefined4 *)(iVar1 + 0x14) = *puVar4;
       *(byte *)(iVar1 + 0x26) = *(byte *)(iVar1 + 0x26) | 0x10;
     }
