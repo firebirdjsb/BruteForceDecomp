@@ -6,7 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_000dfb40(void)
+/* Original x86 dfb54 LEA EAX,[ESP+0x10] after three saved registers = entry ESP+4.
+ * This is an address-taken incoming 32-bit guest word, not a local zero.
+ * Implicit EAX/EBX register inputs and host guest32 mapping remain ABI_UNVERIFIED. */
+void FUN_000dfb40(undefined4 guest_stack_word)
 
 {
   int iVar1;
@@ -14,7 +17,7 @@ void FUN_000dfb40(void)
   int iVar2;
   
   iVar1 = *(int *)(in_EAX + 0xe0);
-  iVar2 = FUN_000ff730(in_EAX + 0xdc,iVar1,*(undefined4 *)(iVar1 + 4),&stack0x00000004);
+  iVar2 = FUN_000ff730(in_EAX + 0xdc,iVar1,*(undefined4 *)(iVar1 + 4),&guest_stack_word);
   FUN_000b2a50();
   *(int *)(iVar1 + 4) = iVar2;
   **(int **)(iVar2 + 4) = iVar2;
