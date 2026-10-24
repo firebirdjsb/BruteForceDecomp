@@ -9,16 +9,25 @@
 undefined4 FUN_00282310(undefined4 param_1,int *param_2)
 
 {
-  int *piVar1;
-  
-  (**(code **)(*param_2 + 0x10))();
-  piVar1 = param_2;
-  (**(code **)(*param_2 + 0x20))(param_2,&stack0x00000000);
-  if (&stack0x00000000 == (undefined1 *)0xf435e227) {
-    param_2[0xb] = 0;
+  /* Original PUSH ECX reserves one four-byte guest stack out-parameter.
+   * The next virtual call receives &guest_acquired_object, and its result is
+   * then read from that same guest stack DWORD at 0x00282328. */
+  uint32_t guest_acquired_object = 0;
+  uint32_t guest_selector_word = (uint32_t)(uintptr_t)param_2;
+  int *acquired_object;
+
+  (**(code **)(*param_2 + 0x10))(param_2,&guest_acquired_object);
+  acquired_object = (int *)(uintptr_t)guest_acquired_object;
+
+  /* LEA EDX,[ESP+0x0c] at 0x0028232E targets the original
+   * second incoming argument stack slot, not the acquired interface. */
+  (**(code **)(*acquired_object + 0x20))(acquired_object,&guest_selector_word);
+  if (guest_selector_word == UINT32_C(0xf435e223)) {
+    /* MOV EAX,[ESP+8] then MOV DWORD [EAX+0x2c],0: first incoming pointer. */
+    *(uint32_t *)(uintptr_t)(param_1 + UINT32_C(0x2c)) = 0;
   }
-  if (piVar1 != (int *)0x0) {
-    (**(code **)(*piVar1 + 8))(piVar1);
+  if (acquired_object != (int *)0) {
+    (**(code **)(*acquired_object + 8))(acquired_object);
   }
   return 0;
 }
