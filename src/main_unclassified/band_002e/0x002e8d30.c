@@ -12,6 +12,7 @@ int FUN_002e8d30(int *param_1)
   int in_ECX;
   uint uVar1;
   int iVar2;
+  uint32_t guest_read_word; /* x86 overwrites an argument stack DWORD */
   
   (**(code **)(*param_1 + 0x20))((uint *)(in_ECX + 8));
   (**(code **)(*param_1 + 0x20))(in_ECX + 0xc);
@@ -25,8 +26,9 @@ int FUN_002e8d30(int *param_1)
         (**(code **)(*param_1 + 0x38))(*(undefined4 *)(*(int *)(in_ECX + 4) + uVar1 * 4));
       }
       else {
-        FUN_002e8b40(param_1,&stack0xfffffff4,1);
-        *(undefined4 *)(*(int *)(in_ECX + 4) + uVar1 * 4) = 0;
+        guest_read_word = 0; /* MOV DWORD PTR [ESP+0x20],0 */
+        FUN_002e8b40(param_1,&guest_read_word,1);
+        *(undefined4 *)(*(int *)(in_ECX + 4) + uVar1 * 4) = guest_read_word;
       }
       uVar1 = uVar1 + 1;
       if (*(uint *)(in_ECX + 0x10) <= uVar1) {
