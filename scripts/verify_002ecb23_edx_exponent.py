@@ -16,5 +16,10 @@ def main():
  for token in REQUIRED:
   if token not in s:raise SystemExit("missing "+token)
  if "extraout_EDX" in s:raise SystemExit("unresolved EDX remains")
- print("PASS: original x86 EDX and bit clear signatures, source invariants")
+ for shifts in range(1,54):
+  exponent=-1021
+  exponent-=1  # DEC EDX occurs before the first TEST
+  for _ in range(shifts):exponent-=1
+  if exponent != -1022-shifts:raise SystemExit("exponent-countdown mismatch")
+ print("PASS: x86 EDX signatures, countdown boundaries, and source invariants")
 if __name__=="__main__":main()
