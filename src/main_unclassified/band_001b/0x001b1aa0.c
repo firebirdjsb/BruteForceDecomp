@@ -6,7 +6,24 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_001b1aa0(void)
+/* Xbox x86 0x001b1aa0: LEA at 0x001b1af3 and 0x001b1b37 computes
+ * entry ESP+4 after accounting for saved registers and temporary pushes.
+ * RET 0x28 establishes 10 incoming DWORDs. These are guest words;
+ * implicit x86 register inputs and native host ABI remain unverified. */
+typedef struct {
+  undefined4 word_04;
+  undefined4 word_08;
+  undefined4 word_0c;
+  undefined4 word_10;
+  undefined4 word_14;
+  undefined4 word_18;
+  undefined4 word_1c;
+  undefined4 word_20;
+  undefined4 word_24;
+  undefined4 word_28;
+} bf_001b1aa0_guest_words;
+_Static_assert(sizeof(bf_001b1aa0_guest_words) == 40, "incoming guest stack width");
+void FUN_001b1aa0(bf_001b1aa0_guest_words guest_words)
 
 {
   uint in_EAX;
@@ -33,7 +50,7 @@ void FUN_001b1aa0(void)
   }
   if (iVar1 != 0) {
     if (in_EAX < (uint)((*(int *)(in_ECX + 8) - iVar1) / 0x28)) {
-      FUN_001b6d40(in_ECX,&stack0x00000004,*(int *)(in_ECX + 4) + in_EAX * 0x28,*(int *)(in_ECX + 8)
+      FUN_001b6d40(in_ECX,&guest_words.word_04,*(int *)(in_ECX + 4) + in_EAX * 0x28,*(int *)(in_ECX + 8)
                   );
     }
   }
