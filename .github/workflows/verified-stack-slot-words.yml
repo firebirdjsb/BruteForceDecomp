@@ -10,6 +10,8 @@ on:
       - 'src/main_unclassified/band_002f/0x002f4c4a.c'
       - 'src/main_unclassified/band_002e/0x002ea4bf.c'
       - 'tools/verify_x86_stack_slot_and_exception_address.py'
+      - 'src/main_unclassified/band_0008/0x0008e590.c'
+      - 'tools/verify_stack_record_8e590.py'
       - '.github/workflows/verified-stack-slot-words.yml'
   workflow_dispatch:
 
@@ -24,5 +26,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify six original-entry source invariants and Clang C11 syntax
         run: python3 tools/verify_x86_stack_slot_and_exception_address.py --root .
+      - name: Verify 0x0008e590 stack record and focused C11 syntax (without XBE)
+        run: python3 tools/verify_stack_record_8e590.py --root .
       - name: Evidence limitation
         run: echo 'Retail XBE instruction fingerprints checked locally; not distributed in repository. Caller-frame ABI, guest exception semantics and native runtime remain unverified.'
