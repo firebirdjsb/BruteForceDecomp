@@ -12,15 +12,17 @@ void FUN_00280a40(undefined4 param_1,int *param_2)
   char cVar1;
   undefined4 *in_EAX;
   int *piVar2;
+  uint32_t guest_received_interface = 0; /* original incoming stack DWORD, zeroed before callback */
   
   piVar2 = (int *)*in_EAX;
-  (**(code **)(*piVar2 + 0x18))(piVar2);
-  cVar1 = (**(code **)(*(int *)*in_EAX + 0x1c))((int *)*in_EAX,&stack0x00000000);
+  (**(code **)(*piVar2 + 0x18))(piVar2,param_2);
+  cVar1 = (**(code **)(*(int *)*in_EAX + 0x1c))((int *)*in_EAX,&guest_received_interface);
   if (cVar1 == '\0') {
-    FUN_00280a90(piVar2);
+    FUN_00280a90(param_1);
   }
-  if (param_2 != (int *)0x0) {
-    (**(code **)(*param_2 + 8))(param_2);
+  if (guest_received_interface != 0) {
+    int *received_interface = (int *)(uintptr_t)guest_received_interface;
+    (**(code **)(*received_interface + 8))(received_interface);
   }
   return;
 }
