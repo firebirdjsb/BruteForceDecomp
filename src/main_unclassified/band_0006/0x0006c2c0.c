@@ -14,6 +14,24 @@ extern uint32_t DAT_00414b80;
 extern uint32_t DAT_0046d034;
 extern uint32_t _DAT_00414b88;
 extern uint32_t _DAT_004a5858;
+/* Ghidra-split 32-bit guest-memory slots in a contiguous original x86
+ * MOVUPS/MOVSS copy region. These declarations are syntax-only storage
+ * identities, not host mappings or validated cross-TU linker definitions. */
+extern uint32_t uRam004a585c;
+extern uint32_t uRam004a5860;
+extern uint32_t uRam004a5864;
+extern uint32_t uRam004a5868;
+extern uint32_t uRam004a586c;
+extern uint32_t uRam004a5870;
+extern uint32_t uRam004a5874;
+extern uint32_t uRam004a5878;
+extern uint32_t uRam004a587c;
+extern uint32_t uRam004a5880;
+extern uint32_t uRam004a5884;
+extern uint32_t uRam004a5888;
+extern uint32_t uRam004a588c;
+extern uint32_t uRam004a5890;
+extern uint32_t uRam004a5894;
 extern uint32_t _DAT_004a5868;
 extern uint32_t _DAT_004a5878;
 extern uint32_t _DAT_004a5888;
