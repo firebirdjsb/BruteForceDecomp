@@ -28,7 +28,7 @@ undefined4 FUN_002a5320(undefined4 param_1,undefined4 param_2,int *param_3)
 
 {
   int iVar1;
-  uint32_t guest_matrix_result; /* callback writes original guest stack argument slot */
+  uint32_t guest_matrix_result = (uint32_t)(uintptr_t)param_3; /* original incoming guest argument word, then callback output */
   
   if (param_3 == (int *)0x0) {
     param_3 = DAT_0046af48;
