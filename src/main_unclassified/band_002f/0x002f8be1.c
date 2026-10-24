@@ -28,7 +28,7 @@ void FUN_002f8be1(void)
   KeInitializeTimerEx(&DAT_004a90a0,0);
   DAT_004a90c8 = 0;
   _DAT_004a90cc = 0;
-  if (((byte)*XboxHardwareInfo_exref & 8) == 0) {
+  if (((*(uint8_t *)(uintptr_t)*(uint32_t *)(uintptr_t)UINT32_C(0x00386380)) & 8) == 0) {
     iVar1 = XAPILIB__XQueryValue(0x11,local_10,&local_8,4,local_c);
     if (iVar1 == 0) {
       DAT_004a90c8 = local_8 & 1;
