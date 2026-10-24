@@ -6,7 +6,23 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_001b3530(void)
+/* Original x86 passes the first incoming guest word by address and
+ * returns with RET 28h, accounting for ten incoming DWORDs.
+ * Native ABI and implicit register arguments remain unverified. */
+typedef struct {
+  undefined4 word_04;
+  undefined4 word_08;
+  undefined4 word_0c;
+  undefined4 word_10;
+  undefined4 word_14;
+  undefined4 word_18;
+  undefined4 word_1c;
+  undefined4 word_20;
+  undefined4 word_24;
+  undefined4 word_28;
+} bf_001b3530_guest_words;
+_Static_assert(sizeof(bf_001b3530_guest_words) == 40, "guest stack record size");
+void FUN_001b3530(bf_001b3530_guest_words guest_words)
 
 {
   uint in_EAX;
@@ -29,7 +45,7 @@ void FUN_001b3530(void)
     else {
       iVar2 = (*(int *)(in_ECX + 8) - iVar2) / 0x28;
     }
-    FUN_001bea10(in_ECX,*(undefined4 *)(in_ECX + 8),in_EAX - iVar2,&stack0x00000004);
+    FUN_001bea10(in_ECX,*(undefined4 *)(in_ECX + 8),in_EAX - iVar2,&guest_words.word_04);
     FUN_0006a470();
     return;
   }
