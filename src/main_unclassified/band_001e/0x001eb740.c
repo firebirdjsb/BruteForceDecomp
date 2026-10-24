@@ -10,8 +10,12 @@ int FUN_001eb740(int *param_1)
 
 {
   int in_ECX;
+  /* Original MOV DWORD [ESP+0x14],0x80 initializes the first guest
+   * incoming argument slot; the following virtual call takes its address.
+   * Model this as a 32-bit word, not as the host argument pointer. */
+  uint32_t guest_size_word = UINT32_C(0x80);
   
   (**(code **)(*param_1 + 0x20))(in_ECX + 0x18);
-  (**(code **)(*param_1 + 0x54))(in_ECX + 0x1c,&stack0x00000000);
+  (**(code **)(*param_1 + 0x54))(in_ECX + 0x1c,&guest_size_word);
   return param_1[3];
 }
