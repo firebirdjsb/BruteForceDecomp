@@ -49,8 +49,9 @@ undefined4 FUN_001e1d00(void)
     }
     if (local_4 != uVar4) {
       (**(code **)(*DAT_00443310 + 0x3c))(&local_4);
-      (**(code **)(*DAT_00443310 + 0x1c))(&stack0xfffffff8);
-      (**(code **)(*DAT_00443310 + 0x50))(&stack0xfffffff4);
+      /* All three LEA EAX,[ESP+0x10] calls address the same CRC DWORD. */
+      (**(code **)(*DAT_00443310 + 0x1c))(&local_4);
+      (**(code **)(*DAT_00443310 + 0x50))(&local_4);
     }
   }
   return 1;
