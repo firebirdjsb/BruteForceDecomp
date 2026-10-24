@@ -25,6 +25,7 @@ undefined2 __flswbuf(undefined2 param_1,int *param_2)
   int iVar5;
   uint16_t guest_write_word;
   int guest_write_result;
+  int guest_written_count;
   
   piVar3 = param_2;
   uVar1 = param_2[3];
@@ -43,8 +44,8 @@ LAB_002f1d10:
     uVar1 = param_2[3];
     param_2[3] = uVar1 & 0xffffffef | 2;
     param_2[1] = 0;
-    /* This guest stack slot is used as a 32-bit write buffer, not a host pointer. */
-  param_2 = (int *)0x0;
+    /* Keep the guest write count separate from the FILE pointer. */
+    guest_written_count = 0;
     if (((uVar1 & 0x10c) == 0) &&
        (((piVar3 != (int *)&DAT_003b69a8 && (piVar3 != (int *)0x3b69c8)) ||
         (iVar4 = __isatty(uVar2), iVar4 == 0)))) {
@@ -54,7 +55,7 @@ LAB_002f1d10:
       iVar4 = 2;
       guest_write_word = (uint16_t)param_1;
       guest_write_result = FUN_002ef4a5(uVar2,&guest_write_word,2);
-      param_2 = (int *)(uintptr_t)(uint32_t)guest_write_result;
+      guest_written_count = guest_write_result;
     }
     else {
       iVar5 = piVar3[2];
@@ -74,11 +75,11 @@ LAB_002f1d10:
         }
       }
       else {
-        param_2 = (int *)FUN_002ef4a5(uVar2,iVar5,iVar4);
+        guest_written_count = FUN_002ef4a5(uVar2,iVar5,iVar4);
       }
       *(undefined2 *)piVar3[2] = param_1;
     }
-    if (param_2 == (int *)iVar4) {
+    if (guest_written_count == iVar4) {
       return param_1;
     }
     piVar3[3] = piVar3[3] | 0x20;
