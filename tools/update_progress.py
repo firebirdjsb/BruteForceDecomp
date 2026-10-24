@@ -30,7 +30,7 @@ def snapshot(report: dict, run_id: int, expected_sha: str) -> dict:
         raise ValueError("Missing complete function-group index; cannot publish progress")
     counts = report.get("counts", {})
     passing, failing = counts.get("pass"), counts.get("fail")
-    if type(passing) is not int or type(failing) is not int:
+    if set(counts) != {"pass", "fail"} or type(passing) is not int or type(failing) is not int:
         raise ValueError("Incomplete syntax result")
     other = EXPECTED - passing - failing
     if min(passing, failing, other) < 0 or other != 0:
