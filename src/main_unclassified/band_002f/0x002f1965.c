@@ -17,14 +17,14 @@ extern uint32_t _DAT_0040f598;
 extern uint32_t _DAT_0040f59c;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-undefined * FUN_002f1965(void)
+undefined * FUN_002f1965(undefined4 param_1)
 
 {
   undefined4 local_10;
   undefined4 uStack_c;
   undefined2 uStack_8;
   
-  ___dtold(&local_10,&stack0x00000004);
+  ___dtold(&local_10,&param_1);
   _DAT_0040f598 = FUN_002f2240(local_10,uStack_c,uStack_8,0x11,0,&DAT_0040f574);
   _DAT_0040f590 = (int)DAT_0040f576;
   _DAT_0040f594 = (int)DAT_0040f574;
