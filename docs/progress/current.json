@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "metric": "isolated host Clang C11 syntax coverage",
-  "audited_commit": "0d1a5ad322aff4ec63526d0271c63dd562f38277",
-  "workflow_run_id": 40142190121,
+  "audited_commit": "cef7a711b4332960eb385ca696568172458109ad",
+  "workflow_run_id": 40142243518,
   "total": 13694,
   "passing": 13272,
   "failing": 422,
