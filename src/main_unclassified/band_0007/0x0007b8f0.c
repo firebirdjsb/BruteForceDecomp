@@ -23,6 +23,10 @@ undefined1 FUN_0007b8f0(void)
   undefined1 *puVar6;
   undefined4 *******pppppppuVar7;
   undefined1 *unaff_EBX;
+  /* Retail XBE 0x0007b99b, 0x0007b9b9 and 0x0007b9da: when the capacity word at [ESP+0x24]
+   * is below 16, LEA [ESP+0x10] selects the inline string storage.
+   * Ghidra's &stack0xffffffbc denotes this same local_3c start.
+   * Host pointer widths, SSO layout and ABI remain UNVERIFIED. */
   undefined4 *******local_3c [3];
   uint uStack_30;
   undefined4 local_2c;
@@ -56,7 +60,7 @@ joined_r0x0007b9ce:
       if (cVar2 != '\0') {
         puVar6 = unaff_EBX;
         if (uStack_30 < 0x10) {
-          puVar6 = &stack0xffffffbc;
+          puVar6 = (undefined1 *)local_3c;
         }
         uVar3 = FUN_0007b710(puVar6);
         goto LAB_0007ba2f;
@@ -66,7 +70,7 @@ joined_r0x0007b9ce:
   else {
     puVar6 = unaff_EBX;
     if (uStack_30 < 0x10) {
-      puVar6 = &stack0xffffffbc;
+      puVar6 = (undefined1 *)local_3c;
     }
     iVar5 = FUN_0023a280(puVar6);
     cVar2 = FUN_00079250();
