@@ -16,13 +16,15 @@ int FUN_00264c50(void)
   int iVar1;
   uint in_ECX;
   int in_EDX;
-  undefined *puStack_14;
+  uint32_t guest_transfer_word;
   
   *(int *)(in_EDX + 0x3c) = in_EAX;
   if (-1 < in_EAX) {
-    puStack_14 = &DAT_0046b22c;
-    RtlEnterCriticalSection();
-    (**(code **)(**(int **)(in_EDX + 0x48) + 0x18))(*(int **)(in_EDX + 0x48),&stack0xfffffff4);
+    /* Original MOV [ESP+8],EAX stores [in_EDX+0x34] into a single
+     * guest stack DWORD, reused by virtual callbacks +0x18 and +0x14. */
+    guest_transfer_word = *(uint32_t *)(uintptr_t)(in_EDX + 0x34);
+    RtlEnterCriticalSection(&DAT_0046b22c);
+    (**(code **)(**(int **)(in_EDX + 0x48) + 0x18))(*(int **)(in_EDX + 0x48),&guest_transfer_word);
     *(uint *)(in_EDX + 0x14) = *(int *)(in_EDX + 0x14) + in_ECX;
     if (*(uint *)(in_EDX + 0x18) < in_ECX) {
       *(undefined4 *)(in_EDX + 0x18) = 0;
@@ -30,12 +32,14 @@ int FUN_00264c50(void)
     else {
       *(uint *)(in_EDX + 0x18) = *(uint *)(in_EDX + 0x18) - in_ECX;
     }
+    /* XBE LEA ECX,[ESP+0x0c] passes this same slot to 0x264B30.
+     * Its original ECX calling convention still needs linkage work. */
     iVar1 = FUN_00264b30(in_EDX);
     if (iVar1 < 0) {
       RtlLeaveCriticalSection(&DAT_0046b22c);
       return iVar1;
     }
-    (**(code **)(**(int **)(in_EDX + 0x48) + 0x14))(*(int **)(in_EDX + 0x48),&puStack_14);
+    (**(code **)(**(int **)(in_EDX + 0x48) + 0x14))(*(int **)(in_EDX + 0x48),&guest_transfer_word);
     in_EAX = FUN_00264a50();
     RtlLeaveCriticalSection(&DAT_0046b22c);
   }
