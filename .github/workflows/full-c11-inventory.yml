@@ -26,6 +26,8 @@ on:
       - 'tools/check_repository_safety.py'
       - 'tools/test_repository_safety.py'
       - 'tools/test_progress.py'
+      - 'tools/test_guest_stack_repair.py'
+      - 'tests/guest_frame_contract.c'
       - 'tools/update_progress.py'
       - 'scripts/check_sources.py'
       - 'scripts/verify_low_guest_address_reads.py'
@@ -68,6 +70,13 @@ jobs:
         run: |
           clang -std=c11 -Wall -Wextra -Werror -pedantic-errors -I include tools/test_x86_float_lanes.c -o /tmp/bf_x86_float_lane_test
           /tmp/bf_x86_float_lane_test
+      - name: Verify repaired guest-stack C11 drafts and model (no original XBE in CI)
+        run: |
+          python3 tools/test_guest_stack_repair.py
+          clang -std=c11 -Wall -Wextra -Werror -pedantic tests/guest_frame_contract.c -o /tmp/bf_guest_frame_test
+          /tmp/bf_guest_frame_test
+          clang -std=c11 -Wall -Wextra -Werror -pedantic -O2 -DNDEBUG tests/guest_frame_contract.c -o /tmp/bf_guest_frame_test_release
+          /tmp/bf_guest_frame_test_release
       - name: Verify synthetic Xbox kernel thunk parsing
         run: python3 tools/test_xbe_kernel_imports.py
       - name: Verify sorted source layout and exact function identities
