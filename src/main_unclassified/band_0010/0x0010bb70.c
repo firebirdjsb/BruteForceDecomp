@@ -17,7 +17,12 @@ void FUN_0010bb70(void)
   if (*(int *)(in_EAX + 0x14) != 0) {
     uVar1 = *(undefined4 *)(in_EAX + 0x18);
     uVar2 = FUN_0024a840(&local_4,&local_4);
-    local_4 = CONCAT31(local_4._1_3_,uVar2);
+    /* Original 0x0010BB92 stores AL to the low byte of [ESP+0x14],
+     * followed by 0x0010BB96 reading the entire 32-bit guest word.
+     * Upper 24 bits are NOT initialized here; preserve the partial write.
+     * 0x0024A840 reads the high byte of incoming ECX, not proven C args.
+     * TODO ABI_UNVERIFIED: guest stack identity and implicit ECX input. */
+    ((uint8_t *)&local_4)[0] = (uint8_t)uVar2;
     FUN_00087630(uVar1,in_EAX + 0x10,local_4);
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(*(undefined4 *)(in_EAX + 0x14));
