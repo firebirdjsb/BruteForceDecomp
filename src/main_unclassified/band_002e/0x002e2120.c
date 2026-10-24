@@ -177,12 +177,12 @@ switchD_002e2313_switchD:
         default:
           iStack_94 = iStack_74;
           cVar3 = *(char *)(iVar5 + 0x1c4) + '\x01';
-          uStack_8c._0_1_ = cVar3;
+          ((uint8_t *)&uStack_8c)[0] = cVar3;
           if (cVar3 == '\0') {
-            uStack_8c._0_1_ = '\x01';
+            ((uint8_t *)&uStack_8c)[0] = '\x01';
           }
           uVar13 = 0;
-          uStack_a0 = CONCAT31(uStack_a0._1_3_,cStack_7c);
+          uStack_a0 = ((uStack_a0 & UINT32_C(0xffffff00)) | (uint8_t)cStack_7c);
           cStack_9c = '\0';
           bVar1 = false;
           cVar3 = '\0';
@@ -197,9 +197,9 @@ LAB_002e241d:
                             ((bStack_7a >> (bVar4 & 0x1f) & 3) << 8 | (uint)abStack_79[uVar13]);
                 if ((1 << ((byte)uVar13 & 0x1f) & (uint)(((uint8_t *)&local_80)[3] >> 4)) != 0) {
                   cVar10 = (char)uStack_a0 + '\x01';
-                  uStack_a0 = CONCAT31(uStack_a0._1_3_,cVar10);
+                  uStack_a0 = ((uStack_a0 & UINT32_C(0xffffff00)) | (uint8_t)cVar10);
                   if (cVar10 == '\0') {
-                    uStack_a0 = CONCAT31(uStack_a0._1_3_,1);
+                    uStack_a0 = ((uStack_a0 & UINT32_C(0xffffff00)) | UINT32_C(1));
                   }
                 }
                 uVar13 = uVar13 + 1;
@@ -297,9 +297,9 @@ LAB_002e2412:
                           ((bStack_7a >> (bVar4 & 0x1f) & 3) << 8 | (uint)abStack_79[uVar13]);
               if (uVar8 != 0) {
                 cVar10 = (char)uStack_a0 + '\x01';
-                uStack_a0 = CONCAT31(uStack_a0._1_3_,cVar10);
+                uStack_a0 = ((uStack_a0 & UINT32_C(0xffffff00)) | (uint8_t)cVar10);
                 if (cVar10 == '\0') {
-                  uStack_a0 = CONCAT31(uStack_a0._1_3_,1);
+                  uStack_a0 = ((uStack_a0 & UINT32_C(0xffffff00)) | UINT32_C(1));
                 }
               }
               uVar13 = uVar13 + 1;
@@ -350,9 +350,9 @@ LAB_002e2412:
                 FUN_002e1fe0(iVar5,uVar6,iStack_94,uStack_58,1);
                 FUN_002e35d0(uStack_a0);
                 cVar10 = (char)uStack_a0 + '\x01';
-                uStack_a0._0_1_ = cVar10;
+                ((uint8_t *)&uStack_a0)[0] = cVar10;
                 if (cVar10 == '\0') {
-                  uStack_a0._0_1_ = '\x01';
+                  ((uint8_t *)&uStack_a0)[0] = '\x01';
                 }
                 pcVar7 = (char *)FUN_002e3850(&uStack_8e);
                 cVar10 = (char)uStack_a0;
@@ -364,7 +364,7 @@ LAB_002e2412:
             if (cVar10 == '\0') {
               cVar10 = -1;
             }
-            uStack_a0 = CONCAT31(uStack_a0._1_3_,cVar10);
+            uStack_a0 = ((uStack_a0 & UINT32_C(0xffffff00)) | (uint8_t)cVar10);
             cVar3 = *(char *)(iVar5 + 0x1c4);
             if ((cVar10 != cVar3) &&
                ((cVar3 == '\0' ||
