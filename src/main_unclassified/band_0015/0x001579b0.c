@@ -14,6 +14,10 @@ void FUN_001579b0(int *param_1)
   undefined4 uVar3;
   int *piVar4;
   int *in_ECX;
+  /* XBE 0x1579EA: 16 local bytes and four pushes put ESP+0x24
+   * at entry ESP+4. FUN_000e0350 writes the full DWORD and returns
+   * this first guest argument slot. Host/guest aliasing is ABI_UNVERIFIED. */
+  uint32_t guest_first_arg_word = (uint32_t)(uintptr_t)param_1;
   
   iVar1 = *in_ECX;
   in_ECX[0x10] = param_1[0x10];
@@ -22,7 +26,7 @@ void FUN_001579b0(int *param_1)
   cVar2 = *(char *)((int)param_1 + 0x79);
   *(char *)((int)in_ECX + 0x79) = cVar2;
   if (((cVar2 != '\0') && ((*(byte *)((int)in_ECX + 0x26) & 0x10) == 0)) && (in_ECX[2] != 0)) {
-    piVar4 = (int *)FUN_000e0350(in_ECX[2],&stack0x00000000,in_ECX);
+    piVar4 = (int *)FUN_000e0350(in_ECX[2],&guest_first_arg_word,in_ECX);
     in_ECX[5] = *piVar4;
     *(byte *)((int)in_ECX + 0x26) = *(byte *)((int)in_ECX + 0x26) | 0x10;
   }
