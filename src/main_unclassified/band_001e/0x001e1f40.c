@@ -96,7 +96,11 @@ bool FUN_001e1f40(void)
         }
         pcVar6 = (char *)(in_stack_ffffffb0 & 0xffffff00);
         if (local_3c < 0x10) {
-          /* Original 0x001e1c5c LEA EDX,[ESP+0x1C]: entry ESP-0x50. */
+          /* Original 0x001e1b30 SUB ESP,0x5c; four saved registers total.
+           * At 0x001e1c5c, ESP = entry ESP - 0x6c; LEA [ESP+0x1c]
+           * therefore addresses entry ESP - 0x50 (the existing stack slot).
+           * The alternate 0x001e1c56 MOV [ESP+0x1c] loads its 32-bit
+           * contents. This models address selection, not string ownership. */
           pcVar6 = (char *)&in_stack_ffffffb0;
         }
         local_20 = 0xf;
