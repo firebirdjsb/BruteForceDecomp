@@ -19,6 +19,7 @@ on:
       - 'scripts/verify_00258480_node_selection.py'
       - 'scripts/verify_00264a50_io_stack_pair.py'
       - 'scripts/verify_00220dd0_output_stack_word.py'
+      - 'scripts/verify_00221de0_saved_handle_stack_word.py'
       - 'scripts/verify_00147570_001579b0_guest_first_word.py'
       - 'scripts/verify_guest_serialization_buffer_widths.py'
       - 'scripts/verify_two_guest_size_words.py'
@@ -153,6 +154,8 @@ jobs:
         run: python3 scripts/verify_00264a50_io_stack_pair.py --root .
       - name: Verify five GPU resource output stack slots (source-only CI)
         run: python3 scripts/verify_00220dd0_output_stack_word.py --root .
+      - name: Verify saved x86 handle vs mutable callback stack word (source-only CI)
+        run: python3 scripts/verify_00221de0_saved_handle_stack_word.py --root .
       - name: Verify two first-argument DWORD output slots at 0x147570 and 0x1579B0 (source-only CI)
         run: python3 scripts/verify_00147570_001579b0_guest_first_word.py --repo .
       - name: Verify byte headers and payload widths in two 0x002A serialization routines (source-only CI)
