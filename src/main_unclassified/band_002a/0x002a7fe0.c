@@ -9,32 +9,22 @@
 void FUN_002a7fe0(void)
 
 {
-  byte bVar1;
+  /* Original stack bytes at ESP+0x0f and ESP+0x0e are distinct
+   * one-byte buffers (0x002A7FFE and 0x002A800D).  The loop
+   * subsequently exchanges two distinct four-byte payload words. */
   int *unaff_ESI;
   int *unaff_EDI;
-  byte bStack_32;
-  undefined4 uStack_24;
-  undefined4 uStack_20;
-  undefined4 uStack_1c;
-  
-  (**(code **)(*unaff_ESI + 0x30))();
-  uStack_1c = 0x2a7ff4;
-  (**(code **)(*unaff_ESI + 0x38))();
-  uStack_1c = 0;
-  uStack_20 = 1;
-  uStack_24 = &stack0xffffffef;
-  (**(code **)(*unaff_EDI + 0x14))();
-  (**(code **)(*unaff_EDI + 0x14))();
-  bStack_32 = (byte)((uint)((int)&uStack_24 + 2) >> 0x10);
-  bVar1 = 0;
-  if (bStack_32 != 0) {
-    do {
-      (**(code **)(*unaff_ESI + 0x20))();
-      (**(code **)(*unaff_ESI + 0x24))();
-      (**(code **)(*unaff_EDI + 0x14))();
-      (**(code **)(*unaff_EDI + 0x14))();
-      bVar1 = bVar1 + 1;
-    } while (bVar1 < bStack_32);
+  uint8_t guest_header_byte_a = (uint8_t)(**(code **)(*unaff_ESI + 0x30))(unaff_ESI);
+  uint8_t guest_header_byte_b = (uint8_t)(**(code **)(*unaff_ESI + 0x38))(unaff_ESI);
+  (**(code **)(*unaff_EDI + 0x14))(unaff_EDI,&guest_header_byte_a,1,0);
+  (**(code **)(*unaff_EDI + 0x14))(unaff_EDI,&guest_header_byte_b,1,0);
+  for (uint8_t i = 0; i < guest_header_byte_b; ++i) {
+    uint32_t guest_payload_a;
+    uint32_t guest_payload_b;
+    (**(code **)(*unaff_ESI + 0x20))(unaff_ESI,i,&guest_payload_a);
+    (**(code **)(*unaff_ESI + 0x24))(unaff_ESI,i,&guest_payload_b);
+    (**(code **)(*unaff_EDI + 0x14))(unaff_EDI,&guest_payload_a,4,0);
+    (**(code **)(*unaff_EDI + 0x14))(unaff_EDI,&guest_payload_b,4,0);
   }
   return;
 }
