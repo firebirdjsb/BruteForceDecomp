@@ -6,7 +6,12 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_0014c470(void)
+/* Original x86 0x0014c470 pushes EBX, ESI and EDI. At 0x0014c49a,
+ * LEA ESI,[ESP+10h] addresses entry ESP+4, the first incoming DWORD.
+ * Both return paths (0x0014c4b1 and 0x0014c4e4) use RET 4.
+ * This argument models that guest word only; ECX/EDX and the native
+ * host calling convention remain unverified. */
+void FUN_0014c470(undefined4 guest_stack_word_04)
 
 {
   int iVar1;
@@ -22,7 +27,7 @@ void FUN_0014c470(void)
     uVar2 = *(int *)(in_EDX + 8) - iVar1 >> 2;
   }
   if (uVar2 < in_ECX) {
-    FUN_000a7d80(*(undefined4 *)(in_EDX + 8),&stack0x00000004);
+    FUN_000a7d80(*(undefined4 *)(in_EDX + 8),&guest_stack_word_04);
     return;
   }
   if ((iVar1 != 0) && (in_ECX < (uint)(*(int *)(in_EDX + 8) - iVar1 >> 2))) {
