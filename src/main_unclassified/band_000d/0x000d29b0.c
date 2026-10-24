@@ -6,7 +6,13 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_000d29b0(void)
+/* 0x000d2a47: LEA EDX,[ESP+18h] addresses entry ESP+4 after
+ * three saved registers and two pushed scratch words. 0x002463e3
+ * writes a single DWORD through that address. This parameter models
+ * the first incoming guest-stack slot's storage, NOT a verified host
+ * ABI or caller-visible guest-stack writeback. EAX and ECX are implicit
+ * guest inputs; the original function ends with RET 18h. */
+void FUN_000d29b0(undefined4 guest_out_word)
 
 {
   uint in_EAX;
@@ -33,7 +39,7 @@ void FUN_000d29b0(void)
   }
   if (iVar1 != 0) {
     if (in_EAX < (uint)((*(int *)(in_ECX + 8) - iVar1) / 0x18)) {
-      FUN_002463a0(in_ECX,&stack0x00000004,*(int *)(in_ECX + 4) + in_EAX * 0x18,*(int *)(in_ECX + 8)
+      FUN_002463a0(in_ECX,&guest_out_word,*(int *)(in_ECX + 4) + in_EAX * 0x18,*(int *)(in_ECX + 8)
                   );
     }
   }
