@@ -228,7 +228,7 @@ LAB_002ee0e9:
           else if (bVar10 == 99) {
 LAB_002edec8:
             if ((local_8 & 0x810) == 0) {
-              local_254[0]._0_1_ = (char)*puVar3;
+              ((uint8_t *)&local_254[0])[0] = (uint8_t)*puVar3;
               local_14 = 1;
             }
             else {
