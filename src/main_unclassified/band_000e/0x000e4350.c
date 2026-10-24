@@ -6,7 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_000e4350(void)
+/* Original 0x000e4366 LEA EAX,[ESP+0x10] after three saved registers
+ * takes the address of the incoming guest DWORD at entry ESP+4.
+ * ESI register input and host guest32 address mapping remain ABI_UNVERIFIED. */
+void FUN_000e4350(undefined4 guest_stack_word)
 
 {
   int iVar1;
@@ -19,7 +22,7 @@ void FUN_000e4350(void)
   else {
     iVar2 = **(int **)(unaff_ESI + 0x30);
   }
-  iVar1 = FUN_000ff730(unaff_ESI + 0x2c,iVar2,*(undefined4 *)(iVar2 + 4),&stack0x00000004);
+  iVar1 = FUN_000ff730(unaff_ESI + 0x2c,iVar2,*(undefined4 *)(iVar2 + 4),&guest_stack_word);
   FUN_000b2a50();
   *(int *)(iVar2 + 4) = iVar1;
   **(int **)(iVar1 + 4) = iVar1;
