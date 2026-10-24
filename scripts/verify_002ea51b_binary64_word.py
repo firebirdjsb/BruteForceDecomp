@@ -15,6 +15,8 @@ def main():
  s=(a.repo/"src/main_unclassified/band_002e/0x002ea51b.c").read_text()
  for token in TOKENS:
   if token not in s:raise SystemExit("Source mismatch: "+token)
+ s2=(a.repo/"src/main_unclassified/band_002e/0x002ea51b.c").read_text()
+ if "(uint32_t)bf_double_bits" not in s2:raise SystemExit("Source mismatch: (uint32_t)bf_double_bits")
  print("PASS: original x86 instruction signatures and source expressions")
  print("Guest ABI and native linkage are not verified.")
 if __name__=="__main__":main()
