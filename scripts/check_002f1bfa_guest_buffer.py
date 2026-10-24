@@ -3,7 +3,7 @@
 import argparse
 from pathlib import Path
 SOURCE="src/main_unclassified/band_002f/0x002f1bfa.c"
-REQUIRED=["guest stack slot is used as a 32-bit write buffer","UINT32_C(0xffff0000)"]
+REQUIRED=["guest stack slot is used as a 32-bit write buffer","guest_write_word = (uint16_t)param_1;"]
 FORBIDDEN=["param_2._2_2_"]
 def main():
  parser=argparse.ArgumentParser()
