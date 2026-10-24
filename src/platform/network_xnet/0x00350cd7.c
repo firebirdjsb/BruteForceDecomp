@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 void FUN_00350cd7(void)
 
 {
@@ -16,6 +17,7 @@ void FUN_00350cd7(void)
   undefined1 local_20 [2];
   undefined4 local_1e;
   undefined1 local_1a [22];
+  uint16_t uVar4;
   
   bVar1 = *(byte *)(in_ECX + 0xa31);
   puVar2 = local_20;
@@ -24,9 +26,12 @@ void FUN_00350cd7(void)
       local_20[0] = 1;
       local_20[1] = 4;
       puVar2 = (undefined1 *)((int)&local_1e + 2);
-      local_1e = CONCAT22(local_1e._2_2_,
-                          CONCAT11((char)*(undefined2 *)(in_ECX + 0xa36),
-                                   (char)((ushort)*(undefined2 *)(in_ECX + 0xa36) >> 8)));
+      uVar4 = *(uint16_t *)(in_ECX + 0xa36);
+      /* 0x00350cf5-0x00350d0e: AX load, MOVZX BX,AH; MOV BH,AL;
+       * MOV word [EBP-0x1a],BX. Write only the two swapped low bytes;
+       * do not read or initialize the unknown high half of this stack slot. */
+      bf_x86_word_store_byte(&local_1e,0U,(uint8_t)(uVar4 >> 8));
+      bf_x86_word_store_byte(&local_1e,1U,(uint8_t)uVar4);
     }
     if ((bVar1 & 1) == 0) {
       *puVar2 = 5;

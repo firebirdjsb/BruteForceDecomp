@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 void FUN_00349b99(void)
 
 {
@@ -33,7 +34,9 @@ void FUN_00349b99(void)
     }
   }
   uVar1 = KeRaiseIrqlToDpcLevel();
-  local_8 = CONCAT31(local_8._1_3_,uVar1);
+  /* 0x00349c27: MOV byte [ESP+0x10],AL. Preserve the other three bytes;
+   * 0x00349c9b later loads only this byte into CL for the indirect call. */
+  bf_x86_word_store_byte(&local_8,0U,(uint8_t)uVar1);
   *(undefined4 *)(in_ECX + 0xae4) = 0;
   *(undefined4 *)(in_ECX + 0xae8) = 0;
   if (*(int *)(in_ECX + 0xaec) != 0) {

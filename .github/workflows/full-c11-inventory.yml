@@ -18,6 +18,7 @@ on:
       - 'tools/body_hash_labels.py'
       - 'tools/test_body_hash_labels.py'
       - 'tools/test_x86_word_lanes.c'
+      - 'tools/test_x86_sso28.c'
       - 'tools/recheck_c11_provenance.py'
       - 'tools/classify_c11_functions.py'
       - 'tools/source_layout.py'
@@ -70,6 +71,12 @@ jobs:
         run: |
           clang -std=c11 -Wall -Wextra -Werror -pedantic-errors -I include tools/test_x86_float_lanes.c -o /tmp/bf_x86_float_lane_test
           /tmp/bf_x86_float_lane_test
+      - name: Verify observed 28-byte string storage writes (no full-function ABI claim)
+        run: |
+          clang -std=c11 -Wall -Wextra -Werror -pedantic-errors -I include tools/test_x86_sso28.c -o /tmp/bf_x86_sso28_test
+          /tmp/bf_x86_sso28_test
+          clang -std=c11 -Wall -Wextra -Werror -pedantic-errors -O2 -DNDEBUG -I include tools/test_x86_sso28.c -o /tmp/bf_x86_sso28_release_test
+          /tmp/bf_x86_sso28_release_test
       - name: Verify repaired guest-stack C11 drafts and model (no original XBE in CI)
         run: |
           python3 tools/test_guest_stack_repair.py

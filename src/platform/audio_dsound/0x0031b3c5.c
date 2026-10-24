@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 undefined4 FUN_0031b3c5(undefined4 *param_1,int param_2,uint param_3,int param_4,int param_5)
 
 {
@@ -58,7 +59,9 @@ undefined4 FUN_0031b3c5(undefined4 *param_1,int param_2,uint param_3,int param_4
       bVar4 = pbVar1[param_5];
       FUN_0031b31f(0,0,(int)&param_2 + 3,1);
       uVar7 = uVar7 + 1;
-      *pbVar1 = bVar2 ^ param_2._3_1_ ^ bVar4 - cVar3 * bVar2;
+      /* 0x0031b46d passes EBP+0x0f for one output byte; 0x0031b47d
+       * consumes just that byte with XOR BL,[EBP+0x0f]. */
+      *pbVar1 = bVar2 ^ bf_x86_word_load_byte(&param_2,3U) ^ bVar4 - cVar3 * bVar2;
     } while (uVar7 < param_3);
   }
   return 0;
