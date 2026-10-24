@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbe_certificate_layout.h"
 undefined4 * XAPILIB__XCalculateSignatureBeginEx(undefined4 param_1,dword param_2)
 
 {
@@ -24,7 +25,7 @@ LAB_002f32e2:
   }
   else {
     *puVar1 = param_1;
-    pcVar3 = XboxSignatureKey_exref;
+    pcVar3 = (code *)(uintptr_t)*(uint32_t *)(uintptr_t)UINT32_C(0x003864e8);
     if (XBE_CERTIFICATE_HEADER_00010180.TitleID != param_2) {
       uVar2 = 0;
       pdVar4 = XBE_CERTIFICATE_HEADER_00010180.AlternateTitleIDs;
@@ -39,7 +40,7 @@ LAB_002f32e0:
         uVar5 = 5;
         goto LAB_002f32e2;
       }
-      pcVar3 = XboxAlternateSignatureKeys_exref + uVar2 * 0x10;
+      pcVar3 = (code *)(uintptr_t)(*(uint32_t *)(uintptr_t)UINT32_C(0x003864ec) + uVar2 * 0x10);
     }
     puVar1[1] = pcVar3;
     FUN_002f314a(puVar1[1],0x10,puVar1 + 2);
