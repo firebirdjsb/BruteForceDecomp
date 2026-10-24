@@ -12,8 +12,8 @@ def main():
   if d[va-65536:va-65536+len(bytes.fromhex(h))]!=bytes.fromhex(h):raise SystemExit(f"opcode mismatch {va:#x}")
  for exponent in (-1022,-1021,-1,0,1,1023,2047):
   for high in (0,0x80000000,0x7ff00000,0xfff00000,0x12345678):
-   x86=((((exponent+0x3fe)&0xffffffff)<<4)|(high&0xffff800f))&0xffff
-   c11=((((exponent+0x3fe)&0xffffffff)<<4)|((high>>0)&0x800f))&0xffff
+   x86=((((exponent+0x3fe)&0xffffffff)<<4)|((high>>16)&0x800f))&0xffff
+   c11=((((exponent+0x3fe)&0xffffffff)<<4)|((high>>16)&0x800f))&0xffff
    if x86!=c11:raise SystemExit(f"exponent mismatch {exponent} {high:#x}")
  s=(a.repo/"src/main_unclassified/band_002e/0x002eca9e.c").read_text()
  if "UINT16_C(0x800f)" not in s:raise SystemExit("missing mask")
