@@ -24,8 +24,10 @@ def snapshot(report: dict, run_id: int, expected_sha: str) -> dict:
         raise ValueError("Audit commit SHA does not match the trusted workflow run")
     if report.get("source_tree_entries") != EXPECTED:
         raise ValueError("Source count does not match original 13694-function inventory")
-    if report.get("body_hash_mismatches") or report.get("body_hash_missing"):
+    if any(report.get(field) != 0 for field in ("body_hash_mismatches", "body_hash_missing", "body_hash_unindexed")):
         raise ValueError("Original body provenance failed; cannot publish progress")
+    if report.get("group_index_present") is not True:
+        raise ValueError("Missing complete function-group index; cannot publish progress")
     counts = report.get("counts", {})
     passing, failing = counts.get("pass"), counts.get("fail")
     if type(passing) is not int or type(failing) is not int:
