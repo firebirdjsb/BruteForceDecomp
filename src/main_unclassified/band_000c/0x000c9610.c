@@ -15,6 +15,9 @@ void FUN_000c9610(int param_1)
     (**(code **)(**(int **)(param_1 + 0x28) + 0x10))();
     return;
   }
-  (**(code **)(iRam0000002c + 0x10))();
+  /* Original XBE 0x000C967E-0x000C9686: xor eax,eax; mov edx,[eax+0x2c];
+   * lea ecx,[eax+0x2c]; call [edx+0x10]. This is an original guest32
+   * absolute access, NOT a valid host pointer or a resolved ECX ABI. */
+  (**(code **)(*(uint32_t *)(uintptr_t)UINT32_C(0x0000002c) + 0x10))();
   return;
 }
