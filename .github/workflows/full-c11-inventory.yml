@@ -10,6 +10,8 @@ on:
       - 'tools/sweep_c11.py'
       - 'tools/triage_c11_failures.py'
       - 'tools/test_triage_c11_failures.py'
+      - 'scripts/group_guest_stack_failures.py'
+      - 'scripts/test_group_guest_stack_failures.py'
       - 'tools/audit_xbe_first_100.py'
       - 'tools/audit_xbe_kernel_imports.py'
       - 'tools/test_xbe_kernel_imports.py'
@@ -154,6 +156,12 @@ jobs:
             --report c11_sweep_results/c11_sweep_report.json \
             --out-json c11_sweep_results/failure_triage.json \
             --out-csv c11_sweep_results/failure_triage.csv
+      - name: Verify and group unresolved guest-stack first errors (no XBE inference)
+        run: |
+          python3 scripts/test_group_guest_stack_failures.py
+          python3 scripts/group_guest_stack_failures.py \
+            c11_sweep_results/failure_triage.csv \
+            --output c11_sweep_results/guest_stack_offsets.csv
       - name: Inventory candidate C entrypoint identities without asserting linkage
         run: python3 tools/audit_entrypoint_symbols.py --root . --out c11_sweep_results/entry_symbol_audit.csv
       - name: Upload audit and per-address error diagnostics
