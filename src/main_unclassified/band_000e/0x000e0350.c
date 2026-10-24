@@ -6,14 +6,17 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-undefined4 * FUN_000e0350(int param_1,undefined4 *param_2)
+/* Original entry ESP+12 is a caller-supplied DWORD; 0x000e0365 LEA forwards
+ * its address to 0x000ff730, which copies exactly four bytes into node+8.
+ * Host argument placement and implicit register ABI remain ABI_UNVERIFIED. */
+undefined4 * FUN_000e0350(int param_1,undefined4 *param_2,undefined4 guest_stack_word_3)
 
 {
   int iVar1;
   int iVar2;
   
   iVar1 = *(int *)(param_1 + 0x40);
-  iVar2 = FUN_000ff730(param_1 + 0x3c,iVar1,*(undefined4 *)(iVar1 + 4),&stack0x0000000c);
+  iVar2 = FUN_000ff730(param_1 + 0x3c,iVar1,*(undefined4 *)(iVar1 + 4),&guest_stack_word_3);
   FUN_000b2a50();
   *(int *)(iVar1 + 4) = iVar2;
   **(int **)(iVar2 + 4) = iVar2;
