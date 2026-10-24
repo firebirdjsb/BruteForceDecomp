@@ -9,11 +9,17 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_DAT_003a3688;
-void FUN_00063650(void)
+/* Original 0x00063698 LEA EDX,[ESP+8] addresses the first stack
+ * argument.  Original 0x000636a3 MOV EAX,[ESP+0xc] and
+ * 0x000636a7 MOV [EAX],ESI write one guest DWORD through the
+ * second stack argument.  The direct caller at 0x000633a5 pushes
+ * both arguments and reclaims eight bytes at 0x000633b0.
+ * The virtual-call ABI and guest-to-host pointer mapping remain
+ * ABI_UNVERIFIED; this signature only records observed stack slots. */
+void FUN_00063650(undefined4 param_1,undefined4 *param_2)
 
 {
   int *piVar1;
-  int *piVar2;
   
   piVar1 = (int *)FUN_002ea01d(0x28);
   if (piVar1 == (int *)0x0) {
@@ -27,9 +33,8 @@ void FUN_00063650(void)
     *piVar1 = (int)&PTR_DAT_003a3688;
     piVar1[9] = 1;
   }
-  piVar2 = piVar1;
   (**(code **)(*piVar1 + 0x34))(piVar1,4);
-  (**(code **)(*piVar1 + 0x14))(piVar1,0,&stack0xfffffffc);
-  *piVar2 = (int)piVar1;
+  (**(code **)(*piVar1 + 0x14))(piVar1,0,&param_1);
+  *param_2 = (undefined4)(uintptr_t)piVar1;
   return;
 }
