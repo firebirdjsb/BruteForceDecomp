@@ -38,7 +38,9 @@ void FUN_0010de90(int param_1)
     iVar4 = 0;
     uStack_4 = 7;
     uStack_8 = 0;
-    /* 0x0010DF06 MOV WORD PTR [ESP+0x18],DI (DI=0): clear only the low 16 bits.\n       * Guest stack high 16 bits remain unknown (ABI_UNVERIFIED). */\n      uStack_18 &= UINT32_C(0xffff0000);
+    /* 0x0010DF06 MOV WORD PTR [ESP+0x18],DI (DI=0): clear only the low 16 bits.
+       * Guest stack high 16 bits remain unknown (ABI_UNVERIFIED). */
+      uStack_18 &= UINT32_C(0xffff0000);
     sVar2 = *psVar5;
     while (sVar2 != 0) {
       if (sVar2 == 0x20) {
