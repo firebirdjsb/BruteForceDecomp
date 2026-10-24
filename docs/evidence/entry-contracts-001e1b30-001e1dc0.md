@@ -33,3 +33,11 @@ Source: user-provided original Xbox `default.xbe`, SHA-256 `b6ea5d4dd6500ae86c3f
 The draft `src/main_unclassified/band_001e/0x001e1f40.c` merges these tail-called routines into its case bodies and contains an unresolved `stack0xffffffb0` pseudo-variable. That variable cannot be safely declared or replaced without mapping the appropriate callee's local stack layout and original object representation. Preserve the original draft and its body-hash provenance until the source is split or typed using verified boundaries, and then compile the affected functions with Clang C11 before committing source changes.
 
 **Audit impact:** evidence-only note; zero C11 syntax fixes claimed, no progress percentage change.
+
+## 2026-10-24: independent original-XBE recheck and unresolved layout risk
+
+Rechecked the exact eight instruction-byte sequences in `scripts/verify_001e_dispatch_and_sso.py` against the private original XBE: all eight matched. This establishes the pinned bytes, not high-level behavior.
+
+**Important limitation of the current C11 draft:** `in_stack_ffffffb0` is declared as a single 32-bit `uint`, while the original small-string path selects an **address** with `LEA EDX,[ESP+0x1c]` when capacity is below 16. The original may read multiple bytes starting at that address; taking the address of a four-byte host C object does not by itself model a 16-byte inline buffer or its neighboring stack slots. Also, `(in_stack_ffffffb0 & 0xffffff00)` in the other branch is only a draft reconstruction, not a verified pointer representation. The draft's `local_3c` pointer-typed capacity comparison likewise needs type recovery from original stores and loads.
+
+**Source-repair gate:** before claiming 1:1 C semantics, map every original access to the inline-buffer region, recover the capacity and pointer fields, model the object with verified offsets, and compile/test the full function. Do not promote the earlier single-slot address substitution to a complete semantic fix. No syntax-count improvement is claimed here.
