@@ -32,7 +32,7 @@ undefined4 XAPILIB__CancelIo(undefined4 ***param_1)
     if (ppppuVar6 != (undefined4 ****)((uintptr_t)*(uint32_t *)(uintptr_t)UINT32_C(0x00386560) + 0x28)) {
       do {
         ppppuVar1 = (undefined4 ****)*ppppuVar6;
-        if ((ppppuVar6[9] == param_1) && (((byte)*(code *)((int)ppppuVar6 + -0x37) & 0x10) == 0)) {
+        if ((ppppuVar6[9] == param_1) && ((*(byte *)((uintptr_t)ppppuVar6 - UINT32_C(0x37)) & UINT8_C(0x10)) == 0)) {
           pppuVar2 = ppppuVar6[1];
           pppuVar3 = *ppppuVar6;
           *pppuVar2 = pppuVar3;
