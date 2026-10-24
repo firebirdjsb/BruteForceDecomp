@@ -19,7 +19,9 @@ undefined4 FUN_0005c070(void)
   }
   *in_EDX = uVar1 + 1;
   if (*(uint *)(in_ECX + 4) <= uVar1) {
-    return uRam00000004;
+    /* XBE 0x0005c085: XOR EAX,EAX; MOV EAX,[EAX+4].
+     * Preserve the guest absolute read at 0x4, including possible fault. */
+    return *(volatile undefined4 *)(uintptr_t)UINT32_C(0x4);
   }
   return *(undefined4 *)(*(int *)(*(int *)(in_ECX + 8) + uVar1 * 4) + 4);
 }
