@@ -17,7 +17,11 @@ int FUN_0024d520(int *param_1,undefined4 param_2,uint param_3)
   
   uVar2 = (**(code **)(*param_1 + 0x7c))(param_1,param_2);
   if (param_3 < uVar2) {
-    piVar3 = (int *)FUN_00279c40(&stack0xffffffd8);
+    /* XBE LEA [ESP+0x10] points to this existing two-DWORD local;
+     * MOV writes the selector followed by zero before the first call. */
+    uStack_20 = param_2;
+    uStack_1c = 0;
+    piVar3 = (int *)FUN_00279c40(&uStack_20);
     iVar1 = **(int **)(*(int *)(*piVar3 + 0x10) + 0x84);
     uVar2 = 0;
     if (param_3 != 0) {
