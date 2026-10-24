@@ -21,11 +21,13 @@ void FUN_0001c630(int param_1,uint param_2)
   undefined4 local_28 [5];
   undefined1 *local_14;
   undefined4 local_10;
-  undefined1 *puStack_c;
+  /* Original x86 pushes a guest 32-bit SEH handler address; this is
+   * not a native host pointer or a completed Windows SEH adaptation. */
+  uint32_t puStack_c;
   undefined4 local_8;
   
   local_8 = 0xffffffff;
-  puStack_c = &LAB_00307a10;
+  puStack_c = UINT32_C(0x00307a10);
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
   local_14 = &stack0xffffff94;
