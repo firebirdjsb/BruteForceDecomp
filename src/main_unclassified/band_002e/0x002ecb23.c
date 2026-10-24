@@ -6,9 +6,14 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+static uint64_t bf_binary64_bits(uint32_t low, uint32_t high)
+{
+  return ((uint64_t)high << 32) | low;
+}
+
 static double bf_binary64_from_words(uint32_t low, uint32_t high)
 {
-  uint64_t bits = ((uint64_t)high << 32) | low;
+  uint64_t bits = bf_binary64_bits(low, high);
   double result;
   memcpy(&result, &bits, sizeof(result));
   return result;
@@ -47,12 +52,12 @@ float10 FUN_002ecb23(uint param_1,uint param_2,int *param_3)
     if (bVar1) {
       param_2 |= UINT32_C(0x80000000);
     }
-    fVar3 = (float10)__set_exp(bf_binary64_from_words(param_1,param_2) &
-                               0xffefffffffffffff,0);
+    fVar3 = (float10)__set_exp(bf_binary64_bits(param_1,param_2) &
+                               UINT64_C(0xffefffffffffffff),0);
     iVar2 = extraout_EDX;
   }
   else {
-    fVar3 = (float10)__set_exp(bf_binary64_from_words(param_1,param_2),0
+    fVar3 = (float10)__set_exp(bf_binary64_bits(param_1,param_2),0
                               );
     iVar2 = ((param_2 >> 0x10 & 0x7ff0) >> 4) - 0x3fe;
   }
