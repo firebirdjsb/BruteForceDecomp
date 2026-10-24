@@ -10,7 +10,12 @@
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_004432fc;
 extern char s_23_23_ISchema_00406e3c[];
-int FUN_00254400(void)
+/* Retail XBE: 0x254420 LEA EAX,[ESP+20h] addresses entry ESP+4;
+ * both exits RET 0Ch (0x254498, 0x2544a5). This records incoming
+ * guest stack storage only; virtual-call ABI remains unverified. */
+typedef struct { undefined4 word_04; undefined1 opaque_tail[8]; } bf_00254400_guest_record;
+_Static_assert(sizeof(bf_00254400_guest_record) == 12, "ret 0ch guest bytes");
+int FUN_00254400(bf_00254400_guest_record guest_record)
 
 {
   int in_EAX;
@@ -29,7 +34,7 @@ int FUN_00254400(void)
   if (iStack_14 != 0) {
     puStack_18 = &local_4;
     iStack_1c = 1;
-    puStack_20 = &stack0x00000004;
+    puStack_20 = &guest_record.word_04;
     local_4 = 0;
     (**(code **)(*DAT_004432fc + 0x24))(DAT_004432fc,1);
     if (iStack_1c != 0) {
