@@ -28,6 +28,7 @@ on:
       - 'tools/test_audit_entrypoint_symbols.py'
       - 'tools/body_hash_labels.py'
       - 'tools/test_body_hash_labels.py'
+      - 'tools/test_x86_float_lanes.c'
       - 'tools/test_x86_word_lanes.c'
       - 'tools/test_x86_sso28.c'
       - 'tools/test_x86_normalize3.c'
@@ -41,6 +42,7 @@ on:
       - 'tools/test_repository_safety.py'
       - 'tools/test_progress.py'
       - 'tools/check_published_progress.py'
+      - 'tools/test_full_audit_path_filters.py'
       - 'tools/test_check_published_progress.py'
       - 'tools/test_guest_stack_repair.py'
       - 'tools/verify_incoming_stack_words.py'
@@ -101,6 +103,8 @@ jobs:
           python3 tools/test_progress.py
           python3 tools/test_check_published_progress.py
           python3 tools/check_published_progress.py --root .
+      - name: Verify full-audit push triggers cover every local test input
+        run: python3 tools/test_full_audit_path_filters.py
       - name: Validate Ghidra x86 DWORD subpiece normalization
         run: |
           clang -std=c11 -Wall -Wextra -Werror -I include tools/test_x86_word_lanes.c -o /tmp/bf_x86_word_lanes_test
