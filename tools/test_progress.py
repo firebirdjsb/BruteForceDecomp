@@ -16,6 +16,8 @@ report = {
 }
 state = snapshot(report, 39992327184, sha)
 assert state["percentage"] == 90.48
+assert state["verified_instruction_contracts"] is None
+assert state["verified_interfaces"] is None
 assert state["roadmap_percentage"] == round(100 * 12391 / (13694 * 7), 2)
 assert "roadmap" in roadmap_svg(state).lower()
 assert "90.48%" in progress_svg(state)
@@ -45,4 +47,5 @@ with tempfile.TemporaryDirectory() as directory:
     assert "90.48%" in (root / "docs/progress/c11-syntax.svg").read_text()
     assert f'{state["roadmap_percentage"]:.2f}%' in (root / "docs/progress/overall.svg").read_text()
     assert "Overall tracked roadmap" in (root / "README.md").read_text()
+    assert "not yet comprehensively counted" in (root / "README.md").read_text()
 print("Progress renderer: exact audit gate, markers, and deterministic SVG verified.")

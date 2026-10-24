@@ -49,6 +49,10 @@ def snapshot(report: dict, run_id: int, expected_sha: str) -> dict:
         "roadmap_method": "seven_equal_phases_syntax_fraction_six_unverified_zero_credited",
         "body_hash_mismatches": 0,
         "body_hash_missing": 0,
+        # Operand evidence in individual notes is not a complete contract census.
+        "verified_instruction_contracts": None,
+        "verified_interfaces": None,
+        "verification_counts_scope": "whole_function_counts_not_comprehensively_audited",
         "native_pc_build": "not_yet_buildable_or_playable",
     }
 
@@ -109,6 +113,8 @@ def readme_section(s: dict) -> str:
 **{pct}% C11 syntax coverage** · **{p:,} / {t:,}** individually checked functions · **{f:,}** still fail. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/{sha}) · [GitHub Actions report](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/{run_id}).
 
 **Native PC game: NOT buildable/playable yet.** A syntax pass is not Xbox ABI verification, cross-function linking, platform compatibility, or a 1:1 match. This percentage is **not** game-completion percentage.
+
+**Fully verified instruction contracts / interfaces:** not yet comprehensively counted. Partial operand and storage evidence is recorded per entry; it is not credited as whole-function verification.
 
 | Roadmap phase | Credited progress |
 | --- | --- |
