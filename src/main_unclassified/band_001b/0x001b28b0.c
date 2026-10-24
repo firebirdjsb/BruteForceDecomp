@@ -6,7 +6,17 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_001b28b0(void)
+/* Retail XBE body SHA and the LEA at 0x001b28f9 were checked locally.
+ * After the saved-register pushes, LEA [ESP+14h] points to
+ * entry ESP+4. Both exits (0x001b291c / 0x001b296b) use RET 134h.
+ * Only guest incoming stack storage/address is modeled here; implicit x86
+ * register inputs, host ABI, and complete behavior remain UNVERIFIED. */
+typedef struct {
+  undefined4 first_word;
+  undefined1 opaque_tail[304];
+} bf_001b28b0_guest_record;
+_Static_assert(sizeof(bf_001b28b0_guest_record) == 308, "guest incoming stack byte count");
+void FUN_001b28b0(bf_001b28b0_guest_record guest_record)
 
 {
   int in_EAX;
@@ -29,7 +39,7 @@ void FUN_001b28b0(void)
     else {
       iVar2 = (*(int *)(in_EAX + 8) - iVar2) / 0x134;
     }
-    FUN_001bae70(in_EAX,*(undefined4 *)(in_EAX + 8),in_ECX - iVar2,&stack0x00000004);
+    FUN_001bae70(in_EAX,*(undefined4 *)(in_EAX + 8),in_ECX - iVar2,&guest_record.first_word);
     FUN_000e36d0();
     return;
   }

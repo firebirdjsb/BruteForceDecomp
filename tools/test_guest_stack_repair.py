@@ -39,6 +39,26 @@ FUNCTIONS = {
         "6DF66E219F2D47CA69E34F7A80E8FEF969FC677D7AC28102EEB41AFA2328BB5E",
         "0x0008ba0d",
     ),
+    "0x001b28b0": (
+        "2B4DC80CCFE04236C8E364CA2A6D968835933A8D8629640682FF5B5D3E53726B",
+        "0x001b28f9",
+    ),
+    "0x001b4a70": (
+        "418924004CD1941115E55F6E5B38A814D4C3B079B4E37A55B9786B5FDA4BC163",
+        "0x001b4abd",
+    ),
+    "0x001b50f0": (
+        "72B2731F8B1199F97398EA5340FF9055EFEF53298843D9318FAA417AAE06D4A1",
+        "0x001b511a",
+    ),
+    "0x001b5300": (
+        "83EC9B235653568FB808DECDAABBD075CC4C7C14781DBF5A9B1847E4716DF623",
+        "0x001b532d",
+    ),
+    "0x001d5fd0": (
+        "1030BB7B8D78563F861A6F93F0FDEABB0E5B7F46A07B83908ECC167F418C02EC",
+        "0x001d5ff8",
+    ),
 }
 
 
@@ -79,6 +99,28 @@ def main() -> int:
         }
         if entry in repaired_calls and repaired_calls[entry] not in without_comments:
             raise SystemExit(f"{entry}: original stack-address argument mapping regressed")
+        # These records are XBE-supported at the indicated LEA/RET sites,
+        # but CI verifies only source layout and host syntax (no retail XBE).
+        guest_record_widths = {
+            "0x001b28b0": 308,
+            "0x001b4a70": 836,
+            "0x001b50f0": 8,
+            "0x001b5300": 8,
+            "0x001d5fd0": 4,
+        }
+        if entry in guest_record_widths:
+            width = guest_record_widths[entry]
+            if width == 4:
+                expected = ("void FUN_001d5fd0(undefined4 guest_first_word)",
+                            "&guest_first_word")
+            else:
+                type_name = f"bf_{entry[2:]}_guest_record"
+                expected = (f"void FUN_{entry[2:]}({type_name} guest_record)",
+                            f"_Static_assert(sizeof({type_name}) == {width}",
+                            "&guest_record.first_word")
+            for token in expected:
+                if token not in without_comments:
+                    raise SystemExit(f"{entry}: incoming guest record contract regressed: {token}")
         result = subprocess.run(
             [clang, *FLAGS, "-I", str(ROOT / "include"), str(path)],
             capture_output=True, text=True, timeout=60, check=False,

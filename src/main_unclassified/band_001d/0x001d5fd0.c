@@ -6,7 +6,12 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_001d5fd0(void)
+/* Retail XBE body SHA and the LEA at 0x001d5ff8 were checked locally.
+ * After the saved-register pushes, LEA [ESP+10h] points to
+ * entry ESP+4. Both exits (0x001d600f / 0x001d6041) use RET 4h.
+ * Only guest incoming stack storage/address is modeled here; implicit x86
+ * register inputs, host ABI, and complete behavior remain UNVERIFIED. */
+void FUN_001d5fd0(undefined4 guest_first_word)
 
 {
   int iVar1;
@@ -22,7 +27,7 @@ void FUN_001d5fd0(void)
     uVar2 = *(int *)(in_EDX + 8) - iVar1 >> 1;
   }
   if (uVar2 < in_ECX) {
-    FUN_001d6090(*(undefined4 *)(in_EDX + 8),&stack0x00000004);
+    FUN_001d6090(*(undefined4 *)(in_EDX + 8),&guest_first_word);
     return;
   }
   if ((iVar1 != 0) && (in_ECX < (uint)(*(int *)(in_EDX + 8) - iVar1 >> 1))) {
