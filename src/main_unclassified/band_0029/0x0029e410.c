@@ -6,40 +6,27 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-undefined4 FUN_0029e410(int *param_1)
+undefined4 FUN_0029e410(int *param_1,int *param_2)
 
 {
+  /* Original RET 8 at 0x0029E473 verifies two incoming stack DWORDs.
+   * LEA [ESP+0x18] at 0x0029E442 aliases the SECOND incoming word,
+   * while LEA [ESP+0x14] at 0x0029E44E aliases the FIRST incoming word.
+   * Each is overwritten by a separate virtual call, then passed together
+   * to the destination interface.  Keep them distinct from host pointers. */
+  uint32_t guest_first_arg_word = (uint32_t)(uintptr_t)param_1;
+  uint32_t guest_second_arg_word = (uint32_t)(uintptr_t)param_2;
   int iVar1;
   int iVar2;
-  undefined1 *puStack_28;
-  int *piStack_24;
-  int *piStack_20;
-  undefined4 uStack_1c;
-  int *piStack_18;
-  int *piStack_14;
-  
-  piStack_14 = param_1;
-  piStack_18 = (int *)0x29e41e;
-  (**(code **)(*param_1 + 0xc))();
-  iVar1 = *param_1;
-  piStack_18 = param_1;
-  uStack_1c = 0x29e42a;
-  uStack_1c = (**(code **)(*param_1 + 0x30))();
-  piStack_20 = param_1;
-  piStack_24 = (int *)0x29e42f;
-  (**(code **)(iVar1 + 0x34))();
-  piStack_24 = param_1;
-  puStack_28 = (undefined1 *)0x29e435;
-  iVar1 = (**(code **)(*param_1 + 0x38))();
-  iVar2 = 0;
-  if (0 < iVar1) {
-    do {
-      puStack_28 = &stack0xfffffff4;
-      (**(code **)(*param_1 + 0x20))(param_1,iVar2);
-      (**(code **)(*param_1 + 0x24))(param_1,iVar2,&uStack_1c);
-      (**(code **)(*param_1 + 0x14))(param_1,piStack_24,&puStack_28);
-      iVar2 = iVar2 + 1;
-    } while (iVar2 < iVar1);
+
+  (**(code **)(*param_1 + 0x0c))(param_1);
+  iVar1 = (**(code **)(*param_2 + 0x30))(param_2);
+  (**(code **)(*param_1 + 0x34))(param_1,iVar1);
+  iVar2 = (**(code **)(*param_2 + 0x38))(param_2);
+  for (iVar1 = 0; iVar1 < iVar2; iVar1++) {
+    (**(code **)(*param_2 + 0x20))(param_2,iVar1,&guest_second_arg_word);
+    (**(code **)(*param_2 + 0x24))(param_2,iVar1,&guest_first_arg_word);
+    (**(code **)(*param_1 + 0x14))(param_1,guest_second_arg_word,&guest_first_arg_word);
   }
   return 0;
 }
