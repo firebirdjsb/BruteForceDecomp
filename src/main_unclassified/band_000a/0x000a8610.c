@@ -156,11 +156,15 @@ undefined4 FUN_000a8610(int param_1,int param_2,undefined4 param_3)
     D3D8LTCG__D3DDevice_SetVertexShaderConstantNotInlineFast(8);
     if (in_stack_00000024 < 1.0) {
       in_stack_00000024 = 1.4013e-45;
-      FUN_0006a610(&stack0x00000024);
+  /* XBE-backed stack-slot evidence: original x86 LEA [EBP+0x28]
+   * passes the address of the same incoming DWORD that this draft
+   * calls in_stack_00000024. The original caller ABI and the
+   * callee semantics remain unverified. */
+      FUN_0006a610(&in_stack_00000024);
       in_stack_00000024 = 1.079e-42;
-      FUN_0006a610(&stack0x00000024);
+      FUN_0006a610(&in_stack_00000024);
       in_stack_00000024 = 1.0804e-42;
-      FUN_0006a610(&stack0x00000024);
+      FUN_0006a610(&in_stack_00000024);
     }
   }
 LAB_000a89d4:
