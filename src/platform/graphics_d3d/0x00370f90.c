@@ -78,7 +78,7 @@ undefined4 * FUN_00370f90(void)
     in_EAX[4] = local_14;
     *in_EAX = &DAT_00100a20;
     in_EAX[6] = local_10;
-    in_EAX[5] = &LAB_00100af0;
+    in_EAX[5] = (uintptr_t)0x00100af0U;
     in_EAX[7] = local_c;
     in_EAX[8] = local_8;
     in_EAX[9] = local_4;

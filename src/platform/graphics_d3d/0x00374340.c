@@ -45,7 +45,7 @@ bool D3D8LTCG__CMiniport_InitHardware(void)
     cVar1 = KeConnectInterrupt(in_EAX + 0x14);
     if (cVar1 != '\0') {
       *(undefined4 *)(in_EAX + 0x168) = 0;
-      *(undefined4 *)(in_EAX + 0x164) = &LAB_00378210;
+      *(undefined4 *)(in_EAX + 0x164) = (uintptr_t)0x00378210U;
       HalRegisterShutdownNotification((undefined4 *)(in_EAX + 0x164),1);
       iVar3 = FUN_0037450e();
       if (iVar3 != 0) {

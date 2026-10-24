@@ -69,7 +69,7 @@ void FUN_001314c0(int param_1)
     else {
       piVar13 = piVar5 + 1;
       *piVar5 = iVar12;
-      FUN_0001fe40(piVar13,0x4c,iVar12,&LAB_0012dd90);
+      FUN_0001fe40(piVar13,0x4c,iVar12,(uintptr_t)0x0012dd90U);
     }
     *(int **)(param_1 + 0x2cc) = piVar13;
     if (piVar11 != piVar3) {

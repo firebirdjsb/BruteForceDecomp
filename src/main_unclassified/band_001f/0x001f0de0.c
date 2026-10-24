@@ -48,7 +48,7 @@ uint FUN_001f0de0(void)
     iVar3 = XAPILIB__CreateThread(0,0x3000,FUN_001f0ce0,unaff_EDI,0,local_4);
     *(int *)(unaff_EDI + 0x14) = iVar3;
     if (iVar3 != 0) {
-      uVar2 = XAPILIB__CreateThread(0,0x4000,&LAB_001f0cc0,unaff_EDI,0,local_4);
+      uVar2 = XAPILIB__CreateThread(0,0x4000,(uintptr_t)0x001f0cc0U,unaff_EDI,0,local_4);
       *(undefined4 *)(unaff_EDI + 0x10) = uVar2;
       return (*(int *)(unaff_EDI + 0x14) != 0) - 1 & 0x80004005;
     }

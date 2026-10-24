@@ -45,7 +45,7 @@ LAB_0034bfa6:
     }
     piVar7[7] = -1;
     piVar7[5] = 0;
-    piVar7[8] = (int)&LAB_00347b1c;
+    piVar7[8] = (int)(uintptr_t)0x00347b1cU;
     piVar7[9] = param_2[3];
     iVar8 = param_2[4];
     piVar7[0xc] = 0;

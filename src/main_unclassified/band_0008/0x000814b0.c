@@ -23,7 +23,7 @@ uint FUN_000814b0(int *param_1,byte param_2)
       (iVar2 = (**(code **)(*in_ECX + 0x210))(), piVar1 = param_1, param_1 != (int *)0x0)) &&
      (iVar2 != 0)) {
     iVar2 = param_1[3];
-    FUN_0001fe40(&uStack_8,4,2,&LAB_0012de40);
+    FUN_0001fe40(&uStack_8,4,2,(uintptr_t)0x0012de40U);
     uStack_8 = *(undefined4 *)(iVar2 + 8);
     uStack_4 = 0x3761692;
     iVar2 = FUN_000782c0(2);

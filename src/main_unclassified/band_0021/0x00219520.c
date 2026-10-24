@@ -96,7 +96,7 @@ undefined4 FUN_00219520(int param_1)
           (*DAT_004698d4)(DAT_004698d8);
         }
         local_144[0] = 0;
-        (**(code **)(*DAT_0046986c + 0x28))(DAT_0046986c,&LAB_00219510,local_144);
+        (**(code **)(*DAT_0046986c + 0x28))(DAT_0046986c,(uintptr_t)0x00219510U,local_144);
       }
       iVar5 = iVar5 + 0x1c;
       if (local_14c != (int *)0x0) {

@@ -33,7 +33,7 @@ undefined4 FUN_00252770(int param_1)
     *(undefined4 *)(in_EDX + 0x28) = 0;
   }
   if (*(int *)(in_EDX + 0x24) == 0) {
-    *(undefined1 **)(in_EDX + 0x24) = &LAB_0027e7e0;
+    *(undefined1 **)(in_EDX + 0x24) = (uintptr_t)0x0027e7e0U;
   }
   iVar1 = (**(code **)(in_EDX + 0x20))(*(undefined4 *)(in_EDX + 0x28),1,0x18);
   *(int *)(in_EDX + 0x1c) = iVar1;

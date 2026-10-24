@@ -38,7 +38,7 @@ void FUN_00372e80(void)
   uVar5 = DAT_0037df64;
   iVar4 = D3D8__D3D_g_pDevice;
   *in_EAX = 0xc0a10;
-  in_EAX[4] = &LAB_000c03a8;
+  in_EAX[4] = (uintptr_t)0x000c03a8U;
   iVar6 = iVar4 + 0xab0;
   in_EAX[8] = 0x403b4;
   while( true ) {

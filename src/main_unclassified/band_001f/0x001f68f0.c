@@ -104,7 +104,7 @@ LAB_001f69ce:
         local_d4 = 0;
         if (local_c0 != 0) {
           do {
-            uVar4 = FUN_0006e6b0(DAT_003f7f1c,&LAB_001f3710,
+            uVar4 = FUN_0006e6b0(DAT_003f7f1c,(uintptr_t)0x001f3710U,
                                  (uint)*(ushort *)(*(int *)(iVar3 + 4) + local_d4 * 2) * 0x40 +
                                  *(int *)(param_1 + 0x18));
             if (((uVar4 & 1) == 0) && (local_d4 != 0)) {

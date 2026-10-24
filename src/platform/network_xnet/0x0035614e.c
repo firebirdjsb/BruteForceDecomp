@@ -17,7 +17,7 @@ int FUN_0035614e(undefined4 param_1)
   iVar1 = FUN_0034d726(param_1);
   if (-1 < iVar1) {
     FUN_00352ebc(0x8000);
-    KeInitializeDpc(in_ECX + 0x278,&LAB_00356142);
+    KeInitializeDpc(in_ECX + 0x278,(uintptr_t)0x00356142U);
     *(int *)(in_ECX + 0x298) = in_ECX + 0x29c;
     *(undefined4 *)(in_ECX + 0x89c) = 0;
     *(undefined4 *)(in_ECX + 0x8a4) = 0xffffffff;

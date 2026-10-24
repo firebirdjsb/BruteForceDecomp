@@ -109,7 +109,7 @@ LAB_00380ac6:
           *(undefined1 **)((int)piVar2 + 0x5e) = local_2c;
           *(undefined1 *)((int)piVar2 + 0x52) = 0x30;
           *(undefined1 *)((int)piVar2 + 0x53) = 0x40;
-          *(undefined1 **)((int)piVar2 + 0x5a) = &LAB_003804c9;
+          *(undefined1 **)((int)piVar2 + 0x5a) = (uintptr_t)0x003804c9U;
           *(undefined2 **)((int)piVar2 + 0x6a) = (undefined2 *)((int)piVar2 + 0x32);
           *(uint *)((int)piVar2 + 0x66) = (uint)bVar1;
           *(undefined1 *)((int)piVar2 + 0x6e) = 2;

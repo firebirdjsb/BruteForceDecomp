@@ -153,7 +153,7 @@ uint * FUN_0035d340(uint *param_1,uint *param_2,uint param_3,uint param_4,uint p
   local_20 = param_2;
   local_1c = (int)param_7;
   local_18 = 0;
-  local_90 = (code *)&LAB_0035c380;
+  local_90 = (code *)(uintptr_t)0x0035c380U;
   local_8c = (int)((ulonglong)param_5 / (0x10 / (ulonglong)param_8));
   local_8 = 0;
   local_c = 0;

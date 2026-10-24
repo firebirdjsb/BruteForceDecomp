@@ -15,7 +15,7 @@ int FUN_00337bcf(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefi
   int iVar1;
   undefined4 uVar2;
   
-  *param_7 = &LAB_00337bbc;
+  *param_7 = (uintptr_t)0x00337bbcU;
   param_7[1] = FUN_0033e945;
   param_7[0x44] = 0;
   param_7[0x45] = 0;

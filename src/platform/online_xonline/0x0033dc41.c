@@ -23,7 +23,7 @@ void FUN_0033dc41(undefined4 param_1,undefined4 param_2,undefined4 param_3)
   in_ECX[4] = param_1;
   in_ECX[0xc] = param_3;
   FUN_00330c2d(in_ECX);
-  *in_ECX = &LAB_0033db9e;
+  *in_ECX = (uintptr_t)0x0033db9eU;
   in_ECX[1] = FUN_0033c55b;
   in_ECX[2] = param_2;
   return;

@@ -1,0 +1,25 @@
+name: Focused XBE guest label word C11 checks
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'metadata/verified_guest_label_words_pass_3.csv'
+      - 'tools/verify_guest_label_words.py'
+      - 'tools/repair_verified_guest_immediates.py'
+      - '.github/workflows/verified-guest-label-words.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check 26 source blob identities and isolated Clang C11 syntax
+        run: python3 tools/verify_guest_label_words.py --verify
+      - name: Evidence limitation
+        run: echo "Original XBE instruction anchors verified locally, not shipped in GitHub. Guest addresses are not host-callable callbacks."

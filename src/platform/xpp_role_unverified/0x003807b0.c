@@ -51,7 +51,7 @@ LAB_0038080b:
   iVar4 = in_ECX[4];
   puVar1 = in_EDX + 4;
   in_EDX[7] = in_EDX;
-  in_EDX[6] = &LAB_003805cf;
+  in_EDX[6] = (uintptr_t)0x003805cfU;
   if (iVar4 == 0) {
     in_EDX[10] = pbVar6;
     in_EDX[9] = (uint)*(byte *)((int)in_EDX + 0x41);

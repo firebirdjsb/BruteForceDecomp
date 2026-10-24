@@ -24,7 +24,7 @@ void D3D8LTCG__D3DDevice_SetRenderState_TextureFactor(undefined4 param_1)
     if ((undefined4 *)D3D8__D3D_g_pDevice[1] <= puVar2) {
       puVar2 = (undefined4 *)D3D_MakeRequestedSpace_8(DAT_0037ec88 >> 1,DAT_0037ec88);
     }
-    *puVar2 = &LAB_00400a60;
+    *puVar2 = (uintptr_t)0x00400a60U;
     puVar2 = puVar2 + 1;
     iVar3 = 0x10;
     do {

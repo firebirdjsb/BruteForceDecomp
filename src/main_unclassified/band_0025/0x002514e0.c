@@ -36,7 +36,7 @@ undefined4 FUN_002514e0(int param_1,int param_2,int param_3,int param_4,int para
       *(undefined4 *)(in_EDX + 0x28) = 0;
     }
     if (*(int *)(in_EDX + 0x24) == 0) {
-      *(undefined1 **)(in_EDX + 0x24) = &LAB_0027e7e0;
+      *(undefined1 **)(in_EDX + 0x24) = (uintptr_t)0x0027e7e0U;
     }
     if (param_1 == -1) {
       param_1 = 6;

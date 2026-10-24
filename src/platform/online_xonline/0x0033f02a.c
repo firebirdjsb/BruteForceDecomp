@@ -25,6 +25,6 @@ void FUN_0033f02a(undefined4 param_1,undefined4 param_2,undefined4 *param_3)
   FUN_00330c2d(param_3);
   param_3[2] = param_2;
   *param_3 = FUN_0033eef3;
-  param_3[1] = &LAB_0033eeb1;
+  param_3[1] = (uintptr_t)0x0033eeb1U;
   return;
 }

@@ -217,7 +217,7 @@ LAB_00371505:
     local_8 = local_8 + -1;
     puVar6 = puVar7 + 0x18;
   } while (local_8 != 0);
-  puVar7[0x18] = &LAB_00080200;
+  puVar7[0x18] = (uintptr_t)0x00080200U;
   puVar7[0x19] = local_14 << 0x10;
   puVar7[0x1a] = local_10 << 0x10;
   puVar6 = (undefined4 *)FUN_00371190(puVar3);

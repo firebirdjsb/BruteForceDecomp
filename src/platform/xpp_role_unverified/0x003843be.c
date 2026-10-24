@@ -39,7 +39,7 @@ void FUN_003843be(undefined4 param_1)
     *(int *)(iVar2 + 0x20) = iVar2 + 0x38;
     *puVar1 = 0x28;
     *(undefined1 *)(iVar2 + 9) = 0x41;
-    *(undefined1 **)(iVar2 + 0x10) = &LAB_003841c7;
+    *(undefined1 **)(iVar2 + 0x10) = (uintptr_t)0x003841c7U;
     *(uint *)(iVar2 + 0x1c) = (uint)*(byte *)(iVar2 + 7);
     *(undefined1 *)(iVar2 + 0x25) = 1;
     FUN_00383c3a(iVar2,0);

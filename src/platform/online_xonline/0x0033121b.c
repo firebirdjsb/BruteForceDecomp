@@ -55,7 +55,7 @@ undefined1 FUN_0033121b(undefined4 param_1,int *param_2)
       local_8 = local_8 + -1;
     } while (local_8 != (code *)0x0);
   }
-  XcHMAC(&LAB_004b0508,0x10,param_1,0x10,0,0,local_44);
+  XcHMAC((uintptr_t)0x004b0508U,0x10,param_1,0x10,0,0,local_44);
   iVar4 = 5;
   piVar5 = local_44;
   do {

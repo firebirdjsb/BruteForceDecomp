@@ -54,7 +54,7 @@ undefined1 FUN_00129080(int param_1)
     cVar1 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0xa8))(param_1,&uStack_1c);
     if (cVar1 != '\0') {
       (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x210))();
-      FUN_0001fe40(&uStack_10,4,4,&LAB_0012de40);
+      FUN_0001fe40(&uStack_10,4,4,(uintptr_t)0x0012de40U);
       uStack_10 = DAT_00400b88;
       uStack_4 = DAT_00400bb8;
       uStack_c = DAT_00400b8c;
