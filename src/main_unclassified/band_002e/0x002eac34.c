@@ -37,7 +37,7 @@ float10 FUN_002eac34(double param_1)
     uVar5 = 8;
   }
   else {
-    fVar4 = (float10)FUN_002eca8b(SUB84(param_1,0),(int)((ulonglong)param_1 >> 0x20));
+    fVar4 = (float10)FUN_002eca8b((uint32_t)bf_double_bits,(int32_t)(bf_double_bits >> 32));
     dVar1 = (double)fVar4;
     if ((fVar4 == (float10)param_1) || ((uVar2 & 0x20) != 0)) {
       __ctrlfp(uVar2,0xffff);
