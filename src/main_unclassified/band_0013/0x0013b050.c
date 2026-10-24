@@ -70,7 +70,10 @@ void FUN_0013b050(int param_1,int param_2,int param_3,undefined4 param_4,uint pa
   local_20 = param_6;
   local_1c = param_7;
   local_18 = param_8;
-  local_14 = CONCAT31(local_14._1_3_,param_9);
+  /* 0x0013B134 writes DL only to byte [EAX+0x0C] in the guest
+   * 16-byte stack record; upper three bytes are not overwritten.
+   * TODO ABI_UNVERIFIED: guest stack high bytes and indirect calls. */
+  ((uint8_t *)&local_14)[0] = (uint8_t)param_9;
   local_24 = 0;
   if ((param_5 != 0) && (local_24 = param_5, (param_5 & 1) == 0)) {
     uVar6 = param_5 * 0x19660d + 0x3c6ef35f >> 0x15;
