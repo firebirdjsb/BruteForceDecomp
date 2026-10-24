@@ -21,6 +21,7 @@ SIGNATURES = {
     0x000A19DE: "516a0056ff5030", # pass &slot to vtable+0x30
     0x000A19E5: "8b7c2410",       # read replacement reference
     0x000A19F2: "50ff5208",       # release old field reference
+    0x000A19FA: "c7430c00000000", # transient clear before replacement store
     0x000A1A03: "897b0c",         # assign replacement to field +0xc
     0x000A1A0A: "57ff5004",       # addref replacement
     0x000A1A18: "56ff5108",       # release service reference
@@ -31,6 +32,7 @@ REQUIRED = (
     "int *replacement_ref;",
     "replacement_ref = (int *)0x0;",
     "(**(code **)(*piVar3 + 0x30))(piVar3,0,&replacement_ref);",
+    "*(undefined4 *)(param_1 + 0xc) = 0;",
     "*(int **)(param_1 + 0xc) = replacement_ref;",
     "(**(code **)(*replacement_ref + 4))(replacement_ref);",
     "(**(code **)(*replacement_ref + 8))(replacement_ref);",
@@ -51,6 +53,7 @@ def verify_source(source: str) -> None:
         "piVar3 = (int *)FUN_000a7770",
         "(**(code **)(*piVar3 + 0x30))(piVar3,0,&replacement_ref);",
         "piVar1 = *(int **)(param_1 + 0xc);",
+        "*(undefined4 *)(param_1 + 0xc) = 0;",
         "*(int **)(param_1 + 0xc) = replacement_ref;",
         "(**(code **)(*replacement_ref + 4))(replacement_ref);",
         "(**(code **)(*piVar3 + 8))(piVar3);",
@@ -120,7 +123,7 @@ def main() -> None:
     subprocess.run([clang, *flags, "-I", str(root/"include"), str(source_path)], check=True)
     if args.xbe:
         verify_xbe(args.xbe.read_bytes())
-        print("0x000a1990: 13 XBE instruction signatures, body hash, source and C11 PASS")
+        print("0x000a1990: 14 XBE instruction signatures, body hash, source and C11 PASS")
     else:
         print("0x000a1990: source-only contracts and C11 PASS (XBE not present in CI)")
 
