@@ -19,6 +19,7 @@ undefined4 FUN_000f17a0(int param_1)
   int in_ECX;
   int *piVar4;
   int *piVar5;
+  undefined4 saved_ecx_word;
   
   piVar4 = *(int **)(in_ECX + 0x7c);
   uVar3 = 0;
@@ -42,10 +43,12 @@ undefined4 FUN_000f17a0(int param_1)
           (piVar5 = (int *)*piVar4, piVar5[9] != -0x1cc47bf0)); piVar4 = piVar4 + 1) {
       }
       if ((piVar5 != (int *)0x0) && (iVar2 = (**(code **)(*piVar5 + 4))(), iVar2 == 1)) {
-        FUN_002383b0();
+        /* XBE 0x000f1871 MOV [ESP+0x10],EAX writes the result
+         * to the saved ECX slot after five register pushes. */
+        saved_ecx_word = FUN_002383b0();
         uVar3 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x208))();
         (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x20c))((int)*(short *)(param_1 + 0x208));
-        iVar2 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0xd4))(&stack0xfffffff8);
+        iVar2 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0xd4))(&saved_ecx_word);
         if (iVar2 != 0) {
           FUN_001e97c0();
         }
