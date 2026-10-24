@@ -14,8 +14,8 @@ void FUN_002f8afb(void)
   int *piVar3;
   undefined4 uVar4;
   
-  uVar1 = *(ushort *)(XboxKrnlVersion_exref + 4);
-  bVar2 = ~(byte)(*(uint *)XboxHardwareInfo_exref >> 1) & 1;
+  uVar1 = *(ushort *)(uintptr_t)(*(uint32_t *)(uintptr_t)UINT32_C(0x00386520) + 4);
+  bVar2 = ~(byte)(*(uint32_t *)(uintptr_t)*(uint32_t *)(uintptr_t)UINT32_C(0x00386380) >> 1) & 1;
   if (uVar1 == 0xf68) {
     piVar3 = (int *)((-(uint)(bVar2 != 0) & 0xffff1471) + 0x80039749);
   }
