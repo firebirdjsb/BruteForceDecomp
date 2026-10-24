@@ -12,15 +12,22 @@ undefined4 FUN_00076870(undefined4 param_1,int *param_2)
   int iVar1;
   byte bVar2;
   int *piVar3;
+  /* Original x86 0x0007688e: LEA EDX,[ESP+0x0c] addresses the
+   * incoming second argument's 32-bit stack word. The indirect call
+   * at 0x00076894 can overwrite that word; the CMP instructions at
+   * 0x0007689b and 0x000768a2 test its VALUE, not its address.
+   * Keep this guest DWORD separate from a host pointer. The indirect
+   * function's ABI and the earlier output-pointer flow remain unverified. */
+  undefined4 guest_second_arg_word = (undefined4)(uintptr_t)param_2;
   
   (**(code **)(*param_2 + 0x10))();
   piVar3 = param_2;
-  (**(code **)(*param_2 + 0x20))(param_2,&stack0x00000000);
-  if (&stack0x00000000 == (undefined1 *)0x1077c68b) {
+  (**(code **)(*param_2 + 0x20))(param_2,&guest_second_arg_word);
+  if (guest_second_arg_word == UINT32_C(0x1077c687)) {
     bVar2 = *(byte *)(param_2 + 0xc) & 0xfd;
   }
   else {
-    if (&stack0x00000000 != (undefined1 *)0xedbd6b03) {
+    if (guest_second_arg_word != UINT32_C(0xedbd6aff)) {
       iVar1 = param_2[0xb];
       if ((iVar1 != 0) && (iVar1 != 0)) {
         param_2[0xb] = iVar1 + -1;
