@@ -13,6 +13,8 @@ report = {
     "counts": {"pass": 12391, "fail": 1303},
     "body_hash_mismatches": 0,
     "body_hash_missing": 0,
+    "body_hash_unindexed": 0,
+    "group_index_present": True,
 }
 state = snapshot(report, 39992327184, sha)
 assert state["percentage"] == 90.48
@@ -25,6 +27,9 @@ for bad in (
     {**report, "checked_commit_sha": "b" * 40},
     {**report, "source_tree_entries": 13693},
     {**report, "body_hash_mismatches": 1},
+    {**report, "body_hash_unindexed": 1},
+    {**report, "group_index_present": False},
+    {k: v for k, v in report.items() if k != "body_hash_unindexed"},
     {**report, "counts": {"pass": 13695, "fail": 0}},
     {**report, "counts": {"pass": 12, "fail": 2}},
 ):
