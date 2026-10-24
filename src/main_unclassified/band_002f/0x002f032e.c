@@ -8,7 +8,8 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t _DAT_003b7232;
+/* x87 FLD TBYTE PTR [0x003b7232] loads an 80-bit extended value. */
+extern long double _DAT_003b7232;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 undefined5 FUN_002f032e(void)
