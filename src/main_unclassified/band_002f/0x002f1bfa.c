@@ -41,7 +41,8 @@ LAB_002f1d10:
     uVar1 = param_2[3];
     param_2[3] = uVar1 & 0xffffffef | 2;
     param_2[1] = 0;
-    param_2 = (int *)0x0;
+    /* This guest stack slot is used as a 32-bit write buffer, not a host pointer. */
+  param_2 = (int *)0x0;
     if (((uVar1 & 0x10c) == 0) &&
        (((piVar3 != (int *)&DAT_003b69a8 && (piVar3 != (int *)0x3b69c8)) ||
         (iVar4 = __isatty(uVar2), iVar4 == 0)))) {
