@@ -109,7 +109,7 @@ undefined1 FUN_0021cd00(int param_1,float param_2,undefined4 param_3)
         FUN_0021d040(param_1,iVar8,param_3);
         if (*(int *)(iVar1 + iVar9) != 0) {
           piVar6 = *(int **)(*(int *)(iVar1 + iVar9) + 0x14);
-          (**(code **)(*piVar6 + 0x30))(piVar6,FUN_0021cfe0,param_1);
+          (**(code **)(*piVar6 + 0x30))(piVar6,UINT32_C(0x0021cfe0),param_1);
         }
       }
       piVar6 = *(int **)(param_1 + 0x9c);
