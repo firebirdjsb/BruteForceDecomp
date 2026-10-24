@@ -42,7 +42,7 @@ void FUN_002fef6f(int *param_1,int param_2,undefined4 param_3,undefined4 param_4
       }
       param_1 = DAT_00414b4c;
       param_3 = DAT_00414b50;
-      local_20 = CONCAT31(local_20._1_3_,1);
+      local_20 = ((local_20 & UINT32_C(0xffffff00)) | UINT32_C(1));
       iVar3 = FUN_002ff3a8(DAT_00414b4c,1);
       if (iVar3 == 0) {
         __inconsistency__YAXXZ();
