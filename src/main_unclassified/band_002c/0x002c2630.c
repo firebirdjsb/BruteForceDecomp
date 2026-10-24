@@ -8,6 +8,8 @@
 #include "bf_ghidra_types.h"
 /* Original XBE 0x002C2635: B9 20 26 2C 00 (mov ECX,imm32).
  * The constant is an Xbox guest 32-bit code address, NOT a host pointer.
+ * Additional raw guest-table entries were individually checked against
+ * original MOV EAX/EDX,imm32 and MOV [guest-data],imm32 instructions.
  * Native dispatch/memory ABI and 1:1 table behavior remain unverified. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
@@ -46,21 +48,21 @@ void FUN_002c2630(void)
     puVar1[2] = UINT32_C(0x002c2620);
     puVar1 = puVar1 + 4;
   } while ((int)puVar1 < 0x443e2c);
-  DAT_00443de8 = &UNK_002c2050;
-  DAT_00443dec = &UNK_002c2050;
-  DAT_00443df0 = &UNK_002c2050;
-  DAT_00443dfc = &UNK_002c2050;
-  _DAT_00443e10 = &UNK_002c2050;
-  DAT_00443df4 = &UNK_002c2290;
-  DAT_00443df8 = &UNK_002c23b0;
+  DAT_00443de8 = UINT32_C(0x002c2050);
+  DAT_00443dec = UINT32_C(0x002c2050);
+  DAT_00443df0 = UINT32_C(0x002c2050);
+  DAT_00443dfc = UINT32_C(0x002c2050);
+  _DAT_00443e10 = UINT32_C(0x002c2050);
+  DAT_00443df4 = UINT32_C(0x002c2290);
+  DAT_00443df8 = UINT32_C(0x002c23b0);
   DAT_00443e00 = UINT32_C(0x002c2620);
-  DAT_00443e04 = &UNK_002c2290;
-  _DAT_00443e08 = &UNK_002c23b0;
+  DAT_00443e04 = UINT32_C(0x002c2290);
+  _DAT_00443e08 = UINT32_C(0x002c23b0);
   _DAT_00443e0c = UINT32_C(0x002c2620);
-  _DAT_00443e14 = &UNK_002c2290;
-  _DAT_00443e18 = FUN_002c22c0;
-  _DAT_00443e1c = FUN_002c22c0;
-  _DAT_00443e20 = FUN_002c22c0;
-  _DAT_00443e24 = &UNK_002c23d0;
+  _DAT_00443e14 = UINT32_C(0x002c2290);
+  _DAT_00443e18 = UINT32_C(0x002c22c0);
+  _DAT_00443e1c = UINT32_C(0x002c22c0);
+  _DAT_00443e20 = UINT32_C(0x002c22c0);
+  _DAT_00443e24 = UINT32_C(0x002c23d0);
   return;
 }
