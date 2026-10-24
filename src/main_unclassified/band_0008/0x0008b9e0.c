@@ -26,7 +26,10 @@ undefined4 FUN_0008b9e0(void)
     }
     iVar2 = *(int *)(iVar2 + 0x68);
     if ((iVar2 != 0) && (iVar2 == unaff_EDI)) break;
-    iVar2 = (**(code **)(*piVar1 + 0x14))(&stack0xfffffff8);
+    /* Original x86 0x0008b9e9: LEA ECX,[ESP+8] for the first call;
+     * 0x0008ba0d: LEA EAX,[ESP+8] for this second call.  Both
+     * address the same initialized four-byte local_4 slot. */
+    iVar2 = (**(code **)(*piVar1 + 0x14))(&local_4);
   }
   return CONCAT31((int3)((uint)iVar2 >> 8),1);
 }
