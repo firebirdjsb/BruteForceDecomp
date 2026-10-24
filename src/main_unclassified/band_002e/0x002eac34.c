@@ -21,7 +21,7 @@ float10 FUN_002eac34(double param_1)
   uint64_t bf_double_bits;
   memcpy(&bf_double_bits, &param_1, sizeof(bf_double_bits));
   uVar2 = __ctrlfp(DAT_003b6c10,0xffff);
-  if ((((uint16_t)(bf_double_bits >> 48)) & 0x7ff0) == 0x7ff0) {
+  if ((((uint16_t)(bf_double_bits >> 48)) & UINT16_C(0x7ff0)) == 0x7ff0) {
     iVar3 = __sptype();
     if (0 < iVar3) {
       if (iVar3 < 3) {
