@@ -12,6 +12,7 @@ on:
       - 'tools/test_triage_c11_failures.py'
       - 'scripts/group_guest_stack_failures.py'
       - 'scripts/verify_two_guest_interface_slots.py'
+      - 'scripts/verify_0029e410_argument_word_contract.py'
       - 'scripts/test_group_guest_stack_failures.py'
       - 'tools/audit_xbe_first_100.py'
       - 'tools/audit_xbe_kernel_imports.py'
@@ -118,6 +119,8 @@ jobs:
           /tmp/bf_guest_frame_test_release
       - name: Verify two virtual-callback guest stack slots (source-only CI)
         run: python3 scripts/verify_two_guest_interface_slots.py --repo .
+      - name: Verify two original incoming DWORD aliases at 0x0029E410 (source-only CI)
+        run: python3 scripts/verify_0029e410_argument_word_contract.py --repo .
       - name: Verify synthetic Xbox kernel thunk parsing
         run: python3 tools/test_xbe_kernel_imports.py
       - name: Verify sorted source layout and exact function identities
