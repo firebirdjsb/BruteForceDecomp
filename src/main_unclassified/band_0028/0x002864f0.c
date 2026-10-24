@@ -6,7 +6,12 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_002864f0(void)
+/* XBE 0x002864FC: LEA EAX,[ESP+0x10] after three register pushes;
+ * 0x00286500-04 forwards the address of the entry ESP+4 DWORD to
+ * 0x000FF730. Its 0x000FF777-7C copies exactly one DWORD through
+ * that pointer. Original RET 4; implicit incoming ECX remains ABI_UNVERIFIED.
+ * A host C pointer is only a syntax-level representation of this guest slot. */
+void FUN_002864f0(undefined4 guest_incoming_word)
 
 {
   int iVar1;
@@ -14,7 +19,7 @@ void FUN_002864f0(void)
   int in_ECX;
   
   iVar1 = *(int *)(in_ECX + 0x14);
-  iVar2 = FUN_000ff730(in_ECX + 0x10,iVar1,*(undefined4 *)(iVar1 + 4),&stack0x00000004);
+  iVar2 = FUN_000ff730(in_ECX + 0x10,iVar1,*(undefined4 *)(iVar1 + 4),&guest_incoming_word);
   FUN_000b2a50();
   *(int *)(iVar1 + 4) = iVar2;
   **(int **)(iVar2 + 4) = iVar2;
