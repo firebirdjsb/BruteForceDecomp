@@ -50,7 +50,7 @@ LAB_002e8eae:
       if ((uVar6 == 0) && (uVar5 < 0x80)) goto LAB_002e8eae;
       cVar3 = '\x01';
     }
-    param_1 = (uint *)CONCAT31(param_1._1_3_,cVar3 << 7 | (byte)uVar5 & 0x7f);
+    param_1 = (uint *)(uintptr_t)(((uint32_t)(uintptr_t)param_1 & UINT32_C(0xffffff00)) | ((uint32_t)((uint8_t)cVar3 << 7 | (uint8_t)uVar5 & UINT8_C(0x7f))));
     uVar5 = uVar5 >> 7 | uVar6 << 0x19;
     uVar6 = uVar6 >> 7;
     iVar4 = (**(code **)(*in_ECX + 0x18))(&param_1);
