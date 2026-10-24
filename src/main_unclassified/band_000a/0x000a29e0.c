@@ -65,28 +65,28 @@ uint FUN_000a29e0(int param_1,int param_2,undefined4 param_3)
   D3D8LTCG__D3DDevice_SetVertexShaderConstant1();
   if (iVar4 == 1) {
     in_stack_00000024 = 1;
-    FUN_0006a610(&stack0x00000024);
+    FUN_0006a610(&in_stack_00000024);
     in_stack_00000024 = 0x303;
-    FUN_0006a610(&stack0x00000024);
+    FUN_0006a610(&in_stack_00000024);
     in_stack_00000024 = 0x302;
-    FUN_0006a610(&stack0x00000024);
+    FUN_0006a610(&in_stack_00000024);
     in_stack_00000024 = 0x1000000;
 LAB_000a2c65:
-    FUN_0006a610(&stack0x00000024);
+    FUN_0006a610(&in_stack_00000024);
   }
   else if (iVar4 == 2) {
     in_stack_00000024 = 0;
-    FUN_0006a610(&stack0x00000024);
+    FUN_0006a610(&in_stack_00000024);
     in_stack_00000024 = 0x202;
-    FUN_0006a610(&stack0x00000024);
+    FUN_0006a610(&in_stack_00000024);
     in_stack_00000024 = 0x10101;
-    FUN_0006a610(&stack0x00000024);
+    FUN_0006a610(&in_stack_00000024);
 LAB_000a2c03:
     if (fVar1 < 1.0) {
       in_stack_00000024 = 1;
-      FUN_0006a610(&stack0x00000024);
+      FUN_0006a610(&in_stack_00000024);
       in_stack_00000024 = 0x302;
-      FUN_0006a610(&stack0x00000024);
+      FUN_0006a610(&in_stack_00000024);
       in_stack_00000024 = 0x303;
       goto LAB_000a2c65;
     }
