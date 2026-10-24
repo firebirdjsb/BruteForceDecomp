@@ -26,6 +26,9 @@ void FUN_00084d50(void)
   local_8 = 0;
   local_4 = 0;
   (**(code **)(*piVar1 + 0x1fc))(local_14);
-  (**(code **)(*piVar1 + 0x30))(&stack0xffffffe8);
+  /* Original x86 0x00084d7e and 0x00084d8d both use
+   * LEA EAX,[ESP+4]; PUSH EAX.  Both virtual calls receive the
+   * same 20-byte local buffer beginning at local_14. */
+  (**(code **)(*piVar1 + 0x30))(local_14);
   return;
 }
