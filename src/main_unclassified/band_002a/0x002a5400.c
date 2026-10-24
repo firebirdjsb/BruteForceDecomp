@@ -12,13 +12,13 @@ void FUN_002a5400(undefined4 param_1,int *param_2)
   int *piVar1;
   int iVar2;
   int *in_ECX;
-  uint unaff_EBP;
+  uint32_t guest_callback_flags; /* 32-bit guest argument slot overwritten by callback */
   
   while (param_2 != (int *)0x0) {
     piVar1 = (int *)(**(code **)(*param_2 + 0x38))(param_2);
     (**(code **)(*param_2 + 0x10))(param_2,param_1);
-    (**(code **)(*param_2 + 0x24))(param_2,&stack0xfffffffc);
-    if ((unaff_EBP & 1) == 0) {
+    (**(code **)(*param_2 + 0x24))(param_2,&guest_callback_flags);
+    if ((guest_callback_flags & 1) == 0) {
       iVar2 = (**(code **)(*param_2 + 0x30))(param_2);
       param_2 = piVar1;
       if (iVar2 != 0) {
