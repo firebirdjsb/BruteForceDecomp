@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original 0x000B2684 LEA EAX,[ESP+4] addresses a saved local DWORD.
+ * At 0x000B2689 MOV [ESP+8],ESI writes the incoming guest ESI value
+ * into that slot before the call to 0x000E0860. The callee reads one
+ * DWORD from its first pointer argument. Incoming EAX/ESI and callee EDI
+ * register contracts remain ABI_UNVERIFIED, as does guest32 translation. */
 void FUN_000b2660(void)
 
 {
@@ -25,7 +30,8 @@ void FUN_000b2660(void)
       piVar2 = (int *)*piVar2;
     } while (piVar2 != piVar1);
     if (piVar2 != piVar1) {
-      FUN_000e0860(&stack0xfffffffc);
+      undefined4 guest_esi_word = (undefined4)(uintptr_t)unaff_ESI;
+      FUN_000e0860((int *)&guest_esi_word);
       if (unaff_ESI != (undefined4 *)0x0) {
         (**(code **)*unaff_ESI)(1);
       }
