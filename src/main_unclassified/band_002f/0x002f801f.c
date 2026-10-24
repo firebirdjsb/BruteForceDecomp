@@ -66,7 +66,7 @@ int FUN_002f801f(void)
         puVar3 = puVar3 + 1;
       }
       local_28 = local_6c;
-      local_3c[0]._0_2_ = 0x2c;
+      *(uint16_t *)&local_3c[0] = UINT16_C(0x002c);
       local_34 = 1;
       local_30 = 0x1c;
       uStack_1f = 0;
