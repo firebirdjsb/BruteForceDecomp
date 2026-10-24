@@ -6,7 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_0024a600(void)
+/* 0x0024A625 LEA EAX,[ESP+0x0C] addresses the incoming guest DWORD
+ * at entry ESP+4 (after PUSH ESI/EDI). Both exits RET 4. The callee
+ * at 0x00071D46 reads only its low byte. This host C parameter is a
+ * source-level proxy for that DWORD, not a verified EAX/ECX host ABI. */
+void FUN_0024a600(undefined4 guest_element_word)
 
 {
   uint in_EAX;
@@ -28,7 +32,7 @@ void FUN_0024a600(void)
     else {
       iVar2 = *(int *)(in_ECX + 8) - iVar2;
     }
-    FUN_00071d20(*(undefined4 *)(in_ECX + 8),in_EAX - iVar2,&stack0x00000004);
+    FUN_00071d20(*(undefined4 *)(in_ECX + 8),in_EAX - iVar2,&guest_element_word);
     return;
   }
   if ((iVar2 != 0) && (in_EAX < (uint)(*(int *)(in_ECX + 8) - iVar2))) {
