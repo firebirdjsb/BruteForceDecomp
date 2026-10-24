@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original XBE 0x002CCB85: B9 70 CB 2C 00 (mov ECX,imm32).
+ * The constant is an Xbox guest 32-bit code address, NOT a host pointer.
+ * Native dispatch/memory ABI and 1:1 table behavior remain unverified. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00443e28;
@@ -33,24 +36,24 @@ void FUN_002ccb80(void)
   
   puVar1 = &DAT_00443e2c;
   do {
-    puVar1[-1] = &LAB_002ccb70;
-    *puVar1 = &LAB_002ccb70;
-    puVar1[1] = &LAB_002ccb70;
-    puVar1[2] = &LAB_002ccb70;
+    puVar1[-1] = UINT32_C(0x002ccb70);
+    *puVar1 = UINT32_C(0x002ccb70);
+    puVar1[1] = UINT32_C(0x002ccb70);
+    puVar1[2] = UINT32_C(0x002ccb70);
     puVar1 = puVar1 + 4;
   } while ((int)puVar1 < 0x443e6c);
   DAT_00443e28 = FUN_002cc9f0;
   DAT_00443e2c = FUN_002cc9f0;
   DAT_00443e30 = FUN_002cc9f0;
   DAT_00443e3c = FUN_002cc9f0;
-  DAT_00443e34 = &LAB_002ccb70;
-  DAT_00443e38 = &LAB_002ccb70;
-  DAT_00443e40 = &LAB_002ccb70;
-  DAT_00443e44 = &LAB_002ccb70;
-  _DAT_00443e48 = &LAB_002ccb70;
-  _DAT_00443e4c = &LAB_002ccb70;
-  _DAT_00443e50 = &LAB_002ccb70;
-  _DAT_00443e54 = &LAB_002ccb70;
+  DAT_00443e34 = UINT32_C(0x002ccb70);
+  DAT_00443e38 = UINT32_C(0x002ccb70);
+  DAT_00443e40 = UINT32_C(0x002ccb70);
+  DAT_00443e44 = UINT32_C(0x002ccb70);
+  _DAT_00443e48 = UINT32_C(0x002ccb70);
+  _DAT_00443e4c = UINT32_C(0x002ccb70);
+  _DAT_00443e50 = UINT32_C(0x002ccb70);
+  _DAT_00443e54 = UINT32_C(0x002ccb70);
   _DAT_00443e58 = FUN_002cc8b0;
   _DAT_00443e5c = FUN_002cc8b0;
   _DAT_00443e60 = FUN_002cc8b0;
