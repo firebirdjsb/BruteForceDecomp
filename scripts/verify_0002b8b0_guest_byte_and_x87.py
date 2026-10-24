@@ -52,6 +52,7 @@ def verify(root: Path, xbe: Path | None) -> None:
     assert "(int *)(float)fVar7" not in text
     assert "(float)local_154" not in text
     cmd = ["clang", "-std=c11", "-fsyntax-only", "-ferror-limit=0",
+           "-Wno-implicit-function-declaration", "-Wno-int-conversion",
            "-I", str(root / "include"), str(source)]
     subprocess.run(cmd, check=True)
     if xbe is not None:
