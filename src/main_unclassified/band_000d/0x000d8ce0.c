@@ -30,7 +30,10 @@ undefined4 FUN_000d8ce0(void)
       (**(code **)(*piVar2 + 4))(piVar2);
     }
   }
-  piVar2 = (int *)(**(code **)(*DAT_00443300 + 0x2c))(&stack0xfffffff8);
+  /* XBE 0x000d8d30 LEA EDX,[ESP+4] and 0x000d8d34 MOV [ESP+4],0xf7bcbdb1:
+   * same saved-ECX stack word used for the first lookup at 0x000d8ce8. */
+  local_4 = 0xf7bcbdb1;
+  piVar2 = (int *)(**(code **)(*DAT_00443300 + 0x2c))(&local_4);
   piVar1 = *(int **)(unaff_ESI + 0xc3c);
   if (piVar1 != piVar2) {
     if (piVar1 != (int *)0x0) {
