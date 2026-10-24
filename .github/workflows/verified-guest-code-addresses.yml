@@ -1,0 +1,38 @@
+name: Verified original XBE guest-address instruction checks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_000d/0x000d6520.c'
+      - 'src/main_unclassified/band_001e/0x001e9150.c'
+      - 'src/main_unclassified/band_001e/0x001e9350.c'
+      - 'src/main_unclassified/band_001e/0x001e95e0.c'
+      - 'src/main_unclassified/band_001e/0x001ec170.c'
+      - 'src/main_unclassified/band_001f/0x001f4240.c'
+      - 'src/main_unclassified/band_0021/0x0021cd00.c'
+      - 'src/main_unclassified/band_0022/0x00228ed0.c'
+      - 'src/main_unclassified/band_0026/0x00264820.c'
+      - 'src/main_unclassified/band_002c/0x002c2630.c'
+      - 'src/main_unclassified/band_002c/0x002ccb80.c'
+      - 'src/main_unclassified/band_002f/0x002f8be1.c'
+      - 'metadata/verified_guest_code_addresses_2026_10_23.csv'
+      - 'tools/verify_guest_code_addresses.py'
+      - '.github/workflows/verified-guest-code-addresses.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-guest-immediate-invariants:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm original source identities and 18 verified 32-bit immediates
+        run: python3 tools/verify_guest_code_addresses.py --root .
+      - name: Explicit evidence boundary
+        run: |
+          echo 'Original retail XBE SHA256 and 18 instruction fingerprints were verified on the user-supplied executable; it is not distributed in Git.'
+          echo 'Source-only checks do NOT provide native function pointer relocation, complete ABI reconstruction, or 1:1 behavior.'
