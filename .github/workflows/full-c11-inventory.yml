@@ -8,6 +8,8 @@ on:
       - 'include/**'
       - 'metadata/**'
       - 'tools/sweep_c11.py'
+      - 'tools/triage_c11_failures.py'
+      - 'tools/test_triage_c11_failures.py'
       - 'tools/audit_xbe_first_100.py'
       - 'tools/audit_xbe_kernel_imports.py'
       - 'tools/test_xbe_kernel_imports.py'
@@ -76,6 +78,13 @@ jobs:
         run: python3 tools/audit_xbe_first_100.py --root . --out c11_sweep_results/first_100_function_passes.json
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
+      - name: Validate and categorize exact audit failures without XBE assumptions
+        run: |
+          python3 tools/test_triage_c11_failures.py
+          python3 tools/triage_c11_failures.py \
+            --report c11_sweep_results/c11_sweep_report.json \
+            --out-json c11_sweep_results/failure_triage.json \
+            --out-csv c11_sweep_results/failure_triage.csv
       - name: Inventory candidate C entrypoint identities without asserting linkage
         run: python3 tools/audit_entrypoint_symbols.py --root . --out c11_sweep_results/entry_symbol_audit.csv
       - name: Upload audit and per-address error diagnostics

@@ -1,65 +1,99 @@
 #!/usr/bin/env python3
-"""Summarize the first fatal C11 diagnostic per function from a full audit.
+"""Categorize the FIRST Clang error from an exact full-tree C11 audit.
 
-This is diagnostic triage only. A passing C11 parse is NOT behavioral proof.
-Accepts the GitHub Actions syntax_failures.csv artifact as input.
+A category is a compiler-diagnostic search aid, never an ABI or behavioral claim.
+No XBE, original function bodies, or GitHub access is required.
 """
 from __future__ import annotations
+
 import argparse
+from collections import Counter
 import csv
 import json
-from collections import Counter
 from pathlib import Path
+import re
 
-def classify(message: str) -> str:
-    if "stack0x" in message or "register0x" in message:
-        return "x86_stack_register_unresolved"
-    if "cannot be cast to a pointer" in message or "pointer cannot be cast to type 'float'" in message:
-        return "float_pointer_conversion"
-    if "member reference base type" in message:
-        return "invalid_member_base_type"
-    if "is not assignable" in message and "array type" in message:
-        return "simd_or_array_assignment"
-    if "too few arguments" in message or "too many arguments" in message:
-        return "call_signature"
-    if "undeclared identifier" in message or "unknown type name" in message:
-        return "missing_symbol_or_type"
-    return "other_requires_review"
+ENTRY = re.compile(r"0x[0-9a-f]{8}\Z")
+SHA = re.compile(r"[0-9a-f]{40}\Z")
+RULES = (
+    ("unresolved_stack", re.compile(r"undeclared identifier 'stack0x")),
+    ("unresolved_ram", re.compile(r"undeclared identifier '[a-zA-Z]Ram")),
+    ("unresolved_label", re.compile(r"undeclared identifier 'LAB_")),
+    ("unresolved_function", re.compile(r"undeclared identifier 'FUN_")),
+    ("unresolved_other_symbol", re.compile(r"undeclared identifier")),
+    ("invalid_float_pointer_cast", re.compile(r"cannot be cast to a pointer type|cannot be cast to type 'float'")),
+    ("invalid_member_access", re.compile(r"member reference base type")),
+    ("invalid_array_assignment", re.compile(r"array type .* is not assignable")),
+    ("invalid_type_usage", re.compile(r"used type .* where arithmetic or pointer type is required")),
+)
 
-def summarize(path: Path) -> dict:
-    counts: Counter[str] = Counter()
-    examples: dict[str, list[str]] = {}
-    seen: set[str] = set()
-    with path.open(newline="", encoding="utf-8-sig") as stream:
-        reader = csv.DictReader(stream)
-        if not {"entry", "status", "first_error"}.issubset(reader.fieldnames or []):
-            raise ValueError("expected entry,status,first_error columns")
-        for row in reader:
-            entry = row["entry"].strip()
-            if row["status"] != "fail" or not entry.startswith("0x"):
-                raise ValueError("malformed failure row: " + repr(row))
-            if entry in seen:
-                raise ValueError("duplicate entry: " + entry)
-            seen.add(entry)
-            category = classify(row["first_error"])
-            counts[category] += 1
-            examples.setdefault(category, [])
-            if len(examples[category]) < 5:
-                examples[category].append(entry)
-    return {"failed_functions": len(seen),
-            "first_error_categories": dict(sorted(counts.items())),
-            "example_entries": dict(sorted(examples.items())),
-            "note": "first-error triage only; not an ABI or 1:1 validation"}
+
+def category(first_error: str) -> str:
+    for name, pattern in RULES:
+        if pattern.search(first_error):
+            return name
+    return "other_first_error"
+
+
+def triage(report: dict, expected_total: int = 13694) -> tuple[dict, list[dict]]:
+    """Fail closed on truncated/mismatched reports; never manufacture counts."""
+    sha = report.get("checked_commit_sha", "")
+    if not isinstance(sha, str) or not SHA.fullmatch(sha):
+        raise ValueError("Report is not pinned to a full audited commit SHA")
+    results = report.get("results")
+    if not isinstance(results, list) or len(results) != expected_total:
+        raise ValueError("Report results are missing or incomplete")
+    if type(report.get("source_tree_entries")) is not int or report["source_tree_entries"] != expected_total:
+        raise ValueError("Source tree entry count differs from complete audit")
+    if report.get("body_hash_mismatches") != 0 or report.get("body_hash_missing") != 0:
+        raise ValueError("Original body-hash provenance gate failed")
+    counts = report.get("counts")
+    if not isinstance(counts, dict) or any(type(v) is not int or v < 0 for v in counts.values()):
+        raise ValueError("Invalid compiler result counts")
+    actual = Counter()
+    seen = set()
+    rows = []
+    for result in results:
+        entry, status = result.get("entry"), result.get("status")
+        if not isinstance(entry, str) or not ENTRY.fullmatch(entry) or entry in seen:
+            raise ValueError(f"Invalid or duplicate function entry: {entry}")
+        if not isinstance(status, str) or not status:
+            raise ValueError(f"Missing compiler status at {entry}")
+        seen.add(entry)
+        actual[status] += 1
+        if status == "fail":
+            errors = result.get("errors")
+            if not isinstance(errors, list) or not errors or not isinstance(errors[0], str) or not errors[0]:
+                raise ValueError(f"Missing first Clang diagnostic at {entry}")
+            rows.append({"entry": entry, "category": category(errors[0]), "first_error": errors[0]})
+    if dict(actual) != counts:
+        raise ValueError("Reported pass/fail counts do not match per-function results")
+    rows.sort(key=lambda r: r["entry"])
+    grouped = Counter(row["category"] for row in rows)
+    summary = {
+        "audited_commit": sha,
+        "source_tree_entries": expected_total,
+        "counts": dict(sorted(actual.items())),
+        "classification_basis": "first recorded Clang C11 error only; not a verified root cause or runtime result",
+        "first_error_categories": dict(sorted(grouped.items())),
+    }
+    return summary, rows
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("syntax_failures_csv", type=Path)
-    parser.add_argument("--expected-failures", type=int)
+    parser.add_argument("--report", required=True, type=Path)
+    parser.add_argument("--out-json", required=True, type=Path)
+    parser.add_argument("--out-csv", required=True, type=Path)
     args = parser.parse_args()
-    report = summarize(args.syntax_failures_csv)
-    print(json.dumps(report, indent=2))
-    if args.expected_failures is not None and report["failed_functions"] != args.expected_failures:
-        parser.error("count differs from expected failures")
+    summary, rows = triage(json.loads(args.report.read_text(encoding="utf-8")))
+    args.out_json.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+    with args.out_csv.open("w", encoding="utf-8", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=("entry", "category", "first_error"))
+        writer.writeheader()
+        writer.writerows(rows)
+    print(f"Categorized {len(rows)} actual syntax failures at {summary['audited_commit']}; no XBE semantics inferred")
+
 
 if __name__ == "__main__":
     main()
