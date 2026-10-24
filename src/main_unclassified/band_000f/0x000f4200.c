@@ -9,7 +9,7 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00469b58;
-bool FUN_000f4200(void)
+bool FUN_000f4200(uint32_t guest_argument_word)
 
 {
   char cVar1;
@@ -17,13 +17,15 @@ bool FUN_000f4200(void)
   undefined4 *puVar3;
   int unaff_ESI;
   int *piVar4;
-  undefined4 unaff_retaddr;
   int aiStack_20 [8];
   
   iVar2 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0xdc))(1);
   if ((iVar2 != 0) && (*(int *)(iVar2 + 0x1c) != 0)) {
     if ((*(int *)(iVar2 + 0x20) - *(int *)(iVar2 + 0x1c)) / 0x4c != 0) {
-      FUN_000f4c00(unaff_retaddr,iVar2 + 8,unaff_ESI,&stack0x00000000);
+      /* MOV [ESP+0x28] and LEA [ESP+0x2c] reference the same
+       * incoming 32-bit argument before/after PUSH EDI.  The callee
+       * clears its first byte, not a fabricated return-address slot. */
+      FUN_000f4c00(guest_argument_word,iVar2 + 8,unaff_ESI,(uint8_t *)&guest_argument_word);
       aiStack_20[0] = 0;
       aiStack_20[3] = 0;
       piVar4 = aiStack_20;
