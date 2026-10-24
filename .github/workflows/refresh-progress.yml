@@ -52,13 +52,43 @@ jobs:
             --run-id "$RUN_ID" --expected-sha "$AUDITED_SHA" --root .
       - name: Publish progress only to canonical main
         if: steps.freshness.outputs.use_report == 'true'
+        env:
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          AUDITED_SHA: ${{ github.event.workflow_run.head_sha }}
+        shell: bash
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md docs/progress/current.json docs/progress/c11-syntax.svg docs/progress/overall.svg
-          if git diff --cached --quiet; then
-            echo "Progress unchanged"
-          else
+          # Other source commits can land after checkout. Never force-push,
+          # and never overwrite a newer successfully published audit.
+          for attempt in 1 2 3 4 5; do
+            git fetch --no-tags origin main
+            git reset --hard origin/main
+            gate="$RUNNER_TEMP/progress_publish_gate"
+            : > "$gate"
+            python3 tools/progress_gate.py \
+              --current docs/progress/current.json \
+              --run-id "$RUN_ID" --github-output "$gate"
+            if ! grep -qx 'use_report=true' "$gate"; then
+              echo "A newer audited progress report already reached main"
+              exit 0
+            fi
+            python3 tools/update_progress.py \
+              --report "$RUNNER_TEMP/progress_audit/c11_sweep_report.json" \
+              --run-id "$RUN_ID" --expected-sha "$AUDITED_SHA" --root .
+            git add README.md docs/progress/current.json docs/progress/c11-syntax.svg docs/progress/overall.svg
+            if git diff --cached --quiet; then
+              echo "Progress unchanged"
+              exit 0
+            fi
             git commit -m "docs(progress): update exact C11 audit percentage"
-            git push origin HEAD:main
-          fi
+            if git push origin HEAD:main; then
+              echo "Published exact audit on current main"
+              exit 0
+            fi
+            echo "Concurrent main update; retrying against fresh main ($attempt/5)"
+            sleep "$((attempt * 2))"
+          done
+          echo "Could not publish after five safe fast-forward attempts" >&2
+          exit 1
