@@ -18,7 +18,7 @@ int FUN_002e7b70(int param_1,int param_2,uint param_3,uint param_4)
   
   bVar4 = param_4 != 4;
   if ((param_4 == 1) || (bVar5 = param_4 == 2, param_4 = param_4 & 0xffffff00, bVar5)) {
-    param_4 = CONCAT31(param_4._1_3_,1);
+    param_4 = ((param_4 & UINT32_C(0xffffff00)) | UINT32_C(1));
   }
   iVar1 = 0;
   switch(param_1) {
@@ -42,11 +42,11 @@ int FUN_002e7b70(int param_1,int param_2,uint param_3,uint param_4)
   }
   if ((0x3fc < param_3) && ((char)param_4 != '\0')) {
     uVar3 = (param_3 + 0x3fb) / 0x3fc;
-    param_4 = CONCAT31(param_4._1_3_,0xff);
+    param_4 = ((param_4 & UINT32_C(0xffffff00)) | UINT32_C(0xff));
     if (param_3 != 0) {
       while( true ) {
         bVar2 = (char)uVar3 - 1;
-        param_4._0_2_ = CONCAT11(bVar2,(char)param_4);
+        param_4 = (param_4 & UINT32_C(0xffff0000)) | ((uint32_t)bVar2 << 8) | (param_4 & UINT32_C(0xff));
         uVar3 = param_3;
         if (0x3fb < param_3) {
           uVar3 = 0x3fc;
