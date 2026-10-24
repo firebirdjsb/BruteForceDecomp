@@ -96,7 +96,8 @@ bool FUN_001e1f40(void)
         }
         pcVar6 = (char *)(in_stack_ffffffb0 & 0xffffff00);
         if (local_3c < 0x10) {
-          pcVar6 = &stack0xffffffb0;
+          /* Original 0x001e1c5c LEA EDX,[ESP+0x1C]: entry ESP-0x50. */
+          pcVar6 = (char *)&in_stack_ffffffb0;
         }
         local_20 = 0xf;
         local_24 = 0;
