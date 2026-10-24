@@ -40,7 +40,9 @@ LAB_0005c162:
       }
       *(undefined4 *)(iVar4 + 0x18) = uVar2;
       if (*(uint *)(in_ECX + 4) <= uVar3) {
-        uRam0000001c = 0;
+        /* XBE 0x0005c1a0: XOR EAX,EAX; MOV [EAX+0x1c],EAX.
+         * Preserve guest absolute write at 0x1c; mapping unverified. */
+        *(volatile undefined4 *)(uintptr_t)UINT32_C(0x1c) = 0;
         return;
       }
       *(undefined4 *)(*(int *)(*(int *)(in_ECX + 8) + uVar3 * 4) + 0x1c) = 0;
