@@ -31,6 +31,7 @@ for bad in (
     {**report, "group_index_present": False},
     {k: v for k, v in report.items() if k != "body_hash_unindexed"},
     {**report, "counts": {"pass": 13695, "fail": 0}},
+    {**report, "counts": {"pass": 12391, "fail": 1303, "check_error": 0}},
     {**report, "counts": {"pass": 12, "fail": 2}},
 ):
     try:
