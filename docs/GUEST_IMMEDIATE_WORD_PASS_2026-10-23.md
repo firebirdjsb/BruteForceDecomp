@@ -14,3 +14,9 @@ The changes replace one unresolved Ghidra pseudo-symbol per function with its **
 - GitHub Actions applies the changes on the canonical `main` branch. **Do not increase README percentages until the separate full 13,694-source Clang audit has completed successfully.**
 
 These repairs establish only isolated C11 syntax. Xbox register/stack ABI, guest virtual-address translation, callbacks, linked dependencies, Xbox platform APIs, and runtime 1:1 behavior are still unresolved.
+
+## Published main-branch checkpoint and full audit
+
+The 49 reviewed C11 source edits were committed to [`main` at `1ccd5d12`](https://github.com/firebirdjsb/BruteForceDecomp/commit/1ccd5d12439a879f0e9b71b5ce9364826c91c442). The [focused repair workflow](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/40043057024) completed successfully. A subsequent, separate [full 13,694-function Clang C11 audit](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/40043165260) completed successfully on audited commit `a144ce372a9156100b6253cfb5d1cf6d725b62ae`: **13,029 passing, 665 failing, 95.14% isolated syntax coverage**, with **zero original body-hash mismatches and zero missing body-hash labels**. The README progress bars now reflect this completed audit, not a predicted delta.
+
+Among the 665 remaining failures, the first Clang diagnostic falls into these coarse triage buckets: **258** unresolved Ghidra `stack0x...` pseudo-symbols, **130** invalid partial-field/member expressions, **77** float/pointer conversion errors, **72** unresolved `LAB_...` pseudo-symbols, and **128** other diagnostics. These are compiler-error classifications only; their resolutions still require original x86 instruction and calling-contract evidence. No ABI, cross-function linkage, Xbox API or native-PC runtime completion is claimed.
