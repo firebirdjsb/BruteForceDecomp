@@ -12,7 +12,7 @@ undefined4 XAPILIB__SetThreadPriority(undefined4 param_1,int param_2)
   int iVar1;
   undefined4 uVar2;
   
-  iVar1 = ObReferenceObjectByHandle(param_1,PsThreadObjectType_exref,&param_1);
+  iVar1 = ObReferenceObjectByHandle(param_1,*(uint32_t *)(uintptr_t)UINT32_C(0x00386538),&param_1);
   if (iVar1 < 0) {
     XapiSetLastNTError(iVar1);
     uVar2 = 0;
