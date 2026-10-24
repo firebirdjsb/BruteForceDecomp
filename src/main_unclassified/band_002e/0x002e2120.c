@@ -129,7 +129,7 @@ LAB_002e2224:
       if ((((uint8_t *)&local_80)[3] & 1) != 0) {
         FUN_002e1150(iVar5,uStack_6c,uStack_70);
       }
-      FUN_002e35d0(CONCAT13(uStack_7b,CONCAT12(cStack_7c,CONCAT11(((uint8_t *)&local_80)[3],((uint8_t *)&local_80)[2]))));
+      FUN_002e35d0(((uint32_t)(uint8_t)uStack_7b << 24 | (uint32_t)(uint8_t)cStack_7c << 16 | (uint32_t)((uint8_t *)&local_80)[3] << 8 | (uint32_t)((uint8_t *)&local_80)[2]));
       cVar10 = cStack_7c;
       if ((((uint8_t *)&local_80)[3] & 0xe) == 0) {
         bVar4 = ((uint8_t *)&local_80)[3] >> 4;
