@@ -16,6 +16,7 @@ void FUN_00090630(int *param_1)
   byte bVar5;
   char cVar6;
   int iVar7;
+  uint32_t guest_constant_word; /* Reused original guest caller-argument slot. */
   
   iVar2 = (**(code **)(*param_1 + 0x40))(param_1);
   if ((iVar2 != 0) && (iVar7 = 0, 0 < iVar2)) {
@@ -80,7 +81,7 @@ LAB_000906f9:
        * The original object pointer is already saved in EDI.
        * TODO: lifetime/aliasing of this guest stack slot across the
        * indirect call is not verified for a native host ABI. */
-      uint32_t guest_constant_word = UINT32_C(0x1d3e389e);
+      guest_constant_word = UINT32_C(0x1d3e389e);
       (**(code **)(*param_1 + 0x70))(param_1,iVar3,&guest_constant_word,*(undefined4 *)(iVar3 + 0x14));
       iVar7 = iVar7 + 1;
     } while (iVar7 < iVar2);
