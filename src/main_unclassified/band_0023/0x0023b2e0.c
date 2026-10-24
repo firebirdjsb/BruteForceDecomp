@@ -30,6 +30,8 @@ void FUN_0023b2e0(void)
   }
   /* PUSH ECX at 0x0023B2E0 reserves and seeds this 32-bit guest stack slot. */
   FUN_0023b9c0(&guest_constructor_context,uVar2,puVar1);
-                    /* WARNING: Subroutine does not return */
+  /* CALL 0x002EA018 returns; the original then clears two guest DWORDs. */
   thunk_FUN_00237ec0(in_ECX[2]);
+  in_ECX[2] = 0;
+  in_ECX[3] = 0;
 }
