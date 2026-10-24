@@ -18,6 +18,7 @@ int FUN_002e8e80(uint *param_1)
   uint uVar6;
   undefined8 uVar7;
   
+  /* The encoder consumes two guest 32-bit words, low word first. */
   puVar2 = param_1;
   iVar4 = 0;
   if (in_ECX[1] != 0) {
@@ -51,7 +52,7 @@ LAB_002e8eae:
       cVar3 = '\x01';
     }
     param_1 = (uint *)(uintptr_t)(((uint32_t)(uintptr_t)param_1 & UINT32_C(0xffffff00)) | ((uint32_t)((uint8_t)cVar3 << 7 | (uint8_t)uVar5 & UINT8_C(0x7f))));
-    uVar5 = uVar5 >> 7 | uVar6 << 0x19;
+    uVar5 = (uVar5 >> 7) | (uVar6 << 25);
     uVar6 = uVar6 >> 7;
     iVar4 = (**(code **)(*in_ECX + 0x18))(&param_1);
     bVar1 = false;
