@@ -29,9 +29,13 @@ void FUN_0004aff0(int param_1,int param_2,uint param_3,int param_4)
   puStack_c = UINT32_C(0x003085e0);
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
-  local_14 = &stack0xffffff74;
+  /* Original x86 LEA ESI,[EBP-0x18] at 0x0004b026 selects the
+   * four-byte local_1c storage; later LEAs at 0x0004b11a,
+   * 0x0004b226, 0x0004b248 and 0x0004b2e7 select the same slot.
+   * This is local frame storage, not the guest saved ESP or SEH. */
+  local_14 = local_1c;
   local_18 = 0;
-  puVar1 = &stack0xffffff74;
+  puVar1 = local_1c;
   if (*(int *)(param_4 + 4) != 0) {
     FUN_0008f6a0();
     puVar1 = local_14;
