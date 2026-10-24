@@ -73,7 +73,7 @@ def verify_xbe(data: bytes) -> None:
         b = bytes.fromhex(hex_bytes)
         if guest_bytes(data, va, len(b)) != b:
             raise ValueError(f"callee DWORD-copy instruction mismatch at {va:#x}")
-    print("PASS: three original body hashes, 14 instruction signatures, two direct calls, four callee checks")
+    print("PASS: three original body hashes, 12 instruction signatures, two direct calls, four callee checks")
 
 def verify_source(root: Path, clang: str) -> None:
     for entry, _, digest, _, _, required, forbidden in CHECKS:
