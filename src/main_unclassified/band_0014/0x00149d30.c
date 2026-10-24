@@ -15,6 +15,8 @@ bool FUN_00149d30(int *param_1,uint *param_2)
   int in_EAX;
   uint uVar4;
   int in_ECX;
+  /* Byte return state at 0x149d46/4d/c9; final AL load 0x149df6.
+   * This source value does not model the original transient stack write. */
   bool bVar5;
   
   iVar1 = *(int *)(in_ECX + 0x194);
@@ -35,10 +37,8 @@ bool FUN_00149d30(int *param_1,uint *param_2)
       *param_1 = 0;
       uVar4 = FUN_00149d00(in_ECX);
       *param_2 = uVar4;
-      param_1._0_1_ = false;
-      bVar5 = param_1._0_1_;
+      bVar5 = false;
     }
-    param_1._0_1_ = bVar5;
     if (*(int *)(iVar1 + 4) == 0) {
       uVar4 = 0;
     }
@@ -48,7 +48,7 @@ bool FUN_00149d30(int *param_1,uint *param_2)
     if (uVar4 <= *param_2) {
       FUN_0014c470(0);
     }
-    return param_1._0_1_;
+    return bVar5;
   }
   return false;
 }

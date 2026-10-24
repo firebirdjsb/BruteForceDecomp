@@ -14,10 +14,8 @@ void FUN_002d5ff0(void)
   uint *puVar3;
   int iVar4;
   int unaff_ESI;
-  undefined1 *puVar5;
-  undefined1 *puVar6;
-  undefined1 local_8 [4];
-  undefined1 local_4 [4];
+  float local_8;
+  float local_4;
   
   puVar1 = (uint *)(*(uint *)(unaff_ESI + 0x2c) & 0xfffffff0);
   iVar2 = (*puVar1 & 0xfff) + 1;
@@ -32,11 +30,13 @@ void FUN_002d5ff0(void)
   else {
     *(undefined4 *)(unaff_ESI + 0x84) = 0;
   }
-  puVar6 = local_4;
-  puVar5 = local_8;
+  /* 0x2d6063-2d6072 passes the two four-byte stack slots by address.
+   * The virtual target and its prototype remain ABI_UNVERIFIED. */
   (**(code **)**(undefined4 **)(*(int *)(*(int *)(unaff_ESI + 0x28) + 0x14) + 0x1c))
-            (*(int *)(unaff_ESI + 0x28),*(undefined4 *)(unaff_ESI + 0x44),puVar5,puVar6);
+            (*(int *)(unaff_ESI + 0x28),*(undefined4 *)(unaff_ESI + 0x44),&local_8,&local_4);
   *(uint *)(unaff_ESI + 0x14) = *(uint *)(unaff_ESI + 0x14) & 0xffd3ffff | 0x100000;
-  FUN_002d62f0(unaff_ESI,(float)puVar5 + (float)puVar6);
+  /* 0x2d6074 FLD [ESP+8], 0x2d607b FADD [ESP+C], then FSTP
+   * rounds the sum to the four-byte argument for 0x002d62f0. */
+  FUN_002d62f0(unaff_ESI,local_8 + local_4);
   return;
 }

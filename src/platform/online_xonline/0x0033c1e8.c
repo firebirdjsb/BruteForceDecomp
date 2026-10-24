@@ -17,6 +17,10 @@ undefined4 FUN_0033c1e8(undefined4 *param_1)
   int local_1c;
   int local_14;
   undefined4 local_c;
+  /* 0x33c230/0x33c2cd pass a one-byte output slot to 0x33c0d7.
+   * Keep all equality operands char: byte CMP at 0x33c31e also treats
+   * matching bit patterns 0x80..0xff as equal. Full pointer stays in EDI. */
+  char selector_byte;
   char local_5;
   
   FUN_0033bb7c(in_ECX + 0x824);
@@ -26,14 +30,14 @@ undefined4 FUN_0033c1e8(undefined4 *param_1)
   if ((uint)(*(int *)(in_ECX + 0x834) - *(int *)(in_ECX + 0x82c)) < 4) {
     local_14 = local_14 - local_1c;
     local_1c = 0;
-    FUN_0033c0d7(in_ECX + 0x24,local_24,1,(int)&param_1 + 3);
+    FUN_0033c0d7(in_ECX + 0x24,local_24,1,&selector_byte);
     FUN_0033bbd6(1);
     FUN_0033c0d7(in_ECX + 0x24,local_24,puVar1[3],iVar2);
     FUN_0033bbd6(local_20 + -1);
   }
   else {
     FUN_0033bc50((uint)param_1[3] >> 9);
-    FUN_0033c0d7(iVar2,local_24,1,(int)&param_1 + 3);
+    FUN_0033c0d7(iVar2,local_24,1,&selector_byte);
     FUN_0033bbd6(1);
     FUN_0033c0d7(iVar2,local_24,local_20,iVar2);
     iVar2 = iVar2 + local_20;
@@ -43,7 +47,7 @@ undefined4 FUN_0033c1e8(undefined4 *param_1)
     FUN_0033bbd6(local_20 + -1);
   }
   FUN_0033c0d7(in_ECX + 0x24,local_24,1,&local_5);
-  if ((local_5 != param_1._3_1_) || (param_1._3_1_ != *(char *)(in_ECX + 0x83c))) {
+  if ((local_5 != selector_byte) || (selector_byte != *(char *)(in_ECX + 0x83c))) {
     *puVar1 = 0;
     local_c = 0x80004005;
   }

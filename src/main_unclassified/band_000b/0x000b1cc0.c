@@ -17,24 +17,29 @@ void FUN_000b1cc0(int *param_1,byte param_2)
   char cVar6;
   undefined4 *puVar7;
   undefined1 uVar8;
+  /* 0x0b1ce1 saves one DWORD, then +1/+2/AL provide three byte
+   * values stored at object +0x3a/+0x39/+0x38 (0x0b1cf2-cf8).
+   * The original input pointer remains separately saved. */
+  undefined1 uVar9;
+  undefined1 uVar10;
   
   piVar5 = param_1;
   if (param_2 == 0) {
     puVar7 = (undefined4 *)FUN_000b87a0();
     uVar3 = *puVar7;
-    param_1._1_1_ = (undefined1)((uint)uVar3 >> 8);
-    param_1._2_1_ = (undefined1)((uint)uVar3 >> 0x10);
+    uVar9 = (undefined1)((uint)uVar3 >> 8);
+    uVar10 = (undefined1)((uint)uVar3 >> 0x10);
     uVar8 = (undefined1)uVar3;
   }
   else {
-    param_1._2_1_ = 0x1e;
+    uVar10 = 0x1e;
     uVar8 = 0x1e;
-    param_1._1_1_ = 0xbe;
+    uVar9 = 0xbe;
   }
   iVar4 = piVar5[0xb];
-  *(undefined1 *)(iVar4 + 0x3a) = param_1._1_1_;
+  *(undefined1 *)(iVar4 + 0x3a) = uVar9;
   *(undefined1 *)(iVar4 + 0x38) = uVar8;
-  *(undefined1 *)(iVar4 + 0x39) = param_1._2_1_;
+  *(undefined1 *)(iVar4 + 0x39) = uVar10;
   cVar6 = FUN_000c9920();
   if (cVar6 != '\0') {
     fVar1 = (float)piVar5[6];

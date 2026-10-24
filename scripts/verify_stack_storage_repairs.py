@@ -10,7 +10,7 @@ from audit_xbe_first_100 import mapped_span, xbe_sections
 from body_hash_labels import read_body_digest
 from source_layout import source_path
 
-# Entry, original contiguous body size, exact body SHA-256.
+# Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
     (0x000EDF70, 163, "0b830a44d5a18b20117b40b72f3e68476fab00ed834cc2a45c059d8fcbe2a321"),
     (0x00141630, 131, "e4eab6557c599efcd081a27ea7c39f05d404297dca1e2a6824c7d94bd7f66cb7"),
@@ -25,6 +25,19 @@ BODIES = (
     # Unchanged dependencies whose complete selector bodies were inspected.
     (0x0034FEDF, 150, "c7c7f9180d052ab62b3a19f5cd8dff64c02feba04c1072d5b66b46f72d968cf8"),
     (0x0035055A, 145, "4a89089d7b8088677548578d0b3a8ca5d8f7083a83fde3d81d4a83639cc848ca"),
+    # Additional byte/float storage views; complete ABI remains unverified.
+    (0x000B1CC0, 166, "9ddc81b16371f0d4b37f63bf7d7ebfdd012a0323c5f32d0b5d4bc62fbc5e0ac9"),
+    (0x000EDDD0, 196, "9690e482426c8c7ca8bb1a1de3da1ab58faf53b97fcfeb2eed84f320f3543cc6"),
+    (0x00149D30, 216, "76c09961b94f5d0b05438ee279f5ca1c9d30e0b8641192dae901351b83d13545"),
+    (0x0017AB50, 190, "f6c349c3f8c2eaf6e6b8932aaf6f838a0f3b35f2ea373830813523e3b6e19a07"),
+    (0x0017E510, 144, "67ed35bc6cbabc973ace56c077ff5791831dcf7c8c8a5efa2b1a3aaba7a467e1"),
+    (0x002AB210, 151, "06b8ea4d37eda8d80281bd37510ac475c244faf3f82dc164f80a316df8e88a70"),
+    (0x002D5FF0, 174, "79b6496470940ca5bcde90501fb860d89a20e69b734b0464fe06c71a996b7349"),
+    (0x00314E18, 76, "4b7ad4fa4893ae0ffc06f14731b6b428beb3915efa30e3841700ecaf0d60994d"),
+    (0x0033C1E8, 346, "a107823295b58f08960b98e376583afce8fde4dd2ed7795f567db0dfd391f2cd"),
+    (0x0033C0D7, 89, "28b0af26f9e8568737a9986bde99da54e4c3a499237cd169b7360fa809ef5a33"),
+    (0x002EA100, ((0, 91), (92, 7), (112, 41), (156, 35), (192, 29), (256, 74), (348, 7), (356, 11), (368, 17), (388, 23), (412, 38), (452, 9), (464, 31), (508, 33), (544, 39), (584, 49), (668, 74), (760, 7), (768, 13), (784, 19), (804, 25)), "e5fc1828550e279344bbf0f85779e8d9677db7b614dc28e4ecabd2d0c12646e0"),
+    (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
     0x000EDF8C: "8844241c",  # store AL in reused input byte
@@ -64,6 +77,50 @@ WINDOWS = {
     0x003A4018: "acc5a737",  # exact binary32 normalization threshold
     0x003A5150: "00008028",  # exact binary32 first 0x410a0 threshold
     0x003A4FFC: "00000034",  # exact binary32 second threshold
+    0x000B1CDF: "8b00",  # mov eax, dword ptr [eax]
+    0x000B1CE1: "89442414",  # mov dword ptr [esp + 0x14], eax
+    0x000B1CE5: "8a4c2415",  # mov cl, byte ptr [esp + 0x15]
+    0x000B1CE9: "8a5c2416",  # mov bl, byte ptr [esp + 0x16]
+    0x000B1CED: "8ad0",  # mov dl, al
+    0x000B1CF2: "88483a",  # mov byte ptr [eax + 0x3a], cl
+    0x000B1CF5: "885038",  # mov byte ptr [eax + 0x38], dl
+    0x000B1CF8: "885839",  # mov byte ptr [eax + 0x39], bl
+    0x000EDDEC: "8844241c",  # mov byte ptr [esp + 0x1c], al
+    0x000EDE10: "c644241c01",  # mov byte ptr [esp + 0x1c], 1
+    0x000EDE86: "8a442458",  # mov al, byte ptr [esp + 0x58]
+    0x00149D46: "c644241001",  # mov byte ptr [esp + 0x10], 1
+    0x00149D4D: "c644241000",  # mov byte ptr [esp + 0x10], 0
+    0x00149DC9: "c644241400",  # mov byte ptr [esp + 0x14], 0
+    0x00149DF6: "8a442410",  # mov al, byte ptr [esp + 0x10]
+    0x0017AB50: "8a442404",  # mov al, byte ptr [esp + 4]
+    0x0017AB5C: "8b6c240c",  # mov ebp, dword ptr [esp + 0xc]
+    0x0017AB94: "e8a7260000",  # call 0x17d240
+    0x0017ABD0: "8a08",  # mov cl, byte ptr [eax]
+    0x0017E524: "c7442424286b6e4e",  # mov dword ptr [esp + 0x24], 0x4e6e6b28
+    0x0017E573: "d8542424",  # fcom dword ptr [esp + 0x24]
+    0x0017E57E: "d95c2424",  # fstp dword ptr [esp + 0x24]
+    0x002AB21A: "c744240400000000",  # mov dword ptr [esp + 4], 0
+    0x002AB226: "8d4c2424",  # lea ecx, [esp + 0x24]
+    0x002AB245: "f30f5f44240c",  # maxss xmm0, dword ptr [esp + 0xc]
+    0x002AB269: "d95c2418",  # fstp dword ptr [esp + 0x18]
+    0x002AB27E: "f30f5f442414",  # maxss xmm0, dword ptr [esp + 0x14]
+    0x002AB29E: "d9442404",  # fld dword ptr [esp + 4]
+    0x002D6063: "8d7c240c",  # lea edi, [esp + 0xc]
+    0x002D6068: "8d7c240c",  # lea edi, [esp + 0xc]
+    0x002D6074: "d9442408",  # fld dword ptr [esp + 8]
+    0x002D607B: "d844240c",  # fadd dword ptr [esp + 0xc]
+    0x002D6085: "d91c24",  # fstp dword ptr [esp]
+    0x00314E1D: "8b4e50",  # mov ecx, dword ptr [esi + 0x50]
+    0x00314E20: "8b5104",  # mov edx, dword ptr [ecx + 4]
+    0x00314E23: "8b4648",  # mov eax, dword ptr [esi + 0x48]
+    0x00314E26: "8b00",  # mov eax, dword ptr [eax]
+    0x00314E28: "8916",  # mov dword ptr [esi], edx
+    0x00314E33: "83c004",  # add eax, 4
+    0x00314E39: "83793c01",  # cmp dword ptr [ecx + 0x3c], 1
+    0x00314E41: "d820",  # fsub dword ptr [eax]
+    0x0033C230: "8d450b",  # lea eax, [ebp + 0xb]
+    0x0033C2CD: "8d4d0b",  # lea ecx, [ebp + 0xb]
+    0x0033C31E: "8a450b",  # mov al, byte ptr [ebp + 0xb]
 }
 
 
@@ -75,7 +132,10 @@ def main():
     blob = args.xbe.read_bytes()
     sections = xbe_sections(blob)  # Requires the pinned whole-XBE SHA-256.
     for entry, size, digest in BODIES:
-        actual = hashlib.sha256(mapped_span(blob, sections, entry, size)).hexdigest()
+        spans = ((0, size),) if isinstance(size, int) else size
+        body = b"".join(mapped_span(blob, sections, entry + offset, length)
+                        for offset, length in spans)
+        actual = hashlib.sha256(body).hexdigest()
         embedded, conflict = read_body_digest(
             source_path(args.root, f"0x{entry:08x}").read_text(encoding="utf-8"))
         if actual != digest or conflict or embedded is None or embedded.lower() != digest:

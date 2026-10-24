@@ -6,37 +6,41 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+#include <string.h>
 float10 FUN_002ab210(int *param_1)
 
 {
-  int iVar1;
-  int *piVar2;
-  float10 fVar3;
-  int *piVar4;
-  int *piVar5;
-  int *piVar6;
-  int *local_1c;
-  int *piStack_4;
+  int *node;
+  int *child;
+  float sample;
+  float maximum = 0.0f;
+
+  /* 0x2ab226 passes the address of the original four-byte stack
+   * parameter slot as an output word. It initially contains the guest
+   * pointer argument and retains prior call output on later iterations.
+   * This low-DWORD host copy is only a source view; pointer relocation
+   * and the indirect target remain ABI_UNVERIFIED. */
+  memcpy(&sample, &param_1, 4);
   
-  local_1c = (int *)0x0;
-  for (piVar2 = param_1; piVar2 != (int *)0x0;
-      piVar2 = (int *)(**(code **)(*piVar2 + 0x38))(piVar2,piVar5,piVar6)) {
-    local_1c = (int *)&param_1;
-    piVar6 = piVar2;
-    (**(code **)(*piVar2 + 0x6c))(piVar2);
-    piVar4 = piStack_4;
-    if ((float)piStack_4 <= (float)local_1c) {
-      piVar4 = local_1c;
-    }
-    piVar5 = piVar2;
-    iVar1 = (**(code **)(*piVar2 + 0x30))(piVar2);
-    if (iVar1 != 0) {
-      fVar3 = (float10)FUN_002ab210(iVar1);
-      piVar6 = piVar4;
-      if ((float)piVar4 <= (float)fVar3) {
-        piVar6 = (int *)(float)fVar3;
-      }
+  for (node = param_1; node != (int *)0x0;
+       node = (int *)(**(code **)(*node + 0x38))(node)) {
+    /* 0x2ab226-2ab22c pushes an address to a four-byte output slot and
+     * the node. The indirect target's complete prototype is unverified. */
+    (**(code **)(*node + 0x6c))(node, &sample);
+    /* 0x2ab23f-2ab24b: MAXSS(sample, running maximum). Its second
+     * operand wins for unordered values and equal signed zeros. */
+    maximum = _mm_cvtss_f32(_mm_max_ss(_mm_set_ss(sample),
+                                      _mm_set_ss(maximum)));
+    child = (int *)(**(code **)(*node + 0x30))(node);
+    if (child != (int *)0x0) {
+      /* 0x2ab269 FSTP rounds the recursive x87 result to binary32.
+       * 0x2ab278-2ab284 then MAXSS(running maximum, child result). */
+      float child_maximum = (float)FUN_002ab210(child);
+      maximum = _mm_cvtss_f32(_mm_max_ss(_mm_set_ss(maximum),
+                                        _mm_set_ss(child_maximum)));
     }
   }
-  return (float10)(float)local_1c;
+  /* 0x2ab29e FLD reads the four-byte running maximum. */
+  return (float10)maximum;
 }

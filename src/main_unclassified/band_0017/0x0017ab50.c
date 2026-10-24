@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_LAB_00399d94;
@@ -23,7 +24,10 @@ void FUN_0017ab50(char *param_1)
   unaff_ESI[0x4a] = 0;
   unaff_ESI[0x4b] = 0;
   unaff_ESI[0x4c] = 0;
-  *(undefined1 *)(unaff_ESI + 0x4d) = param_1._0_1_;
+  /* 0x17ab50 reads the low byte of the initialized incoming pointer
+   * word; 0x17ab5c independently retains its full value for string reads.
+   * Guest pointer relocation remains ABI_UNVERIFIED. */
+  *(undefined1 *)(unaff_ESI + 0x4d) = bf_x86_word_load_byte(&param_1,0U);
   iVar2 = FUN_0017d240(unaff_ESI + 0x4d);
   unaff_ESI[0x4e] = iVar2;
   *(undefined1 *)(iVar2 + 0x81) = 1;
