@@ -31,7 +31,7 @@ SOURCES = (
         "(int *)(uintptr_t)guest_received_object",
     )),
     ("src/main_unclassified/band_002a/0x002a5320.c", (
-        "uint32_t guest_matrix_result;",
+        "uint32_t guest_matrix_result = (uint32_t)(uintptr_t)param_3;",
         "&guest_matrix_result",
         "FUN_0003d730(&DAT_0046af4c,guest_matrix_result)",
     )),
