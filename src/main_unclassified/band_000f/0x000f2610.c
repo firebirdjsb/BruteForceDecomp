@@ -33,7 +33,11 @@ void FUN_000f2610(void)
         piVar1 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
         (**(code **)(*piVar1 + 0x14))();
         piVar1 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
-        (**(code **)(*piVar1 + 8))(&stack0xfffffff8,0,0);
+        /* XBE 0x000f26a5 LEA ECX,[ESP+14h], 0x000f26a9
+         * MOV [ESP+14h],0xed02be53: same saved-ECX slot as
+         * uStack_4 at 0x000f2658, after two zero pushes. */
+        uStack_4 = 0xed02be53;
+        (**(code **)(*piVar1 + 8))(&uStack_4,0,0);
         return;
       }
     }
