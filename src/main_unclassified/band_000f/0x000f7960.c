@@ -21,6 +21,7 @@ undefined4 FUN_000f7960(int param_1)
   byte *pbVar5;
   int *piVar6;
   bool bVar7;
+  undefined4 saved_ecx_word;
   
   iVar2 = FUN_001020d0();
   if ((((iVar2 != 0) &&
@@ -57,7 +58,13 @@ undefined4 FUN_000f7960(int param_1)
             *pbVar5 = *pbVar5 | 2;
             FUN_000793b0();
             piVar6 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
-            (**(code **)(*piVar6 + 8))(&stack0xfffffff8,0x3f800000,0);
+            /* Original XBE 0x000f7a32 LEA ECX,[ESP+0x18] and
+             * 0x000f7a36 MOV [ESP+0x18],0x1c077b30. Five
+             * saved registers and two pushed values identify
+             * the same saved-ECX slot used at 0x000f79ba.
+             * FUN_00100f90's earlier EDX input remains unresolved. */
+            saved_ecx_word = 0x1c077b30;
+            (**(code **)(*piVar6 + 8))(&saved_ecx_word,0x3f800000,0);
           }
           uVar1 = *(undefined4 *)(iVar2 + 4);
           (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x134))(uVar1);
