@@ -8,12 +8,15 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t PTR_LAB_0039e3a0;
+/* Original 0x0030F830: C7 05 B8 13 40 00 A0 E3 39 00; RET.
+ * Guest virtual address 0x004013B8 receives guest32 word 0x0039E3A0.
+ * A native guest-data mapping/relocation is still required. */
+extern uint32_t DAT_004013b8;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void FUN_0030f830(void)
 
 {
-  _LAB_004013b8 = &PTR_LAB_0039e3a0;
+  DAT_004013b8 = UINT32_C(0x0039e3a0);
   return;
 }
