@@ -15,6 +15,23 @@ extern uint32_t _DAT_003ffe58;
 /* Original XBE 0x000a0dce MOVUPS XMM2,[0x003ffe58] covers the
  * guest DWORD at 0x003ffe64, subsequently copied into destination slots. */
 extern uint32_t uRam003ffe64;
+/* XBE 0x000a0db9-0x000a0e72: three repetitions of four MOVUPS
+ * loads from guest 0x003ffe28/38/48/58 and stores to the caller's
+ * output region. Each 16-byte lane is a DWORD in this unverified
+ * scalarized C draft. These externs are syntax-only guest labels;
+ * no native relocation, storage mapping, or ABI is established. */
+extern uint32_t uRam003ffe2c;
+extern uint32_t uRam003ffe30;
+extern uint32_t uRam003ffe34;
+extern uint32_t uRam003ffe3c;
+extern uint32_t uRam003ffe40;
+extern uint32_t uRam003ffe44;
+extern uint32_t uRam003ffe4c;
+extern uint32_t uRam003ffe50;
+extern uint32_t uRam003ffe54;
+extern uint32_t uRam003ffe5c;
+extern uint32_t uRam003ffe60;
+
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 undefined4 FUN_000a0db0(void)
