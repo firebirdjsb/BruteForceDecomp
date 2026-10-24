@@ -13,14 +13,15 @@ void XAPILIB__RaiseException(undefined4 param_1,uint param_2,uint param_3,undefi
   undefined4 local_54;
   uint local_50;
   undefined4 local_4c;
-  code *local_48;
+  uint32_t local_48;
   uint local_44;
   undefined4 local_40 [15];
   
   local_4c = 0;
   local_54 = param_1;
   local_50 = param_2 & 1;
-  local_48 = RaiseException;
+  /* Original 0x002f4c69: MOV [EBP-0x44], 0x002f4c4a; guest code VA, not a host function pointer. */
+  local_48 = UINT32_C(0x002f4c4a);
   if (param_4 == (undefined4 *)0x0) {
     local_44 = 0;
   }

@@ -31,7 +31,9 @@ int FUN_00136680(void)
     do {
       cVar3 = (**(code **)(**(int **)(*(int *)(iVar4 + 4) + 0x5a4) + 0x10))();
       if (cVar3 == '\0') {
-        FUN_00045180(&stack0x00000010,iVar4 + 8);
+        /* XBE LEA [ESP+0x30] at the call site addresses the incoming +0x10 stack word.
+         * This C local is only a syntax stand-in; caller-frame ABI remains unverified. */
+        FUN_00045180(&in_stack_00000010,iVar4 + 8);
         FUN_0001d590(iVar1,iVar2);
         *(int *)(iVar1 + 8) = *(int *)(iVar1 + 8) + -8;
       }
