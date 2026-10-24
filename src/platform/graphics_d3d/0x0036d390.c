@@ -7,6 +7,11 @@
  */
 #include "bf_ghidra_types.h"
 #include "bf_xbox_d3d_device_x86.h"
+/* Original XBE x86 uses indexed DWORD loads/stores with displacement
+ * 0x0037DD98 (e.g. 0x0037AC6D, 0x0037AC89, 0x0037AE06).
+ * This declaration is for isolated C11 syntax only: it is NOT a mapped
+ * host array or an established cross-translation-unit definition. */
+extern uint32_t D3D8__D3D_g_RenderState;
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037b5e8;
