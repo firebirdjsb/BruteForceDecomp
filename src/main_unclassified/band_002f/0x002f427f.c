@@ -51,7 +51,7 @@ int XAPILIB__XapiSelectCachePartition(int param_1,uint *param_2,undefined4 *para
   local_18 = 0;
   local_10 = NtReadFile(local_c,0,0,0,local_24,local_230,0x200,&local_1c);
   if (local_10 < 0) goto LAB_002f4499;
-  iVar1 = *(int *)HalDiskCachePartitionCount_exref;
+  iVar1 = *(int *)*(uint32_t *)(uintptr_t)UINT32_C(0x00386500);
   if (((local_230[0] != 0x97315286) || (local_38 != -0x55ab0000)) || (local_230[1] != 2)) {
     puVar4 = local_230;
     for (iVar5 = 0x80; iVar5 != 0; iVar5 = iVar5 + -1) {
@@ -64,7 +64,7 @@ int XAPILIB__XapiSelectCachePartition(int param_1,uint *param_2,undefined4 *para
   }
   uVar9 = 0;
   *param_3 = 1;
-  uVar8 = *(uint *)HalDiskCachePartitionCount_exref;
+  uVar8 = *(uint *)*(uint32_t *)(uintptr_t)UINT32_C(0x00386500);
   if (0x29 < uVar8) {
     uVar8 = 0x29;
   }
