@@ -8,6 +8,12 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+/* Retail x86 0x000f25e8: LEA ECX,[ESP+10h] addresses the saved
+ * entry ECX DWORD (entry ESP-4) after three remaining register saves
+ * and two zero argument pushes. 0x000f25ec overwrites that DWORD with
+ * 0x0eee8a51 before the vtable+8 call receives its address. This C11
+ * word models the call's memory input only: POP ECX at 0x000f25fe,
+ * guest register writeback, indirect-call ABI and behavior UNVERIFIED. */
 extern uint32_t DAT_00469b58;
 void FUN_000f2560(void)
 
@@ -16,6 +22,7 @@ void FUN_000f2560(void)
   char cVar2;
   int *piVar3;
   undefined4 uVar4;
+  undefined4 guest_saved_ecx_word;
   byte *pbVar5;
   
   piVar3 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x58))();
@@ -31,7 +38,8 @@ void FUN_000f2560(void)
         piVar3 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
         (**(code **)(*piVar3 + 0x14))();
         piVar3 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
-        (**(code **)(*piVar3 + 8))(&stack0xfffffff8,0,0);
+        guest_saved_ecx_word = 0x0eee8a51U;
+        (**(code **)(*piVar3 + 8))(&guest_saved_ecx_word,0,0);
         return;
       }
     }
