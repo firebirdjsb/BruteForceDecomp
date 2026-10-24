@@ -74,7 +74,12 @@ LAB_000f2aac:
   cVar4 = FUN_000f2960(iVar5);
   if (cVar4 == '\0') {
     piVar7 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
-    (**(code **)(*piVar7 + 8))(&stack0x00000000,0,0);
+    /* Retail XBE 0x000f2bda LEA ECX,[ESP+0x40] and 0x000f2bde
+     * MOV [ESP+0x40],0x0eee8a51. After SUB ESP,0x24, four
+     * saved registers and two pushed zeros, this is entry ESP+4:
+     * the first incoming argument's 32-bit stack word. */
+    param_1 = 0x0eee8a51;
+    (**(code **)(*piVar7 + 8))(&param_1,0,0);
     auStack_c[0] = 0xfd890279;
     (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x22c))(auStack_c);
     return 0;
