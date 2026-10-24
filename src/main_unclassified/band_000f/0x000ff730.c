@@ -9,7 +9,10 @@
 /* Original XBE mapped VA 0x00306e60; extern address-only, definition TODO. */
 extern unsigned char LAB_00306e60;
 
-void FUN_000ff730(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 *param_4)
+/* Original 0x000ff753 allocator return remains in EAX through 0x000ff796 RET 16.
+ * EAX is a 32-bit guest address, not a native host allocation ABI.
+ * TODO: guest32 allocation/memory translation and Xbox SEH are ABI_UNVERIFIED. */
+undefined4 FUN_000ff730(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 *param_4)
 
 {
   undefined4 *puVar1;
@@ -29,5 +32,5 @@ void FUN_000ff730(undefined4 param_1,undefined4 param_2,undefined4 param_3,undef
     puVar1[2] = *param_4;
   }
   *unaff_FS_OFFSET = local_10;
-  return;
+  return (undefined4)(uintptr_t)puVar1;
 }
