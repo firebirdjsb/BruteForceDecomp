@@ -28,12 +28,11 @@ undefined4 FUN_002a5320(undefined4 param_1,undefined4 param_2,int *param_3)
 
 {
   int iVar1;
-  undefined *puVar2;
+  uint32_t guest_matrix_result; /* callback writes original guest stack argument slot */
   
   if (param_3 == (int *)0x0) {
     param_3 = DAT_0046af48;
   }
-  puVar2 = &DAT_0046af4c;
   _DAT_0046af68 = 0;
   _DAT_0046af64 = 0;
   _DAT_0046af60 = 0;
@@ -47,8 +46,8 @@ undefined4 FUN_002a5320(undefined4 param_1,undefined4 param_2,int *param_3)
   DAT_0046af74 = 0;
   DAT_0046af70 = 0;
   (**(code **)(*param_3 + 0xc))(param_3,param_2,&DAT_0046af4c,1);
-  (**(code **)(*param_3 + 0x44))(param_3,0,&stack0xfffffffc);
-  FUN_0003d730(&DAT_0046af4c,puVar2);
+  (**(code **)(*param_3 + 0x44))(param_3,0,&guest_matrix_result);
+  FUN_0003d730(&DAT_0046af4c,guest_matrix_result);
   iVar1 = (**(code **)(*param_3 + 0x30))(param_3);
   if (iVar1 != 0) {
     FUN_002a5230(param_2,iVar1);
