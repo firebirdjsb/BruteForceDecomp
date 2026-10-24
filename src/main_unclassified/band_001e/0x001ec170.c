@@ -102,7 +102,7 @@ undefined4 FUN_001ec170(void)
         *(int *)(in_EAX + 8) = in_EAX;
         *(undefined4 *)(in_EAX + 0xc) = 0x1b;
         DAT_0040e86c = FUN_002ea01d;
-        DAT_0040e868 = thunk_FUN_00237ec0;
+        DAT_0040e868 = UINT32_C(0x002ea018);
         return 1;
       }
     }
