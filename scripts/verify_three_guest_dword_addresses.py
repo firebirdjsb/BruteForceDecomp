@@ -83,7 +83,7 @@ def verify_source(root: Path, clang: str) -> None:
             raise ValueError(f"{entry:#x}: original function provenance changed")
         if "ABI_UNVERIFIED" not in source:
             raise ValueError(f"{entry:#x}: missing ABI limitation")
-        code = re.sub(r"/\\*.*?\\*/|//[^\\n]*", "", source, flags=re.S)
+        code = re.sub(r"/\*.*?\*/|//[^\n]*", "", source, flags=re.S)
         for token in required:
             if token not in code:
                 raise ValueError(f"{entry:#x}: missing C11 storage contract: {token}")
@@ -94,7 +94,7 @@ def verify_source(root: Path, clang: str) -> None:
             capture_output=True, text=True, check=False, timeout=45,
         )
         if run.returncode:
-            raise ValueError(f"{entry:#x}: focused C11 syntax failure:\\n{run.stderr[-1800:]}")
+            raise ValueError(f"{entry:#x}: focused C11 syntax failure:\n{run.stderr[-1800:]}")
         print(f"PASS 0x{entry:08x}: C11 storage and syntax; ABI unverified")
 
 def main() -> None:
