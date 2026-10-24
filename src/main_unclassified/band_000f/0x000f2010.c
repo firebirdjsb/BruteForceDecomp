@@ -20,6 +20,7 @@ undefined4 FUN_000f2010(int param_1)
   int iVar5;
   int iVar6;
   undefined4 uVar7;
+  undefined4 saved_ecx_word;
   
   switch(*(undefined4 *)(*(int *)(param_1 + 4) + 0x60)) {
   case 0x11:
@@ -51,8 +52,14 @@ undefined4 FUN_000f2010(int param_1)
   }
   uVar7 = (**(code **)(*piVar1 + 0x11c))(uVar7,uVar3);
   iVar4 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x130))(uVar7);
+  /* Original XBE 0x000f20a9 MOV EAX,[EAX+0x14] and 0x000f20b2
+   * MOV [ESP+0x10],EAX place the object's 32-bit word into the
+   * saved-ECX slot (five register pushes); 0x000f20bb LEA
+   * EAX,[ESP+0x10] passes its address to virtual slot +0x108. */
   if ((iVar4 != 0) &&
-     (iVar4 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x108))(&stack0xfffffff0), iVar4 != 0)) {
+     (saved_ecx_word = *(undefined4 *)(iVar4 + 0x14),
+      iVar4 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x108))(&saved_ecx_word),
+      iVar4 != 0)) {
     iVar4 = iVar4 + 8;
     iVar6 = 4;
     do {
