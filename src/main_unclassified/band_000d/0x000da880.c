@@ -6,20 +6,25 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_000da880(int param_1)
+/* XBE 0x000da891 and 0x000da8c6 LEA EAX,[ESP+18h]:
+ * four register pushes place the same second incoming DWORD at entry ESP+8.
+ * Both 0x000ff730 calls copy exactly four bytes through that pointer.
+ * RET 0Ch shows three guest stack words; the third word, implicit register
+ * inputs and native host calling convention remain ABI_UNVERIFIED. */
+void FUN_000da880(int param_1,undefined4 guest_second_word)
 
 {
   int iVar1;
   int iVar2;
   
   iVar1 = *(int *)(param_1 + 0x28);
-  iVar2 = FUN_000ff730(param_1 + 0x24,iVar1,*(undefined4 *)(iVar1 + 4),&stack0x00000008);
+  iVar2 = FUN_000ff730(param_1 + 0x24,iVar1,*(undefined4 *)(iVar1 + 4),&guest_second_word);
   FUN_000b2a50();
   *(int *)(iVar1 + 4) = iVar2;
   **(int **)(iVar2 + 4) = iVar2;
   if ((*(byte *)(param_1 + 0xc50) & 4) == 0) {
     iVar1 = *(int *)(param_1 + 0x4c);
-    iVar2 = FUN_000ff730(param_1 + 0x48,iVar1,*(undefined4 *)(iVar1 + 4),&stack0x00000008);
+    iVar2 = FUN_000ff730(param_1 + 0x48,iVar1,*(undefined4 *)(iVar1 + 4),&guest_second_word);
     FUN_000b2a50();
     *(int *)(iVar1 + 4) = iVar2;
     **(int **)(iVar2 + 4) = iVar2;
