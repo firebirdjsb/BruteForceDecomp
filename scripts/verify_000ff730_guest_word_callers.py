@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pin four entry ESP+4 DWORD addresses and the 0x000ff730 EAX return.
+"""Pin six entry ESP+4 DWORD addresses and the 0x000ff730 EAX return.
 
 Source-only CI checks do not establish guest/host ABI, native linking or 1:1
 runtime behavior. Original executable bytes are required for x86 verification.
@@ -22,6 +22,10 @@ CASES = (
      "0fec6c64aee972e32c65bb0c987ba20d121793af92741a5a242bbf030af62b71"),
     (0x000DFB80, 0x000DFBBD, 0x000DFB94, "8d442410", 0x000DFB9C,
      "dd89653d046fd62c213bce146f9a133e53e65b1dc5d2666d3c56eba6f0050be4"),
+    (0x000E42F0, 0x000E434B, 0x000E4306, "8d442410", 0x000E430E,
+     "4f2f7865b0caf6dcc0a25b9da6ad1698b8b475cf9a81a2ec5521bfe523f642c5"),
+    (0x000E4350, 0x000E43AB, 0x000E4366, "8d442410", 0x000E436E,
+     "568b786f2d5c282cc644f49e5b0adb0cf15e91e65713877971098491c1f65b73"),
 )
 CALLEE_SHA = "a7efb135b6b23f930db5c6ab5eb5937ea2372d6fa711ba4af6834f004d03753d"
 CALLEE_TAIL_SHA = "6ed475d0302f022e8762373b1929bbef4c61a5f83f749e9246e7a0992e3cbe28"
@@ -118,7 +122,7 @@ def main():
         result = subprocess.run(cmd, capture_output=True, text=True, check=False)
         if result.returncode:
             raise ValueError(f"{entry:#x}: C11 syntax failure: {result.stderr}")
-    print("PASS: four caller DWORDs, four direct edges, callee EAX return, five isolated C11 files")
+    print("PASS: six caller DWORDs, six direct edges, callee EAX return, seven isolated C11 files")
     print("LIMITATION: implicit EAX/EBX ABI, guest memory mapping, native linking unverified")
 
 if __name__ == "__main__":
