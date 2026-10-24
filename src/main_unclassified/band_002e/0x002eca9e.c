@@ -16,6 +16,10 @@ float10 __set_exp(undefined8 param_1,short param_2)
 {
   undefined8 local_c;
   
-  local_c = (double)CONCAT26((param_2 + 0x3fe) * 0x10 | param_1._6_2_ & 0x800f,(undefined6)param_1);
+  uint64_t bits = (uint64_t)param_1;
+  uint16_t exponent_word = (uint16_t)((uint32_t)((int32_t)param_2 + 0x3fe) << 4) |
+                           (uint16_t)(bits >> 48) & UINT16_C(0x800f);
+  bits = (bits & UINT64_C(0x0000ffffffffffff)) | ((uint64_t)exponent_word << 48);
+  memcpy(&local_c, &bits, sizeof(bits));
   return (float10)local_c;
 }
