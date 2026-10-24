@@ -52,6 +52,7 @@ on:
       - 'scripts/verify_000b2660_guest_esi_word.py'
       - 'scripts/verify_two_node_copy_incoming_words.py'
       - 'scripts/verify_000a1990_guest_outslot.py'
+      - 'scripts/verify_000d29b0_guest_outword.py'
       - 'scripts/verify_0002b8b0_guest_byte_and_x87.py'
       - '.github/workflows/full-c11-inventory.yml'
   workflow_dispatch:
@@ -153,6 +154,8 @@ jobs:
         run: python3 scripts/verify_000a1990_guest_outslot.py --root .
       - name: Verify 0x0002b8b0 byte-pointer and x87 slot source (private XBE not in CI)
         run: python3 scripts/verify_0002b8b0_guest_byte_and_x87.py --root .
+      - name: Verify 0x000d29b0 guest first-stack-word out-slot (source and Clang; no XBE in CI)
+        run: python3 scripts/verify_000d29b0_guest_outword.py --root .
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
       - name: Validate and categorize exact audit failures without XBE assumptions
