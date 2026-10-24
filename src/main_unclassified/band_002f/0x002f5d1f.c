@@ -19,7 +19,7 @@ void entry(void)
     XBE_CERTIFICATE_HEADER_00010180.SizeOfHeader = 0x1e80;
   }
   DAT_004a90e0 = 0x14;
-  *(uint32_t *)(uintptr_t)UINT32_C(0x00387c78) = UINT32_C(0xfffffffb);
+  *(uint32_t *)(uintptr_t)*(uint32_t *)(uintptr_t)UINT32_C(0x00387aac) = UINT32_C(0xfffffffb);
   iVar1 = XAPILIB__CreateThread(0,0,0x2f5cab,0,0,0);
   if (iVar1 == 0) {
     XAPILIB__XapiBootToDash(1,1,0);
