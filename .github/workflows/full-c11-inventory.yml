@@ -30,6 +30,7 @@ on:
       - 'tools/test_repository_safety.py'
       - 'tools/test_progress.py'
       - 'tools/test_guest_stack_repair.py'
+      - 'tools/verify_incoming_stack_words.py'
       - 'tests/guest_frame_contract.c'
       - 'tools/update_progress.py'
       - 'scripts/check_sources.py'
@@ -114,6 +115,8 @@ jobs:
           python3 scripts/verify_0010bb70_low_byte.py --root .
           python3 scripts/verify_0010_guest_word_clears.py --root .
           python3 scripts/verify_0013b050_record_lowbyte.py --root .
+      - name: Verify three original incoming stack-word address forwards (source-only CI)
+        run: python3 tools/verify_incoming_stack_words.py --root .
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
       - name: Validate and categorize exact audit failures without XBE assumptions
