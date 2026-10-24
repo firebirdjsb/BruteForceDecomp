@@ -284,7 +284,7 @@ LAB_0009c35a:
     FUN_0006a610(&local_d8);
     local_d8 = (byte *)0x202;
     FUN_0006a610(&local_d8);
-    local_d8 = XBE_FILE_HEADER_00010000.Signature + 0xfd;
+    local_d8 = (byte *)UINT32_C(0x800b);
     goto LAB_0009c35a;
   }
   if ((local_d4 != 1) && ((*(char *)(param_1 + 0xc2) != '\0' || (*(float *)(param_1 + 0x5c) < 1.0)))
