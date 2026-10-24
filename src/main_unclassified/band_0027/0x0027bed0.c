@@ -38,7 +38,9 @@ void FUN_0027bed0(void)
     piVar2[1] = 1;
     piVar2[2] = 0xb5e3e81;
     *piVar2 = (int)&PTR_LAB_00391cf4;
-    FUN_00237ff0(&stack0xfffffff8);
+    /* MOV [ESP+0x10],ECX: the second tag reuses the 32-bit local stack word. */
+    local_4 = 0x0b5e3e81;
+    FUN_00237ff0(&local_4);
     piVar1 = piVar2;
   }
   (**(code **)(*piVar1 + 8))(piVar1);
