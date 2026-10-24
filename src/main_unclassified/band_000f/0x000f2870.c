@@ -19,6 +19,7 @@ undefined4 FUN_000f2870(int param_1)
   undefined4 *puVar5;
   int *piVar6;
   int *piVar7;
+  undefined4 saved_ecx_word;
   
   iVar4 = **(int **)(DAT_00469b58 + 8);
   uVar2 = FUN_00102000();
@@ -41,8 +42,15 @@ undefined4 FUN_000f2870(int param_1)
       return 1;
     }
     piVar6 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
-    (**(code **)(*piVar6 + 8))(&stack0xfffffff8,0,0);
-    (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x22c))(&stack0xffffffec);
+    /* XBE 0x000f291c LEA ECX,[ESP+0x18], followed by
+     * 0x000f2920 MOV [ESP+0x18],0xe5aaad1d. Five saved
+     * registers plus two pushed zeros locate the saved ECX word. */
+    saved_ecx_word = 0xe5aaad1d;
+    (**(code **)(*piVar6 + 8))(&saved_ecx_word,0,0);
+    /* XBE 0x000f2936 writes 0xfd890279 to that same saved
+     * ECX slot, then 0x000f2943 LEA EDX,[ESP+0x10]. */
+    saved_ecx_word = 0xfd890279;
+    (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x22c))(&saved_ecx_word);
   }
   return 0;
 }
