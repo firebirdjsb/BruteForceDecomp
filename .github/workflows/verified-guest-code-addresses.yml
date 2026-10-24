@@ -31,9 +31,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Confirm original source identities and 19 verified 32-bit immediates
+      - name: Confirm original source identities and 29 verified 32-bit immediates
         run: python3 tools/verify_guest_code_addresses.py --root .
       - name: Explicit evidence boundary
         run: |
-          echo 'Original retail XBE SHA256 and 19 instruction fingerprints were verified on the user-supplied executable; it is not distributed in Git.'
+          echo 'Original retail XBE SHA256 and 29 instruction fingerprints were verified on the user-supplied executable; it is not distributed in Git.'
           echo 'Source-only checks do NOT provide native function pointer relocation, complete ABI reconstruction, or 1:1 behavior.'
