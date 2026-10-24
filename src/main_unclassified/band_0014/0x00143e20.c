@@ -6,7 +6,12 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_00143e20(void)
+/* Original x86 0x00143e20 saves EBX/ESI/EDI; at 0x00143e4a,
+ * LEA ESI,[ESP+10h] therefore points to entry ESP+4, the first
+ * incoming DWORD. RET 4 at 0x00143e61 and 0x00143e94 confirms
+ * one four-byte stack argument. This is guest storage only;
+ * EDX/ECX register contracts and native host ABI remain unverified. */
+void FUN_00143e20(undefined4 guest_stack_word_04)
 
 {
   int iVar1;
@@ -22,7 +27,7 @@ void FUN_00143e20(void)
     uVar2 = *(int *)(in_EDX + 8) - iVar1 >> 2;
   }
   if (uVar2 < in_ECX) {
-    FUN_00053080(*(undefined4 *)(in_EDX + 8),&stack0x00000004);
+    FUN_00053080(*(undefined4 *)(in_EDX + 8),&guest_stack_word_04);
     return;
   }
   if ((iVar1 != 0) && (in_ECX < (uint)(*(int *)(in_EDX + 8) - iVar1 >> 2))) {
