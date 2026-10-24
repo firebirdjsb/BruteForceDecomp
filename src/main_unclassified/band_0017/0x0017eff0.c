@@ -30,7 +30,9 @@ void FUN_0017eff0(void)
             return;
           }
         }
-        FUN_0012a450(unaff_EDI + 0x33,&stack0xfffffff8,piVar2);
+        /* LEA EAX,[ESP+8] at 0x0017F050 references the saved iterator
+         * (MOV [ESP+4],EAX at 0x0017F024 before the extra PUSH). */
+        FUN_0012a450(unaff_EDI + 0x33,&piVar2,piVar2);
       }
     }
     unaff_EDI[0x69] = unaff_EBX;
