@@ -9,7 +9,12 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_004432fc;
-undefined4 FUN_00254390(void)
+/* Retail XBE: 0x2543a9 LEA EAX,[ESP+18h] addresses entry ESP+4;
+ * both exits RET 4 (0x2543e9, 0x2543f6).  Guest word only;
+ * virtual calls and register contracts remain unverified. */
+typedef struct { undefined4 word_04; } bf_00254390_guest_record;
+_Static_assert(sizeof(bf_00254390_guest_record) == 4, "ret 4 guest word");
+undefined4 FUN_00254390(bf_00254390_guest_record guest_record)
 
 {
   int in_EAX;
@@ -22,7 +27,7 @@ undefined4 FUN_00254390(void)
     iVar2 = 1;
     local_4 = 0;
     (**(code **)(*DAT_004432fc + 0x24))
-              (DAT_004432fc,1,&stack0x00000004,1,&local_4,*(int *)(in_EAX + 0x18));
+              (DAT_004432fc,1,&guest_record.word_04,1,&local_4,*(int *)(in_EAX + 0x18));
     if (iVar2 != 0) {
       uVar1 = (**(code **)(*DAT_004432fc + 0x3c))(DAT_004432fc);
       (**(code **)(iRam00000001 + 8))(1);
