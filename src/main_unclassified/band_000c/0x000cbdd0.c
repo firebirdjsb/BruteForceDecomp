@@ -6,6 +6,12 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Matching original XBE: these two guest VAs contain NUL-terminated
+ * 16-bit UTF-16 format strings, referenced by PUSH immediate instructions.
+ * Syntax-only declarations; guest-to-host relocation/linking is NOT done. */
+extern const uint16_t u__d____d_0040d654[];
+extern const uint16_t u__d_Regen_0040d664[];
+
 void FUN_000cbdd0(void)
 
 {
