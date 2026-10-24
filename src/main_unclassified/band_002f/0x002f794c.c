@@ -47,7 +47,9 @@ undefined4 XAPILIB__CancelIo(undefined4 ***param_1)
     }
     KfLowerIrql();
     if ((undefined4 ****)local_c != &local_c) {
-      KeInitializeDpc(local_28,&LAB_002f7925,&local_c);
+      /* Original XBE at 0x002F79EE pushes the guest32 code immediate
+       * 0x002F7925. This is NOT a host callback or a verified DPC ABI. */
+      KeInitializeDpc(local_28,UINT32_C(0x002f7925),&local_c);
       KeInsertQueueDpc(local_28,0,0);
     }
     ObfDereferenceObject();
