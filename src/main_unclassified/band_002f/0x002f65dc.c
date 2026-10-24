@@ -26,14 +26,14 @@ undefined4 FUN_002f65dc(uint param_1,uint param_2)
   iVar2 = param_1;
   uVar8 = param_2 + 0xfff >> 0xc;
   uVar5 = uVar8 << 0xc;
-  param_2 = param_2 & 0xffffff;
-  local_10 = CONCAT31(local_10._1_3_,0x40);
+  param_2 = param_2 & UINT32_C(0x00ffffff);
+  *(uint8_t *)&local_10 = UINT8_C(0x40);
   local_c = uVar5;
   do {
-    local_8 = *(int *)(iVar2 + 0x60 + (uint)param_2._3_1_ * 4);
+    local_8 = *(int *)(iVar2 + 0x60 + (uint)(uint8_t)(param_2 >> 24) * 4);
     if (local_8 == 0) {
       if ((char)local_10 == '@') {
-        local_10 = CONCAT31(local_10._1_3_,param_2._3_1_);
+        *(uint8_t *)&local_10 = (uint8_t)(param_2 >> 24);
       }
     }
     else if (((uVar8 <= *(uint *)(local_8 + 0x30)) && (uVar5 <= *(uint *)(local_8 + 0x1c))) &&
@@ -43,8 +43,8 @@ undefined4 FUN_002f65dc(uint param_1,uint param_2)
       FUN_002f6395(iVar2,uVar7,local_c);
       return uVar7;
     }
-    bVar1 = param_2._3_1_ + 1;
-    param_2 = CONCAT13(bVar1,(undefined3)param_2);
+    bVar1 = (uint8_t)(param_2 >> 24) + 1;
+    param_2 = (param_2 & UINT32_C(0x00ffffff)) | ((uint32_t)bVar1 << 24);
   } while (bVar1 < 0x40);
   if (((char)local_10 != '@') && ((*(byte *)(iVar2 + 0x14) & 2) != 0)) {
     local_8 = 0;
