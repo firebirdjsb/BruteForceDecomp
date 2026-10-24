@@ -12,6 +12,9 @@ extern uint32_t _DAT_003ffe28;
 extern uint32_t _DAT_003ffe38;
 extern uint32_t _DAT_003ffe48;
 extern uint32_t _DAT_003ffe58;
+/* Original XBE 0x000a0dce MOVUPS XMM2,[0x003ffe58] covers the
+ * guest DWORD at 0x003ffe64, subsequently copied into destination slots. */
+extern uint32_t uRam003ffe64;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 undefined4 FUN_000a0db0(void)
