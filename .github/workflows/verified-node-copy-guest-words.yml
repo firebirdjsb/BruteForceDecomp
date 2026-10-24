@@ -1,0 +1,27 @@
+name: Verified node-copy entry DWORDs (source-only C11)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_000b/0x000ba410.c'
+      - 'src/main_unclassified/band_000c/0x000cdae0.c'
+      - 'src/main_unclassified/band_000d/0x000dfb40.c'
+      - 'src/main_unclassified/band_000d/0x000dfb80.c'
+      - 'src/main_unclassified/band_000f/0x000ff730.c'
+      - 'scripts/verify_000ff730_guest_word_callers.py'
+      - '.github/workflows/verified-node-copy-guest-words.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-invariants-and-c11:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check four caller guest-stack words and callee return (source-only)
+        run: python3 scripts/verify_000ff730_guest_word_callers.py --root .
+      - name: Explain evidence boundary
+        run: echo 'Retail XBE SHA/body hashes and instruction windows were verified locally. No original binary is distributed; this source-only gate is not guest ABI, cross-function link, or native runtime verification.'
