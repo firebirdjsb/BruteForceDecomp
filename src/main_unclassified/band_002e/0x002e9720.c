@@ -15,8 +15,8 @@ void FUN_002e9720(undefined4 *param_1,ushort *param_2)
   undefined4 local_4;
   
   if (in_ECX[1] == 0) {
-    param_2 = (ushort *)(uint)*param_2;
-    iVar1 = (**(code **)(*in_ECX + 0x40))(&param_2);
+    uint32_t guest_input_word = (uint32_t)*param_2;
+    iVar1 = (**(code **)(*in_ECX + 0x40))(&guest_input_word);
     if (-1 < iVar1) {
       guest_value_word = *(const uint32_t *)param_2;
       (**(code **)(*in_ECX + 0x48))(*param_1,&guest_value_word);
@@ -27,7 +27,7 @@ void FUN_002e9720(undefined4 *param_1,ushort *param_2)
     iVar1 = (**(code **)(*in_ECX + 0x40))(&local_4);
     if (-1 < iVar1) {
       if (param_1 != (undefined4 *)0x0) {
-        *param_1 = 0;
+        *param_1 = (uint16_t)local_4;
       }
       iVar1 = in_ECX[8];
       *(uint32_t *)param_2 = (uint32_t)iVar1;
