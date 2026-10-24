@@ -21,7 +21,10 @@ undefined4 FUN_00058740(void)
   (**(code **)(*(int *)(unaff_EDI[2] + 0x1b4) + 0x34))(local_c);
   FUN_0004c530(afStack_1c);
   (**(code **)(*(int *)unaff_EDI[2] + 0x40))();
-  FUN_0004c480(&stack0xffffffd8);
+  /* x86 0x00058772: LEA ECX,[ESP+4], then PUSH ECX at 0x00058779.
+   * This is the beginning of the existing 12-byte local_c region,
+   * not a fabricated host address for Ghidra's stack0xffffffd8. */
+  FUN_0004c480(local_c);
   fVar1 = unaff_EBX * afStack_1c[0] + fStack_20 * fStack_14;
   if (fVar1 < 0.25) {
     unaff_EDI[0xd] = 0x3fc00000;
