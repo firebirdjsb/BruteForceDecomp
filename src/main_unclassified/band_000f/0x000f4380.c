@@ -63,6 +63,10 @@ undefined4 FUN_000f4380(void)
   piVar6 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
   local_4 = 0x1a12957e;
   (**(code **)(*piVar6 + 8))(&local_4,0,0);
-  (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x22c))(&stack0xfffffff0);
+  /* Original XBE 0x000f4498 MOV [ESP+0x0c],0xfd890279 and
+   * 0x000f44a5 LEA EDX,[ESP+0x0c] address the same saved-ECX
+   * word used at 0x000f4482 for the preceding virtual call. */
+  local_4 = 0xfd890279;
+  (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x22c))(&local_4);
   return 0;
 }
