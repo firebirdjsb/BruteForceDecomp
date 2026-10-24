@@ -46,7 +46,7 @@ int FUN_002f7f68(int param_1)
       iVar3 = (1 - (uint)bVar7) - (uint)(bVar7 != 0);
     }
     if (iVar3 == 0) {
-      cVar1 = XcVerifyPKCS1Signature(iVar2 + 0x4e3,*(uint32_t *)(uintptr_t)UINT32_C(0x00386584),local_18);
+      cVar1 = XcVerifyPKCS1Signature(iVar2 + 0x4e3,*(uint32_t *)(uintptr_t)UINT32_C(0x00386480),local_18);
       iVar2 = (-(uint)(cVar1 != '\0') & 0x3ffffe70) + 0xc0000190;
     }
     else {
