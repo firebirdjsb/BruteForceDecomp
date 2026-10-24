@@ -9,6 +9,8 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004698d0;
+/* XBE 0x001edd6d CMP DWORD PTR [0x004a5b64],EDI and\n * 0x001edd82 MOV DWORD PTR [0x004a5b64],EDI. */
+extern uint32_t iRam004a5b64;
 bool FUN_001edd40(undefined4 *param_1)
 
 {
