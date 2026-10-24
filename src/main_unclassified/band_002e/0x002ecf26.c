@@ -18,7 +18,7 @@ extern uint32_t DAT_004a8fb4;
 int _flsall(int param_1)
 
 {
-  FILE *__stream;
+  uint32_t guest_stream; /* 32-bit Xbox CRT stream address */
   int iVar1;
   int iVar2;
   int iVar3;
@@ -29,16 +29,17 @@ int _flsall(int param_1)
   iVar4 = 0;
   if (0 < DAT_004a8fb4) {
     do {
-      __stream = *(FILE **)(DAT_004a8fb0 + iVar3 * 4);
-      if ((__stream != (FILE *)0x0) && (((uint)__stream->_IO_read_base & 0x83) != 0)) {
+      guest_stream = *(uint32_t *)(uintptr_t)(DAT_004a8fb0 + iVar3 * 4);
+      /* MOV ECX,[EAX+0x0c]; TEST CL,0x83 at 0x002ECF43. */
+      if ((guest_stream != 0) && ((*(uint8_t *)(uintptr_t)(guest_stream + 0x0c) & 0x83) != 0)) {
         if (param_1 == 1) {
-          iVar1 = _fflush(__stream);
+          iVar1 = _fflush((void *)(uintptr_t)guest_stream);
           if (iVar1 != -1) {
             iVar2 = iVar2 + 1;
           }
         }
-        else if ((param_1 == 0) && (((uint)__stream->_IO_read_base & 2) != 0)) {
-          iVar1 = _fflush(__stream);
+        else if ((param_1 == 0) && ((*(uint8_t *)(uintptr_t)(guest_stream + 0x0c) & 2) != 0)) {
+          iVar1 = _fflush((void *)(uintptr_t)guest_stream);
           if (iVar1 == -1) {
             iVar4 = -1;
           }
