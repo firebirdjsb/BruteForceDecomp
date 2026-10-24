@@ -9,27 +9,26 @@
 void FUN_002a8320(void)
 
 {
-  byte bVar1;
+  /* Guest register inputs: ESI=reader and EDI=destination (host ABI unverified).
+   * The original reads two separate single-byte header stack locations,
+   * then processes a four-byte value and a 12-byte payload per entry.
+   * Opcode widths/stack operands are checked by verify_002a82xx_io.py. */
   int *unaff_ESI;
   int *unaff_EDI;
-  byte bStack_3e;
-  undefined4 uStack_30;
-  
+  uint8_t guest_header_byte_a;
+  uint8_t guest_header_byte_b;
+
   (**(code **)(*unaff_EDI + 0xc))();
-  uStack_30 = 0x2a8339;
-  (**(code **)(*unaff_ESI + 0x10))();
-  uStack_30 = (uint)&stack0xffffffeb >> 0x18;
-  (**(code **)(*unaff_EDI + 0x38))();
-  (**(code **)(*unaff_ESI + 0x10))();
-  bStack_3e = (byte)((uint)((int)&uStack_30 + 2) >> 0x10);
-  bVar1 = 0;
-  if (bStack_3e != 0) {
-    do {
-      (**(code **)(*unaff_ESI + 0x10))();
-      (**(code **)(*unaff_ESI + 0x10))();
-      (**(code **)(*unaff_EDI + 0x14))();
-      bVar1 = bVar1 + 1;
-    } while (bVar1 < bStack_3e);
+  (**(code **)(*unaff_ESI + 0x10))(unaff_ESI,&guest_header_byte_a,1,0);
+  (**(code **)(*unaff_EDI + 0x38))(unaff_EDI,(uint32_t)guest_header_byte_a);
+  (**(code **)(*unaff_ESI + 0x10))(unaff_ESI,&guest_header_byte_b,1,0);
+
+  for (uint8_t index = 0; index < guest_header_byte_b; index++) {
+    uint32_t guest_payload_a;
+    uint32_t guest_payload_b[3];
+    (**(code **)(*unaff_ESI + 0x10))(unaff_ESI,&guest_payload_a,4,0);
+    (**(code **)(*unaff_ESI + 0x10))(unaff_ESI,guest_payload_b,12,0);
+    (**(code **)(*unaff_EDI + 0x14))(unaff_EDI,guest_payload_a,guest_payload_b);
   }
   return;
 }
