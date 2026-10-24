@@ -43,6 +43,9 @@ extern uint32_t _DAT_0046b048;
 extern uint32_t _DAT_0046b04c;
 extern uint32_t _DAT_0046b050;
 extern uint32_t _DAT_0046b0c0;
+/* XBE data region contains contiguous DWORDs; +4 is the guest field at
+ * 0x0046b0c4. ABI and global layout remain unverified. */
+extern uint32_t uRam0046b0c4;
 extern uint32_t _DAT_0046b0d0;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
