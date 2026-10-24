@@ -54,13 +54,17 @@ undefined4 FUN_000a8d00(int param_1,int param_2,undefined4 param_3)
   D3D8LTCG__D3DDevice_SetVertexShaderConstant4();
   if (iVar2 == 1) {
     in_stack_00000024 = 1;
-    FUN_0006a610(&stack0x00000024);
+  /* XBE-backed stack-slot evidence: original x86 LEA [EBP+0x28]
+   * passes the address of the same incoming DWORD that this draft
+   * calls in_stack_00000024. The original caller ABI and the
+   * callee semantics remain unverified. */
+    FUN_0006a610(&in_stack_00000024);
     in_stack_00000024 = 0x303;
-    FUN_0006a610(&stack0x00000024);
+    FUN_0006a610(&in_stack_00000024);
     in_stack_00000024 = 0x302;
-    FUN_0006a610(&stack0x00000024);
+    FUN_0006a610(&in_stack_00000024);
     in_stack_00000024 = 0x1000000;
-    FUN_0006a610(&stack0x00000024);
+    FUN_0006a610(&in_stack_00000024);
     FUN_000a4a60(uVar4);
     local_30[0] = 0;
     local_30[1] = 0;
@@ -129,11 +133,11 @@ undefined4 FUN_000a8d00(int param_1,int param_2,undefined4 param_3)
     D3D8LTCG__D3DDevice_SetVertexShaderConstantNotInlineFast(8);
     if (local_8 < 1.0) {
       in_stack_00000024 = 1;
-      FUN_0006a610(&stack0x00000024);
+      FUN_0006a610(&in_stack_00000024);
       in_stack_00000024 = 0x302;
-      FUN_0006a610(&stack0x00000024);
+      FUN_0006a610(&in_stack_00000024);
       in_stack_00000024 = 0x303;
-      FUN_0006a610(&stack0x00000024);
+      FUN_0006a610(&in_stack_00000024);
     }
     piVar5 = *(int **)(param_1 + 0x10);
     if (piVar5 == (int *)0x0) {
@@ -146,9 +150,9 @@ undefined4 FUN_000a8d00(int param_1,int param_2,undefined4 param_3)
 LAB_000a9046:
   FUN_000a4d00();
   in_stack_00000024 = 1;
-  FUN_0006a610(&stack0x00000024);
+  FUN_0006a610(&in_stack_00000024);
   in_stack_00000024 = 1;
-  FUN_0006a610(&stack0x00000024);
+  FUN_0006a610(&in_stack_00000024);
   iVar3 = FUN_000a4cb0();
   D3D8LTCG__D3DDevice_SetStreamSource_4((&DAT_003e2304)[iVar3 * 2]);
   if (in_stack_0000001c < 0x514) {
