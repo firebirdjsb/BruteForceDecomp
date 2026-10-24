@@ -39,7 +39,11 @@ void FUN_00221de0(void)
     if (iVar3 == -1) {
       return;
     }
-    FUN_00222400(&stack0xfffffff0);
+    /* x86 MOV [ESP+0x10],ESI stores a copy of the returned handle;
+     * LEA EAX,[ESP+0x10] passes that copy to FUN_00222400. The original
+     * ESI register retains its value after the call for the later compare. */
+    int guest_handle_copy = iVar3;
+    FUN_00222400(&guest_handle_copy);
     iVar5 = iVar1;
   }
   else if ((iVar3 == 0) && (iVar1 = piVar2[1], iVar1 != 0)) {
