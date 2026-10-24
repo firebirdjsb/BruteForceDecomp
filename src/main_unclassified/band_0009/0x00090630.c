@@ -74,7 +74,14 @@ LAB_000906f9:
   if (0 < iVar2) {
     do {
       iVar3 = (**(code **)(*param_1 + 100))(param_1,iVar7);
-      (**(code **)(*param_1 + 0x70))(param_1,iVar3,&stack0xfffffff4,*(undefined4 *)(iVar3 + 0x14));
+      /* 0x0009071D loads EBP=0x1D3E389E; 0x0009072F takes the
+       * address of the caller's guest parameter DWORD; 0x00090736
+       * overwrites that DWORD with EBP before virtual slot 0x70.
+       * The original object pointer is already saved in EDI.
+       * TODO: lifetime/aliasing of this guest stack slot across the
+       * indirect call is not verified for a native host ABI. */
+      uint32_t guest_constant_word = UINT32_C(0x1d3e389e);
+      (**(code **)(*param_1 + 0x70))(param_1,iVar3,&guest_constant_word,*(undefined4 *)(iVar3 + 0x14));
       iVar7 = iVar7 + 1;
     } while (iVar7 < iVar2);
   }
