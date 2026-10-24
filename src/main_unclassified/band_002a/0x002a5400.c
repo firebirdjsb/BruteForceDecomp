@@ -12,7 +12,7 @@ void FUN_002a5400(undefined4 param_1,int *param_2)
   int *piVar1;
   int iVar2;
   int *in_ECX;
-  uint32_t guest_callback_flags; /* 32-bit guest argument slot overwritten by callback */
+  uint32_t guest_callback_flags = (uint32_t)(uintptr_t)param_2; /* original incoming guest argument word, overwritten by callback */
   
   while (param_2 != (int *)0x0) {
     piVar1 = (int *)(**(code **)(*param_2 + 0x38))(param_2);
