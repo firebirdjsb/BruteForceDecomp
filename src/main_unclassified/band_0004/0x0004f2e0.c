@@ -30,6 +30,8 @@ void FUN_0004f2e0(void)
   undefined1 uStack_41;
   int *local_40;
   undefined4 local_3c;
+  /* Distinct 32-bit stack slot selected by x86 LEA at 0x0004F4A9. */
+  undefined4 local_38;
   uint local_34;
   undefined4 uStack_28;
   undefined4 local_24;
@@ -97,7 +99,9 @@ void FUN_0004f2e0(void)
   iVar3 = (**(code **)(*DAT_00469908 + 0xc))(DAT_00469908,pppuVar5,0x80000000,&local_40);
   piVar6 = (int *)0x0;
   if (-1 < iVar3) {
-    iVar3 = FUN_001a23e0(&stack0xffffffb4);
+    /* x86 0x0004F434: LEA EAX,[ESP+0x14] at stable ESP=-0x50.
+     This selects the existing 32-bit local_3c slot; callee ABI unverified. */
+    iVar3 = FUN_001a23e0(&local_3c);
     piVar6 = unaff_ESI;
     if (-1 < iVar3) {
       local_40 = (int *)0x0;
@@ -108,7 +112,9 @@ void FUN_0004f2e0(void)
         FUN_0004ec10(DAT_00414b70,DAT_00414b74);
         FUN_0004eb00();
       }
-      FUN_0004fb70(&stack0xffffffb8);
+      /* x86 0x0004F4A9: LEA ECX,[ESP+0x18] at ESP=-0x50.
+         This selects local_38, not the preceding local_3c slot. */
+      FUN_0004fb70(&local_38);
     }
   }
   FUN_00237a30(s_post_ai_load_0040e6c0);
