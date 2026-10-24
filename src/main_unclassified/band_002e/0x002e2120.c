@@ -74,7 +74,7 @@ int FUN_002e2120(void)
     }
     bVar1 = false;
     FUN_002e3540(local_10);
-    local_80._2_1_ = 0;
+    ((uint8_t *)&local_80)[2] = 0;
     puVar14 = &local_80;
     for (iVar5 = 6; iVar5 != 0; iVar5 = iVar5 + -1) {
       *puVar14 = 0;
@@ -86,7 +86,7 @@ int FUN_002e2120(void)
       return iVar5;
     }
     if (local_64 == 0) {
-      if (((local_80._3_1_ & 0xe) == 0) && (local_80._3_1_ >> 4 == 4)) {
+      if (((((uint8_t *)&local_80)[3] & 0xe) == 0) && (((uint8_t *)&local_80)[3] >> 4 == 4)) {
         iVar5 = FUN_002e14b0(local_38,&local_64);
         if (iVar5 < 0) {
           return iVar5;
@@ -111,14 +111,14 @@ LAB_002e2224:
       *(undefined4 *)(iVar5 + 0x268) = 0;
       lVar16 = FUN_002e3ec0();
       if ((-1 < lVar16) && ((0xffffffff < lVar16 || ((uint)piVar2[0xe] < (uint)lVar16)))) {
-        uStack_50._2_1_ = 0;
+        ((uint8_t *)&uStack_50)[2] = 0;
         puVar14 = &uStack_50;
         for (iVar11 = 6; iVar11 != 0; iVar11 = iVar11 + -1) {
           *puVar14 = 0;
           puVar14 = puVar14 + 1;
         }
         bVar1 = true;
-        uStack_50._3_1_ = 0x10;
+        ((uint8_t *)&uStack_50)[3] = 0x10;
         uStack_4c = (undefined2)local_80;
         FUN_002e3f50();
         iVar11 = FUN_002e0960(&uStack_50,iVar5);
@@ -126,13 +126,13 @@ LAB_002e2224:
           return iVar11;
         }
       }
-      if ((local_80._3_1_ & 1) != 0) {
+      if ((((uint8_t *)&local_80)[3] & 1) != 0) {
         FUN_002e1150(iVar5,uStack_6c,uStack_70);
       }
-      FUN_002e35d0(CONCAT13(uStack_7b,CONCAT12(cStack_7c,CONCAT11(local_80._3_1_,local_80._2_1_))));
+      FUN_002e35d0(CONCAT13(uStack_7b,CONCAT12(cStack_7c,CONCAT11(((uint8_t *)&local_80)[3],((uint8_t *)&local_80)[2]))));
       cVar10 = cStack_7c;
-      if ((local_80._3_1_ & 0xe) == 0) {
-        bVar4 = local_80._3_1_ >> 4;
+      if ((((uint8_t *)&local_80)[3] & 0xe) == 0) {
+        bVar4 = ((uint8_t *)&local_80)[3] >> 4;
         if (bVar4 < 8) goto switchD_002e2313_switchD;
       }
       else {
@@ -158,13 +158,13 @@ switchD_002e2313_switchD:
         case 3:
           break;
         case 4:
-          uStack_28._2_1_ = 0;
+          ((uint8_t *)&uStack_28)[2] = 0;
           puVar14 = &uStack_28;
           for (iVar11 = 6; iVar11 != 0; iVar11 = iVar11 + -1) {
             *puVar14 = 0;
             puVar14 = puVar14 + 1;
           }
-          uStack_28._3_1_ = 0x50;
+          ((uint8_t *)&uStack_28)[3] = 0x50;
           FUN_002e3f50();
           FUN_002e0960(&uStack_28,iVar5);
           break;
@@ -188,14 +188,14 @@ switchD_002e2313_switchD:
           cVar3 = '\0';
           if (cStack_7c == '\0') {
 LAB_002e241d:
-            uStack_84 = (uint)local_80._3_1_;
+            uStack_84 = (uint)((uint8_t *)&local_80)[3];
             uVar13 = 0;
-            if ((local_80._3_1_ >> 1 & 7) != 0) {
+            if ((((uint8_t *)&local_80)[3] >> 1 & 7) != 0) {
               bVar4 = 0;
               while ((cVar3 != '\0' && (cVar3 != (char)uStack_8c))) {
                 iStack_94 = iStack_94 +
                             ((bStack_7a >> (bVar4 & 0x1f) & 3) << 8 | (uint)abStack_79[uVar13]);
-                if ((1 << ((byte)uVar13 & 0x1f) & (uint)(local_80._3_1_ >> 4)) != 0) {
+                if ((1 << ((byte)uVar13 & 0x1f) & (uint)(((uint8_t *)&local_80)[3] >> 4)) != 0) {
                   cVar10 = (char)uStack_a0 + '\x01';
                   uStack_a0 = CONCAT31(uStack_a0._1_3_,cVar10);
                   if (cVar10 == '\0') {
@@ -204,7 +204,7 @@ LAB_002e241d:
                 }
                 uVar13 = uVar13 + 1;
                 bVar4 = bVar4 + 2;
-                if ((local_80._3_1_ >> 1 & 7) <= uVar13) break;
+                if ((((uint8_t *)&local_80)[3] >> 1 & 7) <= uVar13) break;
                 cVar3 = (char)uStack_a0;
               }
             }
@@ -243,11 +243,11 @@ LAB_002e2412:
               bVar1 = true;
             }
           }
-          if (uVar13 < (local_80._3_1_ >> 1 & 7)) {
+          if (uVar13 < (((uint8_t *)&local_80)[3] >> 1 & 7)) {
             iVar11 = uVar13 * 2;
             do {
               if (*(int *)(iVar5 + 0x28) == 0) break;
-              bVar15 = (1 << ((byte)uVar13 & 0x1f) & (uint)(local_80._3_1_ >> 4)) != 0;
+              bVar15 = (1 << ((byte)uVar13 & 0x1f) & (uint)(((uint8_t *)&local_80)[3] >> 4)) != 0;
               uStack_84 = (uint)bVar15;
               uVar8 = (uint)bVar15;
               uStack_54 = uVar8;
@@ -304,7 +304,7 @@ LAB_002e2412:
               }
               uVar13 = uVar13 + 1;
               iVar11 = iVar11 + 2;
-            } while (uVar13 < (local_80._3_1_ >> 1 & 7));
+            } while (uVar13 < (((uint8_t *)&local_80)[3] >> 1 & 7));
           }
           if ((bVar1) || (*(int *)(iVar5 + 0x2b4) == 0)) {
             cVar10 = (char)uStack_a0;
