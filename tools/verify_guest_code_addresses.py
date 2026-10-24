@@ -15,7 +15,7 @@ from collections import defaultdict
 from pathlib import Path
 
 EXPECTED_XBE_SHA = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-EXPECTED_COUNT = 18
+EXPECTED_COUNT = 19
 LEDGER = "metadata/verified_guest_code_addresses_2026_10_23.csv"
 
 
@@ -31,6 +31,9 @@ def literal_from_original_instruction(raw: bytes) -> int:
         if raw[3] not in (0x24, 0x28):
             raise ValueError("Unexpected guest stack displacement")
         return int.from_bytes(raw[4:], "little")
+    # MOV DWORD PTR [absolute guest address], imm32
+    if len(raw) == 10 and raw[:2] == bytes.fromhex("c7 05"):
+        return int.from_bytes(raw[6:], "little")
     raise ValueError("Unrecognized x86 immediate instruction: " + raw.hex())
 
 
