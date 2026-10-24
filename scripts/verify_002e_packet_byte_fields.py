@@ -16,5 +16,7 @@ def main():
  for f in ("0x002e13a0.c","0x002e1800.c"):
   s=(a.repo/"src/main_unclassified/band_002e"/f).read_text()
   if "((uint8_t *)&local_18)[3]" not in s:raise SystemExit("source mismatch: "+f)
+ s2=(a.repo/"src/main_unclassified/band_002e/0x002e13a0.c").read_text()
+ if "(uint32_t)(uint8_t)param_1 << 4" not in s2:raise SystemExit("Source mismatch: (uint32_t)(uint8_t)param_1 << 4")
  print("PASS: six packet byte field instructions and both source expressions")
 if __name__=="__main__":main()
