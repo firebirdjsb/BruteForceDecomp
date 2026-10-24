@@ -95,7 +95,7 @@ LAB_002f204d:
 LAB_002f2101:
         guest_exponent = (uint16_t)(guest_exponent - 1);
         if ((int16_t)guest_exponent < 0) {
-          uVar9 = (uint)(ushort)-guest_exponent;
+          uVar9 = (uint)(uint16_t)(-guest_exponent);
           guest_exponent = 0;
           do {
             if ((local_28 & 1) != 0) {
