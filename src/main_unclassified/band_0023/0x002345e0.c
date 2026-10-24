@@ -14,17 +14,25 @@ void FUN_002345e0(undefined4 param_1,undefined4 param_2)
   int *piVar1;
   char cVar2;
   int *unaff_ESI;
-  int *unaff_retaddr;
+  int *guest_out;
+  /* EBP captures incoming guest DWORD #2 (entry ESP+8) before
+   * 0x002345ED zeros that same slot. Both +0x1c callbacks receive
+   * its address, and both releases plus final cleanup read it.
+   * This local models only the 32-bit guest word. Caller-visible
+   * stack aliasing, ESI/EBX and host/guest pointer translation,
+   * as well as indirect-call ABI, remain unverified. */
+  uint32_t guest_second_word = 0;
   
   piVar1 = (int *)*unaff_ESI;
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 0x14))(piVar1,param_2);
     piVar1 = (int *)*unaff_ESI;
-    if (unaff_retaddr != (int *)0x0) {
-      (**(code **)(*unaff_retaddr + 8))(unaff_retaddr);
-      unaff_retaddr = (int *)0x0;
+    guest_out = (int *)(uintptr_t)guest_second_word;
+    if (guest_out != (int *)0x0) {
+      (**(code **)(*guest_out + 8))(guest_out);
+      guest_second_word = 0;
     }
-    cVar2 = (**(code **)(*piVar1 + 0x1c))(piVar1,&stack0x00000000);
+    cVar2 = (**(code **)(*piVar1 + 0x1c))(piVar1,&guest_second_word);
     if (cVar2 == '\0') {
       FUN_002347d0(param_1);
     }
@@ -33,13 +41,19 @@ void FUN_002345e0(undefined4 param_1,undefined4 param_2)
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 0x14))(piVar1,param_2);
     piVar1 = (int *)unaff_ESI[1];
-    if (unaff_retaddr != (int *)0x0) {
-      (**(code **)(*unaff_retaddr + 8))(unaff_retaddr);
+    guest_out = (int *)(uintptr_t)guest_second_word;
+    if (guest_out != (int *)0x0) {
+      (**(code **)(*guest_out + 8))(guest_out);
+      guest_second_word = 0;
     }
-    cVar2 = (**(code **)(*piVar1 + 0x1c))(piVar1,&stack0x00000000);
+    cVar2 = (**(code **)(*piVar1 + 0x1c))(piVar1,&guest_second_word);
     if (cVar2 == '\0') {
       FUN_002347d0(param_1);
     }
+  }
+  guest_out = (int *)(uintptr_t)guest_second_word;
+  if (guest_out != (int *)0x0) {
+    (**(code **)(*guest_out + 8))(guest_out);
   }
   return;
 }
