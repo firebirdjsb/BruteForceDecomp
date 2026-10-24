@@ -24,7 +24,7 @@ int FUN_002f8521(undefined4 param_1,int param_2)
   undefined4 local_8;
   
   iVar1 = param_2;
-  local_c = CONCAT31(local_c._1_3_,1);
+  local_c = ((local_c & UINT32_C(0xffffff00)) | UINT32_C(1));
   do {
     iVar2 = NtQueryDirectoryFile(param_1,0,0,0,local_14,iVar1,0x146,1,0,local_c);
     local_c = local_c & 0xffffff00;
