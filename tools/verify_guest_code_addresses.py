@@ -15,13 +15,13 @@ from collections import defaultdict
 from pathlib import Path
 
 EXPECTED_XBE_SHA = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-EXPECTED_COUNT = 19
+EXPECTED_COUNT = 29
 LEDGER = "metadata/verified_guest_code_addresses_2026_10_23.csv"
 
 
 def literal_from_original_instruction(raw: bytes) -> int:
     # PUSH imm32, MOV ECX,imm32
-    if len(raw) == 5 and raw[0] in (0x68, 0xB9):
+    if len(raw) == 5 and raw[0] in (0x68, 0xB8, 0xB9, 0xBA):
         return int.from_bytes(raw[1:], "little")
     # MOV DWORD PTR [EAX+0x20],imm32
     if len(raw) == 7 and raw[:3] == bytes.fromhex("c7 40 20"):
