@@ -27,7 +27,9 @@ int FUN_0025c2b0(void)
     piVar2 = aiStack_8;
   }
   else {
-    piVar2 = (int *)&stack0xfffffff4;
+    /* MOV [ESP+8],EAX then LEA EAX,[ESP+8] selects the saved
+     * node-pointer word, not an independent guest stack address. */
+    piVar2 = &iVar1;
   }
   if (*piVar2 != *(int *)(unaff_EBX + 0xc)) {
     iVar3 = *piVar2 + 0x10;
