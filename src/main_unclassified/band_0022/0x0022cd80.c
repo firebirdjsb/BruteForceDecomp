@@ -21,6 +21,10 @@ void FUN_0022cd80(float param_1,char param_2)
   int iVar4;
   float fVar5;
   float local_8;
+  /* XBE 0x22cdec / 0x22cdf1: 32-bit EDX stored in [ESP+0x18].
+   * This is a mutable local DWORD, distinct from the incoming byte param_2.
+   * The callback receives its address at 0x22ce0c-0x22ce11. */
+  int _param_2;
   
   iVar4 = *(int *)(*(int *)(DAT_00469aac + 0xbd8) + 0x18 + *(int *)(unaff_ESI + 0x54) * 0x14);
   iVar1 = *(int *)(unaff_EDI + 0x2c4);
@@ -33,7 +37,7 @@ void FUN_0022cd80(float param_1,char param_2)
   cVar2 = '\x01';
   if ((uVar3 != 0) && (uVar3 = -(uint)((*(byte *)(uVar3 + 0x26) & 0x40) != 0) & uVar3, uVar3 != 0))
   {
-    cVar2 = (**(code **)(*(int *)(uVar3 + 0x48) + 8))(&param_2);
+    cVar2 = (**(code **)(*(int *)(uVar3 + 0x48) + 8))(&_param_2);
     cVar2 = '\x01' - (cVar2 != '\0');
   }
   param_1 = 0.0;
@@ -51,7 +55,7 @@ void FUN_0022cd80(float param_1,char param_2)
     FUN_0022cbe0(unaff_EDI,unaff_ESI,iVar4,fVar5,param_1);
   }
   if (_param_2 != DAT_0046d064) {
-    FUN_0022cbe0(unaff_EDI,unaff_ESI,&param_2,local_8,param_1);
+    FUN_0022cbe0(unaff_EDI,unaff_ESI,&_param_2,local_8,param_1);
   }
   return;
 }
