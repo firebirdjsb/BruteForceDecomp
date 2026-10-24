@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 void FUN_00141630(undefined4 *param_1)
 
 {
@@ -16,7 +17,9 @@ void FUN_00141630(undefined4 *param_1)
   undefined1 local_c [4];
   undefined4 *local_8;
   
-  local_1c[0] = param_1._0_1_;
+  /* 0x00141633 reads the first incoming byte at entry ESP+4;
+   * 0x0014163e copies that byte into the local helper input. */
+  local_1c[0] = bf_x86_word_load_byte(&param_1,0U);
   local_18 = FUN_002ad910(local_1c);
   *(undefined1 *)(local_18 + 0x1d) = 1;
   *(int *)(local_18 + 4) = local_18;

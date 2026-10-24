@@ -17,40 +17,33 @@ void FUN_0034d40c(byte *param_1)
 {
   int *piVar1;
   int in_ECX;
-  int iVar2;
-  short *psVar3;
-  short *psVar4;
-  bool bVar5;
-  undefined4 local_c;
-  undefined4 local_8;
+  uint8_t local_six[6];
+  uint32_t first_word;
+  uint16_t last_word;
   
   piVar1 = *(int **)(in_ECX + 0x260);
   if (piVar1 == (int *)0x0) {
-    local_c = *(undefined4 *)(in_ECX + 0x1e6);
-    local_8._2_2_ = (undefined2)((uint)in_ECX >> 0x10);
-    local_8 = CONCAT22(local_8._2_2_,*(undefined2 *)(in_ECX + 0x1ea));
+    /* 0x0034d444-0x0034d44e: MOVSD/MOVSW copy exactly six bytes from
+     * guest ECX+0x1e6 into the contiguous local at EBP-8 through EBP-3.
+     * The guest-address-to-host mapping and original DF-clear string-op
+     * convention remain ABI_UNVERIFIED. */
+    memcpy(local_six,(const void *)(uintptr_t)((uint32_t)in_ECX + 0x1e6U),6);
     if ((param_1 != (byte *)0x0) &&
        (((*(int *)param_1 != 0 || (*(short *)(param_1 + 4) != 0)) && ((*param_1 & 1) == 0)))) {
-      local_c = *(undefined4 *)param_1;
-      local_8 = CONCAT22(local_8._2_2_,*(undefined2 *)(param_1 + 4));
+      /* 0x0034d46e-0x0034d472 replace those same six local bytes. */
+      memcpy(local_six,param_1,6);
     }
-    iVar2 = 3;
-    bVar5 = true;
-    psVar3 = (short *)(in_ECX + 0x1e0);
-    psVar4 = (short *)&local_c;
-    do {
-      if (iVar2 == 0) break;
-      iVar2 = iVar2 + -1;
-      bVar5 = *psVar3 == *psVar4;
-      psVar3 = psVar3 + 1;
-      psVar4 = psVar4 + 1;
-    } while (bVar5);
-    if (!bVar5) {
+    /* 0x0034d47e REPE CMPSW tests equality of all three guest words. */
+    if (memcmp((const void *)(uintptr_t)((uint32_t)in_ECX + 0x1e0U),local_six,6) != 0) {
       FUN_0034ce64();
-      _DAT_fef000a8 = local_c;
-      _DAT_fef000ac = local_8 & 0xffff;
-      *(undefined4 *)(in_ECX + 0x1e0) = local_c;
-      *(undefined2 *)(in_ECX + 0x1e4) = (undefined2)local_8;
+      /* 0x0034d48a/92 read DWORD and WORD from EBP-8/EBP-4; MOVZX
+       * zero-extends the latter before its DWORD store at 0xfef000ac. */
+      memcpy(&first_word,local_six,sizeof(first_word));
+      _DAT_fef000a8 = first_word;
+      memcpy(&last_word,local_six + 4,sizeof(last_word));
+      _DAT_fef000ac = (uint32_t)last_word;
+      /* 0x0034d49b-0x0034d4a7 copy the same six bytes to ECX+0x1e0. */
+      memcpy((void *)(uintptr_t)((uint32_t)in_ECX + 0x1e0U),local_six,6);
       FUN_0034ce3c();
     }
   }

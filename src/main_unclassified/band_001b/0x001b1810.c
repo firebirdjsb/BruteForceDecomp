@@ -6,7 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_001b1810(void)
+/* 0x001b1854 RET 4 and the direct caller 0x001a6835-0x001a6843
+ * establish one incoming guest DWORD, initialized to zero by that caller.
+ * 0x001b183c addresses the same word at entry ESP+4. ECX receiver and
+ * EAX element count remain implicit x86 inputs (ABI_UNVERIFIED). */
+void FUN_001b1810(undefined4 fill_word)
 
 {
   uint in_EAX;
@@ -28,7 +32,9 @@ void FUN_001b1810(void)
     else {
       iVar2 = *(int *)(in_ECX + 8) - iVar2 >> 2;
     }
-    FUN_00075780(*(undefined4 *)(in_ECX + 8),in_EAX - iVar2,&stack0x00000004);
+    /* 0x001b1840 pushes &fill_word as the third stack word. The callee
+     * 0x000757a3-0x000757a8 reads one DWORD through that pointer. */
+    FUN_00075780(*(undefined4 *)(in_ECX + 8),in_EAX - iVar2,&fill_word);
     return;
   }
   if ((iVar2 != 0) && (in_EAX < (uint)(*(int *)(in_ECX + 8) - iVar2 >> 2))) {

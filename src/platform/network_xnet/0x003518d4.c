@@ -28,7 +28,13 @@ void FUN_003518d4(undefined4 param_1,int param_2,uint param_3)
   int local_18;
   undefined4 *local_14;
   uint *local_10;
-  undefined4 local_c;
+  /* 0x00351bbb/0x00351c66 write selector bytes 3/6. The original PUSH
+   * at 0x00351bef also reads unknown high bytes of that stack DWORD.
+   * This C byte is a projection: 0x0035055a forwards the word, but the
+   * complete 0x0034fedf body consumes only its byte at 0x0034ff2e.
+   * C promotion does not reconstruct the original upper 24 stack bits;
+   * native stack/register ABI remains ABI_UNVERIFIED. */
+  undefined1 local_c;
   uint local_8;
   
   if (param_3 < 0xf0) {
@@ -124,7 +130,7 @@ void FUN_003518d4(undefined4 param_1,int param_2,uint param_3)
       *(byte *)(in_ECX + 0xa71) = *(byte *)(in_ECX + 0xa71) | 0x80;
       if ((*(char *)(in_ECX + 0x8c0) != '\r') && (*(char *)(in_ECX + 0x8c0) != '\x0e')) {
         piVar8 = (int *)(in_ECX + 0x900);
-        local_c = CONCAT31(local_c._1_3_,3);
+        local_c = 3;
         do {
           local_18 = 4;
           local_20 = piVar8;
@@ -161,7 +167,7 @@ void FUN_003518d4(undefined4 param_1,int param_2,uint param_3)
           }
           if ((*(byte *)(in_ECX + 0x8c4) & 0x40) != 0) goto LAB_00351c6f;
           piVar8 = (int *)(in_ECX + 0x8f0);
-          local_c = CONCAT31(local_c._1_3_,6);
+          local_c = 6;
         } while( true );
       }
       if ((*(int *)(in_ECX + 0x8e8) != *(int *)(param_2 + 0x18)) ||
