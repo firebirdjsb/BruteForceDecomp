@@ -16,6 +16,7 @@ void FUN_0023b2e0(void)
   undefined4 *puVar1;
   undefined4 *in_ECX;
   undefined4 uVar2;
+  uint32_t guest_constructor_context = (uint32_t)(uintptr_t)in_ECX;
   
   *in_ECX = &PTR_FUN_00394088;
   (**(code **)(*DAT_00443318 + 0x10))(DAT_00443318);
@@ -27,7 +28,8 @@ void FUN_0023b2e0(void)
   else {
     uVar2 = *puVar1;
   }
-  FUN_0023b9c0(&stack0xfffffff8,uVar2,puVar1);
+  /* PUSH ECX at 0x0023B2E0 reserves and seeds this 32-bit guest stack slot. */
+  FUN_0023b9c0(&guest_constructor_context,uVar2,puVar1);
                     /* WARNING: Subroutine does not return */
   thunk_FUN_00237ec0(in_ECX[2]);
 }
