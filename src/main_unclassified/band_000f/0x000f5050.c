@@ -30,7 +30,12 @@ uint FUN_000f5050(undefined4 param_1,undefined1 *param_2)
     piVar5 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
     param_2 = (undefined1 *)0xea3bfa1c;
     (**(code **)(*piVar5 + 8))(&param_2,0,0);
-    uVar4 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x22c))(&stack0xfffffffc);
+    /* XBE 0x000f50cf MOV [ESP+0x14],0xfd890279 and
+     * 0x000f50dc LEA EDX,[ESP+0x14]. After three register
+     * saves, ESP+0x14 is the second incoming argument slot,
+     * already represented above by param_2. */
+    param_2 = (undefined1 *)0xfd890279;
+    uVar4 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x22c))(&param_2);
     return uVar4 & 0xffffff00;
   }
   uVar3 = FUN_001039b0();
