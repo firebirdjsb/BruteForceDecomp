@@ -20,7 +20,7 @@ undefined ** FUN_00181560(void)
   case 1:
     return (undefined **)&DAT_00400710;
   case 2:
-    return (undefined **)&LAB_00400724;
+    return (undefined **)(uintptr_t)0x00400724U;
   default:
     return (undefined **)0x0;
   case 4:

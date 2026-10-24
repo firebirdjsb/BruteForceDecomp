@@ -17,7 +17,7 @@ void FUN_0031c8b1(int param_1,undefined4 *param_2,undefined4 *param_3)
 
 {
   if (param_1 == 0) {
-    *param_2 = &LAB_004a9a20;
+    *param_2 = (uintptr_t)0x004a9a20U;
     *param_3 = 0x2f2;
   }
   else if (param_1 == 1) {

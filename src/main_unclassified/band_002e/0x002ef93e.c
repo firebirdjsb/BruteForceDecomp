@@ -24,7 +24,7 @@ void __local_unwind2(int param_1,int param_2)
   int iStack_10;
   
   iStack_10 = param_1;
-  puStack_18 = &LAB_002ef91c;
+  puStack_18 = (uintptr_t)0x002ef91cU;
   uStack_1c = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &uStack_1c;
   while( true ) {

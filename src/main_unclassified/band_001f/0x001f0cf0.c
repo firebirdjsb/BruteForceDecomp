@@ -28,7 +28,7 @@ void FUN_001f0cf0(int param_1)
     iVar1 = 0;
   }
   else {
-    FUN_0001fe40(iVar1,0x10,in_EAX,&LAB_001f0ca0);
+    FUN_0001fe40(iVar1,0x10,in_EAX,(uintptr_t)0x001f0ca0U);
   }
   unaff_ESI[1] = iVar1;
   iVar1 = thunk_FUN_002ea01d(param_1 * in_EAX);

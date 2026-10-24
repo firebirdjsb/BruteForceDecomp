@@ -15,7 +15,7 @@ undefined4 FUN_002ef9a6(void)
   
   uVar2 = 0;
   iVar1 = *unaff_FS_OFFSET;
-  if ((*(undefined1 **)(iVar1 + 4) == &LAB_002ef91c) &&
+  if ((*(undefined1 **)(iVar1 + 4) == (uintptr_t)0x002ef91cU) &&
      (*(int *)(iVar1 + 8) == *(int *)(*(int *)(iVar1 + 0xc) + 0xc))) {
     uVar2 = 1;
   }

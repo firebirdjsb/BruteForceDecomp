@@ -25,7 +25,7 @@ int FUN_002654b0(int param_1,int param_2,int param_3)
       puVar2 = (undefined4 *)0x0;
     }
     else {
-      FUN_0001fe40(puVar2,0x28,param_2,&LAB_00264f70);
+      FUN_0001fe40(puVar2,0x28,param_2,(uintptr_t)0x00264f70U);
     }
     *(undefined4 **)(param_1 + 8) = puVar2;
     if (puVar2 == (undefined4 *)0x0) {

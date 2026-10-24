@@ -113,7 +113,7 @@ LAB_00100475:
     fVar3 = *(float *)(iVar1 + 0x18);
     local_204[0] = *(float *)(iVar1 + 0x10);
     XAPILIB__OutputDebugStringA(s_someone_is_using_get_string_0040dbb4);
-    FUN_002ea9a9(local_204,0x100,u__S____02f___02f_____02f____02f__0040cc38,0,(double)fVar3,
+    FUN_002ea9a9(local_204,0x100,(uintptr_t)0x0040cc38U,0,(double)fVar3,
                  (double)fStack_208,(double)unaff_EBX,(double)local_218);
     piVar4 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
     (**(code **)(*piVar4 + 0xc))();

@@ -13,7 +13,7 @@ undefined4 FUN_0035434a(int param_1)
   undefined4 uVar2;
   
   iVar1 = FUN_0035359e(param_1,*(undefined4 *)(param_1 + 0x44),*(undefined2 *)(param_1 + 0x4a),
-                       *(undefined2 *)(param_1 + 0x48),0,0,0x38,&LAB_0035360f);
+                       *(undefined2 *)(param_1 + 0x48),0,0,0x38,(uintptr_t)0x0035360fU);
   if (iVar1 == 0) {
     uVar2 = 0x80072747;
   }

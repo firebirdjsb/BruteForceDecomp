@@ -83,5 +83,5 @@ LAB_00338ba7:
 LAB_00338b4d:
   *(byte *)(uVar5 + 0x1a) = *(byte *)(uVar5 + 0x1a) | 0x20;
   *(undefined4 *)(uVar5 + 0x14) = 6;
-  return &LAB_0015fffd;
+  return (uintptr_t)0x0015fffdU;
 }

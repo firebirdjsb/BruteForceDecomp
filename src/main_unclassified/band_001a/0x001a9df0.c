@@ -17,7 +17,7 @@ void FUN_001a9df0(void)
   iVar2 = 0x1b;
   do {
     *puVar1 = 0;
-    FUN_0001fe40(puVar1 + 1,4,4,&LAB_0012de40);
+    FUN_0001fe40(puVar1 + 1,4,4,(uintptr_t)0x0012de40U);
     puVar1 = puVar1 + 6;
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);

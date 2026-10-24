@@ -16,7 +16,7 @@ void FUN_001a9e70(void)
   iVar1 = unaff_EBX + 4;
   iVar2 = 6;
   do {
-    FUN_0001fe40(iVar1,4,4,&LAB_0012de40);
+    FUN_0001fe40(iVar1,4,4,(uintptr_t)0x0012de40U);
     iVar1 = iVar1 + 0x14;
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);

@@ -52,7 +52,7 @@ void FUN_00382132(undefined1 param_1,undefined1 param_2)
       puVar4[5] = param_2;
       KeQuerySystemTime(puVar1);
       uVar2 = *puVar1;
-      *puVar1 = (uint)(&LAB_000f4240 + *puVar1);
+      *puVar1 = (uint)((uintptr_t)0x000f4240U + *puVar1);
       *(undefined4 *)(puVar4 + 0x10) = 0;
       *(uint *)(puVar4 + 0x1c) = *(int *)(puVar4 + 0x1c) + (uint)(0xfff0bdbf < uVar2);
       puVar5 = DAT_0041279c;

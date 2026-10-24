@@ -62,7 +62,7 @@ LAB_000f4021:
     pcVar5 = (char *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0xcc))();
     iVar6 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x1c4))();
     if (((iVar6 != 0) && (*(int *)(iVar6 + 0x48) < 2)) && (*pcVar5 == '\0')) {
-      iVar6 = _wcscmp((wchar_t *)(iVar6 + 8),u_VENGAR_0040cd64);
+      iVar6 = _wcscmp((wchar_t *)(iVar6 + 8),(uintptr_t)0x0040cd64U);
       if (iVar6 != 0) {
         *unaff_EBX = 1;
         uVar4 = FUN_000f4200(param_1);

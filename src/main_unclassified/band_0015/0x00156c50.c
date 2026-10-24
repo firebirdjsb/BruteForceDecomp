@@ -36,7 +36,7 @@ void FUN_00156c50(void)
   }
   iVar1 = in_ECX[0x20];
   if (iVar1 != 0) {
-    FUN_0001fe00(iVar1,8,*(undefined4 *)(iVar1 + -4),FUN_00012080);
+    FUN_0001fe00(iVar1,8,*(undefined4 *)(iVar1 + -4),(uintptr_t)0x00012080U);
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(iVar1 + -4);
   }

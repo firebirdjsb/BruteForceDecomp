@@ -23,7 +23,7 @@ void FUN_0028afb0(void)
     in_EAX = &DAT_00404a84;
   }
   if (in_ECX != 0) {
-    local_110 = &LAB_0029c4d0;
+    local_110 = (uintptr_t)0x0029c4d0U;
     local_10c = 0;
     local_108 = in_EAX;
   }

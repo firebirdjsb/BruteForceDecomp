@@ -58,7 +58,7 @@ undefined4 FUN_000f32e0(int *param_1,int param_2,int param_3,int param_4)
   if (param_2 == param_3) {
     local_210 = -0x15e2e7ef;
     uVar4 = FUN_001e97c0();
-    FUN_002ea9a9(local_200,0x100,u__s__s_0040d744,local_200,uVar4);
+    FUN_002ea9a9(local_200,0x100,(uintptr_t)0x0040d744U,local_200,uVar4);
     local_210 = 0x12abb58e;
     if (param_4 != 0) {
       local_210 = 0xef44be8;

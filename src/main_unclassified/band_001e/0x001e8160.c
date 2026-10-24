@@ -313,7 +313,7 @@ undefined4 FUN_001e8160(void)
     pcVar1 = pcVar2 + 1;
   } while (*pcVar2 != '\0');
   FUN_0001fed0(&DAT_004072e4,pcVar2 + -0x4072e4);
-  FUN_001eb0e0(local_38,&LAB_001eb090);
+  FUN_001eb0e0(local_38,(uintptr_t)0x001eb090U);
   FUN_0001f4f0(local_38,0,0xffffffff);
   if (0xf < local_20) {
                     /* WARNING: Subroutine does not return */

@@ -20,7 +20,7 @@ undefined4 FUN_0023b240(void)
   int *piVar1;
   
   piVar1 = DAT_004432fc;
-  (**(code **)(*DAT_004432fc + 0xc))(DAT_004432fc,9,&LAB_0023b1e0,&DAT_00406860);
+  (**(code **)(*DAT_004432fc + 0xc))(DAT_004432fc,9,(uintptr_t)0x0023b1e0U,&DAT_00406860);
   FUN_0023b180();
   FUN_002647c0();
   FUN_002658a0();

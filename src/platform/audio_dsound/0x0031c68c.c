@@ -19,7 +19,7 @@ void FUN_0031c68c(void)
   int iStack_4;
   
   do {
-    KeSynchronizeExecution(&DAT_0032fdf8,&LAB_0031c250);
+    KeSynchronizeExecution(&DAT_0032fdf8,(uintptr_t)0x0031c250U);
     bVar1 = false;
     pcVar2 = (char *)((int)in_ECX + 0x39);
     iStack_4 = 2;

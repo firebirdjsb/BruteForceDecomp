@@ -49,7 +49,7 @@ void FUN_0033f26e(short *param_1,undefined4 *param_2,int *param_3)
     *(undefined1 *)(param_1 + 3) = local_a;
     if (param_2 != (undefined4 *)0x0) {
       uVar2 = __alldiv(*param_3,param_3[1],10,0);
-      uVar1 = __allrem(uVar2,&LAB_000f4240,0);
+      uVar1 = __allrem(uVar2,(uintptr_t)0x000f4240U,0);
       *param_2 = uVar1;
     }
     param_1[6] = 0;

@@ -14,7 +14,7 @@ undefined4 FUN_00352e26(void)
   
   *(undefined4 *)(in_ECX + 0xa60) = 0;
   *(undefined4 *)(in_ECX + 0xa68) = 0xffffffff;
-  *(undefined1 **)(in_ECX + 0xa6c) = &LAB_00352440;
+  *(undefined1 **)(in_ECX + 0xa6c) = (uintptr_t)0x00352440U;
   uVar1 = FUN_0034c812();
   *(undefined4 *)(in_ECX + 0xa74) = uVar1;
   return 0;

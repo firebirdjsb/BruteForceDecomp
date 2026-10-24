@@ -24,7 +24,7 @@ bool FUN_002f2fcb(undefined4 param_1,uint param_2)
   local_1c = local_c;
   local_20 = 0xfffffffd;
   local_18 = 0x40;
-  iVar2 = NtOpenFile(&param_1,&LAB_00100100,&local_20,local_14,7,0x4020);
+  iVar2 = NtOpenFile(&param_1,(uintptr_t)0x00100100U,&local_20,local_14,7,0x4020);
   if (iVar2 < 0) {
     XAPILIB__XapiSetLastNTError(iVar2);
     bVar1 = false;

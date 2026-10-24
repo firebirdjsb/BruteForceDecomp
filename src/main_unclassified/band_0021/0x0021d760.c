@@ -20,7 +20,7 @@ undefined4 FUN_0021d760(int param_1)
   local_4 = 0;
   iVar1 = (**(code **)*piVar2)(piVar2,s_23_23_IFxAppearance_00402ddc,&local_4);
   if (-1 < iVar1) {
-    (**(code **)(*piVar2 + 0xcc))(piVar2,&LAB_0021d670,local_4);
+    (**(code **)(*piVar2 + 0xcc))(piVar2,(uintptr_t)0x0021d670U,local_4);
   }
   if (piVar2 != (int *)0x0) {
     (**(code **)(*piVar2 + 8))(piVar2);

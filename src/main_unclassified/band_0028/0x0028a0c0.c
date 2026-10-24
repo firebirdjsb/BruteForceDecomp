@@ -59,7 +59,7 @@ LAB_0028a134:
   if (piVar5 != (int *)0x0) {
     return s_global_00404b28;
   }
-  iVar3 = FUN_00295180(&LAB_0028a0a0);
+  iVar3 = FUN_00295180((uintptr_t)0x0028a0a0U);
   *param_1 = iVar3;
   pcVar6 = s_tag_method_00404b1c;
   if (iVar3 == 0) {

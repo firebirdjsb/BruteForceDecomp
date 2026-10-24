@@ -24,7 +24,7 @@ void FUN_00380281(undefined1 *param_1,int *param_2)
       *(undefined2 *)(param_1 + 0x2a) = 0;
       *param_1 = 0x30;
       param_1[1] = 0x40;
-      *(undefined1 **)(param_1 + 8) = &LAB_00380336;
+      *(undefined1 **)(param_1 + 8) = (uintptr_t)0x00380336U;
       *(int **)(param_1 + 0xc) = param_2;
       param_1[0x28] = 2;
       param_1[0x29] = 1;

@@ -138,7 +138,7 @@ void FUN_003610e0(int param_1)
   if (DAT_004c07f8 == 0) {
     iVar14 = -0x80184b;
     iVar13 = -0x655935;
-    local_24 = &LAB_0018e05b;
+    local_24 = (uintptr_t)0x0018e05bU;
     iVar15 = 0x339f71;
     iVar11 = 0;
     iVar3 = 1;

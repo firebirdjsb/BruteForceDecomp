@@ -21,7 +21,7 @@ FUN_002fe455(undefined4 param_1,undefined4 param_2,undefined4 param_3,int param_
   
   local_10 = param_2;
   local_8 = param_4 + 1;
-  local_14 = &LAB_002fe2d9;
+  local_14 = (uintptr_t)0x002fe2d9U;
   local_c = param_1;
   local_18 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = (int)&local_18;

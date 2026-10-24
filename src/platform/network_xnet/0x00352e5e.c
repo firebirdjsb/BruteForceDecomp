@@ -13,7 +13,7 @@ void FUN_00352e5e(undefined4 *param_1)
   undefined8 uVar2;
   
   uVar1 = KeQueryPerformanceFrequency();
-  uVar2 = __allmul(*param_1,param_1[1],&LAB_000f4240,0);
+  uVar2 = __allmul(*param_1,param_1[1],(uintptr_t)0x000f4240U,0);
   __alldiv(uVar2,uVar1);
   return;
 }

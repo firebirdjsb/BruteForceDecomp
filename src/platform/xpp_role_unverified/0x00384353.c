@@ -20,7 +20,7 @@ void FUN_00384353(int param_1,undefined4 param_2)
     *(int *)(iVar1 + 0x20) = iVar1 + 0x38;
     *(undefined1 *)(iVar1 + 8) = 0x28;
     *(undefined1 *)(iVar1 + 9) = 0x41;
-    *(undefined1 **)(iVar1 + 0x10) = &LAB_003841c7;
+    *(undefined1 **)(iVar1 + 0x10) = (uintptr_t)0x003841c7U;
     *(undefined4 *)(iVar1 + 0x14) = param_2;
     *(uint *)(iVar1 + 0x1c) = (uint)*(byte *)(iVar1 + 7);
     *(undefined1 *)(iVar1 + 0x24) = 2;

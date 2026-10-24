@@ -15,7 +15,7 @@ undefined4 FUN_002583b0(int param_1)
   *(undefined4 *)(param_1 + 0x2898) = 0xb000;
   *(undefined1 *)(param_1 + 0x20) = 0;
   *(undefined1 *)(param_1 + 0x21) = 0;
-  *(undefined1 **)(param_1 + 0x2860) = &LAB_00257760;
+  *(undefined1 **)(param_1 + 0x2860) = (uintptr_t)0x00257760U;
   *(int *)(param_1 + 0x44) = param_1;
   *(undefined4 *)(param_1 + 0x287c) = 0;
   *(undefined4 *)(param_1 + 0x2880) = 0;

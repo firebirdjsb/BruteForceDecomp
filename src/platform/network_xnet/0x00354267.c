@@ -31,7 +31,7 @@ undefined4 FUN_00354267(int param_1,int param_2)
   *(undefined4 *)(param_1 + 0x9c) = uVar4;
   iVar3 = FUN_0035359e(param_1,*(undefined4 *)(param_1 + 0x44),*(undefined2 *)(param_1 + 0x4a),
                        *(undefined2 *)(param_1 + 0x48),-(uint)(param_2 != 0) & 0x40000,4,0x38,
-                       &LAB_0035360f);
+                       (uintptr_t)0x0035360fU);
   if (iVar3 == 0) {
     FUN_00353845(param_1,0x80072747);
     uVar4 = 0x80072747;

@@ -67,7 +67,7 @@ int FUN_002e8470(code *param_1,undefined4 param_2,undefined4 param_3,undefined4 
   else {
     piVar5 = piVar4 + 1;
     *piVar4 = iVar7;
-    FUN_0001fe40(piVar5,0x1c,iVar7,&LAB_002e9ca0);
+    FUN_0001fe40(piVar5,0x1c,iVar7,(uintptr_t)0x002e9ca0U);
   }
   *(int **)(in_ECX + 0x14) = piVar5;
   if (piVar5 != (int *)0x0) {

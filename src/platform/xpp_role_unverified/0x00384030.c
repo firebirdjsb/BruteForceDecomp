@@ -27,7 +27,7 @@ void FUN_00384030(undefined1 *param_1,undefined4 param_2)
       FUN_00381379(param_1);
       *param_1 = 0x28;
       param_1[1] = 0x41;
-      *(undefined1 **)(param_1 + 8) = &LAB_003841c7;
+      *(undefined1 **)(param_1 + 8) = (uintptr_t)0x003841c7U;
       *(undefined4 *)(param_1 + 0xc) = param_2;
       *(undefined4 *)(param_1 + 0x10) = *(undefined4 *)(pbVar2 + 0x3c);
       *(byte **)(param_1 + 0x18) = pbVar2 + 0x38;

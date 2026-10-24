@@ -17,7 +17,7 @@ void FUN_0037f8f9(void)
   
   iVar1 = *in_ECX;
   KeInitializeTimerEx(in_ECX + 0x11e,0);
-  KeInitializeDpc(in_ECX + 0x128,&LAB_00384969);
+  KeInitializeDpc(in_ECX + 0x128,(uintptr_t)0x00384969U);
   *(undefined1 *)(in_ECX + 0x118) = 4;
   local_c = *(uint *)(iVar1 + 0x50) & 0xffff0000;
   *(uint *)(iVar1 + 0x50) = local_c;

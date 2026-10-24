@@ -16,7 +16,7 @@ void FUN_002b5050(void)
   int *unaff_EBX;
   uint uVar2;
   
-  if ((undefined1 *)unaff_EBX[0x56] != &LAB_0001e240) {
+  if ((undefined1 *)unaff_EBX[0x56] != (uintptr_t)0x0001e240U) {
     if ((short)unaff_EBX[0x52] != 0) {
       if (unaff_EBX[0x51] != 0) {
         (*(code *)PTR_FUN_003bc654)(unaff_EBX[0x51]);

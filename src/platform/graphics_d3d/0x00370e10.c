@@ -21,7 +21,7 @@ void FUN_00370e10(void)
   undefined4 *puVar5;
   undefined4 *puVar6;
   
-  puVar2 = &LAB_00181b68;
+  puVar2 = (uintptr_t)0x00181b68U;
   puVar3 = in_EAX + 1;
   puVar4 = (undefined4 *)(&DAT_0037bb88 + (uint)(*(int *)(in_EDX + 0x36c) != 0) * 0x80);
   do {

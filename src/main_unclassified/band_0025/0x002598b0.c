@@ -23,7 +23,7 @@ undefined4 FUN_002598b0(undefined2 param_1,undefined4 param_2)
   int *local_4;
   
   if (in_EAX == (undefined1 *)0x0) {
-    in_EAX = &LAB_00259850;
+    in_EAX = (uintptr_t)0x00259850U;
   }
   local_c = param_2;
   local_4 = (int *)0x0;

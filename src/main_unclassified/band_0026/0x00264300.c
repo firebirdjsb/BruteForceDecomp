@@ -81,7 +81,7 @@ undefined4 FUN_00264300(void)
     puVar3 = puVar4 + 5;
     DAT_0046b24c = puVar4;
   } while ((int)(puVar4 + 5) < 0x443638);
-  DAT_004433ac = XAPILIB__CreateThread(0,0x4000,&LAB_00264620,0,0,local_4);
+  DAT_004433ac = XAPILIB__CreateThread(0,0x4000,(uintptr_t)0x00264620U,0,0,local_4);
   if ((DAT_004433ac != 0) && (iVar2 = XAPILIB__SetThreadPriority(DAT_004433ac,1), iVar2 != 0)) {
     XAPILIB__SleepEx(0,0);
     DAT_004698b0 = 1;

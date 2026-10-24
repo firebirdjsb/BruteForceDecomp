@@ -28,7 +28,7 @@ uint FUN_00381379(int param_1)
     local_18[0] = 0;
     local_16 = 4;
     local_14 = 0;
-    *(undefined1 **)(param_1 + 8) = &LAB_003804c9;
+    *(undefined1 **)(param_1 + 8) = (uintptr_t)0x003804c9U;
     *(undefined1 **)(param_1 + 0xc) = local_18;
   }
   if (bVar1 == 2) {

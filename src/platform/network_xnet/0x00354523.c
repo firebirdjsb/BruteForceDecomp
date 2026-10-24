@@ -56,7 +56,7 @@ LAB_003546aa:
       local_c = uVar11;
     }
     iVar7 = FUN_0035359e(iVar5,*(undefined4 *)(iVar5 + 0x44),*(undefined2 *)(iVar5 + 0x4a),
-                         *(undefined2 *)(iVar5 + 0x48),param_3,local_c,0x38,&LAB_0035360f);
+                         *(undefined2 *)(iVar5 + 0x48),param_3,local_c,0x38,(uintptr_t)0x0035360fU);
     if (iVar7 == 0) {
       piVar1 = (int *)(param_2 + 0x10);
       *piVar1 = *piVar1 - uVar11;

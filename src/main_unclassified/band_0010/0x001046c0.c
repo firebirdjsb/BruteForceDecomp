@@ -48,7 +48,7 @@ void FUN_001046c0(int param_1,int param_2)
       do {
         iVar4 = FUN_00104b60(&param_2);
         if (iVar4 == 0) {
-          FUN_002eaa70(u___0040cc2c);
+          FUN_002eaa70((uintptr_t)0x0040cc2cU);
           FUN_0008ed00();
         }
         else {

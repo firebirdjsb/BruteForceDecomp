@@ -21,7 +21,7 @@ int FUN_002f869e(undefined4 param_1,undefined4 param_2)
   local_10 = param_2;
   local_c = local_18;
   local_8 = 0x40;
-  iVar1 = NtOpenFile(&param_1,&LAB_00110101,&local_10,local_20,3,0x4021);
+  iVar1 = NtOpenFile(&param_1,(uintptr_t)0x00110101U,&local_10,local_20,3,0x4021);
   if (-1 < iVar1) {
     iVar1 = FUN_002f8521(param_1,local_168);
     NtClose(param_1);

@@ -24,7 +24,7 @@ void FUN_003832c8(void)
   *(undefined1 *)(in_ECX + 0xd6) = 0;
   *(undefined1 *)(in_ECX + 0xb8) = 0x28;
   *(undefined1 *)(in_ECX + 0xb9) = 0x41;
-  *(undefined1 **)(in_ECX + 0xc0) = &LAB_00383260;
+  *(undefined1 **)(in_ECX + 0xc0) = (uintptr_t)0x00383260U;
   *(int *)(in_ECX + 0xc4) = in_ECX;
   *(undefined4 *)(in_ECX + 200) = *(undefined4 *)(in_ECX + 0x24);
   *(undefined4 **)(in_ECX + 0xd0) = (undefined4 *)(in_ECX + 0x40);

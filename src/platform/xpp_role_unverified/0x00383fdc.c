@@ -11,7 +11,7 @@ void FUN_00383fdc(undefined1 *param_1,undefined4 param_2)
 {
   *param_1 = 0x1c;
   param_1[1] = 0xc3;
-  *(undefined1 **)(param_1 + 8) = &LAB_00383e92;
+  *(undefined1 **)(param_1 + 8) = (uintptr_t)0x00383e92U;
   *(undefined4 *)(param_1 + 0xc) = param_2;
   FUN_00381379(param_1);
   return;

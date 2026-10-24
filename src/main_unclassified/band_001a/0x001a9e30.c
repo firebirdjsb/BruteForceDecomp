@@ -16,7 +16,7 @@ int FUN_001a9e30(int param_1)
   iVar2 = 0x13;
   do {
     *(undefined4 *)(iVar1 + -4) = 0;
-    FUN_0001fe40(iVar1,4,4,&LAB_0012de40);
+    FUN_0001fe40(iVar1,4,4,(uintptr_t)0x0012de40U);
     iVar1 = iVar1 + 0x18;
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);

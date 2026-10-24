@@ -33,7 +33,7 @@ void FUN_00382e8a(void)
     KeSetTimer(in_ECX + 0x70,0xfff0bdc0,0xffffffff,in_ECX + 0x98);
     *puVar1 = 0x30;
     *(undefined1 *)(in_ECX + 0xb9) = 0x40;
-    *(undefined1 **)(in_ECX + 0xc0) = &LAB_00383371;
+    *(undefined1 **)(in_ECX + 0xc0) = (uintptr_t)0x00383371U;
     *(int *)(in_ECX + 0xc4) = in_ECX;
     *(undefined4 *)(in_ECX + 200) = 0;
     *(undefined4 *)(in_ECX + 0xd0) = 0;

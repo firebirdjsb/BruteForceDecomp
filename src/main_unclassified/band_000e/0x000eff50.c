@@ -23,7 +23,7 @@ undefined4 FUN_000eff50(int *param_1)
     FUN_0010caa0();
     piVar4 = (int *)0x5;
     do {
-      FUN_002ea9a9(auStack_20,0x10,u__d_00_0040cd7c,piVar4);
+      FUN_002ea9a9(auStack_20,0x10,(uintptr_t)0x0040cd7cU,piVar4);
       param_1 = piVar4;
       FUN_0010c660(&param_1);
       piVar4 = (int *)((int)piVar4 + 5);
