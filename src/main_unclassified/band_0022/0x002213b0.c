@@ -6,7 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_002213b0(void)
+/* Original RET 8 confirms two incoming guest stack DWORDs. 0x002213b4
+ * reads entry ESP+8 into ECX for 0x00221af0; 0x002213ce forwards the
+ * address of that same DWORD to 0x000ff730. The ECX register ABI and
+ * host stack layout remain ABI_UNVERIFIED. */
+void FUN_002213b0(undefined4 guest_stack_word_1,undefined4 guest_stack_word_2)
 
 {
   int iVar1;
@@ -15,7 +19,7 @@ void FUN_002213b0(void)
   
   FUN_00221af0(in_ECX + -0x1b0);
   iVar1 = *(int *)(in_ECX + 0x24);
-  iVar2 = FUN_000ff730(in_ECX + 0x20,iVar1,*(undefined4 *)(iVar1 + 4),&stack0x00000008);
+  iVar2 = FUN_000ff730(in_ECX + 0x20,iVar1,*(undefined4 *)(iVar1 + 4),&guest_stack_word_2);
   FUN_000b2a50();
   *(int *)(iVar1 + 4) = iVar2;
   **(int **)(iVar2 + 4) = iVar2;
