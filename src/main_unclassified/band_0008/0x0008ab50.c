@@ -53,7 +53,9 @@ void FUN_0008ab50(int param_1)
           if (iVar1 == 0) {
             return;
           }
-          iVar4 = iRam00000004;
+          /* XBE 0x0008abc4: XOR EAX,EAX; MOV ESI,[EAX+4].
+           * Guest absolute read at 0x4; host low-memory mapping unverified. */
+          iVar4 = *(volatile int *)(uintptr_t)UINT32_C(0x4);
           if (iVar1 != 0) {
             iVar4 = *(int *)(**(int **)(*(int *)(param_1 + 0x28) + 8) + 4);
           }
