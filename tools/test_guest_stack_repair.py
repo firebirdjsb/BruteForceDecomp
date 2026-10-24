@@ -27,6 +27,18 @@ FUNCTIONS = {
         "FF3BFD86BCC43C5EFAF14B4197F350F3BD633A9D22815873059C9F7D4991442D",
         "0x00063698",
     ),
+    "0x0007e0a0": (
+        "77B9370188C6A6258DB483EECC64AD143AFB3045AEC33E25052360EA674E8FE4",
+        "0x0007e109",
+    ),
+    "0x00084d50": (
+        "DE39614EB06E358E1F8DCF4B1E6E9E836331BE5396E34F1E4699D07D2F932785",
+        "0x00084d8d",
+    ),
+    "0x0008b9e0": (
+        "6DF66E219F2D47CA69E34F7A80E8FEF969FC677D7AC28102EEB41AFA2328BB5E",
+        "0x0008ba0d",
+    ),
 }
 
 
@@ -57,6 +69,16 @@ def main() -> int:
             ):
                 if expected not in without_comments:
                     raise SystemExit(f"{entry}: x86 stack argument/output mapping regressed: {expected}")
+        # Pin the original stack-slot identity, not just the absence of a
+        # synthetic Ghidra symbol. XBE opcode checks are performed locally by
+        # scripts/verify_0007_0008_stack_args.py when the user-owned XBE exists.
+        repaired_calls = {
+            "0x0007e0a0": "FUN_00085540(&param_1,iVar1);",
+            "0x00084d50": "(**(code **)(*piVar1 + 0x30))(local_14);",
+            "0x0008b9e0": "(**(code **)(*piVar1 + 0x14))(&local_4);",
+        }
+        if entry in repaired_calls and repaired_calls[entry] not in without_comments:
+            raise SystemExit(f"{entry}: original stack-address argument mapping regressed")
         result = subprocess.run(
             [clang, *FLAGS, "-I", str(ROOT / "include"), str(path)],
             capture_output=True, text=True, timeout=60, check=False,
