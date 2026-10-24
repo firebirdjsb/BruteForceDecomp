@@ -45,11 +45,13 @@ def triage(report: dict, expected_total: int = 13694) -> tuple[dict, list[dict]]
         raise ValueError("Report results are missing or incomplete")
     if type(report.get("source_tree_entries")) is not int or report["source_tree_entries"] != expected_total:
         raise ValueError("Source tree entry count differs from complete audit")
-    if report.get("body_hash_mismatches") != 0 or report.get("body_hash_missing") != 0:
+    if any(report.get(field) != 0 for field in ("body_hash_mismatches", "body_hash_missing", "body_hash_unindexed")):
         raise ValueError("Original body-hash provenance gate failed")
+    if report.get("group_index_present") is not True:
+        raise ValueError("Missing complete function-group index")
     counts = report.get("counts")
-    if not isinstance(counts, dict) or any(type(v) is not int or v < 0 for v in counts.values()):
-        raise ValueError("Invalid compiler result counts")
+    if not isinstance(counts, dict) or set(counts) != {"pass", "fail"} or any(type(v) is not int or v < 0 for v in counts.values()):
+        raise ValueError("Invalid or incomplete compiler result counts")
     actual = Counter()
     seen = set()
     rows = []
@@ -57,8 +59,8 @@ def triage(report: dict, expected_total: int = 13694) -> tuple[dict, list[dict]]
         entry, status = result.get("entry"), result.get("status")
         if not isinstance(entry, str) or not ENTRY.fullmatch(entry) or entry in seen:
             raise ValueError(f"Invalid or duplicate function entry: {entry}")
-        if not isinstance(status, str) or not status:
-            raise ValueError(f"Missing compiler status at {entry}")
+        if status not in ("pass", "fail"):
+            raise ValueError(f"Non-terminal compiler status at {entry}: {status}")
         seen.add(entry)
         actual[status] += 1
         if status == "fail":
