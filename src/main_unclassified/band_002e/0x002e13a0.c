@@ -41,9 +41,9 @@ void FUN_002e13a0(int param_1)
     iVar2 = FUN_002e3bd0(local_c,&local_24,&local_20,local_13,local_1c,&param_1,&local_d);
     if (iVar2 < 0) break;
     if ((local_20 != 0) || (*(int *)(iVar1 + 700) == 0)) {
-      ((uint8_t *)&local_18)[3] =
-           (((uint8_t *)&local_18)[3] ^ ((uint8_t)((uint32_t)local_20 << 1) ^ ((uint8_t *)&local_18)[3]) & 0xe) & 0xf |
-           ((uint32_t)(uint8_t)param_1 << 4);
+      ((uint8_t *)&local_18)[3] = (uint8_t)(
+           ((((uint8_t *)&local_18)[3] ^ ((uint8_t)((uint32_t)local_20 << 1) ^ ((uint8_t *)&local_18)[3]) & UINT8_C(0x0e)) & UINT8_C(0x0f)) |
+           ((uint32_t)(uint8_t)param_1 << 4));
       local_14 = local_1c[0];
       if (*(int *)(iVar1 + 700) != 0) {
         local_4 = *(undefined4 *)(iVar1 + 0x2c0);
