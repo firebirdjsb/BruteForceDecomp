@@ -4,7 +4,7 @@ import argparse,hashlib
 from pathlib import Path
 SHA="b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 CHECKS=((3088296,"558bec83ec24"),(3088310,"668b4b0a"),(3088330,"668b460a"))
-TOKENS=["UINT32_C(0xffff0000)","(uint16_t)(uVar3 + 0xc002)"]
+TOKENS=["uint16_t guest_exponent = (uint16_t)(uVar3 + 0xc002);","guest_exponent = (uint16_t)(guest_exponent - 1);","guest_exponent = (uint16_t)(guest_exponent + 1);"]
 def main():
  p=argparse.ArgumentParser();p.add_argument("xbe",type=Path);p.add_argument("repo",type=Path)
  a=p.parse_args();d=a.xbe.read_bytes()
