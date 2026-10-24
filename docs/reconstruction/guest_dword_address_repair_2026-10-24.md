@@ -22,7 +22,7 @@ the C draft.
 
 `scripts/verify_three_guest_dword_addresses.py --root . --xbe /path/to/default.xbe`
 checks the original executable identity, three original function-body hashes,
-14 opcode signatures, two direct-call destinations, four callee instructions,
+12 opcode signatures, two direct-call destinations, four callee instructions,
 source invariants, and isolated host Clang C11 syntax. Without `--xbe`,
 GitHub Actions checks only source invariants and isolated syntax; it **must not**
 claim to have inspected original machine code.
