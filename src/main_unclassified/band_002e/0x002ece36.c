@@ -18,7 +18,7 @@ extern uint32_t DAT_004a8fb4;
 int __fcloseall(void)
 
 {
-  FILE *__stream;
+  uint32_t guest_stream; /* 32-bit Xbox CRT stream address */
   int iVar1;
   int iVar2;
   int iVar3;
@@ -27,17 +27,20 @@ int __fcloseall(void)
   iVar3 = 0;
   if (3 < DAT_004a8fb4) {
     do {
-      __stream = *(FILE **)(DAT_004a8fb0 + iVar2 * 4);
-      if (__stream != (FILE *)0x0) {
-        if (((uint)__stream->_IO_read_base & 0x83) != 0) {
-          iVar1 = _fclose(__stream);
+      guest_stream = *(uint32_t *)(uintptr_t)(DAT_004a8fb0 + iVar2 * 4);
+      if (guest_stream != 0) {
+        /* TEST BYTE PTR [eax+0x0c],0x83 at 0x002ECE51. */
+        if ((*(uint8_t *)(uintptr_t)(guest_stream + 0x0c) & 0x83) != 0) {
+          iVar1 = _fclose((void *)(uintptr_t)guest_stream);
           if (iVar1 != -1) {
             iVar3 = iVar3 + 1;
           }
         }
         if (0x13 < iVar2) {
                     /* WARNING: Subroutine does not return */
-          thunk_FUN_00237ec0(*(undefined4 *)(DAT_004a8fb0 + iVar2 * 4));
+          thunk_FUN_00237ec0(*(undefined4 *)(uintptr_t)(DAT_004a8fb0 + iVar2 * 4));
+          /* AND DWORD PTR [table+index*4],0 at 0x002ECE7B. */
+          *(uint32_t *)(uintptr_t)(DAT_004a8fb0 + iVar2 * 4) = 0;
         }
       }
       iVar2 = iVar2 + 1;
