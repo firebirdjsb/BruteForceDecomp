@@ -71,7 +71,7 @@ def xbe_check(data, identity=True):
             raise ValueError(f"{entry:#x}: original function body mismatch")
         if span(lea, lea + 4) != bytes.fromhex(opcode):
             raise ValueError(f"{entry:#x}: guest argument address mismatch")
-        if span(call, call + 1) != b"\\xe8":
+        if span(call, call + 1) != b"\xe8":
             raise ValueError(f"{call:#x}: expected near CALL")
         displacement = struct.unpack_from("<i", data, call - 0x10000 + 1)[0]
         if (call + 5 + displacement) & 0xffffffff != 0x000FF730:
