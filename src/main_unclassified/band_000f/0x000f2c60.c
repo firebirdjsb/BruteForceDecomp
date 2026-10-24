@@ -52,6 +52,11 @@ undefined1 FUN_000f2c60(void)
     uStack_4 = 0xe41e3614;
   }
   (**(code **)(*piVar4 + 8))(&uStack_4,0,0);
-  (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x22c))(&stack0xfffffff0);
+  /* Original XBE 0x000f2d1f MOV [ESP+0x10],0xfd890279 and
+   * 0x000f2d2c LEA EDX,[ESP+0x10]. Five saved registers
+   * identify this as the same saved-ECX word used for the
+   * preceding branch-specific uStack_4 constants. */
+  uStack_4 = 0xfd890279;
+  (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x22c))(&uStack_4);
   return 0;
 }
