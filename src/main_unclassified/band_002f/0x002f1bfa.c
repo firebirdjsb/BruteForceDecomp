@@ -49,7 +49,7 @@ LAB_002f1d10:
     }
     if ((*(ushort *)(piVar3 + 3) & 0x108) == 0) {
       iVar4 = 2;
-      param_2 = (int *)CONCAT22(param_2._2_2_,param_1);
+      param_2 = (int *)(uintptr_t)(((uint32_t)(uintptr_t)param_2 & UINT32_C(0xffff0000)) | (uint16_t)param_1);
       param_2 = (int *)FUN_002ef4a5(uVar2,&param_2,2);
     }
     else {
