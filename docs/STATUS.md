@@ -4,6 +4,12 @@
 
 The current, automatically maintained C11 syntax percentage, source pass/fail counts and exact GitHub Actions audit commit are recorded in [docs/progress/current.json](progress/current.json) and displayed on the [repository README](../README.md#reconstruction-progress). **This is syntax coverage, not completion of the native PC game.**
 
+## Guest SEH and guest address recovery continuation — 2026-10-23
+
+The [latest instruction-backed pass](C11_X86_GUEST_ADDRESS_REPAIR_PASS_2026-10-23.md) records 15 original guest SEH immediate repairs and a separate 13-entry guest code-address/table-initializer group. The [29-instruction ledger](../metadata/verified_guest_code_addresses_2026_10_23.csv), [source/XBE verifier](../tools/verify_guest_code_addresses.py) and [automated source gate](../.github/workflows/verified-guest-code-addresses.yml) support regression checking without distributing the copyrighted executable. The previously hidden guest-frame `stack0x...` errors in all 15 SEH entries remain intentionally unguessed. Source syntax fixes do not imply working native guest32 memory, callback relocation, exception handlers or 1:1 runtime behavior.
+
+**Do not hardcode progress here.** [Current exact-commit audit percentages](progress/current.json) and the [README progress bars](../README.md#reconstruction-progress) automatically update when complete, successful full-tree Clang audits finish.
+
 ## Historical exact-tree source and compiler checkpoint
 
 - **Canonical branch:** `main` only. The last complete full-tree audit ran on commit [`985639aa`](https://github.com/firebirdjsb/BruteForceDecomp/commit/985639aa5dba1925558d6f674cf6f021b3ff341c).
