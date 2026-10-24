@@ -52,6 +52,31 @@ def verify(path):
             raise ValueError(f"{entry:#010x}: decompiler offset relationship changed")
         print(f"{entry:#010x}: PASS; saved ESP EBP{saved_esp:#x}, "
               f"decompiler offset EBP{decompiler_offset:#x}; difference 4 bytes")
+    # Verify callee cleanup and the observed caller argument-setup bytes.
+    # These checks are machine-code evidence, NOT a native C ABI proof.
+    for entry, *_ in FRAMES:
+        start = file_offset(data, entry)
+        returns = [entry + i for i in range(240)
+                   if data[start+i:start+i+3] == bytes.fromhex("c20800")]
+        if not returns:
+            raise ValueError(f"{entry:#010x}: expected ret 8 not found")
+        print(f"{entry:#010x}: PASS; ret 8 at {returns[0]:#010x}")
+    calls = (
+        (0x00137C56, 0x0001C630, "6a01518bc48bcf8918"),
+        (0x001B3929, 0x0001C630, "57518bc48d5424188930"),
+        (0x0001C288, 0x0001C980, "50518bc48d5424148930"),
+    )
+    for call, target, prefix_hex in calls:
+        start = file_offset(data, call)
+        prefix = bytes.fromhex(prefix_hex)
+        if data[start-len(prefix):start] != prefix:
+            raise ValueError(f"{call:#010x}: caller argument setup changed")
+        if data[start] != 0xe8:
+            raise ValueError(f"{call:#010x}: not a direct CALL rel32")
+        displacement = struct.unpack_from("<i", data, start+1)[0]
+        if call + 5 + displacement != target:
+            raise ValueError(f"{call:#010x}: CALL target changed")
+        print(f"{call:#010x}: PASS; caller setup and CALL {target:#010x}")
     print("PASS: original x86 prologues verified; C ABI/runtime not verified")
 
 if __name__ == "__main__":
