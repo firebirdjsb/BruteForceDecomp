@@ -6,7 +6,33 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_001b3280(void)
+/* Guest incoming argument storage, 20 DWORDs (RET 50h in original x86).
+ * The address of entry ESP+4 is passed to the element-copy routine.
+ * Native host ABI and implicit x86 registers remain unverified. */
+typedef struct {
+  undefined4 word_04;
+  undefined4 word_08;
+  undefined4 word_0c;
+  undefined4 word_10;
+  undefined4 word_14;
+  undefined4 word_18;
+  undefined4 word_1c;
+  undefined4 word_20;
+  undefined4 word_24;
+  undefined4 word_28;
+  undefined4 word_2c;
+  undefined4 word_30;
+  undefined4 word_34;
+  undefined4 word_38;
+  undefined4 word_3c;
+  undefined4 word_40;
+  undefined4 word_44;
+  undefined4 word_48;
+  undefined4 word_4c;
+  undefined4 word_50;
+} bf_001b3280_guest_words;
+_Static_assert(sizeof(bf_001b3280_guest_words) == 80, "guest stack record size");
+void FUN_001b3280(bf_001b3280_guest_words guest_words)
 
 {
   uint in_EAX;
@@ -29,7 +55,7 @@ void FUN_001b3280(void)
     else {
       iVar2 = (*(int *)(in_ECX + 8) - iVar2) / 0x50;
     }
-    FUN_001bdef0(in_ECX,*(undefined4 *)(in_ECX + 8),in_EAX - iVar2,&stack0x00000004);
+    FUN_001bdef0(in_ECX,*(undefined4 *)(in_ECX + 8),in_EAX - iVar2,&guest_words.word_04);
     FUN_0006a3d0();
     return;
   }
