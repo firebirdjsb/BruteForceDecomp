@@ -195,7 +195,7 @@ LAB_002e241d:
               while ((cVar3 != '\0' && (cVar3 != (char)uStack_8c))) {
                 iStack_94 = iStack_94 +
                             ((bStack_7a >> (bVar4 & 0x1f) & 3) << 8 | (uint)abStack_79[uVar13]);
-                if ((1 << ((byte)uVar13 & 0x1f) & (uint)(((uint8_t *)&local_80)[3] >> 4)) != 0) {
+                if ((UINT32_C(1) << ((byte)uVar13 & 0x1f) & (uint)(((uint8_t *)&local_80)[3] >> 4)) != 0) {
                   cVar10 = (char)uStack_a0 + '\x01';
                   uStack_a0 = ((uStack_a0 & UINT32_C(0xffffff00)) | (uint8_t)cVar10);
                   if (cVar10 == '\0') {
@@ -247,7 +247,7 @@ LAB_002e2412:
             iVar11 = uVar13 * 2;
             do {
               if (*(int *)(iVar5 + 0x28) == 0) break;
-              bVar15 = (1 << ((byte)uVar13 & 0x1f) & (uint)(((uint8_t *)&local_80)[3] >> 4)) != 0;
+              bVar15 = (UINT32_C(1) << ((byte)uVar13 & 0x1f) & (uint)(((uint8_t *)&local_80)[3] >> 4)) != 0;
               uStack_84 = (uint)bVar15;
               uVar8 = (uint)bVar15;
               uStack_54 = uVar8;
