@@ -24,7 +24,7 @@ float10 FUN_002ecb23(uint param_1,uint param_2,int *param_3)
 {
   bool bVar1;
   int iVar2;
-  int extraout_EDX; /* unresolved x86 EDX output: not a verified host return */
+  int exponent; /* EDX at 0x002ecb5a, decremented at 0x002ecb85 */
   float10 fVar3;
   
   if ((double)bf_binary64_from_words(param_1,param_2) ==
@@ -39,6 +39,7 @@ float10 FUN_002ecb23(uint param_1,uint param_2,int *param_3)
     else {
       bVar1 = true;
     }
+    exponent = -1021;
     while ((((uint8_t)(param_2 >> 16)) & 0x10) == 0) {
       iVar2 = (int)((uint32_t)param_2 << 1);
       param_2 = (uint32_t)iVar2; /* Three original partial stores reconstruct one 32-bit value. */
@@ -46,13 +47,14 @@ float10 FUN_002ecb23(uint param_1,uint param_2,int *param_3)
         param_2 |= UINT32_C(1);
       }
       param_1 = param_1 << 1;
+      exponent--;
     }
     if (bVar1) {
       param_2 |= UINT32_C(0x80000000);
     }
     fVar3 = (float10)__set_exp(bf_binary64_bits(param_1,param_2) &
                                UINT64_C(0xffefffffffffffff),0);
-    iVar2 = extraout_EDX;
+    iVar2 = exponent;
   }
   else {
     fVar3 = (float10)__set_exp(bf_binary64_bits(param_1,param_2),0
