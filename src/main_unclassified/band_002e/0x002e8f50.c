@@ -26,13 +26,13 @@ void FUN_002e8f50(ushort *param_1)
     return;
   }
   if (0x7f < *param_1) {
-    param_1 = (ushort *)(CONCAT31(param_1._1_3_,(char)(*param_1 >> 8)) | 0x80);
+    param_1 = (ushort *)(uintptr_t)(((uint32_t)(uintptr_t)param_1 & UINT32_C(0xffffff00)) | (((uint32_t)(*param_1 >> 8) & UINT32_C(0x7f)) | UINT32_C(0x80)));
     iVar2 = (**(code **)(*in_ECX + 0x18))(&param_1);
     if (iVar2 < 0) {
       return;
     }
   }
-  param_1 = (ushort *)CONCAT31(param_1._1_3_,(char)*puVar1);
+  param_1 = (ushort *)(uintptr_t)(((uint32_t)(uintptr_t)param_1 & UINT32_C(0xffffff00)) | ((uint32_t)*puVar1 & UINT32_C(0xff)));
   (**(code **)(*in_ECX + 0x18))(&param_1);
   return;
 }
