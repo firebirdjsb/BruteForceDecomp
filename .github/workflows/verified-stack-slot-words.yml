@@ -1,4 +1,4 @@
-name: Verified XBE stack-slot and exception-address C11 checks
+name: Verified XBE stack-slot and exception-address and atexit C11 checks
 on:
   push:
     branches: [main]
@@ -8,6 +8,7 @@ on:
       - 'src/main_unclassified/band_0013/0x001365b0.c'
       - 'src/main_unclassified/band_0013/0x00136680.c'
       - 'src/main_unclassified/band_002f/0x002f4c4a.c'
+      - 'src/main_unclassified/band_002e/0x002ea4bf.c'
       - 'tools/verify_x86_stack_slot_and_exception_address.py'
       - '.github/workflows/verified-stack-slot-words.yml'
   workflow_dispatch:
@@ -21,7 +22,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Verify five original-entry source invariants and Clang C11 syntax
+      - name: Verify six original-entry source invariants and Clang C11 syntax
         run: python3 tools/verify_x86_stack_slot_and_exception_address.py --root .
       - name: Evidence limitation
         run: echo 'Retail XBE instruction fingerprints checked locally; not distributed in repository. Caller-frame ABI, guest exception semantics and native runtime remain unverified.'

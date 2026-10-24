@@ -11,11 +11,13 @@
    
    Library: Visual Studio 2003 Release */
 
-int __cdecl _atexit(__func *__func)
+/* Original x86 pushes its incoming DWORD unchanged to 0x002ea43d.
+ * Callback signature and host ABI remain unverified. */
+int __cdecl _atexit(undefined4 callback_guest_word)
 
 {
   int iVar1;
   
-  iVar1 = __onexit(__func);
+  iVar1 = __onexit(callback_guest_word);
   return (iVar1 != 0) - 1;
 }

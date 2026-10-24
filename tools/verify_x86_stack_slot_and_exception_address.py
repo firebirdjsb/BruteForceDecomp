@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify five narrowly scoped original-XBE-backed C11 repairs.
+"""Verify six narrowly scoped original-XBE-backed C11 repairs.
 
 Without --xbe, CI checks source identities, preserved guest-slot expressions,
 and isolated Clang C11 syntax. With --xbe, validate the retail XBE digest,
@@ -19,6 +19,7 @@ import subprocess
 EXPECTED_XBE = 'b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721'
 STACK_ENTRIES = (0x00136410, 0x001364E0, 0x001365B0, 0x00136680)
 EXCEPTION_ENTRY = 0x002F4C4A
+ONEXIT_ENTRY = 0x002EA4BF
 FLAGS = (
     '-std=c11', '-fsyntax-only', '-ferror-limit=3',
     '-Wno-implicit-function-declaration', '-Wno-int-conversion',
@@ -42,11 +43,16 @@ def verify_source(root: Path, entry: int, clang: str) -> None:
                 text.count('FUN_00045180(&in_stack_00000010,iVar4 + 8);') != 1 or
                 '&stack0x00000010' in text):
             raise ValueError(f'Guest stack slot not preserved: {path}')
-    else:
+    elif entry == EXCEPTION_ENTRY:
         if ('uint32_t local_48;' not in text or
                 text.count('local_48 = UINT32_C(0x002f4c4a);') != 1 or
                 'local_48 = RaiseException;' in text):
             raise ValueError(f'Guest exception address word not preserved: {path}')
+    else:
+        if ('int __cdecl _atexit(undefined4 callback_guest_word)' not in text or
+                'iVar1 = __onexit(callback_guest_word);' not in text or
+                '__func *__func' in text):
+            raise ValueError(f'Unverified callback type reintroduced: {path}')
     p = subprocess.run([clang, *FLAGS, '-I', str(root/'include'), str(path)],
                        capture_output=True, text=True, timeout=60)
     if p.returncode:
@@ -90,6 +96,13 @@ def verify_xbe(read) -> None:
         destination = (entry + 0x88 + struct.unpack_from('<i', call, 6)[0]) & 0xffffffff
         if destination != 0x00045180:
             raise ValueError(f'Original near-call destination changed: 0x{entry:08x}')
+    # Original wrapper forwards exactly one incoming stack DWORD to 0x002ea43d.
+    onexit = read(ONEXIT_ENTRY, 9)
+    if onexit[:5] != bytes.fromhex('ff 74 24 04 e8'):
+        raise ValueError('Original atexit forwarding bytes changed')
+    destination = (ONEXIT_ENTRY + 9 + struct.unpack_from('<i', onexit, 5)[0]) & 0xffffffff
+    if destination != 0x002ea43d:
+        raise ValueError('Original atexit call destination changed')
     if read(0x002f4c69, 7) != bytes.fromhex('c7 45 bc 4a 4c 2f 00'):
         raise ValueError('Original exception record guest address store changed')
 
@@ -103,11 +116,11 @@ def main() -> None:
     if not clang:
         raise RuntimeError('Clang is required')
     root = args.root.resolve()
-    for entry in (*STACK_ENTRIES, EXCEPTION_ENTRY):
+    for entry in (*STACK_ENTRIES, EXCEPTION_ENTRY, ONEXIT_ENTRY):
         verify_source(root, entry, clang)
     if args.xbe:
         verify_xbe(read_xbe(args.xbe))
-    print('PASS: five scoped original-entry C11 sources compile; '
+    print('PASS: six scoped original-entry C11 sources compile; '
           f'original retail XBE instructions {"verified" if args.xbe else "not supplied"}. '
           'Guest ABI, host linkage, runtime and 1:1 behavior remain unverified.')
 
