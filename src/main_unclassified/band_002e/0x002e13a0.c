@@ -25,7 +25,7 @@ void FUN_002e13a0(int param_1)
   undefined4 local_4;
   
   iVar1 = param_1;
-  local_18._2_1_ = 0;
+  *(uint8_t *)((uint8_t *)&local_18 + 2) = 0;
   puVar3 = &local_18;
   for (iVar2 = 6; iVar2 != 0; iVar2 = iVar2 + -1) {
     *puVar3 = 0;
@@ -41,13 +41,13 @@ void FUN_002e13a0(int param_1)
     iVar2 = FUN_002e3bd0(local_c,&local_24,&local_20,local_13,local_1c,&param_1,&local_d);
     if (iVar2 < 0) break;
     if ((local_20 != 0) || (*(int *)(iVar1 + 700) == 0)) {
-      local_18._3_1_ =
-           (local_18._3_1_ ^ ((char)local_20 << 1 ^ local_18._3_1_) & 0xe) & 0xf |
+      ((uint8_t *)&local_18)[3] =
+           (((uint8_t *)&local_18)[3] ^ ((char)local_20 << 1 ^ ((uint8_t *)&local_18)[3]) & 0xe) & 0xf |
            (char)param_1 << 4;
       local_14 = local_1c[0];
       if (*(int *)(iVar1 + 700) != 0) {
         local_4 = *(undefined4 *)(iVar1 + 0x2c0);
-        local_18._3_1_ = local_18._3_1_ | 1;
+        ((uint8_t *)&local_18)[3] = ((uint8_t *)&local_18)[3] | 1;
         local_8 = *(int *)(iVar1 + 700);
       }
       iVar2 = FUN_002e0960(&local_18,iVar1);
