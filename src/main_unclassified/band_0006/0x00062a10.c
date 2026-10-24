@@ -30,11 +30,15 @@ void FUN_00062a10(int param_1,int param_2,uint param_3,undefined4 *param_4)
   puStack_c = UINT32_C(0x00307e60);
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
-  local_14 = &stack0xffffff80;
+  /* x86 0x00062a2e: mov [ebp-0x10],esp, after the SEH setup.
+   * Ghidra's stack0xffffff80 denotes guest stack state; local_14
+   * is unused outside this synthetic assignment chain. */
+  local_14 = (undefined1 *)0;
   local_1c = *param_4;
   piVar7 = (int *)param_4[1];
   local_18 = piVar7;
-  puVar1 = &stack0xffffff80;
+  /* Do not reinterpret an Xbox guest stack address as a host pointer. */
+  puVar1 = (undefined1 *)0;
   if (piVar7 != (int *)0x0) {
     (**(code **)(*piVar7 + 4))();
     puVar1 = local_14;
