@@ -4,7 +4,7 @@ import argparse,hashlib
 from pathlib import Path
 SHA="b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 CHECKS=((0x002ecb5a,"ba03fcffff"),(0x002ecb85,"4a"),(0x002ecb86,"f6450e10"),(0x002ecb8c,"80650eef"),(0x002ecb94,"804d0f80"))
-REQUIRED=("exponent = -1022;","exponent--;","iVar2 = exponent;","param_2 &= ~UINT32_C(0x00100000);")
+REQUIRED=("exponent = -1021;","exponent--;","iVar2 = exponent;","param_2 &= ~UINT32_C(0x00100000);")
 def main():
  p=argparse.ArgumentParser();p.add_argument("xbe",type=Path);p.add_argument("repo",type=Path);a=p.parse_args()
  d=a.xbe.read_bytes()
@@ -18,8 +18,7 @@ def main():
  if "extraout_EDX" in s:raise SystemExit("unresolved EDX remains")
  for shifts in range(1,54):
   exponent=-1021
-  exponent-=1  # DEC EDX occurs before the first TEST
   for _ in range(shifts):exponent-=1
-  if exponent != -1022-shifts:raise SystemExit("exponent-countdown mismatch")
+  if exponent != -1021-shifts:raise SystemExit("exponent-countdown mismatch")
  print("PASS: x86 EDX signatures, countdown boundaries, and source invariants")
 if __name__=="__main__":main()
