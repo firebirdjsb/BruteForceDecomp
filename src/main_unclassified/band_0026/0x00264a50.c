@@ -15,25 +15,29 @@ int FUN_00264a50(void)
   int *piVar1;
   int iVar2;
   int unaff_ESI;
-  int iStack_10;
+  /* x86 LEA [ESP+8] passes the start of a two-DWORD caller buffer.
+   * The callback's count/length result is the second DWORD at ESP+0xc;
+   * the first DWORD remains distinct. FUN_00264b30 receives this same
+   * buffer in guest ECX, which is not a verified host C calling convention. */
+  uint32_t guest_io_result[2] = {0, 0};
   
   RtlEnterCriticalSection(&DAT_0046b22c);
   if (*(int *)(unaff_ESI + 0x18) != 0) {
     piVar1 = (int *)(unaff_ESI + 0x14);
     while( true ) {
       iVar2 = (**(code **)(**(int **)(unaff_ESI + 0x48) + 0x10))
-                        (*(int **)(unaff_ESI + 0x48),piVar1,&stack0xffffffec);
+                        (*(int **)(unaff_ESI + 0x48),piVar1,guest_io_result);
       if (iVar2 < 0) {
         RtlLeaveCriticalSection(&DAT_0046b22c);
         return iVar2;
       }
-      if (iStack_10 == 0) break;
-      if (iStack_10 == -1) goto LAB_00264b15;
+      if (guest_io_result[1] == 0) break;
+      if (guest_io_result[1] == UINT32_MAX) goto LAB_00264b15;
       FUN_00264b30(unaff_ESI);
-      *piVar1 = *piVar1 + iStack_10;
-      *(int *)(unaff_ESI + 0x18) = *(int *)(unaff_ESI + 0x18) - iStack_10;
+      *piVar1 = *piVar1 + (int)guest_io_result[1];
+      *(int *)(unaff_ESI + 0x18) = *(int *)(unaff_ESI + 0x18) - (int)guest_io_result[1];
       (**(code **)(**(int **)(unaff_ESI + 0x48) + 0x14))
-                (*(int **)(unaff_ESI + 0x48),&stack0xffffffec);
+                (*(int **)(unaff_ESI + 0x48),guest_io_result);
       if (*(int *)(unaff_ESI + 0x18) == 0) {
         RtlLeaveCriticalSection(&DAT_0046b22c);
         return 0;
