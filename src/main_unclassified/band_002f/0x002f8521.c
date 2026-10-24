@@ -51,7 +51,7 @@ int FUN_002f8521(undefined4 param_1,int param_2)
         iVar2 = NtSetInformationFile(local_8,local_14,local_50,0x28,4);
       }
       if (-1 < iVar2) {
-        param_2 = CONCAT13(1,(undefined3)param_2);
+        param_2 = (int)(((uint32_t)param_2 & UINT32_C(0x00ffffff)) | UINT32_C(0x01000000));
         iVar2 = NtSetInformationFile(local_8,local_14,(int)&param_2 + 3,1,0xd);
       }
     }
@@ -68,7 +68,7 @@ int FUN_002f8521(undefined4 param_1,int param_2)
     }
     local_30 = *(uint *)(iVar1 + 0x38) & 0x3126 | 0x80;
     NtSetInformationFile(param_1,local_14,local_50,0x28,4);
-    param_2 = CONCAT13(1,(undefined3)param_2);
+    param_2 = (int)(((uint32_t)param_2 & UINT32_C(0x00ffffff)) | UINT32_C(0x01000000));
     iVar2 = NtSetInformationFile(param_1,local_14,(int)&param_2 + 3,1,0xd);
   }
   return iVar2;
