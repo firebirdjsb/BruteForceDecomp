@@ -9,50 +9,35 @@
 void FUN_002a8100(int *param_1)
 
 {
+  /* Guest EAX supplies the destination writer; the host register ABI is
+   * not reconstructed. The guest uses distinct one-byte header slots,
+   * one DWORD payload slot and one separate 32-bit child pointer slot.
+   * Original x86 operand evidence is in verify_outer_guest_serializers.py. */
   int *in_EAX;
-  byte bVar1;
-  int *piStack_3c;
-  undefined4 uStack_38;
-  undefined4 uStack_34;
-  int *piStack_30;
-  undefined1 *puStack_2c;
-  undefined4 uStack_28;
-  undefined4 uStack_24;
-  int *piStack_20;
-  int *piStack_1c;
-  
-  piStack_1c = param_1;
-  piStack_20 = (int *)0x2a8113;
-  (**(code **)(*param_1 + 0x30))();
-  piStack_20 = param_1;
-  uStack_24 = 0x2a811e;
-  (**(code **)(*param_1 + 0x38))();
-  uStack_24 = 0;
-  uStack_28 = 1;
-  puStack_2c = &stack0xffffffef;
-  uStack_34 = 0x2a8131;
-  (**(code **)(*in_EAX + 0x14))();
-  uStack_34 = 0;
-  uStack_38 = 1;
-  piStack_3c = (int *)&stack0xffffffec;
-  (**(code **)(*in_EAX + 0x14))();
-  bVar1 = 0;
-  if ((byte)uStack_24 != '\0') {
-    do {
-      piStack_30 = (int *)0x0;
-      (**(code **)(*param_1 + 0x20))(param_1,bVar1,&puStack_2c);
-      if (piStack_3c != (int *)0x0) {
-        (**(code **)(*piStack_3c + 8))(piStack_3c);
-        piStack_3c = (int *)0x0;
-      }
-      (**(code **)(*param_1 + 0x24))(param_1,bVar1,&piStack_3c);
-      (**(code **)(*in_EAX + 0x14))();
-      FUN_002a7fe0();
-      if (piStack_30 != (int *)0x0) {
-        (**(code **)(*piStack_30 + 8))(piStack_30);
-      }
-      bVar1 = bVar1 + 1;
-    } while (bVar1 < (byte)uStack_24);
+  int *guest_writer = in_EAX;
+  uint8_t guest_header_a = (uint8_t)(**(code **)(*param_1 + 0x30))(param_1);
+  uint8_t guest_header_b = (uint8_t)(**(code **)(*param_1 + 0x38))(param_1);
+
+  (**(code **)(*guest_writer + 0x14))(guest_writer,&guest_header_a,1,0);
+  (**(code **)(*guest_writer + 0x14))(guest_writer,&guest_header_b,1,0);
+  for (uint8_t index = 0; index < guest_header_b; index++) {
+    uint32_t guest_payload_word;
+    uint32_t guest_child_word = 0;
+    (**(code **)(*param_1 + 0x20))(param_1,(uint32_t)index,&guest_payload_word);
+    if (guest_child_word != 0) {
+      int *old_child = (int *)(uintptr_t)guest_child_word;
+      (**(code **)(*old_child + 8))(old_child);
+      guest_child_word = 0;
+    }
+    (**(code **)(*param_1 + 0x24))(param_1,(uint32_t)index,&guest_child_word);
+    (**(code **)(*guest_writer + 0x14))(guest_writer,&guest_payload_word,4,0);
+    /* Guest register transfer ESI=child and EDI=writer still needs a
+     * verified explicit native ABI bridge; this remains a C11 draft. */
+    FUN_002a7fe0();
+    if (guest_child_word != 0) {
+      int *child = (int *)(uintptr_t)guest_child_word;
+      (**(code **)(*child + 8))(child);
+    }
   }
   return;
 }
