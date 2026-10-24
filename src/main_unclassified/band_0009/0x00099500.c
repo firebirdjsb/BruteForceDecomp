@@ -61,11 +61,15 @@ undefined4 FUN_00099500(int param_1,int param_2,undefined4 param_3)
     if ((cVar2 != '\0') && (cVar2 = FUN_000a4d00(), cVar2 != '\0')) {
       iVar3 = *in_stack_00000020;
       in_stack_00000024 = (int *)0x1;
-      FUN_0006a610(&stack0x00000024);
+  /* XBE-backed stack-slot evidence: original x86 LEA [EBP+0x28]
+   * passes the address of the same incoming DWORD that this draft
+   * calls in_stack_00000024. The original caller ABI and the
+   * callee semantics remain unverified. */
+      FUN_0006a610(&in_stack_00000024);
       in_stack_00000024 = (int *)0x1;
-      FUN_0006a610(&stack0x00000024);
+      FUN_0006a610(&in_stack_00000024);
       in_stack_00000024 = (int *)0x1;
-      FUN_0006a610(&stack0x00000024);
+      FUN_0006a610(&in_stack_00000024);
       if (0 < iVar3) {
         in_stack_00000024 = in_stack_00000020 + 1;
         do {
