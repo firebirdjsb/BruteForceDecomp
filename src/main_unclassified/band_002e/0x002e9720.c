@@ -11,14 +11,15 @@ void FUN_002e9720(undefined4 *param_1,ushort *param_2)
 {
   int iVar1;
   int *in_ECX;
-  int *unaff_retaddr;
+  uint32_t guest_value_word;
   undefined4 local_4;
   
   if (in_ECX[1] == 0) {
     param_2 = (ushort *)(uint)*param_2;
     iVar1 = (**(code **)(*in_ECX + 0x40))(&param_2);
     if (-1 < iVar1) {
-      (**(code **)(*in_ECX + 0x48))(*unaff_retaddr,&stack0xfffffff4);
+      guest_value_word = *(const uint32_t *)param_2;
+      (**(code **)(*in_ECX + 0x48))(*param_1,&guest_value_word);
     }
   }
   else {
@@ -29,7 +30,7 @@ void FUN_002e9720(undefined4 *param_1,ushort *param_2)
         *param_1 = 0;
       }
       iVar1 = in_ECX[8];
-      *unaff_retaddr = iVar1;
+      *(uint32_t *)param_2 = (uint32_t)iVar1;
       (**(code **)(*in_ECX + 0x48))(iVar1,param_1);
       return;
     }
