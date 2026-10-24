@@ -6,22 +6,33 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-/* Library Function - Single Match
-    __fload
-   
-   Libraries: Visual Studio 1998, Visual Studio 2003, Visual Studio 2019 */
-
-float10 __fload(uint param_1,int param_2)
-
+#include <float.h>
+#include <string.h>
+/* x86 0x002F01A9 reads the high 16 bits of the input double;
+ * the exceptional path at 0x002F01BA-0x002F01D3 builds an 80-bit
+ * temporary before FLD TBYTE. The normal path uses FLD QWORD. */
+_Static_assert(sizeof(float10) >= 10, "x87 extended storage required");
+_Static_assert(LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384,
+               "This reconstruction requires x87-compatible host long double");
+float10 __fload(uint param_1, int param_2)
 {
-  float10 fVar1;
-  
-  if ((param_2._2_2_ & 0x7ff0) == 0x7ff0) {
-    fVar1 = (float10)CONCAT28(param_2._2_2_ | 0x7fff,
-                              CONCAT44(param_2 << 0xb | param_1 >> 0x15,param_1));
+  uint16_t high_word = (uint16_t)((uint32_t)param_2 >> 16);
+  uint64_t bits = ((uint64_t)(uint32_t)param_2 << 32) | param_1;
+  if ((high_word & UINT16_C(0x7ff0)) == UINT16_C(0x7ff0)) {
+    uint16_t exponent = high_word | UINT16_C(0x7fff);
+    uint32_t significand_hi = ((uint32_t)param_2 << 11) |
+                               (param_1 >> 21);
+    uint8_t extended[sizeof(float10)] = {0};
+    uint64_t significand = ((uint64_t)significand_hi << 32) | param_1;
+    float10 result;
+    memcpy(extended, &significand, sizeof(significand));
+    memcpy(extended + 8, &exponent, sizeof(exponent));
+    memcpy(&result, extended, sizeof(result));
+    return result;
   }
-  else {
-    fVar1 = (float10)(double)CONCAT26(param_2._2_2_,CONCAT24((undefined2)param_2,param_1));
+  {
+    double value;
+    memcpy(&value, &bits, sizeof(value));
+    return (float10)value;
   }
-  return fVar1;
 }
