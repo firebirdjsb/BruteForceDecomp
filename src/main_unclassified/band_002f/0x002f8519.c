@@ -9,5 +9,6 @@
 undefined4 XAPILIB__XGetAVPack(void)
 
 {
-  return *(undefined4 *)HalBootSMCVideoMode_exref;
+  /* Xbox x86: mov eax,[0x00386570]; mov eax,[eax]. Guest VA, not a host pointer. */
+  return *(undefined4 *)(uintptr_t)*(uint32_t *)(uintptr_t)UINT32_C(0x00386570);
 }
