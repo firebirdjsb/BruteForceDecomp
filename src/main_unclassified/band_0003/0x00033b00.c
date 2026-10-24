@@ -6,7 +6,14 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_normalize3.h"
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
+
+/* 0x33bac-33be7 and 0x33bff-33c3a: MOVSS/MOVHPS read the
+ * three stack floats into lanes 0, 2, 3; memory-source MOVSS clears lane 1.
+ * Inherited XMM1 lanes do not feed the selected low sum or three stores.
+ * Packed FP exception state and the implicit register ABI remain unverified.
+ */
 
 undefined4 FUN_00033b00(void)
 
@@ -19,14 +26,8 @@ undefined4 FUN_00033b00(void)
   int in_EAX;
   float *pfVar6;
   int iVar7;
-  float in_XMM1_Da;
-  float fVar13;
-  undefined1 auVar9 [16];
-  float fVar8;
-  float fVar14;
-  undefined1 auVar10 [16];
-  undefined1 auVar11 [16];
-  undefined1 auVar12 [16];
+  float first[3];
+  float second[3];
   
   if (in_EAX == 0) {
     return 0;
@@ -47,31 +48,12 @@ undefined4 FUN_00033b00(void)
       fVar3 = *(float *)(*(int *)(iVar7 + 0xc) + 0x14) - *pfVar6;
       fVar4 = *(float *)(iVar1 + 0x1c) - pfVar6[2];
       fVar5 = *(float *)(iVar1 + 0x14) - *pfVar6;
-      in_XMM1_Da = in_XMM1_Da + fVar3 * fVar3;
-      fVar13 = fVar2 * fVar2 + 0.0;
-      auVar12._4_4_ = in_XMM1_Da;
-      auVar12._0_4_ = fVar13;
-      auVar12._8_4_ = in_XMM1_Da;
-      auVar12._12_4_ = in_XMM1_Da;
-      auVar9._4_12_ = auVar12._4_12_;
-      auVar9._0_4_ = fVar13 + fVar3 * fVar3;
-      if (2e-05 <= auVar9._0_4_) {
-        auVar12 = rsqrtss(auVar9,auVar9);
-        fVar13 = auVar12._0_4_;
-        fVar8 = fVar13 + fVar5 * fVar5;
-        fVar14 = fVar4 * fVar4 + 0.0;
-        auVar10._4_4_ = fVar8;
-        auVar10._0_4_ = fVar14;
-        auVar10._8_4_ = fVar8;
-        auVar10._12_4_ = fVar8;
-        auVar11._4_12_ = auVar10._4_12_;
-        auVar11._0_4_ = fVar14 + fVar5 * fVar5;
-        if ((2e-05 <= auVar11._0_4_) &&
-           (auVar12 = rsqrtss(auVar11,auVar11),
-           -0.5 <= fVar5 * auVar12._0_4_ * fVar3 * fVar13 + fVar4 * auVar12._0_4_ * fVar2 * fVar13))
-        {
-          return 0;
-        }
+      first[0] = fVar3; first[1] = 0.0f; first[2] = fVar2;
+      second[0] = fVar5; second[1] = 0.0f; second[2] = fVar4;
+      if (bf_x86_normalize3(first) && bf_x86_normalize3(second)) {
+        float dot = second[2] * first[2] + second[0] * first[0];
+        /* 0x33c53-33c5e: FCOMP, TEST AH,5, JP includes unordered. */
+        if (!(dot < -0.5f)) return 0;
       }
     }
     return 1;

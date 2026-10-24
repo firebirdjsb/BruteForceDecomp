@@ -6,7 +6,15 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_normalize3.h"
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
+
+/* 0x3318d-331c8, 0x331e3-3321e, 0x33239-33274: the three
+ * stored floats occupy XMM lanes 0, 2, 3. Memory-source MOVSS clears
+ * lane 1 of XMM0; MOVHPS fills lanes 2 and 3. The shuffle selects lanes 3, 2,
+ * then 0 for the length sum. Inherited XMM1 low lanes do not feed that sum
+ * or the three stored results. Packed FP exception state is unverified.
+ */
 
 undefined1 FUN_000330b0(int param_1,float *param_2)
 
@@ -22,17 +30,9 @@ undefined1 FUN_000330b0(int param_1,float *param_2)
   char cVar9;
   int in_EAX;
   float *unaff_EDI;
-  float in_XMM1_Da;
-  float fVar17;
-  undefined1 auVar11 [16];
-  float fVar10;
-  float fVar18;
-  undefined1 auVar12 [16];
-  undefined1 auVar13 [16];
-  float fVar19;
-  undefined1 auVar14 [16];
-  undefined1 auVar15 [16];
-  undefined1 auVar16 [16];
+  float first[3];
+  float second[3];
+  float third[3];
   undefined1 local_6;
   
   local_6 = 0;
@@ -48,46 +48,16 @@ undefined1 FUN_000330b0(int param_1,float *param_2)
       fVar6 = *(float *)(iVar2 + 0x14) - *unaff_EDI;
       fVar7 = *(float *)(iVar1 + 0x1c) - unaff_EDI[2];
       fVar8 = *(float *)(iVar1 + 0x14) - *unaff_EDI;
-      in_XMM1_Da = in_XMM1_Da + fVar4 * fVar4;
-      fVar17 = fVar3 * fVar3 + 0.0;
-      auVar16._4_4_ = in_XMM1_Da;
-      auVar16._0_4_ = fVar17;
-      auVar16._8_4_ = in_XMM1_Da;
-      auVar16._12_4_ = in_XMM1_Da;
-      auVar11._4_12_ = auVar16._4_12_;
-      auVar11._0_4_ = fVar17 + fVar4 * fVar4;
-      if (2e-05 <= auVar11._0_4_) {
-        auVar16 = rsqrtss(auVar11,auVar11);
-        fVar17 = auVar16._0_4_;
-        fVar10 = fVar17 + fVar6 * fVar6;
-        fVar18 = fVar5 * fVar5 + 0.0;
-        auVar12._4_4_ = fVar10;
-        auVar12._0_4_ = fVar18;
-        auVar12._8_4_ = fVar10;
-        auVar12._12_4_ = fVar10;
-        auVar13._4_12_ = auVar12._4_12_;
-        auVar13._0_4_ = fVar18 + fVar6 * fVar6;
-        if (2e-05 <= auVar13._0_4_) {
-          auVar16 = rsqrtss(auVar13,auVar13);
-          fVar10 = auVar16._0_4_;
-          fVar18 = fVar10 + fVar8 * fVar8;
-          fVar19 = fVar7 * fVar7 + 0.0;
-          auVar14._4_4_ = fVar18;
-          auVar14._0_4_ = fVar19;
-          auVar14._8_4_ = fVar18;
-          auVar14._12_4_ = fVar18;
-          auVar15._4_12_ = auVar14._4_12_;
-          auVar15._0_4_ = fVar19 + fVar8 * fVar8;
-          if (2e-05 <= auVar15._0_4_) {
-            auVar16 = rsqrtss(auVar15,auVar15);
-            fVar18 = auVar16._0_4_;
-            if (fVar10 * 0.0 * fVar17 * 0.0 +
-                fVar6 * fVar10 * fVar4 * fVar17 + fVar5 * fVar10 * fVar3 * fVar17 <
-                fVar18 * 0.0 * fVar17 * 0.0 +
-                fVar8 * fVar18 * fVar4 * fVar17 + fVar7 * fVar18 * fVar3 * fVar17) {
-              local_6 = 1;
-            }
-          }
+      first[0] = fVar4; first[1] = 0.0f; first[2] = fVar3;
+      second[0] = fVar6; second[1] = 0.0f; second[2] = fVar5;
+      third[0] = fVar8; third[1] = 0.0f; third[2] = fVar7;
+      if (bf_x86_normalize3(first) && bf_x86_normalize3(second) &&
+          bf_x86_normalize3(third)) {
+        /* 0x3327f-332ab forms (z + x) + y for each x87 dot product;
+         * exact x87 extended-precision behavior remains unverified. */
+        if ((second[2] * first[2] + second[0] * first[0]) + second[1] * first[1] <
+            (third[2] * first[2] + third[0] * first[0]) + third[1] * first[1]) {
+          local_6 = 1;
         }
       }
     }
