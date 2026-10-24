@@ -18,6 +18,10 @@ int * FUN_0002b8b0(undefined4 param_1)
   int *in_ECX;
   float10 fVar7;
   int *local_154;
+  /* The original [esp+0x14] slot is reused as x87 float storage only
+   * on the separate 0x0002ba23..0x0002ba3e path. Keep the pointer
+   * lifetime above distinct; host pointer width is not Xbox's ABI. */
+  float fStack_154;
   int *local_150;
   
   iVar3 = in_ECX[0x155];
@@ -58,7 +62,9 @@ int * FUN_0002b8b0(undefined4 param_1)
       return (int *)0x1;
     }
     *(uint *)(iVar3 + 0x250) = *(uint *)(iVar3 + 0x250) | 1;
-    bVar6 = bRam00000014 & 1;
+    /* 0x0002bc5c: mov ecx,[esp+0x14]; 0x0002bc60: movzx ecx,byte [ecx+0x14];
+     * 0x0002bc64: and ecx,0xffffff01. local_154 is that stack pointer. */
+    bVar6 = *((byte *)local_154 + 0x14) & 1;
     FUN_00054950(0,*(undefined4 *)(iVar3 + 0x24c),bVar6,bVar6,bVar6);
     return (int *)0x1;
   }
@@ -94,9 +100,11 @@ int * FUN_0002b8b0(undefined4 param_1)
     (**(code **)(*piVar5 + 0x40))();
     (**(code **)(*local_154 + 0x40))();
     fVar7 = (float10)FUN_00039460();
-    local_154 = (int *)(float)fVar7;
+    /* 0x0002ba23: fstp dword [esp+0x14] (not a pointer cast). */
+    fStack_154 = (float)fVar7;
     fVar7 = (float10)FUN_00045230();
-    if ((float10)(float)local_154 <= fVar7 * (float10)3.5 * fVar7 * (float10)3.5) goto LAB_0002ba4f;
+    /* 0x0002ba38: fld dword [esp+0x14] (same float lifetime). */
+    if ((float10)fStack_154 <= fVar7 * (float10)3.5 * fVar7 * (float10)3.5) goto LAB_0002ba4f;
   }
   local_150 = (int *)0x2;
 LAB_0002ba4f:
