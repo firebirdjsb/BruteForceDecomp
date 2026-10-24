@@ -7,7 +7,7 @@ from collections import defaultdict
 from pathlib import Path
 
 IDENT = re.compile(r"'(stack0x[0-9a-fA-F]{8})'")
-ENTRY = re.compile(r"0x[0-9a-f]{8}\\Z")
+ENTRY = re.compile(r"0x[0-9a-f]{8}\Z")
 FIELDS = ("guest_identifier", "signed_offset", "first_error_functions", "entries")
 
 
