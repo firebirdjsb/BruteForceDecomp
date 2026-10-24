@@ -22,9 +22,9 @@ CHECKS = (
 )
 SOURCES = (
     ("src/main_unclassified/band_001e/0x001e1d00.c", (
-        "(+ 0x3c))(&local_4)",
-        "(+ 0x1c))(&local_4)",
-        "(+ 0x50))(&local_4)",
+        "+ 0x3c))(&local_4)",
+        "+ 0x1c))(&local_4)",
+        "+ 0x50))(&local_4)",
     )),
     ("src/main_unclassified/band_0022/0x00222d30.c", (
         "uint32_t guest_aux_word = 0;",
