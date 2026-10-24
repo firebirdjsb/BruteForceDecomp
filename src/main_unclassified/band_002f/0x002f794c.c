@@ -21,15 +21,15 @@ undefined4 XAPILIB__CancelIo(undefined4 ***param_1)
   
   local_8 = &local_c;
   local_c = &local_c;
-  iVar4 = ObReferenceObjectByHandle(param_1,IoFileObjectType_exref,&param_1);
+  iVar4 = ObReferenceObjectByHandle(param_1,*(uint32_t *)(uintptr_t)UINT32_C(0x00386564),&param_1);
   if (iVar4 < 0) {
     XapiSetLastNTError(iVar4);
     uVar5 = 0;
   }
   else {
     KeRaiseIrqlToDpcLevel();
-    ppppuVar6 = *(undefined4 *****)(IdexChannelObject_exref + 0x28);
-    if (ppppuVar6 != (undefined4 ****)(IdexChannelObject_exref + 0x28)) {
+    ppppuVar6 = *(undefined4 *****)((uintptr_t)*(uint32_t *)(uintptr_t)UINT32_C(0x00386560) + 0x28);
+    if (ppppuVar6 != (undefined4 ****)((uintptr_t)*(uint32_t *)(uintptr_t)UINT32_C(0x00386560) + 0x28)) {
       do {
         ppppuVar1 = (undefined4 ****)*ppppuVar6;
         if ((ppppuVar6[9] == param_1) && (((byte)*(code *)((int)ppppuVar6 + -0x37) & 0x10) == 0)) {
@@ -43,7 +43,7 @@ undefined4 XAPILIB__CancelIo(undefined4 ***param_1)
           local_8 = ppppuVar6;
         }
         ppppuVar6 = ppppuVar1;
-      } while (ppppuVar1 != (undefined4 ****)(IdexChannelObject_exref + 0x28));
+      } while (ppppuVar1 != (undefined4 ****)((uintptr_t)*(uint32_t *)(uintptr_t)UINT32_C(0x00386560) + 0x28));
     }
     KfLowerIrql();
     if ((undefined4 ****)local_c != &local_c) {
