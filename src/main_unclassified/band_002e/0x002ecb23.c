@@ -49,6 +49,7 @@ float10 FUN_002ecb23(uint param_1,uint param_2,int *param_3)
       param_1 = param_1 << 1;
       exponent--;
     }
+    param_2 &= ~UINT32_C(0x00100000);
     if (bVar1) {
       param_2 |= UINT32_C(0x80000000);
     }
