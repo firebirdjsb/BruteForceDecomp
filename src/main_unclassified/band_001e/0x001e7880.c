@@ -27,7 +27,7 @@ void FUN_001e7880(void)
     if ((((*(int *)(unaff_ESI + 4) < 1) && (*(int *)(unaff_ESI + 8) < 1)) &&
         (*(int *)(unaff_ESI + 0xc) < 1)) && ((*piVar2 < 1 || (0 < piVar2[9])))) {
       if ((iVar1 < 0) || (0x18 < iVar1)) {
-        uRam00000004 = 0;
+        /* XBE 0x001e78e8: XOR ECX,ECX; MOV BYTE PTR [ECX+4],CL.\n         * Preserve the original guest byte store at address 0x00000004,\n         * including possible guest fault; host guest-memory mapping is unverified. */\n        *(volatile undefined1 *)(uintptr_t)UINT32_C(0x00000004) = 0;
       }
       else {
         *(undefined1 *)(*(int *)(unaff_ESI + 0x250 + iVar1 * 4) + 4) = 0;
@@ -46,7 +46,7 @@ void FUN_001e7880(void)
     if ((*(int *)(unaff_ESI + 4) < 1) &&
        (((0 < *(int *)(unaff_ESI + 8) || (0 < *(int *)(unaff_ESI + 0xc))) || (*piVar2 < 1)))) {
       if ((iVar1 < 0) || (0x18 < iVar1)) {
-        uRam00000004 = 1;
+        /* XBE 0x001e7937: XOR EAX,EAX; MOV BYTE PTR [EAX+4],BL.\n         * EBX is 1 on this path; the guest destination is address 0x00000004. */\n        *(volatile undefined1 *)(uintptr_t)UINT32_C(0x00000004) = 1;
       }
       else {
         *(undefined1 *)(*(int *)(unaff_ESI + 0x250 + iVar1 * 4) + 4) = 1;
