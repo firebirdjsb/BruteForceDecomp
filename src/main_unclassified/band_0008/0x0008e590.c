@@ -15,6 +15,10 @@ int * FUN_0008e590(int param_1)
   int *piVar4;
   int *piVar5;
   int unaff_EDI;
+  /* 0x0008e5d0 LEA EAX,[ESP+0x0c] addresses ten guest DWORDs.
+   * 0x0008e5d8..0x0008e600 store EDI then nine zero DWORDs.
+   * The simultaneous EAX=ESI+0x28 register contract is ABI_UNVERIFIED. */
+  undefined4 local_28[10] = { (undefined4)unaff_EDI };
   
   piVar1 = *(int **)(param_1 + 0x30);
   piVar4 = *(int **)(param_1 + 0x2c);
@@ -35,6 +39,6 @@ int * FUN_0008e590(int param_1)
       return piVar3;
     }
   }
-  FUN_0008ebe0(&stack0xffffffd8);
+  FUN_0008ebe0(local_28);
   return (int *)(*(int *)(param_1 + 0x30) + -0x24);
 }
