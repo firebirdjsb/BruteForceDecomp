@@ -28,10 +28,15 @@ void FUN_000615d0(int param_1,int param_2,uint param_3,int *param_4)
   puStack_c = UINT32_C(0x00307a20);
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
-  local_14 = &stack0xffffff84;
+  /* Original 0x000615ee saves guest ESP at [EBP-0x10].  This
+   * decompiler-only local_14 has no later semantic use; do not
+   * substitute a host pointer for synthetic stack0xffffff84. */
+  local_14 = (undefined1 *)0;
   param_4 = (int *)*param_4;
   local_18 = param_4;
-  puVar1 = &stack0xffffff84;
+  /* Original local lifetime/SEH state remains ABI_UNVERIFIED.
+   * This temporary value only flows into unused local_14. */
+  puVar1 = (undefined1 *)0;
   if (param_4 != (int *)0x0) {
     (**(code **)(*param_4 + 4))();
     puVar1 = local_14;
