@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Focused C11 and optional original-XBE evidence gate for four low-address reads/writes.
+"""Focused C11 and optional original-XBE evidence gate for five low-address reads/writes.
 
 Original Xbox XBE is user-provided and private; never add it to the repository.
 A syntax pass plus exact instruction bytes is NOT full ABI or behavioral equivalence.
@@ -26,6 +26,9 @@ CASES = (
     ("0x0005c150", 0x0005C1A0, "33c089401c5ec3",
      "*(volatile undefined4 *)(uintptr_t)UINT32_C(0x1c) = 0;",
      "uRam0000001c"),
+    ("0x0008ab50", 0x0008ABC4, "33c08b7004eb29",
+     "iVar4 = *(volatile int *)(uintptr_t)UINT32_C(0x4);",
+     "iRam00000004"),
 )
 FLAGS = (
     "-std=c11", "-fsyntax-only", "-ferror-limit=3",
