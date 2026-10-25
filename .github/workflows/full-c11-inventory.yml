@@ -107,6 +107,7 @@ on:
       - 'scripts/verify_257b50_aa600_guest_bytes.py'
       - 'scripts/verify_guest_16byte_lanes_and_formats.py'
       - 'scripts/verify_section_mapped_audio_and_hardware.py'
+      - 'scripts/verify_00377a50_d3d_callback_words.py'
       - 'scripts/verify_d3d_374a49_mmio.py'
       - 'scripts/verify_0035a960_bink_wait_handles.py'
       - 'scripts/verify_bink32_mmx_byte_lanes.py'
@@ -304,6 +305,8 @@ jobs:
         run: python3 scripts/verify_guest_16byte_lanes_and_formats.py --root .
       - name: Verify section-mapped Xbox HRTF callbacks and hardware import byte (XBE stays local)
         run: python3 scripts/verify_section_mapped_audio_and_hardware.py --root .
+      - name: Verify D3D 0x00377A50 three callback DWORDs and EBP status (XBE stays local)
+        run: python3 scripts/verify_00377a50_d3d_callback_words.py --root .
       - name: Verify Xbox D3D original guest MMIO offsets (XBE stays local)
         run: python3 scripts/verify_d3d_374a49_mmio.py --root .
       - name: Verify Bink 0x0035A960 guest wait-handle DWORD order (XBE stays local)
