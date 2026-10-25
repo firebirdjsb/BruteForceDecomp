@@ -15,13 +15,22 @@ void FUN_00126690(undefined4 param_1,char param_2)
   int iVar1;
   undefined4 unaff_EBX;
   int unaff_ESI;
+  int unaff_EDI; /* incoming guest EDI before original PUSH EDI; ABI unverified */
+  struct {
+    int32_t saved_edi;
+    int32_t adjacent_esi;
+  } guest_stack_words = {unaff_EDI,unaff_ESI};
+  _Static_assert(sizeof(guest_stack_words) == 8,
+                 "guest x86 adjacent stack words must be two DWORDs");
   undefined4 uVar2;
   float10 fVar3;
   
   uVar2 = 0;
   iVar1 = FUN_0017beb0(unaff_EBX);
   if ((iVar1 != 0) && (unaff_ESI != 0)) {
-    uVar2 = FUN_00178e50(&stack0xfffffff8);
+    /* Original 0x00126699 PUSH EDI saves the first DWORD; 0x001266A4
+     * writes ESI to the following DWORD; 0x001266B7 passes &saved_edi. */
+    uVar2 = FUN_00178e50(&guest_stack_words.saved_edi);
   }
   *(undefined4 *)(unaff_ESI + 0x820) = uVar2;
   if (param_2 != '\0') {
