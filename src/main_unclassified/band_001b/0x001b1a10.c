@@ -9,8 +9,10 @@
 /* Original 0x001b1a10 pushes ECX, ESI, EDI. At 0x001b1a3c,
  * LEA EDX,[ESP+10h] addresses entry ESP+4, the first guest word.
  * 0x001b1a82 reads [ESP+24h], which is entry ESP+18h;
- * 0x001b1a96 RET 20h establishes eight incoming DWORDs.
- * Guest record only: EAX/ECX and native host ABI remain unverified. */
+ * 0x001b1a8a pushes that value to call 0x002ea018, a JMP thunk via
+ * 0x00067bf0 to an indirect guest target. 0x001b1a96 RET 20h
+ * establishes eight incoming DWORDs. Guest record only: EAX/ECX,
+ * guest32 address translation and thunk dispatch remain unverified. */
 typedef struct {
   undefined4 word_04, word_08, word_0c, word_10;
   undefined4 word_14, word_18, word_1c, word_20;
@@ -49,7 +51,7 @@ void FUN_001b1a10(bf_001b1a10_guest_words guest_words)
   }
   if (guest_words.word_18 != 0) {
                     /* WARNING: Subroutine does not return */
-    thunk_FUN_00237ec0(in_stack_00000018);
+    thunk_FUN_00237ec0(guest_words.word_18);
   }
   return;
 }
