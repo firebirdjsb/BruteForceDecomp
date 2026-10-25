@@ -6,14 +6,15 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_packed_color_sse.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037bb28;
 extern uint32_t DAT_003e2534;
 extern uint32_t PTR_LAB_003a1ef8;
-extern uint32_t _DAT_003f7c70;
-extern uint32_t *_DAT_003f7c80;
-extern uint32_t _DAT_00469af0;
+extern uint8_t _DAT_003f7c70[16];
+extern uint8_t _DAT_003f7c80[16];
+extern uint8_t _DAT_00469af0[16];
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void FUN_000a50b0(undefined1 (*param_1) [16],int param_2,int param_3)
@@ -29,11 +30,6 @@ void FUN_000a50b0(undefined1 (*param_1) [16],int param_2,int param_3)
   uint uVar6;
   int in_EDX;
   int *piVar7;
-  float fVar8;
-  float fVar10;
-  float fVar11;
-  undefined1 auVar9 [16];
-  float fVar12;
   int local_10;
   uint local_8;
   
@@ -42,12 +38,10 @@ void FUN_000a50b0(undefined1 (*param_1) [16],int param_2,int param_3)
     iVar5 = in_ECX * 0x4c;
     local_10 = in_EDX;
     do {
-      auVar9 = minps(*param_1,_DAT_003f7c70);
-      auVar9 = maxps(auVar9,_DAT_00469af0);
-      fVar8 = auVar9._0_4_ * _DAT_003f7c80;
-      fVar10 = auVar9._4_4_ * fRam003f7c84;
-      fVar11 = auVar9._8_4_ * fRam003f7c88;
-      fVar12 = auVar9._12_4_ * fRam003f7c8c;
+      /* XBE 0x000A50F3-0x000A5134: same original packed SSE lanes.
+       * This is a host syntax/instruction model, not a guest-memory ABI. */
+      uint32_t packed_color = bf_x86_pack_color_sse(*param_1, _DAT_003f7c70,
+                                                    _DAT_00469af0, _DAT_003f7c80);
       local_8 = 0;
       if (*(int *)(&DAT_003e2534 + iVar5 + in_EAX * 0x4c4) != 0) {
         piVar7 = (int *)(&DAT_003e2534 + iVar5 + 4 + in_EAX * 0x4c4);
@@ -58,8 +52,8 @@ void FUN_000a50b0(undefined1 (*param_1) [16],int param_2,int param_3)
 LAB_000a5183:
             if (piVar3 != (int *)0x0) {
               *piVar3 = ((uint)(&PTR_LAB_003a1ef8)[iVar1] & 0xfffbffff) + 0x40000;
-              piVar3[1] = (int)ROUND(fVar8) << 0x10 | (int)ROUND(fVar10) << 8 | (int)ROUND(fVar11) |
-                          (int)ROUND(fVar12) << 0x18;
+              /* Original MOV [EAX+4],ECX stores the packed 32-bit word. */
+              memcpy(piVar3 + 1, &packed_color, sizeof(packed_color));
             }
           }
           else {

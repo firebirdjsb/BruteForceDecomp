@@ -6,15 +6,16 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_packed_color_sse.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037dd90;
 extern uint32_t DAT_003e2534;
 extern uint32_t DAT_003f7c68;
 extern uint32_t PTR_LAB_003a1cd8;
-extern uint32_t _DAT_003f7c70;
-extern uint32_t *_DAT_003f7c80;
-extern uint32_t _DAT_00469af0;
+extern uint8_t _DAT_003f7c70[16];
+extern uint8_t _DAT_003f7c80[16];
+extern uint8_t _DAT_00469af0[16];
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void FUN_000a4d80(void)
@@ -28,7 +29,6 @@ void FUN_000a4d80(void)
   int in_ECX;
   undefined1 (*in_EDX) [16];
   uint uVar5;
-  undefined1 auVar6 [16];
   int local_14;
   undefined1 (*local_c) [16];
   int *local_8;
@@ -39,11 +39,11 @@ void FUN_000a4d80(void)
     local_c = in_EDX;
     do {
       iVar2 = DAT_003f7c68;
-      auVar6 = minps(*local_c,_DAT_003f7c70);
-      auVar6 = maxps(auVar6,_DAT_00469af0);
-      uVar4 = (int)ROUND(auVar6._0_4_ * _DAT_003f7c80) << 0x10 |
-              (int)ROUND(auVar6._4_4_ * fRam003f7c84) << 8 | (int)ROUND(auVar6._8_4_ * fRam003f7c88)
-              | (int)ROUND(auVar6._12_4_ * fRam003f7c8c) << 0x18;
+      /* XBE 0x000A4DA3-0x000A4DE1: MOVUPS, MINPS, MAXPS, MULPS,
+       * four CVTSS2SI with SHUFPS 0x39 between lanes. Guest data
+       * symbol relocation and implicit EAX/ECX/EDX ABI are unverified. */
+      uVar4 = bf_x86_pack_color_sse(*local_c, _DAT_003f7c70,
+                                     _DAT_00469af0, _DAT_003f7c80);
       uVar5 = 0;
       if (*(int *)(&DAT_003e2534 + iVar3 + DAT_003f7c68 * 0x4c4) != 0) {
         local_8 = (int *)(&DAT_003e2534 + iVar3 + 4 + DAT_003f7c68 * 0x4c4);
