@@ -37,6 +37,14 @@ def main():
     assert 'word_00 = guest_cursor + UINT32_C(1)' in getc
     assert 'return __filbuf(__stream);' in getc
     assert '_IO_' not in getc
+    ungetc = (args.root/"src/main_unclassified/band_002e/0x002eb885.c").read_text()
+    assert '#include "bf_xbox_crt_stream.h"' in ungetc
+    assert 'cursor -= UINT32_C(1)' in ungetc
+    assert '__stream->word_00 = cursor' in ungetc
+    assert '__stream->word_04 += UINT32_C(1)' in ungetc
+    assert '__stream->flags_0c = (flags & ~UINT32_C(0x10)) | UINT32_C(1)' in ungetc
+    assert '__getbuf(__stream)' in ungetc
+    assert '_IO_' not in ungetc
     if args.xbe is not None:
         binary = args.xbe.read_bytes()
         assert hashlib.sha256(binary).hexdigest() == XBE_SHA256, "Unexpected XBE"
