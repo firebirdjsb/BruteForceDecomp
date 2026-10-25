@@ -65,7 +65,11 @@ void FUN_000f0480(void)
       if (unaff_retaddr != '\0') {
         FUN_001036d0();
       }
-      iVar3 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x158))(iStack_c,&stack0xffffffec);
+      /* XBE 0x000F05AB: LEA EDX,[ESP+0x0C]; PUSH EDX. After
+       * SUB ESP,0x10 and three saved-register pushes this is the
+       * already declared guest DWORD uStack_10 (not a new ABI input).
+       * The virtual callee's prototype remains unverified. */
+      iVar3 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x158))(iStack_c,&uStack_10);
       bVar1 = *(byte *)(piVar5 + 10);
       if ((bool)(bVar1 >> 1 & 1) != (iVar3 == 0)) {
         *(byte *)(piVar5 + 10) = ((iVar3 == 0) << 1 ^ bVar1) & 2 ^ bVar1;
