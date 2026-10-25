@@ -6,12 +6,15 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_00236e30(int *param_1,undefined4 *param_2)
+/* x86 0x00236E30..0x00236E99: EAX retains the nonzero matched
+ * element address or the recursive child's matched EAX word.
+ * Xbox ECX and returned addresses remain 32-bit guest words. */
+undefined4 FUN_00236e30(int *param_1,undefined4 *param_2)
 
 {
   int iVar1;
   int *piVar2;
-  int iVar3;
+  int iVar3 = 0;
   int *in_ECX;
   int iVar4;
   
@@ -34,8 +37,8 @@ LAB_00236e5e:
     }
   }
   else if (param_2 != (undefined4 *)0x0) {
-    *param_2 = in_ECX;
-    return;
+    *param_2 = (undefined4)(uintptr_t)in_ECX;
+    return (undefined4)(uintptr_t)piVar2;
   }
-  return;
+  return piVar2 == (int *)0x0 ? (undefined4)iVar3 : (undefined4)(uintptr_t)piVar2;
 }
