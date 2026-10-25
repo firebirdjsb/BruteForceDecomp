@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original XBE immediates identify nine guest format-string addresses below.
+ * These are guest addresses, not host buffers or native string symbols. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0040c6dc;
@@ -139,7 +141,7 @@ LAB_00175c84:
     *(undefined4 *)(iVar2 + 4) = local_1c4;
     *(int *)(param_2 + 0x10) = iVar2;
     if (local_1b0 == 5) {
-      FUN_002eaefa(param_3,s__d__<_[_>_>___f___f___d___d___d__0040c640,&local_1b8,local_188,
+      FUN_002eaefa(param_3,(char *)(uintptr_t)UINT32_C(0x0040C640),&local_1b8,local_188,
                    iVar2 + 0x1c,iVar2 + 0x10,&local_1c0,param_2 + 0x18,&local_1c8,iVar2 + 0x20,
                    iVar2 + 0x24,&local_1bc);
       *(bool *)(iVar2 + 0x19) = local_1c8 != 0;
@@ -148,7 +150,7 @@ LAB_00175c84:
       *(bool *)(iVar2 + 0x28) = local_1bc != 0;
     }
     else if (local_1b0 == 4) {
-      FUN_002eaefa(param_3,s__d__<_[_>_>___f___f___d___d___d__0040c618,&local_1b8,local_188,
+      FUN_002eaefa(param_3,(char *)(uintptr_t)UINT32_C(0x0040C618),&local_1b8,local_188,
                    iVar2 + 0x1c,iVar2 + 0x10,&local_1c0,param_2 + 0x18,&local_1c8,&local_1b4,
                    &local_1bc);
       *(bool *)(iVar2 + 0x19) = local_1c8 != 0;
@@ -156,19 +158,19 @@ LAB_00175c84:
       *(undefined4 *)(iVar2 + 0xc) = uVar6;
     }
     else if (local_1b0 == 3) {
-      FUN_002eaefa(param_3,s__d__<_[_>_>___f___f___d___d___d_0040c5f8,&local_1b8,local_188,
+      FUN_002eaefa(param_3,(char *)(uintptr_t)UINT32_C(0x0040C5F8),&local_1b8,local_188,
                    iVar2 + 0x1c,iVar2 + 0x10,&local_1c0,param_2 + 0x18,&local_1c8);
       *(bool *)(iVar2 + 0x19) = local_1c8 != 0;
       uVar6 = FUN_002383b0();
       *(undefined4 *)(iVar2 + 0xc) = uVar6;
     }
     else if (local_1b0 == 2) {
-      FUN_002eaefa(param_3,s__d__<_d>___f___f___d___d_0040c5dc,&local_1b8,
+      FUN_002eaefa(param_3,(char *)(uintptr_t)UINT32_C(0x0040C5DC),&local_1b8,
                    *(undefined4 *)(iVar2 + 0xc),iVar2 + 0x1c,iVar2 + 0x10,&local_1c0,param_2 + 0x18)
       ;
     }
     else {
-      FUN_002eaefa(param_3,s__d__<_d>___f___f___d_0040c5c4,&local_1b8,*(undefined4 *)(iVar2 + 0xc),
+      FUN_002eaefa(param_3,(char *)(uintptr_t)UINT32_C(0x0040C5C4),&local_1b8,*(undefined4 *)(iVar2 + 0xc),
                    iVar2 + 0x1c,iVar2 + 0x10,&local_1c0);
       *(undefined4 *)(param_2 + 0x18) = 1000;
     }
@@ -243,7 +245,7 @@ LAB_00175c84:
     }
     puVar7[1] = local_1c4;
     *(undefined4 **)(param_2 + 0x10) = puVar7;
-    FUN_002eaefa(param_3,s_<_[_>_>___f___d_0040c5b4,puVar7 + 3,puVar7 + 0x24,&local_1c8);
+    FUN_002eaefa(param_3,(char *)(uintptr_t)UINT32_C(0x0040C5B4),puVar7 + 3,puVar7 + 0x24,&local_1c8);
     puVar7[0x23] = local_1c8;
     return 0;
   case 0x6f:
@@ -266,11 +268,11 @@ LAB_00175c84:
       FUN_002eaefa(param_3,&DAT_0040c798,&local_1c0);
     }
     else if (local_1b0 == 2) {
-      FUN_002eaefa(param_3,s_<_[_>_>__<_[_>_>___d___d_0040c598,local_188,local_88,&local_1c8,
+      FUN_002eaefa(param_3,(char *)(uintptr_t)UINT32_C(0x0040C598),local_188,local_88,&local_1c8,
                    &local_1c0);
     }
     else {
-      FUN_002eaefa(param_3,s_<_[_>_>__<_[_>_>___d___d___d___d_0040c574,local_188,local_88,&local_1b4
+      FUN_002eaefa(param_3,(char *)(uintptr_t)UINT32_C(0x0040C574),local_188,local_88,&local_1b4
                    ,&local_1bc,&local_1c8,&local_1c0);
     }
     *(bool *)(puVar7 + 3) = local_1c0 != 0;
@@ -301,7 +303,7 @@ LAB_00175c84:
     *(undefined4 *)(iVar2 + 4) = local_1c4;
     *(int *)(param_2 + 0x10) = iVar2;
     if (local_1b0 == 2) {
-      FUN_002eaefa(param_3,s__d__<_[_>_>__<_[_>_>_0040c674,param_2 + 0x18,local_188,local_88);
+      FUN_002eaefa(param_3,(char *)(uintptr_t)UINT32_C(0x0040C674),param_2 + 0x18,local_188,local_88);
     }
     else {
       FUN_002eaefa(param_3,&DAT_0040c798,param_2 + 0x18);
@@ -459,7 +461,10 @@ LAB_00175c84:
       return 0;
     }
 LAB_00175c4d:
-    uRam00000004 = local_1c4;
+    /* XBE 0x00175C54..0x00175C56: xor eax,eax; mov [eax+4],ecx.
+     * The original failure path really addresses guest word 0x00000004.
+     * Do not suppress the fault or substitute a host object. */
+    *(undefined4 *)(uintptr_t)UINT32_C(0x00000004) = local_1c4;
     *(undefined4 *)(param_2 + 0x10) = 0;
     return 0;
   }
