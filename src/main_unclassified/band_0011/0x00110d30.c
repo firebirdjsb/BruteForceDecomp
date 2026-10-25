@@ -37,6 +37,8 @@ undefined4 * FUN_00110d30(undefined4 *param_1,int param_2)
   undefined4 *puVar5;
   uint uVar6;
   undefined4 local_8 [2];
+  /* 0x00110F5B and 0x00110FF2 load CL from the low byte of the
+   * original incoming this/object guest pointer word, not from *param_1. */
   
   local_8[0] = 0;
   if (param_2 != 0) {
@@ -103,7 +105,7 @@ undefined4 * FUN_00110d30(undefined4 *param_1,int param_2)
   uVar3 = FUN_00061500(param_1 + 0x156);
   param_1[0x157] = uVar3;
   param_1[0x158] = 0;
-  *(undefined1 *)(param_1 + 0x159) = param_1._0_1_;
+  *(undefined1 *)(param_1 + 0x159) = (uint8_t)(uintptr_t)param_1;
   iVar4 = FUN_0025ae60(param_1 + 0x159);
   param_1[0x15a] = iVar4;
   *(undefined1 *)(iVar4 + 0x15) = 1;
@@ -126,7 +128,7 @@ undefined4 * FUN_00110d30(undefined4 *param_1,int param_2)
     puVar5 = puVar5 + 2;
     iVar4 = iVar4 + -1;
   } while (iVar4 != 0);
-  *(undefined1 *)(param_1 + 0x1fd) = param_1._0_1_;
+  *(undefined1 *)(param_1 + 0x1fd) = (uint8_t)(uintptr_t)param_1;
   iVar4 = FUN_0025ae60(param_1 + 0x1fd);
   param_1[0x1fe] = iVar4;
   *(undefined1 *)(iVar4 + 0x15) = 1;
