@@ -46,6 +46,11 @@ extern uint32_t _DAT_0046b0c0;
 /* XBE data region contains contiguous DWORDs; +4 is the guest field at
  * 0x0046b0c4. ABI and global layout remain unverified. */
 extern uint32_t uRam0046b0c4;
+/* The XBE copies aligned 16-byte guest spans starting at 0x0046B0C0
+ * using MOVUPS at 0x00266CE0..0x00266D24. These two extra DWORD
+ * lanes belong to that same guest span, not host structure pointers. */
+extern uint32_t uRam0046b0c8;
+extern uint32_t uRam0046b0cc;
 extern uint32_t _DAT_0046b0d0;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
