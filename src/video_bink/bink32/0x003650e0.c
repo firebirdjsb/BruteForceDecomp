@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_mmx_byte_lanes.h"
+/* Two verified original x86 MOVD/PUNPCKLBW byte-unpack operations;
+ * do not emulate them with host-width int5/uint7 Ghidra CONCAT casts. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003b7d58;
@@ -56,13 +59,7 @@ void FUN_003650e0(int param_1)
     bVar3 = *pbVar8;
     pbVar1 = pbVar8 + 1;
     pbVar8 = pbVar8 + 2;
-    uVar14 = psubusw((ulonglong)
-                     CONCAT52((int5)(CONCAT43((int)(CONCAT34((int3)(CONCAT25((short)(((uint7)(byte)(
-                                                  (uint)uVar5 >> 0x18) << 0x30) >> 0x28),
-                                                  CONCAT14((char)((uint)uVar5 >> 0x10),uVar5)) >>
-                                                  0x20),uVar5) >> 0x18),
-                                              CONCAT12((char)((uint)uVar5 >> 8),(short)uVar5)) >>
-                                    0x10),(short)uVar5) & 0xffffffff00ff00ff,
+    uVar14 = psubusw(bf_x86_unpack_u32_bytes_to_u16_lanes((uint32_t)uVar5),
                      _PTR_LAB_0010000c_4_003b7d48);
     bVar4 = *pbVar7;
     uVar14 = psllw(uVar14,2);
@@ -120,13 +117,7 @@ void FUN_003650e0(int param_1)
     bVar3 = *DAT_004be770;
     pbVar7 = DAT_004be770 + 1;
     DAT_004be770 = DAT_004be770 + 2;
-    uVar15 = psubusw((ulonglong)
-                     CONCAT52((int5)(CONCAT43((int)(CONCAT34((int3)(CONCAT25((short)(((uint7)(byte)(
-                                                  (uint)uVar5 >> 0x18) << 0x30) >> 0x28),
-                                                  CONCAT14((char)((uint)uVar5 >> 0x10),uVar5)) >>
-                                                  0x20),uVar5) >> 0x18),
-                                              CONCAT12((char)((uint)uVar5 >> 8),(short)uVar5)) >>
-                                    0x10),(short)uVar5) & 0xffffffff00ff00ff,
+    uVar15 = psubusw(bf_x86_unpack_u32_bytes_to_u16_lanes((uint32_t)uVar5),
                      _PTR_LAB_0010000c_4_003b7d48);
     bVar4 = *DAT_004be774;
     uVar15 = psllw(uVar15,2);
