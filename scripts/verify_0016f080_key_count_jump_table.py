@@ -34,6 +34,8 @@ REQUIRED = (
     "case 1:",
     "case 2:",
     "case 3:",
+    "fStack_b4 = fVar14;",
+    "fStack_b0 = local_dc;",
 )
 def main():
     p = argparse.ArgumentParser()
@@ -44,6 +46,8 @@ def main():
     for marker in REQUIRED:
         if marker not in source:
             raise SystemExit("Missing source invariant: " + marker)
+    if "_fStack_b4" in source:
+        raise SystemExit("Invalid overlapping QWORD Ghidra pseudo-local reintroduced")
     if "switch(local_170)" in source or "case 1.4013e-45:" in source:
         raise SystemExit("Float switch was reintroduced")
     if args.xbe is None:
