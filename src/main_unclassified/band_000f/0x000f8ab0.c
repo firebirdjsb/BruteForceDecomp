@@ -31,6 +31,7 @@ undefined1 FUN_000f8ab0(int param_1)
   undefined1 uVar8;
   undefined1 local_c2d;
   uint local_c2c;
+  uint32_t guest_label_word;
   uint auStack_c28 [8];
   undefined4 local_c08 [769];
   
@@ -166,7 +167,11 @@ undefined1 FUN_000f8ab0(int param_1)
         auStack_c28[4] = 0;
         auStack_c28[1] = 0xf745f94a;
         (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x20))(auStack_c28);
-        (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x8c))(&stack0xfffff3c8);
+        /* XBE 0x000F8F6F..7E: write a full guest DWORD to ESP+0x18,
+         * then forward its address to virtual slot +0x8C. Separate
+         * from auStack_c28 at ESP+0x24; indirect ABI remains unverified. */
+        guest_label_word = UINT32_C(0xe5a73e1d);
+        (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x8c))(&guest_label_word);
         return uVar8;
       }
       FUN_00084f50(1);

@@ -27,7 +27,16 @@ SITES = {
     0x000F8E20:"8b442414",0x000F8E24:"8b11",
     0x000F8E26:"50",0x000F8E27:"ff9244020000",
     0x000F8E2D:"8b4324",0x000F8FA4:"8a442413",
-    0x000F8FAE:"c20400"
+    0x000F8FAE:"c20400",
+    0x000F8F40:"a1589b4600",0x000F8F45:"8974242c",
+    0x000F8F49:"89742430",0x000F8F4D:"89742434",
+    0x000F8F51:"c74424284af945f7",0x000F8F59:"8b4808",
+    0x000F8F5C:"8b11",0x000F8F5E:"8d442424",
+    0x000F8F62:"50",0x000F8F63:"ff5220",
+    0x000F8F66:"8b0d589b4600",0x000F8F6C:"8b4908",
+    0x000F8F6F:"8d442418",0x000F8F73:"c74424181d3ea7e5",
+    0x000F8F7B:"8b11",0x000F8F7D:"50",
+    0x000F8F7E:"ff928c000000",0x000F8F84:"8a442413"
 }
 MASK = "local_c2c = local_c2c & 0xffffff00"
 PATCH = "local_c2c = (local_c2c & UINT32_C(0xffffff00)) | UINT32_C(1);"
@@ -59,6 +68,18 @@ def verify_source(s):
     after_patch = c[c.index(PATCH)+len(PATCH):c.index(CALL)]
     if re.search(r"\blocal_c2c\s*=(?!=)", after_patch):
         raise ValueError("Unexpected write between guest byte update and virtual call")
+    # The separately verified original XBE stack word at ESP+0x18 is
+    # initialized immediately before its address goes to vtable +0x8C.
+    for token in ("uint32_t guest_label_word;", "guest_label_word = UINT32_C(0xe5a73e1d);",
+                  "(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x8c))(&guest_label_word);", "auStack_c28[1] = 0xf745f94a;"):
+        if c.count(token)!=1:
+            raise ValueError("Wrong original guest label address/value contract: "+token)
+    if not (c.index("auStack_c28[1] = 0xf745f94a;") <
+            c.index("guest_label_word = UINT32_C(0xe5a73e1d);") <
+            c.index("(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x8c))(&guest_label_word);")):
+        raise ValueError("Guest label DWORD write-and-forward order changed")
+    if c.count("guest_label_word = ")!=1 or "&stack0xfffff3c8" in c:
+        raise ValueError("Invented label slot rewrite or unresolved original alias")
 
 def negative_sources(s):
     mutations=[
@@ -74,6 +95,20 @@ def negative_sources(s):
        (CALL,CALL.replace("(local_c2c)","(local_c2c & 255)")),
        (PATCH,PATCH+"\n      local_c2c = 0;"),
        ("uint local_c2c;","unsigned short local_c2c;"),
+       ("guest_label_word = UINT32_C(0xe5a73e1d);",
+        "guest_label_word = UINT32_C(0xe5a73e1e);"),
+       ("guest_label_word = UINT32_C(0xe5a73e1d);",
+        "guest_label_word = UINT32_C(0);"),
+       ("uint32_t guest_label_word;","uint16_t guest_label_word;"),
+       ("uint32_t guest_label_word;","uint64_t guest_label_word;"),
+       ("(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x8c))(&guest_label_word);",
+        "(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x20))(&guest_label_word);"),
+       ("(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x8c))(&guest_label_word);",
+        "(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x8c))(guest_label_word);"),
+       ("(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x8c))(&guest_label_word);",
+        "(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x8c))(auStack_c28);"),
+       ("(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x8c))(&guest_label_word);",
+        "guest_label_word = 0;\n        (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x8c))(&guest_label_word);"),
     ]
     for a,b in mutations:
         wrong=s.replace(a,b,1)
@@ -157,5 +192,5 @@ def main():
     if not clang:raise RuntimeError("Host Clang required")
     check_clang(root,clang)
     opcodes=verify_xbe(args.xbe.read_bytes()) if args.xbe else 0
-    print(f"PASS 0x000F8AB0: 1 original guest DWORD low-byte lane, {negative} source negative controls, Clang O0/O2, {opcodes} XBE instruction sites; XBE provided={bool(args.xbe)}; native ABI UNVERIFIED")
+    print(f"PASS 0x000F8AB0: 2 original guest stack DWORD contracts, {negative} source negative controls, Clang O0/O2, {opcodes} XBE instruction sites; XBE provided={bool(args.xbe)}; native ABI UNVERIFIED")
 if __name__=="__main__":main()
