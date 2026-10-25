@@ -15,6 +15,12 @@ void FUN_000f3e30(void)
   int *piVar1;
   char cVar2;
   int *piVar3;
+  /* XBE 0x000F3E3A reserves 0x14 bytes of local storage.
+   * 0x000F3E83 addresses its first word with LEA ECX,[ESP+8];
+   * 0x000F3E75/79/7D write words at offsets +8/+12/+16.
+   * Storage layout only: initialization, indirect-call ABI and
+   * original stack-byte state remain ABI_UNVERIFIED. */
+  undefined4 call_stack_words[5];
   
   piVar3 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
   piVar1 = *(int **)(DAT_00469b58 + 8);
@@ -24,7 +30,7 @@ void FUN_000f3e30(void)
     return;
   }
   (**(code **)(*piVar3 + 0x1c))();
-  (**(code **)(*piVar1 + 0x20))(&stack0xffffffe8);
+  (**(code **)(*piVar1 + 0x20))(call_stack_words);
   (**(code **)(*piVar1 + 0x8c))();
   return;
 }
