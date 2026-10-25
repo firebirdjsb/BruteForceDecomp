@@ -44,16 +44,33 @@ undefined4 FUN_003309e9(void)
       pcVar3 = pcVar3 + 1;
     } while (cVar1 != '\0');
     uVar4 = (int)pcVar3 - (int)(unaff_EDI + 1);
-    if (uVar4 < *(ushort *)XeImageFileName_exref) {
+    /* XBE 0x00330A57: load guest counted-name pointer from import
+     * slot 0x00386450, then read its 16-bit byte length at +0. */
+    uint32_t guest_xbe_name = *(const uint32_t *)(uintptr_t)
+        UINT32_C(0x00386450);
+    if (uVar4 < *(const uint16_t *)(uintptr_t)guest_xbe_name) {
       pcStackY_20 = (undefined1 *)0x330a71;
       uVar2 = uVar4;
       iVar5 = __strnicmp();
       if (iVar5 == 0) {
         iVar5 = uVar4 + 1;
         pcStackY_20 = (char *)0x330a9a;
-        _strncpy(local_184,(char *)(*(int *)(XeImageFileName_exref + 4) + iVar5),
-                 (uint)*(ushort *)XeImageFileName_exref - iVar5);
-        local_184[(uint)*(ushort *)XeImageFileName_exref - iVar5] = '\0';
+        /* XBE 0x00330A7C: reload import slot, then read byte length
+         * at +0 and 32-bit buffer address at +4. Preserve wrap width. */
+        uint32_t guest_xbe_name_copy = *(const uint32_t *)(uintptr_t)
+            UINT32_C(0x00386450);
+        uint32_t guest_name_bytes = *(const uint16_t *)(uintptr_t)
+            guest_xbe_name_copy;
+        uint32_t guest_name_buffer = *(const uint32_t *)(uintptr_t)
+            (guest_xbe_name_copy + UINT32_C(4));
+        _strncpy(local_184,
+                 (char *)(uintptr_t)(guest_name_buffer + (uint32_t)iVar5),
+                 guest_name_bytes - (uint32_t)iVar5);
+        /* XBE 0x00330A9A: the third import-slot read is distinct. */
+        uint32_t guest_xbe_name_tail = *(const uint32_t *)(uintptr_t)
+            UINT32_C(0x00386450);
+        local_184[(uint32_t)*(const uint16_t *)(uintptr_t)
+            guest_xbe_name_tail - (uint32_t)iVar5] = '\0';
         pcStackY_20 = local_184;
         pcStackY_24 = "t:\\$u\\";
         puStackY_28 = &DAT_0040dd4c;
