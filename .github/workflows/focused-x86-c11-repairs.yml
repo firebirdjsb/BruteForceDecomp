@@ -36,6 +36,7 @@ on:
       - 'tools/verify_x86_seh_immediates.py'
       - 'src/main_unclassified/band_0025/0x00254390.c'
       - 'scripts/verify_00254390_callback_release.py'
+      - 'scripts/verify_001eb850_guest_item_word.py'
       - 'src/main_unclassified/band_001a/**'
       - 'src/main_unclassified/band_001b/**'
       - 'src/main_unclassified/band_001c/**'
@@ -64,6 +65,8 @@ jobs:
         run: python3 tools/verify_x86_seh_immediates.py --root .
       - name: Verify 0x00254390 callback-owned interface and isolated C11
         run: python3 scripts/verify_00254390_callback_release.py --root .
+      - name: Verify 0x001EB850 guest output DWORD and isolated Clang C11
+        run: python3 scripts/verify_001eb850_guest_item_word.py --root .
       - name: Compile twenty-six original C11 drafts individually
         shell: bash
         run: |
