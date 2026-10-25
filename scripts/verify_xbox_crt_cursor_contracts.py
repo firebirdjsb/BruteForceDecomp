@@ -7,6 +7,8 @@ from pathlib import Path
 XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 # Exact instruction bytes, not Ghidra's host FILE field names.
 OPS = {
+    0x002eb6a4: bytes.fromhex("803a0a"), # ftell: compare buffered byte with LF 0x0a
+    0x002eb72e: bytes.fromhex("80380a"), # ftell: second LF comparison
     0x002eb5ab: bytes.fromhex("8b460c"), # seek: flags +0xc
     0x002eb5c5: bytes.fromhex("83e0ef"), # clear 0x10
     0x002eb5cb: bytes.fromhex("89460c"), # write flags
@@ -56,6 +58,11 @@ def main():
     assert 'stream->handle_10, offset, origin' in seek
     assert 'stream->flags_0c = flags & ~UINT32_C(0x10)' in seek
     assert '_IO_' not in seek
+    ftell = (args.root/"src/main_unclassified/band_002e/0x002eb634.c").read_text()
+    single_lf = chr(39) + chr(92) + "n" + chr(39)
+    doubled_lf = chr(39) + chr(92) + chr(92) + "n" + chr(39)
+    assert ftell.count(single_lf) == 2, "expected two LF comparison constants"
+    assert doubled_lf not in ftell, "multichar constant would break LF counting"
     if args.xbe is not None:
         binary = args.xbe.read_bytes()
         assert hashlib.sha256(binary).hexdigest() == XBE_SHA256, "Unexpected XBE"
