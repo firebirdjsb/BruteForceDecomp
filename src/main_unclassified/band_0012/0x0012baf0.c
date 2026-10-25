@@ -6,36 +6,43 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+#include <xmmintrin.h>
 
+/* The original scalar/x87-derived draft expressions are retained as evidence;
+ * host float precision and ABI are unverified. Only invalid Ghidra SIMD member
+ * accesses are represented with explicit SSE intrinsics and observed lane order. */
 void FUN_0012baf0(int param_1,float param_2,undefined4 param_3,float *param_4)
-
 {
   float fVar1;
   float fVar2;
   float fVar3;
   float fVar4;
   float fVar5;
-  undefined1 auVar6 [16];
-  undefined1 auVar7 [16];
-  
+  __m128 auVar7;
+  float lane2;
+  float lane3;
+  float reciprocal;
+  float root;
+
   param_2 = -param_2;
   fVar1 = *(float *)(param_1 + 0x44c) * 0.0 +
           *(float *)(param_1 + 0x454) * 0.0 + param_2 * *(float *)(param_1 + 0x450);
-  auVar7._0_4_ = *(float *)(param_1 + 0x44c) * fVar1;
-  auVar7._4_4_ = fVar1 * 0.0;
-  auVar7._8_4_ = (float)*(undefined8 *)(param_1 + 0x450) * fVar1;
-  auVar7._12_4_ = (float)((ulonglong)*(undefined8 *)(param_1 + 0x450) >> 0x20) * fVar1;
-  fVar1 = -auVar7._0_4_;
-  fVar2 = param_2 - auVar7._8_4_;
-  fVar3 = 0.0 - auVar7._12_4_;
+  /* MOVSS [eax], then MOVHPS [eax+4]: [axis0, 0, axis1, axis2]. */
+  auVar7 = _mm_set_ps(*(float *)(param_1 + 0x454),
+                      *(float *)(param_1 + 0x450), 0.0f,
+                      *(float *)(param_1 + 0x44c));
+  auVar7 = _mm_mul_ps(auVar7, _mm_set1_ps(fVar1));
+  fVar1 = -_mm_cvtss_f32(auVar7);
+  lane2 = _mm_cvtss_f32(_mm_shuffle_ps(auVar7, auVar7, _MM_SHUFFLE(2,2,2,2)));
+  lane3 = _mm_cvtss_f32(_mm_shuffle_ps(auVar7, auVar7, _MM_SHUFFLE(3,3,3,3)));
+  fVar2 = param_2 - lane2;
+  fVar3 = 0.0 - lane3;
   fVar4 = param_2 * param_2 + 0.0;
   fVar5 = fVar1 * fVar1 + fVar2 * fVar2 + fVar3 * fVar3;
   if ((1.4210855e-14 < fVar4) && (1.4210855e-14 < fVar5)) {
-    auVar6._4_12_ = auVar7._4_12_;
-    auVar6._0_4_ = SQRT(fVar4);
-    auVar7 = rsqrtss(auVar6,fVar5);
-    fVar4 = auVar7._0_4_ * auVar6._0_4_;
+    root = _mm_cvtss_f32(_mm_sqrt_ss(_mm_set_ss(fVar4)));
+    reciprocal = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(fVar5)));
+    fVar4 = reciprocal * root;
     *param_4 = fVar1 * fVar4;
     param_4[1] = fVar2 * fVar4;
     param_4[2] = fVar3 * fVar4;

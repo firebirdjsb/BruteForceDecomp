@@ -12,6 +12,8 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x0012BAF0, 363, "a158ab8baeae0c76832bf083f550b79e29ff902e9429fbd043c32df2b54afbad"),
+    (0x00233B10, 128, "4911f4e987f45df85a910e477357c52f90778b138eed1ec08b40ab9d5839c479"),
     (0x0010A2E0, 307, "b6f4946cc952ff7d69f9260284540300fbe9d6efedeb5a029ae1fb3713b56d38"),
     (0x0010ABB0, 309, "925fdd7fee9c95b51ec089f9a29af2b31131827d67a72e3113d90df7119ba10a"),
     (0x001F8C90, 280, "af6d003d928de65fde56b9138c3a5cde5961eaa0a9f29eaf6a6ffa227c0c67a8"),
@@ -52,6 +54,18 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x0012BB51: "f30f10000f1640040f59c1",  # [x,0,y,z] times broadcast
+    0x0012BB60: "f30f11000f174004",  # compact low/high lanes
+    0x0012BBDE: "f30f51442408",  # SQRTSS
+    0x0012BBF2: "f30f52442408",  # RSQRTSS
+    0x00233B19: "0f10080f1012",  # two full vector loads
+    0x00233B43: "0fc6e401",  # first reduction shuffle
+    0x00233B53: "0f2fc77307",  # COMISS/JAE; unordered flips sign
+    0x00233B58: "0f571500d93800",  # XOR original sign mask
+    0x00233B6E: "f30f10d00fc6c001f30f58c2",  # final pair1 + pair0
+    0x00233B7A: "f30f52c00fc6c0000f59c8",  # RSQRT broadcast multiply
+    0x0038D900: "00000080000000800000008000000080",  # four sign bits
+
     0x0010A2F5: "837d0806",  # CMP DWORD +8,6
     0x0010A317: "837d24087205",  # unsigned capacity below 8
     0x0010A31D: "8b4510",  # allocated guest DWORD address

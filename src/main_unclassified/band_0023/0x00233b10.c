@@ -6,51 +6,36 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-float * FUN_00233b10(float *param_1,float *param_2,float *param_3,float param_4)
+#include <xmmintrin.h>
 
+/* SSE lane order and scalar reduction follow the verified original instructions.
+ * The four-float pointer extents and caller-provided ABI remain unverified. */
+float *FUN_00233b10(float *param_1, float *param_2, float *param_3, float param_4)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar6;
-  undefined1 auVar4 [16];
-  undefined1 auVar5 [16];
-  float fVar7;
-  float fVar8;
-  float fVar9;
-  float fVar10;
-  
-  fVar3 = *param_2;
-  fVar6 = param_2[1];
-  fVar1 = param_2[2];
-  fVar2 = param_2[3];
-  fVar7 = *param_3 * param_4;
-  fVar8 = param_3[1] * param_4;
-  fVar9 = param_3[2] * param_4;
-  fVar10 = param_3[3] * param_4;
-  if (fVar3 * *param_3 + fVar1 * param_3[2] + fVar6 * param_3[1] + fVar2 * param_3[3] < 0.0) {
-    fVar7 = -fVar7;
-    fVar8 = -fVar8;
-    fVar9 = -fVar9;
-    fVar10 = -fVar10;
-  }
-  fVar7 = (fVar3 - fVar3 * param_4) + fVar7;
-  fVar8 = (fVar6 - fVar6 * param_4) + fVar8;
-  fVar9 = (fVar1 - fVar1 * param_4) + fVar9;
-  fVar10 = (fVar2 - fVar2 * param_4) + fVar10;
-  fVar3 = fVar7 * fVar7 + fVar9 * fVar9;
-  fVar6 = fVar8 * fVar8 + fVar10 * fVar10;
-  auVar5._4_4_ = fVar3;
-  auVar5._0_4_ = fVar6;
-  auVar5._8_4_ = fVar3;
-  auVar5._12_4_ = fVar3;
-  auVar4._4_12_ = auVar5._4_12_;
-  auVar4._0_4_ = fVar6 + fVar3;
-  auVar5 = rsqrtss(auVar4,auVar4);
-  fVar3 = auVar5._0_4_;
-  *param_1 = fVar7 * fVar3;
-  param_1[1] = fVar8 * fVar3;
-  param_1[2] = fVar9 * fVar3;
-  param_1[3] = fVar10 * fVar3;
-  return param_1;
+    __m128 q = _mm_loadu_ps(param_2);
+    __m128 p = _mm_loadu_ps(param_3);
+    __m128 alpha = _mm_set1_ps(param_4);
+    __m128 dot_lanes = _mm_mul_ps(q, p);
+    __m128 dot_high = _mm_movehl_ps(dot_lanes, dot_lanes);
+    __m128 weighted_p = _mm_mul_ps(p, alpha);
+    __m128 dot_pairs = _mm_add_ps(dot_lanes, dot_high);
+    __m128 weighted_q = _mm_mul_ps(q, alpha);
+    __m128 subtracted_q = _mm_sub_ps(q, weighted_q);
+    __m128 dot_lane1 = _mm_shuffle_ps(dot_pairs, dot_pairs, 1);
+    float dot = _mm_cvtss_f32(_mm_add_ss(dot_pairs, dot_lane1));
+    /* COMISS/JAE leaves unordered values on the sign-flip path. */
+    if (!(dot >= 0.0f)) {
+        const __m128 sign_bits = _mm_castsi128_ps(_mm_set1_epi32((int)0x80000000u));
+        weighted_p = _mm_xor_ps(weighted_p, sign_bits);
+    }
+    __m128 blended = _mm_add_ps(subtracted_q, weighted_p);
+    __m128 squared = _mm_mul_ps(blended, blended);
+    __m128 square_high = _mm_movehl_ps(squared, squared);
+    __m128 square_pairs = _mm_add_ps(squared, square_high);
+    __m128 square_lane1 = _mm_shuffle_ps(square_pairs, square_pairs, 1);
+    float length_sq = _mm_cvtss_f32(_mm_add_ss(square_lane1, square_pairs));
+    __m128 reciprocal = _mm_rsqrt_ss(_mm_set_ss(length_sq));
+    __m128 normalized = _mm_mul_ps(blended, _mm_shuffle_ps(reciprocal, reciprocal, _MM_SHUFFLE(0, 0, 0, 0)));
+    _mm_storeu_ps(param_1, normalized);
+    return param_1;
 }
