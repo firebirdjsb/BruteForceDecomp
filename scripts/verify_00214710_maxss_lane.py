@@ -2,8 +2,8 @@
 """Check the 0x00214710 scalar SSE C11 repair without asserting native equivalence.
 
 CI runs source-only. With --xbe, require the user's exact original Xbox image
-and verify the MOVSS/MAXSS/MOVSS instruction bytes. Neither mode establishes
-guest ABI, NaN equivalence of surrounding scalar code, or native linking.
+and verify the MOVSS/MAXSS/MOVSS instruction bytes. This repairs SSE MAXSS
+operand selection, not the full guest ABI, surrounding x87, or native linking.
 """
 from __future__ import annotations
 
@@ -38,12 +38,12 @@ def check_source_text(source: str) -> None:
     if "ABI_UNVERIFIED" not in source or "#include <xmmintrin.h>" not in source:
         raise ValueError("original uncertainty or SSE header missing")
     code = re.sub(r"/\*.*?\*/|//[^\n]*", "", source, flags=re.S)
-    if code.count("auVar11 = _mm_set_ss(fStack_84);") != 1:
-        raise ValueError("scalar SSE lane materialization changed")
-    if "auVar11 = ZEXT416((uint)fStack_84)" in code:
-        raise ValueError("numeric float-to-uint conversion reintroduced")
-    if "fStack_84 = fStack_a4;" not in code or "if (fStack_a4 <= fStack_a8)" not in code:
-        raise ValueError("surrounding, still-unverified scalar selection was silently changed")
+    if code.count("auVar11 = _mm_max_ss(_mm_set_ss(fStack_a4), _mm_set_ss(fStack_a8));") != 1:
+        raise ValueError("original MOVSS/MAXSS operand order changed")
+    if code.count("fStack_84 = _mm_cvtss_f32(auVar11);") != 1:
+        raise ValueError("original MOVSS scalar output changed")
+    if "ZEXT416((uint)fStack_84)" in code or "if (fStack_a4 <= fStack_a8)" in code:
+        raise ValueError("decompiler's incorrect numeric cast or scalar NaN selection returned")
 
 
 def check_xbe(path: Path) -> None:
@@ -80,11 +80,11 @@ def main() -> None:
     source = root / "src/main_unclassified/band_0021/0x00214710.c"
     source_text = source.read_text(encoding="utf-8")
     check_source_text(source_text)
-    # Negative regression: the previous numeric conversion must be rejected.
+    # Negative regression: the old scalar <= approximation must be rejected.
     try:
         check_source_text(source_text.replace(
-            "auVar11 = _mm_set_ss(fStack_84);",
-            "auVar11 = ZEXT416((uint)fStack_84);",
+            "auVar11 = _mm_max_ss(_mm_set_ss(fStack_a4), _mm_set_ss(fStack_a8));",
+            "auVar11 = _mm_set_ss(fStack_a4 <= fStack_a8 ? fStack_a8 : fStack_a4);",
         ))
     except ValueError:
         pass
@@ -101,8 +101,8 @@ def main() -> None:
         raise ValueError("isolated Clang C11 failure:\n" + result.stderr[-3000:])
     if args.xbe:
         check_xbe(args.xbe)
-    print("PASS: 0x00214710 provenance, scalar SSE lane, negative regression, isolated Clang C11")
-    print("NOTE: Xbox calling convention, guest memory, scalar NaN behavior, and native linking unverified")
+    print("PASS: 0x00214710 provenance, exact MAXSS operand order, negative regression, isolated Clang C11")
+    print("NOTE: Xbox calling convention, guest memory, surrounding x87 behavior, and native linking unverified")
 
 
 if __name__ == "__main__":
