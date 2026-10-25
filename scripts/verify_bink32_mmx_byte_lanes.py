@@ -38,11 +38,11 @@ def main():
     token = "bf_x86_unpack_u32_bytes_to_u16_lanes((uint32_t)uVar5)"
     assert c.count(token) == 2
     # Comments may mention obsolete Ghidra types; reject them only in C code.
-    code = re.sub(r"/\\*.*?\\*/|//[^\\n]*", "", c, flags=re.S)
+    code = re.sub(r"/\*.*?\*/|//[^\n]*", "", c, flags=re.S)
     assert "CONCAT52((int5)" not in code
-    assert re.search(r"\\buint7\\b", code) is None
-    assert "uint7" not in re.sub(r"/\\*.*?\\*/", "", "/* uint7 */")
-    assert re.search(r"\\buint7\\b", "uint7 bad_type;") is not None
+    assert re.search(r"\buint7\b", code) is None
+    assert "uint7" not in re.sub(r"/\*.*?\*/", "", "/* uint7 */")
+    assert re.search(r"\buint7\b", "uint7 bad_type;") is not None
     bink4444 = (args.root / "src/video_bink/bink4444/0x00368f20.c").read_text()
     assert bink4444.count("bf_x86_unpack_u32_bytes_to_u16_lanes((uint32_t)uVar5)") == 2
     assert bink4444.count("bf_x86_mmx_top_nibble_to_u16_lanes((uint32_t)uVar5)") == 2
