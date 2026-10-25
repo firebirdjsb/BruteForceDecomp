@@ -15,6 +15,10 @@ OPS = {
     0x00374BD0: "89849e80094000", # mov [esi+ebx*4+0x400980],eax
     0x00374BF7: "8dbe24031000",   # lea edi,[esi+0x100324]
     0x00374C06: "8d9ea0094000",   # lea ebx,[esi+0x4009a0]
+    0x00374CAE: "89849e00031000", # GPU method offset +0x100300
+    0x00374CBE: "89849e80094000", # GPU mirror +0x400980
+    0x00374CD3: "898624031000",   # GPU method +0x100324
+    0x00374CD9: "8986a0094000",   # GPU mirror +0x4009a0
 }
 def main():
     parser = argparse.ArgumentParser()
@@ -28,13 +32,20 @@ def main():
     assert "FUN_00100300" not in c
     assert "LAB_00400980" not in c
     assert "LAB_00100324" not in c
+    second = (args.root / "src/platform/graphics_d3d/0x00374c34.c").read_text()
+    for token in ["UINT32_C(0x00100300)", "UINT32_C(0x00400980)",
+                  "UINT32_C(0x00100324)"]:
+        assert second.count(token) == 1, (token, second.count(token))
+    assert "FUN_00100300" not in second
+    assert "LAB_00400980" not in second
+    assert "LAB_00100324" not in second
     if args.xbe:
         data = args.xbe.read_bytes()
         assert hashlib.sha256(data).hexdigest() == XBE_SHA256
         for va,hx in OPS.items():
             exact = bytes.fromhex(hx)
             assert guest_bytes(data,va,len(exact)) == exact, hex(va)
-    print("PASS: Xbox D3D 0x374a49 original guest MMIO offsets")
+    print("PASS: Xbox D3D 0x374a49 and 0x374c34 original guest MMIO offsets")
 
 if __name__ == "__main__":
     main()
