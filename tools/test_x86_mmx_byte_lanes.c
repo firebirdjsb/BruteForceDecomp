@@ -18,6 +18,16 @@ static int check(uint32_t word)
       return 1;
     }
   }
+  uint64_t alpha = bf_x86_mmx_top_nibble_to_u16_lanes(word);
+  for (unsigned i = 0; i < 4; ++i) {
+    const uint16_t actual = (uint16_t)(alpha >> (i * 16));
+    const uint16_t expected = (uint16_t)(((word >> (i * 8)) & UINT32_C(0xf0)) << 8);
+    if (actual != expected) {
+      fprintf(stderr, "alpha lane %u: got %u expected %u\n",
+              i, (unsigned)actual, (unsigned)expected);
+      return 1;
+    }
+  }
   return 0;
 }
 int main(void)
