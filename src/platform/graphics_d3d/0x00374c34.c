@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Xbox x86 0x00374CAE..0x00374CD9: guest GPU command offsets, not
+ * C function/label symbols. Native GPU mapping remains unimplemented. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00400750;
@@ -31,12 +33,12 @@ undefined4 FUN_00374c34(int *param_1,int param_2)
     *(uint *)(&DAT_00400750 + iVar1) = unaff_EBX * 4 + 0x10U & 0x1ffc | 0xea0000;
     *(undefined4 *)((int)&PTR_DAT_00400754 + iVar1) = 0;
   } while (*local_8 != *local_c);
-  *(undefined4 *)(FUN_00100300 + unaff_EBX * 4 + iVar1) = 0;
-  *(undefined4 *)(&LAB_00400980 + unaff_EBX * 4 + iVar1) = 0;
+  *(undefined4 *)(UINT32_C(0x00100300) + unaff_EBX * 4 + iVar1) = 0;
+  *(undefined4 *)((uintptr_t)UINT32_C(0x00400980) + unaff_EBX * 4 + iVar1) = 0;
   *(uint *)(&DAT_00400750 + iVar1) = unaff_EBX * 4 + 0x90U & 0x1ffc | 0xea0000;
   *(undefined4 *)((int)&PTR_DAT_00400754 + iVar1) = 0;
   if (param_2 != 0) {
-    *(undefined4 *)(&LAB_00100324 + iVar1) = 0;
+    *(undefined4 *)((uintptr_t)UINT32_C(0x00100324) + iVar1) = 0;
     *(undefined4 *)(&DAT_004009a0 + iVar1) = 0;
   }
   *(undefined4 *)(iVar1 + 0x3220) = local_10;
