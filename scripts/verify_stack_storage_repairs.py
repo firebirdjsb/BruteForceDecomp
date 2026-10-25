@@ -12,6 +12,8 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x002D34C0, 159, "6e5d6a30084232261e1bdfd24d27010d4decf7b60f7e3b5e36d5e7d1374ce2fd"),
+    (0x002BA160, 248, "3f0e95b193dd627d119e63e5587739cd4702c3625c2e8a97e9a70b112b0cc220"),
     (0x000EDF70, 163, "0b830a44d5a18b20117b40b72f3e68476fab00ed834cc2a45c059d8fcbe2a321"),
     (0x00141630, 131, "e4eab6557c599efcd081a27ea7c39f05d404297dca1e2a6824c7d94bd7f66cb7"),
     (0x001B1810, 122, "ce32ba1039c9aa0f3cde0c123114b2a49c4d9e409cba37fab5d9429aa82ee92d"),
@@ -40,6 +42,10 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x002D3536: "f30f10080f164804",  # MOVSS/MOVHPS: lanes 0,2,3
+    0x002D3542: "f30f10120f165204",  # corresponding subtrahend lanes
+    0x002D354A: "0f5cca",  # SUBPS second helper output minus first
+    0x002D3551: "f30f11080f174804",  # store exactly three floats
     0x000EDF8C: "8844241c",  # store AL in reused input byte
     0x000EDFDC: "8a4c2454",  # load only that byte after two calls
     0x00141633: "8a442428",  # read first incoming byte

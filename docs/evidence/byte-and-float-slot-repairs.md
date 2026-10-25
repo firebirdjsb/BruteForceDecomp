@@ -1,5 +1,21 @@
 # Nine byte and float storage repairs
 
+## Subsequent vector subtraction: 0x002D34C0
+
+The two output records occupy 16 bytes each in the original frame; only their
+fourth DWORDs are initially zeroed (0x2D34C9/0x2D34CD). The unchanged helper
+0x002BA160 writes three floats to its fifth stack argument, finishing with
+MOVSS/MOVHPS stores at 0x2BA24A/0x2BA24E. Its complete 248-byte body is pinned
+by the storage verifier. Its C draft's arithmetic and full ABI remain unverified.
+
+At 0x2D3536 and 0x2D3542, memory-source MOVSS clears upper lanes and MOVHPS
+places the next two memory floats in lanes 2 and 3. SUBPS at 0x2D354A subtracts
+the first helper output from the second. Stores at 0x2D3551/0x2D3555 write
+exactly twelve bytes at object +0xA4. The C view now uses these intrinsics and
+initializes only the observed fourth storage words, preserving unknown inputs.
+This corrects the packed operand representation; helper arithmetic, guest
+address translation, the full interface and runtime equivalence remain open.
+
 Original build SHA-256: `B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721`.
 Original function identities and body hashes remain in each source header.
 `scripts/verify_stack_storage_repairs.py` checks the original mapped bodies and
