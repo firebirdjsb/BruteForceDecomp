@@ -129,7 +129,9 @@ undefined1 FUN_000f8ab0(int param_1)
     iVar2 = *(int *)(param_1 + 0x24);
     if (((iVar2 == -0x1d6d52c0) || (iVar2 == -0x1d382ec)) ||
        (local_c2c = local_c2c & 0xffffff00, iVar2 == -0x2461dc1)) {
-      local_c2c = CONCAT31(local_c2c._1_3_,1);
+      /* XBE 0x000F8E14/0x000F8E1B stores 00/01 to the low byte of
+       * the same guest DWORD, retaining its other 24 bits. */
+      local_c2c = (local_c2c & UINT32_C(0xffffff00)) | UINT32_C(1);
     }
     (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x244))(local_c2c);
     iVar2 = *(int *)(param_1 + 0x24);
