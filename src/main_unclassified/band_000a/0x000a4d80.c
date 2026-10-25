@@ -12,6 +12,14 @@
 extern uint32_t DAT_0037dd90;
 extern uint32_t DAT_003e2534;
 extern uint32_t DAT_003f7c68;
+/* Original XBE 0x000A4E4B, 0x000A4E59, 0x000A4E6E,
+ * 0x000A4EB6-0x000A4EBD: guest32 DWORD loads/stores.
+ * Linker guest-address relocation remains ABI_UNVERIFIED. */
+extern uint32_t D3D8__D3D_g_RenderState[]; /* indexed DWORD store, guest 0x0037DD98 */
+extern uint32_t D3D8__D3D_g_pDevice;      /* guest DWORD at 0x0037DD88 */
+extern uint32_t D3D8__D3DRS_PSTextureModes; /* guest DWORD at 0x0037DFB8 */
+extern uint32_t D3D8__D3DRS_FillMode;      /* guest DWORD at 0x0037DFC4 */
+extern uint32_t D3D8__D3DRS_BackFillMode;  /* guest DWORD at 0x0037DFC8 */
 extern uint32_t PTR_LAB_003a1cd8;
 extern uint8_t _DAT_003f7c70[16];
 extern uint8_t _DAT_003f7c80[16];
@@ -54,7 +62,7 @@ void FUN_000a4d80(void)
           }
           else if (iVar1 < 0x88) {
             DAT_0037dd90 = DAT_0037dd90 | (uint)(&PTR_LAB_003a1cd8)[iVar1];
-            (&D3D8__D3D_g_RenderState)[iVar1] = uVar4;
+            D3D8__D3D_g_RenderState[iVar1] = uVar4;
           }
           else if (iVar1 == 0x88) {
             *(uint *)(D3D8__D3D_g_pDevice + 0x378) = uVar4;

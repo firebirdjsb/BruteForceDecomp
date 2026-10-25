@@ -69,20 +69,21 @@ def check_source(root, clang):
                            capture_output=True, text=True, timeout=60)
         if r.returncode:
             raise ValueError(f"focused C11 failure {p}: {r.stderr[-2500:]}")
-    binary = root / ".bf_sse_test_tmp"
-    try:
-        r = subprocess.run([clang, "-std=c11", "-Wall", "-Wextra", "-Werror",
-                            "-pedantic-errors", "-I", str(root / "include"),
-                            str(root / "tests/test_packed_color_sse.c"),
-                            "-o", str(binary)], capture_output=True, text=True, timeout=60)
-        if r.returncode:
-            raise ValueError(f"lane test compile failed: {r.stderr}")
-        r = subprocess.run([str(binary)], capture_output=True, text=True, timeout=60)
-        if r.returncode:
-            raise ValueError(f"lane test failed: {r.stderr}")
-    finally:
-        binary.unlink(missing_ok=True)
-    print("PASS: both focused C11 sources and SSE lane/rounding tests; guest ABI unverified")
+    for label, opts in (("O0", ["-O0"]), ("O2", ["-O2", "-DNDEBUG"])):
+        binary = root / f".bf_sse_test_tmp_{label}"
+        try:
+            r = subprocess.run([clang, "-std=c11", "-Wall", "-Wextra", "-Werror",
+                                "-pedantic-errors", *opts, "-I", str(root / "include"),
+                                str(root / "tests/test_packed_color_sse.c"),
+                                "-o", str(binary)], capture_output=True, text=True, timeout=60)
+            if r.returncode:
+                raise ValueError(f"{label} lane test compile failed: {r.stderr}")
+            r = subprocess.run([str(binary)], capture_output=True, text=True, timeout=60)
+            if r.returncode:
+                raise ValueError(f"{label} lane test failed: {r.stderr}")
+        finally:
+            binary.unlink(missing_ok=True)
+    print("PASS: both focused C11 sources and O0/O2 SSE lane/rounding tests; guest ABI unverified")
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
