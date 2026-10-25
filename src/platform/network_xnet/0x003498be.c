@@ -33,7 +33,14 @@ undefined4 FUN_003498be(undefined4 *param_1,uint *param_2,undefined4 *param_3)
   if (0x11c < *(ushort *)(iVar7 + 2)) {
     local_8 = *(ushort *)(iVar7 + 2) - 0x11c;
     FUN_0034c3e0(&local_8,4,iVar7 + 0x11c,local_8,0,0,local_28,0x14);
-    cVar3 = XcVerifyPKCS1Signature((undefined4 *)(iVar7 + 0x1c),XePublicKeyData_exref,local_28);
+    /* XBE 0x00349916: push DWORD PTR [0x00386480].
+     * This imports a 32-bit Xbox public-key pointer, never key bytes.
+     * Guest import mapping is deferred until the native runtime. */
+    uint32_t guest_public_key =
+        *(const uint32_t *)(uintptr_t)UINT32_C(0x00386480);
+    cVar3 = XcVerifyPKCS1Signature((undefined4 *)(iVar7 + 0x1c),
+                                   (const void *)(uintptr_t)guest_public_key,
+                                   local_28);
     if (cVar3 == '\0') {
       *(undefined1 *)(iVar7 + 0x948) = 0x53;
     }
