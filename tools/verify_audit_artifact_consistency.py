@@ -11,6 +11,8 @@ import json
 from pathlib import Path
 import re
 
+from triage_c11_failures import category
+
 ENTRY = re.compile(r"0x[0-9a-f]{8}\Z")
 SHA = re.compile(r"[0-9a-f]{40}\Z")
 STACK = re.compile(r"'(stack0x[0-9a-fA-F]{8})'")
@@ -70,6 +72,11 @@ def verify(folder: Path, expected_total: int = 13694) -> dict[str, int]:
     if len({row["entry"] for row in syntax}) != len(syntax) or sorted(syntax, key=lambda row: row["entry"]) != failed:
         raise ValueError("Syntax CSV disagrees with the full audit")
     triage = read_csv(folder / "failure_triage.csv", TRIAGE)
+    # The summary must not legitimize a misclassified first diagnostic.
+    # Regenerate each category from the audited compiler error itself.
+    for row in triage:
+        if row["category"] != category(row["first_error"]):
+            raise ValueError(f"Triage category disagrees with Clang diagnostic: {row['entry']}")
     if [(r["entry"], r["first_error"]) for r in triage] != [(r["entry"], r["first_error"]) for r in failed]:
         raise ValueError("Triage CSV disagrees with full audit")
     if summary.get("audited_commit") != sha or summary.get("source_tree_entries") != expected_total:
