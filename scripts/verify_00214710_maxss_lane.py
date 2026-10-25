@@ -14,6 +14,7 @@ import re
 import shutil
 import struct
 import subprocess
+import tempfile
 
 XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 BODY_SHA256 = "1D852145832029395D6CC00854DC8323360F994254DC92D8760D29C4871ED690"
@@ -99,9 +100,24 @@ def main() -> None:
     )
     if result.returncode:
         raise ValueError("isolated Clang C11 failure:\n" + result.stderr[-3000:])
+    # Host-only SSE semantics test: the old C <= approximation fails the NaN cases.
+    test_source = root / "tests/test_00214710_maxss.c"
+    for opt in ("-O0", "-O2"):
+        with tempfile.TemporaryDirectory(prefix="bf-maxss-") as directory:
+            binary = Path(directory) / "test_maxss"
+            build = subprocess.run(
+                [clang, "-std=c11", "-Wall", "-Wextra", "-Werror",
+                 "-pedantic-errors", opt, str(test_source), "-o", str(binary)],
+                capture_output=True, text=True, timeout=60,
+            )
+            if build.returncode:
+                raise ValueError(f"MAXSS {opt} host test compile failed:\n{build.stderr}")
+            run = subprocess.run([str(binary)], capture_output=True, text=True, timeout=60)
+            if run.returncode:
+                raise ValueError(f"MAXSS {opt} host test failed:\n{run.stderr}")
     if args.xbe:
         check_xbe(args.xbe)
-    print("PASS: 0x00214710 provenance, exact MAXSS operand order, negative regression, isolated Clang C11")
+    print("PASS: 0x00214710 provenance, exact MAXSS operand order, negative regression, isolated Clang C11 and O0/O2 host lane tests")
     print("NOTE: Xbox calling convention, guest memory, surrounding x87 behavior, and native linking unverified")
 
 
