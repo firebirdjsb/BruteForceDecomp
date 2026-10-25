@@ -63,6 +63,9 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x00208B6D: "b00184c0",  # update AL only, then test it
+    0x00208B98: "b001",  # final AL-only success
+
     0x001F3FE7: "c644243400",  # incoming second word byte=0
     0x001F401D: "8a542432",  # byte 2 of helper-written first word
     0x001F403F: "8a5c2437",  # byte 3 after EBX save

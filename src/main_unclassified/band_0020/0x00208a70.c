@@ -15,12 +15,14 @@ char FUN_00208a70(undefined4 param_1,int *param_2,undefined4 *param_3)
   int *piVar3;
   undefined4 *puVar4;
   char cVar5;
+  uint8_t return_byte;
   int in_ECX;
   
   puVar4 = param_3;
   piVar3 = param_2;
   uVar2 = param_1;
   cVar5 = FUN_001fedb0(param_1,param_2,param_3);
+  return_byte = (uint8_t)cVar5;
   bf_x86_word_store_byte(&param_3,0U,(uint8_t)cVar5);
   if (cVar5 == '\0') {
     cVar5 = (char)uVar2;
@@ -73,7 +75,8 @@ char FUN_00208a70(undefined4 param_1,int *param_2,undefined4 *param_3)
     }
     param_1 = 0xee3845fb;
     FUN_000ee560(*(undefined4 *)(in_ECX + 0x10),uVar2,&param_1,piVar3,1);
-    if (bf_x86_word_load_byte(&param_3,0U) == UINT8_C(0)) {
+    return_byte = bf_x86_word_load_byte(&param_3,0U);
+    if (return_byte == UINT8_C(0)) {
       if (*param_2 == 0x12876a96) {
         if (cVar5 == '\0') {
           *(undefined4 *)(in_ECX + 0x5c) = *puVar4;
@@ -81,17 +84,17 @@ char FUN_00208a70(undefined4 param_1,int *param_2,undefined4 *param_3)
         else {
           *puVar4 = *(undefined4 *)(in_ECX + 0x5c);
         }
-        bf_x86_word_store_byte(&param_3,0U,UINT8_C(1));
+        return_byte = UINT8_C(1);
       }
-      if ((bf_x86_word_load_byte(&param_3,0U) == UINT8_C(0)) && (*param_2 == 0xe63f6cd)) {
+      if ((return_byte == UINT8_C(0)) && (*param_2 == 0xe63f6cd)) {
         if (cVar5 != '\0') {
           *puVar4 = *(undefined4 *)(in_ECX + 0x54);
           return '\x01';
         }
         *(undefined4 *)(in_ECX + 0x54) = *puVar4;
-        bf_x86_word_store_byte(&param_3,0U,UINT8_C(1));
+        return_byte = UINT8_C(1);
       }
     }
   }
-  return (char)bf_x86_word_load_byte(&param_3,0U);
+  return (char)return_byte;
 }

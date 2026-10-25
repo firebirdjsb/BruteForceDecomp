@@ -16,10 +16,12 @@ equivalence is claimed.
 
 All three entries save the third incoming argument in a full 32-bit register
 before later writing a byte into its original stack slot. The C drafts retain
-the existing full pointer parameter and use `bf_x86_word_store_byte` on its
-object representation for the low-byte writes; they do not replace that word
+the full pointer parameter and use `bf_x86_word_store_byte` on its object
+representation for observed stack-slot writes; they do not replace that word
 with a one-byte local. Output-buffer accesses continue through the separately
-saved pointer (`puVar3` / `puVar4`).
+saved pointer (`puVar3` / `puVar4`). In `0x00208a70`, post-helper `mov al,1`
+changes the return register without writing the incoming slot; the draft keeps
+that state separately after loading the slot value observed at `0x00208b44`.
 
 In `0x00200080`, `mov byte [esp+0x1c], al` at `0x0020009c` stores the helper's
 result into byte zero of the incoming third argument slot. The later `mov`
@@ -29,10 +31,12 @@ The function returns the low byte. In `0x00201e80`, the corresponding initial
 write is at `0x00201e9c`; result writes occur at `0x00201ec2`, `0x00201eea`,
 `0x00201f0e`, `0x00201f32`, and `0x00201f54`. Its final call also receives the
 address of the full stack slot. In `0x00208a70`, the initial write is at
-`0x00208a8c`; later result writes are at `0x00208ab2`, `0x00208ad6`,
-`0x00208afa`, and `0x00208b1c`. The tests at `0x00208b4b` and
-`0x00208b6f` read AL, and the final branch returns 1 directly or uses the
-stack-slot low byte as the result.
+`0x00208a8c`; later stack-slot writes are at `0x00208ab2`, `0x00208ad6`,
+`0x00208afa`, and `0x00208b1c`. The instruction at `0x00208b44` loads the
+slot's low byte into AL. Subsequent `mov al,1` instructions set the result
+register without writing the incoming stack slot. Tests at `0x00208b4b` and
+`0x00208b6f` read AL; the final branch returns 1 directly or returns the
+result byte.
 
 ## Unresolved
 
