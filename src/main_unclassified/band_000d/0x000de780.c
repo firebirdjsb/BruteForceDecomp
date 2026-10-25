@@ -36,9 +36,15 @@ undefined4 FUN_000de780(int param_1,int param_2,int param_3)
         bVar8 = true;
         uVar7 = 0;
         local_c = 0;
-        puVar1 = &stack0xffffffe4;
+        /* XBE 0x000DE7C6 zeroes [ESP+14h], 0x000DE7CA selects
+         * [ESP+10h], and 0x000DE7D1 loads its +4 DWORD.
+         * This path reads local_c, not a fabricated host stack pointer.
+         * Xbox stack alignment and native ABI remain unverified. */
+        iVar2 = local_c;
       }
-      iVar2 = *(int *)(puVar1 + 0x10);
+      else {
+        iVar2 = *(int *)(puVar1 + 0x10);
+      }
       if (((bVar8) && (bVar8 = false, uVar7 != 0)) && ((uVar7 & 1) == 0)) {
         iVar5 = uVar7 * 0x19660d;
         uVar7 = 0;
