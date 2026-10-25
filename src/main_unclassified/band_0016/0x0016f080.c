@@ -210,7 +210,9 @@ LAB_0016f24a:
         fVar14 = fStack_14c + fStack_15c;
         local_dc = fStack_148 + fStack_158;
         local_d8 = fStack_144 + fStack_154;
-        _fStack_b4 = CONCAT44(local_dc,fVar14);
+        /* Ghidra CONCAT44 comprises two adjacent x86 32-bit float lanes. */
+        fStack_b4 = fVar14;
+        fStack_b0 = local_dc;
         fStack_f8 = fStack_148 - fStack_158;
         fStack_f4 = fStack_144 - fStack_154;
         if (fVar14 * fVar14 + local_dc * local_dc + local_d8 * local_d8 + local_b8 * local_b8 <
