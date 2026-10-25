@@ -47,6 +47,10 @@ FUNCTIONS = {
         "9D822E285B97CE01BF4ECA1635C5B9A4E3C2075A111D8C26D3B159815CCCDDE3",
         "0x00106C0B",
     ),
+    "0x000f0480": (
+        "3704B151F1D75ED35BBDD856C356786F509DD0ACD96F2940BC2D118E0020D40B",
+        "0x000F05AB",
+    ),
     "0x001f1850": (
         "0A5E2E6F5242BCB055C841A58E7C5B158D3B8AB2AA479916752886E1D4EDA9E9",
         "0x001F1911",
@@ -113,6 +117,16 @@ def main() -> int:
             ):
                 if expected not in without_comments:
                     raise SystemExit(f"{entry}: x86 stack argument/output mapping regressed: {expected}")
+        if entry == "0x000f0480":
+            for expected in (
+                "undefined4 uStack_10;",
+                "FUN_000f03a0(&uStack_10)",
+                "(iStack_c,&uStack_10);",
+            ):
+                if expected not in without_comments:
+                    raise SystemExit(f"{entry}: XBE-backed shared local output DWORD regressed: {expected}")
+            if "unaff_retaddr" not in without_comments:
+                raise SystemExit(f"{entry}: unrelated register/stack uncertainty was silently changed")
         if entry == "0x001f1850":
             for expected in (
                 "undefined4 read_bytes_word;",
