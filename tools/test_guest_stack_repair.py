@@ -39,6 +39,10 @@ FUNCTIONS = {
         "6DF66E219F2D47CA69E34F7A80E8FEF969FC677D7AC28102EEB41AFA2328BB5E",
         "0x0008ba0d",
     ),
+    "0x0008d43c": (
+        "23A8B3595EB04F7F1FBDAE4E5C33A4B23BAA54B50CF1B28508DFC23B1A8F1DCA",
+        "0x0008D462-0x0008D467",
+    ),
     "0x001b28b0": (
         "2B4DC80CCFE04236C8E364CA2A6D968835933A8D8629640682FF5B5D3E53726B",
         "0x001b28f9",
@@ -108,6 +112,7 @@ def main() -> int:
             "0x0007e0a0": "FUN_00085540(&param_1,iVar1);",
             "0x00084d50": "(**(code **)(*piVar1 + 0x30))(local_14);",
             "0x0008b9e0": "(**(code **)(*piVar1 + 0x14))(&local_4);",
+            "0x0008d43c": "(**(code **)(*in_ECX + 0x10))(&param_3);",
         }
         if entry in repaired_calls and repaired_calls[entry] not in without_comments:
             raise SystemExit(f"{entry}: original stack-address argument mapping regressed")
