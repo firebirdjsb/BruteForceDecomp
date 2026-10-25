@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 char FUN_000ecdc0(undefined4 param_1,int *param_2,ushort *param_3)
 
 {
@@ -18,6 +19,10 @@ char FUN_000ecdc0(undefined4 param_1,int *param_2,ushort *param_3)
   uint uVar7;
   int in_ECX;
   uint uVar8;
+  /* The original guest second-argument DWORD is a writable AL flag slot.
+   * EBX retains the independent pointer to the input field descriptor.
+   * Do not modify an eight-byte host pointer to simulate a four-byte guest word. */
+  uint32_t guest_arg2_word = (uint32_t)(uintptr_t)param_2;
   
   puVar3 = param_3;
   piVar2 = param_2;
@@ -35,7 +40,7 @@ char FUN_000ecdc0(undefined4 param_1,int *param_2,ushort *param_3)
     iVar1 = *param_2;
     iVar6 = *(int *)(in_ECX + 0x24) << 0x14;
     uVar7 = iVar6 >> 0x14;
-    param_2._0_1_ = '\0';
+    guest_arg2_word = bf_x86_word_replace_lo8(guest_arg2_word,UINT8_C(0));
     if (iVar1 == -0xc2298b0) {
       if ((char)param_1 == '\0') {
         uVar7 = (uint)*param_3;
@@ -43,7 +48,7 @@ char FUN_000ecdc0(undefined4 param_1,int *param_2,ushort *param_3)
       else {
         *param_3 = (ushort)(iVar6 >> 0x14);
       }
-      param_2._0_1_ = '\x01';
+      guest_arg2_word = bf_x86_word_replace_lo8(guest_arg2_word,UINT8_C(1));
       if ((char)param_1 == '\0') {
         *(uint *)(in_ECX + 0x24) =
              *(uint *)(in_ECX + 0x24) ^ (uVar7 ^ *(uint *)(in_ECX + 0x24)) & 0xfff;
@@ -51,60 +56,60 @@ char FUN_000ecdc0(undefined4 param_1,int *param_2,ushort *param_3)
     }
     param_3 = (ushort *)0xfaa0fdf6;
     FUN_000ee450(param_1,&param_3,piVar2);
-    if (((char)param_2 == '\0') && (*piVar2 == -0x19a9b176)) {
+    if (((char)(uint8_t)guest_arg2_word == '\0') && (*piVar2 == -0x19a9b176)) {
       if ((char)param_1 == '\0') {
         *(undefined4 *)(in_ECX + 0x20) = *(undefined4 *)puVar3;
       }
       else {
         *(undefined4 *)puVar3 = *(undefined4 *)(in_ECX + 0x20);
       }
-      param_2._0_1_ = '\x01';
+      guest_arg2_word = bf_x86_word_replace_lo8(guest_arg2_word,UINT8_C(1));
       if ((((char)param_1 == '\0') && (0.0 <= *(float *)(in_ECX + 0x20))) &&
          (*(float *)(in_ECX + 0x20) < 0.25)) {
         *(undefined4 *)(in_ECX + 0x20) = 0x3e99999a;
       }
     }
     uVar7 = (*(uint *)(in_ECX + 0x24) & 0x4000) >> 0xe;
-    if (((char)param_2 == '\0') && (*piVar2 == 0xbb771a2)) {
+    if (((char)(uint8_t)guest_arg2_word == '\0') && (*piVar2 == 0xbb771a2)) {
       if ((char)param_1 == '\0') {
         uVar7 = (uint)(byte)*puVar3;
       }
       else {
         *(byte *)puVar3 = (byte)uVar7;
       }
-      param_2._0_1_ = '\x01';
+      guest_arg2_word = bf_x86_word_replace_lo8(guest_arg2_word,UINT8_C(1));
     }
     uVar8 = *(uint *)(in_ECX + 0x24) ^ (uVar7 << 0xe ^ *(uint *)(in_ECX + 0x24)) & 0x4000;
     uVar7 = (uVar8 & 0x2000) >> 0xd;
     *(uint *)(in_ECX + 0x24) = uVar8;
-    if (((char)param_2 == '\0') && (*piVar2 == 0x9aeb0fa)) {
+    if (((char)(uint8_t)guest_arg2_word == '\0') && (*piVar2 == 0x9aeb0fa)) {
       if ((char)param_1 == '\0') {
         uVar7 = (uint)(byte)*puVar3;
       }
       else {
         *(byte *)puVar3 = (byte)uVar7;
       }
-      param_2._0_1_ = '\x01';
+      guest_arg2_word = bf_x86_word_replace_lo8(guest_arg2_word,UINT8_C(1));
     }
     uVar8 = *(uint *)(in_ECX + 0x24) ^ (uVar7 << 0xd ^ *(uint *)(in_ECX + 0x24)) & 0x2000;
     uVar7 = (uVar8 & 0x8000) >> 0xf;
     *(uint *)(in_ECX + 0x24) = uVar8;
-    if (((char)param_2 == '\0') && (*piVar2 == 0x1346678f)) {
+    if (((char)(uint8_t)guest_arg2_word == '\0') && (*piVar2 == 0x1346678f)) {
       if ((char)param_1 == '\0') {
         uVar7 = (uint)(byte)*puVar3;
       }
       else {
         *(byte *)puVar3 = (byte)uVar7;
       }
-      param_2._0_1_ = '\x01';
+      guest_arg2_word = bf_x86_word_replace_lo8(guest_arg2_word,UINT8_C(1));
     }
     *(uint *)(in_ECX + 0x24) =
          *(uint *)(in_ECX + 0x24) ^ (uVar7 << 0xf ^ *(uint *)(in_ECX + 0x24)) & 0x8000;
     param_3 = (ushort *)0xe3439383;
-    FUN_0020d220(*(undefined4 *)(in_ECX + 0x10),param_1,&param_3,in_ECX + 0x2c,piVar2,&param_2,2);
-    cVar4 = (char)param_2;
+    FUN_0020d220(*(undefined4 *)(in_ECX + 0x10),param_1,&param_3,in_ECX + 0x2c,piVar2,(char *)&guest_arg2_word,2);
+    cVar4 = (char)(uint8_t)guest_arg2_word;
     if ((((*piVar2 == -0x12958b70) && ((char)param_1 == '\0')) && (puVar3 != (ushort *)0x0)) &&
-       (cVar5 = FUN_0001bb00(), cVar4 = (char)param_2, cVar5 == '\0')) {
+       (cVar5 = FUN_0001bb00(), cVar4 = (char)(uint8_t)guest_arg2_word, cVar5 == '\0')) {
       *(uint *)(in_ECX + 0x28) = *(uint *)(in_ECX + 0x28) | 0x10;
     }
   }
