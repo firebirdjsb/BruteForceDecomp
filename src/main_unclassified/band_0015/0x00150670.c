@@ -20,6 +20,8 @@ undefined4 FUN_00150670(int *param_1,char param_2)
   float10 fVar4;
   undefined1 unaff_retaddr;
   char cStack0000000c;
+  float guest_angle; /* x87 ST(0) stored as a 32-bit IEEE-754 stack argument */
+  uint32_t guest_out_word = 0; /* initialized by MOV [ESP+8],EBX before callback */
   
   piVar1 = param_1;
   (**(code **)(**(int **)(unaff_ESI + 0x5a4) + 0xcc))(*unaff_EDI);
@@ -50,12 +52,12 @@ undefined4 FUN_00150670(int *param_1,char param_2)
   if (iVar2 != 0) {
     if (0.0 <= *(float *)(unaff_ESI + 0x434)) {
       fVar4 = (float10)FUN_0001fae0(*(float *)(unaff_ESI + 0x434) + 3.1415927);
-      _param_2 = (float)fVar4;
+      guest_angle = (float)fVar4;
     }
     else {
-      _param_2 = -1.0;
+      guest_angle = -1.0f;
     }
-    iVar2 = FUN_0023d240(*(undefined4 *)(unaff_ESI + 500),iVar2 + 0x14,&stack0xffffffd0,_param_2);
+    iVar2 = FUN_0023d240(*(undefined4 *)(unaff_ESI + 500),iVar2 + 0x14,&guest_out_word,guest_angle);
     *(int *)(unaff_ESI + 0x21c) = iVar2;
     piVar3 = (int *)0x0;
     if (iVar2 != 0) {
