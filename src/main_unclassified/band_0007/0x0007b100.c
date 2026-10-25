@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <string.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00400538;
@@ -164,7 +165,11 @@ void FUN_0007b100(int param_1)
       else {
         iVar5 = FUN_0007b3c0();
       }
-      local_108 = (undefined1  [4])iVar5;
+      /* XBE 0x0007B2C9: MOV DWORD PTR [ESP+0x18], ESI.
+       * At this point ESP is 0x120 below entry ESP, so this writes the
+       * four guest bytes at entry ESP-0x108 (local_108). This is a DWORD
+       * store into byte-addressable storage, not an array assignment. */
+      memcpy(local_108, &iVar5, sizeof(iVar5));
       cVar2 = FUN_000863b0(iVar5);
       if (cVar2 == '\0') {
         if (iVar5 != 0) {
