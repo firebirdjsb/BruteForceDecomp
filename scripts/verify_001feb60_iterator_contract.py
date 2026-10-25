@@ -24,6 +24,22 @@ OPCODES = (
     (0x001FEBA1, "890b"),         # write matched payload to *EBX
     (0x001FEBA7, "8908"),         # advance *EAX on match
     (0x001FEBA9, "b001"),         # AL success
+    # 0x001FF0F0 caller: ESI=filter, EBX=output, EAX=cursor, EDI=owner.
+    (0x001FF116, "8bb42408010000"),
+    (0x001FF11E, "89442414"),
+    (0x001FF122, "8d5c2410"),
+    (0x001FF126, "8d442414"),
+    (0x001FF12A, "8bfd"),
+    (0x001FF12C, "e82ffaffff"),
+    (0x001FF140, "8b7c2410"),
+    # 0x002058C0 caller: same register layout, different frame size.
+    (0x002058FC, "8b742418"),
+    (0x00205901, "89442414"),
+    (0x00205905, "8d5c2410"),
+    (0x00205909, "8d442414"),
+    (0x0020590D, "8bfd"),
+    (0x0020590F, "e84c92ffff"),
+    (0x00205920, "8b742410"),
 )
 TOKENS = (
     "*unaff_EBX = 0;",
@@ -42,6 +58,13 @@ def main():
     for token in TOKENS:
         if token not in source:
             raise SystemExit(f"missing original iterator contract: {token}")
+    callers = (
+        ("src/main_unclassified/band_001f/0x001ff0f0.c", "FUN_001feb60()"),
+        ("src/main_unclassified/band_0020/0x002058c0.c", "FUN_001feb60()"),
+    )
+    for path, call in callers:
+        if call not in (args.root / path).read_text(encoding="utf-8"):
+            raise SystemExit(f"iterator call missing in {path}")
     if args.xbe:
         image = args.xbe.read_bytes()
         if hashlib.sha256(image).hexdigest() != SHA:
@@ -51,7 +74,7 @@ def main():
             actual = image[address - 0x10000:address - 0x10000 + len(expected)]
             if actual != expected:
                 raise SystemExit(f"original instruction mismatch at 0x{address:08x}")
-    print("PASS: original iterator output, filter, advance, and signed range contract")
+    print("PASS: iterator and both caller register setup / output reads")
     print("NOTE: callers' register ABI and host guest-pointer translation remain unverified")
 
 if __name__ == "__main__":
