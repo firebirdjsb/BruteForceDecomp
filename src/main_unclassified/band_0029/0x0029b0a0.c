@@ -8,6 +8,11 @@
 #include "bf_ghidra_types.h"
 #include "bf_xbe_parser_data_labels_x86.h"
 #include "bf_xbe_data_label_00404598.h"
+#include <float.h>
+/* The Xbox caller copies an IEEE binary64 into two guest DWORDs. */
+_Static_assert(sizeof(double) == sizeof(uint64_t) && FLT_RADIX == 2 &&
+               DBL_MANT_DIG == 53 && DBL_MAX_EXP == 1024,
+               "original Xbox binary64 requires IEEE 754 double storage");
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00469888;
@@ -21,7 +26,8 @@ void FUN_0029b0a0(undefined4 *param_1)
   undefined4 uVar3;
   int in_ECX;
   char *pcVar4;
-  undefined8 local_58;
+  double local_58;
+  uint64_t guest_binary64_bits;
   undefined1 local_50 [80];
   
   if ((*(int *)(DAT_00469888 + 0x34) != 0) &&
@@ -80,7 +86,13 @@ void FUN_0029b0a0(undefined4 *param_1)
       local_58 = -local_58;
       *(int *)(in_EAX + 0x50) = iVar1 + -1;
     }
-    FUN_00299780((undefined4)local_58,local_58._4_4_);
+    /* 0x29B136..0x29B145: push high DWORD, then low DWORD;
+     * 0x29B128..0x29B132: optional x87 FLD/FCHS/FSTP of this slot.
+     * Only word storage/order is reconstructed; x87 exception flags,
+     * guest EAX/ECX ABI, and native call dispatch remain unverified. */
+    memcpy(&guest_binary64_bits, &local_58, sizeof guest_binary64_bits);
+    FUN_00299780((uint32_t)guest_binary64_bits,
+                 (uint32_t)(guest_binary64_bits >> 32));
     *param_1 = 4;
     param_1[1] = 0;
     return;
