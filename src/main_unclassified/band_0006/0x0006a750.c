@@ -14,6 +14,9 @@ extern uint32_t DAT_003bc93c;
 extern uint32_t DAT_00469b38;
 extern uint32_t DAT_00469b40;
 extern uint32_t _DAT_0037ec38;
+/* XBE 0x0006A82A and 0x0006A898: MOV reg, DWORD PTR [0x0037DD88].
+ * Original Xbox 32-bit device pointer word; host pointer/ABI unverified. */
+extern uint32_t D3D8__D3D_g_pDevice;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 undefined4 FUN_0006a750(void)
