@@ -6,8 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_000a3d50(void)
+/* Original 0x000A3D50: MOV EAX, ECX; RET.  This models the 32-bit
+ * guest register transfer explicitly; a host callback still needs an
+ * x86 ECX/EAX calling-convention adapter before native linking. */
+uint32_t FUN_000a3d50(uint32_t guest_ecx)
 
 {
-  return;
+  return guest_ecx;
 }
