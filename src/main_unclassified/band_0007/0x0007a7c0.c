@@ -16,19 +16,22 @@ undefined4 FUN_0007a7c0(int *param_1)
   char cVar1;
   int iVar2;
   undefined4 unaff_retaddr;
-  undefined1 auStack_10c [8];
+  /* Original x86 uses two distinct regions: a 0x3c-byte stack record at
+   * entry ESP-0x140, and a 0x104-byte text buffer at entry ESP-0x104.
+   * This models only their storage/argument identities, not the guest ABI. */
+  undefined1 local_140_record [0x3c];
   undefined1 local_104 [260];
   
   FUN_002eaa19(local_104,0x104,s__s_s_s_0040dd8c);
   cVar1 = (**(code **)(*DAT_004432f8 + 0x24))(DAT_004432f8,local_104);
-  if ((cVar1 != '\0') && (iVar2 = FUN_0023a280(auStack_10c), -1 < iVar2)) {
-    FUN_002eaa19(auStack_10c,0x104,s__s_s_s_0040dd8c);
-    cVar1 = (**(code **)(*DAT_004432f8 + 0x24))(DAT_004432f8,auStack_10c);
-    if ((cVar1 != '\0') && (iVar2 = FUN_0023a280(auStack_10c), -1 < iVar2)) {
-      FUN_002eaa19(auStack_10c,0x104,s__s_s_s_0040dd8c);
-      cVar1 = (**(code **)(*DAT_004432f8 + 0x24))(DAT_004432f8,auStack_10c);
-      if ((cVar1 != '\0') && (iVar2 = FUN_0023a280(auStack_10c), -1 < iVar2)) {
-        cVar1 = FUN_000862e0(&stack0xfffffeb8);
+  if ((cVar1 != '\0') && (iVar2 = FUN_0023a280(local_104), -1 < iVar2)) {
+    FUN_002eaa19(local_104,0x104,s__s_s_s_0040dd8c);
+    cVar1 = (**(code **)(*DAT_004432f8 + 0x24))(DAT_004432f8,local_104);
+    if ((cVar1 != '\0') && (iVar2 = FUN_0023a280(local_104), -1 < iVar2)) {
+      FUN_002eaa19(local_104,0x104,s__s_s_s_0040dd8c);
+      cVar1 = (**(code **)(*DAT_004432f8 + 0x24))(DAT_004432f8,local_104);
+      if ((cVar1 != '\0') && (iVar2 = FUN_0023a280(local_104), -1 < iVar2)) {
+        cVar1 = FUN_000862e0(local_140_record);
         if (cVar1 != '\0') {
           FUN_000854b0();
         }

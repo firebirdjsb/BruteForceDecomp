@@ -72,6 +72,7 @@ on:
       - 'scripts/verify_00090630_guest_param_word.py'
       - 'scripts/verify_00076870_guest_second_arg_word.py'
       - 'scripts/verify_0007b4d0_format_buffer.py'
+      - 'scripts/verify_0007a7c0_stack_regions.py'
       - 'scripts/verify_0024a600_guest_element.py'
       - 'scripts/verify_0007b8f0_0007bef0_inline_storage.py'
       - 'scripts/verify_0007b100_esi_stack_word.py'
@@ -245,6 +246,8 @@ jobs:
         run: python3 scripts/verify_00076870_guest_second_arg_word.py --root .
       - name: Verify shared 0x0007b4d0 formatter stack buffer (source-only CI)
         run: python3 scripts/verify_0007b4d0_format_buffer.py --root .
+      - name: Verify 0x0007A7C0 distinct x86 stack record and 260-byte format buffer (source and Clang)
+        run: python3 scripts/verify_0007a7c0_stack_regions.py --root .
       - name: Verify incoming 0x0024a600 byte-element word (source-only CI)
         run: python3 scripts/verify_0024a600_guest_element.py --root .
       - name: Verify two inline-string stack pointers (source-only CI; original XBE stays local)
