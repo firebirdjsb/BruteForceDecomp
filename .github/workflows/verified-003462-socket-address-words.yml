@@ -1,0 +1,38 @@
+name: Verify XNet opaque socket-address guest words
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/platform/network_xnet/0x00346207.c'
+      - 'src/platform/network_xnet/0x0034628b.c'
+      - 'include/bf_xbox_socket_abi_draft.h'
+      - 'tests/test_003462_socket_addr_words.c'
+      - '.github/workflows/verified-003462-socket-address-words.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guest-socket-words:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check instruction-backed source operands
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fq 'bf_xbox_sockaddr_dword_at_4(__addr) == 0' src/platform/network_xnet/0x00346207.c
+          grep -Fq 'FUN_003457b3(iVar1,bf_xbox_sockaddr_word_at_2(__addr))' src/platform/network_xnet/0x00346207.c
+          grep -Fq 'uVar1 = bf_xbox_sockaddr_dword_at_4(__addr);' src/platform/network_xnet/0x0034628b.c
+          grep -Fq '__fd = (int)bf_xbox_sockaddr_word_at_2(__addr);' src/platform/network_xnet/0x0034628b.c
+      - name: Isolated C11 at O0/O2 and little-endian operand regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in -O0 -O2; do
+            for src in src/platform/network_xnet/0x00346207.c src/platform/network_xnet/0x0034628b.c; do
+              clang -std=c11 -fsyntax-only -Wno-implicit-function-declaration -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast -Wno-return-type -Wno-deprecated-non-prototype -I include "$opt" "$src"
+            done
+            clang -std=c11 "$opt" -Wall -Wextra -Werror -pedantic-errors -I include tests/test_003462_socket_addr_words.c -o /tmp/guest-socket-words
+            /tmp/guest-socket-words
+          done

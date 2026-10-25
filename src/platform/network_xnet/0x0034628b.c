@@ -7,7 +7,8 @@
  */
 #include "bf_ghidra_types.h"
 #include "bf_xbox_xonline_context_bytes_x86.h"
-#include "bf_xbox_socket_abi_draft.h" /* Opaque Xbox socket address; layout remains ABI_UNVERIFIED. */
+#include "bf_xbox_socket_abi_draft.h"
+/* XBE: opaque guest sockaddr DWORD at +4, WORD at +2. ABI_UNVERIFIED. */
 int __thiscall XONLINES__connect(XONLINES *this,int __fd,sockaddr *__addr,socklen_t __len)
 
 {
@@ -27,8 +28,8 @@ int __thiscall XONLINES__connect(XONLINES *this,int __fd,sockaddr *__addr,sockle
     iVar3 = 0x2748;
     goto LAB_00346302;
   }
-  uVar1 = *(undefined4 *)(__addr->sa_data + 2);
-  __fd = (int)*(ushort *)__addr->sa_data;
+  uVar1 = bf_xbox_sockaddr_dword_at_4(__addr);
+  __fd = (int)bf_xbox_sockaddr_word_at_2(__addr);
   iVar3 = FUN_00348618(uVar1);
   if (iVar3 == 0) {
     if ((*(uint *)(iVar2 + 0xc) & 2) == 0) {
