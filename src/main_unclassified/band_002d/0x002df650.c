@@ -6,14 +6,19 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* XBE 0x002DF67E/0x002DF686 copy two raw f32 words to guest 0x004A5C50/54.
+ * 0x002DF692/0x002DF696 compare the original UINT32_MAX sentinels;
+ * 0x002DF6C9..0x002DF6F8 load/multiply/store packed four-f32 lanes.
+ * 0x002DF6D0 RCPS S updates only the low scalar lane, written at 0x002DF6F3.
+ * This is host syntax reconstruction, NOT verified native ABI or linking. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t *DAT_004a5c50;
-extern uint32_t *DAT_004a5c58;
-extern uint32_t _DAT_003b7da0;
-extern uint32_t _DAT_003b7db0;
-extern uint32_t *_DAT_004a5c54;
-extern uint32_t *_DAT_004a5c5c;
+/* Four contiguous float lanes at each original guest address; the final
+ * host symbol mapping and alignment remain unverified. */
+extern float DAT_004a5c50[4];
+extern float _DAT_003b7da0[4];
+extern float _DAT_003b7db0[4];
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void FUN_002df650(int param_1,float *param_2)
@@ -27,41 +32,45 @@ void FUN_002df650(int param_1,float *param_2)
   float fVar6;
   float fVar7;
   float fVar8;
-  undefined1 in_XMM2 [16];
-  undefined1 auVar9 [16];
+  __m128 reciprocal_lane;
+  uint32_t sentinel_first;
+  uint32_t sentinel_second;
   
   *(float **)(param_1 + 0x40) = param_2;
   fVar2 = param_2[5] - param_2[1];
   *(float *)(param_1 + 0x3c) = 1.0 / fVar2;
-  DAT_004a5c50 = *param_2;
-  _DAT_004a5c54 = param_2[4];
-  if ((param_2[3] == -NAN) || (param_2[7] == -NAN)) {
-    _DAT_004a5c5c = 0.0;
-    DAT_004a5c58 = 0.0;
+  /* MOV preserves all source bits, including NaN payloads. */
+  memcpy(&DAT_004a5c50[0], &param_2[0], sizeof(float));
+  memcpy(&DAT_004a5c50[1], &param_2[4], sizeof(float));
+  memcpy(&sentinel_first, &param_2[3], sizeof sentinel_first);
+  memcpy(&sentinel_second, &param_2[7], sizeof sentinel_second);
+  if (sentinel_first == UINT32_MAX || sentinel_second == UINT32_MAX) {
+    DAT_004a5c50[3] = 0.0f;
+    DAT_004a5c50[2] = 0.0f;
   }
   else {
-    DAT_004a5c58 = fVar2 * param_2[3];
-    _DAT_004a5c5c = fVar2 * param_2[6];
+    DAT_004a5c50[2] = fVar2 * param_2[3];
+    DAT_004a5c50[3] = fVar2 * param_2[6];
   }
-  auVar9 = rcpss(in_XMM2,fVar2);
-  fVar2 = fRam003b7da4 * _DAT_004a5c54;
-  fVar3 = fRam003b7da8 * DAT_004a5c58;
-  fVar4 = fRam003b7dac * _DAT_004a5c5c;
+  reciprocal_lane = _mm_rcp_ss(_mm_set_ss(fVar2));
+  fVar2 = _DAT_003b7da0[1] * DAT_004a5c50[1];
+  fVar3 = _DAT_003b7da0[2] * DAT_004a5c50[2];
+  fVar4 = _DAT_003b7da0[3] * DAT_004a5c50[3];
   pfVar1 = *(float **)(param_1 + 0x38);
-  fVar5 = _DAT_003b7db0 * DAT_004a5c50;
-  fVar6 = fRam003b7db4 * _DAT_004a5c54;
-  fVar7 = fRam003b7db8 * DAT_004a5c58;
-  fVar8 = fRam003b7dbc * _DAT_004a5c5c;
-  *pfVar1 = _DAT_003b7da0 * DAT_004a5c50;
+  fVar5 = _DAT_003b7db0[0] * DAT_004a5c50[0];
+  fVar6 = _DAT_003b7db0[1] * DAT_004a5c50[1];
+  fVar7 = _DAT_003b7db0[2] * DAT_004a5c50[2];
+  fVar8 = _DAT_003b7db0[3] * DAT_004a5c50[3];
+  *pfVar1 = _DAT_003b7da0[0] * DAT_004a5c50[0];
   pfVar1[1] = fVar2;
   pfVar1[2] = fVar3;
   pfVar1[3] = fVar4;
-  *(int *)(param_1 + 0x3c) = auVar9._0_4_;
+  *(float *)(param_1 + 0x3c) = _mm_cvtss_f32(reciprocal_lane);
   pfVar1[4] = fVar5;
   pfVar1[5] = fVar6;
   pfVar1[6] = fVar7;
   pfVar1[7] = fVar8;
-  *(float *)(*(int *)(param_1 + 0x38) + 0x20) = DAT_004a5c50;
-  *(float *)(*(int *)(param_1 + 0x38) + 0x24) = DAT_004a5c58;
+  *(float *)(*(int *)(param_1 + 0x38) + 0x20) = DAT_004a5c50[0];
+  *(float *)(*(int *)(param_1 + 0x38) + 0x24) = DAT_004a5c50[2];
   return;
 }
