@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <string.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_004432f8;
@@ -31,6 +32,15 @@ undefined4 FUN_0007a7c0(int *param_1)
       FUN_002eaa19(local_104,0x104,s__s_s_s_0040dd8c);
       cVar1 = (**(code **)(*DAT_004432f8 + 0x24))(DAT_004432f8,local_104);
       if ((cVar1 != '\0') && (iVar2 = FUN_0023a280(local_104), -1 < iVar2)) {
+        /* Original x86 writes exactly these record fields before the call:
+         * 0x7A8ED, 0x7A8F1, 0x7A8F6, 0x7A8FA, 0x7A903.
+         * Leave all other guest bytes uninitialized as in the original. */
+        memset(local_140_record + 0x14,0,4);
+        memset(local_140_record + 0x04,0,2);
+        memset(local_140_record + 0x1c,0,4);
+        memset(local_140_record + 0x38,0,4);
+        memset(local_140_record + 0x18,0,4);
+        local_140_record[0x18] = 7;
         cVar1 = FUN_000862e0(local_140_record);
         if (cVar1 != '\0') {
           FUN_000854b0();

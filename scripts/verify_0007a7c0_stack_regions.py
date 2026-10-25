@@ -42,6 +42,12 @@ def verify_source(root: Path) -> None:
         "FUN_002eaa19(local_104,0x104,s__s_s_s_0040dd8c);": 3,
         "FUN_0023a280(local_104)": 3,
         "DAT_004432f8,local_104)": 3,
+        "memset(local_140_record + 0x14,0,4);": 1,
+        "memset(local_140_record + 0x04,0,2);": 1,
+        "memset(local_140_record + 0x1c,0,4);": 1,
+        "memset(local_140_record + 0x38,0,4);": 1,
+        "memset(local_140_record + 0x18,0,4);": 1,
+        "local_140_record[0x18] = 7;": 1,
         "FUN_000862e0(local_140_record)": 1,
     }
     for token, count in required.items():
@@ -107,8 +113,13 @@ def verify_xbe(path: Path) -> None:
         0x0007A8C9: "8d 54 24 48",
         0x0007A8D6: "8d 44 24 48",
         0x0007A8E9: "8d 4c 24 0c",
+        0x0007A8ED: "89 44 24 20",
+        0x0007A8F1: "66 89 44 24 10",
+        0x0007A8F6: "89 44 24 28",
+        0x0007A8FA: "89 44 24 44",
         0x0007A8FE: "51",
         0x0007A8FF: "8d 44 24 4c",
+        0x0007A903: "c7 44 24 28 07 00 00 00",
         0x0007A90B: "e8 d0 b9 00 00",
     }
     for address, encoded in observed.items():
@@ -127,7 +138,7 @@ def main() -> None:
         verify_xbe(opts.xbe)
     print("PASS 0x0007A7C0: source stack-region separation and isolated Clang C11" +
           ("; original XBE SHA/body/instructions verified" if opts.xbe else "; XBE not in CI") +
-          "; register ABI, record initialization, and runtime unverified")
+          "; register ABI and runtime unverified")
 
 
 if __name__ == "__main__":
