@@ -6,26 +6,25 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_crt_stream.h"
 /* Library Function - Multiple Matches With Different Base Names
     _fgetc
     _getc
    
    Library: Visual Studio 2003 Release */
 
-int __cdecl FID_conflict__getc(FILE *__stream)
-
+/* Original x86 at 0x002EB8F1: decrement guest count [+4], branch on
+ * signed result, read one byte at guest cursor [+0], increment cursor.
+ * These 32-bit guest addresses are NOT native host pointers. */
+int __cdecl FID_conflict__getc(bf_xbox_crt_stream32 *__stream)
 {
-  char **ppcVar1;
-  byte bVar2;
-  int iVar3;
-  
-  ppcVar1 = &__stream->_IO_read_ptr;
-  *ppcVar1 = *ppcVar1 + -1;
-  if (-1 < (int)*ppcVar1) {
-    bVar2 = *(byte *)__stream->_flags;
-    __stream->_flags = (int)((byte *)__stream->_flags + 1);
-    return (uint)bVar2;
+  uint32_t count = __stream->word_04 - UINT32_C(1);
+  __stream->word_04 = count;
+  if ((int32_t)count >= 0) {
+    uint32_t guest_cursor = __stream->word_00;
+    uint32_t result = (uint32_t)*(const uint8_t *)(uintptr_t)guest_cursor;
+    __stream->word_00 = guest_cursor + UINT32_C(1);
+    return (int)result;
   }
-  iVar3 = __filbuf(__stream);
-  return iVar3;
+  return __filbuf(__stream);
 }
