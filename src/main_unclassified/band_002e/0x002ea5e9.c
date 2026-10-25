@@ -6,23 +6,24 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_crt_stream.h"
 /* Library Function - Single Match
     _freopen
    
    Library: Visual Studio 2003 Release */
 
-FILE * __cdecl _freopen(char *__filename,char *__modes,FILE *__stream)
+bf_xbox_crt_stream32 * __cdecl _freopen(char *__filename,char *__modes,bf_xbox_crt_stream32 *__stream)
 
 {
-  FILE *pFVar1;
+  bf_xbox_crt_stream32 *pFVar1;
   
-  if (((uint)__stream->_IO_read_base & 0x83) != 0) {
+  if ((__stream->flags_0c & 0x83) != 0) {
     _fclose(__stream);
   }
-  __stream->_IO_read_end = (char *)0x0;
-  __stream->_flags = 0;
-  __stream->_IO_read_base = (char *)0x0;
-  __stream->_IO_read_ptr = (char *)0x0;
-  pFVar1 = (FILE *)__openfile(__filename,__modes,0x40,__stream);
+  __stream->word_08 = 0;
+  __stream->word_00 = 0;
+  __stream->flags_0c = 0;
+  __stream->word_04 = 0;
+  pFVar1 = (bf_xbox_crt_stream32 *)__openfile(__filename,__modes,0x40,__stream);
   return pFVar1;
 }
