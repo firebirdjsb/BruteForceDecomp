@@ -140,7 +140,10 @@ int FUN_00214710(int param_1,undefined4 param_2,undefined4 param_3,float *param_
         if (fStack_a4 <= fStack_a8) {
           fStack_84 = fStack_a8;
         }
-        auVar11 = ZEXT416((uint)fStack_84);
+        /* XBE 0x00214923 MOVSS / 0x00214929 MAXSS / 0x0021492F MOVSS:
+         * materialize the resulting scalar float lane without numeric uint conversion.
+         * The surrounding decompiler scalar comparison and ABI remain unverified. */
+        auVar11 = _mm_set_ss(fStack_84);
         fVar10 = (float10)FUN_00233bf0();
         fStack_8c = (float)(fVar10 * (float10)*(float *)(param_5 + 0x34));
         iStack_6c = (**(code **)(*param_8 + 0x30))();
