@@ -15,6 +15,9 @@ OPCODES = {
     0x00257BC6: "c644241c01", # mov byte [esp+0x1c],1
     0x00257BCB: "c644241d01", # mov byte [esp+0x1d],1
     0x000AA76D: "be50d74000", # mov esi,guest 0x0040D750
+    0x000AABE2: "33ed",       # xor ebp,ebp: original null path
+    0x000AABE4: "8b4d0c",     # mov ecx,[ebp+0xc]
+    0x000AABE7: "8b9920010000", # mov ebx,[ecx+0x120]
 }
 
 def main():
@@ -29,6 +32,9 @@ def main():
     fmt = (args.root / "src/main_unclassified/band_000a/0x000aa600.c").read_text()
     assert "pwVar10 = (wchar_t *)(uintptr_t)UINT32_C(0x0040D750);" in fmt
     assert "pwVar10 = u__s__d__0040d750;" not in fmt
+    assert "guest_word_at_0c + UINT32_C(0x120)" in fmt
+    assert "*(const uint32_t *)(uintptr_t)UINT32_C(0x0000000C)" in fmt
+    assert "iRam0000000c" not in fmt
     if args.xbe:
         data = args.xbe.read_bytes()
         assert hashlib.sha256(data).hexdigest() == XBE_SHA256, "Wrong XBE"
