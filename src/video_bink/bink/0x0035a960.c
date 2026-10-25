@@ -13,7 +13,17 @@ void FUN_0035a960(void)
   undefined4 unaff_ESI;
   undefined4 unaff_EDI;
   
-  iVar1 = XAPILIB__WaitForMultipleObjects(2,&stack0xfffffff8,0,0xffffffff);
+  /* XBE 0x0035A960-0x0035A976: SUB ESP,8 reserves two guest DWORDs.
+   * LEA [ESP+8] (after two pushes) passes the base to the wait API;
+   * MOV [ESP+0x10],EDI and MOV [ESP+0x14],ESI (after four pushes)
+   * populate DWORD[0]=EDI and DWORD[1]=ESI. This is guest 32-bit
+   * storage only. Incoming ESI/EDI, Xbox HANDLE values and native
+   * API/guest-memory translation remain ABI_UNVERIFIED.
+   */
+  undefined4 guest_wait_handles[2];
+  guest_wait_handles[0] = unaff_EDI;
+  guest_wait_handles[1] = unaff_ESI;
+  iVar1 = XAPILIB__WaitForMultipleObjects(2,guest_wait_handles,0,0xffffffff);
   if (iVar1 == 0) {
     XAPILIB__WaitForSingleObject(unaff_ESI,0xffffffff);
   }
