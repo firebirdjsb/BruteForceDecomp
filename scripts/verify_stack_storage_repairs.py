@@ -12,6 +12,9 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x001F3FB0, ((0,369),(620,12)), "7fb32f534c6943500c9d55895945af2c3567f55d8fef5bf3a6a72a8493cbbec5"),
+    (0x00209F40, 327, "616c03bf83a483520a4a94ec3b1c13136f06d3fd3aebd46bdafd0d2d879f5d06"),
+    (0x002710E0, ((0,205),(208,168)), "b91d8c20f819f97d67056cabe45481d26d2982218d0deb1f2f3ace30f3aeb897"),
     (0x00200080, 257, "9a08227013ee4d66230c3265c2243f909b93cc285f9ea8216ffde459ec639f2a"),
     (0x00201E80, 298, "f99a52250cec93ec0721dacda5e652c5b8c472880e389f5918bace01c7213abd"),
     (0x00208A70, 305, "a49d505e5385826be2d57bc06859d9fb01c3f0a14c367cfa9440d22528725647"),
@@ -60,6 +63,20 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x001F3FE7: "c644243400",  # incoming second word byte=0
+    0x001F401D: "8a542432",  # byte 2 of helper-written first word
+    0x001F403F: "8a5c2437",  # byte 3 after EBX save
+    0x001F4062: "c644243801",  # same flag byte after EBX save
+    0x001F40D8: "8a442434",  # return flag in AL
+    0x00209F5C: "8844241c",  # third incoming slot partial write
+    0x00209F81: "8844241c",  # success byte
+    0x0020A058: "8d44242050",  # address of flag slot after push
+    0x0020A079: "8a442438",  # reload byte with 28 argument bytes pending
+    0x00271128: "8a442414",  # incoming pointer word low byte
+    0x00271133: "8806",  # write byte to object +0x80
+    0x00271159: "8a4c2414",  # same pointer word low byte
+    0x00271164: "880e",  # write byte to object +0x8c
+
     0x0020009C: "8844241c",  # incoming third word byte
     0x0020014B: "c644241c01",  # byte success
     0x00200160: "8d742430",  # implicit ESI aliases flag slot

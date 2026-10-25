@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
+/* 0x271128/0x271159 load the low byte of the incoming pointer word,
+ * not a byte at the pointed-to object. Guest address/ABI remain unverified. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_FUN_00392638;
@@ -34,7 +37,7 @@ undefined4 * FUN_002710e0(undefined4 *param_1,int param_2)
   param_1[0x11] = 0xf;
   param_1[0x10] = 0;
   *(undefined1 *)(param_1 + 0xc) = 0;
-  *(undefined1 *)(param_1 + 0x20) = param_1._0_1_;
+  *(undefined1 *)(param_1 + 0x20) = bf_x86_word_load_byte(&param_1,0U);
   iVar11 = FUN_00277b90(param_1 + 0x20);
   param_1[0x21] = iVar11;
   *(undefined1 *)(iVar11 + 0x45) = 1;
@@ -42,7 +45,7 @@ undefined4 * FUN_002710e0(undefined4 *param_1,int param_2)
   *(undefined4 *)param_1[0x21] = param_1[0x21];
   *(undefined4 *)(param_1[0x21] + 8) = param_1[0x21];
   param_1[0x22] = 0;
-  *(undefined1 *)(param_1 + 0x23) = param_1._0_1_;
+  *(undefined1 *)(param_1 + 0x23) = bf_x86_word_load_byte(&param_1,0U);
   iVar11 = FUN_001f2750(param_1 + 0x23);
   param_1[0x24] = iVar11;
   *(undefined1 *)(iVar11 + 0x2d) = 1;

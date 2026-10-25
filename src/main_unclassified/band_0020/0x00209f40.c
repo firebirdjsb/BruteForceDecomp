@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
+/* Original byte accesses preserve the rest of the reused incoming word.
+ * Complete guest stack/register ABI and helper behavior remain unverified. */
 char FUN_00209f40(undefined4 param_1,int *param_2,undefined4 *param_3)
 
 {
@@ -21,11 +24,11 @@ char FUN_00209f40(undefined4 param_1,int *param_2,undefined4 *param_3)
   puVar3 = param_3;
   piVar2 = param_2;
   cVar4 = FUN_001fedb0(param_1,param_2,param_3);
-  param_3._0_1_ = cVar4;
+  bf_x86_word_store_byte(&param_3,0U,cVar4);
   if (cVar4 == '\0') {
     uVar5 = *(undefined1 *)(in_ECX + 0xc0);
     cVar4 = (char)param_1;
-    param_3._0_1_ = '\0';
+    bf_x86_word_store_byte(&param_3,0U,'\0');
     bVar1 = false;
     if (*piVar2 == 0x191e7141) {
       if (cVar4 == '\0') {
@@ -35,7 +38,7 @@ char FUN_00209f40(undefined4 param_1,int *param_2,undefined4 *param_3)
         *(undefined1 *)puVar3 = uVar5;
       }
       bVar1 = true;
-      param_3._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_3,0U,'\x01');
     }
     *(undefined1 *)(in_ECX + 0xc0) = uVar5;
     uVar5 = *(undefined1 *)(in_ECX + 0xc1);
@@ -47,7 +50,7 @@ char FUN_00209f40(undefined4 param_1,int *param_2,undefined4 *param_3)
         *(undefined1 *)puVar3 = uVar5;
       }
       bVar1 = true;
-      param_3._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_3,0U,'\x01');
     }
     *(undefined1 *)(in_ECX + 0xc1) = uVar5;
     if ((!bVar1) && (*piVar2 == 0x3944a39)) {
@@ -58,7 +61,7 @@ char FUN_00209f40(undefined4 param_1,int *param_2,undefined4 *param_3)
         *puVar3 = *(undefined4 *)(in_ECX + 0xac);
       }
       bVar1 = true;
-      param_3._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_3,0U,'\x01');
     }
     if (!bVar1) {
       bVar1 = false;
@@ -71,7 +74,7 @@ char FUN_00209f40(undefined4 param_1,int *param_2,undefined4 *param_3)
         }
         FUN_0003d730(puVar6,puVar7);
         bVar1 = true;
-        param_3._0_1_ = '\x01';
+        bf_x86_word_store_byte(&param_3,0U,'\x01');
       }
       if (!bVar1) {
         bVar1 = false;
@@ -83,7 +86,7 @@ char FUN_00209f40(undefined4 param_1,int *param_2,undefined4 *param_3)
             *puVar3 = *(undefined4 *)(in_ECX + 0xc4);
           }
           bVar1 = true;
-          param_3._0_1_ = '\x01';
+          bf_x86_word_store_byte(&param_3,0U,'\x01');
         }
         if ((!bVar1) && (*piVar2 == 0x1e5d6c57)) {
           if (cVar4 == '\0') {
@@ -92,12 +95,12 @@ char FUN_00209f40(undefined4 param_1,int *param_2,undefined4 *param_3)
           else {
             *puVar3 = *(undefined4 *)(in_ECX + 200);
           }
-          param_3._0_1_ = '\x01';
+          bf_x86_word_store_byte(&param_3,0U,'\x01');
         }
       }
     }
     param_2 = (int *)0xf0060b38;
     FUN_0020d430(*(undefined4 *)(in_ECX + 0x10),param_1,&param_2,piVar2,puVar3,&param_3,1);
   }
-  return (char)param_3;
+  return (char)bf_x86_word_load_byte(&param_3,0U);
 }
