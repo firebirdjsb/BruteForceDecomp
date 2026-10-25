@@ -194,7 +194,13 @@ LAB_000aa8ef:
       piVar1 = *(int **)(iVar9 + 0x2e8);
       cVar5 = (**(code **)(*piVar1 + 0x20))();
       if (cVar5 == '\0') {
-        iVar7 = *(int *)(iRam0000000c + 0x120);
+        /* XBE 0x000AABE2..0x000AABED: xor ebp,ebp;
+         * mov ecx,[ebp+0xc]; mov ebx,[ecx+0x120].
+         * Preserve both original guest reads, even on this faulting path. */
+        uint32_t guest_word_at_0c =
+            *(const uint32_t *)(uintptr_t)UINT32_C(0x0000000C);
+        iVar7 = *(const int *)(uintptr_t)
+            (guest_word_at_0c + UINT32_C(0x120));
       }
       else {
         iVar7 = *(int *)(*(int *)(piVar1[8] + 0xc) + 0x120);
