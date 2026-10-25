@@ -27,8 +27,12 @@ undefined4 FUN_0006a750(void)
   bool bVar5;
   undefined4 local_5c;
   undefined4 local_58;
+  /* XBE 0x0006a761: ECX=0x11; LEA EDI,[ESP+0x24]; REP STOSD.
+   * The same stack address is passed to device creation. Storage only;
+   * device API contract and remaining register ABI are unverified. */
+  undefined4 device_stack_words[0x11];
   
-  puVar4 = (undefined4 *)&stack0xffffffbc;
+  puVar4 = device_stack_words;
   for (iVar2 = 0x11; iVar2 != 0; iVar2 = iVar2 + -1) {
     *puVar4 = 0;
     puVar4 = puVar4 + 1;
@@ -38,7 +42,7 @@ undefined4 FUN_0006a750(void)
   DAT_0037ec88 = 0x4000;
   XAPILIB__XGetVideoFlags();
   iVar2 = D3D8LTCG__Direct3D_CreateDevice_16__LTCG_eax_BehaviorFlags_ecx_ppReturnedDeviceInterface
-                    (0,1,0,&stack0xffffffbc);
+                    (0,1,0,device_stack_words);
   if (iVar2 != 0) {
     return 0;
   }
