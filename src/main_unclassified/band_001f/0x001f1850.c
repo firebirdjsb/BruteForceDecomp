@@ -16,7 +16,10 @@ void FUN_001f1850(void)
   code *pcVar2;
   int iVar3;
   int unaff_ESI;
-  undefined4 unaff_EDI;
+  /* XBE 0x001F1911 LEA [ESP+0x10] after PUSH, then 0x001F1963
+   * MOV [ESP+0x0C] after the callee's RET 0x14: the same guest DWORD.
+   * The platform ReadFile API and native pointer ABI remain unverified. */
+  undefined4 read_bytes_word;
   undefined4 local_10;
   undefined4 local_c;
   
@@ -50,7 +53,7 @@ LAB_001f19ae:
     uVar1 = *(undefined4 *)(*(int *)(unaff_ESI + 0x254) * 0x10 + *(int *)(unaff_ESI + 0x250));
     RtlLeaveCriticalSection(&DAT_0046d0c8);
     iVar3 = XAPILIB__ReadFile(*(undefined4 *)(unaff_ESI + 0x240),uVar1,
-                              *(undefined4 *)(unaff_ESI + 0x260),&stack0xffffffe4,0);
+                              *(undefined4 *)(unaff_ESI + 0x260),&read_bytes_word,0);
     if ((iVar3 == 0) && (iVar3 = XAPILIB__GetLastError(), iVar3 != 0x26)) {
       *(undefined4 *)(unaff_ESI + 8) = 2;
       XAPILIB__SetEvent(*(undefined4 *)(unaff_ESI + 0x30));
@@ -58,7 +61,7 @@ LAB_001f19ae:
     RtlEnterCriticalSection(&DAT_0046d0c8);
     iVar3 = *(int *)(unaff_ESI + 0x254) * 0x10 + *(int *)(unaff_ESI + 0x250);
     *(undefined4 *)(iVar3 + 4) = 2;
-    *(undefined4 *)(iVar3 + 0xc) = unaff_EDI;
+    *(undefined4 *)(iVar3 + 0xc) = read_bytes_word;
     *(uint *)(unaff_ESI + 0x254) =
          *(int *)(unaff_ESI + 0x25c) - 1U & *(int *)(unaff_ESI + 0x254) + 1U;
     RtlLeaveCriticalSection(&DAT_0046d0c8);
