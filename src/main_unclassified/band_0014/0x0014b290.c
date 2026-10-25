@@ -6,13 +6,17 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* XBE 0x0014B2C4/0x0014B2F6 passes the second guest stack DWORD unchanged
+ * to MOVSS then RCPSS at 0x0014B304. This is an f32 bit pattern, not an
+ * integer-to-float conversion. Upper XMM lanes and complete ABI unverified. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 void FUN_0014b290(int param_1,uint param_2)
 
 {
   int *piVar1;
-  undefined1 auVar2 [16];
+  float rcp_divisor;
   int *unaff_retaddr;
   undefined1 auStack_58 [4];
   int local_54;
@@ -40,8 +44,8 @@ void FUN_0014b290(int param_1,uint param_2)
     if (*(int *)(param_1 + 0x20) != 0) {
       FUN_0014b440();
       local_50 = param_2;
-      auVar2 = rcpss(ZEXT416(param_2),ZEXT416(param_2));
-      fStack_40 = auVar2._0_4_;
+      memcpy(&rcp_divisor, &param_2, sizeof rcp_divisor);
+      fStack_40 = _mm_cvtss_f32(_mm_rcp_ss(_mm_set_ss(rcp_divisor)));
       local_48 = fStack_40 * (local_3c - *(float *)(param_1 + 0x24));
       local_4c = fStack_40 * (local_38 - *(float *)(param_1 + 0x28));
       fStack_40 = fStack_40 * (local_34 - *(float *)(param_1 + 0x2c));

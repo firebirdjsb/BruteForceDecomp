@@ -80,6 +80,7 @@ on:
       - 'scripts/verify_three_guest_dword_addresses.py'
       - 'scripts/verify_000b2660_guest_esi_word.py'
       - 'scripts/verify_000b0ad0_scalar_sse.py'
+      - 'scripts/verify_0014b290_rcpss_bits.py'
       - 'scripts/verify_two_node_copy_incoming_words.py'
       - 'scripts/verify_000a1990_guest_outslot.py'
       - 'scripts/verify_000ac7f0_stack_index.py'
@@ -310,6 +311,8 @@ jobs:
           /tmp/bf_mmx_byte_lanes_test
       - name: Verify 0x000B0AD0 scalar SSE instruction-backed C11 repair (source-only CI)
         run: python3 scripts/verify_000b0ad0_scalar_sse.py --root .
+      - name: Verify 0x0014B290 original DWORD bits and RCPSS (source and Clang; XBE stays local)
+        run: python3 scripts/verify_0014b290_rcpss_bits.py --root .
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
       - name: Validate and categorize exact audit failures without XBE assumptions
