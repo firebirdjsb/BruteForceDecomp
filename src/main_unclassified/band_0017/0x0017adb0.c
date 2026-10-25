@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <string.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004000bc;
@@ -70,6 +71,7 @@ undefined1 FUN_0017adb0(int *param_1)
   undefined4 local_644 [5];
   undefined4 local_630 [5];
   undefined1 auStack_61c [4];
+  undefined4 returned_guest_word;
   char acStack_618 [259];
   char cStack_515;
   char acStack_514 [259];
@@ -130,7 +132,10 @@ undefined1 FUN_0017adb0(int *param_1)
         puVar4 = puVar4 + 1;
       }
       (**(code **)(*param_1 + 4))();
-      auStack_61c = (undefined1  [4])FUN_002383b0();
+      /* XBE 0x17AE7D-0x17AE82: EAX return stored as one DWORD at
+       * [ESP+0xB4]. Preserve the four bytes of this aliased stack slot. */
+      returned_guest_word = FUN_002383b0();
+      memcpy(auStack_61c, &returned_guest_word, sizeof(returned_guest_word));
       uStack_690 = *puVar15;
       puVar4 = (undefined4 *)FUN_0017c470();
       *puVar4 = local_688;
@@ -170,7 +175,8 @@ undefined1 FUN_0017adb0(int *param_1)
         puVar13 = puVar13 + 1;
       }
       puVar4[1] = local_684;
-      puVar4[0x1b] = auStack_61c;
+      /* XBE 0x17AEF2/0x17AEFC reloads that same DWORD into [EAX+0x6C]. */
+      memcpy(&puVar4[0x1b], auStack_61c, sizeof(puVar4[0x1b]));
       local_69c = local_69c + 0x1b;
       puVar16 = puVar16 + 0x1b;
     } while (local_69c != local_698);
