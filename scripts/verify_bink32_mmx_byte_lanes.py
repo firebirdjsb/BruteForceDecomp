@@ -27,6 +27,30 @@ OPS = {
     0x0036912F: "0f60f0",
     0x00369135: "0f71d604",
     0x00369139: "0f71f60c",
+    0x366607: "0f6e22", # movd mm4,[edx]
+    0x36660A: "0fefc0", # pxor mm0,mm0
+    0x366615: "0f60e0", # punpcklbw mm4,mm0
+    0x366747: "0f6e22", # movd mm4,[edx]
+    0x36674A: "0fefc0", # pxor mm0,mm0
+    0x366755: "0f60e0", # punpcklbw mm4,mm0
+    0x3679D0: "0f6e22", # movd mm4,[edx]
+    0x3679D3: "0fefc0", # pxor mm0,mm0
+    0x3679DE: "0f60e0", # punpcklbw mm4,mm0
+    0x367AE0: "0f6e22", # movd mm4,[edx]
+    0x367AE3: "0fefc0", # pxor mm0,mm0
+    0x367AEE: "0f60e0", # punpcklbw mm4,mm0
+    0x36A090: "0f6e22", # movd mm4,[edx]
+    0x36A093: "0fefc0", # pxor mm0,mm0
+    0x36A09E: "0f60e0", # punpcklbw mm4,mm0
+    0x36A1B0: "0f6e22", # movd mm4,[edx]
+    0x36A1B3: "0fefc0", # pxor mm0,mm0
+    0x36A1BE: "0f60e0", # punpcklbw mm4,mm0
+    0x36B840: "0f6e22", # movd mm4,[edx]
+    0x36B843: "0fefc0", # pxor mm0,mm0
+    0x36B84E: "0f60e0", # punpcklbw mm4,mm0
+    0x36B9B0: "0f6e22", # movd mm4,[edx]
+    0x36B9B3: "0fefc0", # pxor mm0,mm0
+    0x36B9BE: "0f60e0", # punpcklbw mm4,mm0
 }
 def main():
     parser = argparse.ArgumentParser()
@@ -47,13 +71,24 @@ def main():
     assert bink4444.count("bf_x86_unpack_u32_bytes_to_u16_lanes((uint32_t)uVar5)") == 2
     assert bink4444.count("bf_x86_mmx_top_nibble_to_u16_lanes((uint32_t)uVar5)") == 2
     assert not any(token in bink4444 for token in ("uint5", "uint7", "int5"))
+    extra_formats = (
+        "bink16/0x00367990.c",
+        "bink16x2/0x0036b800.c",
+        "bink32a/0x003665d0.c",
+        "bink5551/0x0036a050.c",
+    )
+    for name in extra_formats:
+        source = (args.root / "src/video_bink" / name).read_text()
+        assert '#include "bf_x86_mmx_byte_lanes.h"' in source, name
+        assert source.count("bf_x86_unpack_u32_bytes_to_u16_lanes((uint32_t)uVar5)") == 2, name
+        assert "CONCAT52((int5)" not in source, name
     if args.xbe:
         data = args.xbe.read_bytes()
         assert hashlib.sha256(data).hexdigest() == XBE_SHA256
         for va, hx in OPS.items():
             raw = bytes.fromhex(hx)
             assert guest_bytes(data, va, len(raw)) == raw, hex(va)
-    print("PASS: Bink32 and Bink4444 MMX zero-extend and alpha nibble lanes")
+    print("PASS: six Bink pixel-format sources, MMX byte-word lanes and alpha nibble")
 
 if __name__ == "__main__":
     main()
