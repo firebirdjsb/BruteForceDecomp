@@ -33,6 +33,7 @@ typedef struct BF_XBE_CertificatePrefix {
 BF_CERT_ASSERT(SizeOfHeader, 0x00);
 BF_CERT_ASSERT(TimeDateStamp, 0x04);
 BF_CERT_ASSERT(TitleID, 0x08);
+BF_CERT_ASSERT(AlternateTitleID, 0x5c);
 BF_CERT_ASSERT(AllowedMedia, 0x9c);
 BF_CERT_ASSERT(GameRegion, 0xa0);
 BF_CERT_ASSERT(GameRatings, 0xa4);
