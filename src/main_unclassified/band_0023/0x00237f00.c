@@ -23,15 +23,24 @@ void FUN_00237f00(void)
   int iVar1;
   int iVar2;
   undefined4 unaff_retaddr;
-  
+  /* Original XBE 0x00237F05 reserves 0x104 guest bytes. Three separate
+   * LEA sites at 0x237F4A, 0x237F59 and 0x237F75 resolve to the same
+   * entry-ESP-0x104 byte buffer. No zero-initialization is established.
+   * Guest pointer translation, formatter and Xbox file APIs are
+   * ABI_UNVERIFIED for host-native runtime; only source storage alias
+   * and visible x86 stack capacity are reconstructed here. */
+  char guest_log_path[0x104];
+  _Static_assert(sizeof(guest_log_path) == 0x104,
+                 "original 0x104-byte guest log buffer");
+
   if ((DAT_004a5b49 != '\0') || (DAT_00469b29 != '\0')) {
     RtlEnterCriticalSection(&DAT_0046cfa0);
     iVar1 = DAT_004a5b40;
     DAT_004a5b40 = DAT_004a5b40 + 1;
-    FUN_002eaa19(&stack0xfffffef8,0x104,s_d__mem__d__d__s_txt_00406c30,DAT_004a5b44,iVar1,
+    FUN_002eaa19(guest_log_path,0x104,s_d__mem__d__d__s_txt_00406c30,DAT_004a5b44,iVar1,
                  unaff_retaddr);
-    thunk_FUN_002fe95d(&stack0xfffffef8);
-    iVar1 = FUN_002f2b3f(&stack0xfffffef8,0x40000000,0,0,2,0,0);
+    thunk_FUN_002fe95d(guest_log_path);
+    iVar1 = FUN_002f2b3f(guest_log_path,0x40000000,0,0,2,0,0);
     if (iVar1 != -1) {
       if ((DAT_004a5b48 == '\0') && (iVar2 = 0, 0 < DAT_004698fc)) {
         do {
