@@ -25,7 +25,11 @@ undefined4 * FUN_00277f50(undefined4 *param_1)
   uVar2 = FUN_00279bb0(puVar1);
   param_1[2] = uVar2;
   param_1[3] = 0;
-  *(undefined1 *)(param_1 + 4) = param_1._0_1_;
+  /* XBE 0x00277F6E reads AL from the first incoming 32-bit pointer
+   * argument at entry ESP+4, then stores AL into object byte +0x10
+   * (0x00277F7B). This is a guest-address low-byte extraction;
+   * eventual host memory relocation must not substitute host VA bits. */
+  *(undefined1 *)(param_1 + 4) = (uint8_t)((uintptr_t)param_1 & UINT32_C(0xff));
   iVar3 = FUN_0025ae60(param_1 + 4);
   param_1[5] = iVar3;
   *(undefined1 *)(iVar3 + 0x15) = 1;
