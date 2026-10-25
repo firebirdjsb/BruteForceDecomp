@@ -17,7 +17,13 @@ void FUN_0037f6d0(void)
   undefined4 local_10;
   undefined1 local_8 [4];
   
-  if (XboxHardwareInfo_exref[5] != (code)0xa1) {
+  /* XBE 0x0037F6D6..0x0037F6DF: load the 32-bit XboxHardwareInfo
+   * pointer from guest import slot [0x00386380]; compare [ptr+5]
+   * with the literal byte 0xA1. Host import mapping remains deferred. */
+  uint32_t guest_hardware_info =
+      *(const uint32_t *)(uintptr_t)UINT32_C(0x00386380);
+  if (*(const uint8_t *)(uintptr_t)(guest_hardware_info + 5u) !=
+      UINT8_C(0xA1)) {
     local_1c = 3;
     local_14 = 0x1000;
     local_18 = 0xfed00000;
