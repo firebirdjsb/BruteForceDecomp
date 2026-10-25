@@ -58,9 +58,19 @@ int FUN_00352eeb(uint param_1,int param_2)
   if (-1 < iVar2) {
     FUN_00352e8d(local_15c,param_2);
   }
-  FUN_00352e8d(*(undefined4 *)(HalDiskModelNumber_exref + 4),*(undefined2 *)HalDiskModelNumber_exref
-              );
-  FUN_00352e8d(*(undefined4 *)(HalDiskSerialNumber_exref + 4),
-               *(undefined2 *)HalDiskSerialNumber_exref);
+  /* XBE 0x00353009 and 0x0035301D load two distinct Xbox kernel
+   * pointers. Each guest descriptor holds a WORD byte count at +0 and
+   * a DWORD buffer address at +4. Preserve both original reads.
+   * Host disk information is NOT substituted during syntax repair. */
+  uint32_t guest_model_descriptor = *(const uint32_t *)(uintptr_t)
+      UINT32_C(0x003864AC);
+  FUN_00352e8d(
+      *(const uint32_t *)(uintptr_t)(guest_model_descriptor + UINT32_C(4)),
+      *(const uint16_t *)(uintptr_t)guest_model_descriptor);
+  uint32_t guest_serial_descriptor = *(const uint32_t *)(uintptr_t)
+      UINT32_C(0x003864A8);
+  FUN_00352e8d(
+      *(const uint32_t *)(uintptr_t)(guest_serial_descriptor + UINT32_C(4)),
+      *(const uint16_t *)(uintptr_t)guest_serial_descriptor);
   return iVar1 - local_8;
 }
