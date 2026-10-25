@@ -32,7 +32,14 @@ void FUN_000aec10(void)
   fStack_48 = fStack_54 - (*(float *)(unaff_ESI + 0x90) + *(float *)(unaff_ESI + 0x90));
   uStack_4c = uStack_58;
   FUN_000b0940(unaff_ESI,&uStack_50);
-  puStack_60 = (undefined4 *)(*(float *)(unaff_ESI + 0x90) * 0.08);
+  /* x86 0x000AEC5F..0x000AEC78: FLD m32fp; FMUL m32fp; FSTP
+   * m32fp at the outgoing guest stack slot. Transfer the resulting
+   * IEEE-754 word, not a numeric float-to-pointer conversion.
+   * x87 precision and native guest frame ABI remain unverified. */
+  float guest_scaled_word = *(float *)(unaff_ESI + 0x90) * 0.08;
+  uint32_t guest_scaled_bits;
+  memcpy(&guest_scaled_bits, &guest_scaled_word, sizeof guest_scaled_bits);
+  puStack_60 = (undefined4 *)(uintptr_t)guest_scaled_bits;
   uStack_5c = 0x40400000;
   FUN_000b0ad0();
   FUN_000b0550();
