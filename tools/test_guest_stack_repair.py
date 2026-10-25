@@ -47,6 +47,10 @@ FUNCTIONS = {
         "9D822E285B97CE01BF4ECA1635C5B9A4E3C2075A111D8C26D3B159815CCCDDE3",
         "0x00106C0B",
     ),
+    "0x001f1850": (
+        "0A5E2E6F5242BCB055C841A58E7C5B158D3B8AB2AA479916752886E1D4EDA9E9",
+        "0x001F1911",
+    ),
     "0x001b28b0": (
         "2B4DC80CCFE04236C8E364CA2A6D968835933A8D8629640682FF5B5D3E53726B",
         "0x001b28f9",
@@ -109,6 +113,16 @@ def main() -> int:
             ):
                 if expected not in without_comments:
                     raise SystemExit(f"{entry}: x86 stack argument/output mapping regressed: {expected}")
+        if entry == "0x001f1850":
+            for expected in (
+                "undefined4 read_bytes_word;",
+                "*(undefined4 *)(unaff_ESI + 0x260),&read_bytes_word,0);",
+                "*(undefined4 *)(iVar3 + 0xc) = read_bytes_word;",
+            ):
+                if expected not in without_comments:
+                    raise SystemExit(f"{entry}: original ReadFile output DWORD alias regressed: {expected}")
+            if "unaff_EDI" in without_comments:
+                raise SystemExit(f"{entry}: fake EDI output variable reintroduced")
         # Pin the original stack-slot identity, not just the absence of a
         # synthetic Ghidra symbol. XBE opcode checks are performed locally by
         # scripts/verify_0007_0008_stack_args.py when the user-owned XBE exists.
