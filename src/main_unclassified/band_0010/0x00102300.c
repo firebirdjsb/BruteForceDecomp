@@ -34,6 +34,11 @@ undefined1 FUN_00102300(undefined4 param_1,undefined4 param_2,int param_3)
   uVar3 = FUN_001e97c0(uVar4,*(undefined4 *)(unaff_EDI + 0x60),0);
   uVar5 = (undefined1)((uint)uVar4 >> 0x18);
   uVar4 = FUN_001e97c0(uVar3);
-  (**(code **)(iVar1 + 0x34))(&stack0xffffffe8,uVar4);
+  /* XBE 0x102321: LEA EAX,[ESP+0x18] addresses entry ESP-16;
+   * 0x10235E writes the word at entry ESP-8; 0x102399:
+   * LEA EDX,[ESP+0x2C] passes that entry ESP-8 address to the
+   * indirect call. Both fall within the existing 16-byte local_10.
+   * The indirect-call ABI and full runtime behavior remain unverified. */
+  (**(code **)(iVar1 + 0x34))(local_10 + 8,uVar4);
   return uVar5;
 }
