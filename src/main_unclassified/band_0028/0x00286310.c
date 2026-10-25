@@ -9,56 +9,89 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_004432fc;
-undefined4 FUN_00286310(undefined4 param_1,undefined4 *param_2)
+undefined4 FUN_00286310(undefined4 param_1,undefined4 *param_2,undefined4 *param_3)
 
 {
-  int iVar1;
-  int iVar2;
-  int unaff_EDI;
-  int *piStack_1c;
-  int *local_8;
-  undefined4 *puStack_4;
-  
-  piStack_1c = (int *)0x0;
-  iVar1 = (**(code **)(*DAT_004432fc + 0x3c))(DAT_004432fc,2,&local_8);
-  if ((-1 < iVar1) && (iVar1 = 0, 0 < unaff_EDI)) {
-    do {
-      if (local_8 != (int *)0x0) {
-        (**(code **)(*local_8 + 8))(local_8);
-        local_8 = (int *)0x0;
+  /* Entry RET 0x0c at 0x002863C4: three incoming guest stack DWORDs.
+   * EBP saves argument 2 before MOV [ESP+0x2c],ESI overwrites the
+   * guest argument word at entry_ESP+8 with a temporary interface.
+   *
+   * Independently reconstructed guest frame:
+   *   entry_ESP-0x08: 32-bit count from callback +0x3c
+   *   entry_ESP-0x0c: received output interface from callback +0x24
+   *   entry_ESP-0x04: DWORD read through the original guest EBX
+   *   entry_ESP+0x08: temporary interface reused by callback +0x40
+   * Original callback ABI, EBX delivery and guest->host pointer
+   * translation remain unverified; no PC runtime equivalence is claimed.
+   */
+  int *in_EBX;                 /* original implicit guest EBX, ABI_UNVERIFIED */
+  int32_t guest_count = 0;
+  uint32_t guest_current_interface_word = 0;
+  uint32_t guest_received_interface_word = 0;
+  uint32_t guest_record_word;
+  int *guest_current_interface;
+  int *guest_received_interface;
+  int index;
+  int result;
+
+  (void)param_1; /* original first stack word is not loaded in this body */
+  result = (**(code **)(*DAT_004432fc + 0x3c))
+      (DAT_004432fc,2,&guest_count);
+  if (result >= 0 && guest_count > 0) {
+    for (index = 0; index < guest_count; ++index) {
+      guest_current_interface =
+          (int *)(uintptr_t)guest_current_interface_word;
+      if (guest_current_interface != (int *)0) {
+        (**(code **)(*guest_current_interface + 8))(guest_current_interface);
+        guest_current_interface_word = 0;
       }
-      iVar2 = (**(code **)(*DAT_004432fc + 0x40))(DAT_004432fc,2,iVar1,&local_8,0);
-      if (-1 < iVar2) {
-        piStack_1c = (int *)0x0;
-        iVar2 = (**(code **)(*DAT_004432fc + 0x24))
-                          (DAT_004432fc,2,&stack0xffffffec,1,&piStack_1c,local_8);
-        if (-1 < iVar2) {
-          if (param_2 != (undefined4 *)0x0) {
-            *param_2 = local_8;
-            (**(code **)(*local_8 + 4))(local_8);
+      result = (**(code **)(*DAT_004432fc + 0x40))
+          (DAT_004432fc,2,index,&guest_current_interface_word,0);
+      if (result >= 0) {
+        /* 0x0028636B: MOV EDX,[EBX]; 0x00286372 stores it into
+         * the guest DWORD at entry_ESP-4 before the callback. */
+        guest_record_word = (uint32_t)*in_EBX;
+        guest_received_interface_word = 0;
+        result = (**(code **)(*DAT_004432fc + 0x24))
+            (DAT_004432fc,2,&guest_record_word,1,
+             &guest_received_interface_word,guest_current_interface_word);
+        guest_received_interface =
+            (int *)(uintptr_t)guest_received_interface_word;
+        if (result >= 0) {
+          if (param_2 != (undefined4 *)0) {
+            *param_2 = guest_current_interface_word;
+            guest_current_interface =
+                (int *)(uintptr_t)guest_current_interface_word;
+            (**(code **)(*guest_current_interface + 4))
+                (guest_current_interface);
           }
-          if (puStack_4 != (undefined4 *)0x0) {
-            *puStack_4 = piStack_1c;
-            (**(code **)(*piStack_1c + 4))(piStack_1c);
+          if (param_3 != (undefined4 *)0) {
+            *param_3 = guest_received_interface_word;
+            (**(code **)(*guest_received_interface + 4))
+                (guest_received_interface);
           }
-          if (piStack_1c != (int *)0x0) {
-            (**(code **)(*piStack_1c + 8))(piStack_1c);
-            piStack_1c = (int *)0x0;
+          if (guest_received_interface != (int *)0) {
+            (**(code **)(*guest_received_interface + 8))
+                (guest_received_interface);
           }
-          if (local_8 != (int *)0x0) {
-            (**(code **)(*local_8 + 8))(local_8);
+          guest_current_interface =
+              (int *)(uintptr_t)guest_current_interface_word;
+          if (guest_current_interface != (int *)0) {
+            (**(code **)(*guest_current_interface + 8))
+                (guest_current_interface);
           }
           return 1;
         }
-        if (piStack_1c != (int *)0x0) {
-          (**(code **)(*piStack_1c + 8))(piStack_1c);
+        if (guest_received_interface != (int *)0) {
+          (**(code **)(*guest_received_interface + 8))
+              (guest_received_interface);
         }
       }
-      iVar1 = iVar1 + 1;
-    } while (iVar1 < unaff_EDI);
+    }
   }
-  if (local_8 != (int *)0x0) {
-    (**(code **)(*local_8 + 8))(local_8);
+  guest_current_interface = (int *)(uintptr_t)guest_current_interface_word;
+  if (guest_current_interface != (int *)0) {
+    (**(code **)(*guest_current_interface + 8))(guest_current_interface);
   }
   return 0;
 }
