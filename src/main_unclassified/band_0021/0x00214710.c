@@ -136,14 +136,12 @@ int FUN_00214710(int param_1,undefined4 param_2,undefined4 param_3,float *param_
       else {
         local_f0 = fStack_a8;
         fStack_ac = fStack_a4;
-        fStack_84 = fStack_a4;
-        if (fStack_a4 <= fStack_a8) {
-          fStack_84 = fStack_a8;
-        }
-        /* XBE 0x00214923 MOVSS / 0x00214929 MAXSS / 0x0021492F MOVSS:
-         * materialize the resulting scalar float lane without numeric uint conversion.
-         * The surrounding decompiler scalar comparison and ABI remain unverified. */
-        auVar11 = _mm_set_ss(fStack_84);
+        /* XBE 0x00214923 MOVSS a4 / 0x00214929 MAXSS a8 /
+         * 0x0021492F MOVSS output: preserve SSE second-operand selection
+         * for NaNs and equal signed-zero inputs, unlike the Ghidra <= test.
+         * Only the low float lane is subsequently stored; guest ABI unverified. */
+        auVar11 = _mm_max_ss(_mm_set_ss(fStack_a4), _mm_set_ss(fStack_a8));
+        fStack_84 = _mm_cvtss_f32(auVar11);
         fVar10 = (float10)FUN_00233bf0();
         fStack_8c = (float)(fVar10 * (float10)*(float *)(param_5 + 0x34));
         iStack_6c = (**(code **)(*param_8 + 0x30))();
