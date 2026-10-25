@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original D3D command MMIO offsets below are guest address offsets,
+ * not linked function or label names. Verified from XBE 0x00374BB9..0x00374C1F.
+ * Actual Xbox GPU MMIO semantics await a platform adapter. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00100248;
@@ -73,19 +76,19 @@ FUN_00374a49(int *param_1,uint param_2,int param_3,undefined4 param_4,uint param
     }
     do {
       FUN_003793b5();
-      *(uint *)(FUN_00100300 + in_EAX * 4 + iVar1) = param_2;
-      *(uint *)(&LAB_00400980 + in_EAX * 4 + iVar1) = param_2;
+      *(uint *)(UINT32_C(0x00100300) + in_EAX * 4 + iVar1) = param_2;
+      *(uint *)((uintptr_t)UINT32_C(0x00400980) + in_EAX * 4 + iVar1) = param_2;
       *(uint *)(&DAT_00400750 + iVar1) = in_EAX * 4 + 0x90 & 0x1ffc | 0xea0000;
       *(uint *)((int)&PTR_DAT_00400754 + iVar1) = param_2;
-    } while (*(uint *)(FUN_00100300 + in_EAX * 4 + iVar1) !=
-             *(uint *)(&LAB_00400980 + in_EAX * 4 + iVar1));
+    } while (*(uint *)(UINT32_C(0x00100300) + in_EAX * 4 + iVar1) !=
+             *(uint *)((uintptr_t)UINT32_C(0x00400980) + in_EAX * 4 + iVar1));
     if (param_7 != 0) {
       uVar3 = in_EAX | param_7 | 0x80000000;
       do {
         FUN_003793b5();
-        *(uint *)(&LAB_00100324 + iVar1) = uVar3;
+        *(uint *)((uintptr_t)UINT32_C(0x00100324) + iVar1) = uVar3;
         *(uint *)(&DAT_004009a0 + iVar1) = uVar3;
-      } while (*(uint *)(&LAB_00100324 + iVar1) != *(uint *)(&DAT_004009a0 + iVar1));
+      } while (*(uint *)((uintptr_t)UINT32_C(0x00100324) + iVar1) != *(uint *)(&DAT_004009a0 + iVar1));
     }
   }
   *(undefined4 *)(iVar1 + 0x3220) = local_24;
