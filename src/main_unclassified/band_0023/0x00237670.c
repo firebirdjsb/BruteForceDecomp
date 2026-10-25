@@ -6,14 +6,19 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Xbox x86 0x00237670..0x002376A9: change page protection and
+ * replace the first instruction at guest 0x002EA43D with RET (0xC3).
+ * Guest address is not a native pointer; runtime mapping comes later.
+ * Original calls pass length=2 and restore the previous page protection. */
 void FUN_00237670(void)
-
 {
-  undefined4 local_8;
-  undefined1 local_4 [4];
-  
-  XAPILIB__VirtualProtect(__onexit,2,4,&local_8);
-  __onexit = (code)0xc3;
-  XAPILIB__VirtualProtect(__onexit,2,local_8,local_4);
-  return;
+  undefined4 previous_protection;
+  undefined1 ignored_previous_protection[4];
+  volatile uint8_t *guest_entry =
+      (volatile uint8_t *)(uintptr_t)UINT32_C(0x002EA43D);
+
+  XAPILIB__VirtualProtect((void *)guest_entry, 2, 4, &previous_protection);
+  *guest_entry = UINT8_C(0xC3);
+  XAPILIB__VirtualProtect((void *)guest_entry, 2,
+                          previous_protection, ignored_previous_protection);
 }
