@@ -21,6 +21,10 @@ void FUN_001ed5d0(void)
   undefined1 *puVar4;
   int in_ECX;
   int *piVar5;
+  /* XBE 0x001ED5D0 PUSH ECX reserves this DWORD; 0x001ED657 writes
+   * 0xEDF960DE, and 0x001ED665 takes its address for the vtable call.
+   * The callee ABI and other register inputs remain unverified. */
+  undefined4 guest_event_word;
   
   iVar1 = (in_EAX + -1) * 0x598 + in_ECX;
   if (*(char *)(iVar1 + 0x15c) == '\0') {
@@ -52,7 +56,8 @@ void FUN_001ed5d0(void)
       piVar5 = piVar5 + 0xb;
     } while (iVar3 < 4);
   }
-  (**(code **)(**(int **)(DAT_00469b58 + 8) + 600))(&stack0xfffffff8,*(undefined4 *)(iVar1 + 0x66c))
+  guest_event_word = UINT32_C(0xedf960de);
+  (**(code **)(**(int **)(DAT_00469b58 + 8) + 600))(&guest_event_word,*(undefined4 *)(iVar1 + 0x66c))
   ;
   if (DAT_00469ab4 != (int *)0x0) {
     (**(code **)(*DAT_00469ab4 + 0x38))();
