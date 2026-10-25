@@ -16,6 +16,8 @@ void DSOUND__CHrtfSource_SetAlgorithm_FullHrtf(void)
 {
   DAT_0032f7a4 = 0;
   DAT_0032f79c = 0x3155c9;
-  DAT_0032f7a0 = CFullHrtfSource_GetHrtfFilterPair;
+  /* Original XBE 0x003119C2: mov dword [0x0032F7A0],0x00315331.
+   * This is a 32-bit Xbox guest callback address, not a host function. */
+  DAT_0032f7a0 = UINT32_C(0x00315331);
   return;
 }
