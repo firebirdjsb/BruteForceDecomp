@@ -304,6 +304,8 @@ jobs:
         run: |
           clang -std=c11 -Wall -Wextra -Werror -pedantic-errors -I include tools/test_x86_mmx_byte_lanes.c -o /tmp/bf_mmx_byte_lanes_test
           /tmp/bf_mmx_byte_lanes_test
+      - name: Verify 0x000B0AD0 scalar SSE instruction-backed C11 repair (source-only CI)
+        run: python3 scripts/verify_000b0ad0_scalar_sse.py --root .
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
       - name: Validate and categorize exact audit failures without XBE assumptions
