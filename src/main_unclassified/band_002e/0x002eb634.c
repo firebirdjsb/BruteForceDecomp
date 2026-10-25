@@ -50,7 +50,7 @@ long __cdecl _ftell(bf_xbox_crt_stream32 *stream)
     if ((descriptor_byte & UINT32_C(0x80)) != 0) {
       scan = base;
       while (scan < cursor) {
-        if (*(const uint8_t *)(uintptr_t)scan == (uint8_t)'\\n')
+        if (*(const uint8_t *)(uintptr_t)scan == (uint8_t)'\n')
           delta = (int32_t)((uint32_t)delta + 1);
         scan++;
       }
@@ -71,7 +71,7 @@ long __cdecl _ftell(bf_xbox_crt_stream32 *stream)
           scan = base;
           scan_end = base + adjustment;
           while (scan < scan_end) {
-            if (*(const uint8_t *)(uintptr_t)scan == (uint8_t)'\\n')
+            if (*(const uint8_t *)(uintptr_t)scan == (uint8_t)'\n')
               adjustment++;
             scan++;
           }
