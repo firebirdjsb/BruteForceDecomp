@@ -22,13 +22,16 @@ undefined4 FUN_0029f440(void)
   int iVar6;
   undefined4 uVar7;
   undefined4 *unaff_EBX;
-  char *in_stack_ffffffd0;
+  int *guest_queried_interface = (int *)0x0;
+  /* Guest 32-bit QueryInterface output slot at original [ESP+8].
+   * Xbox ABI/memory translation remains separate from C11 syntax. */
   
   piVar4 = unaff_EBX + 2;
   if ((unaff_EBX[2] == 0) && (unaff_EBX[1] != 0)) {
     piVar5 = (int *)(**(code **)(*(int *)*unaff_EBX + 0x2c))(unaff_EBX + 1);
     if (piVar5 != (int *)0x0) {
-      iVar6 = (**(code **)*piVar5)(piVar5,s_23_23_IAnimatedNamedTexture_004060f4);
+      iVar6 = (**(code **)*piVar5)(piVar5,s_23_23_IAnimatedNamedTexture_004060f4,
+                                      &guest_queried_interface);
       piVar2 = (int *)*piVar4;
       if (iVar6 < 0) {
         if (piVar2 != (int *)0x0) {
@@ -48,7 +51,10 @@ undefined4 FUN_0029f440(void)
           (**(code **)(*piVar2 + 8))(piVar2);
           *piVar4 = 0;
         }
-        (*pcRam00000030)(&stack0xfffffff8,0,piVar4);
+        /* Original 0x0029F4A2-F4A8: MOV EAX,[EDI]; PUSH ESI; PUSH 0;
+         * PUSH EDI; CALL DWORD PTR [EAX+0x30].  EDI is the
+         * callback-written pointer loaded at 0x0029F490. */
+        (**(code **)(*guest_queried_interface + 0x30))(guest_queried_interface,0,piVar4);
         piVar5 = (int *)unaff_EBX[3];
         puVar3 = (undefined4 *)*piVar4;
         puVar1 = unaff_EBX + 3;
@@ -56,13 +62,13 @@ undefined4 FUN_0029f440(void)
           (**(code **)(*piVar5 + 8))(piVar5);
           *puVar1 = 0;
         }
-        in_stack_ffffffd0 = s_23_23_IAnimatedNamedTexture_004060f4;
         (**(code **)*puVar3)(puVar3,s_23_23_IAnimatedNamedTexture_004060f4,puVar1);
         uVar7 = (**(code **)(*(int *)*puVar1 + 0x8c))((int *)*puVar1);
         unaff_EBX[9] = uVar7;
       }
-      if ((int *)in_stack_ffffffd0 != (int *)0x0) {
-        (**(code **)(*(int *)in_stack_ffffffd0 + 8))(in_stack_ffffffd0);
+      /* Original 0x0029F512-F51D releases the same QI out pointer. */
+      if (guest_queried_interface != (int *)0x0) {
+        (**(code **)(*guest_queried_interface + 8))(guest_queried_interface);
       }
     }
     unaff_EBX[8] = 0;
