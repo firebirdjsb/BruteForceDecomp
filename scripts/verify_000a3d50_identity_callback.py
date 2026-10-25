@@ -67,8 +67,11 @@ def main():
         harness.write_text(HARNESS, encoding="utf-8")
         cc = shlex.split(os.environ.get("CC", "clang"))
         subprocess.run(
+            # The shared Ghidra shim intentionally has an unknown-ABI
+            # "code()" typedef; suppress only that legacy-prototype warning.
             cc + ["-std=c11", "-Wall", "-Wextra", "-Werror",
-                  "-pedantic-errors", "-I", str(a.root / "include"),
+                  "-pedantic-errors", "-Wno-strict-prototypes",
+                  "-I", str(a.root / "include"),
                   str(a.root / SOURCE), str(harness), "-o", str(output)],
             check=True,
         )
