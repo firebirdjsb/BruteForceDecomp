@@ -19,6 +19,7 @@ on:
       - 'scripts/verify_two_guest_interface_slots.py'
       - 'scripts/verify_0005af30_0029f440_x86.py'
       - 'scripts/verify_001e4bb0_guest_file_stream.py'
+      - 'scripts/verify_0021fd80_low_byte_stack_contract.py'
       - 'scripts/verify_0029e410_argument_word_contract.py'
       - 'scripts/verify_002a82xx_io.py'
       - 'scripts/verify_guest_argument_aliases_286710_f4200.py'
@@ -211,6 +212,8 @@ jobs:
         run: python3 scripts/verify_0005af30_0029f440_x86.py --repo .
       - name: Verify cacheinfo stream guest interface and byte-count storage (source-only CI)
         run: python3 scripts/verify_001e4bb0_guest_file_stream.py --repo .
+      - name: Verify saved guest argument byte and AL-only result in 0x0021FD80
+        run: python3 scripts/verify_0021fd80_low_byte_stack_contract.py --repo .
       - name: Verify two original incoming DWORD aliases at 0x0029E410 (source-only CI)
         run: python3 scripts/verify_0029e410_argument_word_contract.py --repo .
       - name: Verify paired guest byte headers and record widths (source-only CI)
