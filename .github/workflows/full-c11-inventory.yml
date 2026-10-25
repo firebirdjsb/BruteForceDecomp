@@ -76,6 +76,7 @@ on:
       - 'scripts/verify_002ef8fc_unwind_call.py'
       - 'scripts/verify_003848ff_guest_partial_stack_word.py'
       - 'scripts/verify_00257860_guest_frame.py'
+      - 'scripts/verify_000a7160_guest_record.py'
       - 'scripts/verify_0024a600_guest_element.py'
       - 'scripts/verify_0007b8f0_0007bef0_inline_storage.py'
       - 'scripts/verify_0007b100_esi_stack_word.py'
@@ -257,6 +258,8 @@ jobs:
         run: python3 scripts/verify_003848ff_guest_partial_stack_word.py --root .
       - name: Verify 0x00257860 guest stack key and EDI output record (source and Clang)
         run: python3 scripts/verify_00257860_guest_frame.py --root .
+      - name: Verify 0x000A7160 guest stack record and 0x000A7810 outputs (source and Clang)
+        run: python3 scripts/verify_000a7160_guest_record.py --root .
       - name: Verify incoming 0x0024a600 byte-element word (source-only CI)
         run: python3 scripts/verify_0024a600_guest_element.py --root .
       - name: Verify two inline-string stack pointers (source-only CI; original XBE stays local)
