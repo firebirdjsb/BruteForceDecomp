@@ -13,6 +13,11 @@ int FUN_001eb850(int *param_1)
   int iVar2;
   undefined4 uVar3;
   int in_ECX;
+  /* XBE 0x001EB8A2-A6 copies [ESI+0x1C] into guest [ESP+0x10].
+   * 0x001EB8B1-B9 passes the address of that distinct 32-bit stack word
+   * to virtual slot +0x48. Its contents are not read after the call.
+   * Object, vtable, and guest-to-host pointer ABIs remain unverified. */
+  undefined4 guest_item_word;
   
   (**(code **)(*param_1 + 0x20))(in_ECX + 0x18);
   piVar1 = (int *)(in_ECX + 0x1c);
@@ -29,8 +34,9 @@ int FUN_001eb850(int *param_1)
       *piVar1 = iVar2;
     }
   }
-  if (*piVar1 != 0) {
-    (**(code **)(*param_1 + 0x48))(*(undefined4 *)(in_ECX + 0x20),&stack0xfffffffc);
+  guest_item_word = (undefined4)*piVar1;
+  if (guest_item_word != 0) {
+    (**(code **)(*param_1 + 0x48))(*(undefined4 *)(in_ECX + 0x20),&guest_item_word);
   }
   return param_1[3];
 }
