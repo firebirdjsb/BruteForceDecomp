@@ -30,7 +30,9 @@ undefined1 * FUN_0035a8c0(int param_1)
   DAT_004b50cc = param_1;
 LAB_0035a8e8:
   if (DAT_004b50cc == 0) {
-    DAT_004b50dc = DSOUND__DirectSoundCreate;
+    /* XBE 0x0035A90C: store guest DirectSoundCreate address 0x00314714,
+     * not the native address of a host callback. */
+    DAT_004b50dc = UINT32_C(0x00314714);
   }
   else {
     _DAT_004b50d8 = 0;
@@ -46,5 +48,6 @@ LAB_0035a8e8:
     DSOUND__IDirectSound_Release(DAT_004b50cc);
     DAT_004b50cc = -1;
   }
-  return &LAB_0035a650;
+  /* XBE 0x0035A953 returns the exact guest code address in EAX. */
+  return (undefined1 *)(uintptr_t)UINT32_C(0x0035A650);
 }
