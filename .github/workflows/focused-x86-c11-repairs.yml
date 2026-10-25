@@ -32,6 +32,7 @@ on:
       - 'src/main_unclassified/band_002d/0x002df650.c'
       - 'src/main_unclassified/band_0021/0x00214710.c'
       - 'scripts/verify_00214710_maxss_lane.py'
+      - 'tests/test_00214710_maxss.c'
       - 'src/main_unclassified/band_0029/0x0029b0a0.c'
       - 'scripts/verify_0029b0a0_binary64_words.py'
       - 'scripts/verify_002df650_packed_lanes.py'
