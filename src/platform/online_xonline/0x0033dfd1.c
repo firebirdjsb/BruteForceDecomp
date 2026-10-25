@@ -10,6 +10,15 @@
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004b0a1c;
 extern uint32_t DAT_004b0a50;
+/* Original XBE 0x0033E064..0x0033E124 zeros 16 bytes at EBP-0x10 and
+ * writes seven separate little-endian 16-bit words before passing that
+ * same address to the time conversion routine. The final word stays zero.
+ * These are storage offsets, not an inferred host SYSTEMTIME ABI. */
+typedef struct {
+  uint16_t word[8];
+} bf_0033dfd1_guest_time;
+_Static_assert(sizeof(bf_0033dfd1_guest_time) == 16,
+               "Original guest time record occupies sixteen bytes");
 bool FUN_0033dfd1(char *param_1,undefined4 param_2)
 
 {
@@ -36,10 +45,7 @@ bool FUN_0033dfd1(char *param_1,undefined4 param_2)
   char local_1a;
   char local_19;
   char local_18;
-  undefined4 local_14;
-  undefined4 local_10;
-  undefined4 local_c;
-  undefined4 local_8;
+  bf_0033dfd1_guest_time guest_time;
   
   pcVar3 = param_1;
   do {
@@ -51,10 +57,8 @@ bool FUN_0033dfd1(char *param_1,undefined4 param_2)
        ((local_2c[3] == ' ' && (local_24 == ' ')))) &&
       ((local_21 == ':' && ((local_1e == ':' && (local_1b == ' ')))))) &&
      ((local_1a == 'G' && ((local_19 == 'M' && (local_18 == 'T')))))) {
-    local_14 = 0;
-    local_10 = 0;
-    local_c = 0;
-    local_8 = 0;
+    /* Four original STOSD stores at 0x0033E069..0x0033E06C. */
+    guest_time = (bf_0033dfd1_guest_time){{0}};
     local_2d = 0;
     local_24 = 0;
     local_21 = 0;
@@ -75,9 +79,9 @@ bool FUN_0033dfd1(char *param_1,undefined4 param_2)
       } while (bVar7);
     } while ((!bVar7) && (uVar2 = uVar2 + 1, uVar2 < 7));
     if (uVar2 != 7) {
-      local_10 = (uint)uVar2;
+      guest_time.word[2] = uVar2; /* 0x0033E0A5: [EBP-0x0C], AX */
       lVar4 = _atol(local_2f);
-      local_10 = CONCAT22((short)lVar4,(undefined2)local_10);
+      guest_time.word[3] = (uint16_t)lVar4; /* 0x0033E0B6: [EBP-0x0A], AX */
       if ((short)lVar4 != 0) {
         uVar2 = 1;
         do {
@@ -94,16 +98,16 @@ bool FUN_0033dfd1(char *param_1,undefined4 param_2)
           } while (bVar7);
         } while ((!bVar7) && (uVar2 = uVar2 + 1, uVar2 < 0xd));
         if (uVar2 != 0xd) {
-          local_14._2_2_ = uVar2;
+          guest_time.word[1] = uVar2; /* 0x0033E0E2: [EBP-0x0E], AX */
           lVar4 = _atol(local_28);
-          local_14 = CONCAT22(local_14._2_2_,(short)lVar4);
+          guest_time.word[0] = (uint16_t)lVar4; /* 0x0033E0EF: [EBP-0x10], AX */
           lVar4 = _atol(local_23);
-          local_c = CONCAT22(local_c._2_2_,(short)lVar4);
+          guest_time.word[4] = (uint16_t)lVar4; /* 0x0033E0FC: [EBP-0x08], AX */
           lVar4 = _atol(local_20);
-          local_c = CONCAT22((short)lVar4,(undefined2)local_c);
+          guest_time.word[5] = (uint16_t)lVar4; /* 0x0033E109: [EBP-0x06], AX */
           lVar4 = _atol(local_1d);
-          local_8 = CONCAT22(local_8._2_2_,(short)lVar4);
-          iVar5 = XAPILIB__SystemTimeToFileTime(&local_14,param_2);
+          guest_time.word[6] = (uint16_t)lVar4; /* 0x0033E11C: [EBP-0x04], AX */
+          iVar5 = XAPILIB__SystemTimeToFileTime(&guest_time,param_2);
           return iVar5 == 1;
         }
       }
