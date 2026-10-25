@@ -45,7 +45,7 @@ def verify_source(s):
         raise ValueError("Original body provenance/ABI caution removed")
     c = code_only(s)
     for token in (MASK, PATCH, CALL, "uint local_c2c;",
-                  "if ((local_c2c = local_c2c & 0xffffff00, iVar2 == -0x2461dc1))"):
+                  "(local_c2c = local_c2c & 0xffffff00, iVar2 == -0x2461dc1))"):
         if c.count(token)!=1:
             raise ValueError("Wrong guest storage contract: "+token)
     if not c.index(MASK)<c.index(PATCH)<c.index(CALL):
