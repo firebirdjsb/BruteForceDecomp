@@ -15,6 +15,8 @@ on:
       - 'scripts/verify_00102300_stack_argument.py'
       - 'src/main_unclassified/band_000f/0x000f0480.c'
       - 'scripts/verify_000f0480_guest_output_word.py'
+      - 'src/main_unclassified/band_0028/0x002825e0.c'
+      - 'scripts/verify_002825e0_interface_stack.py'
       - 'tools/verify_stack_record_8e590.py'
       - '.github/workflows/verified-stack-slot-words.yml'
   workflow_dispatch:
@@ -36,5 +38,7 @@ jobs:
         run: python3 scripts/verify_00102300_stack_argument.py --root .
       - name: Verify 0x000F0480 shared guest output DWORD and focused Clang C11
         run: python3 scripts/verify_000f0480_guest_output_word.py --root .
+      - name: Verify 0x002825E0 interface output and GUID scratch aliases (source-only CI)
+        run: python3 scripts/verify_002825e0_interface_stack.py --root .
       - name: Evidence limitation
         run: echo 'Retail XBE instruction fingerprints checked locally; not distributed in repository. Caller-frame ABI, guest exception semantics and native runtime remain unverified.'
