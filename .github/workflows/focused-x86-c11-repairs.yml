@@ -30,6 +30,8 @@ on:
       - 'src/main_unclassified/band_0015/0x001552a0.c'
       - 'src/main_unclassified/band_002f/0x002f05f8.c'
       - 'src/main_unclassified/band_002d/0x002df650.c'
+      - 'src/main_unclassified/band_0021/0x00214710.c'
+      - 'scripts/verify_00214710_maxss_lane.py'
       - 'src/main_unclassified/band_0029/0x0029b0a0.c'
       - 'scripts/verify_0029b0a0_binary64_words.py'
       - 'scripts/verify_002df650_packed_lanes.py'
@@ -54,7 +56,7 @@ permissions:
 
 jobs:
   focused-c11:
-    name: Twenty-seven original entries — isolated host syntax only
+    name: Twenty-eight original entries — isolated host syntax only
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -75,7 +77,9 @@ jobs:
         run: python3 scripts/verify_002df650_packed_lanes.py --root .
       - name: Verify 0x0029B0A0 binary64 guest word split (source-only)
         run: python3 scripts/verify_0029b0a0_binary64_words.py --root .
-      - name: Compile twenty-seven original C11 drafts individually
+      - name: Verify 0x00214710 original scalar SSE lane and Clang C11 (source-only)
+        run: python3 scripts/verify_00214710_maxss_lane.py --root .
+      - name: Compile twenty-eight original C11 drafts individually
         shell: bash
         run: |
           set -euo pipefail
@@ -114,9 +118,10 @@ jobs:
             src/main_unclassified/band_0006/0x0006eee0.c \
             src/main_unclassified/band_0015/0x001552a0.c \
             src/main_unclassified/band_002f/0x002f05f8.c \
-            src/main_unclassified/band_002d/0x002df650.c
+            src/main_unclassified/band_002d/0x002df650.c \
+            src/main_unclassified/band_0021/0x00214710.c
           do
             echo "Checking ${name}"
             clang "${flags[@]}" "${name}"
           done
-          echo "Twenty-seven isolated C11 syntax checks passed; no Xbox ABI, linking, or runtime equivalence claimed."
+          echo "Twenty-eight isolated C11 syntax checks passed; no Xbox ABI, linking, or runtime equivalence claimed."
