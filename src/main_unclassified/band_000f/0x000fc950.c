@@ -21,6 +21,7 @@ void FUN_000fc950(int param_1,undefined4 param_2,undefined4 param_3)
   float *pfVar7;
   int unaff_retaddr;
   float fStack_94;
+  uint32_t guest_fstack_94_bits;
   float fStack_90;
   float fStack_8c;
   float fStack_88;
@@ -97,7 +98,12 @@ void FUN_000fc950(int param_1,undefined4 param_2,undefined4 param_3)
         uStack_4c = 0xf7596625;
         apuStack_44[0] = &uStack_50;
         apuStack_44[1] = &uStack_4c;
-        fStack_94 = (float)CONCAT22(fStack_94._2_2_,1);
+        /* Original 0x000FCA82/87 writes low bytes 01 00 into the
+         * four-byte float slot; upper 16 guest bits are retained.
+         * This is a byte-lane update, not a numeric float conversion. */
+        memcpy(&guest_fstack_94_bits, &fStack_94, sizeof guest_fstack_94_bits);
+        guest_fstack_94_bits = (guest_fstack_94_bits & UINT32_C(0xffff0000)) | UINT32_C(0x00000001);
+        memcpy(&fStack_94, &guest_fstack_94_bits, sizeof guest_fstack_94_bits);
         iVar6 = 0;
         fStack_90 = (fStack_90 - fStack_8c) * 0.5 + fStack_88;
         afStack_3c[0] = fStack_84 - fVar3;
