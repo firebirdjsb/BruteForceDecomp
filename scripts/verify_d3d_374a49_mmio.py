@@ -19,6 +19,10 @@ OPS = {
     0x00374CBE: "89849e80094000", # GPU mirror +0x400980
     0x00374CD3: "898624031000",   # GPU method +0x100324
     0x00374CD9: "8986a0094000",   # GPU mirror +0x4009a0
+    0x00378F52: "8d8f14021000", # lea ecx,[edi+0x100214]
+    0x00378F58: "8b01",         # mov eax,[ecx]
+    0x00378F5A: "83e0fe",       # and eax,0xfffffffe
+    0x00378F5D: "8901",         # mov [ecx],eax
 }
 def main():
     parser = argparse.ArgumentParser()
@@ -39,13 +43,18 @@ def main():
     assert "FUN_00100300" not in second
     assert "LAB_00400980" not in second
     assert "LAB_00100324" not in second
+    gpu = (args.root / "src/platform/graphics_d3d/0x00378e93.c").read_text()
+    assert "uint32_t guest_gpu_control =" in gpu
+    assert "(uint32_t)iVar1 + UINT32_C(0x00100214)" in gpu
+    assert "*(uint32_t *)(uintptr_t)guest_gpu_control =" in gpu
+    assert "FUN_00100210" not in gpu
     if args.xbe:
         data = args.xbe.read_bytes()
         assert hashlib.sha256(data).hexdigest() == XBE_SHA256
         for va,hx in OPS.items():
             exact = bytes.fromhex(hx)
             assert guest_bytes(data,va,len(exact)) == exact, hex(va)
-    print("PASS: Xbox D3D 0x374a49 and 0x374c34 original guest MMIO offsets")
+    print("PASS: Xbox D3D 0x374a49, 0x374c34 and 0x378e93 guest MMIO register contracts")
 
 if __name__ == "__main__":
     main()
