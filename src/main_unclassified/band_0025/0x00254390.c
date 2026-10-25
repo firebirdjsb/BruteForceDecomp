@@ -20,17 +20,19 @@ undefined4 FUN_00254390(bf_00254390_guest_record guest_record)
   int in_EAX;
   undefined4 uVar1;
   undefined4 *in_ECX;
-  int iVar2;
   undefined4 local_4;
   
   if (*(int *)(in_EAX + 0x18) != 0) {
-    iVar2 = 1;
     local_4 = 0;
     (**(code **)(*DAT_004432fc + 0x24))
               (DAT_004432fc,1,&guest_record.word_04,1,&local_4,*(int *)(in_EAX + 0x18));
-    if (iVar2 != 0) {
-      uVar1 = (**(code **)(*DAT_004432fc + 0x3c))(DAT_004432fc);
-      (**(code **)(iRam00000001 + 8))(1);
+    if (local_4 != 0) {
+      /* XBE 0x2543CD-0x2543D2 pushes guest output, count 1,
+       * interface and this pointer before the +0x3C callback. */
+      uVar1 = (**(code **)(*DAT_004432fc + 0x3c))(DAT_004432fc,1,in_ECX,local_4);
+      /* XBE 0x2543D7-0x2543E2 reloads the callback's output word,
+       * reads its vtable, and invokes method +8 on that object. */
+      (**(code **)(*(int *)(uintptr_t)local_4 + 8))(local_4);
       return uVar1;
     }
   }
