@@ -6,42 +6,38 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_crt_stream.h"
 /* Library Function - Multiple Matches With Different Base Names
     __ungetc_lk
     _ungetc
    
    Library: Visual Studio 2003 Release */
 
-int __cdecl FID_conflict__ungetc(int __c,FILE *__stream)
-
+/* Guest MSVC stream cursor and flags are 32-bit x86 words.
+ * This preserves the recovered buffer-boundary and pushback sequence;
+ * guest pointer translation remains a native-runtime responsibility. */
+int __cdecl FID_conflict__ungetc(int __c,bf_xbox_crt_stream32 *__stream)
 {
-  char *pcVar1;
-  
-  if (__c != -1) {
-    pcVar1 = __stream->_IO_read_base;
-    if ((((uint)pcVar1 & 1) != 0) || (((char)pcVar1 < '\0' && (((uint)pcVar1 & 2) == 0)))) {
-      if (__stream->_IO_read_end == (char *)0x0) {
-        __getbuf(__stream);
-      }
-      if ((char *)__stream->_flags == __stream->_IO_read_end) {
-        if (__stream->_IO_read_ptr != (char *)0x0) {
-          return -1;
-        }
-        __stream->_flags = (int)((char *)__stream->_flags + 1);
-      }
-      __stream->_flags = __stream->_flags + -1;
-      pcVar1 = (char *)__stream->_flags;
-      if (((uint)__stream->_IO_read_base & 0x40) == 0) {
-        *pcVar1 = (char)__c;
-      }
-      else if (*pcVar1 != (char)__c) {
-        __stream->_flags = (int)(pcVar1 + 1);
-        return -1;
-      }
-      __stream->_IO_read_ptr = __stream->_IO_read_ptr + 1;
-      __stream->_IO_read_base = (char *)((uint)__stream->_IO_read_base & 0xffffffef | 1);
-      return __c & 0xff;
-    }
+  if (__c == -1) return -1;
+  uint32_t flags = __stream->flags_0c;
+  if (((flags & UINT32_C(1)) == 0) &&
+      (((int8_t)flags >= 0) || ((flags & UINT32_C(2)) != 0))) return -1;
+  if (__stream->word_08 == 0) __getbuf(__stream);
+  uint32_t cursor = __stream->word_00;
+  if (cursor == __stream->word_08) {
+    if (__stream->word_04 != 0) return -1;
+    cursor += UINT32_C(1);
   }
-  return -1;
+  cursor -= UINT32_C(1);
+  __stream->word_00 = cursor;
+  uint8_t *byte_at_guest_cursor = (uint8_t *)(uintptr_t)cursor;
+  if ((flags & UINT32_C(0x40)) == 0) {
+    *byte_at_guest_cursor = (uint8_t)__c;
+  } else if (*byte_at_guest_cursor != (uint8_t)__c) {
+    __stream->word_00 = cursor + UINT32_C(1);
+    return -1;
+  }
+  __stream->word_04 += UINT32_C(1);
+  __stream->flags_0c = (flags & ~UINT32_C(0x10)) | UINT32_C(1);
+  return __c & 0xff;
 }
