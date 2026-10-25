@@ -25,7 +25,7 @@ undefined4 FUN_00286310(undefined4 param_1,undefined4 *param_2,undefined4 *param
    * translation remain unverified; no PC runtime equivalence is claimed.
    */
   int *in_EBX;                 /* original implicit guest EBX, ABI_UNVERIFIED */
-  int32_t guest_count = 0;
+  int32_t guest_count; /* original count stack word is callback-initialized */
   uint32_t guest_current_interface_word = 0;
   uint32_t guest_received_interface_word = 0;
   uint32_t guest_record_word;
