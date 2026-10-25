@@ -12,6 +12,9 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x00223F00, 195, "b7823c192ac1f8078af10d9e878d195db38d9ed02a1d9c78cc17cfe3114ceda0"),
+    (0x002B6100, ((0,106),(112,208)), "87e2effb6df1992c6d974f857d6c231010e5d8e40026e0cd3e11f32b516627f6"),
+    (0x002B6240, 252, "39f0c92758428773ffff08c68cc155970ca8835341130b20756393ed56f1ace7"),
     (0x0012BAF0, 363, "a158ab8baeae0c76832bf083f550b79e29ff902e9429fbd043c32df2b54afbad"),
     (0x00233B10, 128, "4911f4e987f45df85a910e477357c52f90778b138eed1ec08b40ab9d5839c479"),
     (0x0010A2E0, 307, "b6f4946cc952ff7d69f9260284540300fbe9d6efedeb5a029ae1fb3713b56d38"),
@@ -54,6 +57,21 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x00223F19: "88442414",  # partial incoming DWORD byte store
+    0x00223F25: "d8590cdfe0f6c4057a0a",  # FCOMP/TEST/JP unordered-inclusive right
+    0x00223F33: "88442414",  # low byte=1
+    0x00223F3E: "88442414",  # low byte=0
+    0x00223F87: "d85d00dfe0f6c4057a24",  # reversed FCOMP unordered-inclusive found
+    0x00223F91: "8b5424145552",  # forward complete incoming word
+    0x002B6184: "f30f101a0f165a04",  # input vector [x,0,y,z]
+    0x002B61A8: "0f59c4",  # first multiply destination/source order
+    0x002B61BB: "0f59cd0fc6dbff0f58c10f59d30f58c2",  # ordered mul/add/mul/add
+    0x002B61CF: "f30f11000f174004",  # compact output to scratch
+    0x002B626C: "8d0411",  # source is input + row byte offset
+    0x002B627F: "f30f101a0f165a04",  # same input lane layout
+    0x002B62B6: "0f59cd0fc6dbff0f58c10f59d30f58c2",  # ordered arithmetic
+    0x002B62CA: "f30f11000f174004",  # scratch-before-output
+
     0x0012BB51: "f30f10000f1640040f59c1",  # [x,0,y,z] times broadcast
     0x0012BB60: "f30f11000f174004",  # compact low/high lanes
     0x0012BBDE: "f30f51442408",  # SQRTSS

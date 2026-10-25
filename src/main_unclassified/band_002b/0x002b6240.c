@@ -4,58 +4,42 @@
  * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
  * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
  * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * SIMD lane construction/order follows the observed MOVSS/MOVHPS/MULPS/ADDPS stream.
  */
 #include "bf_ghidra_types.h"
-void FUN_002b6240(int param_1,float *param_2,float *param_3)
+#include <xmmintrin.h>
 
+static __m128 bf_002b6240_load_ss_hps(const float *address)
 {
-  float fVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  undefined8 uVar4;
-  float *pfVar5;
-  int iVar6;
-  float fVar7;
-  float fVar8;
-  float local_30;
-  undefined8 local_2c;
-  float local_24 [5];
-  float local_10;
-  float local_c;
-  float local_8;
-  
-  pfVar5 = local_24;
-  iVar6 = 3;
-  do {
-    *pfVar5 = 0.0;
-    pfVar5 = pfVar5 + 4;
-    iVar6 = iVar6 + -1;
-  } while (iVar6 != 0);
-  iVar6 = 0;
-  do {
-    fVar1 = *(float *)(iVar6 + param_1);
-    uVar2 = *(undefined8 *)((float *)(iVar6 + param_1) + 1);
-    uVar3 = *(undefined8 *)(param_2 + 1);
-    fVar7 = (float)uVar2;
-    fVar8 = (float)((ulonglong)uVar2 >> 0x20);
-    uVar2 = *(undefined8 *)(param_2 + 5);
-    uVar4 = *(undefined8 *)(param_2 + 9);
-    *(float *)((int)&local_30 + iVar6) = *param_2 * fVar1 + param_2[4] * fVar7 + param_2[8] * fVar8;
-    *(ulonglong *)((int)local_24 + iVar6 + -8) =
-         CONCAT44((float)((ulonglong)uVar3 >> 0x20) * fVar1 +
-                  (float)((ulonglong)uVar2 >> 0x20) * fVar7 +
-                  (float)((ulonglong)uVar4 >> 0x20) * fVar8,
-                  (float)uVar3 * fVar1 + (float)uVar2 * fVar7 + (float)uVar4 * fVar8);
-    iVar6 = iVar6 + 0x10;
-  } while (iVar6 < 0x30);
-  *param_3 = local_30;
-  param_3[1] = (float)local_2c;
-  param_3[2] = local_2c._4_4_;
-  param_3[4] = local_24[1];
-  param_3[5] = local_24[2];
-  param_3[6] = local_24[3];
-  param_3[8] = local_10;
-  param_3[9] = local_c;
-  param_3[10] = local_8;
-  return;
+  __m128 value = _mm_load_ss(address);
+  return _mm_loadh_pi(value, (const __m64 *)(address + 1));
+}
+
+void FUN_002b6240(int param_1,float *param_2,float *param_3)
+{
+  const float *source = (const float *)(uintptr_t)(uint32_t)param_1;
+  float rows[3][4];
+  unsigned int row;
+  unsigned int lane;
+
+  /* Original writes only each scratch row fourth DWORD before transformation. */
+  for (row = 0; row < 3; ++row) rows[row][3] = 0.0f;
+
+  for (row = 0; row < 3; ++row) {
+    __m128 input = bf_002b6240_load_ss_hps(source + row * 4);
+    __m128 x = _mm_shuffle_ps(input, input, _MM_SHUFFLE(0,0,0,0));
+    __m128 y = _mm_shuffle_ps(input, input, _MM_SHUFFLE(2,2,2,2));
+    __m128 z = _mm_shuffle_ps(input, input, _MM_SHUFFLE(3,3,3,3));
+    __m128 result = _mm_mul_ps(bf_002b6240_load_ss_hps(param_2), x);
+    result = _mm_add_ps(result,
+        _mm_mul_ps(bf_002b6240_load_ss_hps(param_2 + 4), y));
+    result = _mm_add_ps(result,
+        _mm_mul_ps(bf_002b6240_load_ss_hps(param_2 + 8), z));
+    _mm_store_ss(rows[row], result);
+    _mm_storeh_pi((__m64 *)(rows[row] + 1), result);
+  }
+
+  for (row = 0; row < 3; ++row)
+    for (lane = 0; lane < 3; ++lane)
+      param_3[row * 4 + lane] = rows[row][lane];
 }
