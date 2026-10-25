@@ -19,6 +19,11 @@ CHECKS = (
     (0x001266C3, "83c404"),       # caller removes address argument
     (0x001266C6, "8bf8"),         # MOV EDI,EAX
     (0x001266CE, "89be20080000"),# MOV [ESI+0x820],EDI
+    (0x001266E3, "c744241800000000"), # guest first argument word <- 0
+    (0x00126703, "d95c2414"),   # FSTP m32fp -> same guest stack word
+    (0x00126707, "8b442414"),   # read exact 32-bit float bits into EAX
+    (0x00126714, "50"),         # PUSH raw 32-bit argument
+    (0x0012671D, "e8dea90100"), # CALL FUN_00141100
     (0x00126729, "5f"),           # POP original saved EDI
     (0x0012672D, "c20800"),       # RET 8
 )
@@ -30,6 +35,10 @@ REQUIRED = (
     "} guest_stack_words = {unaff_EDI,unaff_ESI};",
     "sizeof(guest_stack_words) == 8",
     "FUN_00178e50(&guest_stack_words.saved_edi)",
+    "uint32_t guest_float_arg_word;",
+    "guest_float_arg_word = 0;",
+    "memcpy(&guest_float_arg_word,&guest_float_scalar,sizeof guest_float_arg_word);",
+    "FUN_00141100(guest_float_arg_word);",
 )
 
 def main():
@@ -41,6 +50,8 @@ def main():
     for expected in REQUIRED:
         if expected not in text:
             raise SystemExit("C11 storage invariant missing: " + expected)
+    if "_param_2" in text:
+        raise SystemExit("undecoded Ghidra first-argument float slot remains")
     if "stack0xfffffff8" in text:
         raise SystemExit("unresolved guest stack reference remains")
     if args.xbe is None:
