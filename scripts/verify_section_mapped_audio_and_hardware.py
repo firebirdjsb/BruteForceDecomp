@@ -22,6 +22,23 @@ OPCODES = {
     0x0035A90C: "c705dc504b0014473100", # DirectSoundCreate guest 0x314714
     0x0035A953: "b850a63500", # return Bink guest entry address
     0x0037EECC: "68a0ed3700", # push MU device-type descriptor address
+    0x00349916: "ff3580643800", # guest public-key import
+    0x00330A57: "a150643800", # guest counted filename pointer
+    0x00330A5C: "0fb708", # counted filename WORD length
+    0x00330A7C: "a150643800", # second filename import reload
+    0x00330A81: "0fb708",
+    0x00330A84: "8b4004", # counted filename DWORD buffer
+    0x00330A9A: "a150643800", # third filename import reload
+    0x00330A9F: "0fb700",
+    0x00347E37: "ff3588643800", # XboxLANKey slot read 1
+    0x00347E50: "ff3588643800", # XboxLANKey slot read 2
+    0x00347E94: "ff3588643800", # XboxLANKey slot read 3
+    0x00353009: "a1ac643800", # model descriptor import
+    0x0035300E: "0fb708", # model byte length
+    0x00353012: "ff7004", # model guest buffer address
+    0x0035301D: "a1a8643800", # serial descriptor import
+    0x00353022: "0fb708",
+    0x00353026: "ff7004",
 }
 
 def guest_bytes(xbe, va, size):
@@ -61,13 +78,27 @@ def main():
     assert "return (undefined1 *)(uintptr_t)UINT32_C(0x0035A650);" in bink
     mu = (args.root / "src/platform/xpp_role_unverified/0x0037ee7c.c").read_text()
     assert "(const void *)(uintptr_t)UINT32_C(0x0037EDA0)" in mu
+    public_key = (args.root / "src/platform/network_xnet/0x003498be.c").read_text()
+    assert "uint32_t guest_public_key =" in public_key
+    assert "UINT32_C(0x00386480)" in public_key
+    image_name = (args.root / "src/platform/online_xonline/0x003309e9.c").read_text()
+    assert image_name.count("UINT32_C(0x00386450)") == 3
+    assert "guest_name_buffer + (uint32_t)iVar5" in image_name
+    lan = (args.root / "src/platform/network_xnet/0x00347d34.c").read_text()
+    assert lan.count("UINT32_C(0x00386488)") == 3
+    assert "XboxLANKey_exref," not in lan
+    disk = (args.root / "src/platform/network_xnet/0x00352eeb.c").read_text()
+    assert "UINT32_C(0x003864AC)" in disk
+    assert "UINT32_C(0x003864A8)" in disk
+    assert "guest_model_descriptor + UINT32_C(4)" in disk
+    assert "guest_serial_descriptor + UINT32_C(4)" in disk
     if args.xbe:
         xbe = args.xbe.read_bytes()
         assert hashlib.sha256(xbe).hexdigest() == XBE_SHA256, "Unexpected original XBE"
         for va, hx in OPCODES.items():
             raw = bytes.fromhex(hx)
             assert guest_bytes(xbe, va, len(raw)) == raw, hex(va)
-    print("PASS: section-mapped HRTF, DirectSound, MU descriptor and hardware byte contracts")
+    print("PASS: section-mapped audio, online, networking and Xbox import contracts")
 
 if __name__ == "__main__":
     main()
