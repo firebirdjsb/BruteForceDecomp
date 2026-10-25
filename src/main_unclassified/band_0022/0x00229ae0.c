@@ -27,7 +27,7 @@ void FUN_00229ae0(int *param_1,float param_2)
   undefined4 *puVar8;
   int *piVar9;
   float10 fVar10;
-  undefined1 in_XMM0 [16];
+  __m128 in_XMM0; /* guest XMM0 scalar-lane syntax proxy, NOT an ABI bridge */
   __m128 auVar11;
   char acStack_50 [4];
   float fStack_4c;
@@ -107,7 +107,12 @@ void FUN_00229ae0(int *param_1,float param_2)
             if (1.0 <= fStack_24) {
               fStack_24 = 1.0;
             }
-            in_XMM0 = ZEXT416((uint)fStack_24);
+            /* XBE 0x00229D34 MOVSS xmm0,[esp+0x20]; 0x00229D3A MAXSS,
+             * 0x00229D40 MINSS, 0x00229D46 MOVSS [esp+0x3c],xmm0.
+             * The C comparisons above represent the scalar clamp; this
+             * keeps the original XMM0 low-lane source without inventing
+             * host register/call ABI or upper-lane dependencies. */
+            in_XMM0 = _mm_set_ss(fStack_24);
             fStack_38 = fStack_4c;
             fStack_30 = fStack_34;
             fVar10 = (float10)FUN_00306c80();
