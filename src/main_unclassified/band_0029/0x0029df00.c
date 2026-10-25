@@ -16,43 +16,53 @@ extern uint32_t _DAT_00000000;
 undefined4 FUN_0029df00(void)
 
 {
-  int iVar1;
-  undefined4 *puVar2;
-  undefined4 *unaff_EBX;
+  /* Original x86: SUB ESP,0x14 (0x0029DF00). The output interface
+   * is the DWORD at entry_ESP-0x14, initialized by MOV [ESP+0x10],0
+   * at 0x0029DF25 and passed via LEA [ESP+4] at 0x0029DF1D.
+   * The two other callback output words are entry_ESP-0x10/-0x0c.
+   * They are distinct guest storage, not addresses into a host FILE
+   * or C argument list. Native x86 register inputs remain ABI_UNVERIFIED.
+   */
   int *unaff_ESI;
-  undefined1 *puStack_28;
-  undefined1 *puStack_24;
-  
-  *unaff_EBX = unaff_ESI;
-  (**(code **)(*unaff_ESI + 4))();
-  iVar1 = (**(code **)(*unaff_ESI + 0x38))();
-  if (iVar1 == 1) {
-    puStack_28 = (undefined1 *)0x0;
-    puStack_24 = &stack0xffffffe4;
-    (**(code **)(*unaff_ESI + 0x24))();
-    iVar1 = (**(code **)(_DAT_00000000 + 0x14))();
-    if (iVar1 < 2) {
-      (**(code **)(*unaff_ESI + 8))();
-      (**(code **)(_DAT_00000000 + 0x1c))(0,&stack0xffffffd4);
-      if (iVar1 == 1) {
-        puStack_24 = (undefined1 *)0x0;
-        (**(code **)(*unaff_ESI + 0x30))(unaff_ESI,0,&puStack_24);
-        puStack_28 = puStack_24;
-      }
-      puVar2 = (undefined4 *)FUN_002ea01d(0xc);
-      if (puVar2 == (undefined4 *)0x0) {
-        puVar2 = (undefined4 *)0x0;
-      }
-      else {
-        *puVar2 = &PTR_LAB_003910c0;
-        puVar2[2] = 1;
-      }
-      DAT_00469880 = DAT_00469880 + 1;
-      puVar2[1] = puStack_28;
-      *unaff_EBX = puVar2;
-    }
-    if (unaff_ESI != (int *)0x0) {
+  undefined4 *unaff_EBX;
+  uint32_t guest_interface_word = 0;
+  uint32_t guest_secondary_word = 0;
+  uint32_t guest_tertiary_word = 0;
+  uint32_t *guest_object;
+  int *guest_interface;
+  int query_result;
+
+  *unaff_EBX = (undefined4)(uintptr_t)unaff_ESI;
+  (**(code **)(*unaff_ESI + 4))(unaff_ESI);
+  query_result = (**(code **)(*unaff_ESI + 0x38))(unaff_ESI);
+  if (query_result == 1) {
+    (**(code **)(*unaff_ESI + 0x24))(unaff_ESI,0,&guest_interface_word);
+    guest_interface = (int *)(uintptr_t)guest_interface_word;
+    query_result = (**(code **)(*guest_interface + 0x14))(guest_interface);
+    if (query_result < 2) {
       (**(code **)(*unaff_ESI + 8))(unaff_ESI);
+      (**(code **)(*guest_interface + 0x1c))(guest_interface,&guest_secondary_word);
+      if (query_result == 1) {
+        /* The original stores three zero DWORDs before CALL +0x30. */
+        uint32_t guest_aux_word_1 = 0;
+        uint32_t guest_aux_word_2 = 0;
+        (**(code **)(*guest_interface + 0x30))
+            (guest_interface,0,&guest_tertiary_word,
+             &guest_aux_word_1,&guest_aux_word_2);
+        guest_secondary_word = guest_tertiary_word;
+      }
+      guest_object = (uint32_t *)(uintptr_t)FUN_002ea01d(0x0c);
+      if (guest_object != (uint32_t *)0) {
+        guest_object[0] = UINT32_C(0x003910c0);
+        guest_object[2] = 1;
+      }
+      /* The original stores to EAX+4 even if allocation returned zero. */
+      guest_object[1] = guest_secondary_word;
+      DAT_00469880 = DAT_00469880 + 1;
+      *unaff_EBX = (undefined4)(uintptr_t)guest_object;
+    }
+    if (guest_interface != (int *)0) {
+      (**(code **)(*guest_interface + 8))(guest_interface);
     }
   }
   return 0;
