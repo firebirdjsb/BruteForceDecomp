@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0040cd74;
@@ -67,15 +68,19 @@ undefined1 FUN_000f1430(int param_1,int *param_2)
   uVar4 = FUN_001e97c0();
   uStack_4 = 7;
   uStack_8 = 0;
-  uStack_18 = (undefined4 *)((uint)uStack_18._2_2_ << 0x10);
+  /* MOV WORD PTR [ESP+0x3c],BX (BX=0) at 0x000F14E7.
+   * Initialize ONLY the lower two bytes; the upper two bytes belong to the
+   * original 32-bit guest stack slot and must not be read before assignment. */
+  bf_x86_word_store_byte(&uStack_18,0U,UINT8_C(0));
+  bf_x86_word_store_byte(&uStack_18,1U,UINT8_C(0));
   uVar4 = FUN_002eaa70(uVar4);
   FUN_000876a0(auStack_1c,uVar4);
   if (uStack_4 < 8) {
     puVar12 = &uStack_18;
   }
   else {
-    puVar12 = uStack_18;
-    if (uStack_18 == (undefined4 *)0x0) goto LAB_000f1544;
+    puVar12 = (undefined4 *)(uintptr_t)uStack_18;
+    if (uStack_18 == 0) goto LAB_000f1544;
   }
   iVar3 = FUN_002eaa70(puVar12);
   if (((iVar3 != 0) && (iVar3 = FUN_00102b50(&piStack_40,auStack_3c), iVar3 != 0)) &&
