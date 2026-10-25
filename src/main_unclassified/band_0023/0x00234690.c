@@ -19,6 +19,11 @@ void FUN_00234690(undefined4 param_1,int param_2)
   int *unaff_ESI;
   int *piStack_10;
   int iStack_c;
+  /* XBE 0x2346E0, 0x234771 and 0x2347A8 read the first incoming
+   * guest DWORD at initial ESP+4 (param_1), not a host stack pointer.
+   * The adjacent second guest word at ESP+8 is used by virtual output
+   * calls. Guest address translation and indirect call ABI remain
+   * ABI_UNVERIFIED. */
   
   piStack_10 = (int *)*unaff_ESI;
   iStack_c = param_2;
@@ -35,7 +40,7 @@ void FUN_00234690(undefined4 param_1,int param_2)
     if ((int *)*unaff_ESI != piVar4) {
       if (piVar2 != (int *)0x0) {
         iVar6 = (**(code **)(*piVar2 + 0x40))(piVar2);
-        if (iVar6 == param_2) {
+        if ((uint32_t)iVar6 == (uint32_t)param_1) {
           (**(code **)(*piVar2 + 0x3c))(piVar2,0);
         }
       }
@@ -50,7 +55,7 @@ void FUN_00234690(undefined4 param_1,int param_2)
         (**(code **)(*piVar4 + 4))(piVar4);
       }
       if (piVar4 != (int *)0x0) {
-        (**(code **)(*piVar4 + 0x3c))(piVar4,param_2);
+        (**(code **)(*piVar4 + 0x3c))(piVar4,param_1);
       }
     }
 LAB_0023471f:
@@ -72,7 +77,7 @@ LAB_0023471f:
   if ((int *)unaff_ESI[1] != piVar1) {
     if (piVar4 != (int *)0x0) {
       puVar7 = (undefined1 *)(**(code **)(*piVar4 + 0x40))(piVar4);
-      if (puVar7 == &stack0xfffffff8) {
+      if ((uint32_t)(uintptr_t)puVar7 == (uint32_t)param_1) {
         (**(code **)(*piVar4 + 0x3c))(piVar4,0);
       }
     }
@@ -87,7 +92,7 @@ LAB_0023471f:
       (**(code **)(*piVar1 + 4))(piVar1);
     }
     if (piVar1 != (int *)0x0) {
-      (**(code **)(*piVar1 + 0x3c))(piVar1,&stack0xfffffff8);
+      (**(code **)(*piVar1 + 0x3c))(piVar1,param_1);
     }
   }
 LAB_002347b3:
