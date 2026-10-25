@@ -11,6 +11,10 @@
 extern uint32_t DAT_003c053c;
 extern uint32_t *DAT_00469b54;
 extern uint32_t PTR_LAB_0039f73c;
+/* XBE 0x000BF8B2 pushes 0x000A3D50 as a callback to 0x0001FE40.
+ * Target 0x000A3D50 is MOV EAX,ECX; RET (guest32 register identity).
+ * Host callback calling convention is NOT established by this declaration. */
+extern uint32_t FUN_000a3d50(uint32_t guest_ecx);
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 undefined1 FUN_000bf7a0(int param_1,int param_2,int *param_3,undefined4 *param_4,float *param_5)
