@@ -13,6 +13,7 @@ on:
       - 'tools/verify_audit_artifact_consistency.py'
       - 'tools/test_verify_audit_artifact_consistency.py'
       - 'scripts/group_guest_stack_failures.py'
+      - 'scripts/verify_0029df00_three_guest_outwords.py'
       - 'scripts/verify_two_guest_interface_slots.py'
       - 'scripts/verify_0029e410_argument_word_contract.py'
       - 'scripts/verify_002a82xx_io.py'
@@ -242,6 +243,8 @@ jobs:
         run: python3 scripts/verify_00264c50_transfer_word.py --repo .
       - name: Verify two initialized iterator-key stack structs (source-only CI)
         run: python3 scripts/verify_two_iterator_key_stacks.py --repo .
+      - name: Verify 0x0029DF00 guest frame output slots (source-only CI)
+        run: python3 scripts/verify_0029df00_three_guest_outwords.py --repo .
       - name: Verify synthetic Xbox kernel thunk parsing
         run: python3 tools/test_xbe_kernel_imports.py
       - name: Verify sorted source layout and exact function identities
