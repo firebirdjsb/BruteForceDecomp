@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_mmx_byte_lanes.h"
+/* XBE-confirmed MOVD/PUNPCKLBW byte lanes and PSRLW/PSLLW top nibble. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003b7d58;
@@ -33,7 +35,6 @@ void FUN_00368f20(int param_1)
   byte bVar3;
   byte bVar4;
   undefined4 uVar5;
-  uint uVar6;
   ulonglong *puVar7;
   byte *pbVar8;
   byte *pbVar9;
@@ -49,7 +50,6 @@ void FUN_00368f20(int param_1)
   undefined8 uVar17;
   short sVar21;
   undefined8 uVar18;
-  uint5 uVar23;
   ulonglong uVar22;
   
   uVar18 = DAT_003b7d58;
@@ -64,13 +64,7 @@ void FUN_00368f20(int param_1)
     bVar3 = *pbVar9;
     pbVar1 = pbVar9 + 1;
     pbVar9 = pbVar9 + 2;
-    uVar17 = psubusw((ulonglong)
-                     CONCAT52((int5)(CONCAT43((int)(CONCAT34((int3)(CONCAT25((short)(((uint7)(byte)(
-                                                  (uint)uVar5 >> 0x18) << 0x30) >> 0x28),
-                                                  CONCAT14((char)((uint)uVar5 >> 0x10),uVar5)) >>
-                                                  0x20),uVar5) >> 0x18),
-                                              CONCAT12((char)((uint)uVar5 >> 8),(short)uVar5)) >>
-                                    0x10),(short)uVar5) & 0xffffffff00ff00ff,
+    uVar17 = psubusw(bf_x86_unpack_u32_bytes_to_u16_lanes((uint32_t)uVar5),
                      _PTR_LAB_0010000c_4_003b7d48);
     bVar4 = *pbVar8;
     uVar17 = psllw(uVar17,2);
@@ -112,17 +106,7 @@ void FUN_00368f20(int param_1)
                             CONCAT24((ushort)((ulonglong)uVar12 >> 0x20) >> 4,
                                      CONCAT22((ushort)((ulonglong)uVar12 >> 0x10) >> 4,
                                               (ushort)uVar12 >> 4))),8);
-    uVar6 = (uint)(CONCAT34((int3)(CONCAT25((short)(((uint7)(byte)((uint)uVar5 >> 0x18) << 0x30) >>
-                                                   0x28),CONCAT14((char)((uint)uVar5 >> 0x10),uVar5)
-                                           ) >> 0x20),uVar5) >> 0x18);
-    uVar23 = (uint5)uVar6 & 0xffffffff00;
-    uVar22 = psllw(CONCAT26((ushort)(uVar23 >> 0x1c),
-                            CONCAT24((ushort)(uVar23 >> 8) >> 4,
-                                     CONCAT22(((ushort)(CONCAT43(uVar6,CONCAT12((char)((uint)uVar5
-                                                                                      >> 8),
-                                                                                (ushort)uVar5)) >>
-                                                       0x10) & 0xff) >> 4,
-                                              ((ushort)uVar5 & 0xff) >> 4))),0xc);
+    uVar22 = bf_x86_mmx_top_nibble_to_u16_lanes((uint32_t)uVar5);
     puVar10 = puVar11 + 1;
     DAT_004be778 = DAT_004be778 + 1;
     *puVar11 = CONCAT26((ushort)((ulonglong)uVar17 >> 0x34),
@@ -141,13 +125,7 @@ void FUN_00368f20(int param_1)
     bVar3 = *DAT_004be770;
     pbVar8 = DAT_004be770 + 1;
     DAT_004be770 = DAT_004be770 + 2;
-    uVar18 = psubusw((ulonglong)
-                     CONCAT52((int5)(CONCAT43((int)(CONCAT34((int3)(CONCAT25((short)(((uint7)(byte)(
-                                                  (uint)uVar5 >> 0x18) << 0x30) >> 0x28),
-                                                  CONCAT14((char)((uint)uVar5 >> 0x10),uVar5)) >>
-                                                  0x20),uVar5) >> 0x18),
-                                              CONCAT12((char)((uint)uVar5 >> 8),(short)uVar5)) >>
-                                    0x10),(short)uVar5) & 0xffffffff00ff00ff,
+    uVar18 = psubusw(bf_x86_unpack_u32_bytes_to_u16_lanes((uint32_t)uVar5),
                      _PTR_LAB_0010000c_4_003b7d48);
     bVar4 = *DAT_004be774;
     uVar18 = psllw(uVar18,2);
@@ -189,17 +167,7 @@ void FUN_00368f20(int param_1)
                             CONCAT24((ushort)((ulonglong)uVar12 >> 0x20) >> 4,
                                      CONCAT22((ushort)((ulonglong)uVar12 >> 0x10) >> 4,
                                               (ushort)uVar12 >> 4))),8);
-    uVar6 = (uint)(CONCAT34((int3)(CONCAT25((short)(((uint7)(byte)((uint)uVar5 >> 0x18) << 0x30) >>
-                                                   0x28),CONCAT14((char)((uint)uVar5 >> 0x10),uVar5)
-                                           ) >> 0x20),uVar5) >> 0x18);
-    uVar23 = (uint5)uVar6 & 0xffffffff00;
-    uVar22 = psllw(CONCAT26((ushort)(uVar23 >> 0x1c),
-                            CONCAT24((ushort)(uVar23 >> 8) >> 4,
-                                     CONCAT22(((ushort)(CONCAT43(uVar6,CONCAT12((char)((uint)uVar5
-                                                                                      >> 8),
-                                                                                (ushort)uVar5)) >>
-                                                       0x10) & 0xff) >> 4,
-                                              ((ushort)uVar5 & 0xff) >> 4))),0xc);
+    uVar22 = bf_x86_mmx_top_nibble_to_u16_lanes((uint32_t)uVar5);
     puVar10 = puVar11 + 1;
     DAT_004be77c = DAT_004be77c + 1;
     *puVar11 = CONCAT26((ushort)((ulonglong)uVar18 >> 0x34),
