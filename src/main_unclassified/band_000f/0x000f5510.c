@@ -16,6 +16,13 @@ void FUN_000f5510(int param_1)
   wchar_t *__s2;
   int *piVar2;
   wchar_t *__s1;
+  /* Original 0x000F557A LEA ECX,[ESP+0x10] addresses the FIRST
+   * incoming 32-bit argument slot (entry ESP+4), not a host local.
+   * 0x000F557E overwrites that slot with 0xE0F733FD immediately
+   * before the vtable +8 call.  The earlier 0xF0068D51 write and
+   * EBX register input to 0x001E97C0, as well as the upper bytes
+   * of the local flag, still require separate ABI reconstruction. */
+  uint32_t guest_first_arg_word;
   
   param_1 = param_1 + 0xc;
   iVar1 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x18c))(param_1,0);
@@ -31,7 +38,8 @@ void FUN_000f5510(int param_1)
     if (iVar1 == 0) {
       param_1 = 1;
       piVar2 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))(1);
-      (**(code **)(*piVar2 + 8))(&stack0x00000000,0,0);
+      guest_first_arg_word = UINT32_C(0xe0f733fd);
+      (**(code **)(*piVar2 + 8))(&guest_first_arg_word,0,0);
     }
   }
   (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x15c))(param_1);
