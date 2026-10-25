@@ -13,14 +13,12 @@ undefined4 FUN_002825e0(undefined4 param_1,int *param_2)
   int *piVar2;
   int *piVar3;
   int unaff_ESI;
-  int *piVar4;
   int *piStack_c;
   int local_4;
   
   piStack_c = &local_4;
   local_4 = 0;
   (**(code **)(*param_2 + 0x10))(param_2);
-  piVar4 = (int *)register0x00000010;
   (**(code **)(*piStack_c + 0x20))(piStack_c);
   piVar1 = piStack_c;
   if (unaff_ESI == 0x1f2e2943) {
@@ -35,12 +33,15 @@ undefined4 FUN_002825e0(undefined4 param_1,int *param_2)
     if (piVar1 != (int *)0x0) {
       piVar2 = piStack_c + 0xc;
       piVar3 = piStack_c + 10;
-      piStack_c = (int *)0x1d3e389e;
-      (**(code **)(*piVar1 + 0x70))(piVar1,piVar3,&piStack_c,piVar2);
+      param_1 = 0x1d3e389e;
+      (**(code **)(*piVar1 + 0x70))(piVar1,piVar3,&param_1,piVar2);
     }
   }
-  if (piVar4 != (int *)0x0) {
-    (**(code **)(*piVar4 + 8))(piVar4);
+  /* XBE 0x0028265E reloads the interface from [ESP+4], the same
+   * local output slot addressed at 0x002825E8.  It is NOT a register0x10
+   * host address.  The vtable signatures and type-tag output remain unverified. */
+  if (piStack_c != (int *)0x0) {
+    (**(code **)(*piStack_c + 8))(piStack_c);
   }
   return 0;
 }
