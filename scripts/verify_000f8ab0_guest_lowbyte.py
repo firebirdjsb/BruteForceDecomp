@@ -53,7 +53,12 @@ def verify_source(s):
     if re.search(r"local_c2c\._\d+_\d+_",c):
         raise ValueError("Unresolved Ghidra scalar subpiece")
     if c.count("local_c2c = (local_c2c & UINT32_C(")!=1:
-        raise ValueError("Unexpected extra scalar overwrite")
+        raise ValueError("Unexpected duplicate guest low-byte operation")
+    # A second write between the verified byte store and virtual forwarding
+    # would silently destroy the original post-branch guest DWORD.
+    after_patch = c[c.index(PATCH)+len(PATCH):c.index(CALL)]
+    if re.search(r"\blocal_c2c\s*=(?!=)", after_patch):
+        raise ValueError("Unexpected write between guest byte update and virtual call")
 
 def negative_sources(s):
     mutations=[
