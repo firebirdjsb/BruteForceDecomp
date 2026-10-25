@@ -2,6 +2,7 @@
 """Pin original Bink32 MOVD/PXOR/PUNPCKLBW byte-unpack instructions."""
 import argparse
 import hashlib
+import re
 from pathlib import Path
 from verify_section_mapped_audio_and_hardware import guest_bytes, XBE_SHA256
 
@@ -36,8 +37,12 @@ def main():
     assert '#include "bf_x86_mmx_byte_lanes.h"' in c
     token = "bf_x86_unpack_u32_bytes_to_u16_lanes((uint32_t)uVar5)"
     assert c.count(token) == 2
-    assert "CONCAT52((int5)" not in c
-    assert "uint7" not in c
+    # Comments may mention obsolete Ghidra types; reject them only in C code.
+    code = re.sub(r"/\\*.*?\\*/|//[^\\n]*", "", c, flags=re.S)
+    assert "CONCAT52((int5)" not in code
+    assert re.search(r"\\buint7\\b", code) is None
+    assert "uint7" not in re.sub(r"/\\*.*?\\*/", "", "/* uint7 */")
+    assert re.search(r"\\buint7\\b", "uint7 bad_type;") is not None
     bink4444 = (args.root / "src/video_bink/bink4444/0x00368f20.c").read_text()
     assert bink4444.count("bf_x86_unpack_u32_bytes_to_u16_lanes((uint32_t)uVar5)") == 2
     assert bink4444.count("bf_x86_mmx_top_nibble_to_u16_lanes((uint32_t)uVar5)") == 2
