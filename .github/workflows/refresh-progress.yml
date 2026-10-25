@@ -40,6 +40,14 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/progress_audit"
           gh run download "$RUN_ID" --repo "$GITHUB_REPOSITORY" --name full-c11-inventory --dir "$RUNNER_TEMP/progress_audit"
+      - name: Revalidate downloaded full-audit artifact before publishing progress
+        if: steps.freshness.outputs.use_report == 'true'
+        run: |
+          # The exact workflow artifact, not a summary or guessed count, is the source of truth.
+          # These source-only checks require no original Xbox XBE.
+          python3 tools/test_verify_audit_artifact_consistency.py
+          python3 tools/verify_audit_artifact_consistency.py \
+            --artifact-dir "$RUNNER_TEMP/progress_audit"
       - name: Regenerate progress and README from validated report
         if: steps.freshness.outputs.use_report == 'true'
         env:
