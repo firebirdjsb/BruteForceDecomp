@@ -87,6 +87,7 @@ on:
       - 'scripts/verify_000da880_guest_second_word.py'
       - 'scripts/verify_000f24f0_000f2c60.py'
       - 'scripts/verify_000f0640_saved_ecx_word.py'
+      - 'scripts/verify_000f5510_guest_argument.py'
       - 'scripts/verify_001ed5d0_event_word.py'
       - 'scripts/verify_0006a750_device_word.py'
       - 'scripts/verify_002f3298_signature_imports.py'
@@ -162,6 +163,8 @@ jobs:
           /tmp/bf_guest_frame_test
           clang -std=c11 -Wall -Wextra -Werror -pedantic -O2 -DNDEBUG tests/guest_frame_contract.c -o /tmp/bf_guest_frame_test_release
           /tmp/bf_guest_frame_test_release
+      - name: Verify 0x000F5510 first incoming guest DWORD alias (source-only CI)
+        run: python3 scripts/verify_000f5510_guest_argument.py --root .
       - name: Verify two virtual-callback guest stack slots (source-only CI)
         run: python3 scripts/verify_two_guest_interface_slots.py --repo .
       - name: Verify two original incoming DWORD aliases at 0x0029E410 (source-only CI)
