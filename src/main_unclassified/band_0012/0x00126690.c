@@ -24,6 +24,8 @@ void FUN_00126690(undefined4 param_1,char param_2)
                  "guest x86 adjacent stack words must be two DWORDs");
   undefined4 uVar2;
   float10 fVar3;
+  uint32_t guest_float_arg_word; /* guest incoming stack DWORD reused for x87 m32fp */
+  float guest_float_scalar;
   
   uVar2 = 0;
   iVar1 = FUN_0017beb0(unaff_EBX);
@@ -34,13 +36,19 @@ void FUN_00126690(undefined4 param_1,char param_2)
   }
   *(undefined4 *)(unaff_ESI + 0x820) = uVar2;
   if (param_2 != '\0') {
-    _param_2 = 0.0;
+    /* MOV DWORD [ESP+0x18],0 at 0x001266E3 initializes the guest
+     * first stack argument. The x87 FSTP at 0x00126703 later writes
+     * a binary32 result to this same word, not a host float pointer. */
+    guest_float_arg_word = 0;
     iVar1 = FUN_0017beb0(unaff_EBX);
     if (iVar1 != 0) {
       fVar3 = (float10)(**(code **)(*DAT_00469940 + 100))(iVar1 + 4);
-      _param_2 = (float)fVar3;
+      guest_float_scalar = (float)fVar3;
+      memcpy(&guest_float_arg_word,&guest_float_scalar,sizeof guest_float_arg_word);
     }
-    FUN_00141100(_param_2);
+    /* MOV EAX,[ESP+0x14]; PUSH EAX at 0x00126707/0x00126714
+     * forwards the original four bit-pattern bytes unchanged. */
+    FUN_00141100(guest_float_arg_word);
     *(byte *)(unaff_ESI + 0x818) = *(byte *)(unaff_ESI + 0x818) | 4;
   }
   return;
