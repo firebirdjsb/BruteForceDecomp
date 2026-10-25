@@ -46,7 +46,10 @@ void XAPILIB__MU_Init(void)
   }
   iVar3 = FUN_0037f2c2();
   if (iVar3 == 0) {
-    iVar3 = IUsbInit_GetMaxDeviceTypeCount(&g_DeviceType_MU);
+    /* XBE 0x0037EECC: push original guest device-type descriptor
+     * address 0x0037EDA0. Descriptor layout remains unverified. */
+    iVar3 = IUsbInit_GetMaxDeviceTypeCount(
+        (const void *)(uintptr_t)UINT32_C(0x0037EDA0));
     uVar4 = iVar3 + 1;
     if (uVar4 < 9) goto LAB_0037eee1;
   }
