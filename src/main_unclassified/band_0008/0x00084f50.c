@@ -22,6 +22,13 @@ void FUN_00084f50(char param_1)
   int *piVar4;
   int *piVar5;
   int iVar6;
+  /* Original XBE: SUB ESP,0x18; PUSH EBX/ESI/EDI. Six local DWORDs
+   * occupy [ESP+0x0c, ESP+0x24) after those pushes. The first call
+   * receives [ESP+0x10] (0x85013); both later paths receive
+   * [ESP+0x0c] (0x85047/0x8504d), one DWORD earlier.
+   * Original stack byte RMW/writes and indirect-call ABI remain
+   * unrepresented/unverified; syntax-only guest storage, not 1:1. */
+  undefined4 guest_local_words[6];
   
   piVar4 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
   piVar1 = *(int **)(DAT_00469b58 + 8);
@@ -49,11 +56,11 @@ void FUN_00084f50(char param_1)
   (**(code **)(*DAT_00469940 + 8))();
   (**(code **)(*piVar4 + 0x1c))();
   (**(code **)(*piVar1 + 0x1bc))(&DAT_0046d064);
-  (**(code **)(*piVar1 + 0x20))(&stack0xffffffe4);
+  (**(code **)(*piVar1 + 0x20))(&guest_local_words[1]);
   if (bVar2) {
-    (**(code **)(*piVar1 + 0x8c))();
+    (**(code **)(*piVar1 + 0x8c))(&guest_local_words[0]);
     return;
   }
-  (**(code **)(*piVar1 + 0x8c))(&stack0xffffffdc);
+  (**(code **)(*piVar1 + 0x8c))(&guest_local_words[0]);
   return;
 }
