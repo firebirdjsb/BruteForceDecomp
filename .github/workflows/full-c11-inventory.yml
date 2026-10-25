@@ -15,6 +15,7 @@ on:
       - 'scripts/group_guest_stack_failures.py'
       - 'scripts/verify_0029df00_three_guest_outwords.py'
       - 'scripts/verify_00126690_saved_register_pair.py'
+      - 'scripts/verify_00286310_three_stack_outputs.py'
       - 'scripts/verify_two_guest_interface_slots.py'
       - 'scripts/verify_0005af30_0029f440_x86.py'
       - 'scripts/verify_0029e410_argument_word_contract.py'
@@ -251,6 +252,8 @@ jobs:
         run: python3 scripts/verify_0029df00_three_guest_outwords.py --repo .
       - name: Verify 0x00126690 saved EDI/ESI adjacent stack words (source-only CI)
         run: python3 scripts/verify_00126690_saved_register_pair.py --repo .
+      - name: Verify 0x00286310 three guest stack outputs (source-only CI)
+        run: python3 scripts/verify_00286310_three_stack_outputs.py --repo .
       - name: Verify synthetic Xbox kernel thunk parsing
         run: python3 tools/test_xbe_kernel_imports.py
       - name: Verify sorted source layout and exact function identities
