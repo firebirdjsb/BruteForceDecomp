@@ -28,7 +28,13 @@ void FUN_00378e93(void)
   *(uint *)(iVar1 + 0x2214) =
        (local_8 + 0x701080 & 0x1fc00 | 0x200) << 7 | (uint)unaff_ESI[0x4a] >> 8 & 0x1fc;
   unaff_ESI[0x58] = local_8 + 0x10a0 >> 4;
-  *(uint *)(FUN_00100210 + iVar1 + 4) = *(uint *)(FUN_00100210 + iVar1 + 4) & 0xfffffffe;
+  /* XBE 0x00378F52..0x00378F5D: lea ecx,[edi+0x100214];
+   * mov eax,[ecx]; and eax,0xfffffffe; mov [ecx],eax.
+   * Preserve the 32-bit Xbox GPU guest address, not a host function. */
+  uint32_t guest_gpu_control =
+      (uint32_t)iVar1 + UINT32_C(0x00100214);
+  *(uint32_t *)(uintptr_t)guest_gpu_control =
+      *(const uint32_t *)(uintptr_t)guest_gpu_control & UINT32_C(0xFFFFFFFE);
   uVar3 = 0x700000;
   do {
     iVar2 = local_8 + uVar3;
