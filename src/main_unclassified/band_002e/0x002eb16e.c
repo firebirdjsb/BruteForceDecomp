@@ -6,35 +6,36 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_crt_stream.h"
 /* Library Function - Single Match
     _fclose
    
    Library: Visual Studio 2003 Release */
 
-int __cdecl _fclose(FILE *__stream)
+int __cdecl _fclose(bf_xbox_crt_stream32 *__stream)
 
 {
   int iVar1;
   int iVar2;
   
   iVar2 = -1;
-  if (((uint)__stream->_IO_read_base & 0x40) == 0) {
-    if (((uint)__stream->_IO_read_base & 0x83) != 0) {
+  if ((__stream->flags_0c & 0x40) == 0) {
+    if ((__stream->flags_0c & 0x83) != 0) {
       iVar2 = __flush(__stream);
       __freebuf(__stream);
-      iVar1 = FUN_002ef342(__stream->_IO_write_base);
+      iVar1 = FUN_002ef342(__stream->handle_10);
       if (iVar1 < 0) {
         iVar2 = -1;
       }
-      else if (__stream->_IO_buf_base != (char *)0x0) {
+      else if (__stream->buffer_1c != 0) {
                     /* WARNING: Subroutine does not return */
-        thunk_FUN_00237ec0(__stream->_IO_buf_base);
+        thunk_FUN_00237ec0(__stream->buffer_1c);
       }
     }
   }
   else {
     iVar2 = -1;
   }
-  __stream->_IO_read_base = (char *)0x0;
+  __stream->flags_0c = 0;
   return iVar2;
 }
