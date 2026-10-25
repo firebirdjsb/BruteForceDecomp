@@ -9,7 +9,9 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0039b1ac;
-void FUN_0014d960(undefined4 *param_1,int *param_2,char param_3)
+/* Original x86 0x0014DA53 reloads the out-buffer argument into EAX
+ * before copying two DWORDs into that buffer and returning. */
+undefined4 * FUN_0014d960(undefined4 *param_1,int *param_2,char param_3)
 
 {
   char cVar1;
@@ -54,5 +56,5 @@ void FUN_0014d960(undefined4 *param_1,int *param_2,char param_3)
 LAB_0014da53:
   *param_1 = local_14;
   param_1[1] = local_10;
-  return;
+  return param_1;
 }
