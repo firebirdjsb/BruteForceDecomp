@@ -15,6 +15,7 @@ bool FUN_00042280(int param_1)
   char cVar2;
   int iVar3;
   int iVar4;
+  int returned_object; /* EAX result of FUN_001611d0 */
   bool bVar5;
   undefined4 local_3c;
   undefined4 local_38;
@@ -35,19 +36,19 @@ bool FUN_00042280(int param_1)
     }
     else if ((*(byte *)(iVar4 + 0x28) & 4) != 0) {
       FUN_0001b650();
-      FUN_001611d0();
-      *(uint *)(iRamfffffffc + 0x28) = *(uint *)(iRamfffffffc + 0x28) & 0xfffffffb;
+      returned_object = FUN_001611d0();
+      *(uint *)(returned_object + 0x28) = *(uint *)(returned_object + 0x28) & 0xfffffffb;
       if ((*(byte *)(iVar3 + 0x28) & 4) != 0) {
-        FUN_001611d0();
-        *(uint *)(iRamfffffffc + 0x28) = *(uint *)(iRamfffffffc + 0x28) & 0xfffffffb;
+        returned_object = FUN_001611d0();
+        *(uint *)(returned_object + 0x28) = *(uint *)(returned_object + 0x28) & 0xfffffffb;
       }
       iVar4 = FUN_00023420();
       if (iVar4 == iVar1) {
         *(undefined1 *)(param_1 + 0x950) = 1;
       }
       else if ((iVar4 != 0) && ((*(byte *)(iVar4 + 0x28) & 4) != 0)) {
-        FUN_001611d0();
-        *(uint *)(iRamfffffffc + 0x28) = *(uint *)(iRamfffffffc + 0x28) & 0xfffffffb;
+        returned_object = FUN_001611d0();
+        *(uint *)(returned_object + 0x28) = *(uint *)(returned_object + 0x28) & 0xfffffffb;
         FUN_000125d0();
         local_2c = local_2c & 0xfc;
         local_34 = 0;
