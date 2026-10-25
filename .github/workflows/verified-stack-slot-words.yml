@@ -11,6 +11,8 @@ on:
       - 'src/main_unclassified/band_002e/0x002ea4bf.c'
       - 'tools/verify_x86_stack_slot_and_exception_address.py'
       - 'src/main_unclassified/band_0008/0x0008e590.c'
+      - 'src/main_unclassified/band_0010/0x00102300.c'
+      - 'scripts/verify_00102300_stack_argument.py'
       - 'tools/verify_stack_record_8e590.py'
       - '.github/workflows/verified-stack-slot-words.yml'
   workflow_dispatch:
@@ -28,5 +30,7 @@ jobs:
         run: python3 tools/verify_x86_stack_slot_and_exception_address.py --root .
       - name: Verify 0x0008e590 stack record and focused C11 syntax (without XBE)
         run: python3 tools/verify_stack_record_8e590.py --root .
+      - name: Verify 0x00102300 local byte offset and focused C11 (source-only CI)
+        run: python3 scripts/verify_00102300_stack_argument.py --root .
       - name: Evidence limitation
         run: echo 'Retail XBE instruction fingerprints checked locally; not distributed in repository. Caller-frame ABI, guest exception semantics and native runtime remain unverified.'
