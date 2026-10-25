@@ -7,6 +7,12 @@ from pathlib import Path
 XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 # Exact instruction bytes, not Ghidra's host FILE field names.
 OPS = {
+    0x002eb5ab: bytes.fromhex("8b460c"), # seek: flags +0xc
+    0x002eb5c5: bytes.fromhex("83e0ef"), # clear 0x10
+    0x002eb5cb: bytes.fromhex("89460c"), # write flags
+    0x002eb600: bytes.fromhex("c7461800020000"), # buffer size +0x18
+    0x002eb60c: bytes.fromhex("ff7610"), # handle +0x10
+    0x002eb619: bytes.fromhex("83f8ff"), # seek failure -1
     0x002eb8f1: bytes.fromhex("8b542404"), # getc: stream argument
     0x002eb8f5: bytes.fromhex("ff4a04"),   # decrement signed count at +4
     0x002eb8fa: bytes.fromhex("8b0a"),     # load cursor at +0
@@ -45,12 +51,17 @@ def main():
     assert '__stream->flags_0c = (flags & ~UINT32_C(0x10)) | UINT32_C(1)' in ungetc
     assert '__getbuf(__stream)' in ungetc
     assert '_IO_' not in ungetc
+    seek = (args.root/"src/main_unclassified/band_002e/0x002eb5a6.c").read_text()
+    assert 'stream->unknown_18 = UINT32_C(0x200)' in seek
+    assert 'stream->handle_10, offset, origin' in seek
+    assert 'stream->flags_0c = flags & ~UINT32_C(0x10)' in seek
+    assert '_IO_' not in seek
     if args.xbe is not None:
         binary = args.xbe.read_bytes()
         assert hashlib.sha256(binary).hexdigest() == XBE_SHA256, "Unexpected XBE"
         for va, opcode in OPS.items():
             offset = va - 0x10000
             assert binary[offset:offset+len(opcode)] == opcode, hex(va)
-    print("PASS: 14 Xbox CRT cursor, count, boundary, flags, and handle contracts")
+    print("PASS: Xbox CRT cursor, seek, count, boundary, flags, and handle contracts")
 if __name__ == "__main__":
     main()
