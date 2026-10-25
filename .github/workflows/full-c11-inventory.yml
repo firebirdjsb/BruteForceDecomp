@@ -78,6 +78,7 @@ on:
       - 'scripts/verify_0004f2e0_local_slots.py'
       - 'scripts/verify_three_guest_dword_addresses.py'
       - 'scripts/verify_000b2660_guest_esi_word.py'
+      - 'scripts/verify_000b0ad0_scalar_sse.py'
       - 'scripts/verify_two_node_copy_incoming_words.py'
       - 'scripts/verify_000a1990_guest_outslot.py'
       - 'scripts/verify_000ac7f0_stack_index.py'
