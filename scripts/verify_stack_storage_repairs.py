@@ -12,6 +12,8 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x0010A2E0, 307, "b6f4946cc952ff7d69f9260284540300fbe9d6efedeb5a029ae1fb3713b56d38"),
+    (0x0010ABB0, 309, "925fdd7fee9c95b51ec089f9a29af2b31131827d67a72e3113d90df7119ba10a"),
     (0x001F8C90, 280, "af6d003d928de65fde56b9138c3a5cde5961eaa0a9f29eaf6a6ffa227c0c67a8"),
     (0x00202F40, 285, "320cb01d45ae02fdbf082d43fa39528fc938d04d609b4d392d64629472dba284"),
     (0x000D1BF0, 197, "76d6709edeef5e252b16402d65a17aaa098e6cee1114537f12ad1d087e919c12"),
@@ -50,6 +52,19 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x0010A2F5: "837d0806",  # CMP DWORD +8,6
+    0x0010A317: "837d24087205",  # unsigned capacity below 8
+    0x0010A31D: "8b4510",  # allocated guest DWORD address
+    0x0010A322: "8d4510",  # inline address
+    0x0010A3A9: "837d24087205",  # repeat after helper
+    0x0010A3AF: "8b4510",  # allocated address again
+    0x0010A3C9: "668b4424360fb6d4c1e2080fb6e903d5c1e2080fb6cd03d1",  # bytes 3,0,1
+    0x0010A3E5: "0fb6c0c1e20803d0",  # append byte 2
+    0x0010ABEA: "c7470800000000",  # DWORD flag zero
+    0x0010AC05: "c7470806000000",  # DWORD flag six
+    0x0010AC31: "837f2408",  # capacity unsigned comparison
+    0x0010AC45: "72058b4710eb038d4710",  # allocated DWORD or inline address
+
     0x001F8CAF: "8844244c",  # low byte at entry ESP+8 after 0x44 frame/save bytes
     0x001F8CD3: "8844244c",  # replace the same byte with AL=1
     0x001F8D2D: "807c244c01",  # compare only that byte
