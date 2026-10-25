@@ -18,6 +18,13 @@ void FUN_00084da0(void)
   char cVar3;
   int *piVar4;
   undefined4 uVar5;
+  /* XBE body SHA-256 verified: 0x00084E22 and 0x00084E43 both LEA
+   * the same [ESP+0x14] guest stack address, despite distinct Ghidra
+   * stack labels. 0x00084E26..0x00084E32 clear the following four
+   * DWORDs. First byte has a preceding read/modify/write from the
+   * original guest stack (0x00084E14..0x00084E1E); its initial value
+   * and the indirect call ABIs remain UNVERIFIED. */
+  undefined4 guest_local_words[5];
   
   piVar4 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
   piVar1 = *(int **)(DAT_00469b58 + 8);
@@ -33,8 +40,12 @@ void FUN_00084da0(void)
   uVar5 = (**(code **)(*piVar1 + 0x6c))();
   (**(code **)(*piVar1 + 0x5c))(uVar5,0);
   (**(code **)(*piVar1 + 0x200))(1);
-  (**(code **)(*piVar1 + 0x1fc))(&stack0xffffffdc);
-  (**(code **)(*piVar1 + 0x30))(&stack0xffffffd8);
+  guest_local_words[1] = 0;
+  guest_local_words[2] = 0;
+  guest_local_words[3] = 0;
+  guest_local_words[4] = 0;
+  (**(code **)(*piVar1 + 0x1fc))(guest_local_words);
+  (**(code **)(*piVar1 + 0x30))(guest_local_words);
   FUN_00069780(0x3f800000);
   return;
 }
