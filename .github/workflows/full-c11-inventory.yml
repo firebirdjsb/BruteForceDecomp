@@ -96,6 +96,7 @@ on:
       - 'scripts/verify_xbox_crt_callback_and_patch.py'
       - 'scripts/verify_00236xxx_recursive_returns.py'
       - 'scripts/verify_0014d960_out_buffer_return.py'
+      - 'scripts/verify_000aec10_x87_guest_word.py'
       - '.github/workflows/full-c11-inventory.yml'
   workflow_dispatch:
 
@@ -274,6 +275,8 @@ jobs:
         run: python3 scripts/verify_00236xxx_recursive_returns.py --root .
       - name: Verify 0x0014D960 two-DWORD out-buffer EAX return (XBE stays local)
         run: python3 scripts/verify_0014d960_out_buffer_return.py --root .
+      - name: Verify 0x000AEC10 original x87 outgoing float word (XBE stays local)
+        run: python3 scripts/verify_000aec10_x87_guest_word.py --root .
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
       - name: Validate and categorize exact audit failures without XBE assumptions
