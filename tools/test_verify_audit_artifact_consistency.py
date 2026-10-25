@@ -75,4 +75,27 @@ with TemporaryDirectory() as directory:
             "guest_identifier,signed_offset,first_error_functions,entries\nstack0xfffffffc,-8,1,0x00000002\n")
     rejects(root / "failure_triage.csv",
             "entry,category,first_error\n0x00000002,unresolved_stack,use of undeclared identifier 'stack0xfffffffc'\n0x00000002,invalid_member_access,bad\n")
-    print("PASS: artifact consistency and 10 synthetic corruption cases")
+    # Prior to category recomputation, coordinated corruption of both the
+    # triage CSV and its summary could hide a genuine unresolved stack error.
+    # Preserve the Clang diagnostic while falsifying only its category.
+    bad_triage = [dict(row) for row in triage]
+    bad_triage[0]["category"] = "other_first_error"
+    bad_summary = dict(summary, first_error_categories={
+        "other_first_error": 1, "invalid_member_access": 1,
+    })
+    write_csv(root / "failure_triage.csv",
+              ("entry", "category", "first_error"), bad_triage)
+    (root / "failure_triage.json").write_text(json.dumps(bad_summary), encoding="utf-8")
+    try:
+        try:
+            verify(root, expected_total=3)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("Coordinated diagnostic misclassification was accepted")
+    finally:
+        write_csv(root / "failure_triage.csv",
+                  ("entry", "category", "first_error"), triage)
+        (root / "failure_triage.json").write_text(json.dumps(summary), encoding="utf-8")
+    assert verify(root, expected_total=3) == {"pass": 1, "fail": 2, "stack": 1}
+    print("PASS: artifact consistency and 11 synthetic corruption cases")
