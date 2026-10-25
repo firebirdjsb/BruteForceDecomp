@@ -51,6 +51,12 @@ extern uint32_t uRam0046b0c4;
  * lanes belong to that same guest span, not host structure pointers. */
 extern uint32_t uRam0046b0c8;
 extern uint32_t uRam0046b0cc;
+/* XBE 0x00266D14..0x00266D24: the second MOVUPS 16-byte span at
+ * 0x0046B0D0 includes three DWORDs at +4,+8,+0xC. The original
+ * second guest address is an aligned 32-bit word, not a host pointer. */
+extern uint32_t uRam0046b0d4;
+extern uint32_t uRam0046b0d8;
+extern uint32_t uRam0046b0dc;
 extern uint32_t _DAT_0046b0d0;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
