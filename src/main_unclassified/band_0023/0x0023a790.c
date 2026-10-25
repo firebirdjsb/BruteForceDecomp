@@ -8,6 +8,15 @@
 #include "bf_ghidra_types.h"
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
+/* Original frame reserves exactly two adjacent 32-bit guest locals.
+ * No initialization is invented for the second output word. */
+typedef struct {
+  int32_t first_word;
+  uint32_t second_word;
+} bf_0023a790_guest_locals;
+_Static_assert(sizeof(bf_0023a790_guest_locals) == 8, "two DWORD guest locals");
+_Static_assert(offsetof(bf_0023a790_guest_locals, second_word) == 4, "second guest DWORD offset");
+
 int FUN_0023a790(void)
 
 {
@@ -18,19 +27,24 @@ int FUN_0023a790(void)
   undefined4 unaff_EBX;
   int unaff_ESI;
   int *unaff_EDI;
-  int local_8;
+  bf_0023a790_guest_locals guest_locals;
   char cStack_4;
+  /* XBE 0x0023A7BE: LEA EDX,[ESP+0x0C] points to the second
+   * local guest DWORD at entry ESP-4 (after callee stack cleanup).
+   * The first call uses a distinct DWORD at entry ESP-8, guest_locals.first_word.
+   * Output contents are unknown before the second virtual call.
+   * Host C does not bind the Xbox's implicit register/call ABI. */
   
-  local_8 = 0;
+  guest_locals.first_word = 0;
   iVar1 = (**(code **)*in_ECX)();
   if (iVar1 < 0) {
 LAB_0023a868:
-    if (&local_8 != (int *)0x0) {
-      (**(code **)(local_8 + 8))(&local_8);
+    if (&guest_locals.first_word != (int *)0x0) {
+      (**(code **)(guest_locals.first_word + 8))(&guest_locals.first_word);
     }
     return 0;
   }
-  piVar2 = (int *)(**(code **)(local_8 + 0xc))(&local_8,&stack0xfffffff0);
+  piVar2 = (int *)(**(code **)(guest_locals.first_word + 0xc))(&guest_locals.first_word,&guest_locals.second_word);
   if ((*piVar2 == unaff_ESI) &&
      ((in_EAX != 0 || (in_EAX = (**(code **)(*in_ECX + 0x10))(in_ECX), in_EAX != 0)))) {
     iVar1 = (**(code **)(*in_ECX + 0x18))(in_ECX,in_EAX,unaff_EBX);
@@ -43,13 +57,13 @@ LAB_0023a868:
       }
       FUN_00239dc0();
       if (-1 < iVar1) {
-        if (&local_8 != (int *)0x0) {
-          (**(code **)(local_8 + 8))(&local_8);
+        if (&guest_locals.first_word != (int *)0x0) {
+          (**(code **)(guest_locals.first_word + 8))(&guest_locals.first_word);
         }
         return in_EAX;
       }
       if (cStack_4 == '\0') {
-        (**(code **)(local_8 + 0x14))(&local_8,in_EAX);
+        (**(code **)(guest_locals.first_word + 0x14))(&guest_locals.first_word,in_EAX);
       }
       goto LAB_0023a868;
     }
