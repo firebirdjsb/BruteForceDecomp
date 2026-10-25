@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
+/* Original byte stores reuse the incoming argument slot; saved pointers stay
+ * intact. Only lane 0 is replaced/read. Implicit helper register inputs and
+ * the complete guest stack/native ABI remain ABI_UNVERIFIED. */
 char FUN_001f8c90(undefined4 param_1,int *param_2,undefined4 *param_3)
 
 {
@@ -24,10 +28,10 @@ char FUN_001f8c90(undefined4 param_1,int *param_2,undefined4 *param_3)
   piVar2 = param_2;
   uVar6 = param_1;
   cVar3 = FUN_001fedb0(param_1,param_2,param_3);
-  param_2._0_1_ = cVar3;
+  bf_x86_word_store_byte(&param_2,0U,cVar3);
   if (cVar3 == '\0') {
     uVar5 = *(undefined1 *)(in_ECX + 0xf4);
-    param_2._0_1_ = 0;
+    bf_x86_word_store_byte(&param_2,0U,0);
     bVar1 = false;
     if (*piVar2 == -0x1da26a1d) {
       if ((char)uVar6 == '\0') {
@@ -37,7 +41,7 @@ char FUN_001f8c90(undefined4 param_1,int *param_2,undefined4 *param_3)
         *(undefined1 *)puVar7 = uVar5;
       }
       bVar1 = true;
-      param_2._0_1_ = 1;
+      bf_x86_word_store_byte(&param_2,0U,1);
     }
     *(undefined1 *)(in_ECX + 0xf4) = uVar5;
     if ((!bVar1) && (*piVar2 == -0x1854e275)) {
@@ -47,7 +51,7 @@ char FUN_001f8c90(undefined4 param_1,int *param_2,undefined4 *param_3)
       cVar3 = FUN_0006eb80(param_1,&uStack_34);
       uVar6 = param_1;
       puVar7 = param_3;
-      if ((cVar3 != '\0') && ((char)param_2 == '\x01')) {
+      if ((cVar3 != '\0') && ((char)bf_x86_word_load_byte(&param_2,0U) == '\x01')) {
         (**(code **)(*(int *)(in_ECX + 8) + 0x14))(auStack_30);
         uVar6 = param_1;
         puVar7 = param_3;
@@ -55,14 +59,14 @@ char FUN_001f8c90(undefined4 param_1,int *param_2,undefined4 *param_3)
     }
     param_1 = 0xe1e59a9b;
     FUN_001faf20(uVar6,&param_1,piVar2,&param_2);
-    if (((char)param_2 == '\0') && (*piVar2 == 0x51ac63e)) {
+    if (((char)bf_x86_word_load_byte(&param_2,0U) == '\0') && (*piVar2 == 0x51ac63e)) {
       if ((char)uVar6 != '\0') {
         *puVar7 = *(undefined4 *)(in_ECX + 0x104);
         return '\x01';
       }
       *(undefined4 *)(in_ECX + 0x104) = *puVar7;
-      param_2._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_2,0U,'\x01');
     }
   }
-  return (char)param_2;
+  return (char)bf_x86_word_load_byte(&param_2,0U);
 }

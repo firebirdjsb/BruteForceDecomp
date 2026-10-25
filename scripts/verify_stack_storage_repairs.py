@@ -12,6 +12,8 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x001F8C90, 280, "af6d003d928de65fde56b9138c3a5cde5961eaa0a9f29eaf6a6ffa227c0c67a8"),
+    (0x00202F40, 285, "320cb01d45ae02fdbf082d43fa39528fc938d04d609b4d392d64629472dba284"),
     (0x000D1BF0, 197, "76d6709edeef5e252b16402d65a17aaa098e6cee1114537f12ad1d087e919c12"),
     (0x00232F20, 247, "c117ee3c01269202e8055f3d45ffe64bdbfdd4f18c087df727dacc8a2f4eb5f3"),
     (0x00233290, 276, "51de2978460dd0eeeafec427b85e551ada075137dbca706b5d4d32d84f101bb6"),
@@ -48,6 +50,17 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x001F8CAF: "8844244c",  # low byte at entry ESP+8 after 0x44 frame/save bytes
+    0x001F8CD3: "8844244c",  # replace the same byte with AL=1
+    0x001F8D2D: "807c244c01",  # compare only that byte
+    0x001F8D48: "8d4c244c51",  # forward address of reused incoming slot
+    0x001F8D69: "8a44245c",  # read same byte with 16 argument bytes pending
+    0x00202F5C: "8844241c",  # low byte at entry ESP+12 after four saved registers
+    0x00202F80: "c644241c01",  # set same byte
+    0x00202F95: "8d742430",  # ESI points at same slot after 20 argument bytes
+    0x00202FA8: "8a442430",  # reload status byte after helper
+    0x00203024: "8a442444",  # same slot with 40 argument bytes pending
+
     0x000D1C4B: "f30f53c9",  # rcpss xmm1, xmm1
     0x00232F79: "f30f53ff",  # rcpss xmm7, xmm7
     0x00232FF5: "f30f53f6",  # rcpss xmm6, xmm6
