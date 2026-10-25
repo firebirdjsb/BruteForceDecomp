@@ -6,17 +6,18 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_crt_stream.h"
 /* Library Function - Single Match
     _fflush
    
    Library: Visual Studio 2003 Release */
 
-int __cdecl _fflush(FILE *__stream)
+int __cdecl _fflush(bf_xbox_crt_stream32 *__stream)
 
 {
   int iVar1;
   
-  if (__stream == (FILE *)0x0) {
+  if (__stream == (bf_xbox_crt_stream32 *)0x0) {
     iVar1 = _flsall(0);
     return iVar1;
   }
@@ -24,8 +25,8 @@ int __cdecl _fflush(FILE *__stream)
   if (iVar1 != 0) {
     return -1;
   }
-  if (((uint)__stream->_IO_read_base & 0x4000) != 0) {
-    iVar1 = FUN_002f0bb3(__stream->_IO_write_base);
+  if ((__stream->flags_0c & 0x4000) != 0) {
+    iVar1 = FUN_002f0bb3(__stream->handle_10);
     return -(uint)(iVar1 != 0);
   }
   return 0;
