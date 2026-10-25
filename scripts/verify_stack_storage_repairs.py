@@ -12,6 +12,9 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x00200080, 257, "9a08227013ee4d66230c3265c2243f909b93cc285f9ea8216ffde459ec639f2a"),
+    (0x00201E80, 298, "f99a52250cec93ec0721dacda5e652c5b8c472880e389f5918bace01c7213abd"),
+    (0x00208A70, 305, "a49d505e5385826be2d57bc06859d9fb01c3f0a14c367cfa9440d22528725647"),
     (0x00223F00, 195, "b7823c192ac1f8078af10d9e878d195db38d9ed02a1d9c78cc17cfe3114ceda0"),
     (0x002B6100, ((0,106),(112,208)), "87e2effb6df1992c6d974f857d6c231010e5d8e40026e0cd3e11f32b516627f6"),
     (0x002B6240, 252, "39f0c92758428773ffff08c68cc155970ca8835341130b20756393ed56f1ace7"),
@@ -57,6 +60,19 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x0020009C: "8844241c",  # incoming third word byte
+    0x0020014B: "c644241c01",  # byte success
+    0x00200160: "8d742430",  # implicit ESI aliases flag slot
+    0x00200173: "8a442430",  # reload AL
+    0x00201E9C: "8844241c",  # incoming third word byte
+    0x00201F54: "c644241c01",  # byte success
+    0x00201F83: "8d4c241c51",  # pass address of whole slot
+    0x00201F9F: "8a44241c",  # return low byte
+    0x00208A8C: "8844241c",  # initial result byte
+    0x00208B1C: "c644241c01",  # byte success
+    0x00208B31: "8d742430",  # implicit helper alias
+    0x00208B44: "8a442430",  # reload result
+
     0x00223F19: "88442414",  # partial incoming DWORD byte store
     0x00223F25: "d8590cdfe0f6c4057a0a",  # FCOMP/TEST/JP unordered-inclusive right
     0x00223F33: "88442414",  # low byte=1

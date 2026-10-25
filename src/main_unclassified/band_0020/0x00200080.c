@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 char FUN_00200080(undefined4 param_1,int *param_2,undefined4 *param_3)
 
 {
@@ -19,11 +20,11 @@ char FUN_00200080(undefined4 param_1,int *param_2,undefined4 *param_3)
   puVar3 = param_3;
   piVar2 = param_2;
   cVar4 = FUN_001fedb0(param_1,param_2,param_3);
-  param_3._0_1_ = cVar4;
+  bf_x86_word_store_byte(&param_3,0U,(uint8_t)cVar4);
   if (cVar4 == '\0') {
     uVar5 = *(undefined1 *)(in_ECX + 0x48);
     cVar4 = (char)param_1;
-    param_3._0_1_ = '\0';
+    bf_x86_word_store_byte(&param_3,0U,UINT8_C(0));
     bVar1 = false;
     if (*piVar2 == 0x15468095) {
       if (cVar4 == '\0') {
@@ -33,7 +34,7 @@ char FUN_00200080(undefined4 param_1,int *param_2,undefined4 *param_3)
         *(undefined1 *)puVar3 = uVar5;
       }
       bVar1 = true;
-      param_3._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_3,0U,UINT8_C(1));
     }
     *(undefined1 *)(in_ECX + 0x48) = uVar5;
     uVar5 = *(undefined1 *)(in_ECX + 0x49);
@@ -45,7 +46,7 @@ char FUN_00200080(undefined4 param_1,int *param_2,undefined4 *param_3)
         *(undefined1 *)puVar3 = uVar5;
       }
       bVar1 = true;
-      param_3._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_3,0U,UINT8_C(1));
     }
     *(undefined1 *)(in_ECX + 0x49) = uVar5;
     uVar5 = *(undefined1 *)(in_ECX + 0x4a);
@@ -57,7 +58,7 @@ char FUN_00200080(undefined4 param_1,int *param_2,undefined4 *param_3)
         *(undefined1 *)puVar3 = uVar5;
       }
       bVar1 = true;
-      param_3._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_3,0U,UINT8_C(1));
     }
     *(undefined1 *)(in_ECX + 0x4a) = uVar5;
     if (!bVar1) {
@@ -70,7 +71,7 @@ char FUN_00200080(undefined4 param_1,int *param_2,undefined4 *param_3)
           *puVar3 = *(undefined4 *)(in_ECX + 0x40);
         }
         bVar1 = true;
-        param_3._0_1_ = '\x01';
+        bf_x86_word_store_byte(&param_3,0U,UINT8_C(1));
       }
       if ((!bVar1) && (*piVar2 == -0x1a7406a)) {
         if (cVar4 == '\0') {
@@ -79,11 +80,11 @@ char FUN_00200080(undefined4 param_1,int *param_2,undefined4 *param_3)
         else {
           *puVar3 = *(undefined4 *)(in_ECX + 0x44);
         }
-        param_3._0_1_ = '\x01';
+        bf_x86_word_store_byte(&param_3,0U,UINT8_C(1));
       }
     }
     param_2 = (int *)0xe722c1e5;
     FUN_000ee560(*(undefined4 *)(in_ECX + 0x10),param_1,&param_2,piVar2,0);
   }
-  return (char)param_3;
+  return (char)bf_x86_word_load_byte(&param_3,0U);
 }

@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 char FUN_00201e80(undefined4 param_1,int *param_2,undefined4 *param_3)
 
 {
@@ -20,10 +21,10 @@ char FUN_00201e80(undefined4 param_1,int *param_2,undefined4 *param_3)
   piVar3 = param_2;
   uVar2 = param_1;
   cVar5 = FUN_001fedb0(param_1,param_2,param_3);
-  param_3._0_1_ = cVar5;
+  bf_x86_word_store_byte(&param_3,0U,(uint8_t)cVar5);
   if (cVar5 == '\0') {
     cVar5 = (char)uVar2;
-    param_3._0_1_ = '\0';
+    bf_x86_word_store_byte(&param_3,0U,UINT8_C(0));
     bVar1 = false;
     if (*piVar3 == 0x1cd6c65a) {
       if (cVar5 == '\0') {
@@ -33,7 +34,7 @@ char FUN_00201e80(undefined4 param_1,int *param_2,undefined4 *param_3)
         *puVar4 = *(undefined4 *)(in_ECX + 0x44);
       }
       bVar1 = true;
-      param_3._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_3,0U,UINT8_C(1));
     }
     if (!bVar1) {
       bVar1 = false;
@@ -45,7 +46,7 @@ char FUN_00201e80(undefined4 param_1,int *param_2,undefined4 *param_3)
           *puVar4 = *(undefined4 *)(in_ECX + 0x4c);
         }
         bVar1 = true;
-        param_3._0_1_ = '\x01';
+        bf_x86_word_store_byte(&param_3,0U,UINT8_C(1));
       }
       if (!bVar1) {
         bVar1 = false;
@@ -57,7 +58,7 @@ char FUN_00201e80(undefined4 param_1,int *param_2,undefined4 *param_3)
             *puVar4 = *(undefined4 *)(in_ECX + 0x50);
           }
           bVar1 = true;
-          param_3._0_1_ = '\x01';
+          bf_x86_word_store_byte(&param_3,0U,UINT8_C(1));
         }
         if (!bVar1) {
           bVar1 = false;
@@ -69,7 +70,7 @@ char FUN_00201e80(undefined4 param_1,int *param_2,undefined4 *param_3)
               *puVar4 = *(undefined4 *)(in_ECX + 0x48);
             }
             bVar1 = true;
-            param_3._0_1_ = '\x01';
+            bf_x86_word_store_byte(&param_3,0U,UINT8_C(1));
           }
           if ((!bVar1) && (*piVar3 == 0x3c650db)) {
             if (cVar5 == '\0') {
@@ -78,7 +79,7 @@ char FUN_00201e80(undefined4 param_1,int *param_2,undefined4 *param_3)
             else {
               *puVar4 = *(undefined4 *)(in_ECX + 0x48);
             }
-            param_3._0_1_ = '\x01';
+            bf_x86_word_store_byte(&param_3,0U,UINT8_C(1));
           }
         }
       }
@@ -88,5 +89,5 @@ char FUN_00201e80(undefined4 param_1,int *param_2,undefined4 *param_3)
     param_1 = 0x37edc89;
     FUN_00201cb0(uVar2,&param_1,param_2,puVar4,&param_3);
   }
-  return (char)param_3;
+  return (char)bf_x86_word_load_byte(&param_3,0U);
 }
