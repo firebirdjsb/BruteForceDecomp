@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_crt_stream.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004a8ea0;
@@ -16,96 +17,81 @@ extern uint32_t _DAT_0040f4d8;
    
    Library: Visual Studio 2003 Release */
 
-long __cdecl _ftell(FILE *__stream)
-
+/* Reconstructed from original Xbox x86 0x002eb634..0x002eb78c.
+ * All cursor/count/offset arithmetic is 32-bit guest arithmetic.
+ * Guest memory dereferences are temporary pending native address mapping. */
+long __cdecl _ftell(bf_xbox_crt_stream32 *stream)
 {
-  char *pcVar1;
-  char *pcVar2;
-  byte bVar3;
-  FILE *pFVar4;
-  int iVar5;
-  char *pcVar6;
-  FILE *pFVar7;
-  char *pcVar8;
-  int iVar9;
-  int local_c;
-  int local_8;
-  
-  pFVar7 = __stream;
-  pcVar6 = __stream->_IO_write_base;
-  if ((int)__stream->_IO_read_ptr < 0) {
-    __stream->_IO_read_ptr = (char *)0x0;
-  }
-  local_8 = FUN_002ef651(pcVar6,0,1);
-  if (local_8 < 0) {
-LAB_002eb6cd:
-    local_c = -1;
-  }
-  else {
-    pcVar8 = __stream->_IO_read_base;
-    if (((uint)pcVar8 & 0x108) == 0) {
-      return local_8 - (int)__stream->_IO_read_ptr;
+  uint32_t handle = stream->handle_10;
+  uint32_t cursor, base, flags, descriptor_base, descriptor_offset;
+  uint32_t adjustment, scan, scan_end, descriptor_byte;
+  int32_t position, delta;
+  if ((int32_t)stream->word_04 < 0)
+    stream->word_04 = 0;
+  position = FUN_002ef651(handle, 0, 1);
+  if (position < 0)
+    return -1;
+  flags = stream->flags_0c;
+  if ((flags & UINT32_C(0x108)) == 0)
+    return (long)(int32_t)((uint32_t)position - stream->word_04);
+  cursor = stream->word_00;
+  base = stream->word_08;
+  delta = (int32_t)(cursor - base);
+  if ((flags & UINT32_C(3)) == 0) {
+    if ((int8_t)flags >= 0) {
+      _DAT_0040f4d8 = 0x16;
+      return -1;
     }
-    pcVar1 = (char *)__stream->_flags;
-    pcVar2 = __stream->_IO_read_end;
-    local_c = (int)pcVar1 - (int)pcVar2;
-    if (((uint)pcVar8 & 3) == 0) {
-      if (-1 < (char)pcVar8) {
-        _DAT_0040f4d8 = 0x16;
-        goto LAB_002eb6cd;
+  } else {
+    descriptor_base = *(const uint32_t *)(uintptr_t)
+        (UINT32_C(0x004a8ea0) + (uint32_t)(((int32_t)handle >> 5) * 4));
+    descriptor_offset = (handle & UINT32_C(31)) * 8 + 4;
+    descriptor_byte = *(const uint8_t *)(uintptr_t)(descriptor_base + descriptor_offset);
+    if ((descriptor_byte & UINT32_C(0x80)) != 0) {
+      scan = base;
+      while (scan < cursor) {
+        if (*(const uint8_t *)(uintptr_t)scan == (uint8_t)'\\n')
+          delta = (int32_t)((uint32_t)delta + 1);
+        scan++;
       }
     }
-    else if (((*(byte *)((&DAT_004a8ea0)[(int)pcVar6 >> 5] + 4 + ((uint)pcVar6 & 0x1f) * 8) & 0x80)
-              != 0) && (pcVar8 = pcVar2, pcVar2 < pcVar1)) {
-      do {
-        if (*pcVar8 == '\n') {
-          local_c = local_c + 1;
-        }
-        pcVar8 = pcVar8 + 1;
-      } while (pcVar8 < (char *)__stream->_flags);
-    }
-    if (local_8 != 0) {
-      if (((uint)__stream->_IO_read_base & 1) != 0) {
-        if (__stream->_IO_read_ptr == (char *)0x0) {
-          local_c = 0;
-        }
-        else {
-          pFVar4 = (FILE *)(__stream->_IO_read_ptr + ((int)pcVar1 - (int)pcVar2));
-          iVar9 = ((uint)pcVar6 & 0x1f) * 8;
-          if ((*(byte *)(iVar9 + 4 + (&DAT_004a8ea0)[(int)pcVar6 >> 5]) & 0x80) != 0) {
-            iVar5 = FUN_002ef651(pcVar6,0,2);
-            if (iVar5 == local_8) {
-              pcVar6 = __stream->_IO_read_end;
-              pcVar8 = pcVar6 + (int)(pFVar4->_shortbuf + -0x47);
-              __stream = pFVar4;
-              for (; pcVar6 < pcVar8; pcVar6 = pcVar6 + 1) {
-                if (*pcVar6 == '\n') {
-                  __stream = (FILE *)((int)&__stream->_flags + 1);
-                }
-              }
-              bVar3 = *(byte *)((int)&pFVar7->_IO_read_base + 1) & 0x20;
-            }
-            else {
-              FUN_002ef651(pcVar6,local_8,0);
-              pFVar7 = (FILE *)0x200;
-              if ((((FILE *)0x200 < pFVar4) || (((uint)__stream->_IO_read_base & 8) == 0)) ||
-                 (((uint)__stream->_IO_read_base & 0x400) != 0)) {
-                pFVar7 = (FILE *)__stream->_IO_write_end;
-              }
-              bVar3 = *(byte *)(iVar9 + 4 + (&DAT_004a8ea0)[(int)pcVar6 >> 5]) & 4;
-              __stream = pFVar7;
-            }
-            pFVar4 = __stream;
-            if (bVar3 != 0) {
-              pFVar4 = (FILE *)((int)&__stream->_flags + 1);
-            }
+  }
+  if (position != 0 && (flags & UINT32_C(1)) != 0) {
+    if (stream->word_04 == 0) {
+      delta = 0;
+    } else {
+      adjustment = (uint32_t)position - base + stream->word_04;
+      descriptor_base = *(const uint32_t *)(uintptr_t)
+          (UINT32_C(0x004a8ea0) + (uint32_t)(((int32_t)handle >> 5) * 4));
+      descriptor_offset = (handle & UINT32_C(31)) * 8 + 4;
+      descriptor_byte = *(const uint8_t *)(uintptr_t)(descriptor_base + descriptor_offset);
+      if ((descriptor_byte & UINT32_C(0x80)) != 0) {
+        int32_t end_position = FUN_002ef651(handle, 0, 2);
+        if (end_position == position) {
+          scan = base;
+          scan_end = base + adjustment;
+          while (scan < scan_end) {
+            if (*(const uint8_t *)(uintptr_t)scan == (uint8_t)'\\n')
+              adjustment++;
+            scan++;
           }
-          __stream = pFVar4;
-          local_8 = local_8 - (int)__stream;
+          descriptor_byte = (flags >> 8) & UINT32_C(0x20);
+        } else {
+          FUN_002ef651(handle, position, 0);
+          if (adjustment > UINT32_C(0x200) ||
+              (flags & UINT32_C(8)) == 0 ||
+              (flags & UINT32_C(0x400)) != 0)
+            adjustment = stream->unknown_18;
+          else
+            adjustment = UINT32_C(0x200);
+          descriptor_byte = *(const uint8_t *)(uintptr_t)(descriptor_base + descriptor_offset);
+          descriptor_byte &= UINT32_C(4);
         }
+        if (descriptor_byte != 0)
+          adjustment++;
       }
-      local_c = local_c + local_8;
+      position = (int32_t)((uint32_t)position - adjustment);
     }
   }
-  return local_c;
+  return (long)(int32_t)((uint32_t)delta + (uint32_t)position);
 }
