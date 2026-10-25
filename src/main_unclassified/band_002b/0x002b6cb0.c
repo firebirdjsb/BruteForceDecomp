@@ -60,17 +60,19 @@ void FUN_002b6cb0(void)
   float *in_EAX;
   float *in_ECX;
   float *in_EDX;
-  undefined4 *puVar49;
-  int iVar50;
   undefined4 local_24 [9];
-  
-  puVar49 = (undefined4 *)&stack0xffffffcc;
-  iVar50 = 3;
-  do {
-    puVar49 = puVar49 + 4;
-    *puVar49 = 0;
-    iVar50 = iVar50 + -1;
-  } while (iVar50 != 0);
+
+  /* XBE 0x002B6CB0..CA: SUB ESP,0x30; LEA ESI,[ESP+0x14]
+   * after the saved ESI/EDI pushes, then three DWORD zero writes separated
+   * by 16 bytes. The first address is entry ESP-0x24. Recovered local_24
+   * spans exactly 9 DWORDs, so only indices 0,4,8 are touched here.
+   * The subsequent x87 arithmetic and incoming EAX/ECX/EDX register ABI
+   * remain UNVERIFIED for host execution. */
+  _Static_assert(sizeof(local_24) == 9 * sizeof(uint32_t),
+                 "original 9-DWORD guest local record");
+  local_24[0] = 0;
+  local_24[4] = 0;
+  local_24[8] = 0;
   fVar1 = *in_EAX;
   fVar2 = *in_ECX;
   fVar3 = in_EAX[2];

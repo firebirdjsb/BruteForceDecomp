@@ -7,6 +7,14 @@
  */
 #include "bf_ghidra_types.h"
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
+/* Guest x86 0x002A617E stores EDI in the four-byte caller local [ESP+0x14],
+ * after the first +4 virtual call and before the second.  0x002A6189
+ * takes the address of that same local, and 0x002A6195 passes it to
+ * 0x002A78B0.  There the callee reads a single DWORD at 0x002A78CD.
+ * EDI is the result of the original +0x10 virtual call at 0x002A6113.
+ * The guest EBX and EDI register inputs to 0x002A78B0 and guest-pointer
+ * translation are still ABI_UNVERIFIED; this fixes the observed local
+ * word/argument alias only, not native virtual-call runtime behavior. */
 
 undefined4 FUN_002a6100(int *param_1,undefined4 param_2)
 
@@ -19,7 +27,8 @@ undefined4 FUN_002a6100(int *param_1,undefined4 param_2)
   undefined4 *puStack_c;
   int *piStack_8;
   int iStack_4;
-  
+  uint32_t guest_lookup_key;
+
   uVar2 = (**(code **)(*param_1 + 0x10))();
   iStack_4 = 0;
   (**(code **)(*param_1 + 0x2c))();
@@ -35,8 +44,9 @@ undefined4 FUN_002a6100(int *param_1,undefined4 param_2)
     *puStack_c = uVar2;
   }
   (**(code **)(*piStack_8 + 4))(piStack_8);
+  guest_lookup_key = (uint32_t)uVar2;
   (**(code **)(*piStack_8 + 4))(piStack_8);
-  iVar3 = FUN_002a78b0(&stack0xffffffcc);
+  iVar3 = FUN_002a78b0(&guest_lookup_key);
   cVar1 = *(char *)(iVar3 + 4);
   (**(code **)(*piStack_8 + 8))(piStack_8);
   (**(code **)(*piStack_8 + 8))(piStack_8);
