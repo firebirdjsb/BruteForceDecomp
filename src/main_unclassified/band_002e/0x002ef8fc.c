@@ -15,6 +15,9 @@
 void __global_unwind2(undefined4 param_1)
 
 {
-  RtlUnwind(param_1,0x2ef914,0,0,&stack0xfffffffc);
+  /* The original x86 saves EBP, then pushes exactly four call arguments.
+   * The saved EBP is popped at 0x002EF914; it is not a fifth argument.
+   * The Xbox unwind API and native host exception ABI remain unverified. */
+  RtlUnwind(param_1,0x2ef914,0,0);
   return;
 }
