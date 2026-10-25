@@ -6,11 +6,12 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 undefined2 FUN_000d1bf0(undefined4 param_1,float *param_2,float *param_3,undefined4 param_4)
 
 {
   float fVar1;
-  undefined1 auVar2 [16];
+  float reciprocal;
   float local_c;
   float local_8;
   float local_4;
@@ -21,8 +22,9 @@ undefined2 FUN_000d1bf0(undefined4 param_1,float *param_2,float *param_3,undefin
   *param_3 = 0.0;
   FUN_000d1a90(param_2,param_3,param_4);
   if (0.0 < *param_3) {
-    auVar2 = rcpss(ZEXT416((uint)*param_3),ZEXT416((uint)*param_3));
-    fVar1 = auVar2._0_4_;
+    /* Original RCPSS consumes and produces only the low float lane here. */
+    reciprocal = _mm_cvtss_f32(_mm_rcp_ss(_mm_set_ss(*param_3)));
+    fVar1 = reciprocal;
     *param_2 = *param_2 * fVar1;
     *(ulonglong *)(param_2 + 1) =
          CONCAT44((float)((ulonglong)*(undefined8 *)(param_2 + 1) >> 0x20) * fVar1,

@@ -12,6 +12,12 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x000D1BF0, 197, "76d6709edeef5e252b16402d65a17aaa098e6cee1114537f12ad1d087e919c12"),
+    (0x00232F20, 247, "c117ee3c01269202e8055f3d45ffe64bdbfdd4f18c087df727dacc8a2f4eb5f3"),
+    (0x00233290, 276, "51de2978460dd0eeeafec427b85e551ada075137dbca706b5d4d32d84f101bb6"),
+    (0x002BA7F0, 173, "4d2862b65cb1228814f8196eb5c6fc91cc7e079b0fe45ec7272d5269368eb972"),
+    (0x002CDCB0, 190, "68716ae5d7fbad548e962ad224159a916537d7438301229d54137f5a5b96c875"),
+    (0x00210BF0, 95, "f00525729d4a2a45eadad7a918b42a19075f6af0b645dff633c75aa77b27d853"),
     (0x002D34C0, 159, "6e5d6a30084232261e1bdfd24d27010d4decf7b60f7e3b5e36d5e7d1374ce2fd"),
     (0x002BA160, 248, "3f0e95b193dd627d119e63e5587739cd4702c3625c2e8a97e9a70b112b0cc220"),
     (0x000EDF70, 163, "0b830a44d5a18b20117b40b72f3e68476fab00ed834cc2a45c059d8fcbe2a321"),
@@ -42,6 +48,24 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x000D1C4B: "f30f53c9",  # rcpss xmm1, xmm1
+    0x00232F79: "f30f53ff",  # rcpss xmm7, xmm7
+    0x00232FF5: "f30f53f6",  # rcpss xmm6, xmm6
+    0x00233392: "f30f53c0",  # rcpss xmm0, xmm0
+    0x002BA85E: "0f59c0",  # mulps xmm0, xmm0
+    0x002BA861: "0fc6c880",  # shufps xmm1, xmm0, 0x80
+    0x002BA865: "0f58c8",  # addps xmm1, xmm0
+    0x002BA868: "0fc6c903",  # shufps xmm1, xmm1, 3
+    0x002BA86C: "f30f58c8",  # addss xmm1, xmm0
+    0x002BA87E: "f30f51442410",  # sqrtss xmm0, dword ptr [esp + 0x10]
+    0x002CDD2A: "0f59c0",  # mulps xmm0, xmm0
+    0x002CDD2D: "0fc6c880",  # shufps xmm1, xmm0, 0x80
+    0x002CDD31: "0f58c8",  # addps xmm1, xmm0
+    0x002CDD34: "0fc6c903",  # shufps xmm1, xmm1, 3
+    0x002CDD38: "f30f58c8",  # addss xmm1, xmm0
+    0x00210C00: "c644240801",  # low byte only, incoming DWORD
+    0x00210C1A: "884c240c",  # same byte after extra register save
+    0x00210C2F: "8b4c24085351",  # read and forward entire original word
     0x002D3536: "f30f10080f164804",  # MOVSS/MOVHPS: lanes 0,2,3
     0x002D3542: "f30f10120f165204",  # corresponding subtrahend lanes
     0x002D354A: "0f5cca",  # SUBPS second helper output minus first

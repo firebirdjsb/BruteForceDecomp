@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 void FUN_00210bf0(int param_1)
 
 {
@@ -14,10 +15,13 @@ void FUN_00210bf0(int param_1)
   undefined4 *unaff_EDI;
   
   puVar1 = *(undefined4 **)(*(int *)(param_1 + 4) + 4);
-  param_1 = CONCAT31(param_1._1_3_,1);
+  /* 0x210c00/0x210c1a overwrite only the low byte of the incoming
+   * DWORD. The full word is forwarded at 0x210c2f/34, so retain high bits.
+   * Original EBP/ECX and callee return contracts remain ABI_UNVERIFIED. */
+  bf_x86_word_store_byte(&param_1,0U,1);
   if (*(char *)((int)puVar1 + 0x15) == '\0') {
     do {
-      param_1 = CONCAT31(param_1._1_3_,*unaff_EBX < (uint)puVar1[3]);
+      bf_x86_word_store_byte(&param_1,0U,*unaff_EBX < (uint)puVar1[3]);
       if (*unaff_EBX < (uint)puVar1[3]) {
         puVar1 = (undefined4 *)*puVar1;
       }

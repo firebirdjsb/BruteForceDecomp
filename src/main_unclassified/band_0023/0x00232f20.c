@@ -6,13 +6,14 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 float10 FUN_00232f20(float param_1)
 
 {
   float fVar1;
   float fVar2;
   float fVar3;
-  undefined1 auVar4 [16];
+  float reciprocal;
   
   fVar1 = param_1;
   if (param_1 <= 1.1754944e-38) {
@@ -25,14 +26,14 @@ float10 FUN_00232f20(float param_1)
   else {
     fVar2 = 1.0;
   }
-  auVar4 = rcpss(ZEXT416((uint)(fVar1 + fVar2)),ZEXT416((uint)(fVar1 + fVar2)));
-  fVar2 = (fVar1 - fVar2) * auVar4._0_4_;
+  reciprocal = _mm_cvtss_f32(_mm_rcp_ss(_mm_set_ss(fVar1 + fVar2)));
+  fVar2 = (fVar1 - fVar2) * reciprocal;
   fVar2 = fVar2 + fVar2;
   fVar3 = fVar2 * fVar2;
-  auVar4 = ZEXT416((uint)((fVar3 * -35.67228 + 312.09378) * fVar3 + -769.69196));
-  auVar4 = rcpss(auVar4,auVar4);
+  reciprocal = _mm_cvtss_f32(_mm_rcp_ss(_mm_set_ss(
+      (fVar3 * -35.67228 + 312.09378) * fVar3 + -769.69196)));
   return (float10)(fVar2 + (float)(int)((((uint)param_1 >> 0x17) - 0x7f) -
                                        (uint)(fVar1 < 0.70710677)) * 0.6931472 +
                   ((fVar3 * -0.7895803 + 16.386665) * fVar3 + -64.141) * fVar3 * fVar2 *
-                  auVar4._0_4_);
+                  reciprocal);
 }

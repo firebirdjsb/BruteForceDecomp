@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 float10 FUN_002ba7f0(undefined4 param_1,undefined4 param_2)
 
 {
@@ -15,14 +16,21 @@ float10 FUN_002ba7f0(undefined4 param_1,undefined4 param_2)
   undefined4 local_14;
   undefined1 local_10 [12];
   undefined4 local_4;
+  __m128 vector;
+  __m128 squared;
+  __m128 sum;
   
   local_4 = 0;
   local_24 = 0;
   FUN_002bae30(param_1);
   local_14 = 0;
   FUN_002ba160(param_1,param_2,local_10,local_30,local_20);
-  return (float10)1.0 /
-         (float10)SQRT((float)local_20._4_8_ * (float)local_20._4_8_ +
-                       SUB84(local_20._4_8_,4) * SUB84(local_20._4_8_,4) + local_20[0] * local_20[0]
-                      );
+  vector = _mm_load_ss(local_20);
+  vector = _mm_loadh_pi(vector,(const __m64 *)(local_20 + 1));
+  squared = _mm_mul_ps(vector,vector);
+  sum = _mm_shuffle_ps(_mm_undefined_ps(),squared,0x80);
+  sum = _mm_add_ps(sum,squared);
+  sum = _mm_shuffle_ps(sum,sum,0x03);
+  sum = _mm_add_ss(sum,squared);
+  return (float10)1.0 / (float10)_mm_cvtss_f32(_mm_sqrt_ss(sum));
 }

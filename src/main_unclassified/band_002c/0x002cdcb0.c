@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003b86e0;
@@ -18,16 +19,25 @@ float10 FUN_002cdcb0(undefined4 param_1)
   float *pfVar2;
   float local_10 [3];
   undefined4 local_4;
+  __m128 vector;
+  __m128 squared;
+  __m128 sum;
   
   pfVar2 = (float *)((*(uint *)((int)in_EAX + *(int *)(&DAT_003b86e0 + ((uint)in_EAX & 0xc))) &
                      0xffff) * 0x10 + *in_ECX + (int)in_ECX);
   pfVar1 = (float *)((*in_EAX & 0xffff) * 0x10 + *in_ECX + (int)in_ECX);
   local_4 = 0;
   FUN_002ccc10(local_10,pfVar1,pfVar2,param_1);
+  vector = _mm_load_ss(local_10);
+  vector = _mm_loadh_pi(vector,(const __m64 *)(local_10 + 1));
+  squared = _mm_mul_ps(vector,vector);
+  sum = _mm_shuffle_ps(_mm_undefined_ps(),squared,0x80);
+  sum = _mm_add_ps(sum,squared);
+  sum = _mm_shuffle_ps(sum,sum,0x03);
+  sum = _mm_add_ss(sum,squared);
   return ((float10)1.0 /
          ((float10)(*pfVar1 - *pfVar2) * (float10)(*pfVar1 - *pfVar2) +
          (float10)(pfVar1[1] - pfVar2[1]) * (float10)(pfVar1[1] - pfVar2[1]) +
          (float10)(pfVar1[2] - pfVar2[2]) * (float10)(pfVar1[2] - pfVar2[2]))) *
-         (float10)((float)local_10._4_8_ * (float)local_10._4_8_ +
-                   SUB84(local_10._4_8_,4) * SUB84(local_10._4_8_,4) + local_10[0] * local_10[0]);
+         (float10)_mm_cvtss_f32(sum);
 }

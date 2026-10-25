@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 float10 FUN_00233290(float param_1)
 
 {
@@ -14,7 +15,7 @@ float10 FUN_00233290(float param_1)
   float fVar3;
   float fVar4;
   float fVar5;
-  undefined1 auVar6 [16];
+  float reciprocal;
   float fVar7;
   
   fVar3 = ABS(param_1) * 0.63661975;
@@ -30,10 +31,10 @@ float10 FUN_00233290(float param_1)
   }
   fVar5 = fVar4 * fVar4;
   fVar7 = fVar3 * fVar3;
-  auVar6 = ZEXT416((uint)((((fVar5 * -0.004681754 + 0.079692625) * fVar5 + -0.6459641) * fVar5 +
-                          1.5707964) * fVar4));
-  auVar6 = rcpss(auVar6,auVar6);
-  return (float10)(auVar6._0_4_ *
+  reciprocal = _mm_cvtss_f32(_mm_rcp_ss(_mm_set_ss(
+      (((fVar5 * -0.004681754 + 0.079692625) * fVar5 + -0.6459641) * fVar5 +
+       1.5707964) * fVar4)));
+  return (float10)(reciprocal *
                   (((fVar7 * -0.004681754 + 0.079692625) * fVar7 + -0.6459641) * fVar7 + 1.5707964)
                   * (float)((uint)fVar3 |
                            (uint)param_1 & 0x80000000 ^ (uVar1 & 2) << 0x1e ^ (uVar2 & 2) << 0x1e));
