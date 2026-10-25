@@ -101,7 +101,11 @@ FUN_00230040(int param_1,int param_2,undefined4 param_3,undefined4 param_4,undef
   param_5[0xe] = uVar3;
   param_5[2] = (undefined4)local_164;
   param_5[1] = local_168;
-  param_5[3] = local_164._4_4_;
+  /* XBE 0x002301B6/0x002301CE/0x002301D8/0x002301DC:
+   * read and preserve the high guest DWORD at entry ESP-0x160,
+   * separately from the low DWORD at entry ESP-0x164 (0x002301C4).
+   * Host pointer/layout and all virtual callees remain ABI_UNVERIFIED. */
+  param_5[3] = (uint32_t)((uint64_t)local_164 >> 32);
   param_5[4] = local_15c;
   param_5[6] = local_154;
   param_5[5] = local_158;

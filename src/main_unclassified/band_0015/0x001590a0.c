@@ -69,7 +69,11 @@ void FUN_001590a0(undefined4 param_1)
           else {
             cVar2 = '\x01';
           }
-          uStack_138 = CONCAT31(uStack_138._1_3_,cVar2);
+          /* XBE 0x0015922C writes BL to BYTE [ESP+0x30], the low byte
+           * of the guest DWORD also stored at 0x00159110. The upper
+           * 24 bits are not overwritten by this instruction and must not
+           * be guessed or zero-filled; guest register ABI remains TODO. */
+          uStack_138 = (uStack_138 & UINT32_C(0xffffff00)) | (uint32_t)(uint8_t)cVar2;
           FUN_002eaa19(auStack_100,0xff,s__08X_p_08X_0040c874,in_ECX[1],piVar3);
           if (local_142 == '\0') {
             fStack_134 = *(float *)(in_ECX[3] + 0x138);
