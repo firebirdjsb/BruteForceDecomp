@@ -21,7 +21,7 @@ void FUN_000cbec0(void)
   undefined1 uStack_2;
   
   if (in_EDX != in_EAX[0x11]) {
-    iVar2 = iRam00000074;
+    /* The original does not load guest VA 0x74 on entry. */
     if (in_EDX != 0) {
       if (in_EAX[0x23] == 1) {
         fVar1 = (float)in_EAX[0x1a];
@@ -38,7 +38,12 @@ void FUN_000cbec0(void)
       if ((in_EAX[0x11] == 0) && (in_EDX == 2)) {
         if (in_EAX[10] != 0) {
           *(int *)(in_EAX[10] + 0x48) = iVar2;
-          iVar2 = iRam00000074;
+        }
+        else {
+          /* Original XOR EAX,EAX; MOV [EAX+0x74],ECX: low guest
+           * address 0x74, not a host-global or a C stack variable.
+           * Native port must route this through guest-memory translation. */
+          *(int *)(uintptr_t)UINT32_C(0x74) = iVar2;
         }
       }
       else {
@@ -50,10 +55,8 @@ void FUN_000cbec0(void)
         }
         *(float *)(iVar2 + 0x70) = fVar1;
         *(float *)(iVar2 + 0x74) = fVar1 + 1.0;
-        iVar2 = iRam00000074;
       }
     }
-    iRam00000074 = iVar2;
     in_EAX[0x11] = in_EDX;
     iVar2 = (**(code **)(*in_EAX + 0x2c))();
     if (iVar2 == 0) {
