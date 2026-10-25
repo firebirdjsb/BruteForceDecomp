@@ -32,7 +32,7 @@ def verify_source(source: str) -> None:
     ):
         if fragment not in source:
             raise ValueError("missing source contract: " + fragment)
-    if source.count("local_14[iVar5]") != 2:
+    if source.count("*(int *)(local_14[iVar5] + ") != 2:
         raise ValueError("both indexed node reads must use the same local array")
     if "stack0xffffffe8" in source:
         raise ValueError("unresolved stack placeholder remains")
