@@ -18,14 +18,15 @@ extern uint32_t PTR_FUN_003b71a0;
 extern uint32_t PTR_FUN_003b71a4;
 extern uint32_t UNK_002efaf0;
 extern uint32_t UNK_002efb3b;
+/* Original Xbox 0x002EBE35..0x002EBE6C: six stores of exact 32-bit
+ * guest code addresses. Keep them as guest addresses, not host C pointers.
+ * Verified against the SHA-256-pinned original XBE instruction immediates. */
 void FUN_002ebe35(void)
-
 {
-  PTR_FUN_003b7190 = __cfltcvt;
-  PTR_FUN_003b7194 = &UNK_002efaf0;
-  PTR_FUN_003b7198 = __fassign;
-  PTR_FUN_003b719c = FUN_002efa98;
-  PTR_FUN_003b71a0 = &UNK_002efb3b;
-  PTR_FUN_003b71a4 = __cfltcvt;
-  return;
+  PTR_FUN_003b7190 = UINT32_C(0x002EFE2D);
+  PTR_FUN_003b7194 = UINT32_C(0x002EFAF0);
+  PTR_FUN_003b7198 = UINT32_C(0x002EFB55);
+  PTR_FUN_003b719c = UINT32_C(0x002EFA98);
+  PTR_FUN_003b71a0 = UINT32_C(0x002EFB3B);
+  PTR_FUN_003b71a4 = UINT32_C(0x002EFE2D);
 }
