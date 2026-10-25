@@ -46,7 +46,12 @@ undefined4 FUN_00257b50(void)
   piStack_138 = (int *)unaff_EDI[5];
   puStack_134 = &local_11c;
   local_11c = 0x4c4d5842;
-  _local_118 = CONCAT22((ushort)*(byte *)(unaff_EDI + 7),0x101);
+  /* XBE 0x00257BC6/0x00257BCB writes two literal header bytes,
+   * then 0x00257BA0 copies exactly one flag byte from [EDI+0x1C].
+   * Do not write a fictitious zero byte above the flag. The original
+   * guest-stack adjacency is a separate ABI verification task. */
+  local_118 = UINT16_C(0x0101);
+  *(uint8_t *)&uStack_116 = *(const uint8_t *)(unaff_EDI + 7);
   puStack_13c = (undefined4 *)0x257bd6;
   (**(code **)(*piStack_138 + 0x14))();
   piStack_140 = (int *)*piVar2;
