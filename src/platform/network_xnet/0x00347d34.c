@@ -7,6 +7,9 @@
  */
 #include "bf_ghidra_types.h"
 #include "bf_xbe_certificate_layout.h"
+/* XBE 0x00347E37, 0x00347E50 and 0x00347E94 push the imported
+ * 32-bit Xbox LAN-key address through guest DWORD slot 0x00386488.
+ * No key material or host ABI implementation is supplied here. */
 int FUN_00347d34(undefined4 param_1)
 
 {
@@ -85,9 +88,11 @@ int FUN_00347d34(undefined4 param_1)
             abStack_b[2] = XBE_CERTIFICATE_HEADER_00010180.LANKey[0xe];
             abStack_b[3] = XBE_CERTIFICATE_HEADER_00010180.LANKey[0xf];
             local_18 = 0;
-            XcHMAC(XboxLANKey_exref,0x10,&local_18,0x11,0,0,&local_40);
+            XcHMAC((const void *)(uintptr_t)
+                   (*(const uint32_t *)(uintptr_t)UINT32_C(0x00386488)),0x10,&local_18,0x11,0,0,&local_40);
             local_18 = 1;
-            XcHMAC(XboxLANKey_exref,0x10,&local_18,0x11,0,0,local_2c);
+            XcHMAC((const void *)(uintptr_t)
+                   (*(const uint32_t *)(uintptr_t)UINT32_C(0x00386488)),0x10,&local_18,0x11,0,0,local_2c);
             *(undefined4 *)(in_ECX + 0xa90) = local_40;
             *(undefined4 *)(in_ECX + 0xa94) = local_3c;
             *(undefined4 *)(in_ECX + 0xa98) = uStack_38;
@@ -101,7 +106,8 @@ int FUN_00347d34(undefined4 param_1)
             }
             XcDESKeyParity((undefined4 *)(in_ECX + 0xaa0),0x18);
             local_18 = 2;
-            XcHMAC(XboxLANKey_exref,0x10,&local_18,0x11,0,0,&local_40);
+            XcHMAC((const void *)(uintptr_t)
+                   (*(const uint32_t *)(uintptr_t)UINT32_C(0x00386488)),0x10,&local_18,0x11,0,0,&local_40);
             *(undefined4 *)(in_ECX + 0xab8) = local_40;
             *(undefined4 *)(in_ECX + 0xabc) = local_3c;
             FUN_0034c7e5(in_ECX + 0xace,2);
