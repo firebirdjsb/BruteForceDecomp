@@ -60,8 +60,12 @@ ushort FUN_0034877b(undefined4 *param_1)
       }
     }
     if ((*(byte *)(in_ECX + 0xa73) & 0x80) != 0) {
-      param_1._0_2_ = CONCAT11(0x80,(char)uVar3);
-      uVar3 = (ushort)param_1;
+      /* Original 0x00348857 OR BYTE PTR [EBP+9],0x80 updates bit 15
+       * of the guest return DWORD at [EBP+8]. That stack argument slot
+       * was overwritten with zero at 0x003487B6. The saved output
+       * pointer is not being modified by this partial-byte operation.
+       * Guest ECX and Xbox IRQL/API ABI remain unverified. */
+      uVar3 = (ushort)(uVar3 | UINT16_C(0x8000));
     }
   }
   KfLowerIrql();
