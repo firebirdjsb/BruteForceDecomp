@@ -96,7 +96,10 @@ LAB_000aa9d8:
           iVar7 = *(int *)(iVar9 + 0x228);
           if ((*(int *)(iVar7 + 0x174) == DAT_0046d064) && (*(float *)(iVar7 + 0x14c) == 0.0)) {
             if (bVar2) {
-              pwVar10 = u__s__d__0040d750;
+              /* XBE 0x000AA76D: mov esi,0x0040D750, the guest format
+               * string address. Never invent a host data symbol here;
+               * Windows/Linux/Android guest-address mapping is deferred. */
+              pwVar10 = (wchar_t *)(uintptr_t)UINT32_C(0x0040D750);
             }
             else {
 LAB_000aa791:
