@@ -20,7 +20,8 @@ undefined4 FUN_00234190(int param_1,int param_2,int param_3)
   int unaff_EBX;
   int *unaff_EDI;
   int local_8;
-  
+  uint32_t guest_virtual_output_word;
+
   if (param_1 == 0) {
     return 0;
   }
@@ -81,8 +82,13 @@ LAB_00234211:
       iVar5 = FUN_00235d50();
       if (((iVar5 != 0) && (iVar5 != -1)) && ((*(uint *)(iVar5 + 0x44) >> 5 & 1) == 0)) {
         piVar2 = *(int **)(iVar1 + param_3 + 0xc);
-        (**(code **)(*piVar2 + 0x10))(piVar2,&stack0xffffffec);
-        cVar4 = FUN_002340f0();
+        /* XBE 0x2342e3..305: shr ecx,5; push ecx; push esp;
+         * virtual +0x10 can modify this 4-byte guest slot. After ret,
+         * the same pushed slot is read as FUN_002340f0's first argument.
+         * Exact virtual target and guest-register binding remain unverified. */
+        guest_virtual_output_word = *(uint32_t *)(iVar5 + 0x44) >> 5;
+        (**(code **)(*piVar2 + 0x10))(piVar2,&guest_virtual_output_word);
+        cVar4 = FUN_002340f0(guest_virtual_output_word);
         if ((cVar4 != '\0') && (cVar4 = FUN_00235bd0(), cVar4 != '\0')) {
           piVar2 = *(int **)(iVar5 + 0x58);
           *(byte *)(unaff_EBX + 0x24) =
