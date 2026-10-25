@@ -13,7 +13,15 @@ void FUN_00126320(void)
   int in_EAX;
   int iVar2;
   int *unaff_ESI;
-  undefined4 local_78;
+  /* XBE 0x001263A3/0x001263C6/0x001263CB: three adjacent guest
+   * DWORDs at original entry ESP-0x78/-0x74/-0x70. FUN_0017BEB0
+   * reads the first; FUN_00178E50 receives the second on the guest
+   * stack, and its 0x00178E59/0x00178EB8 reads access offsets +0/+4.
+   * EAX independently points to the first. Do not invent initial
+   * values for any guest words on the false/early-return path. The implicit
+   * EAX/ESI guest register ABI is still UNVERIFIED for host calls. */
+  uint32_t guest_stack_words[3];
+  _Static_assert(sizeof(guest_stack_words) == 12, "three guest DWORDs");
   undefined1 local_6c [16];
   undefined4 uStack_5c;
   undefined4 uStack_58;
@@ -29,17 +37,17 @@ void FUN_00126320(void)
       local_20 = 1;
       local_24 = 0x3f000000;
       iVar2 = (**(code **)(*unaff_ESI + 0x40))();
-      local_78 = *(undefined4 *)(iVar2 + 0x28);
+      guest_stack_words[0] = *(undefined4 *)(iVar2 + 0x28);
       uStack_54 = *(undefined4 *)(iVar2 + 0x2c);
       uStack_5c = *(undefined4 *)(iVar2 + 0x24);
       uStack_50 = 1;
-      uStack_58 = local_78;
+      uStack_58 = guest_stack_words[0];
       FUN_0017c020(local_6c);
       return;
     }
-    iVar2 = FUN_0017beb0(&local_78);
+    iVar2 = FUN_0017beb0(&guest_stack_words[0]);
     if ((iVar2 != 0) && (unaff_ESI != (int *)0x0)) {
-      FUN_00178e50(&stack0xffffff8c);
+      FUN_00178e50(&guest_stack_words[1]);
     }
   }
   return;

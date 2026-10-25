@@ -6,11 +6,14 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_00469b54;
 extern uint32_t DAT_00469b58;
-int FUN_001781c0(undefined4 param_1,undefined4 *param_2)
+/* The guest 0x00178406 caller pushes three DWORDs; 0x00178358 and
+ * 0x00178374 use RET 0x0C. The second incoming DWORD is a separate
+ * stack output at original entry ESP+8, NOT the third arg pointer.
+ * Guest pointer values, implicit registers and native ABI remain TODO. */
+int FUN_001781c0(undefined4 param_1, undefined4 guest_second_word,
+                 undefined4 *param_2)
 
 {
   undefined4 uVar1;
@@ -23,7 +26,13 @@ int FUN_001781c0(undefined4 param_1,undefined4 *param_2)
   undefined4 local_24;
   int local_20 [6];
   byte bStack_8;
-  
+  /* XBE 0x001782D5..0x00178334 uses the same address at guest
+   * entry ESP-0x38 for four calls. DWORD #1 is carried forward
+   * from call 1 to 2 and from call 3 to 4. Host stack ABI is NOT
+   * implied by placing these words in a C11 array. */
+  uint32_t guest_transfer_words[2];
+  _Static_assert(sizeof(guest_transfer_words) == 8, "paired guest words");
+
   uVar1 = param_1;
   if ((char)unaff_ESI[0xb] != '\0') {
     local_20[1] = 0;
@@ -45,12 +54,16 @@ int FUN_001781c0(undefined4 param_1,undefined4 *param_2)
       bStack_8 = bStack_8 | 2;
       local_20[1] = param_1;
       if (param_2 == (undefined4 *)0x0) {
+        /* XBE 0x0017828C/0x00178290 zeroes both incoming guest
+         * output slots before the virtual +0x1C call. On return,
+         * 0x0017829A..0x001782AE forwards them in entry-stack order. */
         param_1 = 0;
-        (**(code **)(*DAT_00469b54 + 0x1c))(&stack0x00000000,&param_1);
+        guest_second_word = 0;
+        (**(code **)(*DAT_00469b54 + 0x1c))(&guest_second_word,&param_1);
         local_20[2] = 0;
         local_20[3] = 0;
-        local_20[4] = 0;
-        local_20[5] = param_1;
+        local_20[4] = param_1;
+        local_20[5] = guest_second_word;
       }
       else {
         local_20[2] = *param_2;
@@ -60,10 +73,16 @@ int FUN_001781c0(undefined4 param_1,undefined4 *param_2)
       }
       bStack_8 = bStack_8 & 0xfe;
       if (((char)unaff_ESI[0xb] != '\0') && (3 < *(int *)(iVar2 + 0xf0))) {
-        FUN_003590f0(iVar2,0,&stack0xffffffc4,2);
-        FUN_003590f0(iVar2,1,&stack0xffffffc4,1);
-        FUN_003590f0(iVar2,2,&stack0xffffffc4,2);
-        FUN_003590f0(iVar2,local_28,&stack0xffffffc4,1);
+        guest_transfer_words[0] = 0;
+        guest_transfer_words[1] = 1;
+        FUN_003590f0(iVar2,0,guest_transfer_words,2);
+        guest_transfer_words[0] = 3;
+        FUN_003590f0(iVar2,1,guest_transfer_words,1);
+        guest_transfer_words[0] = 4;
+        guest_transfer_words[1] = 5;
+        FUN_003590f0(iVar2,2,guest_transfer_words,2);
+        guest_transfer_words[0] = 2;
+        FUN_003590f0(iVar2,local_24,guest_transfer_words,1);
       }
       iVar2 = unaff_ESI[1];
       unaff_ESI[1] = iVar2 + 1;
