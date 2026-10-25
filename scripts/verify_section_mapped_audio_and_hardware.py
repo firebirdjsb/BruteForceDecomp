@@ -19,6 +19,9 @@ OPCODES = {
     0x0037F6D6: "a180633800", # mov eax,[0x386380], imported pointer
     0x0037F6DB: "807805a1", # cmp byte [eax+5],0xa1
     0x0037F6DF: "742f", # je
+    0x0035A90C: "c705dc504b0014473100", # DirectSoundCreate guest 0x314714
+    0x0035A953: "b850a63500", # return Bink guest entry address
+    0x0037EECC: "68a0ed3700", # push MU device-type descriptor address
 }
 
 def guest_bytes(xbe, va, size):
@@ -53,13 +56,18 @@ def main():
     assert "(guest_hardware_info + 5u)" in hardware
     assert "UINT8_C(0xA1)" in hardware
     assert "(code)0xa1" not in hardware
+    bink = (args.root / "src/video_bink/bink/0x0035a8c0.c").read_text()
+    assert "DAT_004b50dc = UINT32_C(0x00314714);" in bink
+    assert "return (undefined1 *)(uintptr_t)UINT32_C(0x0035A650);" in bink
+    mu = (args.root / "src/platform/xpp_role_unverified/0x0037ee7c.c").read_text()
+    assert "(const void *)(uintptr_t)UINT32_C(0x0037EDA0)" in mu
     if args.xbe:
         xbe = args.xbe.read_bytes()
         assert hashlib.sha256(xbe).hexdigest() == XBE_SHA256, "Unexpected original XBE"
         for va, hx in OPCODES.items():
             raw = bytes.fromhex(hx)
             assert guest_bytes(xbe, va, len(raw)) == raw, hex(va)
-    print("PASS: original section-mapped HRTF callbacks and hardware import byte test")
+    print("PASS: section-mapped HRTF, DirectSound, MU descriptor and hardware byte contracts")
 
 if __name__ == "__main__":
     main()
