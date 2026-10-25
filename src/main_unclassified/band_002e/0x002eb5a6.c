@@ -6,41 +6,33 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_crt_stream.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t _DAT_0040f4d8;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-int FUN_002eb5a6(FILE *param_1,int param_2,int param_3)
-
+/* Guest x86 0x002EB5A6: CRT seek helper. Offsets verified against XBE:
+ * flags +0x0c, handle +0x10, default buffer size +0x18. */
+int FUN_002eb5a6(bf_xbox_crt_stream32 *stream, int offset, int origin)
 {
-  char *pcVar1;
-  long lVar2;
-  int iVar3;
-  
-  if ((((uint)param_1->_IO_read_base & 0x83) == 0) ||
-     (((param_3 != 0 && (param_3 != 1)) && (param_3 != 2)))) {
+  uint32_t flags = stream->flags_0c;
+  if ((flags & UINT32_C(0x83)) == 0 ||
+      (origin != 0 && origin != 1 && origin != 2)) {
     _DAT_0040f4d8 = 0x16;
-    iVar3 = -1;
+    return -1;
   }
-  else {
-    param_1->_IO_read_base = (char *)((uint)param_1->_IO_read_base & 0xffffffef);
-    if (param_3 == 1) {
-      lVar2 = _ftell(param_1);
-      param_2 = param_2 + lVar2;
-      param_3 = 0;
-    }
-    __flush(param_1);
-    pcVar1 = param_1->_IO_read_base;
-    if ((char)pcVar1 < '\0') {
-      param_1->_IO_read_base = (char *)((uint)pcVar1 & 0xfffffffc);
-    }
-    else if (((((uint)pcVar1 & 1) != 0) && (((uint)pcVar1 & 8) != 0)) &&
-            (((uint)pcVar1 & 0x400) == 0)) {
-      param_1->_IO_write_end = (char *)0x200;
-    }
-    iVar3 = FUN_002ef651(param_1->_IO_write_base,param_2,param_3);
-    iVar3 = (iVar3 != -1) - 1;
+  stream->flags_0c = flags & ~UINT32_C(0x10);
+  if (origin == 1) {
+    offset = (int32_t)((uint32_t)offset + (uint32_t)_ftell(stream));
+    origin = 0;
   }
-  return iVar3;
+  __flush(stream);
+  flags = stream->flags_0c;
+  if ((int8_t)flags < 0) {
+    stream->flags_0c = flags & ~UINT32_C(3);
+  } else if ((flags & UINT32_C(0x409)) == UINT32_C(9)) {
+    stream->unknown_18 = UINT32_C(0x200);
+  }
+  return FUN_002ef651(stream->handle_10, offset, origin) == -1 ? -1 : 0;
 }
