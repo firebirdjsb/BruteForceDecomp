@@ -79,6 +79,7 @@ on:
       - 'scripts/verify_000a7160_guest_record.py'
       - 'scripts/verify_0023a790_second_guest_outword.py'
       - 'scripts/verify_0023a890_guest_outwords_release.py'
+      - 'scripts/verify_00254ed0_guest_frame.py'
       - 'scripts/verify_0024a600_guest_element.py'
       - 'scripts/verify_0007b8f0_0007bef0_inline_storage.py'
       - 'scripts/verify_0007b100_esi_stack_word.py'
@@ -266,6 +267,8 @@ jobs:
         run: python3 scripts/verify_0023a790_second_guest_outword.py --root .
       - name: Verify 0x0023A890 guest output and guarded releases (source and Clang)
         run: python3 scripts/verify_0023a890_guest_outwords_release.py --root .
+      - name: Verify 0x00254ED0 guest frame and interface output (source and Clang)
+        run: python3 scripts/verify_00254ed0_guest_frame.py --root .
       - name: Verify incoming 0x0024a600 byte-element word (source-only CI)
         run: python3 scripts/verify_0024a600_guest_element.py --root .
       - name: Verify two inline-string stack pointers (source-only CI; original XBE stays local)
