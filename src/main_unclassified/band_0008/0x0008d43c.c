@@ -32,7 +32,10 @@ FUN_0008d43c(undefined4 param_1,undefined4 param_2,undefined4 param_3,int param_
   {
     return 0;
   }
-  uVar4 = (**(code **)(*in_ECX + 0x10))(&stack0x0000000c);
+  /* XBE 0x0008D462-0x0008D467: after PUSH ESI and PUSH EDI,
+   * LEA ECX,[ESP+0x14] addresses entry ESP+0x0C, the existing
+   * third incoming 32-bit stack word. Host argument ABI unverified. */
+  uVar4 = (**(code **)(*in_ECX + 0x10))(&param_3);
   if (uVar4 != unaff_EBX) {
     iVar1 = *(int *)(uVar4 + 0x28);
     uVar2 = *(uint *)(iVar1 + 4);
