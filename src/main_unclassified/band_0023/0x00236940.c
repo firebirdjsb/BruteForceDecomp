@@ -6,7 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_00236940(void)
+/* Original x86 0x00236940..0x0023697A returns the low AL byte.
+ * Recursive calls leave that boolean byte in AL for the final RET. */
+uint8_t FUN_00236940(void)
 
 {
   int *piVar1;
@@ -28,5 +30,5 @@ void FUN_00236940(void)
     cVar2 = FUN_00236940();
     iVar4 = iVar4 + 4;
   }
-  return;
+  return (uint8_t)cVar2;
 }
