@@ -28,7 +28,7 @@ LAB_002f32e2:
     pcVar3 = (code *)(uintptr_t)*(uint32_t *)(uintptr_t)UINT32_C(0x003864e8);
     if (XBE_CERTIFICATE_HEADER_00010180.TitleID != param_2) {
       uVar2 = 0;
-      pdVar4 = XBE_CERTIFICATE_HEADER_00010180.AlternateTitleIDs;
+      pdVar4 = XBE_CERTIFICATE_HEADER_00010180.AlternateTitleID;
       do {
         if (*pdVar4 == 0) goto LAB_002f32e0;
         if (param_2 == *pdVar4) break;
