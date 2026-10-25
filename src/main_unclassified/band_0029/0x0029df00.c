@@ -43,12 +43,10 @@ undefined4 FUN_0029df00(void)
       (**(code **)(*unaff_ESI + 8))(unaff_ESI);
       (**(code **)(*guest_interface + 0x1c))(guest_interface,&guest_secondary_word);
       if (query_result == 1) {
-        /* The original stores three zero DWORDs before CALL +0x30. */
-        uint32_t guest_aux_word_1 = 0;
-        uint32_t guest_aux_word_2 = 0;
+        /* The original clears three guest frame locals but passes only
+         * two explicit arguments after 'this': 0 and the output address. */
         (**(code **)(*guest_interface + 0x30))
-            (guest_interface,0,&guest_tertiary_word,
-             &guest_aux_word_1,&guest_aux_word_2);
+            (guest_interface,0,&guest_tertiary_word);
         guest_secondary_word = guest_tertiary_word;
       }
       guest_object = (uint32_t *)(uintptr_t)FUN_002ea01d(0x0c);
