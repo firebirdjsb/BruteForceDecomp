@@ -72,7 +72,9 @@ int FUN_00342220(char *param_1)
         } while (cVar1 != '\0');
         if ((uint)((int)pcVar5 - (int)(param_1 + 1)) < 0x80) {
           XAPILIB__lstrcpynA(pcVar2 + 0x1d4,param_1,0x80);
-          *(ushort *)(pcVar2 + 0x40) = CONCAT11((undefined1)local_16,local_16._1_1_);
+          /* XBE 0x003423BA-BF-C2 builds AX from [EBP-0x11] (low)
+           * and [EBP-0x12] (high): byte swap of the 16-bit guest port. */
+          *(ushort *)(pcVar2 + 0x40) = (uint16_t)(((uint16_t)local_16 << 8) | ((uint16_t)local_16 >> 8));
           return 0;
         }
       }

@@ -68,7 +68,9 @@ LAB_0033cc86:
   }
   FUN_0033bbd6(*(undefined2 *)(&DAT_004b0950 + *in_ECX * 10));
   FUN_0033c0d7(in_ECX[3],piVar1,1,(int)&uStack_8 + 3);
-  if (param_1._3_1_ != uStack_8._3_1_) {
+  /* XBE 0x0033CCB0-CB6 compares BYTE [EBP+0x0B] with BYTE [EBP-1]:
+   * high byte of incoming guest DWORD versus high byte of saved ECX. */
+  if (((uint32_t)param_1 >> 24) != ((uint32_t)uStack_8 >> 24)) {
     *piVar7 = 0;
     FUN_0033bda0(0);
     *(undefined1 *)(in_ECX[0x20b] * 0x200 + in_ECX[0x20c] + in_ECX[3]) = 0x2a;
