@@ -19,7 +19,11 @@ undefined4 FUN_00106be0(void)
   FUN_00106660();
   cVar1 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x1d0))(local_d4);
   if (cVar1 != '\0') {
-    FUN_001066a0(&stack0xffffff28);
+    /* XBE 0x00106BE0 reserves 0xD4 bytes; the LEA instructions at
+     * 0x00106BE7, 0x00106BFC and 0x00106C0B address [ESP+4].
+     * Reuse the existing 212-byte local buffer instead of Ghidra's
+     * synthetic stack0xffffff28. Virtual-call ABI remains unverified. */
+    FUN_001066a0(local_d4);
     uVar2 = FUN_002ebf10();
     return uVar2;
   }
