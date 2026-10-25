@@ -9,7 +9,6 @@
 void FUN_000ac7f0(void)
 
 {
-  int iVar1;
   int *piVar2;
   int iVar3;
   int in_EDX;
@@ -54,10 +53,13 @@ LAB_000ac846:
   iVar5 = iVar3;
   do {
     if ((*(byte *)(iVar7 + 0x13) & 1) != 0) break;
-    iVar1 = iVar5 * 4;
+    /* XBE 0x000AC856 loads [ESP + EDX*4 + 0x0C] with EDX=old iVar5;
+     * local_14 begins at [ESP+0x10] (0x000AC801/0x000AC84D).
+     * After decrement, local_14[iVar5] is exactly that original slot.
+     * Incoming EDX/register ABI remains unverified. */
     iVar5 = iVar5 + -1;
-    if ((*(int *)(*(int *)(&stack0xffffffe8 + iVar1) + 0x7c) == *(int *)(iVar7 + 0x7c)) &&
-       (*(int *)(*(int *)(&stack0xffffffe8 + iVar1) + 0x80) == *(int *)(iVar7 + 0x80))) {
+    if ((*(int *)(local_14[iVar5] + 0x7c) == *(int *)(iVar7 + 0x7c)) &&
+       (*(int *)(local_14[iVar5] + 0x80) == *(int *)(iVar7 + 0x80))) {
       *(byte *)(iVar7 + 0x13) = *(byte *)(iVar7 + 0x13) | 1;
     }
   } while (0 < iVar5);
