@@ -11,9 +11,9 @@
 
 **Overall tracked roadmap: 13.85%** (conservative milestone indicator, **not verified game completion**). Seven equally weighted phases: the audited C11 syntax pass fraction contributes to one phase, while the other six are unverified and receive zero completion credit until evidence-based metrics exist. This is a planning proxy, not a verified 1:1 or playable-game percentage.
 
-![C11 source syntax coverage: 96.94%](docs/progress/c11-syntax.svg)
+![C11 source syntax coverage: 96.95%](docs/progress/c11-syntax.svg)
 
-**96.94% C11 syntax coverage** · **13,275 / 13,694** individually checked functions · **419** still fail. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/643b56495370a08ab9807870a3fd43b3f023aa97) · [GitHub Actions report](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/40144854267).
+**96.95% C11 syntax coverage** · **13,276 / 13,694** individually checked functions · **418** still fail. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/b141ef6316b8d7adae4d5888c29a143ee5ed4062) · [GitHub Actions report](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/40145043244).
 
 **Native PC game: NOT buildable/playable yet.** A syntax pass is not Xbox ABI verification, cross-function linking, platform compatibility, or a 1:1 match. This percentage is **not** game-completion percentage.
 
@@ -21,7 +21,7 @@
 
 | Roadmap phase | Credited progress |
 | --- | --- |
-| 1. Isolated host C11 syntax | 96.94% source drafts passing |
+| 1. Isolated host C11 syntax | 96.95% source drafts passing |
 | 2. Original Xbox ABI, types and structures | Unverified |
 | 3. Cross-function linking | Unverified |
 | 4. Original 1:1 behavioral testing | Unverified |
