@@ -29,6 +29,7 @@ undefined1 FUN_0016f080(int param_1,float param_2,float *param_3)
   int iVar13;
   float fVar14;
   float local_170;
+  int32_t guest_key_count; /* x86 quotient (end - begin) / 20, not an SSE float */
   float local_164;
   float local_160;
   float fStack_15c;
@@ -69,10 +70,10 @@ undefined1 FUN_0016f080(int param_1,float param_2,float *param_3)
   
   uVar8 = 0;
   if (*(int *)(param_1 + 4) == 0) {
-    local_170 = 0.0;
+    guest_key_count = 0;
   }
   else {
-    local_170 = (float)((*(int *)(param_1 + 8) - *(int *)(param_1 + 4)) / 0x14);
+    guest_key_count = (*(int *)(param_1 + 8) - *(int *)(param_1 + 4)) / 0x14;
   }
   if (*(char *)(param_1 + 0x24) == '\0') {
     if (*(int *)(param_1 + 0x18) != 0) {
@@ -101,10 +102,10 @@ undefined1 FUN_0016f080(int param_1,float param_2,float *param_3)
     }
     *(undefined1 *)(param_1 + 0x24) = 1;
   }
-  switch(local_170) {
-  case 0.0:
+  switch(guest_key_count) {
+  case 0:
     goto switchD_0016f1c6_caseD_0;
-  case 1.4013e-45:
+  case 1:
     pfVar10 = *(float **)(param_1 + 4);
     fVar11 = pfVar10[2];
     fVar14 = pfVar10[3];
@@ -114,7 +115,7 @@ undefined1 FUN_0016f080(int param_1,float param_2,float *param_3)
     param_3[2] = fVar11;
     param_3[3] = fVar14;
     return 1;
-  case 2.8026e-45:
+  case 2:
     pfVar10 = *(float **)(param_1 + 4);
     fVar11 = pfVar10[4];
     if ((uint)param_2 < (uint)fVar11) {
@@ -155,7 +156,7 @@ LAB_0016f24a:
     param_3[2] = local_170;
     param_3[3] = local_164;
     return 1;
-  case 4.2039e-45:
+  case 3:
     uVar8 = FUN_00170e50();
     return uVar8;
   default:
