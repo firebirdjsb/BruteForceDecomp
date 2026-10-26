@@ -18,7 +18,6 @@ void FUN_0026add0(int *param_1)
   int *piVar5;
   int *piStack_c;
   int *local_8;
-  float fStack_4;
   
   iVar2 = (int)param_1;
   piVar1 = (int *)((int)param_1 + 4);
@@ -49,9 +48,25 @@ void FUN_0026add0(int *param_1)
   else {
     (**(code **)(*piVar4 + 4))(piVar4);
 LAB_0026ae70:
-    piStack_c = (int *)(*(float *)(iVar2 + 0x18) * 0.1);
-    fStack_4 = *(float *)(iVar2 + 0x18) * 0.8;
-    cVar3 = FUN_00234b30(iVar2,piVar4,local_8,piStack_c,fStack_4,piStack_c,0,&param_1);
+    /* Original XBE SHA-256 B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721.
+     * 0x26AE70/77: FLD [EBP+18h], FMUL DWORD [003A4FF0] (3DCCCCCD).
+     * 0x26AE84/88/8F: FSTP DWORD stack, MOV EAX from it, PUSH EAX.
+     * 0x26AE8C/90: FLD [EBP+18h], FMUL DWORD [003A5014] (3F4CCCCD).
+     * 0x26AE96/9A/9E/9F: FSTP DWORD stack, MOV ECX, PUSH ECX, PUSH EAX.
+     * The three pushed scalar arguments are 32-bit float bit patterns, NOT
+     * host pointers or promoted C doubles. The prior piStack_c remains a
+     * pointer used as an out-parameter; it is not the floating-point slot.
+     * ABI_UNVERIFIED: host pointer translation, x87 rounding and linked call. */
+    {
+      float tenth = *(float *)(iVar2 + 0x18) * 0.1f;
+      float eight_tenths = *(float *)(iVar2 + 0x18) * 0.8f;
+      uint32_t tenth_bits;
+      uint32_t eight_tenths_bits;
+      memcpy(&tenth_bits, &tenth, sizeof tenth_bits);
+      memcpy(&eight_tenths_bits, &eight_tenths, sizeof eight_tenths_bits);
+      cVar3 = FUN_00234b30(iVar2,piVar4,local_8,tenth_bits,eight_tenths_bits,
+                           tenth_bits,0,&param_1);
+    }
     piVar5 = param_1;
     if (cVar3 != '\0') {
       (**(code **)(*piVar1 + 0x2c))(piVar1,*(undefined4 *)(iVar2 + 4),param_1);
