@@ -5,6 +5,7 @@ on:
     paths:
       - 'src/main_unclassified/band_0005/0x00052120.c'
       - 'scripts/verify_00052120_guest_float_slots.py'
+      - 'tests/test_00052120_guest_frame.c'
       - '.github/workflows/verify-00052120-float-slots.yml'
       - 'include/bf_ghidra_types.h'
   workflow_dispatch:
@@ -15,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Clang
         run: sudo apt-get update && sudo apt-get install -y clang
-      - name: Verify source invariants and isolated Clang C11 syntax
+      - name: Verify two parent calls, guest output aliases and GNU/MSVC x86 ABI
         run: python3 scripts/verify_00052120_guest_float_slots.py --root .
 # The copyrighted original XBE must never be stored in GitHub Actions.
 # Run the same verifier locally with --xbe against the authenticated image.
