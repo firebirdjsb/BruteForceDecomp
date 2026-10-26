@@ -25,7 +25,7 @@ undefined4 FUN_003498be(undefined4 *param_1,uint *param_2,undefined4 *param_3)
   undefined1 local_28 [20];
   undefined8 local_14;
   int local_c;
-  int local_8;
+  uint32_t local_8;
   
   iVar7 = *(int *)(in_ECX + 0xbcc);
   local_c = in_ECX;
@@ -114,7 +114,10 @@ LAB_00349a09:
       *(int *)(iVar7 + 0xa50) = 0;
     }
     uVar4 = KeRaiseIrqlToDpcLevel();
-    local_8 = CONCAT31(local_8._1_3_,uVar4);
+    /* XBE 0x00349AA8: MOV BYTE PTR [EBP-4],AL. The same DWORD is
+     * an earlier output argument; only its low byte is overwritten.
+     * Guest pointer/host ABI translation remains unverified. */
+    local_8 = (local_8 & UINT32_C(0xFFFFFF00)) | (uint32_t)uVar4;
     *(undefined4 *)(in_ECX + 0xae4) = 5;
     if ((**(byte **)(in_ECX + 0xae8) & 4) == 0) {
       bVar5 = *(byte *)(in_ECX + 0x38);

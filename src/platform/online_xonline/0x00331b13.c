@@ -94,8 +94,11 @@ LAB_00331c40:
       *(byte *)((int)&local_68 + uVar6) = local_3c[uVar6] % 10 + 0x30;
       uVar6 = uVar6 + 1;
     } while (uVar6 < 0xc);
-    local_60 = CONCAT22(local_60._2_2_,0x3900);
-    local_60 = CONCAT31(local_60._1_3_,0x39);
+    /* XBE 0x00331C90/94: ordered BYTE stores at [EBP-0x5B/-0x5C].
+     * Preserve the low byte until its own write and retain the high two
+     * bytes previously filled by the original 12-byte loop. */
+    local_60 = (local_60 & UINT32_C(0xFFFF00FF)) | UINT32_C(0x00003900);
+    local_60 = (local_60 & UINT32_C(0xFFFFFF00)) | UINT32_C(0x00000039);
     local_54 = 0x92d274b2;
     uStack_50 = 0x17a016fe;
     uStack_4c = 0x61db7058;
