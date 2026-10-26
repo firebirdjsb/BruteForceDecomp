@@ -6,6 +6,17 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Original F32 pair is stored as two adjacent guest DWORDs.
+ * Reconstruct raw IEEE-754 lanes without numeric float-to-integer conversion.
+ * External callbacks, guest pointer ABI and full x87 behavior remain unverified. */
+static uint64_t bf_2312e0_pack_float2(float low, float high)
+{
+  uint32_t words[2];
+  memcpy(&words[0], &low, 4);
+  memcpy(&words[1], &high, 4);
+  return (uint64_t)words[0] | ((uint64_t)words[1] << 32);
+}
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 undefined4 FUN_002312e0(int param_1,int *param_2,int *param_3,float param_4)
@@ -15,7 +26,10 @@ undefined4 FUN_002312e0(int param_1,int *param_2,int *param_3,float param_4)
   float fVar2;
   float fVar3;
   float fVar4;
-  undefined1 auVar5 [16];
+  float norm2;
+  /* Guest [ESP+0x9C] initially holds incoming param_4, and only the
+   * flagged SSE branch replaces that same 32-bit word with SQRTSS length. */
+  float movement_length = param_4;
   float *pfVar6;
   float local_84;
   float local_80;
@@ -59,29 +73,33 @@ undefined4 FUN_002312e0(int param_1,int *param_2,int *param_3,float param_4)
       local_60 = local_20;
       local_6c = local_20 * 0.1;
       local_8 = local_8 * 0.1;
-      local_68 = CONCAT44(local_8,local_14 * 0.1);
+      local_68 = bf_2312e0_pack_float2(local_14 * 0.1f, local_8);
       local_84 = (local_24 * 0.25 + local_84) - local_6c;
-      _local_5c = CONCAT44(local_8,local_14);
+      /* Original writes to adjacent 32-bit guest stack words. */
+      memcpy(&local_5c, &local_14, sizeof local_5c);
+      memcpy(&fStack_58, &local_8, sizeof fStack_58);
       local_80 = (local_18 * 0.25 + local_80) - local_14 * 0.1;
       local_7c = (local_c * 0.25 + local_7c) - local_8;
       fVar2 = local_4c[0] - local_7c;
       fVar3 = local_50 - local_80;
       local_78 = local_54 - local_84;
       pfVar6 = &local_78;
-      auVar5 = ZEXT416((uint)SQRT(local_78 * local_78 + fVar3 * fVar3 + fVar2 * fVar2));
-      auVar5 = rcpss(auVar5,auVar5);
-      fVar4 = auVar5._0_4_;
+      /* Original SQRTSS at 0x2315B9, then RCPSS at 0x2315E8:
+       * preserve two separate SSE scalar operations and their approximation. */
+      norm2 = (fVar2 * fVar2 + fVar3 * fVar3) + local_78 * local_78;
+      movement_length = _mm_cvtss_f32(_mm_sqrt_ss(_mm_set_ss(norm2)));
+      fVar4 = _mm_cvtss_f32(_mm_rcp_ss(_mm_set_ss(movement_length)));
       local_78 = local_78 * fVar4;
-      local_74 = CONCAT44(fVar2 * fVar4,fVar3 * fVar4);
+      local_74 = bf_2312e0_pack_float2(fVar3 * fVar4, fVar2 * fVar4);
     }
     *(undefined4 *)(param_3[0x3a] + 0xc) = 0;
     (**(code **)(*param_3 + 0x38))(&local_84,pfVar6);
     FUN_0001d0c0();
     (**(code **)(*param_2 + 0x3c))(local_4c);
-    if (200.0 <= (float)param_2) {
-      param_2 = (int *)0x43480000;
+    if (200.0f <= movement_length) {
+      movement_length = 200.0f;
     }
-    FUN_0021c380((float)param_2 * 0.005);
+    FUN_0021c380(movement_length * 0.005f);
     return 1;
   }
   return 0;
