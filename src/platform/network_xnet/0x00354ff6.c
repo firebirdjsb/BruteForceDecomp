@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 void FUN_00354ff6(uint param_1,int param_2,undefined4 param_3,undefined4 param_4,uint *param_5,
                  int param_6,int param_7)
 
@@ -52,7 +53,8 @@ LAB_00355084:
     }
     if (bVar1 != 0) {
       bVar2 = *(byte *)((int)puVar3 + 9);
-      param_5 = (uint *)CONCAT13(bVar2,param_5._0_3_);
+      /* 0x3550e5: replace only BYTE [EBP+0x1b], argument five byte 3. */
+      bf_x86_word_store_byte(&param_5,3U,bVar2);
       if (bVar1 == 1) {
         if ((bVar2 & 4) != 0) {
           return;
@@ -135,13 +137,15 @@ LAB_00355193:
               (bVar1 >> 1 & 1) + param_7 +
               ((uVar6 & 0xff0000 | uVar6 >> 0x10) >> 8 | (uVar6 << 0x10 | uVar6 & 0xff00) << 8);
       uVar6 = 0;
-      param_6 = CONCAT31(param_6._1_3_,0x10);
+      /* 0x355368: low byte only; the full DWORD is pushed at 0x35536c. */
+      bf_x86_word_store_byte(&param_6,0U,0x10);
     }
     else {
       uVar6 = puVar3[1];
       iVar5 = 0;
       uVar6 = (uVar6 & 0xff0000 | uVar6 >> 0x10) >> 8 | (uVar6 << 0x10 | uVar6 & 0xff00) << 8;
-      param_6 = (uint)param_6._1_3_ << 8;
+      /* 0x3551cf ANDs the low byte with zero, preserving higher bytes. */
+      bf_x86_word_store_byte(&param_6,0U,0);
     }
     FUN_003539cf(iVar4,*(undefined4 *)(param_2 + 0xc),param_4,param_3,uVar6,iVar5,param_6);
   }

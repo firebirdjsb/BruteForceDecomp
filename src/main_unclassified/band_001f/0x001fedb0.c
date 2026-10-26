@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
+/* EBP saves the incoming pointer; BYTE [entry ESP+8] becomes a flag.
+ * Preserve higher bytes and the helper-address aliases; full ABI unverified. */
 char FUN_001fedb0(undefined4 param_1,int *param_2,byte *param_3)
 
 {
@@ -36,7 +39,7 @@ char FUN_001fedb0(undefined4 param_1,int *param_2,byte *param_3)
   if (cVar7 == '\0') {
     iVar1 = *param_2;
     bVar5 = *(byte *)(in_ECX + 0x3d) & 1;
-    param_2._0_1_ = '\0';
+    bf_x86_word_store_byte(&param_2,0U,'\0');
     bVar4 = false;
     if (iVar1 == 0xbaeb457) {
       if (cVar9 == '\0') {
@@ -46,7 +49,7 @@ char FUN_001fedb0(undefined4 param_1,int *param_2,byte *param_3)
         *param_3 = bVar5;
       }
       bVar4 = true;
-      param_2._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_2,0U,'\x01');
     }
     bVar8 = *(byte *)(in_ECX + 0x3d);
     *(byte *)(in_ECX + 0x3d) = bVar8 ^ (*(byte *)(in_ECX + 0x3d) ^ bVar5) & 1;
@@ -59,7 +62,7 @@ char FUN_001fedb0(undefined4 param_1,int *param_2,byte *param_3)
         *param_3 = bVar5;
       }
       bVar4 = true;
-      param_2._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_2,0U,'\x01');
     }
     bVar8 = *(byte *)(in_ECX + 0x3d) ^ (bVar5 << 3 ^ *(byte *)(in_ECX + 0x3d)) & 8;
     bVar5 = bVar8 >> 2 & 1;
@@ -72,7 +75,7 @@ char FUN_001fedb0(undefined4 param_1,int *param_2,byte *param_3)
         *param_3 = bVar5;
       }
       bVar4 = true;
-      param_2._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_2,0U,'\x01');
     }
     bVar8 = *(byte *)(in_ECX + 0x3d) ^ (bVar5 << 2 ^ *(byte *)(in_ECX + 0x3d)) & 4;
     bVar5 = bVar8 >> 1 & 1;
@@ -85,7 +88,7 @@ char FUN_001fedb0(undefined4 param_1,int *param_2,byte *param_3)
         *param_3 = bVar5;
       }
       bVar4 = true;
-      param_2._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_2,0U,'\x01');
     }
     bVar8 = *(byte *)(in_ECX + 0x3d);
     bVar6 = bVar8 >> 4 & 1;
@@ -98,7 +101,7 @@ char FUN_001fedb0(undefined4 param_1,int *param_2,byte *param_3)
         *param_3 = bVar6;
       }
       bVar4 = true;
-      param_2._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_2,0U,'\x01');
     }
     cVar7 = *(char *)(in_ECX + 0x3c);
     *(byte *)(in_ECX + 0x3d) =
@@ -110,7 +113,7 @@ char FUN_001fedb0(undefined4 param_1,int *param_2,byte *param_3)
       else {
         *(short *)param_3 = (short)cVar7;
       }
-      param_2._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_2,0U,'\x01');
       if (cVar9 == '\0') {
         *(char *)(in_ECX + 0x3c) = cVar7;
       }
@@ -118,14 +121,14 @@ char FUN_001fedb0(undefined4 param_1,int *param_2,byte *param_3)
     param_3 = (byte *)0xe91cf6a8;
     FUN_0020d220(*(undefined4 *)(in_ECX + 0x10),param_1,&param_3,in_ECX + 0x14,piVar2,&param_2,3);
     if (*piVar2 == 0x884288c) {
-      param_2._0_1_ = '\x01';
+      bf_x86_word_store_byte(&param_2,0U,'\x01');
     }
     param_3 = (byte *)0xb6b92ba;
     FUN_0020d320(*(undefined4 *)(in_ECX + 0x10),param_1,&param_3,in_ECX + 0x20,piVar2,pbVar3,
                  &param_2,1);
     bVar5 = *(byte *)(in_ECX + 0x3d) >> 7;
-    cVar7 = (char)param_2;
-    if (((char)param_2 == '\0') && (*piVar2 == 0xa82e377)) {
+    cVar7 = (char)bf_x86_word_load_byte(&param_2,0U);
+    if ((cVar7 == '\0') && (*piVar2 == 0xa82e377)) {
       if (cVar9 == '\0') {
         bVar5 = *pbVar3;
       }

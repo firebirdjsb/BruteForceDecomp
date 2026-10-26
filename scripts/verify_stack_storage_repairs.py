@@ -12,6 +12,9 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x00354FF6, 930, "31ec306f27706c405db259a41caecd4741a111a766267b17fb2215aa7d6b7302"),
+    (0x002DD4A0, 422, "9e521e65d821ebcf8c49579823463b0bbd0c11590ba977c8179d99266cbaf8e8"),
+    (0x001FEDB0, 514, "a6bda7fedeb2e8341086f009e700b8e78e8809c5decde54662d1634cce27d541"),
     (0x002BB980, 622, "8cb376c292fa8f6967bae34aee2046268e94d533917193e144975fcd03387261"),
     (0x0033E13A, 473, "3ead9b1ea3ad925b15e8e133cf594f57f6d8b4a840dd9979a5b1d92058e8aed1"),
     (0x0034BD47, 472, "fba8da494e65b869d42f6bb90d71d1bffa3330d9f6068ed85e2029896e957d73"),
@@ -66,6 +69,34 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x003550E5: "88551b",  # fifth incoming word byte 3
+    0x003551CF: "20451c",  # AND sixth incoming word low byte, AL=0
+    0x00355368: "c6451c10ff751c",  # MOV low byte 0x10 then PUSH full word
+    0x002DD4E0: "dd8424c8000000",  # FLD incoming pair 10/11
+    0x002DD4EB: "dd8424c0000000",  # FLD incoming pair 8/9
+    0x002DD525: "dd542418",  # FST QWORD scratch
+    0x002DD54A: "dd5c2418",  # FSTP QWORD scratch
+    0x002DD55A: "8b74241c8b6c2418",  # high/low word snapshots
+    0x002DD569: "5655",  # high then low pushed
+    0x002DD57B: "5655",  # repeated word pair
+    0x002DD5D1: "89ac24c000000089b424c4000000",  # save low/high pair 8/9
+    0x002DD5EB: "89ac24c800000089b424cc000000",  # save low/high pair 10/11
+    0x002DD635: "8970045e8928",  # output high then low
+
+    0x001FEDB6: "8b6c2410",  # save original second argument pointer in EBP
+    0x001FEDE3: "88442418",  # AL to byte of reused second argument
+    0x001FEE0A: "88442418",
+    0x001FEE3D: "88442418",
+    0x001FEE72: "88442418",
+    0x001FEEA6: "88442418",
+    0x001FEEDA: "88442418",
+    0x001FEF12: "c644241801",
+    0x001FEF1E: "8d44241c50",  # address of flag word after push 3
+    0x001FEF4E: "c644241801",
+    0x001FEF55: "8d4c241c51",  # same flag address after push 1
+    0x001FEF7A: "8a442438",  # reload flag while eight pushed DWORDs remain
+    0x001FEF9B: "b001",  # AL only; no stack write
+
     0x002BBA79: "dd442408dd5424088b44240c8b54240889817c010000899178010000",  # FLD/FST then high/low stores
     0x002BBB89: "dd5c24088b4424088b54240c898180010000899184010000",  # FSTP then low/high stores
 
