@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 uint FUN_00224320(undefined4 *param_1,int param_2,undefined4 *param_3,undefined4 *param_4,
                  undefined4 param_5,undefined4 param_6)
 
@@ -21,7 +22,9 @@ uint FUN_00224320(undefined4 *param_1,int param_2,undefined4 *param_3,undefined4
   int *piVar9;
   undefined4 *puVar10;
   undefined4 *puVar11;
+  undefined4 *puVar12;
   float10 fVar12;
+  bool bVar13;
   int local_18;
   int local_14;
   undefined4 *local_10;
@@ -70,9 +73,13 @@ uint FUN_00224320(undefined4 *param_1,int param_2,undefined4 *param_3,undefined4
       ppuVar7 = &param_1;
     }
     piVar9 = param_1 + 0x17;
-    param_1._1_3_ = (uint3)((uint)puVar5 >> 8);
-    param_1 = (undefined4 *)CONCAT31(param_1._1_3_,1);
-    if (*ppuVar7 == (undefined4 *)*piVar9) {
+    /* 0x2243a6 stores the whole candidate word; the alias read at
+     * 0x2243bf precedes the low-byte write at 0x2243c4. */
+    param_1 = puVar5;
+    puVar12 = *ppuVar7;
+    bVar13 = puVar12 == (undefined4 *)*piVar9;
+    bf_x86_word_store_byte(&param_1,0U,1);
+    if (bVar13) {
       puVar8 = (undefined4 *)FUN_002ea01d(0x2c);
       if (puVar8 == (undefined4 *)0x0) {
         puVar8 = (undefined4 *)0x0;
@@ -95,8 +102,9 @@ uint FUN_00224320(undefined4 *param_1,int param_2,undefined4 *param_3,undefined4
       }
     }
     else {
-      puVar8 = (undefined4 *)(*ppuVar7)[4];
-      param_1 = (undefined4 *)((uint)param_1._1_3_ << 8);
+      puVar8 = (undefined4 *)puVar12[4];
+      /* 0x22444d clears only the low byte of the saved candidate word. */
+      bf_x86_word_store_byte(&param_1,0U,0);
     }
     if ((local_14 == 0) || ((char)param_6 == '\0')) {
       puVar8[6] = 0x3f800000;
@@ -125,7 +133,8 @@ uint FUN_00224320(undefined4 *param_1,int param_2,undefined4 *param_3,undefined4
     puVar8[5] = uVar3;
     puVar8[7] = param_2;
     puVar8[8] = param_5;
-    return (uint)param_1 & 0xff;
+    /* 0x2244fb reads only the flag byte, not the modified pointer value. */
+    return bf_x86_word_load_byte(&param_1,0U);
   }
   return 0;
 }

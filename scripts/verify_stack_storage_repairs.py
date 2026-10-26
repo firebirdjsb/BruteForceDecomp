@@ -12,6 +12,7 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x00224320, 490, "f8076a986c0939e3ffbc01c803cd5c1733ecf4885551129450163a7d8f1ba426"),
     (0x00354FF6, 930, "31ec306f27706c405db259a41caecd4741a111a766267b17fb2215aa7d6b7302"),
     (0x002DD4A0, 422, "9e521e65d821ebcf8c49579823463b0bbd0c11590ba977c8179d99266cbaf8e8"),
     (0x001FEDB0, 514, "a6bda7fedeb2e8341086f009e700b8e78e8809c5decde54662d1634cce27d541"),
@@ -69,6 +70,13 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x002243A6: "8954242c",  # full candidate DWORD stored before alias read
+    0x002243B1: "8d44242c",  # alias candidate slot
+    0x002243B7: "894c24188d442418",  # alternative root slot and alias
+    0x002243BF: "8b003b455cc644242c01",  # snapshot, compare, low-byte write
+    0x0022444A: "8b6810c644242c00",  # use prewrite snapshot then clear low byte
+    0x002244FB: "8a442424",  # return flag byte after two register pops
+
     0x003550E5: "88551b",  # fifth incoming word byte 3
     0x003551CF: "20451c",  # AND sixth incoming word low byte, AL=0
     0x00355368: "c6451c10ff751c",  # MOV low byte 0x10 then PUSH full word
