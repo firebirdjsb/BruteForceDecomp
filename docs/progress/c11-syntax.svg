@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="160" viewBox="0 0 800 160" role="img" aria-labelledby="title desc">
-<title id="title">C11 syntax coverage: 98.34 percent</title>
-<desc id="desc">13466 out of 13694 source drafts pass isolated host C11 syntax checks; 228 fail. The native PC game is not buildable.</desc>
+<title id="title">C11 syntax coverage: 98.35 percent</title>
+<desc id="desc">13468 out of 13694 source drafts pass isolated host C11 syntax checks; 226 fail. The native PC game is not buildable.</desc>
 <rect width="800" height="160" rx="14" fill="#0f172a"/>
 <text x="28" y="42" fill="#e2e8f0" font-family="system-ui,Segoe UI,sans-serif" font-weight="700" font-size="21">C11 syntax coverage</text>
-<text x="772" y="42" fill="#7dd3fc" font-family="system-ui,Segoe UI,sans-serif" font-weight="700" font-size="29" text-anchor="end">98.34%</text>
+<text x="772" y="42" fill="#7dd3fc" font-family="system-ui,Segoe UI,sans-serif" font-weight="700" font-size="29" text-anchor="end">98.35%</text>
 <rect x="28" y="69" width="744" height="22" rx="11" fill="#334155"/>
-<rect x="28" y="69" width="731.61" height="22" rx="11" fill="#38bdf8"/>
-<text x="28" y="119" fill="#cbd5e1" font-family="system-ui,Segoe UI,sans-serif" font-size="16">13,466 / 13,694 syntax passing · 228 remaining</text>
+<rect x="28" y="69" width="731.72" height="22" rx="11" fill="#38bdf8"/>
+<text x="28" y="119" fill="#cbd5e1" font-family="system-ui,Segoe UI,sans-serif" font-size="16">13,468 / 13,694 syntax passing · 226 remaining</text>
 <text x="28" y="144" fill="#94a3b8" font-family="system-ui,Segoe UI,sans-serif" font-size="12">Syntax only · no linked or playable native PC game yet</text>
 </svg>
