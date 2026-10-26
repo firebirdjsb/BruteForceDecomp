@@ -6,6 +6,17 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Xbox loads the +0xEC/+0xF0/+0xF4/+0xF8 fields as raw 32-bit
+ * addresses/words (MOV r32,[base+offset]), not float values.
+ * The draft's float* parameter is retained until the entire guest
+ * record layout can be reconstructed.  This is only a bit copy;
+ * native host guest-address translation is still required. */
+static uint32_t bf_002d3970_guest_word(const float *slot)
+{
+  uint32_t guest_word;
+  memcpy(&guest_word, slot, sizeof guest_word);
+  return guest_word;
+}
 void FUN_002d3970(float *param_1,float *param_2,int param_3)
 
 {
@@ -64,14 +75,14 @@ void FUN_002d3970(float *param_1,float *param_2,int param_3)
   local_a4 = param_1[0x11];
   local_a0 = param_1[0x12];
   local_9c = param_1[0x13];
-  FUN_002ba160(param_1[0x3b],param_1[0x3d],&local_a4,&local_84,local_20);
+  FUN_002ba160(bf_002d3970_guest_word(param_1 + 0x3b),bf_002d3970_guest_word(param_1 + 0x3d),&local_a4,&local_84,local_20);
   local_80 = param_1[0xe];
   local_84 = param_1[0xd];
   local_7c = param_1[0xf];
   local_a4 = param_1[0x15];
   local_a0 = param_1[0x16];
   local_9c = param_1[0x17];
-  FUN_002ba160(param_1[0x3c],param_1[0x3e],&local_a4,&local_84,local_10);
+  FUN_002ba160(bf_002d3970_guest_word(param_1 + 0x3c),bf_002d3970_guest_word(param_1 + 0x3e),&local_a4,&local_84,local_10);
   local_74 = local_10;
   local_24 = 0;
   local_c8 = (local_10[0] - local_20[0]) * local_c4 +
@@ -93,41 +104,41 @@ void FUN_002d3970(float *param_1,float *param_2,int param_3)
     local_d4 = local_c0;
     local_d0 = local_bc;
     local_dc = 0.0;
-    if ((*(byte *)param_1[0x3c] & 0xc) == 0) {
-      FUN_002b73d0(param_1[8],&local_d8,local_70);
-      FUN_002bae30(param_1[0x3c]);
-      FUN_002ba160(param_1[0x3c],param_1[0x3e],local_60,local_40,&local_94);
+    if ((*(uint8_t *)(uintptr_t)bf_002d3970_guest_word(param_1 + 0x3c) & 0x0c) == 0) {
+      FUN_002b73d0(bf_002d3970_guest_word(param_1 + 8),&local_d8,local_70);
+      FUN_002bae30(bf_002d3970_guest_word(param_1 + 0x3c));
+      FUN_002ba160(bf_002d3970_guest_word(param_1 + 0x3c),bf_002d3970_guest_word(param_1 + 0x3e),local_60,local_40,&local_94);
       local_dc = local_d8 * local_94 + local_90 * local_d4 + local_8c * local_d0;
     }
-    if ((*(byte *)param_1[0x3b] & 0xc) == 0) {
+    if ((*(uint8_t *)(uintptr_t)bf_002d3970_guest_word(param_1 + 0x3b) & 0x0c) == 0) {
       local_d8 = local_d8 * -1.0;
       local_d4 = local_d4 * -1.0;
       local_d0 = local_d0 * -1.0;
-      FUN_002b73d0(param_1[7],&local_d8,local_70);
-      FUN_002bae30(param_1[0x3b]);
-      FUN_002ba160(param_1[0x3b],param_1[0x3d],local_60,local_40,&local_94);
+      FUN_002b73d0(bf_002d3970_guest_word(param_1 + 7),&local_d8,local_70);
+      FUN_002bae30(bf_002d3970_guest_word(param_1 + 0x3b));
+      FUN_002ba160(bf_002d3970_guest_word(param_1 + 0x3b),bf_002d3970_guest_word(param_1 + 0x3d),local_60,local_40,&local_94);
       local_dc = local_d8 * local_94 + local_90 * local_d4 + local_8c * local_d0 + local_dc;
     }
     local_dc = local_c8 / local_dc;
     if (0.0 <= local_dc) {
       local_44 = 0;
       local_a8 = 0;
-      if ((*(byte *)param_1[0x3b] & 0xc) == 0) {
+      if ((*(uint8_t *)(uintptr_t)bf_002d3970_guest_word(param_1 + 0x3b) & 0x0c) == 0) {
         local_ac = -local_dc;
         local_b4 = local_c4 * local_ac;
         local_b0 = local_c0 * local_ac;
         local_ac = local_bc * local_ac;
-        FUN_002b73d0(param_1[7],&local_b4,local_50);
-        FUN_002bae30(param_1[0x3b]);
+        FUN_002b73d0(bf_002d3970_guest_word(param_1 + 7),&local_b4,local_50);
+        FUN_002bae30(bf_002d3970_guest_word(param_1 + 0x3b));
         FUN_002b3cc0(param_1 + 9,param_1 + 0x19);
         FUN_002b3cc0(param_1 + 0x11,param_1 + 0x21);
       }
-      if ((*(byte *)param_1[0x3c] & 0xc) == 0) {
+      if ((*(uint8_t *)(uintptr_t)bf_002d3970_guest_word(param_1 + 0x3c) & 0x0c) == 0) {
         local_b4 = local_c4 * local_dc;
         local_b0 = local_c0 * local_dc;
         local_ac = local_bc * local_dc;
-        FUN_002b73d0(param_1[8],&local_b4,local_50);
-        FUN_002bae30(param_1[0x3c]);
+        FUN_002b73d0(bf_002d3970_guest_word(param_1 + 8),&local_b4,local_50);
+        FUN_002bae30(bf_002d3970_guest_word(param_1 + 0x3c));
         FUN_002b3cc0(param_1 + 0xd,param_1 + 0x1d);
         FUN_002b3cc0(param_1 + 0x15,param_1 + 0x25);
       }
