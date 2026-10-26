@@ -40,10 +40,14 @@ void XAPILIB__XDeleteSaveGame(char *param_1)
     cVar1 = *pcVar3;
     pcVar3 = pcVar3 + 1;
   } while (cVar1 != '\0');
+  /* 0x002F3FA2: LEA ESI,[EBP+EDI-0x144] addresses the NUL
+   * terminator of local_148 after the prefixed save path.
+   * The original byte-copy loop appends the metadata filename here. */
+  char *guest_append_cursor = local_148 + (pcVar3 - (local_148 + 1));
   pcVar4 = "\\SaveMeta.xbx";
   do {
     cVar1 = *pcVar4;
-    (pcVar3 + (int)(&stack0xffc78a24 + -(int)pcVar2))[(int)pcVar4] = cVar1;
+    *guest_append_cursor++ = cVar1;
     pcVar4 = pcVar4 + 1;
   } while (cVar1 != '\0');
   iVar5 = FUN_002f3be2();
