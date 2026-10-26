@@ -30,21 +30,21 @@ of the unresolved indirect callee's own `RET 0x0c` instruction.
 
 The C11 draft now uses an explicit i386 `thiscall`-annotated function
 pointer and **one 0x28-byte guest frame**, preserving the intentional
-overlap of the two low output buffers.
+overlap of the two A output buffers.
 
 | Output pointer | Caller-supplied offset | First proven consumed float |
 | --- | ---: | ---: |
-| First low | `S+0x00` | `S+0x00` |
-| First high | `S+0x10` | `S+0x14` |
-| Second low | `S+0x04` | `S+0x04` |
-| Second high | `S+0x1c` | `S+0x20` |
+| First A | `S+0x00` | `S+0x00` |
+| First B | `S+0x10` | `S+0x14` |
+| Second A | `S+0x04` | `S+0x04` |
+| Second B | `S+0x1c` | `S+0x20` |
 
 The independent caller at `0x52816..0x52825` uses the **same**
-`[ESI vtable +0x20]` method, passing a high-output pointer at
+`[ESI vtable +0x20]` method, passing a B-output pointer at
 `[ESP+0x40]`. Its instructions `0x52860`, `0x52867`, and
 `0x5286e` load floats from that pointer at offsets `+8`, `+4`,
-and `+0`. Thus a **minimum 12 readable bytes** of high output
-are independently established. Modeling both low/high outputs as
+and `+0`. Thus a **minimum 12 readable bytes** of B output
+are independently established. Modeling both low/B outputs as
 12-byte XYZ arrays fits all four pointer placements within the
 0x28-byte frame; the model is not proof of every callee write.
 
