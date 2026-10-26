@@ -35,10 +35,19 @@ OPCODES = (
     (0x52823, "8bce"), (0x52825, "ff5020"),
     (0x52860, "d9442448"), (0x52867, "d9442444"),
     (0x5286e, "d9442440"),
+    # Two independent callers supply a 32-bit float word to 0x52120.
+    (0x52315, "8b5c2420"),  # mov ebx,[esp+0x20]
+    (0x52319, "8b74241c"),  # mov esi,[esp+0x1c]
+    (0x5231d, "680000803f"), # push 1.0f
+    (0x52322, "e8f9fdffff"), # call 0x52120
+    (0x5284a, "8bd8"),       # mov ebx,eax
+    (0x5284c, "e8cff8ffff"), # call 0x52120
 )
 MARKERS = (
     "undefined1 guest_frame[0x28];",
     "__attribute__((thiscall))",
+    "#if defined(_MSC_VER) && defined(_M_IX86)",
+    "#define BF_52120_THISCALL __thiscall",
     "get_outputs = (bf_52120_virtual_output_call)*(code **)(*unaff_ESI + 0x20);",
     "get_outputs(unaff_ESI, unaff_EBX, guest_frame + 0x00, guest_frame + 0x10);",
     "get_outputs(unaff_ESI, unaff_EDI, guest_frame + 0x04, guest_frame + 0x1c);",
@@ -66,20 +75,67 @@ def check_layout():
     assert observed == (1., 5., 7., 11.), observed
 
 
-def check_i386_thiscall(clang):
-    """Check the ABI probe emits x86_thiscallcc, not host cdecl."""
+def check_i386_thiscall(clang, source):
+    """Probe actual source typedef on both Linux x86 and Windows MSVC x86."""
     import tempfile
-    probe = ("typedef void (__attribute__((thiscall)) *fn)(void*,void*,char*,char*);\n"
-             "void test(fn f, void *s, void *o, char *b) { f(s,o,b,b+16); f(s,o,b+4,b+28); }\n")
-    with tempfile.TemporaryDirectory() as tmp:
+    begin = source.index("#if defined(_MSC_VER) && defined(_M_IX86)")
+    end = source.index("uint FUN_00052120(float param_1)")
+    typedef = source[begin:end]
+    probe = ("typedef unsigned char undefined1;\n" + typedef +
+             "void test(bf_52120_virtual_output_call f,int *s,int *a,int *b,undefined1 *g) {\n"
+             "  f(s,a,g+0,g+0x10);\n"
+             "  f(s,b,g+4,g+0x1c);\n"
+             "}\n")
+    with tempfile.TemporaryDirectory(prefix="bf_52120_thiscall_") as tmp:
         path = Path(tmp) / "thiscall.c"
         path.write_text(probe, encoding="utf-8")
-        run = subprocess.run([clang, "-target", "i386-pc-linux-gnu",
-                              "-nostdinc", "-S", "-emit-llvm",
-                              str(path), "-o", "-"],
-                             text=True, capture_output=True)
-        if run.returncode or run.stdout.count("call x86_thiscallcc") != 2:
-            raise SystemExit("i386 thiscall codegen failed:\n" + run.stderr)
+        for target in ("i386-pc-linux-gnu", "i686-pc-windows-msvc"):
+            run = subprocess.run([clang, "-target", target, "-fms-extensions",
+                                  "-nostdinc", "-S", "-emit-llvm",
+                                  str(path), "-o", "-"],
+                                 text=True, capture_output=True)
+            if run.returncode or run.stdout.count("call x86_thiscallcc void") != 2:
+                raise SystemExit(f"two x86 thiscall invocations missing ({target}):\n"
+                                 + run.stderr)
+
+
+def test_source_negative_controls(source):
+    """Six mutations must fail source-invariant verification."""
+    for old, new in (
+        ("guest_frame[0x28]", "guest_frame[0x24]"),
+        ("guest_frame + 0x14", "guest_frame + 0x10"),
+        ("guest_frame + 0x20", "guest_frame + 0x1c"),
+        ("guest_frame + 0x04", "guest_frame + 0x08"),
+        ("#define BF_52120_THISCALL __thiscall",
+         "#define BF_52120_THISCALL"),
+        ("get_outputs(unaff_ESI, unaff_EDI",
+         "get_outputs(unaff_EDI, unaff_ESI"),
+    ):
+        if old not in source:
+            raise SystemExit("negative control anchor missing: " + old)
+        mutated = source.replace(old, new, 1)
+        if all(marker in mutated for marker in MARKERS):
+            raise SystemExit("unsafe source mutation accepted: " + old)
+
+
+def run_synthetic_guest_frame(clang, root):
+    """Test 3-DWORD capacity and guards, not the unresolved virtual callee."""
+    import tempfile
+    with tempfile.TemporaryDirectory(prefix="bf_52120_frame_") as tmp:
+        for opt in ("-O0", "-O2"):
+            exe = Path(tmp) / ("guest_frame_" + opt[2:])
+            build = subprocess.run(
+                [clang, "-std=c11", "-Wall", "-Wextra", "-Werror",
+                 "-pedantic-errors", opt,
+                 str(root / "tests/test_00052120_guest_frame.c"),
+                 "-o", str(exe)], text=True, capture_output=True)
+            if build.returncode:
+                raise SystemExit(f"failed synthetic frame compilation {opt}:\n"
+                                 + build.stderr)
+            run = subprocess.run([str(exe)], text=True, capture_output=True)
+            if run.returncode:
+                raise SystemExit(f"synthetic output-frame guard failure {opt}:\n"
+                                 + run.stderr)
 
 
 def main():
@@ -94,6 +150,7 @@ def main():
     if source.count("get_outputs(unaff_ESI,") != 2:
         raise SystemExit("expected two explicit guest-thiscall calls")
     check_layout()
+    test_source_negative_controls(source)
     for invalid in ("(**(code **)(*unaff_ESI + 0x20))();",
                     "(float)puStack_2c", "(float)unaff_EDI", "(float)&puStack_30"):
         if invalid in source:
@@ -110,10 +167,20 @@ def main():
             start = address - 0x10000
             if binary[start:start + len(instruction)] != instruction:
                 raise SystemExit(f"Original x86 instruction mismatch at 0x{address:08x}")
+        for site in (0x52322, 0x5284c):
+            offset = site - 0x10000
+            rel = int.from_bytes(binary[offset + 1:offset + 5], "little", signed=True)
+            if (site + 5 + rel) & 0xffffffff != ENTRY:
+                raise SystemExit(f"independent caller no longer targets 0x{ENTRY:08x}")
+        assert (binary[0x52125-0x10000+3],
+                binary[0x5212a-0x10000+3] - 4) == (0x10, 0)
+        assert (binary[0x52137-0x10000+3],
+                binary[0x5213c-0x10000+3] - 4) == (0x1c, 4)
     clang = shutil.which("clang")
     if not clang:
         raise SystemExit("clang required for C11 and i386 thiscall verification")
-    check_i386_thiscall(clang)
+    check_i386_thiscall(clang, source)
+    run_synthetic_guest_frame(clang, args.root)
     if clang:
         flags = ["-std=c11", "-fsyntax-only", "-ferror-limit=4",
                  "-Wno-implicit-function-declaration", "-Wno-int-conversion",
@@ -124,7 +191,7 @@ def main():
         run = subprocess.run(cmd, text=True, capture_output=True)
         if run.returncode:
             raise SystemExit("Focused Clang failed:\n" + run.stderr)
-    print(f"PASS: {len(OPCODES) if args.xbe else 0} opcode windows, output alias fixture, Clang C11 and i386 thiscall")
+    print(f"PASS: {len(OPCODES) if args.xbe else 0} original opcode windows, 2 independent parent CALLs, 6 negative controls, synthetic buffer guards, Clang C11 and GNU/MSVC i386 thiscall")
     print("Virtual callee identity, complete write lengths, guest registers, x87 precision and native runtime remain unverified.")
 
 if __name__ == "__main__":
