@@ -129,11 +129,21 @@ LAB_002e4d4d:
           }
         }
         else if (iVar6 == 0x200000) {
-          FUN_002e49c0(uVar1,&puStack_18,&stack0xffffffe4);
+          /* XBE 0x002E4DC2 LEA ECX,[ESP+0x14]: guest first
+           * output word (entry ESP-0x14) = piStack_14.
+           * 0x002E4DC7 LEA EDX,[ESP+0x1C] after PUSH ECX:
+           * second output (entry ESP-0x10) = iStack_10.
+           * 0x002E49F2/FF writes through both pointers; original
+           * register ECX=EBP supplies the callee object. */
+          FUN_002e49c0(uVar1,&iStack_10,&piStack_14);
           iVar6 = FUN_002e4550(uVar1);
           if (iVar6 != 0) {
             iVar3 = (**(code **)*in_ECX)();
-            FUN_002e4770(iVar6 - iVar3 >> 4,puStack_18,unaff_EBX);
+            /* XBE 0x002E4DEC/DF0 reloads precisely the two
+             * DWORDs written by 0x002E49C0, then pushes the record
+             * pointer before count into 0x002E4770.
+             * Original ECX=EBX method ABI still unverified. */
+            FUN_002e4770(iVar6 - iVar3 >> 4,iStack_10,piStack_14);
           }
         }
         uVar10 = uStack_4 + 1;
