@@ -28,6 +28,12 @@ uint FUN_000a20e0(int param_1)
   int *piVar8;
   int *piVar9;
   int *piStack_164;
+  /* XBE 0x000A21D0: LEA EDX,[ESP+0x18] after the vtable +0x40
+   * call. This is a distinct 32-bit interface-output slot from
+   * piStack_164 at [ESP+0x14]. The vtable+0x00 call writes it,
+   * and 0x000A21F1 reloads it for the subsequent interface flow.
+   * Guest-to-host pointer translation and COM ABI remain unverified. */
+  int *interface_output;
   uint auStack_150 [8];
   int *local_130;
   undefined4 local_120;
@@ -75,7 +81,7 @@ uint FUN_000a20e0(int param_1)
         piStack_164 = (int *)0x0;
         iVar6 = (**(code **)(*DAT_00443308 + 0x40))(DAT_00443308,*piVar8,piVar7,&piStack_164);
         if ((-1 < iVar6) &&
-           (iVar6 = (**(code **)*piStack_164)(piStack_164,&DAT_0040d7d0,&stack0xfffffea0),
+           (iVar6 = (**(code **)*piStack_164)(piStack_164,&DAT_0040d7d0,&interface_output),
            -1 < iVar6)) {
           (**(code **)(*piStack_164 + 0x14))(piStack_164);
           piVar7 = (int *)0x0;
