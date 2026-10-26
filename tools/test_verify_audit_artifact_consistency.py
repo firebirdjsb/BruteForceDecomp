@@ -198,7 +198,10 @@ with TemporaryDirectory() as directory:
     for index, row in enumerate(checkout_report["results"]):
         path = source_path(checkout, row["entry"])
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes(f"/* audited source {row['entry']} */\n".encode("ascii"))
+        path.write_bytes((
+            "/* Input x86 body SHA-256: " + "A" * 64 + " */\n"
+            + f"/* audited source {row['entry']} */\n"
+        ).encode("ascii"))
         digest = hashlib.sha256(path.read_bytes()).hexdigest()
         row["c_sha256_actual"] = digest
         row["c_sha256_matches_inventory"] = index != 0
@@ -235,6 +238,32 @@ with TemporaryDirectory() as directory:
             raise AssertionError("Source modified after audit was accepted")
     finally:
         first_path.write_bytes(original_bytes)
+    assert verify(root, expected_total=3, inventory_path=canonical_path,
+                  expected_commit="a" * 40, source_root=checkout)["fail"] == 2
+
+    # Even if the source digest in the report is recomputed to match a
+    # maliciously relabeled file, the original body hash must still agree.
+    forged_bytes = original_bytes.replace(b"A" * 64, b"D" * 64)
+    first_path.write_bytes(forged_bytes)
+    forged_report = json.loads(json.dumps(checkout_report))
+    forged_report["results"][0]["c_sha256_actual"] = hashlib.sha256(
+        forged_bytes
+    ).hexdigest()
+    (root / "c11_sweep_report.json").write_text(
+        json.dumps(forged_report), encoding="utf-8"
+    )
+    try:
+        verify(root, expected_total=3, inventory_path=canonical_path,
+               expected_commit="a" * 40, source_root=checkout)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("Forged source body-hash label accepted")
+    finally:
+        first_path.write_bytes(original_bytes)
+        (root / "c11_sweep_report.json").write_text(
+            json.dumps(checkout_report), encoding="utf-8"
+        )
     assert verify(root, expected_total=3, inventory_path=canonical_path,
                   expected_commit="a" * 40, source_root=checkout)["fail"] == 2
 
