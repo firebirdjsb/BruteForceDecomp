@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 void FUN_003526e9(int *param_1,int *param_2)
 
 {
@@ -124,7 +125,10 @@ void FUN_003526e9(int *param_1,int *param_2)
               psVar15 = psVar15 + 1;
             } while (bVar19);
             if (bVar19) {
-              iVar11 = CONCAT11(param_2._0_1_,param_2._1_1_) + 1;
+              /* 0x3527c1/0x3527c6 load argument bytes 1/0 into CL/CH.
+               * INC ECX then the existing expression swaps its low word back. */
+              iVar11 = bf_x86_concat_u8(bf_x86_word_load_byte(&param_2,0U),
+                                        bf_x86_word_load_byte(&param_2,1U)) + 1;
               FUN_00350c50((short *)(iVar4 + 6),CONCAT11((char)iVar11,(char)((uint)iVar11 >> 8)),
                            *(undefined2 *)(in_ECX + 0xa4a));
               *(undefined2 *)(in_ECX + 0xa4a) = 0;

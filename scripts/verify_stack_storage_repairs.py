@@ -12,6 +12,8 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x00157260, ((0, 282), (288, 582)), "80c2a63d64fad4c47f5885c9845da25bf670bc67d50c0ff06af6c64bf4ebb4e7"),
+    (0x003526E9, 1853, "f36960686064abaf3099a385af93bb14e788f25bc4d11431294d6d6827071614"),
     (0x00125AD0, ((0, 542), (553, 580)), "2c79f5187a5a3f6b3acebadc6f6c3738b63845d6cc749a9683ee8f565d09b9b4"),
     (0x00315465, 356, "a56cc1dfeaea537dbc01851bc5886a022055c951bb8d33abb40ad3308083831b"),
     (0x00232BE0, 349, "104cde5ad565a5444dd515a4744d7bd78ce63290caed96243dfc37262547c65c"),
@@ -74,6 +76,36 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x001572BC: "8d54244852c744244cb43f3a00",  # contiguous object address/first DWORD
+    0x001572C9: "c744245cffffffffc74424500600000089742458897c2454",  # trailing object words
+    0x001572E1: "e8ea700a00",  # original object call
+    0x00157380: "d94610d85c241cdfe0f6c441",  # ordered maximum comparison
+    0x0015738E: "8b4e10894c241c",  # raw maximum copy
+    0x001573D2: "d82d784f3a00",  # 1.0 - input
+    0x001573DE: "d80dfc513a00d80538503a00d95c2420",  # exact factors and binary32 spill
+    0x001573F0: "d9442420d84e08d89700010000dfe0f6c441",  # extended product comparison
+    0x00157408: "d99f00010000",  # successful binary32 output
+    0x0015741B: "d981f0000000c744242c0000003fd8402cd95c2428",  # Z sum, half constant, m32 spill
+    0x00157430: "d981ec000000",  # Y input
+    0x0015743A: "d84028d95c2424",  # Y add and m32 spill
+    0x00157441: "d981e8000000",  # X input
+    0x0015744B: "d84024",  # X add
+    0x0015745A: "d95c243c",  # X m32 spill
+    0x00157462: "f30f1044242c0fc6c000",  # half broadcast
+    0x00157470: "f30f10080f1648040f59c1",  # known lane mapping and MULPS order
+    0x0015747F: "f30f11000f174004",  # low/high lanes to first three scratch words
+    0x0015749C: "8b4c244889088b4c2434895004894808",  # staged X,Y,Z word copies
+    0x0015751E: "8b4c241c898fd4000000",  # maximum word to object +d4
+    0x003A4F78: "0000803f",  # binary32 one
+    0x003A51FC: "cdcccc3e",  # binary32 coefficient
+    0x003A5038: "9a99193f",  # binary32 coefficient
+
+    0x003526E9: "558bec",  # EBP entry frame
+    0x003527BA: "33c0",  # EAX high half established before partial writes
+    0x003527C1: "660fb64d0d8a6d0c",  # incoming bytes one/zero into CL/CH
+    0x003527D0: "4150660fb6c58ae1",  # increment, first push, swap low word to AX
+    0x003527D8: "8bcb5052e86fe4ffff",  # object ECX; second/first pushes and call
+
     0x00125D4A: "d9402c8b4c2450d8612c",  # Z difference, second base from stack
     0x00125D54: "d94028d86128",  # Y difference
     0x00125D5A: "d94024d86124",  # X difference

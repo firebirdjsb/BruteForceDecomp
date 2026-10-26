@@ -1,5 +1,9 @@
 # 0x00157260 stack/SIMD follow-up packet
 
+Follow-up: the bounded storage path is now repaired and independently reviewed;
+see [the repair and remaining limits](00157260-stack-simd-repair.md). The
+original investigation packet below is retained as historical evidence.
+
 Status: investigated and deferred; no source repair or compile pass credited.
 Source: `src/main_unclassified/band_0015/0x00157260.c` at baseline
 `3210cc2c394edd13cbb6f4622898a145e6ff8fc2`.

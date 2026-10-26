@@ -6,9 +6,55 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t PTR_LAB_003a3fb4;
+#include <string.h>
+#include <xmmintrin.h>
+_Static_assert(sizeof(float) == 4, "original binary32 storage");
+
+/* All offsets below are byte offsets observed in the original instructions,
+ * not inferred structure fields. memcpy preserves the four-byte IEEE words
+ * without C aliasing violations or numeric integer/float conversions. */
+static float bf_157260_load_f32(const void *base, size_t offset)
+{
+  float value;
+  memcpy(&value, (const unsigned char *)base + offset, 4);
+  return value;
+}
+
+static void bf_157260_store_f32(void *base, size_t offset, float value)
+{
+  memcpy((unsigned char *)base + offset, &value, 4);
+}
+
+/* Internal storage operation for 0x15741b..0x1574a9, NOT an entry ABI.
+ * The three x87 sums round to m32 at FSTP before the SSE multiplication.
+ * ABI_UNVERIFIED: host long double does not establish the Xbox x87 precision,
+ * rounding mode, exception flags/traps or NaN propagation. No fast-math.
+ * Only the first three DWORDs of the earlier five-DWORD object are reused. */
+static void bf_157260_sum_scale(void *object, const void *other,
+                               uint32_t scratch[5])
+{
+  float sums[3], scaled[3];
+  __m128 half, vector;
+  /* Original load/add/store order is +f0/+2c, +ec/+28, then +e8/+24. */
+  sums[2] = (float)((long double)bf_157260_load_f32(object, 0xf0) +
+                   (long double)bf_157260_load_f32(other, 0x2c));
+  sums[1] = (float)((long double)bf_157260_load_f32(object, 0xec) +
+                   (long double)bf_157260_load_f32(other, 0x28));
+  sums[0] = (float)((long double)bf_157260_load_f32(object, 0xe8) +
+                   (long double)bf_157260_load_f32(other, 0x24));
+  half = _mm_set_ss(0.5f); /* Immediate m32 word 0x3f000000 at 0x157421. */
+  half = _mm_shuffle_ps(half, half, 0);
+  vector = _mm_load_ss(sums); /* Memory MOVSS clears upper 96 bits. */
+  vector = _mm_loadh_pi(vector, (const __m64 *)(sums + 1));
+  /* MULPS lanes are [sum0, +0, sum1, sum2], not a packed XYZ0 vector. */
+  vector = _mm_mul_ps(half, vector);
+  _mm_store_ss(scaled, vector);
+  _mm_storeh_pi((__m64 *)(scaled + 1), vector);
+  memcpy(scratch, scaled, 12); /* Stores at stack S+48/S+4c/S+50. */
+  memcpy((unsigned char *)object + 0xe8, scratch, 4);
+  memcpy((unsigned char *)object + 0xec, scratch + 1, 4);
+  memcpy((unsigned char *)object + 0xf0, scratch + 2, 4);
+}
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 void FUN_00157260(byte param_1)
@@ -16,7 +62,8 @@ void FUN_00157260(byte param_1)
 {
   float fVar1;
   undefined4 *puVar2;
-  float fVar3;
+  long double fVar3;
+  float factor;
   bool bVar4;
   int iVar5;
   int iVar6;
@@ -27,13 +74,8 @@ void FUN_00157260(byte param_1)
   bool bVar10;
   float fStack_40;
   int *piStack_24;
-  float fStack_20;
-  float fStack_1c;
-  float fStack_18;
-  undefined **local_14;
-  undefined8 local_10;
+  uint32_t stack_words[5];
   int local_8;
-  undefined4 local_4;
   
   bVar4 = false;
   if (((*(byte *)(in_ECX + 0x1c) & 1) == 0) && (param_1 == 1)) {
@@ -44,10 +86,18 @@ void FUN_00157260(byte param_1)
         (*(int *)(*(int *)(iVar5 + 0xc) + 4) == 3)))) {
       local_8 = iVar5;
     }
-    local_14 = &PTR_LAB_003a3fb4;
-    local_4 = 0xffffffff;
-    local_10 = 6;
-    FUN_001fe3d0(&local_14);
+    /* 0x1572bc..0x1572dd: contiguous 20-byte object at S+0x48, where
+     * S is ESP after the four saved-register pushes. The original PUSH
+     * changes store offsets by four. These are guest DWORDs, not host
+     * pointers; the first is the immediate guest address 0x003a3fb4.
+     * Callee receives ECX unchanged and this pointer on stack; existing
+     * C call interface remains ABI_UNVERIFIED (caller ADD ESP,4). */
+    stack_words[0] = UINT32_C(0x003a3fb4);
+    stack_words[4] = UINT32_MAX;
+    stack_words[1] = 6;
+    stack_words[3] = (uint32_t)local_8;
+    stack_words[2] = 0;
+    FUN_001fe3d0(stack_words);
     bVar10 = ((byte)in_ECX[0x6b] & 3) != 1;
     if ((*(int *)(in_ECX[3] + 0x14c) != 0) || (!bVar10)) {
       *(byte *)(in_ECX + 0x1c) = *(byte *)(in_ECX + 0x1c) | 0x40;
@@ -64,8 +114,9 @@ void FUN_00157260(byte param_1)
         piStack_24 = piVar8;
         if (piVar7 != piVar8) {
           do {
-            if (fStack_40 < (float)piVar7[4]) {
-              fStack_40 = (float)piVar7[4];
+            if (fStack_40 < bf_157260_load_f32(piVar7, 0x10)) {
+              /* 0x15738e..0x157391 copies a raw DWORD, not an integer. */
+              memcpy(&fStack_40, (unsigned char *)piVar7 + 0x10, 4);
             }
             iVar5 = FUN_00160da0(0xffffffff,1);
             if (iVar5 != 0) {
@@ -74,19 +125,20 @@ void FUN_00157260(byte param_1)
                 iVar9 = *(int *)(iVar5 + 0xe4);
                 iVar5 = *(int *)(iVar5 + 0xe8);
                 if (iVar9 != iVar5) {
+                  /* 0x1573d2..0x1573ea: x87 chain then one m32 spill.
+                   * Exact input words: 3f800000, 3ecccccd, 3f19999a.
+                   * Host extended precision/control remains unverified. */
+                  factor = (float)(((long double)1.0f - (long double)fVar1) *
+                                   (long double)0x1.99999ap-2f +
+                                   (long double)0x1.333334p-1f);
                   do {
-                    fVar3 = ((1.0 - fVar1) * 0.4 + 0.6) * *(float *)(iVar9 + 8);
-                    if ((float)in_ECX[0x40] < fVar3) {
-                      in_ECX[0x40] = (int)fVar3;
+                    fVar3 = (long double)factor * *(float *)(iVar9 + 8);
+                    /* FCOM precedes FSTP m32: do not round before comparing. */
+                    if ((long double)bf_157260_load_f32(in_ECX, 0x100) < fVar3) {
+                      bf_157260_store_f32(in_ECX, 0x100, (float)fVar3);
                       iVar6 = (**(code **)(*in_ECX + 0x40))();
-                      fStack_18 = (float)in_ECX[0x3c] + *(float *)(iVar6 + 0x2c);
-                      fStack_1c = (float)in_ECX[0x3b] + *(float *)(iVar6 + 0x28);
-                      fStack_20 = (float)in_ECX[0x3a] + *(float *)(iVar6 + 0x24);
-                      local_14 = (undefined **)(fStack_20 * 0.5);
-                      local_10 = CONCAT44(fStack_18 * 0.5,fStack_1c * 0.5);
-                      in_ECX[0x3a] = (int)local_14;
-                      in_ECX[0x3b] = (int)(fStack_1c * 0.5);
-                      in_ECX[0x3c] = (int)(fStack_18 * 0.5);
+                      bf_157260_sum_scale(in_ECX, (const void *)(uintptr_t)(uint32_t)iVar6,
+                                         stack_words);
                     }
                     iVar9 = iVar9 + 0x1c;
                   } while (iVar9 != iVar5);
@@ -107,7 +159,8 @@ void FUN_00157260(byte param_1)
             piVar7 = (int *)*piVar7;
           } while (piVar7 != piVar8);
         }
-        in_ECX[0x35] = (int)fStack_40;
+        /* 0x15751e..0x157522 copies the maximum's binary32 storage. */
+        memcpy((unsigned char *)in_ECX + 0xd4, &fStack_40, 4);
       }
       else {
         in_ECX[0x35] = 0;
