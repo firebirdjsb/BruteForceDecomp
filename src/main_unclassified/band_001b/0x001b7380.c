@@ -18,7 +18,10 @@ void FUN_001b7380(int param_1,uint param_2)
   uint uVar5;
   undefined4 *unaff_FS_OFFSET;
   undefined4 local_30 [7];
-  undefined1 *local_14;
+  /* XBE 0x001B739E: MOV [EBP-0x10],ESP saves the guest SEH frame.
+   * Ghidra's synthetic stack0xffffff8c only flowed into a dead
+   * local_14 assignment. Do not create a fake host stack pointer.
+   * Native FS:0/SEH translation remains ABI_UNVERIFIED. */
   undefined4 local_10;
   uint32_t puStack_c; /* Xbox guest32 SEH word, native FS:0 unresolved */
   undefined4 local_8;
@@ -27,7 +30,6 @@ void FUN_001b7380(int param_1,uint param_2)
   puStack_c = UINT32_C(0x003082b0); /* x86 push imm32 at 0x001b7385 */
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
-  local_14 = &stack0xffffff8c;
   puVar4 = local_30;
   for (iVar2 = 7; iVar2 != 0; iVar2 = iVar2 + -1) {
     *puVar4 = *in_EDX;
