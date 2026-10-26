@@ -29,7 +29,8 @@ char FUN_00233f80(undefined4 *param_1,float param_2)
   cVar5 = '\x01';
   if ((*(byte *)(param_1 + 9) & 2) == 0) {
     fVar1 = (float)param_1[0xe];
-    piVar2 = (int *)((float *)*param_1)[3];
+    /* MOV ESI,[ECX] / MOV EAX,[ESI+0x0c]: 32-bit guest pointer field, not float. */
+    piVar2 = (int *)(uintptr_t)*(const uint32_t *)(uintptr_t)((uint32_t)*param_1 + UINT32_C(0x0c));
     fVar4 = param_2 * (float)param_1[10] + (float)param_1[0xe];
     if ((piVar2 != (int *)0x0) && (iVar9 = param_1[1], iVar9 != 0)) {
       if ((*(byte *)(param_1 + 9) & 4) == 0) {
