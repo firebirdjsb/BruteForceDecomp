@@ -40,11 +40,12 @@ def source_contract(source, record):
         "FUN_002ebea0();",
         "for (iVar1 = 500;" if pointer == "puVar4" else "for (iVar2 = 500;",
         "RET " + cleanup + " cleanup",
-        "ABI_UNVERIFIED",
     )
     for token in required:
         if source.count(token) != 1:
             raise AssertionError(path + ": missing/duplicated contract " + token)
+    if "ABI_UNVERIFIED" not in source:
+        raise AssertionError(path + ": missing ABI uncertainty marker")
     if "&" + alias in source:
         raise AssertionError(path + ": unresolved guest-stack alias")
     return required
