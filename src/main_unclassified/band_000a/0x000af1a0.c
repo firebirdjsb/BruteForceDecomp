@@ -170,7 +170,10 @@ void FUN_000af1a0(int param_1,undefined4 param_2,float param_3,float param_4,flo
         local_e0[0x25] = 0.0;
         FUN_000a4d80();
         D3D8LTCG__D3DDevice_SetVertexDataColor(3,iStack_11c);
-        if (uStack_124._3_1_ != '\0') {
+        /* XBE 0x000AF41E reads BYTE [ESP+0x17], the same guest byte
+         * initialized at 0x000AF205 and set at 0x000AF359. This is
+         * local_101, not the high byte of a later outgoing argument. */
+        if (local_101 != '\0') {
           FUN_002386d0();
           puVar6 = (undefined4 *)FUN_003721b0();
           puVar7 = D3D8__D3D_g_pDevice;
