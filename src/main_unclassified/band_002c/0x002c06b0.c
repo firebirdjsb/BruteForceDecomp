@@ -56,8 +56,11 @@ void FUN_002c06b0(int param_1,float param_2)
   fVar12 = fVar11 + fVar10;
   if ((*(uint *)(param_1 + 0x14) & 0x30000) == 0) {
     fVar13 = (local_18[0] - local_28[0]) * *(float *)(param_1 + 0x60) +
-             (SUB84(local_18._4_8_,4) - SUB84(local_28._4_8_,4)) * *(float *)(param_1 + 0x68) +
-             ((float)local_18._4_8_ - (float)local_28._4_8_) * *(float *)(param_1 + 100);
+             /* MOVSS/MOVHPS/SUBPS at 0x002C07D1..0x002C07F0: two
+              * vectors contain three separate float32 lanes.  Ghidra's
+              * 64-bit subpiece is not a floating-point scalar. */
+             (local_18[2] - local_28[2]) * *(float *)(param_1 + 0x68) +
+             (local_18[1] - local_28[1]) * *(float *)(param_1 + 0x64);
     fVar14 = (float)dVar16;
     fVar15 = (*(float *)(iVar6 + 0x50) - *(float *)(iVar6 + 0x54)) +
              (fVar14 - (float)*(double *)(iVar6 + 0x40)) *
