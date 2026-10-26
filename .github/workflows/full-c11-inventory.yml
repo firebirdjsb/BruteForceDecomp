@@ -21,6 +21,8 @@ on:
       - 'scripts/verify_000587d0_x87_sse_slots.py'
       - 'scripts/verify_002312e0_x87_sse_length.py'
       - 'scripts/verify_002dd650_guest_f64_words.py'
+      - 'scripts/verify_000d9320_guest_selector.py'
+      - 'tests/test_000d9320_guest_selector.c'
       - 'scripts/verify_0022e5b0_sse_float3.py'
       - 'tests/test_0022e5b0_sse_float3.c'
       - 'tests/test_002dd650_guest_f64_words.c'
@@ -335,8 +337,10 @@ jobs:
         run: python3 scripts/verify_000587d0_x87_sse_slots.py --root .
       - name: Verify original 0x002312E0 guest F32 length and SQRTSS/RCPSS stack alias
         run: python3 scripts/verify_002312e0_x87_sse_length.py --root .
-      - name: Verify 0x002DD650 original FSTP f64 guest time and output double-word storage
+      - name: Verify 0x002DD650 and 0x002B3500 guest binary64, stack/register contracts (source-only CI)
         run: python3 scripts/verify_002dd650_guest_f64_words.py --root .
+      - name: Verify 0x000D9320 original integer jump-table selector (source-only CI)
+        run: python3 scripts/verify_000d9320_guest_selector.py --root .
       - name: Verify 0x0022E5B0 raw guest XYZ floats and SSE RSQRTSS normalization
         run: python3 scripts/verify_0022e5b0_sse_float3.py --root .
       - name: Verify two code-referenced Xbox vtables and resolved helper output signatures (source-only)
