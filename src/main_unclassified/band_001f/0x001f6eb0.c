@@ -80,7 +80,8 @@ void FUN_001f6eb0(int param_1,int param_2)
       local_9c = *(undefined4 *)(iVar10 + 0x18);
       local_44 = *(float *)(param_2 + 0x14);
       local_38 = *(float *)(param_2 + 0x20);
-      local_4 = CONCAT31(local_4._1_3_,1);
+      /* XBE 0x001F6F18: MOV AL,1; 0x001F6F1A: MOV BYTE PTR [ESP+0xD4],AL.\n       * The guest writes only the low byte, preserving the upper 24 bits. */
+      local_4 = (local_4 & (int)UINT32_C(0xffffff00)) | 1;
       local_1c = 1;
       local_78 = &local_30;
       local_58 = local_58 & 0xfe;
