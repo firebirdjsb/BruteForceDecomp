@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00414da0;
@@ -19,11 +20,10 @@ float10 FUN_001403c0(int param_1,undefined4 param_2,uint param_3,uint param_4)
   undefined4 *puVar2;
   uint uVar3;
   int iVar4;
-  undefined4 *local_24;
+  /* The guest ESP+0x20 word holds F32 MAXSS output, not a pointer. */
+  float guest_max_span = 0.0f;
   undefined4 *local_20;
   undefined4 *local_1c;
-  undefined4 *local_18;
-  undefined4 *local_14;
   int local_c;
   undefined4 *local_8;
   undefined4 local_4;
@@ -31,7 +31,6 @@ float10 FUN_001403c0(int param_1,undefined4 param_2,uint param_3,uint param_4)
   local_c = 0;
   local_8 = (undefined4 *)0x0;
   local_4 = 0;
-  local_24 = (undefined4 *)0x0;
   iVar1 = FUN_00137080(param_1,param_3);
   if (iVar1 != 0) {
     local_20 = (undefined4 *)(local_c + 8);
@@ -60,8 +59,8 @@ float10 FUN_001403c0(int param_1,undefined4 param_2,uint param_3,uint param_4)
         puVar2[4] = param_3;
         if ((param_3 != 0) && ((param_3 & 1) == 0)) {
           uVar3 = param_3 * 0x19660d + 0x3c6ef35f >> 0x15;
-          puVar2[3] = *(undefined4 *)(&DAT_00414da0 + uVar3 * 4);
-          *(undefined4 **)(&DAT_00414da0 + uVar3 * 4) = puVar2 + 3;
+          puVar2[3] = *(undefined4 *)((uint8_t *)&DAT_00414da0 + uVar3 * 4U);
+          *(undefined4 **)((uint8_t *)&DAT_00414da0 + uVar3 * 4U) = puVar2 + 3;
         }
       }
       if (puVar2[6] != param_4) {
@@ -71,29 +70,34 @@ float10 FUN_001403c0(int param_1,undefined4 param_2,uint param_3,uint param_4)
         puVar2[6] = param_4;
         if ((param_4 != 0) && ((param_4 & 1) == 0)) {
           uVar3 = param_4 * 0x19660d + 0x3c6ef35f >> 0x15;
-          puVar2[5] = *(undefined4 *)(&DAT_00414da0 + uVar3 * 4);
-          *(undefined4 **)(&DAT_00414da0 + uVar3 * 4) = puVar2 + 5;
+          puVar2[5] = *(undefined4 *)((uint8_t *)&DAT_00414da0 + uVar3 * 4U);
+          *(undefined4 **)((uint8_t *)&DAT_00414da0 + uVar3 * 4U) = puVar2 + 5;
         }
       }
-      puVar2[1] = *(float *)(param_1 + 0x28) + (float)puVar2[1];
+      /* XBE FLD [object+4]; FADD [param+0x28]; FSTP [object+4].
+       * Transfer raw F32 bits without a numerical uint32 conversion. */
+      float guest_field4;
+      memcpy(&guest_field4, &puVar2[1], sizeof guest_field4);
+      guest_field4 += *(float *)(param_1 + 0x28);
+      memcpy(&puVar2[1], &guest_field4, sizeof guest_field4);
       iVar1 = *(int *)(param_1 + 0x30);
       local_1c = puVar2;
       iVar4 = FUN_000ff730(param_1 + 0x2c,iVar1,*(undefined4 *)(iVar1 + 4),&local_1c);
       FUN_000b2a50();
-      local_18 = local_24;
-      *(int *)(iVar1 + 4) = iVar4;
+          *(int *)(iVar1 + 4) = iVar4;
       **(int **)(iVar4 + 4) = iVar4;
-      local_1c = (undefined4 *)((float)puVar2[2] + (float)puVar2[1]);
+      /* Original FLD [object+8]; FADD [object+4]; FSTP stack F32. */
+      float guest_field8;
+      memcpy(&guest_field8, &puVar2[2], sizeof guest_field8);
+      float guest_current_span = guest_field8 + guest_field4;
       local_20 = local_20 + 4;
-      local_14 = local_24;
-      if ((float)local_24 <= (float)local_1c) {
-        local_24 = local_1c;
-        local_14 = local_1c;
-      }
+      /* XBE MOVSS + MAXSS + MOVSS, preserving SSE NaN selection. */
+      guest_max_span = _mm_cvtss_f32(_mm_max_ss(
+          _mm_set_ss(guest_max_span), _mm_set_ss(guest_current_span)));
     }
   }
   if (local_c == 0) {
-    return (float10)(float)local_24;
+    return (float10)guest_max_span;
   }
                     /* WARNING: Subroutine does not return */
   thunk_FUN_00237ec0(local_c);
