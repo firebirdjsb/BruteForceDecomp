@@ -111,7 +111,7 @@ void FUN_001357b0(int *param_1,int param_2,uint param_3,int param_4)
           guest_delta_y = *(float *)(iVar5 + 0x28) - *(float *)(iVar6 + 0x28);
           fVar3 = *(float *)(iVar5 + 0x24) - *(float *)(iVar6 + 0x24);
           fVar3 = guest_delta_y * guest_delta_y + fStack_1c * fStack_1c + fVar3 * fVar3;
-          /* MOV EDX,[ESP+0x1c] / MOV [ESP+0x4c],EDX forwards raw float bits. */
+          /* MOV ECX,[ESP+0x24] / MOV [ESP+0x48],ECX forwards raw Y bits. */
           memcpy(&guest_delta_y_word, &guest_delta_y, sizeof guest_delta_y_word);
           piStack_20 = (int *)(uintptr_t)guest_delta_y_word;
           if (fVar3 < local_48) {
