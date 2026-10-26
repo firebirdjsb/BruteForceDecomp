@@ -40,6 +40,10 @@ OPCODES = (
     (0x52319, "8b74241c"),  # mov esi,[esp+0x1c]
     (0x5231d, "680000803f"), # push 1.0f
     (0x52322, "e8f9fdffff"), # call 0x52120
+    (0x5283d, "8b4500"),    # mov eax,[ebp]: preceding virtual getter
+    (0x52840, "683333333f"), # push pending 0.7f word
+    (0x52845, "8bcd"),       # mov ecx,ebp, prior call receiver
+    (0x52847, "ff5004"),     # call [eax+4] BETWEEN push and 0x52120
     (0x5284a, "8bd8"),       # mov ebx,eax
     (0x5284c, "e8cff8ffff"), # call 0x52120
 )
