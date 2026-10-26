@@ -148,6 +148,7 @@ on:
       - 'scripts/verify_0023a3xx_schema_output_words.py'
       - 'scripts/verify_001e9150_guest_outword.py'
       - 'scripts/verify_001f6eb0_low_guest_byte.py'
+      - 'scripts/verify_0028f610_guest_code_bytes.py'
       - 'scripts/verify_stack_storage_repairs.py'
       - 'tests/test_00232be0_scalar_sse.c'
       - 'tests/x86_232be0_reference.S'
@@ -540,6 +541,8 @@ jobs:
         run: python3 scripts/verify_001e9150_guest_outword.py --root .
       - name: Verify original byte-only stack write in 0x001F6EB0 (source and Clang; private XBE optional)
         run: python3 scripts/verify_001f6eb0_low_guest_byte.py --root .
+      - name: Verify original 0x0028F610 decoder packed byte lanes (source and Clang; XBE private)
+        run: python3 scripts/verify_0028f610_guest_code_bytes.py --root .
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
       - name: Validate and categorize exact audit failures without XBE assumptions
