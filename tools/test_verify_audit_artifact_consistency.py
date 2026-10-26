@@ -214,6 +214,54 @@ with TemporaryDirectory() as directory:
         json.dumps(checkout_report), encoding="utf-8"
     )
     write_csv(canonical_path, columns, checkout_inventory)
+    # The section/group table must be reproducible from the same exact source
+    # checkout, not just have plausible aggregate pass/fail totals.
+    group_index = checkout / "metadata/function_groups/all_13694_functions.csv"
+    group_index.parent.mkdir(parents=True)
+    group_index_rows = [
+        {"entry": "0x00000001", "section": "main", "group": "alpha"},
+        {"entry": "0x00000002", "section": "main", "group": "alpha"},
+        {"entry": "0x00000003", "section": "bink", "group": "beta"},
+    ]
+    write_csv(group_index, ("entry", "section", "group"), group_index_rows)
+    group_table = root / "syntax_by_function_group.csv"
+    group_rows = [
+        {"original_section": "bink", "group": "beta", "status": "fail", "function_count": "1"},
+        {"original_section": "main", "group": "alpha", "status": "fail", "function_count": "1"},
+        {"original_section": "main", "group": "alpha", "status": "pass", "function_count": "1"},
+    ]
+    write_csv(group_table, ("original_section", "group", "status", "function_count"), group_rows)
+    assert verify(root, expected_total=3, inventory_path=canonical_path,
+                  expected_commit="a" * 40, source_root=checkout)["fail"] == 2
+    for broken_group_rows in (
+        [dict(row, function_count="2") if row["original_section"] == "bink" else row
+         for row in group_rows],
+        [dict(row, group="wrong") if row["original_section"] == "bink" else row
+         for row in group_rows],
+    ):
+        write_csv(group_table, ("original_section", "group", "status", "function_count"),
+                  broken_group_rows)
+        try:
+            verify(root, expected_total=3, inventory_path=canonical_path,
+                   expected_commit="a" * 40, source_root=checkout)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("Corrupt section/group summary accepted")
+        finally:
+            write_csv(group_table, ("original_section", "group", "status", "function_count"),
+                      group_rows)
+    # Reject a stale, incomplete index even if its exported group totals look right.
+    write_csv(group_index, ("entry", "section", "group"), group_index_rows[:-1])
+    try:
+        verify(root, expected_total=3, inventory_path=canonical_path,
+               expected_commit="a" * 40, source_root=checkout)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("Incomplete section/group index accepted")
+    finally:
+        write_csv(group_index, ("entry", "section", "group"), group_index_rows)
     assert verify(root, expected_total=3, inventory_path=canonical_path,
                   expected_commit="a" * 40, source_root=checkout) == {
                       "pass": 1, "fail": 2, "stack": 1,
