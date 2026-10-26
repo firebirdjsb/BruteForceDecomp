@@ -80,10 +80,12 @@ void FUN_00282720(void)
   FUN_001e1000();
   piStack_1fc = *(int **)(in_EAX + 8);
   piStack_1f8 = (int *)0xffd9396e;
-  auStack_200 = (undefined1  [4])0x2829b9;
+  /* Guest return PC 0x002829B9 belongs to the preceding CALL frame;
+   * it is not a C assignment to the 4-byte local storage. */
   (**(code **)(*piStack_1fc + 0x30))();
   piVar19 = *(int **)(in_EAX + 8);
-  auStack_200 = (undefined1  [4])0x1;
+  /* 0x002829CF/0x002829D1 PUSH 1 place count arguments on guest stack;
+   * neither PUSH assigns the local 4-byte array. */
   (**(code **)(*piVar19 + 0x2c))();
   piStack_210 = (int *)0x2829cf;
   uVar5 = (**(code **)(*unaff_EBX + 0x38))();
