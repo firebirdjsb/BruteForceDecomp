@@ -16,20 +16,21 @@ void FUN_00356c80(uint param_1,int param_2)
   char *pcVar2;
   int iVar3;
   uint uVar4;
-  undefined2 *puVar5;
-  undefined2 *puVar6;
-  char local_40 [31];
-  undefined2 uStack_21;
-  undefined1 auStack_1e [30];
+  /* Original SUB ESP,0x40 and [ESP+0x10]/[ESP+0x30] accesses after
+   * saving EBX, EBP, ESI, EDI establish two adjacent 32-byte regions.
+   * Keep both in one byte-addressable guest-frame image. ABI_UNVERIFIED. */
+  char local_40[64];
+  char *tail;
   
   builtin_strncpy(local_40,"BINK",5);
   if ((param_1 & 0xf) != 0) {
     pcVar2 = (&PTR_DAT_004b1640)[param_1 & 0xf];
-    iVar3 = 4 - (int)pcVar2;
+    tail = local_40 + 4;
     do {
       cVar1 = *pcVar2;
-      pcVar2[(int)(local_40 + iVar3)] = cVar1;
+      *tail = cVar1;
       pcVar2 = pcVar2 + 1;
+      tail = tail + 1;
     } while (cVar1 != '\0');
     if (param_2 == 0) {
       FUN_002f7900(local_40);
@@ -41,30 +42,31 @@ void FUN_00356c80(uint param_1,int param_2)
       iVar3 = 0;
       do {
         cVar1 = local_40[iVar3];
-        *(char *)((int)&uStack_21 + iVar3 + 1) = cVar1;
+        local_40[32 + iVar3] = cVar1;
         iVar3 = iVar3 + 1;
       } while (cVar1 != '\0');
-      puVar5 = &uStack_21;
-      do {
-        puVar6 = puVar5;
-        puVar5 = (undefined2 *)((int)puVar6 + 1);
-      } while (*(char *)((int)puVar6 + 1) != '\0');
-      *(undefined2 *)((int)puVar6 + 1) = 0x3258;
-      *(undefined1 *)((int)puVar6 + 3) = 0;
+      tail = local_40 + 32;
+      while (*tail != '\0') {
+        tail = tail + 1;
+      }
+      tail[0] = 'X';
+      tail[1] = '2';
+      tail[2] = '\0';
       if (param_2 == 0) {
-        FUN_002f7900((int)&uStack_21 + 1);
+        FUN_002f7900(local_40 + 32);
       }
       else {
-        FUN_002f78e5((int)&uStack_21 + 1);
+        FUN_002f78e5(local_40 + 32);
       }
     }
     if ((param_1 & 0x40) != 0) {
-      puVar5 = (undefined2 *)&stack0xffffffbf;
-      do {
-        pcVar2 = (char *)((int)puVar5 + 1);
-        puVar5 = (undefined2 *)((int)puVar5 + 1);
-      } while (*pcVar2 != '\0');
-      *puVar5 = 0x4d;
+      tail = local_40;
+      while (*tail != '\0') {
+        tail = tail + 1;
+      }
+      /* Original 16-bit little-endian 0x004D store: 'M' then NUL. */
+      tail[0] = 'M';
+      tail[1] = '\0';
       if (param_2 == 0) {
         FUN_002f7900(local_40);
       }
@@ -73,13 +75,14 @@ void FUN_00356c80(uint param_1,int param_2)
       }
     }
     if ((param_1 & 0x100) != 0) {
-      puVar5 = (undefined2 *)&stack0xffffffbf;
-      do {
-        puVar6 = puVar5;
-        puVar5 = (undefined2 *)((int)puVar6 + 1);
-      } while (*(char *)((int)puVar6 + 1) != '\0');
-      *(undefined2 *)((int)puVar6 + 1) = 0x3258;
-      *(undefined1 *)((int)puVar6 + 3) = 0;
+      tail = local_40;
+      while (*tail != '\0') {
+        tail = tail + 1;
+      }
+      /* Original 16-bit 0x3258 and following zero byte: 'X','2',NUL. */
+      tail[0] = 'X';
+      tail[1] = '2';
+      tail[2] = '\0';
       if (param_2 == 0) {
         FUN_002f7900(local_40);
       }

@@ -39,6 +39,7 @@ on:
       - 'scripts/verify_00221de0_saved_handle_stack_word.py'
       - 'scripts/verify_00254390_callback_release.py'
       - 'scripts/verify_00375330_disposition_byte.py'
+      - 'tests/test_bink_stack.c'
       - 'scripts/verify_000bca40_scissor_words.py'
       - 'scripts/verify_00084da0_guest_stack_alias.py'
       - 'scripts/verify_00084f50_guest_local_aliases.py'
@@ -421,6 +422,13 @@ jobs:
         run: python3 scripts/verify_0035a960_bink_wait_handles.py --root .
       - name: Verify original Bink32 MMX byte/word lane instructions (XBE stays local)
         run: python3 scripts/verify_bink32_mmx_byte_lanes.py --root .
+      - name: Verify original Bink guest stack suffix storage (source and Clang; XBE stays local)
+        run: |
+          clang -std=c11 -fsyntax-only -ferror-limit=3 -Wno-implicit-function-declaration -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast -Wno-return-type -Wno-deprecated-non-prototype -I include src/video_bink/bink/0x00356c80.c
+          clang -std=c11 -Wall -Wextra -Werror -pedantic-errors -O0 tests/test_bink_stack.c -o /tmp/bf_bink_stack_o0
+          /tmp/bf_bink_stack_o0
+          clang -std=c11 -Wall -Wextra -Werror -pedantic-errors -O2 tests/test_bink_stack.c -o /tmp/bf_bink_stack_o2
+          /tmp/bf_bink_stack_o2
       - name: Test reconstructed MMX byte/word lanes in strict host C11
         run: |
           clang -std=c11 -Wall -Wextra -Werror -pedantic-errors -I include tools/test_x86_mmx_byte_lanes.c -o /tmp/bf_mmx_byte_lanes_test
