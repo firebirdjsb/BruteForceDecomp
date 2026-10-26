@@ -62,7 +62,9 @@ undefined4 FUN_0007c0b0(void)
     uStack_10 = 0;
     local_20 = (undefined4 ***)((uint)local_20 & 0xffffff00);
     if (uStack_28 < 0x10) {
-      unaff_EBX = &stack0xffffffc4;
+      /* XBE 0x0007C15C: LEA EAX,[ESP+0x0C] selects the inline
+       * small-string buffer at guest frame offset -0x34. */
+      unaff_EBX = (undefined1 *)&local_34;
     }
     pppuStack_4c = (undefined4 ***)&local_24;
     FUN_000791c0(unaff_EBX);
