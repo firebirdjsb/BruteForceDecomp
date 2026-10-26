@@ -34,6 +34,12 @@ uint FUN_000a20e0(int param_1)
    * and 0x000A21F1 reloads it for the subsequent interface flow.
    * Guest-to-host pointer translation and COM ABI remain unverified. */
   int *interface_output;
+  /* XBE 0x000A220B: LEA ECX,[ESP+0x24] supplies a third, distinct
+   * guest DWORD slot to FUN_00135410 at 0x000A2222. This is NOT
+   * the interface slot at ESP+0x18 or the enumeration slot at +0x14.
+   * EBX and EDI carry additional implicit x86 register arguments;
+   * this draft has not reconstructed those register contracts. */
+  undefined4 helper_output_word;
   uint auStack_150 [8];
   int *local_130;
   undefined4 local_120;
@@ -90,7 +96,7 @@ uint FUN_000a20e0(int param_1)
           }
           puVar4 = (undefined4 *)(**(code **)(*piVar9 + 0x2c))(piVar9);
           unaff_ESI = (int *)*puVar4;
-          FUN_00135410(&stack0xfffffea4);
+          FUN_00135410(&helper_output_word);
           (**(code **)(*piVar9 + 4))(piVar9);
         }
         if (piStack_164 != (int *)0x0) {
