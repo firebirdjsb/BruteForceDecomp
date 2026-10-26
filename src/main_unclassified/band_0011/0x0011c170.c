@@ -24,6 +24,9 @@ void FUN_0011c170(int *param_1,int *param_2)
   bool bVar8;
   int iStack_8c;
   undefined **ppuStack_84;
+  /* x87 FSTP DWORD [ESP+0x1c] at 0x0011C269 stores a real float;
+   * the stack slot is repurposed as a pointer only on a later branch. */
+  float guest_delta_x;
   float fStack_80;
   float fStack_7c;
   int *piStack_78;
@@ -65,9 +68,9 @@ void FUN_0011c170(int *param_1,int *param_2)
           iVar4 = (**(code **)(*param_1 + 0x40))();
           fStack_7c = *(float *)(iVar2 + 0x2c) - *(float *)(iVar4 + 0x2c);
           fStack_80 = *(float *)(iVar2 + 0x28) - *(float *)(iVar4 + 0x28);
-          ppuStack_84 = (undefined **)(*(float *)(iVar2 + 0x24) - *(float *)(iVar4 + 0x24));
+          guest_delta_x = *(float *)(iVar2 + 0x24) - *(float *)(iVar4 + 0x24);
           if (((-1.8 <= fStack_80) && (fStack_80 <= 1.0)) &&
-             (fStack_7c * fStack_7c + (float)ppuStack_84 * (float)ppuStack_84 < 1.8)) {
+             (fStack_7c * fStack_7c + guest_delta_x * guest_delta_x < 1.8)) {
             iVar2 = param_2[3];
             fStack_70 = fStack_7c;
             iStack_8c = FUN_00146340();
