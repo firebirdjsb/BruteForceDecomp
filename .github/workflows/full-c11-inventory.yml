@@ -150,6 +150,7 @@ on:
       - 'scripts/verify_001f6eb0_low_guest_byte.py'
       - 'scripts/verify_0028f610_guest_code_bytes.py'
       - 'scripts/verify_two_guest_byte_aliases.py'
+      - 'scripts/verify_00282720_guest_byte_buffer.py'
       - 'scripts/verify_stack_storage_repairs.py'
       - 'tests/test_00232be0_scalar_sse.c'
       - 'tests/x86_232be0_reference.S'
@@ -546,6 +547,8 @@ jobs:
         run: python3 scripts/verify_0028f610_guest_code_bytes.py --root .
       - name: Verify 0x000AF1A0 and 0x002D29F0 guest byte contracts (source and Clang; XBE private)
         run: python3 scripts/verify_two_guest_byte_aliases.py --root .
+      - name: Verify original byte-only stack buffer in 0x00282720 (Clang; XBE private)
+        run: python3 scripts/verify_00282720_guest_byte_buffer.py --root .
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
       - name: Validate and categorize exact audit failures without XBE assumptions
