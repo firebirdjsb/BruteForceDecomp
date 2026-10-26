@@ -72,8 +72,11 @@ void FUN_002b89f0(undefined4 *param_1,int param_2)
       FUN_002b3e60(local_14,param_1 + 4,param_1 + 0x10,local_70);
       local_38 = 0;
       local_44 = local_14[0] - local_54;
-      local_40 = (float)local_14._4_8_ - local_50;
-      fStack_3c = SUB84(local_14._4_8_,4) - fStack_4c;
+      /* 0x002B8BE3-0x002B8C06: MOVSS/MOVHPS, SUBPS, MOVSS/MOVHPS.
+       * These are the second and third float32 lanes of local_14, not
+       * one numerically converted 64-bit double. */
+      local_40 = local_14[1] - local_50;
+      fStack_3c = local_14[2] - fStack_4c;
       iVar4 = FUN_002b65a0(&local_44);
       if (iVar4 != 1) {
         local_44 = 1.0;
