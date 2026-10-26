@@ -31,6 +31,7 @@ undefined4 FUN_00076b30(undefined4 param_1,undefined4 *param_2)
   undefined4 uStack_20;
   uint uVar8;
   undefined4 local_c [3];
+  uint32_t guest_second_arg_output;
   
   uStack_20 = 0;
   uStack_24 = param_1;
@@ -38,7 +39,10 @@ undefined4 FUN_00076b30(undefined4 param_1,undefined4 *param_2)
   uStack_2c = *param_2;
   local_c[0] = 0;
   piStack_30 = DAT_0046990c;
-  (**(code **)(*DAT_0046990c + 0x20))();
+  /* 0x76B46..0x76B5A: five original guest DWORD arguments; the
+   * callback writes local_c[0] at entry ESP-0x0C. Guest memory and
+   * host COM ABI translation remain unverified. */
+  (**(code **)(*DAT_0046990c + 0x20))(piStack_30,uStack_2c,piStack_28,uStack_24,uStack_20);
   piVar3 = *(int **)(in_ECX + 8);
   uStack_24 = (**(code **)(*piVar3 + 0x2c))(piVar3,uStack_20);
   if ((param_2[3] == 4) && (param_2[1] != 0)) {
@@ -63,7 +67,12 @@ undefined4 FUN_00076b30(undefined4 param_1,undefined4 *param_2)
     FUN_00076ac0();
     uVar7 = 0;
     uVar6 = 0x1077c687;
-    (**(code **)(*DAT_0046990c + 0x20))(DAT_0046990c,0x1077c687,&stack0xffffffe8,piStack_28,0);
+    /* 0x76C3D LEA ECX,[ESP+0x2C] after two pushes points to the
+     * original incoming second-argument DWORD at entry ESP+8.
+     * EBP retains the input param_2 pointer; 0x76C47 zeroes that
+     * incoming word before the COM output call. */
+    guest_second_arg_output = 0;
+    (**(code **)(*DAT_0046990c + 0x20))(DAT_0046990c,0x1077c687,&guest_second_arg_output,piStack_28,0);
     uVar5 = 0xedbd6aff;
     piStack_30 = (int *)0x0;
     (**(code **)(*DAT_0046990c + 0x20))(DAT_0046990c,0xedbd6aff,&piStack_30,piVar3,0);
@@ -105,6 +114,12 @@ LAB_00076d38:
     }
   }
   (**(code **)(**(int **)(in_ECX + 8) + 0x30))(*(int **)(in_ECX + 8),uStack_2c);
-  (**(code **)(iRam00000001 + 8))(1);
+  /* 0x76D4E..0x76D5D: reload the original first interface-output
+   * DWORD, conditionally call vtable +8 with that interface pointer.
+   * A 32-bit guest VA is not yet translated into host memory. */
+  if (local_c[0] != 0) {
+    int *guest_first_interface = (int *)(uintptr_t)local_c[0];
+    (**(code **)(*guest_first_interface + 8))(guest_first_interface);
+  }
   return uStack_2c;
 }

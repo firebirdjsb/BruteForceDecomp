@@ -45,7 +45,10 @@ void FUN_001e42f0(void)
   piVar5 = local_24;
   iVar3 = (**(code **)(*DAT_00469908 + 0xc))(DAT_00469908,pppuVar4,0x80000000);
   if (-1 < iVar3) {
-    iVar3 = FUN_0018d3b0(&stack0xffffffd0);
+    /* XBE 0x001E436F: LEA EAX,[ESP+0x10] after the preceding
+     * interface call. The same frame uses [ESP+0x0C] as the first
+     * output word; the next DWORD is local_24[1]. ABI_UNVERIFIED. */
+    iVar3 = FUN_0018d3b0(&local_24[1]);
     if (-1 < iVar3) {
       FUN_0023a790(0xf07ead84,1);
     }
