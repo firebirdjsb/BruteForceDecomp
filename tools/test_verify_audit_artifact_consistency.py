@@ -153,15 +153,25 @@ with TemporaryDirectory() as directory:
     broken[1]["entry"] = "0x00000004"
     rejects_inventory(broken)
 
-    broken_report = json.loads(json.dumps(report))
-    broken_report["results"][1]["original_body_sha256"] = "d" * 64
-    rejects(root / "c11_sweep_report.json", json.dumps(broken_report))
-    # Unlike the generic corruption helper, this is a coordinated report
-    # change that is internally consistent but contradicts the inventory.
+    # Unlike the generic corruption helper, these are coordinated report
+    # changes that remain internally consistent but contradict the inventory.
     broken_report = json.loads(json.dumps(report))
     broken_report["results"][0]["c_sha256_matches_inventory"] = True
     broken_report["c_source_hash_drift"] = 0
     report_path = root / "c11_sweep_report.json"
+    altered_body = json.loads(json.dumps(report))
+    altered_body["results"][1]["original_body_sha256"] = "d" * 64
+    original_report = report_path.read_text(encoding="utf-8")
+    report_path.write_text(json.dumps(altered_body), encoding="utf-8")
+    try:
+        try:
+            verify(root, expected_total=3, inventory_path=canonical_path)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("Altered original body digest accepted")
+    finally:
+        report_path.write_text(original_report, encoding="utf-8")
     original_report = report_path.read_text(encoding="utf-8")
     report_path.write_text(json.dumps(broken_report), encoding="utf-8")
     try:
