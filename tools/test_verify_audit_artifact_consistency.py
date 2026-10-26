@@ -113,4 +113,66 @@ with TemporaryDirectory() as directory:
                   ("entry", "category", "first_error"), triage)
         (root / "failure_triage.json").write_text(json.dumps(summary), encoding="utf-8")
     assert verify(root, expected_total=3) == {"pass": 1, "fail": 2, "stack": 1}
-    print("PASS: artifact consistency and 17 synthetic corruption cases")
+    # The source-only artifact must also agree with the canonical repository
+    # inventory, not merely be internally self-consistent.
+    canonical_path = root / "canonical_inventory.csv"
+    columns = ("entry", "original_body_sha256", "c_sha256")
+    canonical = [
+        {"entry": row["entry"], "original_body_sha256": "A" * 64,
+         "c_sha256": ("c" if index == 0 else "b") * 64}
+        for index, row in enumerate(report["results"])
+    ]
+    write_csv(canonical_path, columns, canonical)
+    assert verify(root, expected_total=3, inventory_path=canonical_path) == {
+        "pass": 1, "fail": 2, "stack": 1,
+    }
+
+    def rejects_inventory(rows):
+        write_csv(canonical_path, columns, rows)
+        try:
+            try:
+                verify(root, expected_total=3, inventory_path=canonical_path)
+            except ValueError:
+                pass
+            else:
+                raise AssertionError("Corrupt canonical inventory accepted")
+        finally:
+            write_csv(canonical_path, columns, canonical)
+
+    broken = [dict(row) for row in canonical]
+    broken[0]["original_body_sha256"] = "d" * 64
+    rejects_inventory(broken)
+    broken = [dict(row) for row in canonical]
+    broken[1]["c_sha256"] = "d" * 64
+    rejects_inventory(broken)
+    rejects_inventory(canonical[:-1])
+    broken = [dict(row) for row in canonical]
+    broken[1]["entry"] = broken[0]["entry"]
+    rejects_inventory(broken)
+    broken = [dict(row) for row in canonical]
+    broken[1]["entry"] = "0x00000004"
+    rejects_inventory(broken)
+
+    broken_report = json.loads(json.dumps(report))
+    broken_report["results"][1]["original_body_sha256"] = "d" * 64
+    rejects(root / "c11_sweep_report.json", json.dumps(broken_report))
+    # Unlike the generic corruption helper, this is a coordinated report
+    # change that is internally consistent but contradicts the inventory.
+    broken_report = json.loads(json.dumps(report))
+    broken_report["results"][0]["c_sha256_matches_inventory"] = True
+    broken_report["c_source_hash_drift"] = 0
+    report_path = root / "c11_sweep_report.json"
+    original_report = report_path.read_text(encoding="utf-8")
+    report_path.write_text(json.dumps(broken_report), encoding="utf-8")
+    try:
+        try:
+            verify(root, expected_total=3, inventory_path=canonical_path)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("Coordinated false C-source drift accepted")
+    finally:
+        report_path.write_text(original_report, encoding="utf-8")
+
+    print("PASS: artifact consistency, 17 synthetic corruption cases, "
+          "and canonical inventory cross-check controls")
