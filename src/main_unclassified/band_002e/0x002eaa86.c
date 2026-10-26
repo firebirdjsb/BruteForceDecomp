@@ -6,7 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-undefined4 FUN_002eaa86(undefined1 *param_1,undefined4 param_2)
+undefined4 FUN_002eaa86(undefined1 *param_1,undefined4 param_2,undefined4 param_3)
 
 {
   undefined4 uVar1;
@@ -19,7 +19,10 @@ undefined4 FUN_002eaa86(undefined1 *param_1,undefined4 param_2)
   local_18 = 0x42;
   local_1c = param_1;
   local_24 = param_1;
-  uVar1 = FUN_002edbde(&local_24,param_2,&stack0x0000000c);
+  /* 0x002EAA91: LEA EAX,[EBP+0x10] addresses the third
+   * incoming 32-bit word. Do not replace it with a guest VA
+   * cast; original varargs/register ABI remains unverified. */
+  uVar1 = FUN_002edbde(&local_24,param_2,&param_3);
   if (param_1 != (undefined1 *)0x0) {
     local_20 = local_20 + -1;
     if (local_20 < 0) {
