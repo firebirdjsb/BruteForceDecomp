@@ -202,7 +202,9 @@ void FUN_001f6eb0(int param_1,int param_2)
             iVar12 = (**(int **)(param_1 + 0x20) * iVar11 + iVar10) * 0x40 +
                      *(int *)(param_1 + 0x18);
             if (((iVar12 != 0) && (-1 < *(int *)(iVar12 + 0x3c))) &&
-               (uVar8 = FUN_0006e6b0(DAT_003f7f1c,&LAB_001f3710,iVar12), param_1 = local_4,
+               (uVar8 = /* Original XBE 0x001F7251 PUSH 0x001F3710: guest code address,
+                * not a defined host symbol. Native relocation still TODO. */
+               FUN_0006e6b0(DAT_003f7f1c,(void *)(uintptr_t)UINT32_C(0x001f3710),iVar12), param_1 = local_4,
                (uVar8 & 1) != 0)) {
               piVar9 = (int *)(*(int *)(iVar12 + 0x3c) * 0x30 + *(int *)(local_a4 + 0x1c));
               *local_84 = (int)(piVar9 + 8);
