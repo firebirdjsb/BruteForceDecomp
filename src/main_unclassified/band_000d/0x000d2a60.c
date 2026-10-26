@@ -19,7 +19,10 @@ void FUN_000d2a60(int param_1,uint param_2)
   uint uVar6;
   undefined4 *unaff_FS_OFFSET;
   undefined4 local_2c [6];
-  undefined1 *local_14;
+  /* XBE 0x000D2A7E: MOV [EBP-0x10],ESP saves the guest SEH frame.
+   * Ghidra's synthetic stack0xffffff90 only flowed into a dead
+   * local_14 assignment. Do not create a fake host stack pointer.
+   * Native FS:0/SEH translation remains ABI_UNVERIFIED. */
   undefined4 local_10;
   /* Original x86 pushes a guest 32-bit SEH handler address; this is
    * not a native host pointer or a completed Windows SEH adaptation. */
@@ -30,7 +33,6 @@ void FUN_000d2a60(int param_1,uint param_2)
   puStack_c = UINT32_C(0x00307db0);
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
-  local_14 = &stack0xffffff90;
   puVar5 = local_2c;
   for (iVar2 = 6; iVar2 != 0; iVar2 = iVar2 + -1) {
     *puVar5 = *in_EDX;
