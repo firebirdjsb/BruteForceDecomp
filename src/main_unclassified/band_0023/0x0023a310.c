@@ -77,7 +77,10 @@ LAB_0023a56f:
       (**(code **)(*unaff_EBP + 8))(unaff_EBP);
     }
     piVar2 = unaff_ESI;
-    iVar1 = (**(code **)(*unaff_ESI + 0x10))(unaff_ESI,s_23_23_ISchema_00406e3c,&stack0xffffffe0);
+    /* XBE 0x0023A3FB: LEA EAX,[ESP+0x14], then push EAX before
+     * the +0x10 virtual call.  This is the second DWORD of the
+     * already-reconstructed two-slot local, not a new host pointer. */
+    iVar1 = (**(code **)(*unaff_ESI + 0x10))(unaff_ESI,s_23_23_ISchema_00406e3c,&appiStack_18[1]);
     if (iVar1 < 0) {
       FUN_00076fc0();
       if ((int *)pcVar4 != (int *)0x0) {
