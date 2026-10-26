@@ -31,7 +31,7 @@ An independent use of the **same** vtable slot at `0x52825` passes a B-output po
 ## Caller/callee evidence
 
 - Near-call at `0x52322` resolves exactly to `0x52120`; caller loads EBX and ESI at `0x52315` and `0x52319`, and pushes float bits `0x3F800000`.
-- Near-call at `0x5284C` resolves to `0x52120`; `MOV EBX,EAX` at `0x5284A` supplies its EBX argument. It passes float bits `0x3F333333`.
+- Near-call at `0x5284C` resolves to `0x52120`; `MOV EBX,EAX` at `0x5284A` supplies its EBX argument. The caller pushes float bits `0x3F333333` at `0x52840`, **before** an intervening `MOV ECX,EBP; CALL [EAX+4]` at `0x52845`–`0x52847`. For `0x52120` to receive the pending word, the intervening target must preserve the intended guest stack depth. Its actual `RET` opcode has not been located: this is a cross-function contract needing separate validation, not an assumed method signature.
 - The source now represents the two indirect calls with an explicit receiver and output addresses. Clang i386 GNU and Windows/MSVC-target probes verify that **both** invocations use LLVM `x86_thiscallcc`. This verifies compiler lowering of the declared ABI, **not** the runtime vtable target or x86-register state of the reconstructed caller.
 - `scripts/verify_00052120_guest_float_slots.py` checks original opcodes, original function hash, two parent near-calls, six source negative controls, the expected stack offsets, source C11 syntax, and synthetic frame boundaries; GitHub CI runs the source-only mode. The copyrighted XBE is never committed.
 
