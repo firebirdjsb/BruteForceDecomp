@@ -19,7 +19,10 @@ int FUN_001b5fd0(int param_1,int param_2,uint param_3)
   uint local_2c;
   undefined4 local_1c;
   uint local_18;
-  undefined1 *local_14;
+  /* XBE 0x001B5FEE: MOV [EBP-0x10],ESP saves the guest SEH frame.
+   * Ghidra's synthetic stack0xffffff88 only flowed into a dead
+   * local_14 assignment. Do not create a fake host stack pointer.
+   * Native FS:0/SEH translation remains ABI_UNVERIFIED. */
   undefined4 local_10;
   uint32_t puStack_c; /* original guest SEH 32-bit word; FS:0 pending */
   undefined4 local_8;
@@ -28,7 +31,6 @@ int FUN_001b5fd0(int param_1,int param_2,uint param_3)
   puStack_c = UINT32_C(0x003082e0); /* x86 push imm32 at 0x001b5fd5 */
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
-  local_14 = &stack0xffffff88;
   local_18 = 7;
   local_1c = 0;
   local_2c = local_2c & 0xffff0000;
