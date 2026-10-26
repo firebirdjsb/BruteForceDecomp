@@ -29,7 +29,10 @@ void FUN_0025f3b0(int *param_1,int *param_2)
   int *local_8;
   int local_4;
   
-  local_c[0] = param_1._0_1_;
+  /* 0x0025F3B3: MOV AL,BYTE PTR [ESP+0x24] reads the low byte of the
+   * original first 32-bit stack argument (the guest param_1 word).
+   * 0x0025F3C0 stores that byte to the local constructor argument. */
+  local_c[0] = (uint8_t)(uint32_t)(uintptr_t)param_1;
   local_8 = (int *)FUN_0025ae60(local_c);
   *(undefined1 *)((int)local_8 + 0x15) = 1;
   local_8[1] = (int)local_8;
