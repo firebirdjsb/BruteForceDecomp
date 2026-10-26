@@ -47,7 +47,9 @@ void FUN_0034bd47(undefined4 *param_1)
           uVar11 = uVar5 >> 0x18 & 1;
           if ((((uVar11 == 0) || (iVar13 == -1)) && (iVar4 != -1)) &&
              (((uVar5 & 0x2000000) != 0 ||
-              ((((param_1._0_1_ = (char)iVar13, (char)param_1 != '\x7f' &&
+              ((((/* 0x34bd8a stores the full value at EBP+8; 0x34be3c
+                    * compares its low byte, without modifying the saved pointer. */
+                  (uint8_t)iVar13 != UINT8_C(0x7f) &&
                  (local_10 = (char)iVar4, local_10 != '\x7f')) &&
                 ((iVar4 != *(int *)(in_ECX + 0x268) || (iVar4 == 0)))) &&
                ((((uVar11 != 0 || (iVar13 == -1)) || (*(int *)(in_ECX + 0x268) == iVar13)) ||

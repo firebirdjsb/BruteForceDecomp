@@ -12,6 +12,7 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x0034BD47, 472, "fba8da494e65b869d42f6bb90d71d1bffa3330d9f6068ed85e2029896e957d73"),
     (0x001F3FB0, ((0,369),(620,12)), "7fb32f534c6943500c9d55895945af2c3567f55d8fef5bf3a6a72a8493cbbec5"),
     (0x00209F40, 327, "616c03bf83a483520a4a94ec3b1c13136f06d3fd3aebd46bdafd0d2d879f5d06"),
     (0x002710E0, ((0,205),(208,168)), "b91d8c20f819f97d67056cabe45481d26d2982218d0deb1f2f3ace30f3aeb897"),
@@ -63,6 +64,11 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x0034BD4E: "8b7d08",  # EDI retains original pointer word
+    0x0034BD77: "8b5610",  # read DWORD into EDX
+    0x0034BD8A: "895508",  # reuse incoming argument slot with entire EDX
+    0x0034BE3C: "807d087f",  # compare only low byte of that DWORD
+
     0x00208B6D: "b00184c0",  # update AL only, then test it
     0x00208B98: "b001",  # final AL-only success
 
