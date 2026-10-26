@@ -75,8 +75,10 @@ void FUN_002d3970(float *param_1,float *param_2,int param_3)
   local_74 = local_10;
   local_24 = 0;
   local_c8 = (local_10[0] - local_20[0]) * local_c4 +
-             ((float)local_10._4_8_ - (float)local_20._4_8_) * local_c0 +
-             (SUB84(local_10._4_8_,4) - SUB84(local_20._4_8_,4)) * local_bc;
+             /* MOVSS/MOVHPS/SUBPS at 0x002D3ACE..0x002D3AED
+              * subtract three float32 xyz lanes, not a scalar binary64. */
+             (local_10[1] - local_20[1]) * local_c0 +
+             (local_10[2] - local_20[2]) * local_bc;
   if ((param_3 == 1) && (0.0 < local_c8)) {
     local_c8 = 0.0;
   }
