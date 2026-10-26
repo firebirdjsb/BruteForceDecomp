@@ -7,13 +7,13 @@
 
 [![C11 source audit](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/full-c11-inventory.yml/badge.svg?branch=main)](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/full-c11-inventory.yml)
 
-![Overall roadmap tracking: 13.99%](docs/progress/overall.svg)
+![Overall roadmap tracking: 14.00%](docs/progress/overall.svg)
 
-**Overall tracked roadmap: 13.99%** (conservative milestone indicator, **not verified game completion**). Seven equally weighted phases: the audited C11 syntax pass fraction contributes to one phase, while the other six are unverified and receive zero completion credit until evidence-based metrics exist. This is a planning proxy, not a verified 1:1 or playable-game percentage.
+**Overall tracked roadmap: 14.00%** (conservative milestone indicator, **not verified game completion**). Seven equally weighted phases: the audited C11 syntax pass fraction contributes to one phase, while the other six are unverified and receive zero completion credit until evidence-based metrics exist. This is a planning proxy, not a verified 1:1 or playable-game percentage.
 
-![C11 source syntax coverage: 97.96%](docs/progress/c11-syntax.svg)
+![C11 source syntax coverage: 97.97%](docs/progress/c11-syntax.svg)
 
-**97.96% C11 syntax coverage** · **13,414 / 13,694** individually checked functions · **280** still fail. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/2c6f74e7e9dc4f319a279496cd7274b0e82ce55b) · [GitHub Actions report](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/40303600661).
+**97.97% C11 syntax coverage** · **13,416 / 13,694** individually checked functions · **278** still fail. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/d9fe3287da6888e58688757fff8d178c0f0a8380) · [GitHub Actions report](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/40303900172).
 
 **Native PC game: NOT buildable/playable yet.** A syntax pass is not Xbox ABI verification, cross-function linking, platform compatibility, or a 1:1 match. This percentage is **not** game-completion percentage.
 
@@ -21,7 +21,7 @@
 
 | Roadmap phase | Credited progress |
 | --- | --- |
-| 1. Isolated host C11 syntax | 97.96% source drafts passing |
+| 1. Isolated host C11 syntax | 97.97% source drafts passing |
 | 2. Original Xbox ABI, types and structures | Unverified |
 | 3. Cross-function linking | Unverified |
 | 4. Original 1:1 behavioral testing | Unverified |
