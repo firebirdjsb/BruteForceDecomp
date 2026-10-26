@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h> /* original 0x002D7FD3 RSQRTSS */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003b86f0;
@@ -25,7 +26,7 @@ undefined4 FUN_002d7d60(int *param_1,uint *param_2,int *param_3)
   int *piVar10;
   float *pfVar11;
   float10 fVar12;
-  undefined1 in_XMM0 [16];
+  float guest_inverse_length;
   float fVar13;
   float fVar14;
   float local_7c;
@@ -76,8 +77,10 @@ undefined4 FUN_002d7d60(int *param_1,uint *param_2,int *param_3)
        *(float *)(iVar5 + 0x68) + ((float)uVar1 - (float)uVar2) * *(float *)(iVar5 + 100);
   pfVar6 = (float *)((*param_2 & 0xffff) * 0x10 + *param_3);
   local_34 = 0;
-  fVar13 = (float)local_30._4_8_ - (float)*(undefined8 *)(pfVar6 + 1);
-  fVar14 = SUB84(local_30._4_8_,4) - (float)((ulonglong)*(undefined8 *)(pfVar6 + 1) >> 0x20);
+  /* MOVSS/MOVHPS preserve three adjacent 32-bit float words; this is
+   * XYZ subtraction, not numeric conversion of a packed uint64. */
+  fVar13 = local_30[1] - pfVar6[1];
+  fVar14 = local_30[2] - pfVar6[2];
   piVar10 = (int *)((int)param_2 + *(int *)(&DAT_003b86f0 + ((uint)param_2 & 0xc)));
   piVar7 = piVar10 + ((*piVar10 << 1) >> 0x11);
   while( true ) {
@@ -87,10 +90,14 @@ undefined4 FUN_002d7d60(int *param_1,uint *param_2,int *param_3)
     fVar3 = ((local_30[0] - *pfVar6) * *pfVar11 + fVar14 * pfVar11[2] + fVar13 * pfVar11[1]) -
             (fVar14 * pfVar6[2] + fVar13 * pfVar6[1] + (local_30[0] - *pfVar6) * *pfVar6);
     if (0.0 < fVar3) {
-      in_XMM0 = rsqrtss(in_XMM0,(*pfVar11 - *pfVar6) * (*pfVar11 - *pfVar6) +
-                                (pfVar11[1] - pfVar6[1]) * (pfVar11[1] - pfVar6[1]) +
-                                (pfVar11[2] - pfVar6[2]) * (pfVar11[2] - pfVar6[2]));
-      fVar4 = in_XMM0._0_4_ * fVar3;
+      /* Original x87 XYZ dot product stores a rounded float32 to
+       * [ESP+0x20]; RSQRTSS at 0x002D7FD3 reads exactly that lane. */
+      float dx = *pfVar11 - *pfVar6;
+      float dy = pfVar11[1] - pfVar6[1];
+      float dz = pfVar11[2] - pfVar6[2];
+      float guest_length_sq = (dz * dz + dy * dy) + dx * dx;
+      guest_inverse_length = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(guest_length_sq)));
+      fVar4 = guest_inverse_length * fVar3;
       if (local_7c < fVar4) {
         local_7c = fVar4;
         local_78 = piVar9;
