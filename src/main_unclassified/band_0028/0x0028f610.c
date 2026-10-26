@@ -159,7 +159,8 @@ FUN_0028f610(uint param_1,uint param_2,int param_3,int param_4,uint *param_5,int
         uVar6 = *local_e8;
         uVar2 = local_d8;
         while (local_d8 = uVar2, uVar6 != 0) {
-          local_d8._2_2_ = (undefined2)((uint)uVar2 >> 0x10);
+          /* The high guest WORD comes from the identical DWORD just loaded. */
+          local_d8 = (local_d8 & UINT32_C(0x0000ffff)) | (uVar2 & UINT32_C(0xffff0000));
           uVar9 = uVar6 - 1;
           local_d0 = iVar8 + local_fc;
           if (local_d0 < (int)local_f8) {
@@ -200,7 +201,9 @@ FUN_0028f610(uint param_1,uint param_2,int param_3,int param_4,uint *param_5,int
                 local_bc[local_f4 + 0x11] = local_e0;
                 uVar5 = local_e0 >> ((byte)iVar17 & 0x1f);
                 uVar15 = local_bc[local_f4 + 0x20];
-                local_d8._0_2_ = CONCAT11((undefined1)local_fc,(byte)uVar10);
+                /* 0x0028F935/0x0028F94C: independently write guest bytes 0/1. */
+                local_d8 = (local_d8 & UINT32_C(0xffff0000)) |
+                           ((uint32_t)(uint8_t)local_fc << 8) | (uint8_t)uVar10;
                 local_d4 = ((int)(local_dc - uVar15) >> 3) - uVar5;
                 *(undefined4 *)(uVar15 + uVar5 * 8) = local_d8;
                 *(uint *)(uVar15 + 4 + uVar5 * 8) = local_d4;
@@ -213,19 +216,23 @@ FUN_0028f610(uint param_1,uint param_2,int param_3,int param_4,uint *param_5,int
           if (local_ec < param_8 + uVar7) {
             local_d4 = *local_ec;
             if (local_d4 < param_2) {
-              local_d8._0_1_ = (local_d4 < 0x100) - 1U & 0x60;
+              local_d8 = (local_d8 & UINT32_C(0xffffff00)) |
+                         (((uint32_t)(local_d4 < 0x100) - 1U) & UINT32_C(0x60));
             }
             else {
               iVar17 = (local_d4 - param_2) * 4;
-              local_d8._0_1_ = *(char *)(iVar17 + param_4) + 0x50;
+              local_d8 = (local_d8 & UINT32_C(0xffffff00)) |
+                         (uint8_t)(*(char *)(iVar17 + param_4) + 0x50);
               local_d4 = *(uint *)(iVar17 + param_3);
             }
             local_ec = local_ec + 1;
           }
           else {
-            local_d8._0_1_ = 0xc0;
+            local_d8 = (local_d8 & UINT32_C(0xffffff00)) | UINT32_C(0xc0);
           }
-          local_d8 = CONCAT31(CONCAT21(local_d8._2_2_,(char)local_f8 - bVar14),(byte)local_d8);
+          /* 0x0028F98C writes only byte 1; preserve bytes 0, 2, and 3. */
+          local_d8 = (local_d8 & UINT32_C(0xffff00ff)) |
+                     ((uint32_t)(uint8_t)(local_f8 - bVar14) << 8);
           iVar17 = 1 << ((char)local_f8 - bVar14 & 0x1f);
           uVar6 = uVar15 >> (bVar14 & 0x1f);
           if (uVar6 < uVar18) {
