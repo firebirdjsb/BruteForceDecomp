@@ -540,7 +540,7 @@ jobs:
       - name: Cross-check full-audit CSV and JSON diagnostics against exact function results
         run: |
           python3 tools/test_verify_audit_artifact_consistency.py
-          python3 tools/verify_audit_artifact_consistency.py --artifact-dir c11_sweep_results
+          python3 tools/verify_audit_artifact_consistency.py --artifact-dir c11_sweep_results --source-root . --expected-commit "$GITHUB_SHA"
       - name: Inventory candidate C entrypoint identities without asserting linkage
         run: python3 tools/audit_entrypoint_symbols.py --root . --out c11_sweep_results/entry_symbol_audit.csv
       - name: Upload audit and per-address error diagnostics
