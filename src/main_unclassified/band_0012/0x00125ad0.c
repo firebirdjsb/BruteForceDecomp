@@ -20,7 +20,7 @@ void FUN_00125ad0(int param_1,int param_2)
   int iVar5;
   undefined4 *puVar6;
   int iVar7;
-  int **ppiVar8;
+  void *vector_data;
   undefined4 uVar9;
   ushort uVar10;
   undefined2 uVar11;
@@ -30,6 +30,8 @@ void FUN_00125ad0(int param_1,int param_2)
   float fStack_2c;
   int *piStack_28;
   int *local_24;
+  float delta_vector[3];
+  _Static_assert(sizeof delta_vector == 12, "three original binary32 words");
   float fStack_20;
   float fStack_1c;
   undefined2 uStack_18;
@@ -126,20 +128,21 @@ void FUN_00125ad0(int param_1,int param_2)
       if (iVar5 != 0) {
         iVar7 = (**(code **)(*unaff_retaddr + 0x40))();
         if (piVar1 == (int *)0x0) {
-          ppiVar8 = (int **)(iVar7 + 0x24);
+          vector_data = (void *)(iVar7 + 0x24);
           uVar9 = *(undefined4 *)(param_1 + 8);
         }
         else {
           fStack_30 = *(float *)(iVar7 + 0x2c) - *(float *)(param_1 + 0x2c);
           fStack_2c = *(float *)(iVar7 + 0x28) - *(float *)(param_1 + 0x28);
-          piStack_28 = (int *)(*(float *)(iVar7 + 0x24) - *(float *)(param_1 + 0x24));
-          ppiVar8 = &local_24;
+          /* 0x125d60..0x125d86 store m32fp X, Y, Z at consecutive
+           * DWORDs before LEA [ESP+0x28] supplies the vector address. */
+          delta_vector[0] = *(float *)(iVar7 + 0x24) - *(float *)(param_1 + 0x24);
+          delta_vector[2] = fStack_30;
+          delta_vector[1] = fStack_2c;
+          vector_data = delta_vector;
           uVar9 = *(undefined4 *)(param_1 + 8);
-          local_24 = piStack_28;
-          fStack_20 = fStack_2c;
-          fStack_1c = fStack_30;
         }
-        FUN_000b3010(*(undefined4 *)(iVar5 + 0xf4),uVar9,ppiVar8);
+        FUN_000b3010(*(undefined4 *)(iVar5 + 0xf4),uVar9,vector_data);
       }
       break;
     }

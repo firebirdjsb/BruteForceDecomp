@@ -12,6 +12,8 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x00125AD0, ((0, 542), (553, 580)), "2c79f5187a5a3f6b3acebadc6f6c3738b63845d6cc749a9683ee8f565d09b9b4"),
+    (0x00315465, 356, "a56cc1dfeaea537dbc01851bc5886a022055c951bb8d33abb40ad3308083831b"),
     (0x00232BE0, 349, "104cde5ad565a5444dd515a4744d7bd78ce63290caed96243dfc37262547c65c"),
     (0x0023D240, 348, "0b216bc764b023224b4a87f6970b2c48788e24296fba1899a0e990a7e7a6d1a9"),
     (0x00224320, 490, "f8076a986c0939e3ffbc01c803cd5c1733ecf4885551129450163a7d8f1ba426"),
@@ -72,6 +74,28 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x00125D4A: "d9402c8b4c2450d8612c",  # Z difference, second base from stack
+    0x00125D54: "d94028d86128",  # Y difference
+    0x00125D5A: "d94024d86124",  # X difference
+    0x00125D60: "d95c24248b442424d9c9d95c241c",  # round X and Z, preserve X word
+    0x00125D6E: "89442428",  # X output word
+    0x00125D76: "d95c24208b5424208954242c",  # round and copy Y word
+    0x00125D82: "8d54242889442430",  # contiguous vector address and Z output word
+    0x00125D8D: "5250",  # PUSH vector address and next argument
+    0x00125D9D: "56e86dd2f8ff",  # third argument push and original call
+
+    0x0031546E: "8b415083c03c8b0083f801",  # guest pointer +0x50; state +0x3c
+    0x0031547B: "bac0f43200",  # default matrix base
+    0x00315482: "8b51488b12",  # two DWORD pointer loads
+    0x0031548C: "b8a8cc3100",  # default scalar base
+    0x00315493: "8b414883c004",  # reload guest word and add four
+    0x00315499: "d94224",  # FLD m32fp matrix +0x24
+    0x0031549F: "d94220",  # FLD m32fp matrix +0x20
+    0x003154A7: "d9421c",  # FLD m32fp matrix +0x1c
+    0x003154DB: "d94230",  # FLD m32fp matrix +0x30
+    0x003154E1: "d9422c",  # FLD m32fp matrix +0x2c
+    0x003154EB: "d84a28",  # FMUL m32fp matrix +0x28
+
     0x00232BEC: "f30f53e0",  # RCPSS initial input
     0x00232BFB: "0f2f0d70d838000f828d000000",  # COMISS / JB including unordered
     0x00232C80: "f30f59c3f30f58cff30f53c9f30f59c1",  # small-path operand order
