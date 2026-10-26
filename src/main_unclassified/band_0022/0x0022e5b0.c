@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* XBE 0x0022E734..0x0022E772: three F32 output words are read by
+ * MOVSS/MOVHPS, summed via SSE and normalized by RSQRTSS; no host pointer
+ * conversion or Ghidra array pseudo-subfields. Original register/virtual
+ * callback and full Xbox runtime ABI remain unverified. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 void FUN_0022e5b0(int param_1,float *param_2,float *param_3)
@@ -17,11 +22,10 @@ void FUN_0022e5b0(int param_1,float *param_2,float *param_3)
   float *pfVar4;
   float fVar5;
   float fVar6;
-  float in_XMM1_Da;
   float fVar7;
   float fVar10;
-  undefined1 auVar8 [16];
-  undefined1 auVar9 [16];
+  float guest_length_sq;
+  float guest_inv_length;
   float local_20;
   float local_10;
   float local_c;
@@ -44,34 +48,34 @@ void FUN_0022e5b0(int param_1,float *param_2,float *param_3)
       local_10 = pfVar4[1];
       local_20 = *pfVar4;
       if (*(int *)(piVar2[3] + 4) == 3) {
-        local_c = (float)piVar2[0x1c6];
-        local_10 = (float)piVar2[0x1c5];
-        local_20 = (float)piVar2[0x1c4];
+        /* Original MOV DWORD [ESI+0x718], [ESI+0x714], [ESI+0x710].
+         * The guest DWORDs contain raw IEEE-754 float bits. */
+        memcpy(&local_c, &piVar2[0x1c6], sizeof local_c);
+        memcpy(&local_10, &piVar2[0x1c5], sizeof local_10);
+        memcpy(&local_20, &piVar2[0x1c4], sizeof local_20);
       }
       if (0.0001 < local_20 * local_20 + local_10 * local_10 + local_c * local_c) {
-        in_XMM1_Da = SQRT(param_3[2] * param_3[2] + param_3[1] * param_3[1] + *param_3 * *param_3) *
-                     (1.0 / fVar1);
-        *param_3 = local_20 * in_XMM1_Da + *param_3;
-        param_3[1] = local_10 * in_XMM1_Da + param_3[1];
-        param_3[2] = local_c * in_XMM1_Da + param_3[2];
+        /* The original x87 FSQRT then FMUL stores the F32 scale before
+         * multiplying the contiguous XYZ values. Extended precision and
+         * exception flags require later runtime comparison. */
+        float scale = (float)(sqrtl((long double)(param_3[2] * param_3[2] +
+                         param_3[1] * param_3[1] + *param_3 * *param_3)) *
+                         (long double)(1.0f / fVar1));
+        *param_3 = local_20 * scale + *param_3;
+        param_3[1] = local_10 * scale + param_3[1];
+        param_3[2] = local_c * scale + param_3[2];
       }
     }
-    fVar1 = *param_3;
-    fVar5 = (float)*(undefined8 *)(param_3 + 1);
-    fVar6 = (float)((ulonglong)*(undefined8 *)(param_3 + 1) >> 0x20);
-    fVar7 = in_XMM1_Da + fVar1 * fVar1;
-    fVar10 = fVar5 * fVar5 + fVar6 * fVar6;
-    auVar9._4_4_ = fVar7;
-    auVar9._0_4_ = fVar10;
-    auVar9._8_4_ = fVar7;
-    auVar9._12_4_ = fVar7;
-    auVar8._4_12_ = auVar9._4_12_;
-    auVar8._0_4_ = fVar10 + fVar1 * fVar1;
-    if (2e-05 <= auVar8._0_4_) {
-      auVar9 = rsqrtss(auVar8,auVar8);
-      fVar7 = auVar9._0_4_;
-      *param_3 = fVar1 * fVar7;
-      *(ulonglong *)(param_3 + 1) = CONCAT44(fVar6 * fVar7,fVar5 * fVar7);
+    /* Original MOVSS [output+0], MOVHPS [output+4], MULPS/SHUFPS,
+     * ADDPS/ADDSS and guarded RSQRTSS across three contiguous words. */
+    guest_length_sq = (param_3[1] * param_3[1] +
+                       param_3[2] * param_3[2]) +
+                       param_3[0] * param_3[0];
+    if (guest_length_sq >= 2e-05f) {
+      guest_inv_length = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(guest_length_sq)));
+      param_3[0] *= guest_inv_length;
+      param_3[1] *= guest_inv_length;
+      param_3[2] *= guest_inv_length;
     }
   }
   return;
