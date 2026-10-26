@@ -35,6 +35,7 @@ on:
       - 'scripts/verify_20261026_x86_word_and_vector_repairs.py'
       - 'scripts/verify_20261026_f64_mantissa_and_float3_sse.py'
       - 'scripts/verify_20261026_two_float3_rsqrtss.py'
+      - 'scripts/verify_20261026_collision_float3_rsqrtss.py'
       - 'tests/test_20261026_rsqrtss_float3.c'
       - 'scripts/verify_002c5a40_sse_guest_vectors.py'
       - 'scripts/verify_x87_three_stream_argument_dwords.py'
@@ -348,6 +349,8 @@ jobs:
         run: python3 scripts/verify_20261026_f64_mantissa_and_float3_sse.py --root .
       - name: Check two original XYZ RSQRTSS scalar reconstructions (source and Clang fixture)
         run: python3 scripts/verify_20261026_two_float3_rsqrtss.py --root .
+      - name: Verify collision-math guest XYZ float3 and RSQRTSS source contracts
+        run: python3 scripts/verify_20261026_collision_float3_rsqrtss.py --root .
       - name: Verify 2026-10-26 dataflow repairs (source-only; private XBE tested locally)
         run: python3 scripts/verify_20261026_x86_word_and_vector_repairs.py --repo .
       - name: Verify 0x002c5a40 guest SSE lanes and pointer DWORD (source-only)
