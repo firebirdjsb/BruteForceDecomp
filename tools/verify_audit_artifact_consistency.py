@@ -33,7 +33,34 @@ def read_csv(path: Path, fields: tuple[str, ...]) -> list[dict[str, str]]:
     return rows
 
 
-def verify(folder: Path, expected_total: int = 13694) -> dict[str, int]:
+def read_canonical_inventory(path: Path, expected_total: int) -> dict[str, tuple[str, str]]:
+    """Load the independently tracked address/body/source digest inventory.
+
+    This checks artifact-to-repository provenance, NOT original XBE bytes.
+    """
+    with path.open(encoding="utf-8-sig", newline="") as stream:
+        reader = csv.DictReader(stream)
+        required = {"entry", "original_body_sha256", "c_sha256"}
+        if not required.issubset(reader.fieldnames or ()):
+            raise ValueError("Canonical inventory lacks entry/body/source digest columns")
+        entries: dict[str, tuple[str, str]] = {}
+        for row in reader:
+            entry = row.get("entry")
+            body = row.get("original_body_sha256")
+            source = row.get("c_sha256")
+            if (not isinstance(entry, str) or not ENTRY.fullmatch(entry)
+                    or entry in entries or not isinstance(body, str)
+                    or not DIGEST.fullmatch(body) or not isinstance(source, str)
+                    or not DIGEST.fullmatch(source)):
+                raise ValueError(f"Malformed or duplicate canonical inventory row: {entry}")
+            entries[entry] = (body.lower(), source.lower())
+    if len(entries) != expected_total:
+        raise ValueError("Canonical inventory does not contain the exact expected entry count")
+    return entries
+
+
+def verify(folder: Path, expected_total: int = 13694,
+           inventory_path: Path | None = None) -> dict[str, int]:
     report = json.loads((folder / "c11_sweep_report.json").read_text(encoding="utf-8"))
     summary = json.loads((folder / "failure_triage.json").read_text(encoding="utf-8"))
     sha = report.get("checked_commit_sha")
@@ -49,6 +76,8 @@ def verify(folder: Path, expected_total: int = 13694) -> dict[str, int]:
     counts = report.get("counts")
     if not isinstance(counts, dict) or set(counts) != {"pass", "fail"} or any(type(v) is not int or v < 0 for v in counts.values()):
         raise ValueError("Invalid terminal counts")
+    canonical = (read_canonical_inventory(inventory_path, expected_total)
+                 if inventory_path is not None else None)
     seen = set()
     actual = Counter()
     failed = []
@@ -69,6 +98,15 @@ def verify(folder: Path, expected_total: int = 13694) -> dict[str, int]:
                 raise ValueError(f"Missing or malformed {field}: {entry}")
         if type(result.get("c_sha256_matches_inventory")) is not bool:
             raise ValueError(f"Invalid C source digest comparison: {entry}")
+        if canonical is not None:
+            if entry not in canonical:
+                raise ValueError(f"Audited entry absent from canonical inventory: {entry}")
+            original_body, historical_source = canonical[entry]
+            if result["original_body_sha256"].lower() != original_body:
+                raise ValueError(f"Original body digest disagrees with canonical inventory: {entry}")
+            if result["c_sha256_matches_inventory"] != (
+                    result["c_sha256_actual"].lower() == historical_source):
+                raise ValueError(f"C source drift flag disagrees with canonical inventory: {entry}")
         source_drift += not result["c_sha256_matches_inventory"]
         seen.add(entry)
         actual[status] += 1
@@ -77,6 +115,8 @@ def verify(folder: Path, expected_total: int = 13694) -> dict[str, int]:
             if not isinstance(errors, list) or not errors or not isinstance(errors[0], str) or not errors[0]:
                 raise ValueError(f"Missing first diagnostic: {entry}")
             failed.append({"entry": entry, "status": status, "first_error": errors[0]})
+    if canonical is not None and seen != set(canonical):
+        raise ValueError("Audited entries do not exactly match canonical inventory")
     if type(report.get("c_source_hash_drift")) is not int or report["c_source_hash_drift"] != source_drift:
         raise ValueError("C source digest drift count disagrees with per-function records")
     if dict(actual) != counts:
@@ -126,9 +166,12 @@ def verify(folder: Path, expected_total: int = 13694) -> dict[str, int]:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--artifact-dir", type=Path, required=True)
+    parser.add_argument("--inventory", type=Path,
+                        default=Path("metadata/bulk_13694_inventory.csv"),
+                        help="Canonical repository inventory; required for independent entry/digest cross-check")
     args = parser.parse_args()
     try:
-        counts = verify(args.artifact_dir)
+        counts = verify(args.artifact_dir, inventory_path=args.inventory)
     except (ValueError, OSError, KeyError, TypeError) as exc:
         parser.exit(1, f"FAIL: inconsistent full-audit artifact: {exc}\n")
     print(f"PASS: {counts['pass']} passing, {counts['fail']} failing, "
