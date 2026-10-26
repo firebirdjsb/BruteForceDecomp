@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h> /* XBE RSQRTSS in XYZ normalization */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 void FUN_00300df0(int param_1,float *param_2,int param_3,float param_4,float param_5)
@@ -26,8 +27,8 @@ void FUN_00300df0(int param_1,float *param_2,int param_3,float param_4,float par
   undefined4 *puVar13;
   float in_XMM1_Da;
   float fVar16;
-  undefined1 auVar14 [16];
-  undefined1 auVar15 [16];
+  float guest_inverse_length;
+  float guest_length_sq;
   float fVar17;
   float fVar18;
   float *local_104;
@@ -252,14 +253,11 @@ LAB_003015ca:
     else if (fVar16 < 1e-16 == (fVar16 == 1e-16)) {
       in_XMM1_Da = in_XMM1_Da + local_f4 * local_f4;
       fVar16 = local_f0 * local_f0 + fStack_ec * fStack_ec;
-      auVar15._4_4_ = in_XMM1_Da;
-      auVar15._0_4_ = fVar16;
-      auVar15._8_4_ = in_XMM1_Da;
-      auVar15._12_4_ = in_XMM1_Da;
-      auVar14._4_12_ = auVar15._4_12_;
-      auVar14._0_4_ = fVar16 + local_f4 * local_f4;
-      auVar15 = rsqrtss(auVar14,auVar14);
-      fVar16 = auVar15._0_4_;
+      /* XBE 0x00301288..0x003012B4: MOVSS/MOVHPS XYZ, MULPS,
+       * SHUFPS/ADDPS/ADDSS, approximate RSQRTSS, then MULPS. */
+      guest_length_sq = (local_f0 * local_f0 + fStack_ec * fStack_ec) + local_f4 * local_f4;
+      guest_inverse_length = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(guest_length_sq)));
+      fVar16 = guest_inverse_length;
       local_f4 = local_f4 * fVar16 * 0.1;
       local_f0 = local_f0 * fVar16 * 0.1;
       fStack_ec = fStack_ec * fVar16 * 0.1;
