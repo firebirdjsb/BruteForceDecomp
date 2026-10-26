@@ -17,15 +17,16 @@ extern uint32_t PTR_LAB_003a3750;
 /* WARNING: Removing unreachable block (ram,0x002a682c) */
 /* WARNING: Removing unreachable block (ram,0x002a6832) */
 
-void FUN_002a6700(int *param_1)
+void FUN_002a6700(int *param_1,float guest_stack_scalar)
 
 {
   int *in_EAX;
   int *piVar1;
   
   (**(code **)(*param_1 + 0xc))();
-  if ((float)param_1 == 1.0) {
-    piVar1 = (int *)FUN_002ea01d();
+  /* FLD m32fp loads the second incoming DWORD (ESP+0x1c / +0x20). */
+  if (guest_stack_scalar == 1.0f) {
+    piVar1 = (int *)FUN_002ea01d(0x10);
     if (piVar1 == (int *)0x0) {
       piVar1 = (int *)0x0;
     }
@@ -35,14 +36,14 @@ void FUN_002a6700(int *param_1)
       *piVar1 = (int)&PTR_LAB_003a3750;
       piVar1[3] = 1;
     }
-    FUN_002a6520();
+    FUN_002a6520(guest_stack_scalar);
     (**(code **)(*param_1 + 0x14))();
     if (piVar1 != (int *)0x0) {
       (**(code **)(*piVar1 + 8))();
       return;
     }
   }
-  else if (1.1 <= (float)param_1) {
+  else if (1.1f <= guest_stack_scalar) {
     (**(code **)(*in_EAX + 0x10))();
     (**(code **)(*param_1 + 0x34))();
     (**(code **)(*in_EAX + 0x10))();
