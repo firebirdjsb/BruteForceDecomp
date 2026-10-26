@@ -6,14 +6,15 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_003c05cc;
-extern uint32_t _DAT_003c05b8;
-extern uint32_t _DAT_003c05bc;
-extern uint32_t _DAT_003c05c8;
-extern uint32_t *_DAT_003c05d0;
-extern uint32_t *_DAT_004699e4;
+extern float DAT_003c05cc; /* XBE 0x12C9DA MOV DWORD, then 0x12C9EE MINSS */
+extern float _DAT_003c05b8; /* XBE 0x12CA8A FLD DWORD */
+extern float _DAT_003c05bc; /* XBE 0x12CA82 FLD DWORD */
+extern float _DAT_003c05c8; /* XBE 0x12C91A FDIV DWORD */
+extern float _DAT_003c05d0; /* XBE 0x12C985 FMUL DWORD */
+extern float _DAT_004699e4; /* XBE 0x12C98E FMUL DWORD */
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
@@ -28,11 +29,9 @@ void FUN_0012c6c0(int param_1,float *param_2,float param_3,float *param_4)
   float10 fVar4;
   float10 extraout_ST0;
   float10 fVar5;
-  float in_XMM1_Da;
   float fVar6;
-  undefined1 auVar7 [16];
   float fVar9;
-  undefined1 auVar8 [16];
+  float guest_normalize_squared;
   float local_38;
   float fStack_30;
   float local_2c;
@@ -45,26 +44,24 @@ void FUN_0012c6c0(int param_1,float *param_2,float param_3,float *param_4)
   local_28 = param_2[1];
   local_2c = *param_2;
   if (1.1920929e-07 < param_3) {
-    auVar7 = rcpss(ZEXT416((uint)param_3),ZEXT416((uint)param_3));
-    in_XMM1_Da = auVar7._0_4_;
-    local_2c = local_2c * in_XMM1_Da;
-    local_28 = local_28 * in_XMM1_Da;
-    fStack_24 = fStack_24 * in_XMM1_Da;
+    /* Original 0x12C702 MOVSS, 0x12C70A RCPSS, 0x12C71A MULPS. */
+    float guest_rcp = _mm_cvtss_f32(_mm_rcp_ss(_mm_set_ss(param_3)));
+    local_2c *= guest_rcp;
+    local_28 *= guest_rcp;
+    fStack_24 *= guest_rcp;
   }
   fStack_30 = *(float *)(param_1 + 0x5f0);
   local_38 = *(float *)(param_1 + 0x5e8);
-  fVar6 = in_XMM1_Da + local_38 * local_38;
-  fVar9 = *(float *)(param_1 + 0x5ec) * *(float *)(param_1 + 0x5ec) + fStack_30 * fStack_30;
-  auVar7._4_4_ = fVar6;
-  auVar7._0_4_ = fVar9;
-  auVar7._8_4_ = fVar6;
-  auVar7._12_4_ = fVar6;
-  auVar8._4_12_ = auVar7._4_12_;
-  auVar8._0_4_ = fVar9 + local_38 * local_38;
-  if (2e-05 <= auVar8._0_4_) {
-    auVar7 = rsqrtss(auVar8,auVar8);
-    local_38 = local_38 * auVar7._0_4_;
-    fStack_30 = fStack_30 * auVar7._0_4_;
+  /* XBE 0x12C770..0x12C7AB: three F32 lanes squared, horizontally
+   * summed, RSQRTSS normalized and broadcast with SHUFPS/MULPS. */
+  fVar9 = *(float *)(param_1 + 0x5ec) * *(float *)(param_1 + 0x5ec) +
+          fStack_30 * fStack_30;
+  guest_normalize_squared = fVar9 + local_38 * local_38;
+  if (2e-05f <= guest_normalize_squared) {
+    float guest_inverse_norm = _mm_cvtss_f32(
+        _mm_rsqrt_ss(_mm_set_ss(guest_normalize_squared)));
+    local_38 *= guest_inverse_norm;
+    fStack_30 *= guest_inverse_norm;
   }
   fVar5 = (float10)fpatan((float10)*(float *)(param_1 + 0x5c4),(float10)*(float *)(param_1 + 0x5dc))
   ;
@@ -126,10 +123,9 @@ void FUN_0012c6c0(int param_1,float *param_2,float param_3,float *param_4)
       local_18 = *(float *)(**(int **)(param_1 + 0x21c) + 8);
     }
     if (0.001 <= ABS(local_18)) {
-      fVar6 = local_14 / local_18;
-      if (DAT_003c05cc <= local_14 / local_18) {
-        fVar6 = DAT_003c05cc;
-      }
+      /* XBE 0x12C9EE MINSS: the DWORD constant is F32, not uint32. */
+      fVar6 = _mm_cvtss_f32(_mm_min_ss(
+          _mm_set_ss(local_14 / local_18), _mm_set_ss(DAT_003c05cc)));
       fVar4 = (float10)fVar6;
     }
     else {
