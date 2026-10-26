@@ -6,7 +6,17 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_001665c0(int param_1,int param_2)
+/* Original 0x001665C0 receives a 0x520-byte aggregate by value in
+ * incoming x86 stack storage. At 0x00166657 the source LEA reaches
+ * entry ESP+0x0C, and at 0x00166649 the load uses source +0x51C.
+ * The callee 0x001662B0 reads source offsets through +0x4A8.
+ * This is not a 4-byte third argument; native aggregate ABI pending. */
+typedef struct bf_guest_heap_record_520 {
+  uint32_t word[0x148];
+} bf_guest_heap_record_520;
+_Static_assert(sizeof(bf_guest_heap_record_520) == 0x520,
+               "original x86 incoming record is 0x520 bytes");
+void FUN_001665c0(int param_1,int param_2,bf_guest_heap_record_520 param_3)
 
 {
   int iVar1;
@@ -26,7 +36,11 @@ void FUN_001665c0(int param_1,int param_2)
   if (iVar2 == param_2) {
     FUN_001666b0(param_2 * 0x520 + -0x520 + param_1);
   }
-  FUN_001662b0(&stack0x0000000c);
+  /* x86 0x00166657: LEA EAX,[ESP+0x544], after saved registers,
+   * PUSH EDX and SUB ESP,0x520. This addresses param_3[0] in the
+   * caller-owned original 0x520-byte aggregate, passed by reference
+   * to FUN_001662B0. Host native calling convention is unverified. */
+  FUN_001662b0(param_3.word);
   FUN_001668f0(in_EAX);
   iVar2 = 0x13;
   do {
