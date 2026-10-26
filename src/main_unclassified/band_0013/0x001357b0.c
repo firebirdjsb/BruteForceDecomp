@@ -15,6 +15,8 @@ void FUN_001357b0(int *param_1,int param_2,uint param_3,int param_4)
   int *piVar1;
   int *piVar2;
   float fVar3;
+  float guest_delta_y;
+  uint32_t guest_delta_y_word;
   uint uVar4;
   int iVar5;
   int iVar6;
@@ -105,10 +107,13 @@ void FUN_001357b0(int *param_1,int param_2,uint param_3,int param_4)
           iVar6 = (**(code **)(*piVar1 + 0x40))();
           iVar5 = (**(code **)(*param_1 + 0x40))();
           fStack_1c = *(float *)(iVar5 + 0x2c) - *(float *)(iVar6 + 0x2c);
-          local_44 = (int *)(*(float *)(iVar5 + 0x28) - *(float *)(iVar6 + 0x28));
+          /* FSTP DWORD [ESP+0x24] stores binary32 delta Y, not a pointer. */
+          guest_delta_y = *(float *)(iVar5 + 0x28) - *(float *)(iVar6 + 0x28);
           fVar3 = *(float *)(iVar5 + 0x24) - *(float *)(iVar6 + 0x24);
-          fVar3 = (float)local_44 * (float)local_44 + fStack_1c * fStack_1c + fVar3 * fVar3;
-          piStack_20 = local_44;
+          fVar3 = guest_delta_y * guest_delta_y + fStack_1c * fStack_1c + fVar3 * fVar3;
+          /* MOV EDX,[ESP+0x1c] / MOV [ESP+0x4c],EDX forwards raw float bits. */
+          memcpy(&guest_delta_y_word, &guest_delta_y, sizeof guest_delta_y_word);
+          piStack_20 = (int *)(uintptr_t)guest_delta_y_word;
           if (fVar3 < local_48) {
             local_48 = fVar3;
             if (local_50 == (int *)0x0) {
