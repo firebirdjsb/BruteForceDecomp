@@ -11,21 +11,28 @@ undefined4 FUN_00058740(void)
 {
   float fVar1;
   undefined2 extraout_var;
-  float unaff_EBX;
   undefined4 *unaff_EDI;
-  float fStack_20;
-  float afStack_1c [2];
-  float fStack_14;
-  undefined1 local_c [12];
-  
+  /* Original entry-ESP-relative locations, after SUB ESP,0x24 and PUSH EBX:
+   * [ESP+0x04] = entry ESP-0x24: normalised difference from FUN_0004c480.
+   * [ESP+0x10] = entry ESP-0x18: normalised copy from FUN_0004c530.
+   * [ESP+0x1c] = entry ESP-0x0c: first virtual method's 12-byte output.
+   * The regions are DISJOINT. Each helper writes exactly three F32 words;
+   * its implicit EAX/ESI register inputs still require ABI reconstruction. */
+  float relative_direction[3];
+  float reference_direction[3];
+  undefined1 local_c[12];
+
   (**(code **)(*(int *)(unaff_EDI[2] + 0x1b4) + 0x34))(local_c);
-  FUN_0004c530(afStack_1c);
+  /* 0x58759 passes reference_direction; EAX points at local_c on entry. */
+  FUN_0004c530(reference_direction);
   (**(code **)(*(int *)unaff_EDI[2] + 0x40))();
-  /* x86 0x00058772: LEA ECX,[ESP+4], then PUSH ECX at 0x00058779.
-   * This is the beginning of the existing 12-byte local_c region,
-   * not a fabricated host address for Ghidra's stack0xffffffd8. */
-  FUN_0004c480(local_c);
-  fVar1 = unaff_EBX * afStack_1c[0] + fStack_20 * fStack_14;
+  /* 0x58772 passes relative_direction, not local_c. Original 0x4c480
+   * writes [ECX+0], [ECX+4], [ECX+8] and normalises X/Z. */
+  FUN_0004c480(relative_direction);
+  /* 0x5877F: relative[2]*reference[2]; 0x5878A: relative[0]*reference[0].
+   * Both helpers set Y=0. No incoming guest EBX float is used. */
+  fVar1 = relative_direction[2] * reference_direction[2] +
+          relative_direction[0] * reference_direction[0];
   if (fVar1 < 0.25) {
     unaff_EDI[0xd] = 0x3fc00000;
     unaff_EDI[0xb] = 0x3fc00000;
