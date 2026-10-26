@@ -19,6 +19,7 @@ void FUN_0023c1d0(int *param_1,undefined4 param_2,int *param_3,int *param_4,char
   float *pfVar7;
   int *piVar8;
   float fVar9;
+  uint32_t guest_item_word;
   undefined4 *unaff_EDI;
   int *local_ac;
   undefined4 local_9c;
@@ -59,8 +60,10 @@ void FUN_0023c1d0(int *param_1,undefined4 param_2,int *param_3,int *param_4,char
     pfVar7 = pfVar2 + 2;
     do {
       piVar8 = param_4;
+      /* MOV EBP,[EBX-4] loads a guest 32-bit pointer, not a float value. */
+      memcpy(&guest_item_word, pfVar7 - 1, sizeof guest_item_word);
       if (param_4 == (int *)0x0) {
-        piVar8 = (int *)pfVar7[-1];
+        piVar8 = (int *)(uintptr_t)guest_item_word;
       }
       if (piVar8 != (int *)0x0) {
         if ((param_5 == '\0') && (0.0 <= *pfVar7)) {
@@ -76,7 +79,8 @@ void FUN_0023c1d0(int *param_1,undefined4 param_2,int *param_3,int *param_4,char
           local_ac = piVar8;
         }
         unaff_EDI[0xb] = pfVar7 + -2;
-        unaff_EDI[6] = pfVar7[-1];
+        /* MOV EAX,[EBX-4] / MOV [EDI+0x18],EAX forwards the same bits. */
+        unaff_EDI[6] = guest_item_word;
         unaff_EDI[5] = ((-8 - (int)pfVar2) + (int)pfVar7) / 0x2c;
         fVar4 = pfVar7[6];
         for (fVar9 = pfVar7[5]; fVar9 != fVar4; fVar9 = (float)((int)fVar9 + 0x30)) {
