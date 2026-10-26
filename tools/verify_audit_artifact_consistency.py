@@ -15,6 +15,7 @@ from triage_c11_failures import category
 
 ENTRY = re.compile(r"0x[0-9a-f]{8}\Z")
 SHA = re.compile(r"[0-9a-f]{40}\Z")
+DIGEST = re.compile(r"[0-9a-fA-F]{64}\Z")
 STACK = re.compile(r"'(stack0x[0-9a-fA-F]{8})'")
 TRIAGE = ("entry", "category", "first_error")
 SYNTAX = ("entry", "status", "first_error")
@@ -51,12 +52,24 @@ def verify(folder: Path, expected_total: int = 13694) -> dict[str, int]:
     seen = set()
     actual = Counter()
     failed = []
+    source_drift = 0
     for result in results:
         entry, status = result.get("entry"), result.get("status")
         if not isinstance(entry, str) or not ENTRY.fullmatch(entry) or entry in seen:
             raise ValueError(f"Duplicate or malformed entry: {entry}")
         if status not in ("pass", "fail"):
             raise ValueError(f"Nonterminal function status: {entry}")
+        # Check each provenance record, not just aggregate counters.
+        # Source/metadata agreement is NOT independent original-XBE verification.
+        if result.get("body_provenance") != "match":
+            raise ValueError(f"Original body-hash label not matched: {entry}")
+        for field in ("original_body_sha256", "c_sha256_actual"):
+            digest = result.get(field)
+            if not isinstance(digest, str) or not DIGEST.fullmatch(digest):
+                raise ValueError(f"Missing or malformed {field}: {entry}")
+        if type(result.get("c_sha256_matches_inventory")) is not bool:
+            raise ValueError(f"Invalid C source digest comparison: {entry}")
+        source_drift += not result["c_sha256_matches_inventory"]
         seen.add(entry)
         actual[status] += 1
         if status == "fail":
@@ -64,6 +77,8 @@ def verify(folder: Path, expected_total: int = 13694) -> dict[str, int]:
             if not isinstance(errors, list) or not errors or not isinstance(errors[0], str) or not errors[0]:
                 raise ValueError(f"Missing first diagnostic: {entry}")
             failed.append({"entry": entry, "status": status, "first_error": errors[0]})
+    if type(report.get("c_source_hash_drift")) is not int or report["c_source_hash_drift"] != source_drift:
+        raise ValueError("C source digest drift count disagrees with per-function records")
     if dict(actual) != counts:
         raise ValueError("Report counts disagree with function results")
     failed.sort(key=lambda row: row["entry"])
