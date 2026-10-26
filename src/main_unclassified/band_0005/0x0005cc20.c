@@ -30,7 +30,8 @@ void FUN_0005cc20(int param_1,int *param_2,int *param_3)
   int iStack_38;
   int *piStack_34;
   int *apiStack_30 [3];
-  int *piStack_24;
+  float guest_delta_z; /* 0x0005CCB2 FSTP DWORD [ESP+0x28] */
+  float guest_delta_x; /* 0x0005CCAC FSTP DWORD [ESP+0x24] */
   int *piStack_1c;
   int *piStack_18;
   undefined4 uStack_14;
@@ -60,13 +61,14 @@ void FUN_0005cc20(int param_1,int *param_2,int *param_3)
   uStack_14 = 0;
   iVar9 = (**(code **)(*param_3 + 0x40))();
   iVar10 = (**(code **)(*param_2 + 0x40))();
-  piStack_24 = (int *)(*(float *)(iVar10 + 0x2c) - *(float *)(iVar9 + 0x2c));
+  guest_delta_z = *(float *)(iVar10 + 0x2c) - *(float *)(iVar9 + 0x2c);
   bVar4 = false;
   fVar1 = *(float *)(iVar10 + 0x28) - *(float *)(iVar9 + 0x28);
-  piStack_34 = (int *)(*(float *)(iVar10 + 0x24) - *(float *)(iVar9 + 0x24));
-  apiStack_30[0] = piStack_24;
+  guest_delta_x = *(float *)(iVar10 + 0x24) - *(float *)(iVar9 + 0x24);
+  /* The draft's apiStack_30[0] assignment was a spurious Ghidra
+   * overlap of the saved z float, not a distinct guest pointer write. */
   if (2500.0 < fVar1 * fVar1 +
-               (float)piStack_24 * (float)piStack_24 + (float)piStack_34 * (float)piStack_34) {
+               guest_delta_z * guest_delta_z + guest_delta_x * guest_delta_x) {
     bVar4 = true;
     FUN_0001b650();
     FUN_0001b650();
