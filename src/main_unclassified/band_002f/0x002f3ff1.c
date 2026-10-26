@@ -29,10 +29,15 @@ undefined4 * XAPILIB__XFindFirstSaveGame(char *param_1)
     cVar1 = *pcVar2;
     pcVar2 = pcVar2 + 1;
   } while (cVar1 != '\0');
+  /* Original 0x002F402A: LEA ECX,[EBP+EBX-0x104], where EBX
+   * holds the string length. The constant '*' plus terminating NUL
+   * are copied from 0x0038751C to local_108 + length; not to a
+   * synthetic host address stack0xffc789dc. */
+  char *guest_append_cursor = local_108 + (pcVar2 - (local_108 + 1));
   pcVar3 = "*";
   do {
     cVar1 = *pcVar3;
-    pcVar3[(int)(&stack0xffc789dc + ((int)pcVar2 - (int)(local_108 + 1)))] = cVar1;
+    *guest_append_cursor++ = cVar1;
     pcVar3 = pcVar3 + 1;
   } while (cVar1 != '\0');
   puVar4 = (undefined4 *)FUN_002f46db();
