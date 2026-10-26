@@ -20,12 +20,18 @@ int FUN_0034031b(int param_1,undefined4 param_2,uint param_3,undefined4 *param_4
   int local_14;
   byte *local_c;
   int *local_8;
+  /* XBE: EAX=0x7d0 at call 0x002ebea0 (stack probe); EDI=ESP,
+   * ECX=0x1f4, REP STOSD. This local mirrors the 2000 guest scratch
+   * bytes, NOT the guest ESP address or an established host-call ABI.
+   * Original RET 0x1c cleanup; register/caller contracts remain ABI_UNVERIFIED. */
+  undefined4 guest_stack_words[500];
+
   
   uVar2 = 0;
   local_8 = (int *)0x0;
   local_c = (byte *)0x0;
   FUN_002ebea0();
-  puVar4 = (undefined4 *)&stack0xffffff9c;
+  puVar4 = guest_stack_words;
   for (iVar1 = 500; iVar1 != 0; iVar1 = iVar1 + -1) {
     *puVar4 = 0;
     puVar4 = puVar4 + 1;
