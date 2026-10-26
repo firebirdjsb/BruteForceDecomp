@@ -103,6 +103,7 @@ on:
       - 'tools/test_check_published_progress.py'
       - 'tools/test_guest_stack_repair.py'
       - 'scripts/verify_000f0480_guest_output_word.py'
+      - 'scripts/verify_000f7230_guest_slots.py'
       - 'tools/verify_incoming_stack_words.py'
       - 'tests/guest_frame_contract.c'
       - 'tools/update_progress.py'
@@ -252,6 +253,8 @@ jobs:
           /tmp/bf_guest_frame_test
           clang -std=c11 -Wall -Wextra -Werror -pedantic -O2 -DNDEBUG tests/guest_frame_contract.c -o /tmp/bf_guest_frame_test_release
           /tmp/bf_guest_frame_test_release
+      - name: Verify 0x000F7230 adjacent x86 guest output slots and Clang C11
+        run: python3 scripts/verify_000f7230_guest_slots.py --root .
       - name: Verify 0x000F0480 shared output-word alias (source-only CI)
         run: python3 scripts/verify_000f0480_guest_output_word.py --root .
       - name: Verify 0x000F5510 first incoming guest DWORD alias (source-only CI)
