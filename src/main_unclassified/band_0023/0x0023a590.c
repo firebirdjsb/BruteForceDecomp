@@ -40,6 +40,7 @@ int FUN_0023a590(void)
   int iStack_c;
   int *local_8;
   undefined4 local_4;
+  uint32_t guest_schema_output = 0; /* 32-bit Xbox callback output slot */
   
   local_18[0] = (int *)0x0;
   local_8 = (int *)0x8;
@@ -65,7 +66,10 @@ int FUN_0023a590(void)
       }
       return 0;
     }
-    (**(code **)(*local_8 + 0x1c))(local_8,&stack0xffffffd0);
+    /* 0x0023A63C loads the interface from [ESP+0x38]; 0x0023A642
+     * takes the address of the output DWORD at [ESP+0x10].
+     * Keep callback-owned guest storage separate from host pointers. */
+    (**(code **)(*unaff_EDI + 0x1c))(unaff_EDI,&guest_schema_output);
     FUN_00076fc0();
   }
   if (unaff_EDI != (int *)0x0) {
