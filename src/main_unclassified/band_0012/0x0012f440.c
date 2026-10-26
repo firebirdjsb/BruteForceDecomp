@@ -174,7 +174,7 @@ LAB_0012f63a:
               else {
                 piVar17 = *(int **)(piVar17[4] + 100);
               }
-            } while (uStack_54._3_1_ == '\0');
+            } while ((uint8_t)(uStack_54 >> 24) == 0);
           }
           uStack_4c = uStack_4c + 0x14;
         } while (uStack_4c != local_50[99]);
