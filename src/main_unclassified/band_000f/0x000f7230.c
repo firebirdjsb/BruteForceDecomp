@@ -20,6 +20,11 @@ undefined1 FUN_000f7230(void)
   int iVar6;
   undefined1 uVar7;
   undefined1 uVar8;
+  /* At 0x000F7281 and 0x000F729D, LEA [ESP+0x10] addresses the
+   * same guest DWORD below the adjacent 0x20 slot. The latter aliases
+   * the pre-existing pppuStack_20 storage at 0x000F72D2/0x000F72D7.
+   * Source draft retains the unverified virtual-call ABI. */
+  uint32_t guest_output_dword;
   undefined4 ***pppuStack_20;
   undefined1 local_1c [4];
   undefined2 local_18;
@@ -39,15 +44,15 @@ undefined1 FUN_000f7230(void)
     if (uStack_c < 8) {
       ppppuVar4 = &pppuStack_20;
     }
-    cVar3 = FUN_00102300(ppppuVar4,0,&stack0xffffffd4);
+    cVar3 = FUN_00102300(ppppuVar4,0,&guest_output_dword);
     uVar8 = uVar7;
     if (cVar3 == '\x01') {
-      (**(code **)(*piVar1 + 0x1bc))(&stack0xffffffd4);
+      (**(code **)(*piVar1 + 0x1bc))(&guest_output_dword);
       cVar3 = FUN_00102120();
       if (cVar3 != '\0') {
         iVar5 = (**(code **)(*piVar1 + 0xdc))(1);
         if (iVar5 != 0) {
-          FUN_00102210(&stack0xffffffd4,&stack0xffffffd8);
+          FUN_00102210(&guest_output_dword,&pppuStack_20);
           iVar2 = *piVar1;
           iVar6 = (**(code **)(*DAT_00469b58 + 0x48))();
           (**(code **)(iVar2 + 0x230))(*(undefined4 *)(iVar6 + 0x50));
