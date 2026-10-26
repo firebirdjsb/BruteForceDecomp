@@ -35,6 +35,11 @@ INSTRUCTIONS = (
     (0x0029537a, "8d842400020000"),
     (0x002ea9c1, "8d4514"),
     (0x002eaa91, "8d4510"),
+    (0x0029539a, "8b0d88984600"),
+    (0x002953a0, "8b4118"),
+    (0x002953a6, "85c0"),
+    (0x002953aa, "6a0150"),
+    (0x002953ad, "e85a650500"),
 )
 
 def uncomment(source):
@@ -53,6 +58,13 @@ def verify_source(root):
         assert call in active, address
         assert legacy not in active, address
         print(f"PASS 0x{address}: original incoming DWORD address recovered")
+    jump_source = uncomment(
+        (root / "src/main_unclassified/band_0029/0x00295370.c").read_text(encoding="utf-8"))
+    assert "__jmp_buf_tag" not in jump_source
+    assert "uint32_t guest_jump_context" in jump_source
+    assert "*(uint32_t *)(uintptr_t)(DAT_00469888 + UINT32_C(0x18))" in jump_source
+    assert "_longjmp((void *)(uintptr_t)guest_jump_context,1);" in jump_source
+    print("PASS 0x00295370: one guest 32-bit jump-context word, no glibc host type")
     print("PASS: four source contracts, original Xbox ABI still unverified")
 
 def verify_xbe(path):
@@ -65,7 +77,7 @@ def verify_xbe(path):
         got = raw[start:start + len(expected)]
         assert got == expected, f"0x{va:08x}: expected {hexbytes}, found {got.hex()}"
         print(f"PASS x86 0x{va:08x}: {hexbytes}")
-    print("PASS: seven original XBE instruction checks")
+    print("PASS: twelve original XBE instruction checks")
 
 def main():
     parser = argparse.ArgumentParser()
