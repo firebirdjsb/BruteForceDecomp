@@ -21,7 +21,8 @@ void FUN_000c5330(void)
   int *in_ECX;
   int unaff_ESI;
   float10 fVar10;
-  int *local_40;
+  float guest_scale = 256.0f; /* MOV [ESP+8],0x43800000 at 0x000C538A */
+  float guest_direction_xyz[3];
   float fStack_1c;
   undefined1 auStack_18 [12];
   undefined1 auStack_c [12];
@@ -35,16 +36,21 @@ void FUN_000c5330(void)
     (**(code **)(*(int *)(in_ECX[0x2a] + 0x1b4) + 0x2c))(auStack_18);
     iVar7 = *(int *)(*(int *)(unaff_ESI + 0xa8) + 0x2e8);
     cVar6 = (**(code **)(*(int *)(iVar7 + 0x144) + 0x20))();
-    local_40 = in_ECX;
     if ((((cVar6 != '\0') && (iVar7 = *(int *)(iVar7 + 0x164), iVar7 != 0)) &&
         (*(int *)(*(int *)(iVar7 + 0xc) + 4) == 0x14)) && (iVar7 != 0)) {
       fVar10 = (float10)FUN_002324c0();
-      local_40 = (int *)(float)fVar10;
+      guest_scale = (float)fVar10; /* XBE 0x000C5417: FSTP DWORD stack scalar */
       FUN_00231720(0);
     }
-    *(float *)(unaff_ESI + 0xac) = fVar4 + (float)local_40 * fStack_1c;
-    *(float *)(unaff_ESI + 0xb0) = (float)local_40 * (float)auStack_18._0_8_ + fVar5;
-    *(float *)(unaff_ESI + 0xb4) = (float)local_40 * SUB84(auStack_18._0_8_,4) + fVar3;
+    /* Original 0x000C544A MOVSS/MOVHPS reads three contiguous float32
+     * direction words at [ESP+0x2c], multiplies each by guest_scale with
+     * MULPS, and adds each result to the original XYZ components.
+     * The callback FUN_00231720 populates this guest stack region through
+     * x86 register arguments; its host signature remains ABI_UNVERIFIED. */
+    memcpy(guest_direction_xyz, auStack_18, sizeof guest_direction_xyz);
+    *(float *)(in_ECX + 0xac) = fVar5 + guest_scale * guest_direction_xyz[0];
+    *(float *)(in_ECX + 0xb0) = fVar3 + guest_scale * guest_direction_xyz[1];
+    *(float *)(in_ECX + 0xb4) = fVar4 + guest_scale * guest_direction_xyz[2];
     return;
   }
   iVar7 = *in_ECX;
