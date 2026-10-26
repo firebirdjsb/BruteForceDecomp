@@ -23,7 +23,7 @@ bool FUN_002ec6bb(uint param_1,double *param_2,uint param_3)
   bool bVar6;
   float10 fVar7;
   float10 fVar8;
-  undefined8 local_14;
+  uint64_t guest_mantissa_bits; /* bitwise IEEE-754 storage at original [EBP-0x10] */
   int local_c;
   uint local_8;
   
@@ -51,26 +51,34 @@ bool FUN_002ec6bb(uint param_1,double *param_2,uint param_3)
           bVar6 = bVar3;
         }
         else {
-          local_14 = (double)((ulonglong)(double)fVar7 & 0xfffffffffffff | 0x10000000000000);
+          /* Original FST QWORD [EBP-0x10], then MOV WORD [EBP-0x0A],AX:
+           * keep the double's bits; this is NOT an integer-to-double conversion. */
+          double guest_double_value = (double)fVar7;
+          memcpy(&guest_mantissa_bits,&guest_double_value,sizeof(guest_mantissa_bits));
+          guest_mantissa_bits =
+              (guest_mantissa_bits & UINT64_C(0x000fffffffffffff)) |
+               UINT64_C(0x0010000000000000);
           if (local_c < -0x3fd) {
             local_c = -0x3fd - local_c;
             do {
-              if ((((ulonglong)local_14 & 1) != 0) && (!bVar6)) {
+              if (((guest_mantissa_bits & UINT64_C(1)) != 0) && (!bVar6)) {
                 bVar6 = bVar3;
               }
-              uVar5 = (uint)local_14 >> 1;
-              if (((ulonglong)local_14 & 0x100000000) != 0) {
-                local_14._3_1_ = (byte)((ulonglong)local_14 >> 0x18) >> 1;
-                local_14._0_3_ = (undefined3)uVar5;
-                local_14._0_4_ = CONCAT13(local_14._3_1_,(undefined3)local_14) | 0x80000000;
-                uVar5 = (uint)local_14;
-              }
-              local_14._0_4_ = uVar5;
-              local_14 = (double)CONCAT44(local_14._4_4_ >> 1,(uint)local_14);
+              /* Original SHR DWORD [EBP-0x10],1; TEST BYTE [EBP-0x0C],1;
+               * OR BYTE [EBP-0x0D],0x80; SHR DWORD [EBP-0x0C],1.
+               * These are two separate 32-bit shifts with the high-word low
+               * bit explicitly carried into bit 31 of the low word. */
+              uint32_t low_word = (uint32_t)guest_mantissa_bits;
+              uint32_t high_word = (uint32_t)(guest_mantissa_bits >> 32);
+              low_word = (low_word >> 1) | ((high_word & 1u) << 31);
+              high_word >>= 1;
+              guest_mantissa_bits = ((uint64_t)high_word << 32) | low_word;
               local_c = local_c + -1;
             } while (local_c != 0);
           }
-          fVar8 = (float10)local_14;
+          double guest_shifted_double;
+          memcpy(&guest_shifted_double,&guest_mantissa_bits,sizeof(guest_shifted_double));
+          fVar8 = (float10)guest_shifted_double;
           if (fVar7 < (float10)0.0) {
             fVar8 = -fVar8;
           }
