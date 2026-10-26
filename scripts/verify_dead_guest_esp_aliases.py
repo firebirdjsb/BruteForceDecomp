@@ -41,7 +41,7 @@ def check_source(root):
         assert f"Entry: 0x{entry}," in source, entry
         assert "Input x86 body SHA-256:" in source, entry
         assert "ABI_UNVERIFIED" in source, entry
-        assert f"XBE 0x{instruction.upper()}" in source, entry
+        assert f"XBE 0x{instruction:08X}" in source, entry
         assert f"stack0x{suffix}" in source, entry
         assert f"stack0x{suffix}" not in active, entry
         assert not re.search(r"\blocal_14\b", active), entry
@@ -59,7 +59,7 @@ def check_xbe(path):
         offset = instruction - 0x10000
         assert raw[offset:offset + 3] == bytes.fromhex("8965f0"), (
             f"0x{entry}: saved guest ESP instruction mismatch")
-        # All nine functions must begin with the original SEH frame prologue.
+        # All eleven functions must begin with the original SEH frame prologue.
         va = int(entry, 16)
         assert raw[va-0x10000:va-0x10000+5] == bytes.fromhex("558bec6aff"), entry
         print(f"PASS 0x{instruction:08x}: MOV [EBP-0x10],ESP")
