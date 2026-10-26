@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Ghidra import-slot label: original push DWORD PTR [0x00386418];
+ * the host link identity and Xbox kernel ABI are NOT verified. */
+extern uint32_t ExEventObjectType_exref;
 undefined4 FUN_0034e109(undefined4 param_1,int param_2,undefined4 *param_3)
 
 {
@@ -18,10 +21,11 @@ undefined4 FUN_0034e109(undefined4 param_1,int param_2,undefined4 *param_3)
   undefined4 *puVar7;
   undefined4 *puVar8;
   undefined4 local_10c [64];
-  int *local_c;
+  /* EBP-8 is one original 32-bit guest word, not a host pointer slot. */
+  uint32_t local_c;
   int local_8;
   
-  local_10c[0]._0_1_ = 0;
+  ((uint8_t *)local_10c)[0] = 0;
   iVar2 = FUN_0034db96(param_1);
   if (iVar2 == 0) {
     uVar3 = 0x271e;
@@ -35,7 +39,7 @@ undefined4 FUN_0034e109(undefined4 param_1,int param_2,undefined4 *param_3)
     else {
       if (param_2 != 0) {
         iVar2 = ObReferenceObjectByHandle(param_2,ExEventObjectType_exref,&local_c);
-        uVar6 = ~-(uint)(iVar2 != 0) & (uint)local_c;
+        uVar6 = ~-(uint)(iVar2 != 0) & local_c;
         puVar5[7] = uVar6;
         if (uVar6 == 0) {
           FUN_0034c6bc(puVar5);
@@ -54,23 +58,27 @@ undefined4 FUN_0034e109(undefined4 param_1,int param_2,undefined4 *param_3)
         puVar7 = (undefined4 *)((int)puVar7 + 1);
         puVar8 = (undefined4 *)((int)puVar8 + 1);
       }
-      local_c = (int *)(local_8 + 0x8b0);
-      iVar2 = *local_c;
-      *local_c = *local_c + 1;
+      local_c = (uint32_t)(local_8 + 0x8b0);
+      iVar2 = *(int *)(uintptr_t)local_c;
+      *(int *)(uintptr_t)local_c = iVar2 + 1;
       puVar5[5] = puVar5 + 0x12;
       *(ushort *)((int)puVar5 + 0x1a) = CONCAT11((char)(iVar2 + 1),(char)((uint)(iVar2 + 1) >> 8));
       puVar5[1] = 0;
       puVar5[3] = 0xffffffff;
-      puVar5[4] = &LAB_0034e0e1;
+      /* Original MOV [EBX+0x10], 0x0034E0E1: guest code VA, not host pointer. */
+      puVar5[4] = UINT32_C(0x0034e0e1);
       *(undefined1 *)((int)puVar5 + 0x19) = 1;
       puVar5[8] = 0x2734;
       *param_3 = puVar5 + 8;
       uVar1 = KeRaiseIrqlToDpcLevel();
-      local_c = (int *)CONCAT31(local_c._1_3_,uVar1);
+      /* Original MOV BYTE PTR [EBP-8], AL; preserve the other 24 bits.
+       * Guest address dereferences above still require native VA translation. */
+      local_c = (local_c & UINT32_C(0xffffff00)) | (uint32_t)uVar1;
       *puVar5 = *(undefined4 *)(local_8 + 0xa88);
       *(undefined4 **)(local_8 + 0xa88) = puVar5;
       FUN_0034ddfb(puVar5);
-      KfLowerIrql();
+      /* Original MOV CL, BYTE PTR [EBP-8] before indirect kernel call. */
+      KfLowerIrql((uint8_t)local_c);
       uVar3 = 0;
     }
   }
