@@ -13,6 +13,7 @@ from pathlib import Path
 import re
 
 from triage_c11_failures import category
+from body_hash_labels import read_body_digest
 from source_layout import source_path
 
 ENTRY = re.compile(r"0x[0-9a-f]{8}\Z")
@@ -110,13 +111,16 @@ def verify(folder: Path, expected_total: int = 13694,
             # Canonical inventory source hashes are historical and may drift;
             # the audit's recorded actual hash must never drift from checkout.
             try:
-                actual_source_digest = hashlib.sha256(
-                    source_path(source_root, entry).read_bytes()
-                ).hexdigest()
-            except OSError as exc:
+                actual_source = source_path(source_root, entry).read_bytes()
+                actual_source_digest = hashlib.sha256(actual_source).hexdigest()
+                embedded_body, conflict = read_body_digest(actual_source.decode("utf-8"))
+            except (OSError, UnicodeError) as exc:
                 raise ValueError(f"Audited C source missing/unreadable: {entry}") from exc
             if result["c_sha256_actual"].lower() != actual_source_digest:
                 raise ValueError(f"Audited C source digest differs from checkout: {entry}")
+            if conflict or embedded_body is None or (
+                    embedded_body.lower() != result["original_body_sha256"].lower()):
+                raise ValueError(f"Embedded original-body provenance differs from audit: {entry}")
         if canonical is not None:
             if entry not in canonical:
                 raise ValueError(f"Audited entry absent from canonical inventory: {entry}")
