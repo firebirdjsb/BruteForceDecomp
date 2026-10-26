@@ -7,11 +7,13 @@ from __future__ import annotations
 import argparse
 from collections import Counter, defaultdict
 import csv
+import hashlib
 import json
 from pathlib import Path
 import re
 
 from triage_c11_failures import category
+from source_layout import source_path
 
 ENTRY = re.compile(r"0x[0-9a-f]{8}\Z")
 SHA = re.compile(r"[0-9a-f]{40}\Z")
@@ -60,12 +62,17 @@ def read_canonical_inventory(path: Path, expected_total: int) -> dict[str, tuple
 
 
 def verify(folder: Path, expected_total: int = 13694,
-           inventory_path: Path | None = None) -> dict[str, int]:
+           inventory_path: Path | None = None,
+           expected_commit: str | None = None,
+           source_root: Path | None = None) -> dict[str, int]:
     report = json.loads((folder / "c11_sweep_report.json").read_text(encoding="utf-8"))
     summary = json.loads((folder / "failure_triage.json").read_text(encoding="utf-8"))
     sha = report.get("checked_commit_sha")
     if not isinstance(sha, str) or not SHA.fullmatch(sha):
         raise ValueError("Missing exact audited commit SHA")
+    if expected_commit is not None:
+        if not SHA.fullmatch(expected_commit) or sha != expected_commit:
+            raise ValueError("Audit report SHA does not match the checked-out commit")
     if report.get("source_tree_entries") != expected_total or report.get("group_index_present") is not True:
         raise ValueError("Incomplete source inventory")
     if any(report.get(field) != 0 for field in ("body_hash_mismatches", "body_hash_missing", "body_hash_unindexed")):
@@ -98,6 +105,18 @@ def verify(folder: Path, expected_total: int = 13694,
                 raise ValueError(f"Missing or malformed {field}: {entry}")
         if type(result.get("c_sha256_matches_inventory")) is not bool:
             raise ValueError(f"Invalid C source digest comparison: {entry}")
+        if source_root is not None:
+            # Bind each compiler result to the actual checked-out C bytes.
+            # Canonical inventory source hashes are historical and may drift;
+            # the audit's recorded actual hash must never drift from checkout.
+            try:
+                actual_source_digest = hashlib.sha256(
+                    source_path(source_root, entry).read_bytes()
+                ).hexdigest()
+            except OSError as exc:
+                raise ValueError(f"Audited C source missing/unreadable: {entry}") from exc
+            if result["c_sha256_actual"].lower() != actual_source_digest:
+                raise ValueError(f"Audited C source digest differs from checkout: {entry}")
         if canonical is not None:
             if entry not in canonical:
                 raise ValueError(f"Audited entry absent from canonical inventory: {entry}")
@@ -169,9 +188,14 @@ def main() -> None:
     parser.add_argument("--inventory", type=Path,
                         default=Path("metadata/bulk_13694_inventory.csv"),
                         help="Canonical repository inventory; required for independent entry/digest cross-check")
+    parser.add_argument("--expected-commit", type=str,
+                        help="Require exact equality with the checked-out 40-hex Git commit")
+    parser.add_argument("--source-root", type=Path,
+                        help="Hash every current C file to bind audit records to checkout")
     args = parser.parse_args()
     try:
-        counts = verify(args.artifact_dir, inventory_path=args.inventory)
+        counts = verify(args.artifact_dir, inventory_path=args.inventory,
+                        expected_commit=args.expected_commit, source_root=args.source_root)
     except (ValueError, OSError, KeyError, TypeError) as exc:
         parser.exit(1, f"FAIL: inconsistent full-audit artifact: {exc}\n")
     print(f"PASS: {counts['pass']} passing, {counts['fail']} failing, "
