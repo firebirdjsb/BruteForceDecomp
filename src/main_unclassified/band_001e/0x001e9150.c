@@ -82,7 +82,9 @@ void FUN_001e9150(void)
   }
   iVar3 = (**(code **)(*DAT_00469908 + 0xc))(DAT_00469908,ppppuVar4,0x80000000,&local_40);
   piVar5 = (int *)0x0;
-  if ((-1 < iVar3) && (iVar3 = FUN_001a2fe0(&stack0xffffffb4), piVar5 = unaff_ESI, -1 < iVar3)) {
+  if ((-1 < iVar3) && (/* XBE 0x001E9294: LEA EAX,[ESP+0x14] after SUB ESP,0x40 and
+        * four saved registers aliases existing DWORD local_3c. */
+       iVar3 = FUN_001a2fe0(&local_3c), piVar5 = unaff_ESI, -1 < iVar3)) {
     FUN_001b1400();
     iVar3 = FUN_0023a790(0xfcf6f7f4,1);
     if (iVar3 != 0) {
