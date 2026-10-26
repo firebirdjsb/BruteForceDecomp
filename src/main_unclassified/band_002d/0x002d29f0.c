@@ -33,6 +33,8 @@ void FUN_002d29f0(int param_1)
   uint local_94;
   float *local_90;
   float *local_8c;
+  int32_t guest_mode_16;
+  int32_t guest_mode_2a;
   uint *local_88;
   float local_84;
   float local_80;
@@ -73,8 +75,12 @@ void FUN_002d29f0(int param_1)
   *(float **)(param_1 + 0x40) = pfVar6;
   iVar3 = param_1 + 8;
   *(int *)(local_94 + 0x88) = *(int *)(local_94 + 0x88) + 1;
-  local_90 = (float *)(int)*(char *)(param_1 + 0x16);
-  local_8c = (float *)(int)*(char *)(param_1 + 0x2a);
+  /* Original 0x002D2A6C/0x002D2A70: MOVSX EAX/EDX,BYTE PTR.
+   * These are signed control selectors, not guest or host pointers.
+   * The later float* variables reuse the decompiler's local names but
+   * hold actual pointers only after the dispatch at LAB_002D2C8B. */
+  guest_mode_16 = (int32_t)*(int8_t *)(uintptr_t)(param_1 + 0x16);
+  guest_mode_2a = (int32_t)*(int8_t *)(uintptr_t)(param_1 + 0x2a);
   uVar5 = *(uint *)(param_1 + 0x2c);
   local_a4 = 0;
   local_a8 = 0.0;
@@ -98,22 +104,22 @@ void FUN_002d29f0(int param_1)
   local_38 = *local_74 + (int)local_74;
   local_64 = 0;
   local_28 = iVar3;
-  if (local_90 == (float *)0x0) {
+  if (guest_mode_16 == 0) {
     FUN_00150930();
 LAB_002d2bbb:
-    switch(local_8c) {
-    case (float *)0x0:
+    switch(guest_mode_2a) {
+    case 0:
       local_14 = 0;
       FUN_00150930();
       FUN_002d1e80(param_1,&local_70,local_20,pfVar6,&local_b0);
       break;
-    case (float *)0x1:
+    case 1:
       FUN_002d1fa0(param_1,&local_70,uVar5,&local_50,pfVar6,&local_b0);
       break;
-    case (float *)0x2:
+    case 2:
       FUN_002d1be0(param_1,&local_70,uVar5,&local_50,pfVar6,&local_b0);
       break;
-    case (float *)0x3:
+    case 3:
       FUN_002d1e80(param_1,&local_70,local_48 + 0x40,pfVar6,&local_b0);
       break;
     default:
@@ -121,11 +127,11 @@ LAB_002d2bbb:
     }
   }
   else {
-    if (local_90 == (float *)0x1) {
+    if (guest_mode_16 == 1) {
       FUN_002d22b0(param_1,local_94,uVar5,&local_38,&local_50,pfVar6,&local_b0);
       goto LAB_002d2c8b;
     }
-    if (local_90 == (float *)0x3) {
+    if (guest_mode_16 == 3) {
       local_6c = *(float *)(local_30 + 0x44);
       local_70 = *(float *)(local_30 + 0x40);
       fStack_68 = *(float *)(local_30 + 0x48);
