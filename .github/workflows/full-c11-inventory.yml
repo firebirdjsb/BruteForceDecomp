@@ -36,6 +36,8 @@ on:
       - 'scripts/verify_20261026_x87_dot_and_xyz_scale.py'
       - 'scripts/verify_0005cc20_guest_x87_deltas.py'
       - 'scripts/verify_0021c940_guest_com_minss.py'
+      - 'scripts/verify_0011c170_x87_delta_storage.py'
+      - 'scripts/verify_0012c020_x87_f32_and_maxss.py'
       - 'scripts/verify_20261026_f64_mantissa_and_float3_sse.py'
       - 'scripts/verify_20261026_two_float3_rsqrtss.py'
       - 'scripts/verify_20261026_collision_float3_rsqrtss.py'
@@ -586,6 +588,10 @@ jobs:
         run: python3 scripts/verify_0005cc20_guest_x87_deltas.py --root .
       - name: Verify 0x0021C940 guest COM stack words and MINSS scalar source contract
         run: python3 scripts/verify_0021c940_guest_com_minss.py --root .
+      - name: Verify 0x0011C170 guest x87 delta storage source contract
+        run: python3 scripts/verify_0011c170_x87_delta_storage.py --root .
+      - name: Verify 0x0012C020 x87 F32 globals and MAXSS source contract
+        run: python3 scripts/verify_0012c020_x87_f32_and_maxss.py --root .
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
       - name: Validate and categorize exact audit failures without XBE assumptions
