@@ -54,7 +54,9 @@ undefined4 FUN_0007fba0(byte *param_1,int *param_2)
           iStack_24 = 0;
           iStack_20 = 0;
           uStack_1c = 0;
-          /* XBE 0x0007FC48..0x0007FC6C: the second argument is the\n           * address of the first DWORD of the local vector triple. */\n          (**(code **)(*unaff_EDI + 0xec))(&uStack_28,&iStack_24);
+          /* XBE 0x0007FC48..0x0007FC6C: the second argument is the
+           * address of the first DWORD of the local vector triple. */
+          (**(code **)(*unaff_EDI + 0xec))(&uStack_28,&iStack_24);
           for (uVar4 = 0; (iStack_24 != 0 && (uVar4 < (uint)(iStack_20 - iStack_24 >> 2)));
               uVar4 = uVar4 + 1) {
             piVar3 = (int *)(iStack_24 + uVar4 * 4);
