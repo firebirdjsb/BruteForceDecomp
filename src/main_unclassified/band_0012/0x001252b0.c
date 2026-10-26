@@ -18,6 +18,11 @@ undefined4 FUN_001252b0(int *param_1,int param_2)
   int *piVar3;
   float fVar4;
   float fVar5;
+  /* XBE 0x00125475: LEA ECX,[ESP+0x10] selects a 16-byte local
+   * region immediately before the 36-byte [ESP+0x20] buffer.
+   * The first guest DWORD is cleared at 0x0012547C before vcall +0xC4.
+   * Callee write extent and EAX register handoff remain ABI_UNVERIFIED. */
+  uint32_t guest_out_40[4];
   undefined1 auStack_30 [36];
   undefined4 uStack_c;
   undefined4 uStack_8;
@@ -70,7 +75,8 @@ undefined4 FUN_001252b0(int *param_1,int param_2)
         if (piVar3[0x7b] != param_1[7]) {
           FUN_0008f6a0(param_1[7]);
         }
-        cVar1 = (**(code **)(*piVar3 + 0xc4))(&stack0xffffffbc);
+        guest_out_40[0] = 0;
+        cVar1 = (**(code **)(*piVar3 + 0xc4))(guest_out_40);
         if (cVar1 != '\0') {
           FUN_0016a760(*(undefined4 *)(*(int *)(iStack_4 + 8) + 0xa44));
         }
