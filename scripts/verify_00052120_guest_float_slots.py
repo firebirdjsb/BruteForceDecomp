@@ -69,8 +69,8 @@ def check_layout():
 def check_i386_thiscall(clang):
     """Check the ABI probe emits x86_thiscallcc, not host cdecl."""
     import tempfile
-    probe = ("typedef void (__attribute__((thiscall)) *fn)(void*,void*,char*,char*);\\n"
-             "void test(fn f, void *s, void *o, char *b) { f(s,o,b,b+16); f(s,o,b+4,b+28); }\\n")
+    probe = ("typedef void (__attribute__((thiscall)) *fn)(void*,void*,char*,char*);\n"
+             "void test(fn f, void *s, void *o, char *b) { f(s,o,b,b+16); f(s,o,b+4,b+28); }\n")
     with tempfile.TemporaryDirectory() as tmp:
         path = Path(tmp) / "thiscall.c"
         path.write_text(probe, encoding="utf-8")
@@ -79,7 +79,7 @@ def check_i386_thiscall(clang):
                               str(path), "-o", "-"],
                              text=True, capture_output=True)
         if run.returncode or run.stdout.count("call x86_thiscallcc") != 2:
-            raise SystemExit("i386 thiscall codegen failed:\\n" + run.stderr)
+            raise SystemExit("i386 thiscall codegen failed:\n" + run.stderr)
 
 
 def main():
