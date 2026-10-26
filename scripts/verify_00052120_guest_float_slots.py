@@ -111,6 +111,9 @@ def main():
             if binary[start:start + len(instruction)] != instruction:
                 raise SystemExit(f"Original x86 instruction mismatch at 0x{address:08x}")
     clang = shutil.which("clang")
+    if not clang:
+        raise SystemExit("clang required for C11 and i386 thiscall verification")
+    check_i386_thiscall(clang)
     if clang:
         flags = ["-std=c11", "-fsyntax-only", "-ferror-limit=4",
                  "-Wno-implicit-function-declaration", "-Wno-int-conversion",
@@ -121,8 +124,8 @@ def main():
         run = subprocess.run(cmd, text=True, capture_output=True)
         if run.returncode:
             raise SystemExit("Focused Clang failed:\n" + run.stderr)
-    print(f"PASS: {len(OPCODES) if args.xbe else 0} authenticated opcode windows, source invariants, and available Clang C11")
-    print("Virtual calls, output-buffer provenance, SSE/x87 runtime and entire ABI remain UNVERIFIED.")
+    print(f"PASS: {len(OPCODES) if args.xbe else 0} opcode windows, output alias fixture, Clang C11 and i386 thiscall")
+    print("Virtual callee identity, complete write lengths, guest registers, x87 precision and native runtime remain unverified.")
 
 if __name__ == "__main__":
     main()
