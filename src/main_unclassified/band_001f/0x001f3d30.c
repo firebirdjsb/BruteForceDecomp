@@ -23,13 +23,17 @@ void FUN_001f3d30(float *param_1,undefined1 *param_2,float *param_3,float *param
   float10 fVar10;
   int local_c;
   int local_8;
+  uint32_t guest_texture_address; /* raw Xbox pointer word in [param_1+0x18] */
+  const uint8_t *guest_texture;
   
-  fVar2 = *(float *)((int)param_1[6] + 8) * 0.5;
+  memcpy(&guest_texture_address, &param_1[6], sizeof guest_texture_address);
+  guest_texture = (const uint8_t *)(uintptr_t)guest_texture_address;
+  fVar2 = *(const float *)(guest_texture + 8) * 0.5f;
   *param_3 = param_6 - (*param_1 - fVar2);
   *param_4 = param_7 - (param_1[1] - fVar2);
   *param_5 = -1;
-  *param_3 = *(float *)param_1[6] * *param_3;
-  *param_4 = *(float *)param_1[6] * *param_4;
+  *param_3 = *(const float *)guest_texture * *param_3;
+  *param_4 = *(const float *)guest_texture * *param_4;
   local_c = (int)*param_3;
   local_8 = (int)*param_4;
   if (local_c < 0) {
@@ -67,7 +71,7 @@ void FUN_001f3d30(float *param_1,undefined1 *param_2,float *param_3,float *param
   uVar6 = FUN_001f3ca0();
   param_2[3] = uVar6;
   fVar3 = *param_1 - fVar2;
-  iVar7 = *(int *)((int)param_1[6] + 0x20);
+  iVar7 = *(const int *)(guest_texture + 0x20);
   fVar2 = param_1[1] - fVar2;
   fVar8 = extraout_ST0 * (float10)*(float *)(iVar7 + 8);
   fVar1 = (float)(fVar8 + (float10)*(float *)(iVar7 + 8));
