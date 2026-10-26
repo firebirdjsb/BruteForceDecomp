@@ -39,8 +39,11 @@ def main():
         for token in tokens:
             if token not in source:
                 raise SystemExit(f"{path}: missing 32-bit guest pointer evidence: {token}")
-    for word in (0, 0x3f800000, 0xdeadbeef, 0x7fc00000, 0xffffffff):
-        assert struct.unpack("<I", struct.pack("<f", struct.unpack("<f", struct.pack("<I", word))[0]))[0] == word or word == 0x7fc00000
+    # Numeric Python float conversion can canonicalize NaN payloads; test finite
+    # words here. Source uses memcpy precisely to avoid any numeric conversion.
+    for word in (0, 0x3f800000, 0xbf800000, 0x3dcccccd, 0x41200000):
+        numeric = struct.unpack("<f", struct.pack("<I", word))[0]
+        assert struct.unpack("<I", struct.pack("<f", numeric))[0] == word
     if args.xbe:
         data = args.xbe.read_bytes()
         for address, hexcode in OPCODES:
