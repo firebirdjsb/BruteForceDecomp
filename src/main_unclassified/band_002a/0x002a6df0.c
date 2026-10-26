@@ -47,10 +47,14 @@ undefined4 FUN_002a6df0(undefined4 param_1,int *param_2)
   (**(code **)(*param_2 + 0x14))();
   for (piVar1 = *(int **)(iStack_c + 0x14); piVar1 != (int *)0x0;
       piVar1 = (int *)(**(code **)(*piVar1 + 0x38))(piVar1)) {
-    puStack_44 = &stack0xffffffe8;
+    /* XBE 0x002A6E30 LEA EDX,[ESP+0x28] after saving EBX/ESI/EDI:
+     * ESP+0x28 is entry ESP+8, the second incoming guest DWORD.
+     * PUSH EDX; PUSH EDI; CALL [ECX+0x84] writes through that address.
+     * 0x002A6E40 then reloads [ESP+0x28] (the same guest argument).
+     * This virtual method is NOT a no-argument call; native ABI TODO. */
     piStack_4c = (int *)0x2a6e40;
     piStack_48 = piVar1;
-    (**(code **)(*piVar1 + 0x84))();
+    (**(code **)(*piVar1 + 0x84))(piVar1,&param_2);
     piStack_4c = &uStack_24;
     uStack_50 = 0xf54ef296;
     piStack_58 = (int *)0x2a6e54;
