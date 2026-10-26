@@ -6,7 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-undefined4 FUN_002ea9a9(undefined1 *param_1,int param_2,undefined4 param_3)
+undefined4 FUN_002ea9a9(undefined1 *param_1,int param_2,undefined4 param_3,undefined4 param_4)
 
 {
   undefined4 uVar1;
@@ -19,7 +19,10 @@ undefined4 FUN_002ea9a9(undefined1 *param_1,int param_2,undefined4 param_3)
   local_24 = param_1;
   local_20 = param_2 * 2;
   local_18 = 0x42;
-  uVar1 = FUN_002ed38c(&local_24,param_3,&stack0x00000010);
+  /* 0x002EA9C1: LEA EAX,[EBP+0x14], where EBP+0x14
+   * is the fourth incoming 32-bit word, passed by address as the
+   * formatter argument cursor. Guest va-list ABI remains unverified. */
+  uVar1 = FUN_002ed38c(&local_24,param_3,&param_4);
   local_20 = local_20 + -1;
   if (local_20 < 0) {
     __flsbuf(0,&local_24);
