@@ -1,0 +1,26 @@
+name: Verified 0x00375330 guest disposition byte
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/platform/graphics_d3d/0x00375330.c'
+      - 'scripts/verify_00375330_disposition_byte.py'
+      - '.github/workflows/verified-00375330-disposition-byte.yml'
+      - 'include/bf_ghidra_types.h'
+      - 'include/bf_xbox_d3d_device_x86.h'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-and-c11:
+    name: Original-byte source contract and isolated Clang C11
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source contract, seven mutations and Clang O0/O2
+        run: python3 scripts/verify_00375330_disposition_byte.py --root .
+      - name: State verification boundary
+        run: echo "Original XBE opcode check is optional and local only; CI does not verify Xbox ABI, linkage or native runtime."
