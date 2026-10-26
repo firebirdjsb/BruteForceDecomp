@@ -23,7 +23,11 @@ uint FUN_00052120(float param_1)
   undefined1 *puStack_2c;
   undefined1 local_28 [8];
   float fStack_20;
-  undefined1 local_18 [4];
+  float guest_first_x;
+  float guest_first_y;
+  float guest_second_x;
+  float guest_second_y;
+  undefined1 local_18 [20];
   float fStack_14;
   
   puStack_30 = local_28;
@@ -31,16 +35,23 @@ uint FUN_00052120(float param_1)
   (**(code **)(*unaff_ESI + 0x20))();
   (**(code **)(*unaff_ESI + 0x20))();
   iVar4 = (**(code **)(*unaff_EBX + 0x40))();
-  fVar1 = (float)puStack_2c + *(float *)(iVar4 + 0x28);
-  fVar2 = (fVar1 - (float)unaff_EDI) - param_1;
-  fVar1 = fVar1 + (float)unaff_EDI + param_1;
+  /* FLD [ESP+0x14] reads a 32-bit float from the first output region. */
+  memcpy(&guest_first_y, local_18 + 4, sizeof guest_first_y);
+  memcpy(&guest_first_x, local_28, sizeof guest_first_x);
+  fVar1 = guest_first_y + *(float *)(iVar4 + 0x28);
+  fVar2 = (fVar1 - guest_first_x) - param_1;
+  fVar1 = fVar1 + guest_first_x + param_1;
   iVar4 = (**(code **)(*unaff_EDI + 0x40))();
-  fStack_20 = fStack_20 + *(float *)(iVar4 + 0x28);
-  fVar3 = (float)&puStack_30 + fStack_20 + param_1;
+  /* FLD [ESP+0x20] and FLD [ESP+0x04]. Original indirect-call
+   * output ABI is not yet represented by these unverified C call stubs. */
+  memcpy(&guest_second_y, local_18 + 16, sizeof guest_second_y);
+  memcpy(&guest_second_x, local_28 + 4, sizeof guest_second_x);
+  fStack_20 = guest_second_y + *(float *)(iVar4 + 0x28);
+  fVar3 = guest_second_x + fStack_20 + param_1;
   uVar5 = (ushort)(fVar3 < fVar2) << 8 | (ushort)(isnan(fVar3) || isnan(fVar2)) << 10 |
           (ushort)(fVar3 == fVar2) << 0xe;
   if (fVar3 >= fVar2) {
-    fStack_14 = (fStack_20 - (float)&puStack_30) - param_1;
+    fStack_14 = (fStack_20 - guest_second_x) - param_1;
     uVar5 = (ushort)(fVar1 < fStack_14) << 8 | (ushort)(isnan(fVar1) || isnan(fStack_14)) << 10 |
             (ushort)(fVar1 == fStack_14) << 0xe;
     if (fVar1 >= fStack_14) {
