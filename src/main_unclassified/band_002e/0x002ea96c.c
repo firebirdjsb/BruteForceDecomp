@@ -11,13 +11,17 @@
    
    Library: Visual Studio 2003 Release */
 
-wchar_t * __cdecl _wcsncpy(wchar_t *__dest,wchar_t *__src,size_t __n)
+/* Original x86 0x002ea980/0x002ea983 use 16-bit MOV loads/stores;
+ * 0x002ea986-0x002ea989 advance both guest pointers by 2 bytes;
+ * 0x002ea99d/0x002ea9a1 zero-pad DWORD/WORD lanes.  Host wchar_t
+ * width is not the original Xbox UTF-16 ABI. ABI_UNVERIFIED. */
+uint16_t * __cdecl _wcsncpy(uint16_t *__dest,uint16_t *__src,size_t __n)
 
 {
-  wchar_t wVar1;
+  uint16_t wVar1;
   uint uVar2;
   uint uVar3;
-  wchar_t *pwVar4;
+  uint16_t *pwVar4;
   
   pwVar4 = __dest;
   if (__n != 0) {
@@ -26,17 +30,17 @@ wchar_t * __cdecl _wcsncpy(wchar_t *__dest,wchar_t *__src,size_t __n)
       *pwVar4 = wVar1;
       pwVar4 = pwVar4 + 1;
       __src = __src + 1;
-      if (wVar1 == L'\0') break;
+      if (wVar1 == 0) break;
       __n = __n - 1;
     } while (__n != 0);
     if ((__n != 0) && (uVar2 = __n - 1, uVar2 != 0)) {
       for (uVar3 = uVar2 >> 1; uVar3 != 0; uVar3 = uVar3 - 1) {
-        pwVar4[0] = L'\0';
-        pwVar4[1] = L'\0';
+        pwVar4[0] = 0;
+        pwVar4[1] = 0;
         pwVar4 = pwVar4 + 2;
       }
       for (uVar2 = (uint)((uVar2 & 1) != 0); uVar2 != 0; uVar2 = uVar2 - 1) {
-        *pwVar4 = L'\0';
+        *pwVar4 = 0;
         pwVar4 = pwVar4 + 1;
       }
     }
