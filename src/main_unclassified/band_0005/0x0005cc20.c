@@ -31,6 +31,7 @@ void FUN_0005cc20(int param_1,int *param_2,int *param_3)
   int *piStack_34;
   int *apiStack_30 [3];
   float guest_delta_z; /* 0x0005CCB2 FSTP DWORD [ESP+0x28] */
+  float guest_saved_z; /* 0x0005CCBE MOV DWORD [ESP+0x34],ECX */
   float guest_delta_x; /* 0x0005CCAC FSTP DWORD [ESP+0x24] */
   int *piStack_1c;
   int *piStack_18;
@@ -65,10 +66,11 @@ void FUN_0005cc20(int param_1,int *param_2,int *param_3)
   bVar4 = false;
   fVar1 = *(float *)(iVar10 + 0x28) - *(float *)(iVar9 + 0x28);
   guest_delta_x = *(float *)(iVar10 + 0x24) - *(float *)(iVar9 + 0x24);
-  /* The draft's apiStack_30[0] assignment was a spurious Ghidra
-   * overlap of the saved z float, not a distinct guest pointer write. */
+  /* MOV ECX,[ESP+0x28]; MOV [ESP+0x34],ECX copies the rounded F32
+   * bits to a second guest stack word.  This is not a pointer value. */
+  guest_saved_z = guest_delta_z;
   if (2500.0 < fVar1 * fVar1 +
-               guest_delta_z * guest_delta_z + guest_delta_x * guest_delta_x) {
+               guest_saved_z * guest_saved_z + guest_delta_x * guest_delta_x) {
     bVar4 = true;
     FUN_0001b650();
     FUN_0001b650();
