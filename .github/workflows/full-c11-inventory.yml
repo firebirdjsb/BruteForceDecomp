@@ -40,6 +40,7 @@ on:
       - 'scripts/verify_0012c020_x87_f32_and_maxss.py'
       - 'scripts/verify_0012c6c0_scalar_sse_contract.py'
       - 'scripts/verify_two_x87_float_max_objects.py'
+      - 'scripts/verify_0015a7e0_float_random_clamp.py'
       - 'scripts/verify_20261026_f64_mantissa_and_float3_sse.py'
       - 'scripts/verify_20261026_two_float3_rsqrtss.py'
       - 'scripts/verify_20261026_collision_float3_rsqrtss.py'
@@ -598,6 +599,8 @@ jobs:
         run: python3 scripts/verify_0012c6c0_scalar_sse_contract.py --root .
       - name: Verify mirrored x87 F32 object fields and MAXSS running maxima
         run: python3 scripts/verify_two_x87_float_max_objects.py --root .
+      - name: Verify 0x0015A7E0 x87 random F32 and SSE MAXSS MINSS source contracts
+        run: python3 scripts/verify_0015a7e0_float_random_clamp.py --root .
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
       - name: Validate and categorize exact audit failures without XBE assumptions
