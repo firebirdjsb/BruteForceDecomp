@@ -31,11 +31,14 @@ undefined4 * XAPILIB__XFindFirstContent(char *param_1,undefined4 param_2)
     pcVar2 = pcVar2 + 1;
   } while (cVar1 != '\0');
   iVar3 = (int)pcVar2 - (int)(local_10c + 1);
+  /* Original 0x002F5579: LEA ESI,[EBP+ECX-0x108] addresses
+   * local_10c + path length; first suffix is the literal "$C\\*". */
+  char *guest_append_cursor = local_10c + iVar3;
   pcVar2 = "$C\\*";
   local_8 = iVar3;
   do {
     cVar1 = *pcVar2;
-    (&stack0xffc78768 + iVar3)[(int)pcVar2] = cVar1;
+    *guest_append_cursor++ = cVar1;
     pcVar2 = pcVar2 + 1;
   } while (cVar1 != '\0');
   puVar4 = (undefined4 *)FUN_002f46db();
@@ -44,10 +47,13 @@ undefined4 * XAPILIB__XFindFirstContent(char *param_1,undefined4 param_2)
     param_1[(int)(local_10c + iVar5)] = cVar1;
     param_1 = param_1 + 1;
   } while (cVar1 != '\0');
+  /* Original 0x002F55B4 keeps ESI at the same append position
+   * after recopying the original path; second suffix is "$C\\". */
+  guest_append_cursor = local_10c + iVar3;
   pcVar2 = "$C\\";
   do {
     cVar1 = *pcVar2;
-    (&stack0xffc7875c + iVar3)[(int)pcVar2] = cVar1;
+    *guest_append_cursor++ = cVar1;
     pcVar2 = pcVar2 + 1;
   } while (cVar1 != '\0');
   local_8 = local_8 + 3;
