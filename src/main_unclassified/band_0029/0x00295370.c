@@ -20,8 +20,17 @@ void FUN_00295370(undefined4 param_1,undefined4 param_2)
    * This is argument storage, not an invented native pointer. */
   FUN_002eba94(local_1f8,param_1,&param_2);
   FUN_0028aa90(local_1f8);
-  if (*(__jmp_buf_tag **)(DAT_00469888 + 0x18) != (__jmp_buf_tag *)0x0) {
-    _longjmp(*(__jmp_buf_tag **)(DAT_00469888 + 0x18),1);
+  /* Original 0x0029539A loads DWORD [0x00469888] as the owning
+   * guest object, then 0x002953A0 loads ONE guest 32-bit DWORD
+   * [ECX+0x18]. At 0x002953AA/AD it passes that saved context and
+   * value 1 to the game's own 0x002EB90C _longjmp routine.
+   * glibc's __jmp_buf_tag was a false type inference, not Xbox storage.
+   * Guest-address translation and nonlocal register restoration remain
+   * ABI_UNVERIFIED; the cast below is NOT a native PC memory adapter. */
+  uint32_t guest_jump_context =
+      *(uint32_t *)(uintptr_t)(DAT_00469888 + UINT32_C(0x18));
+  if (guest_jump_context != 0) {
+    _longjmp((void *)(uintptr_t)guest_jump_context,1);
   }
   FUN_0028aa90(s_exit_1___Unable_to_recover__00404a8c);
                     /* WARNING: Subroutine does not return */
