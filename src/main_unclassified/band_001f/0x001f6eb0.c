@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_word_lanes.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003f7f1c;
@@ -81,7 +82,10 @@ void FUN_001f6eb0(int param_1,int param_2)
       local_44 = *(float *)(param_2 + 0x14);
       local_38 = *(float *)(param_2 + 0x20);
       /* XBE 0x001F6F18: MOV AL,1; 0x001F6F1A: MOV BYTE PTR [ESP+0xD4],AL.\n       * The guest writes only the low byte, preserving the upper 24 bits. */
-      local_4 = (local_4 & (int)UINT32_C(0xffffff00)) | 1;
+      /* 0x1f6f1a writes only one byte; do not evaluate the unknown high
+       * bytes through a whole-word read/modify/write. Later draft reads and
+       * the guest stack lifetime remain ABI_UNVERIFIED. */
+      bf_x86_word_store_byte(&local_4,0U,1);
       local_1c = 1;
       local_78 = &local_30;
       local_58 = local_58 & 0xfe;

@@ -155,6 +155,7 @@ on:
       - 'scripts/verify_0023a3xx_schema_output_words.py'
       - 'scripts/verify_001e9150_guest_outword.py'
       - 'scripts/verify_001f6eb0_low_guest_byte.py'
+      - 'tests/test_verify_001f6eb0_low_guest_byte.py'
       - 'scripts/verify_0028f610_guest_code_bytes.py'
       - 'scripts/verify_two_guest_byte_aliases.py'
       - 'scripts/verify_00282720_guest_byte_buffer.py'
@@ -559,7 +560,9 @@ jobs:
       - name: Verify 0x001E9150 callback output alias (source and Clang; private XBE optional)
         run: python3 scripts/verify_001e9150_guest_outword.py --root .
       - name: Verify original byte-only stack write in 0x001F6EB0 (source and Clang; private XBE optional)
-        run: python3 scripts/verify_001f6eb0_low_guest_byte.py --root .
+        run: |
+          python3 scripts/verify_001f6eb0_low_guest_byte.py --root .
+          python3 tests/test_verify_001f6eb0_low_guest_byte.py
       - name: Verify original 0x0028F610 decoder packed byte lanes (source and Clang; XBE private)
         run: python3 scripts/verify_0028f610_guest_code_bytes.py --root .
       - name: Verify 0x000AF1A0 and 0x002D29F0 guest byte contracts (source and Clang; XBE private)
