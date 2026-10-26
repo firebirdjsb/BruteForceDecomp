@@ -16,6 +16,9 @@ void FUN_002d56e0(int param_1,int param_2)
   int iVar2;
   int *extraout_EDX;
   float *pfVar3;
+  uint32_t guest_object_word;
+  uint32_t guest_vtable_word;
+  uint32_t guest_method_word;
   int iVar4;
   float10 fVar5;
   float10 fVar6;
@@ -48,7 +51,14 @@ void FUN_002d56e0(int param_1,int param_2)
       fVar8 = SQRT(local_24[2] * local_24[2] + local_24[3] * local_24[3] + local_24[1] * local_24[1]
                   );
       fVar5 = (float10)(**(code **)(*extraout_EDX + 4))();
-      fVar6 = (float10)(*(code *)**(undefined4 **)*pfVar3)();
+      /* x86: MOV ECX,[EBX]; MOV EDX,[ECX]; CALL DWORD PTR [EDX].
+       * The stack word addressed by EBX contains a guest pointer, although
+       * Ghidra aliased its storage with the float array at pfVar3. */
+      memcpy(&guest_object_word, pfVar3, sizeof guest_object_word);
+      guest_vtable_word = *(const uint32_t *)(uintptr_t)guest_object_word;
+      guest_method_word = *(const uint32_t *)(uintptr_t)guest_vtable_word;
+      /* Original ECX=this and x87 ST(0) return require a later guest ABI bridge. */
+      fVar6 = (float10)(*(code *)(uintptr_t)guest_method_word)();
       fVar1 = *(float *)(param_2 + 0x44);
       if (1e-10 <= fVar8) {
         local_40 = 1;
