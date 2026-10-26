@@ -95,11 +95,11 @@ void FUN_00217920(int *param_1,int param_2,float *param_3,float *param_4,float *
   undefined1 *local_408;
   undefined1 local_404 [1028];
   
-  fVar1 = param_6;
-  if (param_6 <= param_7) {
-    fVar1 = param_7;
-  }
-  auVar10 = ZEXT416((uint)fVar1);
+  /* XBE 0x00217940 MOVSS and 0x00217946 MAXSS select the scalar
+   * float32 bound.  The result is stored as one F32 stack word at
+   * 0x0021794C.  No integer widening into an SSE vector occurs.
+   * MAXSS also retains the original unordered/NaN choice semantics. */
+  fVar1 = _mm_cvtss_f32(_mm_max_ss(_mm_set_ss(param_6),_mm_set_ss(param_7)));
   local_500 = (1.0 / param_7) * 0.5;
   local_4fc = (1.0 / param_6) * 0.5;
   if (*(float *)(param_9 + 0x34) != 0.0) {
