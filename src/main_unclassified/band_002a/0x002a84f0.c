@@ -9,7 +9,7 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_LAB_003a35c8;
-void FUN_002a84f0(int *param_1)
+void FUN_002a84f0(int *param_1,float guest_stack_scalar)
 
 {
   byte bVar1;
@@ -23,10 +23,11 @@ void FUN_002a84f0(int *param_1)
   piStack_1c = param_1;
   piStack_20 = (int *)0x2a8504;
   (**(code **)(*param_1 + 0xc))();
-  if ((float)param_1 == 1.0) {
+  /* FLD m32fp loads the second incoming DWORD (ESP+0x1c / +0x20). */
+  if (guest_stack_scalar == 1.0f) {
     piStack_20 = (int *)0x28;
     uStack_24 = 0x2a851c;
-    piVar2 = (int *)FUN_002ea01d();
+    piVar2 = (int *)FUN_002ea01d(0x28);
     if (piVar2 == (int *)0x0) {
       piVar2 = (int *)0x0;
     }
@@ -40,7 +41,7 @@ void FUN_002a84f0(int *param_1)
     }
     piStack_20 = param_1;
     uStack_24 = 0x2a8552;
-    FUN_002a8320();
+    FUN_002a8320(guest_stack_scalar);
     uStack_24 = 0;
     piStack_20 = piVar2;
     (**(code **)(*param_1 + 0x14))();
@@ -49,7 +50,7 @@ void FUN_002a84f0(int *param_1)
       return;
     }
   }
-  else if (1.1 <= (float)param_1) {
+  else if (1.1f <= guest_stack_scalar) {
     piStack_20 = (int *)0x0;
     uStack_24 = 1;
     (**(code **)(*in_EAX + 0x10))();
