@@ -6,6 +6,18 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original XBE 0xD9591 reloads the selector into EBP, 0xD9611 forms
+ * EAX=EBP-1, and 0xD9614..0xD961C dispatches on unsigned EAX<=3.
+ * The Ghidra float slot carries a raw 32-bit integer selector (1..4),
+ * not a numeric float switch. Keep the raw bits; other ABI paths remain
+ * unverified. The jump table at 0xD9758 targets 0xD9623/43/63/83. */
+static uint32_t bf_d9320_raw_word(float value)
+{
+  uint32_t bits;
+  _Static_assert(sizeof bits == sizeof value, "guest DWORD float lane");
+  memcpy(&bits, &value, sizeof bits);
+  return bits;
+}
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003f7d30;
@@ -169,23 +181,23 @@ LAB_000d9569:
   FUN_002171d0(iVar6);
   local_64[4] = (float)(*(int *)(param_1 + 0xc6c) + -1);
   *(float *)(param_1 + 0xc74) = 1.0 / ((float)(int)local_64[4] * 0.25 + 1.0);
-  switch(fVar11) {
-  case 1.4013e-45:
+  switch(bf_d9320_raw_word(fVar11)) {
+  case 1:
     _DAT_003f7d28 = 0x41a00000;
     _DAT_003f7d2c = 0x42480000;
     DAT_003f7d34 = 0x18;
     break;
-  case 2.8026e-45:
+  case 2:
     _DAT_003f7d28 = 0x41700000;
     _DAT_003f7d2c = 0x42200000;
     DAT_003f7d34 = 0xf;
     break;
-  case 4.2039e-45:
+  case 3:
     _DAT_003f7d28 = 0x41200000;
     _DAT_003f7d2c = 0x41a00000;
     DAT_003f7d34 = 9;
     break;
-  case 5.60519e-45:
+  case 4:
     _DAT_003f7d28 = 0x40a00000;
     _DAT_003f7d2c = 0x41200000;
     DAT_003f7d34 = 3;
