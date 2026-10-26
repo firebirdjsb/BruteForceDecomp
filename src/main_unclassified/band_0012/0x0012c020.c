@@ -17,13 +17,13 @@ extern uint32_t DAT_0046d304;
 extern uint32_t DAT_0046d30c;
 /* XBE 0x12c1a6 multiplies by the f32 stored at [0x003c0564]. */
 extern float _DAT_003c0564;
-extern uint32_t _DAT_003c0568;
-extern uint32_t _DAT_003c056c;
-extern uint32_t *_DAT_003c0570;
-extern uint32_t _DAT_003c0574;
-extern uint32_t *_DAT_003c0578;
-extern uint32_t _DAT_003c057c;
-extern uint32_t *_DAT_0046d2fc;
+extern float _DAT_003c0568;
+extern float _DAT_003c056c;
+extern float _DAT_003c0570;
+extern float _DAT_003c0574;
+extern float _DAT_003c0578;
+extern float _DAT_003c057c;
+extern float _DAT_0046d2fc;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 uint FUN_0012c020(int param_1,float param_2,float *param_3)
@@ -40,7 +40,7 @@ uint FUN_0012c020(int param_1,float param_2,float *param_3)
   byte bVar9;
   int iVar10;
   float10 fVar11;
-  undefined1 in_XMM0 [16];
+  __m128 in_XMM0;
   __m128 auVar12;
   float fStack_3c;
   float fStack_38;
@@ -61,18 +61,21 @@ uint FUN_0012c020(int param_1,float param_2,float *param_3)
   if (((*(byte *)(param_1 + 0x262) & 4) == 0) && ((bVar2 & 1) == 0)) {
     uVar7 = (bVar2 & 0x40) >> 6;
     bVar9 = *(byte *)(param_1 + 0x43c) >> 1 & 1;
-    fVar4 = (*(float *)(param_1 + 0x450) - *(float *)(&DAT_0046d30c + uVar7 * 4)) /
-            (*(float *)(&DAT_0046d304 + uVar7 * 4) - *(float *)(&DAT_0046d30c + uVar7 * 4));
+    /* XBE 0x12C062/0x12C079 use 4-byte indexed F32 operands. */
+    fVar4 = (*(float *)(param_1 + 0x450) -
+             *(const float *)((const uint8_t *)&DAT_0046d30c + uVar7 * 4U)) /
+            (*(const float *)((const uint8_t *)&DAT_0046d304 + uVar7 * 4U) -
+             *(const float *)((const uint8_t *)&DAT_0046d30c + uVar7 * 4U));
     if (bVar9 != 0) {
-      if (fVar4 <= 0.5) {
-        fVar4 = 0.5;
-      }
-      in_XMM0 = ZEXT416((uint)fVar4);
+      /* XBE 0x12C094 MOVSS, 0x12C09A MAXSS: scalar float clamp,
+       * including SSE NaN selection; no float-to-integer bit conversion. */
+      in_XMM0 = _mm_max_ss(_mm_set_ss(fVar4), _mm_set_ss(0.5f));
+      fVar4 = _mm_cvtss_f32(in_XMM0);
     }
     if ((fVar4 <= 0.0) ||
        (1.0000001e-06 < param_3[2] * param_3[2] + param_3[1] * param_3[1] + *param_3 * *param_3)) {
       *(float *)(param_1 + 0x71c) =
-           fVar4 * *(float *)(&DAT_003c055c + uVar7 * 4) * param_2 + *(float *)(param_1 + 0x71c);
+           fVar4 * *(const float *)((const uint8_t *)&DAT_003c055c + uVar7 * 4U) * param_2 + *(float *)(param_1 + 0x71c);
     }
     if (*(float *)(param_1 + 0x71c) <= 1.0) {
       if (*(float *)(param_1 + 0x71c) < 0.0 != (*(float *)(param_1 + 0x71c) == 0.0)) {
