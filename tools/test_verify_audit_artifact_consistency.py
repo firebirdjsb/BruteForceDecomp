@@ -22,12 +22,18 @@ with TemporaryDirectory() as directory:
         "group_index_present": True, "body_hash_mismatches": 0,
         "body_hash_missing": 0, "body_hash_unindexed": 0,
         "counts": {"pass": 1, "fail": 2},
+        "c_source_hash_drift": 1,
         "results": [
             {"entry": "0x00000001", "status": "pass"},
             {"entry": "0x00000002", "status": "fail", "errors": ["use of undeclared identifier 'stack0xfffffffc'"]},
             {"entry": "0x00000003", "status": "fail", "errors": ["member reference base type 'undefined4' is not a structure or union"]},
         ],
     }
+    # A historical source hash can legitimately drift after a reviewed repair.
+    for row in report["results"]:
+        row.update(body_provenance="match", original_body_sha256="A" * 64,
+                   c_sha256_actual="b" * 64, c_sha256_matches_inventory=True)
+    report["results"][0]["c_sha256_matches_inventory"] = False
     summary = {
         "audited_commit": "a" * 40, "source_tree_entries": 3,
         "counts": {"pass": 1, "fail": 2},
@@ -66,6 +72,15 @@ with TemporaryDirectory() as directory:
                      ("counts", {"pass": 2, "fail": 1})):
         rejects(root / "c11_sweep_report.json", json.dumps(dict(report, **{key: bad})))
     rejects(root / "failure_triage.json", json.dumps(dict(summary, audited_commit="b" * 40)))
+    for field, bad in (("body_provenance", "mismatch"),
+                       ("original_body_sha256", "not-a-digest"),
+                       ("c_sha256_actual", ""),
+                       ("c_sha256_matches_inventory", "false")):
+        broken = json.loads(json.dumps(report))
+        broken["results"][0][field] = bad
+        rejects(root / "c11_sweep_report.json", json.dumps(broken))
+    rejects(root / "c11_sweep_report.json", json.dumps(dict(report, c_source_hash_drift=0)))
+    rejects(root / "c11_sweep_report.json", json.dumps(dict(report, c_source_hash_drift=True)))
     rejects(root / "failure_triage.json",
             json.dumps(dict(summary, first_error_categories={"unresolved_stack": 2})))
     rejects(root / "syntax_failures.csv", "entry,status,first_error\n")
@@ -98,4 +113,4 @@ with TemporaryDirectory() as directory:
                   ("entry", "category", "first_error"), triage)
         (root / "failure_triage.json").write_text(json.dumps(summary), encoding="utf-8")
     assert verify(root, expected_total=3) == {"pass": 1, "fail": 2, "stack": 1}
-    print("PASS: artifact consistency and 11 synthetic corruption cases")
+    print("PASS: artifact consistency and 17 synthetic corruption cases")
