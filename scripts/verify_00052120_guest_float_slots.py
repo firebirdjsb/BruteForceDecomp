@@ -2,7 +2,7 @@
 """Check 0x00052120 original x87 float stack slots and C11 source.
 
 The caller proves the ECX=this and three stack-argument contract. A second
-caller reads three floats from the high output. Actual callee identity and
+caller reads three floats from the second output. Actual callee identity and
 full write lengths remain unverified; host-native execution is unsupported.
 """
 import argparse
@@ -28,7 +28,7 @@ OPCODES = (
     (0x5215f, "d864242c"), (0x52176, "d9442420"),
     (0x5217d, "d9442404"), (0x521ab, "b001"),
     (0x521b0, "c20400"), (0x521b5, "32c0"), (0x521ba, "c20400"),
-    # Independent caller 0x52816 reads three floats from the high output.
+    # Independent caller 0x52816 reads three floats from the second output.
     (0x52816, "8b06"), (0x52818, "8d4c2440"),
     (0x5281c, "51"), (0x5281d, "8d542420"),
     (0x52821, "52"), (0x52822, "57"),
@@ -39,9 +39,9 @@ OPCODES = (
 MARKERS = (
     "undefined1 guest_frame[0x28];",
     "__attribute__((thiscall))",
-    "get_bounds = (bf_52120_bounds_call)*(code **)(*unaff_ESI + 0x20);",
-    "get_bounds(unaff_ESI, unaff_EBX, guest_frame + 0x00, guest_frame + 0x10);",
-    "get_bounds(unaff_ESI, unaff_EDI, guest_frame + 0x04, guest_frame + 0x1c);",
+    "get_outputs = (bf_52120_virtual_output_call)*(code **)(*unaff_ESI + 0x20);",
+    "get_outputs(unaff_ESI, unaff_EBX, guest_frame + 0x00, guest_frame + 0x10);",
+    "get_outputs(unaff_ESI, unaff_EDI, guest_frame + 0x04, guest_frame + 0x1c);",
     "memcpy(&guest_first_y, guest_frame + 0x14, sizeof guest_first_y);",
     "memcpy(&guest_first_x, guest_frame + 0x00, sizeof guest_first_x);",
     "memcpy(&guest_second_y, guest_frame + 0x20, sizeof guest_second_y);",
@@ -91,7 +91,7 @@ def main():
     for marker in MARKERS:
         if marker not in source:
             raise SystemExit("missing verified source invariant: " + marker)
-    if source.count("get_bounds(unaff_ESI,") != 2:
+    if source.count("get_outputs(unaff_ESI,") != 2:
         raise SystemExit("expected two explicit guest-thiscall calls")
     check_layout()
     for invalid in ("(**(code **)(*unaff_ESI + 0x20))();",
