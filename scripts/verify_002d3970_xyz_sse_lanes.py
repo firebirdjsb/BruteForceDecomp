@@ -16,6 +16,18 @@ OPS = (
     (0x002D3AE2, "0f5cca"),   # subps xmm1,xmm2
     (0x002D3AE9, "f30f1108"), # movss [eax],xmm1
     (0x002D3AED, "0f174804"), # movhps [eax+4],xmm1
+    (0x002D3A35, "8b90f4000000"), # MOV EDX, guest +0xf4 word
+    (0x002D3A3B, "8b80ec000000"), # MOV EAX, guest +0xec address
+    (0x002D3A8F, "8b90f8000000"), # MOV EDX, guest +0xf8 word
+    (0x002D3A95, "8b80f0000000"), # MOV EAX, guest +0xf0 address
+    (0x002D3B8F, "8b81f0000000"), # MOV EAX, guest +0xf0 address
+    (0x002D3B95, "f6000c"),       # TEST BYTE PTR [EAX],0x0c
+    (0x002D3C44, "8b81ec000000"), # MOV EAX, guest +0xec address
+    (0x002D3C4A, "f6000c"),       # TEST BYTE PTR [EAX],0x0c
+    (0x002D3D44, "8b81ec000000"), # MOV EAX, guest +0xec address
+    (0x002D3D4A, "f6000c"),       # TEST BYTE PTR [EAX],0x0c
+    (0x002D3DEE, "8b81f0000000"), # MOV EAX, guest +0xf0 address
+    (0x002D3DF4, "f6000c"),       # TEST BYTE PTR [EAX],0x0c
 )
 
 def main():
@@ -32,6 +44,16 @@ def main():
     ):
         if expression not in src:
             raise SystemExit("Missing xyz lane: " + expression)
+    for token in (
+        "static uint32_t bf_002d3970_guest_word(const float *slot)",
+        "memcpy(&guest_word, slot, sizeof guest_word);",
+        "bf_002d3970_guest_word(param_1 + 0x3b)",
+        "bf_002d3970_guest_word(param_1 + 0x3c)",
+        "bf_002d3970_guest_word(param_1 + 0x3d)",
+        "bf_002d3970_guest_word(param_1 + 0x3e)",
+    ):
+        if token not in src:
+            raise SystemExit("Missing raw guest object DWORD: " + token)
     for bad in ("local_10._4_8_", "local_20._4_8_", "SUB84(local_10"):
         if bad in src:
             raise SystemExit("Incorrect merged 64-bit SSE representation: " + bad)
