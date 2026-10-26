@@ -138,6 +138,7 @@ on:
       - 'scripts/verify_00254ed0_guest_frame.py'
       - 'scripts/verify_0024a600_guest_element.py'
       - 'scripts/verify_0007b8f0_0007bef0_inline_storage.py'
+      - 'scripts/verify_0007c0b0_0007fba0_guest_stack.py'
       - 'scripts/verify_0007b100_esi_stack_word.py'
       - 'scripts/verify_0017adb0_returned_dword.py'
       - 'scripts/verify_0004f2e0_local_slots.py'
@@ -232,6 +233,8 @@ jobs:
           /tmp/bf_normalize3_test
           clang -std=c11 -Wall -Wextra -Werror -pedantic-errors -O2 -DNDEBUG -I include tools/test_x86_normalize3.c tests/x86_normalize3_reference.S -o /tmp/bf_normalize3_release_test
           /tmp/bf_normalize3_release_test
+      - name: Compile repaired 0x7c0b0 and 0x7fba0 guest-stack drafts
+        run: python3 scripts/verify_0007c0b0_0007fba0_guest_stack.py
       - name: Verify repaired guest-stack C11 drafts and model (no original XBE in CI)
         run: |
           python3 tools/test_guest_stack_repair.py
