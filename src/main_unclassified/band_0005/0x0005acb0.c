@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h> /* XBE 0x0005AE61 uses approximate RSQRTSS */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003ffca0;
@@ -25,8 +26,8 @@ void FUN_0005acb0(int param_1,int *param_2)
   float *pfVar9;
   float in_XMM1_Da;
   float fVar12;
-  undefined1 auVar10 [16];
-  undefined1 auVar11 [16];
+  float guest_length_sq;
+  float guest_inv_length;
   float local_28;
   float local_24;
   float fStack_20;
@@ -80,15 +81,13 @@ void FUN_0005acb0(int param_1,int *param_2)
       local_28 = *(float *)(iVar5 + 0x14) - *(float *)(iVar2 + 0x14);
       in_XMM1_Da = in_XMM1_Da + local_28 * local_28;
       fVar12 = local_24 * local_24 + fStack_20 * fStack_20;
-      auVar11._4_4_ = in_XMM1_Da;
-      auVar11._0_4_ = fVar12;
-      auVar11._8_4_ = in_XMM1_Da;
-      auVar11._12_4_ = in_XMM1_Da;
-      auVar10._4_12_ = auVar11._4_12_;
-      auVar10._0_4_ = fVar12 + local_28 * local_28;
-      if (2e-05 <= auVar10._0_4_) {
-        auVar11 = rsqrtss(auVar10,auVar10);
-        fVar12 = auVar11._0_4_;
+      /* Original MOVSS/MOVHPS, MULPS, SHUFPS, ADDPS, ADDSS combine
+       * the three contiguous float32 deltas at 0x0005AE35..0x0005AE4E.
+       * RSQRTSS at 0x0005AE61 is approximate, NOT 1/sqrtf(). */
+      guest_length_sq = (local_24 * local_24 + fStack_20 * fStack_20) + local_28 * local_28;
+      if (2e-05 <= guest_length_sq) {
+        guest_inv_length = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(guest_length_sq)));
+        fVar12 = guest_inv_length;
         local_28 = local_28 * fVar12;
         local_24 = local_24 * fVar12;
         fStack_20 = fStack_20 * fVar12;
