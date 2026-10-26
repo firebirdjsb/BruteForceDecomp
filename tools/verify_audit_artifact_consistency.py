@@ -23,6 +23,7 @@ STACK = re.compile(r"'(stack0x[0-9a-fA-F]{8})'")
 TRIAGE = ("entry", "category", "first_error")
 SYNTAX = ("entry", "status", "first_error")
 GROUP = ("guest_identifier", "signed_offset", "first_error_functions", "entries")
+BY_GROUP = ("original_section", "group", "status", "function_count")
 
 
 def read_csv(path: Path, fields: tuple[str, ...]) -> list[dict[str, str]]:
@@ -60,6 +61,40 @@ def read_canonical_inventory(path: Path, expected_total: int) -> dict[str, tuple
     if len(entries) != expected_total:
         raise ValueError("Canonical inventory does not contain the exact expected entry count")
     return entries
+
+
+
+def verify_group_table(folder: Path, source_root: Path, results: list[dict],
+                       seen: set[str]) -> None:
+    """Bind section/group pass/fail counts to the exact checked-out index.
+
+    A present index flag does not establish that the exported group CSV is
+    complete, current or correctly assigned to the audited functions.
+    This checks classification metadata only, never Xbox game semantics.
+    """
+    index_path = source_root / "metadata/function_groups/all_13694_functions.csv"
+    with index_path.open(encoding="utf-8", newline="") as stream:
+        reader = csv.DictReader(stream)
+        if not {"entry", "section", "group"}.issubset(reader.fieldnames or ()):
+            raise ValueError("Function-group index has missing columns")
+        labels = {}
+        for row in reader:
+            entry, section, group = row.get("entry"), row.get("section"), row.get("group")
+            if (not isinstance(entry, str) or not ENTRY.fullmatch(entry)
+                    or entry in labels or not section or not group):
+                raise ValueError(f"Malformed or duplicate function-group index: {entry}")
+            labels[entry] = (section, group)
+    if set(labels) != seen:
+        raise ValueError("Function-group index does not match audited function entries")
+    counts = Counter((labels[row["entry"]][0], labels[row["entry"]][1], row["status"])
+                     for row in results)
+    expected = [
+        {"original_section": section, "group": group, "status": status,
+         "function_count": str(count)}
+        for (section, group, status), count in sorted(counts.items())
+    ]
+    if read_csv(folder / "syntax_by_function_group.csv", BY_GROUP) != expected:
+        raise ValueError("Section/group syntax CSV disagrees with the full audit")
 
 
 def verify(folder: Path, expected_total: int = 13694,
@@ -144,6 +179,8 @@ def verify(folder: Path, expected_total: int = 13694,
         raise ValueError("C source digest drift count disagrees with per-function records")
     if dict(actual) != counts:
         raise ValueError("Report counts disagree with function results")
+    if source_root is not None:
+        verify_group_table(folder, source_root, results, seen)
     failed.sort(key=lambda row: row["entry"])
     syntax = read_csv(folder / "syntax_failures.csv", SYNTAX)
     # The sweep CSV is source-path ordered, not necessarily entry-address ordered.
