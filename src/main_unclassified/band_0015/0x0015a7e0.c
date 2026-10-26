@@ -13,13 +13,13 @@
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0040c858;
 extern uint32_t DAT_0040c85c;
-extern uint32_t DAT_0040c864;
-extern uint32_t DAT_0040c868;
+extern float DAT_0040c864; /* x86 MOV DWORD / MAXSS 0x15AB70 */
+extern float DAT_0040c868; /* x86 MOV DWORD / MINSS 0x15AB76 */
 extern uint32_t DAT_0046cfd8;
-extern uint32_t _DAT_0040c860;
-extern uint32_t _DAT_0040c86c;
-extern uint32_t _DAT_0040c870;
-extern uint32_t _DAT_004a5b70;
+extern float _DAT_0040c860; /* x86 FADD DWORD 0x15AB4E */
+extern float _DAT_0040c86c; /* x86 FLD DWORD 0x15AA59 */
+extern float _DAT_0040c870; /* x86 FCOMP DWORD 0x15AA16 */
+extern float _DAT_004a5b70; /* x86 FLD DWORD 0x15AB42 */
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
@@ -43,7 +43,7 @@ void FUN_0015a7e0(int *param_1)
   float fStack_80;
   float fStack_78;
   float fStack_74;
-  float *pfStack_70;
+  float guest_scaled_z;
   float fStack_6c;
   float fStack_68;
   float fStack_64;
@@ -116,7 +116,6 @@ void FUN_0015a7e0(int *param_1)
       if (fStack_74 < fVar5) {
         fStack_78 = fVar5 - fStack_74;
       }
-      pfStack_70 = &fStack_68;
       fStack_6c = fVar10 * fStack_78;
       fStack_14 = fStack_6c * fStack_68;
       fStack_10 = fStack_6c * fStack_64;
@@ -136,32 +135,39 @@ void FUN_0015a7e0(int *param_1)
         uVar8 = DAT_0046cfd8 * 0x19660d + 0x3c6ef35f;
         uVar9 = uVar8 * 0x19660d + 0x3c6ef35f;
         DAT_0046cfd8 = uVar9 * 0x19660d + 0x3c6ef35f;
-        fStack_30 = ((float)(uVar8 >> 9 | 0x40000000) - 3.0) * fStack_74 + fStack_54;
-        fStack_34 = ((float)(uVar9 >> 9 | 0x40000000) - 3.0) * fStack_74 + fStack_58;
-        fStack_38 = ((float)(DAT_0046cfd8 >> 9 | 0x40000000) - 3.0) * fStack_74 + fStack_20;
+        /* Original x86 moves the constructed exponent/mantissa DWORD to
+         * memory and reads it with FLD F32; numeric uint-to-float is wrong. */
+        uint32_t guest_rng_bits = (uVar8 >> 9) | UINT32_C(0x40000000);
+        float guest_rng;
+        memcpy(&guest_rng, &guest_rng_bits, sizeof guest_rng);
+        fStack_30 = (guest_rng - 3.0f) * fStack_74 + fStack_54;
+        guest_rng_bits = (uVar9 >> 9) | UINT32_C(0x40000000);
+        memcpy(&guest_rng, &guest_rng_bits, sizeof guest_rng);
+        fStack_34 = (guest_rng - 3.0f) * fStack_74 + fStack_58;
+        guest_rng_bits = (DAT_0046cfd8 >> 9) | UINT32_C(0x40000000);
+        memcpy(&guest_rng, &guest_rng_bits, sizeof guest_rng);
+        fStack_38 = (guest_rng - 3.0f) * fStack_74 + fStack_20;
         fStack_74 = fVar10 * fVar10 * fStack_80 * fStack_80 *
                     (_DAT_004a5b70 * *(float *)(unaff_EBX + 0x100) + _DAT_0040c860);
-        fStack_78 = fStack_74;
-        if (fStack_74 <= DAT_0040c864) {
-          fStack_78 = DAT_0040c864;
-        }
-        if (DAT_0040c868 <= fStack_78) {
-          fStack_78 = DAT_0040c868;
-        }
+        /* Original 0x15AB6A MOVSS, 0x15AB70 MAXSS, 0x15AB76 MINSS.
+         * Preserve SSE tie/NaN selection, not host C relational clamps. */
+        fStack_78 = _mm_cvtss_f32(_mm_min_ss(
+            _mm_max_ss(_mm_set_ss(fStack_74), _mm_set_ss(DAT_0040c864)),
+            _mm_set_ss(DAT_0040c868)));
         fStack_44 = fVar10 * fStack_68;
         fStack_40 = fVar10 * fStack_64;
         fStack_3c = fVar10 * fStack_60;
         fStack_2c = fStack_78 * fStack_44;
         fStack_6c = fStack_78 * fStack_40;
-        pfStack_70 = (float *)(fStack_78 * fStack_3c);
+        guest_scaled_z = fStack_78 * fStack_3c;
         fStack_28 = fStack_6c;
-        fStack_24 = (float)pfStack_70;
+        fStack_24 = guest_scaled_z;
         fStack_20 = fStack_44;
         fStack_1c = fStack_40;
         fStack_18 = fStack_3c;
         fStack_14 = fStack_2c;
         fStack_10 = fStack_6c;
-        fStack_c = (float)pfStack_70;
+        fStack_c = guest_scaled_z;
         FUN_000d1d10(0,iStack_4,unaff_EBX,DAT_0040c858,DAT_0040c85c,&fStack_2c,&fStack_38,
                      *(undefined4 *)(unaff_EBX + 8));
         FUN_0015a6d0(unaff_EBX,&fStack_5c);
