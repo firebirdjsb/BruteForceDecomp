@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h> /* original RSQRTSS/SQRTSS scalar instructions */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 void FUN_002d1fa0(int param_1,float *param_2,undefined4 param_3,undefined4 param_4,float *param_5)
@@ -14,7 +15,8 @@ void FUN_002d1fa0(int param_1,float *param_2,undefined4 param_3,undefined4 param
   float fVar1;
   float fVar2;
   float fVar3;
-  undefined1 auVar4 [16];
+  float first_y, first_z, second_y, second_z;
+  float guest_length_sq;
   float fVar5;
   float fVar6;
   float fVar7;
@@ -31,23 +33,29 @@ void FUN_002d1fa0(int param_1,float *param_2,undefined4 param_3,undefined4 param
   
   FUN_00150930();
   FUN_00150930();
+  /* 0x002D202A..0x002D2049: MOVSS/MOVHPS load and subtract XYZ float
+   * words.  The two 64-bit stack fields contain adjacent float32s,
+   * not 64-bit integers converted numerically to floating point. */
+  memcpy(&first_y,&local_1c,sizeof first_y);
+  memcpy(&first_z,(const uint8_t *)&local_1c+4,sizeof first_z);
+  memcpy(&second_y,&local_c,sizeof second_y);
+  memcpy(&second_z,(const uint8_t *)&local_c+4,sizeof second_z);
   fVar5 = local_10 - local_20;
-  fVar7 = (float)local_c - (float)local_1c;
-  fVar10 = (float)((ulonglong)local_1c >> 0x20);
-  fVar9 = (float)((ulonglong)local_c >> 0x20) - fVar10;
-  fVar6 = *param_2 - local_20;
-  fVar8 = (float)*(undefined8 *)(param_2 + 1) - (float)local_1c;
-  fVar10 = (float)((ulonglong)*(undefined8 *)(param_2 + 1) >> 0x20) - fVar10;
-  auVar4._0_4_ = fVar5 * fVar5;
-  auVar4._4_4_ = 0;
-  auVar4._8_4_ = fVar7 * fVar7;
-  auVar4._12_4_ = fVar9 * fVar9;
-  auVar4 = rsqrtss(auVar4,auVar4._8_4_ + auVar4._12_4_ + auVar4._0_4_);
-  fVar3 = auVar4._0_4_;
+  fVar7 = second_y - first_y;
+  fVar9 = second_z - first_z;
+  fVar6 = param_2[0] - local_20;
+  fVar8 = param_2[1] - first_y;
+  fVar10 = param_2[2] - first_z;
+  /* The original horizontal SSE sum feeds RSQRTSS at 0x002D20B8;
+   * an exact reciprocal square root would change the approximation. */
+  guest_length_sq = (fVar7 * fVar7 + fVar9 * fVar9) + fVar5 * fVar5;
+  fVar3 = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(guest_length_sq)));
   local_50 = fVar10 * fVar7 - fVar9 * fVar8;
   local_4c = fVar9 * fVar6 - fVar10 * fVar5;
   fStack_48 = fVar8 * fVar5 - fVar7 * fVar6;
-  fVar1 = SQRT(local_4c * local_4c + fStack_48 * fStack_48 + local_50 * local_50) * fVar3;
+  /* 0x002D213E uses SQRTSS, then x87 multiplies by the RSQRTSS lane. */
+  fVar1 = _mm_cvtss_f32(_mm_sqrt_ss(_mm_set_ss(
+      (local_4c * local_4c + fStack_48 * fStack_48) + local_50 * local_50))) * fVar3;
   *(float *)(param_1 + 0x58) = fVar1;
   if (fVar1 * fVar1 <= 1e-10) {
     local_50 = 1.0;
@@ -76,7 +84,12 @@ void FUN_002d1fa0(int param_1,float *param_2,undefined4 param_3,undefined4 param
     *(undefined1 *)(param_1 + 0x60) = 0;
     fVar1 = fVar3 * fVar3 * (fVar5 * fVar6 + fVar8 * fVar7 + fVar9 * fVar10);
     if ((fVar1 < 0.0) || (1.0 < fVar1)) {
-      param_5[0x13] = (float)((uint)param_5[0x13] & 0xfffffdff | 0x100);
+      /* 0x002D2291..0x002D22A0: MOV/AND/OR/MOV DWORD [EAX+0x4C].
+       * This is bit masking of a guest DWORD, never a numeric float cast. */
+      uint32_t guest_flags;
+      memcpy(&guest_flags,&param_5[0x13],sizeof guest_flags);
+      guest_flags = (guest_flags & UINT32_C(0xfffffdff)) | UINT32_C(0x100);
+      memcpy(&param_5[0x13],&guest_flags,sizeof guest_flags);
     }
   }
   return;
