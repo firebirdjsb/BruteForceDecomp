@@ -136,7 +136,13 @@ void FUN_00375330(void)
         return;
       }
       if ((DAT_0037ec84 < '\0') && (DAT_0037ec80 != 0)) {
-        NtSetInformationFile(DAT_0037ec80,&DAT_0037ec44,&stack0xffffff9f,1,0xd);
+        /* Matching XBE 0x003753B5 LEA ECX,[ESP+0x1B] passes the same
+         * one-byte guest stack slot written by 0x003753C0
+         * MOV BYTE PTR [ESP+0x27],1 after three further pushes.
+         * Incoming ESP-relative address is -0x61; original kernel import
+         * calling convention and host guest-memory mapping remain unverified. */
+        undefined1 guest_disposition_byte = 1;
+        NtSetInformationFile(DAT_0037ec80,&DAT_0037ec44,&guest_disposition_byte,1,0xd);
         NtClose(DAT_0037ec80);
         DAT_0037ec80 = 0;
       }
