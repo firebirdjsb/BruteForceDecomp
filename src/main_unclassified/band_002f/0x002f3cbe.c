@@ -42,10 +42,12 @@ int XAPILIB__XCreateSaveGame
   } while (cVar1 != '\0');
   uVar3 = (int)pcVar2 - (int)(local_12c + 1);
   if (param_3 == 3) {
+    /* XBE 0x002F3D23/7F: LEA ESI,[EBP+EDI-0x128] = local_12c + path length. */
+    char *guest_append_cursor = local_12c + uVar3;
     pcVar2 = "\\SaveMeta.xbx";
     do {
       cVar1 = *pcVar2;
-      (&stack0xffc78a40 + uVar3)[(int)pcVar2] = cVar1;
+      *guest_append_cursor++ = cVar1;
       pcVar2 = pcVar2 + 1;
     } while (cVar1 != '\0');
     iVar4 = FUN_002f3be2();
@@ -55,10 +57,12 @@ int XAPILIB__XCreateSaveGame
   else {
     iVar5 = FUN_002f4839();
     if (iVar5 != 0) {
+      /* XBE 0x002F3D23/7F: LEA ESI,[EBP+EDI-0x128] = local_12c + path length. */
+      char *guest_append_cursor = local_12c + uVar3;
       pcVar2 = "\\SaveMeta.xbx";
       do {
         cVar1 = *pcVar2;
-        (&stack0xffc78a40 + uVar3)[(int)pcVar2] = cVar1;
+        *guest_append_cursor++ = cVar1;
         pcVar2 = pcVar2 + 1;
       } while (cVar1 != '\0');
       RtlInitAnsiString();
@@ -91,10 +95,12 @@ LAB_002f3f0e:
     iVar4 = GetLastError();
     iVar5 = 0x491;
     if (iVar4 == 0xb7) {
+      /* XBE 0x002F3D23/7F: LEA ESI,[EBP+EDI-0x128] = local_12c + path length. */
+      char *guest_append_cursor = local_12c + uVar3;
       pcVar2 = "\\SaveMeta.xbx";
       do {
         cVar1 = *pcVar2;
-        (&stack0xffc78a40 + uVar3)[(int)pcVar2] = cVar1;
+        *guest_append_cursor++ = cVar1;
         pcVar2 = pcVar2 + 1;
       } while (cVar1 != '\0');
       iVar5 = FUN_002f3be2();
