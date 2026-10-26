@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <string.h>
+/* Original stores the incoming 64-bit value as two DWORDs. The x87 FST/FSTP
+ * writeback to its guest stack slot remains ABI_UNVERIFIED. */
 undefined4 FUN_002bb980(double param_1)
 
 {
@@ -13,6 +16,7 @@ undefined4 FUN_002bb980(double param_1)
   float fVar2;
   float fVar3;
   undefined4 uVar4;
+  uint32_t value_words[2];
   int in_ECX;
   
   fVar1 = *(float *)(in_ECX + 0xbc) - *(float *)(in_ECX + 0x1a8);
@@ -38,8 +42,11 @@ undefined4 FUN_002bb980(double param_1)
   *(undefined4 *)(in_ECX + 0x1a8) = *(undefined4 *)(in_ECX + 0xbc);
   *(undefined4 *)(in_ECX + 0x1ac) = *(undefined4 *)(in_ECX + 0xc0);
   *(undefined4 *)(in_ECX + 0x1b0) = *(undefined4 *)(in_ECX + 0xc4);
-  *(undefined4 *)(in_ECX + 0x17c) = param_1._4_4_;
-  *(undefined4 *)(in_ECX + 0x178) = param_1._0_4_;
+  /* 0x2bba81..0x2bba8f: high DWORD is written before low DWORD. */
+  _Static_assert(sizeof param_1 == sizeof value_words, "64-bit incoming double");
+  memcpy(value_words,&param_1,sizeof value_words);
+  *(undefined4 *)(in_ECX + 0x17c) = value_words[1];
+  *(undefined4 *)(in_ECX + 0x178) = value_words[0];
   fVar1 = *(float *)(in_ECX + 0xbc) - *(float *)(in_ECX + 0x1b8);
   fVar3 = *(float *)(in_ECX + 0xc0) - *(float *)(in_ECX + 0x1bc);
   fVar2 = *(float *)(in_ECX + 0xc4) - *(float *)(in_ECX + 0x1c0);
@@ -56,8 +63,10 @@ undefined4 FUN_002bb980(double param_1)
     *(undefined4 *)(in_ECX + 0x1b8) = *(undefined4 *)(in_ECX + 0xbc);
     *(undefined4 *)(in_ECX + 0x1bc) = *(undefined4 *)(in_ECX + 0xc0);
     *(undefined4 *)(in_ECX + 0x1c0) = *(undefined4 *)(in_ECX + 0xc4);
-    *(undefined4 *)(in_ECX + 0x180) = param_1._0_4_;
-    *(undefined4 *)(in_ECX + 0x184) = param_1._4_4_;
+    /* 0x2bbb8d..0x2bbb9b: low DWORD is written before high DWORD. */
+    memcpy(value_words,&param_1,sizeof value_words);
+    *(undefined4 *)(in_ECX + 0x180) = value_words[0];
+    *(undefined4 *)(in_ECX + 0x184) = value_words[1];
   }
   else if (4.0 < param_1 - *(double *)(in_ECX + 0x180)) {
     return 3;

@@ -79,8 +79,11 @@ FUN_0033e13a(int param_1,char *param_2,undefined4 param_3,int param_4,int *param
     __dest = (void *)((int)__dest + iVar4);
   }
   if (local_c == 0) {
-    iVar4 = FUN_0033df31(__dest,iVar7,"Host: %d.%d.%d.%d\r\n",(undefined1)param_3,param_3._1_1_,
-                         param_3._2_1_,param_3._3_1_);
+    /* 0x33e262..0x33e275: MOVZX the four bytes at EBP+0x10..0x13,
+     * pushed high byte first; the formatter receives low byte first. */
+    iVar4 = FUN_0033df31(__dest,iVar7,"Host: %d.%d.%d.%d\r\n",
+                         (uint8_t)param_3,(uint8_t)(param_3 >> 8),
+                         (uint8_t)(param_3 >> 16),(uint8_t)(param_3 >> 24));
     if (iVar4 < 0) goto LAB_0033e225;
     iVar7 = iVar7 - iVar4;
     __dest = (void *)((int)__dest + iVar4);

@@ -12,6 +12,8 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x002BB980, 622, "8cb376c292fa8f6967bae34aee2046268e94d533917193e144975fcd03387261"),
+    (0x0033E13A, 473, "3ead9b1ea3ad925b15e8e133cf594f57f6d8b4a840dd9979a5b1d92058e8aed1"),
     (0x0034BD47, 472, "fba8da494e65b869d42f6bb90d71d1bffa3330d9f6068ed85e2029896e957d73"),
     (0x001F3FB0, ((0,369),(620,12)), "7fb32f534c6943500c9d55895945af2c3567f55d8fef5bf3a6a72a8493cbbec5"),
     (0x00209F40, 327, "616c03bf83a483520a4a94ec3b1c13136f06d3fd3aebd46bdafd0d2d879f5d06"),
@@ -64,6 +66,12 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x002BBA79: "dd442408dd5424088b44240c8b54240889817c010000899178010000",  # FLD/FST then high/low stores
+    0x002BBB89: "dd5c24088b4424088b54240c898180010000899184010000",  # FSTP then low/high stores
+
+    0x0033E262: "0fb64513500fb64512500fb64511500fb6451050",  # MOVZX/PUSH bytes 3,2,1,0
+    0x0033E27D: "e8affcffff83c41c",  # formatter call; caller removes seven DWORDs
+
     0x0034BD4E: "8b7d08",  # EDI retains original pointer word
     0x0034BD77: "8b5610",  # read DWORD into EDX
     0x0034BD8A: "895508",  # reuse incoming argument slot with entire EDX
