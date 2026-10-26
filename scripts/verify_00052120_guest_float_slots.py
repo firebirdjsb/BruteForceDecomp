@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """Check 0x00052120 original x87 float stack slots and C11 source.
 
-The recovered virtual-call/output-pointer ABI and native behavior remain
-unverified.  Never equate a host pointer cast with FLD m32fp.
+The caller proves the ECX=this and three stack-argument contract. A second
+caller reads three floats from the high output. Actual callee identity and
+full write lengths remain unverified; host-native execution is unsupported.
 """
 import argparse
 import hashlib
 from pathlib import Path
 import shutil
 import subprocess
+import struct
 
 SOURCE = "src/main_unclassified/band_0005/0x00052120.c"
 XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
@@ -16,29 +18,69 @@ BODY_SHA256 = "a9bb04ff684df913b8d6f81e92e4d06b88773586b58567cf41746be7570bea45"
 ENTRY = 0x00052120
 BODY_LEN = 157
 OPCODES = (
-    (0x52120, "83ec28"),      # SUB ESP,0x28
-    (0x52125, "8d4c2410"),    # LEA ECX,[ESP+0x10]
-    (0x5212a, "8d542404"),    # LEA EDX,[ESP+4] after first push
-    (0x52137, "8d4c241c"),    # LEA ECX,[ESP+0x1c] after stack adjustment
-    (0x5213c, "8d542408"),    # LEA EDX,[ESP+8] after push
-    (0x5214e, "d9442414"),    # FLD m32fp [ESP+0x14]
-    (0x52157, "d9442400"),    # FLD m32fp [ESP+0]
-    (0x5215f, "d864242c"),    # FSUB m32fp incoming arg
-    (0x52176, "d9442420"),    # FLD m32fp [ESP+0x20]
-    (0x5217d, "d9442404"),    # FLD m32fp [ESP+4]
-    (0x521b0, "c20400"),      # RET 4
+    (0x52120, "83ec28"), (0x52123, "8b06"), (0x52125, "8d4c2410"),
+    (0x52129, "51"), (0x5212a, "8d542404"), (0x5212e, "52"),
+    (0x5212f, "53"), (0x52130, "8bce"), (0x52132, "ff5020"),
+    (0x52135, "8b06"), (0x52137, "8d4c241c"), (0x5213b, "51"),
+    (0x5213c, "8d542408"), (0x52140, "52"), (0x52141, "57"),
+    (0x52142, "8bce"), (0x52144, "ff5020"),
+    (0x5214e, "d9442414"), (0x52157, "d9442400"),
+    (0x5215f, "d864242c"), (0x52176, "d9442420"),
+    (0x5217d, "d9442404"), (0x521ab, "b001"),
+    (0x521b0, "c20400"), (0x521b5, "32c0"), (0x521ba, "c20400"),
+    # Independent caller 0x52816 reads three floats from the high output.
+    (0x52816, "8b06"), (0x52818, "8d4c2440"),
+    (0x5281c, "51"), (0x5281d, "8d542420"),
+    (0x52821, "52"), (0x52822, "57"),
+    (0x52823, "8bce"), (0x52825, "ff5020"),
+    (0x52860, "d9442448"), (0x52867, "d9442444"),
+    (0x5286e, "d9442440"),
 )
 MARKERS = (
-    "undefined1 local_28 [8];",
-    "undefined1 local_18 [20];",
-    "memcpy(&guest_first_y, local_18 + 4, sizeof guest_first_y);",
-    "memcpy(&guest_first_x, local_28, sizeof guest_first_x);",
-    "memcpy(&guest_second_y, local_18 + 16, sizeof guest_second_y);",
-    "memcpy(&guest_second_x, local_28 + 4, sizeof guest_second_x);",
-    "fVar2 = (fVar1 - guest_first_x) - param_1;",
-    "fVar3 = guest_second_x + fStack_20 + param_1;",
+    "undefined1 guest_frame[0x28];",
+    "__attribute__((thiscall))",
+    "get_bounds = (bf_52120_bounds_call)*(code **)(*unaff_ESI + 0x20);",
+    "get_bounds(unaff_ESI, unaff_EBX, guest_frame + 0x00, guest_frame + 0x10);",
+    "get_bounds(unaff_ESI, unaff_EDI, guest_frame + 0x04, guest_frame + 0x1c);",
+    "memcpy(&guest_first_y, guest_frame + 0x14, sizeof guest_first_y);",
+    "memcpy(&guest_first_x, guest_frame + 0x00, sizeof guest_first_x);",
+    "memcpy(&guest_second_y, guest_frame + 0x20, sizeof guest_second_y);",
+    "memcpy(&guest_second_x, guest_frame + 0x04, sizeof guest_second_x);",
     "STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED",
 )
+
+
+def check_layout():
+    """Model 12-byte float3 outputs as a regression, not callee proof."""
+    frame = bytearray(0x28)
+    for offset in (0, 0x10, 4, 0x1c):
+        assert offset + 12 <= len(frame)
+    assert set(range(0, 12)) & set(range(4, 16))
+    assert not (set(range(0x10, 0x1c)) & set(range(0x1c, 0x28)))
+    struct.pack_into("<fff", frame, 0, 1., 2., 3.)
+    struct.pack_into("<fff", frame, 0x10, 4., 5., 6.)
+    struct.pack_into("<fff", frame, 4, 7., 8., 9.)
+    struct.pack_into("<fff", frame, 0x1c, 10., 11., 12.)
+    observed = tuple(struct.unpack_from("<f", frame, offset)[0]
+                     for offset in (0, 0x14, 4, 0x20))
+    assert observed == (1., 5., 7., 11.), observed
+
+
+def check_i386_thiscall(clang):
+    """Check the ABI probe emits x86_thiscallcc, not host cdecl."""
+    import tempfile
+    probe = ("typedef void (__attribute__((thiscall)) *fn)(void*,void*,char*,char*);\\n"
+             "void test(fn f, void *s, void *o, char *b) { f(s,o,b,b+16); f(s,o,b+4,b+28); }\\n")
+    with tempfile.TemporaryDirectory() as tmp:
+        path = Path(tmp) / "thiscall.c"
+        path.write_text(probe, encoding="utf-8")
+        run = subprocess.run([clang, "-target", "i386-pc-linux-gnu",
+                              "-nostdinc", "-S", "-emit-llvm",
+                              str(path), "-o", "-"],
+                             text=True, capture_output=True)
+        if run.returncode or run.stdout.count("call x86_thiscallcc") != 2:
+            raise SystemExit("i386 thiscall codegen failed:\\n" + run.stderr)
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -49,7 +91,11 @@ def main():
     for marker in MARKERS:
         if marker not in source:
             raise SystemExit("missing verified source invariant: " + marker)
-    for invalid in ("(float)puStack_2c", "(float)unaff_EDI", "(float)&puStack_30"):
+    if source.count("get_bounds(unaff_ESI,") != 2:
+        raise SystemExit("expected two explicit guest-thiscall calls")
+    check_layout()
+    for invalid in ("(**(code **)(*unaff_ESI + 0x20))();",
+                    "(float)puStack_2c", "(float)unaff_EDI", "(float)&puStack_30"):
         if invalid in source:
             raise SystemExit("host pointer-to-float arithmetic returned: " + invalid)
     if args.xbe:
