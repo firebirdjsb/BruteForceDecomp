@@ -35,8 +35,18 @@ REQUIRED = (
 
 def check_source(source):
     missing = [value for value in REQUIRED if value not in source]
-    if missing or "&stack0xffffffb4" in source:
-        raise ValueError(f"0x001304b0 source invariant failed: {missing}")
+    # Both DWORDs are cleared before the first virtual call and again
+    # before the later constructor path. Reject removal of either write.
+    expected_counts = {"local_40[0] = 0;": 2, "local_40[1] = 0;": 2}
+    wrong_counts = {
+        piece: (source.count(piece), count)
+        for piece, count in expected_counts.items()
+        if source.count(piece) != count
+    }
+    if missing or wrong_counts or "&stack0xffffffb4" in source:
+        raise ValueError(
+            f"0x001304b0 source invariant failed: {missing}, counts={wrong_counts}"
+        )
 
 
 def check_xbe(path):
