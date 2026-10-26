@@ -10,12 +10,15 @@
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00469888;
 extern char s_exit_1___Unable_to_recover__00404a8c[];
-void FUN_00295370(undefined4 param_1)
+void FUN_00295370(undefined4 param_1,undefined4 param_2)
 
 {
   undefined1 local_1f8 [504];
   
-  FUN_002eba94(local_1f8,param_1,&stack0x00000008);
+  /* 0x0029537A: LEA EAX,[ESP+0x200] after SUB ESP,0x1F8
+   * resolves to entry ESP+8: address of second incoming DWORD.
+   * This is argument storage, not an invented native pointer. */
+  FUN_002eba94(local_1f8,param_1,&param_2);
   FUN_0028aa90(local_1f8);
   if (*(__jmp_buf_tag **)(DAT_00469888 + 0x18) != (__jmp_buf_tag *)0x0) {
     _longjmp(*(__jmp_buf_tag **)(DAT_00469888 + 0x18),1);
