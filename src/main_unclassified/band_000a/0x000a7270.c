@@ -26,6 +26,9 @@ uint FUN_000a7270(int param_1)
   char *unaff_EDI;
   uint *puVar6;
   int *piStack_4c;
+  /* Xbox 0x000A7394 LEA [ESP+0x10] addresses guest [S-0x44],
+   * the second 32-bit word of this adjacent two-word local record.
+   * 0x000A73B1 reloads it for FUN_000A7160. */
   uint local_48 [2];
   undefined4 uStack_40;
   uint local_34;
@@ -77,9 +80,9 @@ uint FUN_000a7270(int param_1)
         iVar3 = (**(code **)(*DAT_004432fc + 0x40))(DAT_004432fc,2,uVar5,&piStack_4c,unaff_ESI);
         if ((-1 < iVar3) &&
            (iVar3 = (**(code **)(*piStack_4c + 0x10))
-                              (piStack_4c,s_23_23_INamedTexture_004060e0,&stack0xffffffb0),
+                              (piStack_4c,s_23_23_INamedTexture_004060e0,&local_48[1]),
            -1 < iVar3)) {
-          FUN_000a7160(local_8);
+          FUN_000a7160(local_48[1]);
         }
         if (piStack_4c != (int *)0x0) {
           (**(code **)(*piStack_4c + 8))(piStack_4c);
@@ -87,7 +90,7 @@ uint FUN_000a7270(int param_1)
         uVar5 = uVar5 + 1;
       } while (uVar5 < local_48[0]);
     }
-    *(byte *)(local_8 + 0x114) = *(byte *)(local_8 + 0x114) & 0xfe;
+    *(byte *)(param_1 + 0x114) = *(byte *)(param_1 + 0x114) & 0xfe;
     puVar6 = (uint *)0x1000000;
   }
   if (unaff_ESI != (int *)0x0) {
