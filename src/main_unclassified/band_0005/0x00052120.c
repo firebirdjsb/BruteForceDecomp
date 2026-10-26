@@ -14,7 +14,9 @@
  * three B-output floats, supporting >=12 readable bytes from B.
  * Guest register provenance, indirect callee identity, complete output
  * write sizes, x87 rounding, and native guest-memory ABI are unverified. */
-#if defined(__i386__) && (defined(__GNUC__) || defined(__clang__))
+#if defined(_MSC_VER) && defined(_M_IX86)
+#define BF_52120_THISCALL __thiscall /* Xbox x86 ECX receiver + 3 stack DWORDs */
+#elif defined(__i386__) && (defined(__GNUC__) || defined(__clang__))
 #define BF_52120_THISCALL __attribute__((thiscall))
 #else
 #define BF_52120_THISCALL /* syntax-only on non-x86 targets */
