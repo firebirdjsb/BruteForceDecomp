@@ -2,10 +2,12 @@
 """Synthetic audit-artifact corruption regression; original XBE not needed."""
 from __future__ import annotations
 import csv
+import hashlib
 import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from verify_audit_artifact_consistency import verify
+from source_layout import source_path
 
 
 def write_csv(path, fields, rows):
@@ -184,5 +186,57 @@ with TemporaryDirectory() as directory:
     finally:
         report_path.write_text(original_report, encoding="utf-8")
 
-    print("PASS: artifact consistency, 17 synthetic corruption cases, "
-          "and canonical inventory cross-check controls")
+    # A self-consistent artifact can be stale or describe different C bytes.
+    # Bind every compiler record to the exact source checkout and Git commit.
+    checkout = root / "synthetic_checkout"
+    (checkout / "metadata").mkdir(parents=True)
+    (checkout / "metadata" / "asm_supported_readable_names.csv").write_text(
+        "entry,readable_alias\n", encoding="utf-8"
+    )
+    checkout_report = json.loads(json.dumps(report))
+    checkout_inventory = []
+    for index, row in enumerate(checkout_report["results"]):
+        path = source_path(checkout, row["entry"])
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(f"/* audited source {row['entry']} */\n".encode("ascii"))
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        row["c_sha256_actual"] = digest
+        row["c_sha256_matches_inventory"] = index != 0
+        checkout_inventory.append({
+            "entry": row["entry"],
+            "original_body_sha256": "A" * 64,
+            "c_sha256": "c" * 64 if index == 0 else digest,
+        })
+    (root / "c11_sweep_report.json").write_text(
+        json.dumps(checkout_report), encoding="utf-8"
+    )
+    write_csv(canonical_path, columns, checkout_inventory)
+    assert verify(root, expected_total=3, inventory_path=canonical_path,
+                  expected_commit="a" * 40, source_root=checkout) == {
+                      "pass": 1, "fail": 2, "stack": 1,
+                  }
+    try:
+        verify(root, expected_total=3, inventory_path=canonical_path,
+               expected_commit="b" * 40, source_root=checkout)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("Stale audit commit accepted")
+    first_path = source_path(checkout, checkout_report["results"][0]["entry"])
+    original_bytes = first_path.read_bytes()
+    first_path.write_bytes(original_bytes + b"/* post-audit mutation */\n")
+    try:
+        try:
+            verify(root, expected_total=3, inventory_path=canonical_path,
+                   expected_commit="a" * 40, source_root=checkout)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("Source modified after audit was accepted")
+    finally:
+        first_path.write_bytes(original_bytes)
+    assert verify(root, expected_total=3, inventory_path=canonical_path,
+                  expected_commit="a" * 40, source_root=checkout)["fail"] == 2
+
+    print("PASS: artifact consistency, synthetic corruption cases, canonical "
+          "inventory, exact checked-out commit and source-byte binding")
