@@ -25,13 +25,8 @@ X86 = {
     0x0028FA10: "8b6c2434",      # load complete guest packed DWORD
     0x0028FA14: "8929",          # store DWORD to destination
 }
-REQUIRED = (
-    "Entry: 0x0028f610",
-    "Input x86 body SHA-256: 2BC6AFA",
-)
-# SHA metadata is checked by the whole-repository provenance inventory; here
-# check the exact guest lane operations and source syntax without inventing
-# an unrelated fixture XBE.
+# Whole-repository provenance independently checks the original x86 body hash;
+# this regression pins the guest DWORD's byte-lane instructions and C11 source.
 MARKERS = (
     "local_d8 = (local_d8 & UINT32_C(0xffff0000)) |",
     "((uint32_t)(uint8_t)local_fc << 8) | (uint8_t)uVar10;",
