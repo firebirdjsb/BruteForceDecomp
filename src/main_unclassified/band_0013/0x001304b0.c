@@ -49,7 +49,10 @@ void FUN_001304b0(void)
     piVar3 = local_40;
     iVar1 = (**(code **)(*DAT_00469908 + 0xc))(DAT_00469908,pppuVar2,0x80000000);
     if (-1 < iVar1) {
-      iVar1 = FUN_0019cee0(&stack0xffffffb4);
+      /* XBE 0x00130541/0x00130545 clear [ESP+0x0C]/[ESP+0x10].
+       * 0x00130569 LEA EAX,[ESP+0x10] passes the second local DWORD;
+       * preserve the existing three-word storage and unknown callee ABI. */
+      iVar1 = FUN_0019cee0(&local_40[1]);
       if (-1 < iVar1) {
         local_40[0] = 0;
         local_40[1] = 0;
