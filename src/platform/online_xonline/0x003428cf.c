@@ -20,18 +20,17 @@ int FUN_003428cf(char *param_1)
   int iVar4;
   char *pcVar5;
   undefined4 *puVar6;
-  undefined ***pppuVar7;
-  undefined4 local_430 [130];
-  undefined4 local_228 [2];
-  char local_220 [512];
-  int local_20;
-  undefined **local_1c [2];
-  undefined4 *local_14;
-  undefined2 uStack_12;
-  int local_10;
-  
+  undefined4 local_430[0x82]; /* EBP-0x42c .. EBP-0x225 */
+  undefined4 scratch_224[0x83]; /* EBP-0x224 .. EBP-0x019 */
+  char *local_220 = (char *)&scratch_224[2]; /* EBP-0x21c */
+  int local_20; /* EBP-0x1c: not part of REP STOSD region */
+  /* Original six guest DWORDs EBP-0x18 .. EBP-0x01, including a
+   * 16-byte overlapping URL record at EBP-0x10 (frame[2..5]).
+   * Guest32 addresses are NOT native host pointers: ABI_UNVERIFIED. */
+  uint32_t guest_frame[6];
+
   pcVar2 = param_1;
-  puVar6 = local_228;
+  puVar6 = scratch_224;
   for (iVar4 = 0x83; iVar4 != 0; iVar4 = iVar4 + -1) {
     *puVar6 = 0;
     puVar6 = puVar6 + 1;
@@ -41,31 +40,31 @@ int FUN_003428cf(char *param_1)
     *puVar6 = 0;
     puVar6 = puVar6 + 1;
   }
-  pppuVar7 = local_1c;
+  puVar6 = guest_frame;
   for (iVar4 = 6; iVar4 != 0; iVar4 = iVar4 + -1) {
-    *pppuVar7 = (undefined **)0x0;
-    pppuVar7 = pppuVar7 + 1;
+    *puVar6 = 0;
+    puVar6 = puVar6 + 1;
   }
-  local_14 = local_430;
-  local_228[1] = 1;
-  local_1c[0] = &PTR_DAT_003b7678;
-  local_1c[1] = (undefined **)0x8;
-  local_10 = 10;
-  FUN_00342562(param_1 + 0x8dc,local_1c,local_228);
+  guest_frame[2] = (uint32_t)(uintptr_t)local_430; /* MOV [EBP-0x10],EAX */
+  scratch_224[1] = 1; /* MOV [EBP-0x220],1 */
+  guest_frame[0] = 0x003b7678u; /* MOV [EBP-0x18],imm32 */
+  guest_frame[1] = 8; /* MOV [EBP-0x14],8 */
+  guest_frame[3] = 10; /* MOV [EBP-0x0c],10 */
+  FUN_00342562(param_1 + 0x8dc,guest_frame,scratch_224);
   if (local_20 != 0) {
     return local_20;
   }
-  iVar4 = FUN_0034204d(local_220,&stack0xffffffec,&param_1);
+  iVar4 = FUN_0034204d(local_220,&guest_frame[2],&param_1);
   if (iVar4 == 0) {
-    if (uStack_12 == 0) {
+    if ((uint16_t)(guest_frame[2] >> 16) == 0) {
       return -0x7feae6e8;
     }
-    *(ushort *)(pcVar2 + 0x42) = CONCAT11((undefined1)uStack_12,uStack_12._1_1_);
+    *(ushort *)(pcVar2 + 0x42) = (uint16_t)((guest_frame[2] >> 24) | ((guest_frame[2] >> 16) << 8));
     if (local_20 != 0) {
       return local_20;
     }
     pcVar5 = param_1;
-    if (local_10 != *(int *)(pcVar2 + 0x38)) {
+    if (guest_frame[3] != *(uint32_t *)(pcVar2 + 0x38)) {
       return -0x7feae6e8;
     }
   }
