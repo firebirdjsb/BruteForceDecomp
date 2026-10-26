@@ -7,100 +7,101 @@
  */
 #include "bf_ghidra_types.h"
 #include <xmmintrin.h>
-/* Original F32 pair is stored as two adjacent guest DWORDs.
- * Reconstruct raw IEEE-754 lanes without numeric float-to-integer conversion.
- * External callbacks, guest pointer ABI and full x87 behavior remain unverified. */
-static uint64_t bf_2312e0_pack_float2(float low, float high)
+_Static_assert(sizeof(float) == 4, "Xbox SSE operands are 32-bit floats");
+/* Original 952-byte x86 body, authenticated against the user's XBE:
+ * 0x2312E4 loads the second incoming stack DWORD as an INDEX, not pointer.
+ * 0x23143E: EAX=&direction_xyz[0], ECX=&basis[0], CALL 0x0001D0C0.
+ * 0x231625: ECX=param_3, PUSH &origin_xyz[0], CALL [vtable+0x38].
+ * 0x231630: EAX=&direction_xyz[0], ECX=&matrix[1], CALL 0x0001D0C0.
+ * 0x231643: ECX=param_3, PUSH &matrix[1], CALL [vtable+0x3C].
+ * The existing FUN_0001d0c0(void) draft does NOT transfer original EAX/ECX
+ * register arguments. This is isolated C11 syntax, not a linked native ABI.
+ * Guest pointer translation, virtual methods and x87 rounding are UNVERIFIED. */
+undefined4 FUN_002312e0(int param_1, int param_2, int *param_3, float param_4)
 {
-  uint32_t words[2];
-  memcpy(&words[0], &low, 4);
-  memcpy(&words[1], &high, 4);
-  return (uint64_t)words[0] | ((uint64_t)words[1] << 32);
-}
-/* WARNING: Restarted to delay deadcode elimination for space: stack */
+  uint32_t indexed_base;     /* wrap in original 32-bit guest address space */
+  float origin_xyz[3];       /* original ESP+0x08..0x10 */
+  float direction_xyz[3];    /* original ESP+0x14..0x1C */
+  float scaled_xyz[3];       /* original ESP+0x20..0x28 */
+  float work_xyz[3];         /* original ESP+0x2C..0x34 */
+  float target_x, target_y; /* original ESP+0x38, +0x3C */
+  float matrix[10];          /* original ESP+0x40..0x64, [0]=target_z */
+  float basis[9];            /* original ESP+0x68..0x88 */
+  float movement_length = param_4; /* original incoming ESP+0x9C */
+  float delta_x, delta_y, delta_z, magnitude_sq, reciprocal_length;
 
-undefined4 FUN_002312e0(int param_1,int *param_2,int *param_3,float param_4)
+  if (param_3 == (int *)0x0) return 0;
+  /* LEA EAX,[EAX+EAX*2]; indexed [ECX+EAX*4+0x22C..0x264]. */
+  indexed_base = (uint32_t)param_1 + (uint32_t)param_2 * 12u;
+  origin_xyz[0] = *(float *)(uintptr_t)(indexed_base + 0x22cu);
+  origin_xyz[1] = *(float *)(uintptr_t)(indexed_base + 0x230u);
+  origin_xyz[2] = *(float *)(uintptr_t)(indexed_base + 0x234u);
+  direction_xyz[0] = *(float *)(uintptr_t)(indexed_base + 0x25cu);
+  direction_xyz[1] = *(float *)(uintptr_t)(indexed_base + 0x260u);
+  direction_xyz[2] = *(float *)(uintptr_t)(indexed_base + 0x264u);
 
-{
-  int iVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float norm2;
-  /* Guest [ESP+0x9C] initially holds incoming param_4, and only the
-   * flagged SSE branch replaces that same 32-bit word with SQRTSS length. */
-  float movement_length = param_4;
-  float *pfVar6;
-  float local_84;
-  float local_80;
-  float local_7c;
-  float local_78;
-  undefined8 local_74;
-  float local_6c;
-  undefined8 local_68;
-  float local_60;
-  float local_5c;
-  float fStack_58;
-  float local_54;
-  float local_50;
-  float local_4c [10];
-  float local_24;
-  float local_20;
-  float local_18;
-  float local_14;
-  float local_c;
-  float local_8;
-  
-  if (param_3 != (int *)0x0) {
-    local_7c = *(float *)(param_1 + 0x234 + (int)param_2 * 0xc);
-    iVar1 = param_1 + (int)param_2 * 0xc;
-    local_80 = *(float *)(iVar1 + 0x230);
-    local_84 = *(float *)(iVar1 + 0x22c);
-    pfVar6 = *(float **)(iVar1 + 0x260);
-    local_74 = *(undefined8 *)(iVar1 + 0x260);
-    local_78 = *(float *)(iVar1 + 0x25c);
-    if ((*(byte *)(param_1 + 0x225) & 2) != 0) {
-      local_7c = *(float *)(param_1 + 0x2e4);
-      local_80 = *(float *)(param_1 + 0x2e0);
-      local_84 = *(float *)(param_1 + 0x2dc);
-      local_74 = *(undefined8 *)(param_1 + 0x2ec);
-      local_78 = *(float *)(param_1 + 0x2e8);
-      local_6c = param_4 * local_78;
-      local_4c[0] = param_4 * *(float *)(param_1 + 0x2f0) + local_7c;
-      local_50 = param_4 * *(float *)(param_1 + 0x2ec) + local_80;
-      local_54 = local_84 + local_6c;
-      FUN_0001d0c0();
-      local_60 = local_20;
-      local_6c = local_20 * 0.1;
-      local_8 = local_8 * 0.1;
-      local_68 = bf_2312e0_pack_float2(local_14 * 0.1f, local_8);
-      local_84 = (local_24 * 0.25 + local_84) - local_6c;
-      /* Original writes to adjacent 32-bit guest stack words. */
-      memcpy(&local_5c, &local_14, sizeof local_5c);
-      memcpy(&fStack_58, &local_8, sizeof fStack_58);
-      local_80 = (local_18 * 0.25 + local_80) - local_14 * 0.1;
-      local_7c = (local_c * 0.25 + local_7c) - local_8;
-      fVar2 = local_4c[0] - local_7c;
-      fVar3 = local_50 - local_80;
-      local_78 = local_54 - local_84;
-      pfVar6 = &local_78;
-      /* Original SQRTSS at 0x2315B9, then RCPSS at 0x2315E8:
-       * preserve two separate SSE scalar operations and their approximation. */
-      norm2 = (fVar2 * fVar2 + fVar3 * fVar3) + local_78 * local_78;
-      movement_length = _mm_cvtss_f32(_mm_sqrt_ss(_mm_set_ss(norm2)));
-      fVar4 = _mm_cvtss_f32(_mm_rcp_ss(_mm_set_ss(movement_length)));
-      local_78 = local_78 * fVar4;
-      local_74 = bf_2312e0_pack_float2(fVar3 * fVar4, fVar2 * fVar4);
-    }
-    *(undefined4 *)(param_3[0x3a] + 0xc) = 0;
-    (**(code **)(*param_3 + 0x38))(&local_84,pfVar6);
+  if ((*(byte *)(param_1 + 0x225) & 2) != 0) {
+    origin_xyz[0] = *(float *)(param_1 + 0x2dc);
+    origin_xyz[1] = *(float *)(param_1 + 0x2e0);
+    origin_xyz[2] = *(float *)(param_1 + 0x2e4);
+    direction_xyz[0] = *(float *)(param_1 + 0x2e8);
+    direction_xyz[1] = *(float *)(param_1 + 0x2ec);
+    direction_xyz[2] = *(float *)(param_1 + 0x2f0);
+    /* MOVSS/MOVHPS/MULPS, original 0x2313CF..0x2313F0. */
+    scaled_xyz[0] = param_4 * direction_xyz[0];
+    scaled_xyz[1] = param_4 * direction_xyz[1];
+    scaled_xyz[2] = param_4 * direction_xyz[2];
+    target_x = origin_xyz[0] + scaled_xyz[0];
+    target_y = origin_xyz[1] + scaled_xyz[1];
+    matrix[0] = origin_xyz[2] + scaled_xyz[2];
+    /* Original guest EAX=&direction_xyz[0], ECX=&basis[0]; ABI unresolved. */
     FUN_0001d0c0();
-    (**(code **)(*param_2 + 0x3c))(local_4c);
-    if (200.0f <= movement_length) {
-      movement_length = 200.0f;
-    }
-    FUN_0021c380(movement_length * 0.005f);
-    return 1;
+
+    /* First matrix column *0.25, original 0x23147C..0x23149D. */
+    work_xyz[0] = basis[0] * 0.25f;
+    work_xyz[1] = basis[3] * 0.25f;
+    work_xyz[2] = basis[6] * 0.25f;
+    origin_xyz[0] += work_xyz[0];
+    origin_xyz[1] += work_xyz[1];
+    origin_xyz[2] += work_xyz[2];
+    /* Second column *0.1, original 0x2314F8..0x23152D.
+     * Ghidra's unscaled Z subtraction was wrong. */
+    work_xyz[0] = basis[1];
+    work_xyz[1] = basis[4];
+    work_xyz[2] = basis[7];
+    scaled_xyz[0] = work_xyz[0] * 0.1f;
+    scaled_xyz[1] = work_xyz[1] * 0.1f;
+    scaled_xyz[2] = work_xyz[2] * 0.1f;
+    origin_xyz[0] -= scaled_xyz[0];
+    origin_xyz[1] -= scaled_xyz[1];
+    origin_xyz[2] -= scaled_xyz[2];
+
+    delta_x = target_x - origin_xyz[0];
+    delta_y = target_y - origin_xyz[1];
+    delta_z = matrix[0] - origin_xyz[2];
+    direction_xyz[0] = delta_x;
+    direction_xyz[1] = delta_y;
+    direction_xyz[2] = delta_z;
+    /* x87 order: (dy*dy + dz*dz) + dx*dx; then SQRTSS and RCPSS.
+     * Do not substitute RSQRTSS or 1/sqrtf. */
+    magnitude_sq = (delta_y * delta_y + delta_z * delta_z) + delta_x * delta_x;
+    movement_length = _mm_cvtss_f32(_mm_sqrt_ss(_mm_set_ss(magnitude_sq)));
+    reciprocal_length = _mm_cvtss_f32(_mm_rcp_ss(_mm_set_ss(movement_length)));
+    direction_xyz[0] *= reciprocal_length;
+    direction_xyz[1] *= reciprocal_length;
+    direction_xyz[2] *= reciprocal_length;
   }
-  return 0;
+
+  *(undefined4 *)(param_3[0x3a] + 0xc) = 0;
+  /* Original ECX=param_3, PUSH &origin_xyz[0], CALL [vtable+0x38]. */
+  (**(code **)(*param_3 + 0x38))(param_3, origin_xyz);
+  /* Original EAX=&direction_xyz[0], ECX=&matrix[1]; ABI unresolved. */
+  FUN_0001d0c0();
+  /* Original ECX=param_3, PUSH &matrix[1], CALL [vtable+0x3C]. */
+  (**(code **)(*param_3 + 0x3c))(param_3, &matrix[1]);
+  /* Authenticated section-mapped .rdata: 0x3A52DC=200.0f,
+   * 0x3A52D8=0.005f. Incoming param_4 is overwritten only if flagged. */
+  if (200.0f <= movement_length) movement_length = 200.0f;
+  FUN_0021c380(movement_length * 0.005f);
+  return 1;
 }
