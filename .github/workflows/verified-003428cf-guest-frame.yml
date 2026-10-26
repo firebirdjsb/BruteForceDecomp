@@ -1,0 +1,25 @@
+name: XOnline 0x003428CF guest frame (source-only CI)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/platform/online_xonline/0x003428cf.c'
+      - 'scripts/verify_003428cf_guest_frame.py'
+      - '.github/workflows/verified-003428cf-guest-frame.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify original guest32 source slots and isolated Clang C11
+        run: python3 scripts/verify_003428cf_guest_frame.py --root .
+      - name: Report evidence boundary
+        run: echo 'Original copyrighted XBE intentionally excluded from public CI; optional local --xbe verification required for instruction provenance.'
