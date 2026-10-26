@@ -16,7 +16,6 @@ extern uint32_t DAT_0041267a;
 extern uint32_t DAT_0041267c;
 extern uint32_t DAT_00412680;
 extern uint32_t DAT_004126d0;
-extern uint32_t PTR_XBE_FILE_HEADER_0037ee4d;
 extern uint32_t _DAT_0037ee2c;
 extern uint32_t _DAT_0037ee30;
 extern uint32_t _DAT_0037ee44;
@@ -42,7 +41,12 @@ void FUN_0037ef88(void)
   int local_10;
   uint local_c;
   uint local_8;
-  
+  /* XBE 0x0037F138/140, 0x0037F155/15C, 0x0037F171/178:
+   * writes only bytes at adjacent guest VAs 0x0037EE4C and 0x0037EE4D.
+   * One backing symbol preserves the two-byte alias; the 32-bit extern is
+   * still an unlinked guest-memory placeholder, not a verified host ABI. */
+  uint8_t *const device_descriptor_bytes = (uint8_t *)(void *)&DAT_0037ee4c;
+
   uVar8 = 0;
   local_c = 0;
   local_8 = 0;
@@ -136,18 +140,18 @@ void FUN_0037ef88(void)
       } while (uVar8 < DAT_00412678);
     }
     if (local_c != 0) {
-      DAT_0037ee4c = 0;
-      PTR_XBE_FILE_HEADER_0037ee4d._0_1_ = (undefined1)local_c;
+      device_descriptor_bytes[0] = 0;
+      device_descriptor_bytes[1] = (uint8_t)local_c;
       FUN_0037f2ce(&DAT_0037ee4c);
     }
     if (local_10 != 0) {
-      DAT_0037ee4c = 2;
-      PTR_XBE_FILE_HEADER_0037ee4d._0_1_ = (undefined1)local_10;
+      device_descriptor_bytes[0] = 2;
+      device_descriptor_bytes[1] = (uint8_t)local_10;
       FUN_0037f2ce(&DAT_0037ee4c);
     }
     if (local_8 != 0) {
-      DAT_0037ee4c = 1;
-      PTR_XBE_FILE_HEADER_0037ee4d._0_1_ = (undefined1)local_8;
+      device_descriptor_bytes[0] = 1;
+      device_descriptor_bytes[1] = (uint8_t)local_8;
       FUN_0037f2ce(&DAT_0037ee4c);
     }
     KeInitializeTimerEx(&DAT_004126d0,0);
