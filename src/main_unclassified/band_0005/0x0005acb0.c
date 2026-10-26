@@ -28,6 +28,7 @@ void FUN_0005acb0(int param_1,int *param_2)
   float fVar12;
   float guest_length_sq;
   float guest_inv_length;
+  float guest_dot_product; /* XBE FSTP DWORD [EBP-0x8] stores f32, not a pointer */
   float local_28;
   float local_24;
   float fStack_20;
@@ -99,15 +100,15 @@ void FUN_0005acb0(int param_1,int *param_2)
       fVar12 = pfVar9[2] - *(float *)(iVar5 + 0x1c);
       local_10 = pfVar9[1] - *(float *)(iVar5 + 0x18);
       fVar3 = *pfVar9 - *(float *)(iVar5 + 0x14);
-      local_c = (float *)(local_28 * fVar3 + local_10 * local_24 + fVar12 * fStack_20);
-      if ((fVar3 * fVar3 + local_10 * local_10 + fVar12 * fVar12) - (float)local_c * (float)local_c
+      guest_dot_product = local_28 * fVar3 + local_10 * local_24 + fVar12 * fStack_20;
+      if ((fVar3 * fVar3 + local_10 * local_10 + fVar12 * fVar12) - guest_dot_product * guest_dot_product
           <= 100.0) {
         *(int *)(param_1 + 8) = iVar5;
       }
       else {
         *(undefined4 *)(param_1 + 8) = 0;
       }
-      *(float **)(param_1 + 0xc) = local_c;
+      *(float *)(param_1 + 0xc) = guest_dot_product;
       uVar8 = FUN_0005a800();
       if (uVar8 != (*(byte *)(param_1 + 0x10) & 8) >> 3) {
         *(float *)(param_1 + 0xc) = *(float *)(param_1 + 0xc) * -1.0;
