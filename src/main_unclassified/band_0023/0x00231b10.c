@@ -26,7 +26,8 @@ void FUN_00231b10(int *param_1)
   float fStack_f4;
   float fStack_f0;
   float fStack_ec;
-  undefined8 uStack_e8;
+  float guest_negative_y;
+  float guest_negative_z;
   float fStack_dc;
   float fStack_d8;
   float fStack_d4;
@@ -75,23 +76,25 @@ void FUN_00231b10(int *param_1)
         FUN_0003d6c0(auStack_bc,auStack_80,auStack_5c);
         pfVar5 = (float *)FUN_0001fdd0();
         fStack_ec = *pfVar5 * 0.05;
-        fStack_d8 = (float)((ulonglong)*(undefined8 *)(pfVar5 + 1) >> 0x20) * 0.05;
+        fStack_d8 = pfVar5[2] * 0.05;
         fStack_98 = fStack_98 - fStack_ec;
-        fStack_94 = fStack_94 - (float)*(undefined8 *)(pfVar5 + 1) * 0.05;
+        fStack_94 = fStack_94 - pfVar5[1] * 0.05;
         fStack_90 = fStack_90 - fStack_d8;
         FUN_0001fa20(auStack_bc,0x3fc90fdb);
         fVar6 = (float10)FUN_00233b90();
         FUN_00073d80(auStack_bc,
                      (float)((fVar6 * (float10)30.0 - (float10)15.0) * (float10)0.017453292));
         pfVar5 = (float *)FUN_0001fdd0();
-        uStack_e8._4_4_ = -pfVar5[2];
-        uStack_e8._0_4_ = -pfVar5[1];
+        /* 0x00231CEC..0x00231D12: x87 FLD/FCHS/FSTP of three
+         * contiguous F32 direction components, not packed integers. */
+        guest_negative_z = -pfVar5[2];
+        guest_negative_y = -pfVar5[1];
         fStack_ec = -*pfVar5;
         fVar6 = (float10)FUN_00233b90();
         fStack_f0 = (float)(fVar6 * (float10)1.0 + (float10)2.0);
         fStack_f8 = fStack_f0 * fStack_ec;
-        fStack_f4 = fStack_f0 * (float)uStack_e8;
-        fStack_f0 = fStack_f0 * uStack_e8._4_4_;
+        fStack_f4 = fStack_f0 * guest_negative_y;
+        fStack_f0 = fStack_f0 * guest_negative_z;
         fStack_d4 = fStack_f8;
         fStack_d0 = fStack_f4;
         fStack_cc = fStack_f0;
@@ -99,17 +102,19 @@ void FUN_00231b10(int *param_1)
         fVar6 = (float10)FUN_00233b90();
         fVar8 = (float)(fVar6 * (float10)0.5);
         fStack_ec = fVar8 * *pfVar5;
-        fVar7 = fVar8 * (float)*(undefined8 *)(pfVar5 + 1);
-        fVar8 = fVar8 * (float)((ulonglong)*(undefined8 *)(pfVar5 + 1) >> 0x20);
-        uStack_e8 = CONCAT44(fVar8,fVar7);
-        _fStack_d0 = CONCAT44(fVar8,fVar7);
+        /* 0x00231D33..0x00231D54: broadcast scale, multiply
+         * MOVSS/MOVHPS XYZ lanes and store 3 adjacent F32 words. */
+        fVar7 = fVar8 * pfVar5[1];
+        fVar8 = fVar8 * pfVar5[2];
+        fStack_d0 = fVar7;
+        fStack_cc = fVar8;
         fStack_d4 = fStack_ec;
         pfVar5 = (float *)FUN_0001fd10();
         fVar6 = (float10)FUN_00233b90();
         fStack_d8 = (float)(fVar6 * (float10)0.5);
         fStack_c8 = fStack_d8 * *pfVar5;
-        fStack_dc = fStack_d8 * (float)*(undefined8 *)(pfVar5 + 1);
-        fStack_d8 = fStack_d8 * (float)((ulonglong)*(undefined8 *)(pfVar5 + 1) >> 0x20);
+        fStack_dc = fStack_d8 * pfVar5[1];
+        fStack_d8 = fStack_d8 * pfVar5[2];
         uStack_c4 = CONCAT44(fStack_d8,fStack_dc);
         fStack_d8 = fStack_cc + fStack_d8;
         fStack_dc = fStack_d0 + fStack_dc;
