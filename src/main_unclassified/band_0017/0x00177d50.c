@@ -21,13 +21,17 @@ void FUN_00177d50(short *param_1,int param_2)
   float local_10;
   int *local_c;
   short *local_8;
+  float guest_y_angle;
+  uint32_t guest_y_angle_word;
   
   if (*(int *)(param_1 + 0x736) != -1) {
     FUN_002385a0();
     fVar3 = (float10)(**(code **)(*(int *)(*(int *)(param_2 + 0x8c) + 0x48) + 0x24))();
     local_10 = (float)fVar3;
     fVar3 = (float10)(**(code **)(*(int *)(*(int *)(param_2 + 0x8c) + 0x48) + 0x28))();
-    local_8 = (short *)(float)fVar3;
+    /* FSTP DWORD PTR [EBP-4] stores a binary32 value, not a pointer. */
+    guest_y_angle = (float)fVar3;
+    memcpy(&guest_y_angle_word, &guest_y_angle, sizeof guest_y_angle_word);
     FUN_0006be90(0x3dcccccd,*(float *)(param_1 + 0x744) * 6.0);
     local_c = (int *)0x0;
     FUN_0006a610(&local_c);
@@ -40,7 +44,8 @@ void FUN_00177d50(short *param_1,int param_2)
     }
     FUN_00236bc0(iVar2,0,0,param_2,local_4c);
     *(byte *)(param_2 + 0x84) = *(byte *)(param_2 + 0x84) | 0x80;
-    FUN_0006be90(local_10,local_8);
+    /* MOV EAX,[EBP-4] / PUSH EAX forwards the original four-byte float bits. */
+    FUN_0006be90(local_10,guest_y_angle_word);
     FUN_00238630();
   }
   if (((*(byte *)(param_1 + 1) & 1) != 0) || (*(int *)(param_1 + 0x736) == -1)) {
