@@ -12,6 +12,8 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x00232BE0, 349, "104cde5ad565a5444dd515a4744d7bd78ce63290caed96243dfc37262547c65c"),
+    (0x0023D240, 348, "0b216bc764b023224b4a87f6970b2c48788e24296fba1899a0e990a7e7a6d1a9"),
     (0x00224320, 490, "f8076a986c0939e3ffbc01c803cd5c1733ecf4885551129450163a7d8f1ba426"),
     (0x00354FF6, 930, "31ec306f27706c405db259a41caecd4741a111a766267b17fb2215aa7d6b7302"),
     (0x002DD4A0, 422, "9e521e65d821ebcf8c49579823463b0bbd0c11590ba977c8179d99266cbaf8e8"),
@@ -70,6 +72,22 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x00232BEC: "f30f53e0",  # RCPSS initial input
+    0x00232BFB: "0f2f0d70d838000f828d000000",  # COMISS / JB including unordered
+    0x00232C80: "f30f59c3f30f58cff30f53c9f30f59c1",  # small-path operand order
+    0x00232D09: "f30f59e3f30f58eff30f101500d93800f30f53edf30f59ec",  # large-path order
+    0x00232D29: "0f54c20f56c7f30f5cc5",  # sign, OR half-pi, subtract
+    0x0038D870: "000080bf",  # -1.0f compare threshold
+    0x0038D8C0: "db0fc93f",  # half-pi result word
+    0x0038D960: "f6b0bbbd1fa6b2bfb1c9bcc2d1364e410fcfa33f349f0c40c237da4043a4e141",  # scalar constants
+    0x0023D285: "d9442464",  # FLD incoming fourth DWORD
+    0x0023D28C: "d81d884f3a00",  # compare against original zero constant
+    0x0023D2AA: "f6c405",  # C0/C2 status predicate
+    0x0023D2B9: "7a0b",  # parity includes unordered path
+    0x0023D2C6: "8b4424645055e87ffeffff",  # unchanged argument word to helper
+    0x0023D33D: "89442464",  # reuse incoming slot for heap pointer
+    0x003A4F88: "00000000",  # binary32 zero
+
     0x002243A6: "8954242c",  # full candidate DWORD stored before alias read
     0x002243B1: "8d44242c",  # alias candidate slot
     0x002243B7: "894c24188d442418",  # alternative root slot and alias

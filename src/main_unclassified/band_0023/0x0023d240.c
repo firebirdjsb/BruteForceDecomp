@@ -6,7 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-int * FUN_0023d240(int *param_1,undefined4 param_2,int param_3,undefined4 *param_4)
+#include <string.h>
+int * FUN_0023d240(int *param_1,undefined4 param_2,int param_3,undefined4 incoming_scalar_word)
 
 {
   int iVar1;
@@ -15,7 +16,9 @@ int * FUN_0023d240(int *param_1,undefined4 param_2,int param_3,undefined4 *param
   int in_EAX;
   undefined4 uVar4;
   int *piVar5;
+  undefined4 *heap_node;
   int in_ECX;
+  float incoming_scalar;
   undefined1 local_30 [36];
   undefined4 local_c;
   float local_8;
@@ -36,8 +39,11 @@ int * FUN_0023d240(int *param_1,undefined4 param_2,int param_3,undefined4 *param
   param_2 = *(undefined4 *)(iVar1 + 0x3c);
   local_c = *(undefined4 *)(iVar1 + 0x38);
   local_8 = (float)param_2;
-  if (0.0 <= (float)param_4) {
-    uVar4 = FUN_0023d150(iVar2,param_4);
+  /* 0x23d285 loads the incoming fourth DWORD as m32fp; 0x23d2c6
+   * forwards its unchanged bits by MOV/PUSH on the selected path. */
+  memcpy(&incoming_scalar,&incoming_scalar_word,sizeof incoming_scalar);
+  if (!(incoming_scalar < 0.0f)) {
+    uVar4 = FUN_0023d150(iVar2,incoming_scalar_word);
   }
   else {
     uVar4 = FUN_0023d1a0(iVar2);
@@ -57,14 +63,14 @@ int * FUN_0023d240(int *param_1,undefined4 param_2,int param_3,undefined4 *param
     FUN_000ce090(1);
     return (int *)0x0;
   }
-  param_4 = (undefined4 *)FUN_002ea01d(8);
-  if (param_4 == (undefined4 *)0x0) {
-    param_4 = (undefined4 *)0x0;
+  heap_node = (undefined4 *)FUN_002ea01d(8);
+  if (heap_node == (undefined4 *)0x0) {
+    heap_node = (undefined4 *)0x0;
     FUN_001611d0();
     return piVar5;
   }
-  *param_4 = 0;
-  param_4[1] = piVar5;
+  *heap_node = 0;
+  heap_node[1] = piVar5;
   FUN_001611d0();
   return piVar5;
 }
