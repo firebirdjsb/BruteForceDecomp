@@ -15,6 +15,14 @@ bool FUN_00150290(int param_1,int param_2)
   undefined4 *unaff_EDI;
   float10 fVar3;
   float fVar4;
+  /* Original XBE 0x00150300 writes immediate 0xF4E18A7C to
+   * [ESP+0x08] after SUB ESP,0x28; PUSH EBX; PUSH EBP.
+   * At 0x00150390 and 0x001503C2 the following PUSH adjusts
+   * ESP by four, so both LEA [ESP+0x0C] address this SAME
+   * four-byte original local (entry ESP-0x28). It is neither
+   * an incoming stack parameter nor an independently allocated
+   * output. Guest register/host pointer contracts ABI_UNVERIFIED. */
+  uint32_t guest_query_word = UINT32_C(0xf4e18a7c);
   
   (**(code **)(**(int **)(unaff_ESI + 0x5a4) + 0xd0))(*unaff_EDI);
   if (param_1 != 0) {
@@ -26,12 +34,12 @@ bool FUN_00150290(int param_1,int param_2)
       fVar4 = -1.0;
     }
     if ((*(byte *)((int)unaff_EDI + 0x3d) & 4) != 0) {
-      iVar1 = FUN_0023d240(*(undefined4 *)(unaff_ESI + 500),param_1 + 0x14,&stack0xffffffd4,fVar4);
+      iVar1 = FUN_0023d240(*(undefined4 *)(unaff_ESI + 500),param_1 + 0x14,guest_query_word,fVar4);
       *(int *)(unaff_ESI + 0x248) = iVar1;
       return iVar1 != 0;
     }
     puVar2 = (undefined4 *)
-             FUN_0023d240(*(undefined4 *)(unaff_ESI + 500),param_1 + 0x14,&stack0xffffffd4,fVar4);
+             FUN_0023d240(*(undefined4 *)(unaff_ESI + 500),param_1 + 0x14,guest_query_word,fVar4);
     *(undefined4 **)(unaff_ESI + 0x228 + param_2 * 4) = puVar2;
     if (puVar2 != (undefined4 *)0x0) {
       *(undefined4 *)(unaff_ESI + 0x550) = *(undefined4 *)*puVar2;
