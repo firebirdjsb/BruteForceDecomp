@@ -9,6 +9,13 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_00443308;
+/* XBE 0x000A4301/0x000A4336, repeated at 0x000A4362/0x000A4397,
+ * 0x000A43C3/0x000A43F8 and 0x000A4424/0x000A4459:
+ * MOV EAX,[0x00443308]; MOV EDX,[EAX]; CALL [EDX+0x28]
+ * or CALL [ECX+0x24]. Those are BYTE offsets in the original
+ * 32-bit guest virtual table. The original Ghidra expression
+ * (*DAT_00443308)[10/9] incorrectly indexed a scalar UINT32.
+ * Guest address relocation and host vtable ABI remain unverified. */
 void FUN_000a42d0(void)
 
 {
@@ -42,7 +49,7 @@ void FUN_000a42d0(void)
   ppuStack_20 = DAT_00443308;
   piStack_24 = (int *)0xa4304;
   piStack_18 = piVar4;
-  iVar3 = (*(code *)(*DAT_00443308)[10])();
+  iVar3 = (**(code **)(*DAT_00443308 + 0x28))();
   if (iVar3 < 0) {
     piStack_24 = (int *)*piVar4;
     if (piStack_24 != (int *)0x0) {
@@ -56,7 +63,7 @@ void FUN_000a42d0(void)
     ppuStack_34 = DAT_00443308;
     ppuStack_38 = (undefined4 **)0xa4339;
     piStack_24 = piVar4;
-    (*(code *)(*DAT_00443308)[9])();
+    (**(code **)(*DAT_00443308 + 0x24))();
   }
   piStack_24 = *(int **)(unaff_ESI + 0xc);
   piVar4 = (int *)(unaff_ESI + 0xc);
