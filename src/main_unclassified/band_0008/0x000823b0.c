@@ -202,7 +202,15 @@ LAB_000827a0:
             if ((piStack_6c == (int *)0x0) ||
                ((uint)(iStack_64 - (int)piStack_6c >> 2) <=
                 (uint)((int)piStack_68 - (int)piStack_6c >> 2))) {
-              FUN_00075780(piStack_68,1,&stack0xffffff84);
+              /* XBE 0x000827F8 LEA EAX,[ESP+0x18] addresses
+               * the existing vector-begin word at entry ESP-0x6C
+               * (piStack_6c). At 0x00082802, ECX points to
+               * the separate vector descriptor at entry ESP-0x60.
+               * The original helper reads the supplied word via
+               * [EBP+0x10] and dereferences it at 0x000757A3.
+               * Guest thiscall register and host ABI remain
+               * ABI_UNVERIFIED. */
+              FUN_00075780(piStack_68,1,&piStack_6c);
             }
             else {
               FUN_0003efa0(piStack_68,1,&uStack_70,0);
