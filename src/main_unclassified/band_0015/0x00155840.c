@@ -104,7 +104,15 @@ void FUN_00155840(int *param_1)
       return;
     }
   }
-  local_18 = CONCAT22(local_18._2_2_,*(undefined2 *)(in_ECX + 0x22));
+  /* XBE 0x001558E8 MOV CX,[EAX+0x22] and 0x001558EC
+   * MOV WORD [EBP-0x14],CX preserve upper 16 bits in this
+   * original 32-bit guest stack word. 0x001558F0 reloads ESI.
+   * The other branch writes a zero-extended 16-bit selector
+   * with XOR ESI,ESI; MOV SI,[ECX+0x74]; MOV [EBP-0x14],ESI.
+   * Host stack frame initial upper bits on this branch remain
+   * ABI_UNVERIFIED; this operation does NOT forcibly clear them. */
+  local_18 = (local_18 & UINT32_C(0xffff0000)) |
+             (uint32_t)*(const uint16_t *)(uintptr_t)(in_ECX + 0x22);
 LAB_001558f3:
   uVar5 = local_18;
   local_c = in_ECX;
