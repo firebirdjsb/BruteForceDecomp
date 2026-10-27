@@ -26,6 +26,7 @@ OPS={
  0x002B37EE:"d9442420",
  0x002B37F5:"d9442424",
  0x002B37FC:"d944241c",
+ 0x002B3925:"89442424",
 }
 def guest(data,a,n):
     assert data[:4]==b"XBEH"
@@ -44,7 +45,7 @@ def guest(data,a,n):
 def main(root,xbe):
     src=(root/SOURCE).read_text()
     assert f"Input x86 body SHA-256: {BODY}" in src
-    for token in ("float local_a8;","local_a8 = 0.0f;","local_a8 = fStack_b0;","fVar2 = local_a8 * fVar3 * fStack_b8;","(auStack_94,&local_90,&local_a0)"):
+    for token in ("int *local_a8;","float guest_float_z;","guest_float_z = 0.0f;","guest_float_z = fStack_b0;","fVar2 = guest_float_z * fVar3 * fStack_b8;","local_a8 = param_1;","(auStack_94,&local_90,&local_a0)"):
         assert token in src,token
     assert "stack0xffffff44" not in src
     assert "local_a8 = (int *)" not in src
