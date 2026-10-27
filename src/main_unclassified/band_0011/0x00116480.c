@@ -28,6 +28,7 @@ void FUN_00116480(int *param_1,byte *param_2,int param_3)
   undefined1 local_54 [12];
   float local_48;
   undefined4 *local_44;
+  float guest_scalar_14; /* original XMM MINSS m32fp before stack-word pointer reuse */
   float local_40;
   undefined4 local_3c;
   float local_38;
@@ -86,11 +87,14 @@ void FUN_00116480(int *param_1,byte *param_2,int param_3)
       local_2c = *(undefined4 *)(param_2 + 0x2c);
       param_1[0x1d4] = *(int *)(param_2 + 0x20);
       iVar1 = *(int *)(*(int *)(*(int *)(param_2 + 0x80) + 0xb74) + 0x5c);
-      local_44 = *(undefined4 **)(iVar1 + 0x14);
+      /* XBE 0x0011664F MOV EDX,[EAX+14], then 0x00116682 MOVSS
+       * and 0x00116687 MINSS with the [EAX+18] float word.
+       * Preserve original 32-bit float lanes, not pointer arithmetic. */
+      guest_scalar_14 = *(float *)(iVar1 + 0x14);
       local_48 = *(float *)(iVar1 + 0x10);
       local_10 = 1.0 - (1.0 - *(float *)(param_2 + 0x2c)) * local_10;
-      fVar8 = (float)local_44;
-      if (*(float *)(iVar1 + 0x18) <= (float)local_44) {
+      fVar8 = guest_scalar_14;
+      if (*(float *)(iVar1 + 0x18) <= guest_scalar_14) {
         fVar8 = *(float *)(iVar1 + 0x18);
       }
       fVar11 = local_48;
