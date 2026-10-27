@@ -448,7 +448,12 @@ LAB_00357fb2:
                   uVar6 = ((*(uint *)(piVar8[0x99] + *(int *)(piVar8[0x97] + local_3cc * 4) * 4) >>
                             0x1d & 1) + 1) * uVar7 * 2;
                   local_3bc = 1000;
-                  local_3c4 = CONCAT44(local_3c4._4_4_,uVar6);
+                  /* Original low-DWORD update: keep the upper 32 guest bits
+                   * of the eight-byte stack record unchanged.
+                   * Native guest stack ABI remains unverified. */
+                  local_3c4 = (longlong)(
+                      ((uint64_t)local_3c4 & UINT64_C(0xffffffff00000000)) |
+                      (uint64_t)uVar6);
                   *(uint *)(piVar8[0xc0] + 0x4c + iVar13) =
                        (uint)(((ulonglong)uVar6 * (ulonglong)local_3c8) / 1000) & 0xfffffffc;
                   iVar9 = piVar8[0xc0];
