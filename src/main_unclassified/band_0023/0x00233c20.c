@@ -9,7 +9,14 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern char s_23_23_IAnimationBlenderOp_00406ec8[];
-undefined1 FUN_00233c20(void)
+/* XBE 0x00233D31 RET 4 pops exactly one original guest DWORD.
+ * 0x00233C80 MOV EAX,[ESP+0x74] reads it, with stable ESP
+ * at original entry ESP-0x70. Later 0x00233CE2 LEA
+ * ECX,[ESP+0x74] passes its ADDRESS to the callback.
+ * This is caller-owned storage, not a local host stack allocation.
+ * Original ESI/EDI register parameters and virtual call ABI
+ * are still ABI_UNVERIFIED for native builds. */
+undefined1 FUN_00233c20(uint32_t guest_input_word)
 
 {
   undefined4 *puVar1;
@@ -61,7 +68,7 @@ undefined1 FUN_00233c20(void)
         local_6c = 0xffffffff;
         puStack_74 = (undefined1 *)0xffe3b4c4;
         auStack_8[0] = 0;
-        (**(code **)*puVar1)(puVar1,&stack0xffffff90,1,&puStack_74,auStack_8);
+        (**(code **)*puVar1)(puVar1,&guest_input_word,1,&puStack_74,auStack_8);
       }
       uVar3 = 1;
     }
