@@ -42,6 +42,11 @@ extern code LAB_003573e0; /* 8B 44 24 04 8B 0D 8C 16 4B 00 */
 extern code LAB_00357400; /* 8B 44 24 04 8B 0D 8C 16 4B 00 */
 extern code LAB_00357440; /* E8 FB 3A 00 00 C2 04 00 */
 extern code LAB_00357450; /* 8B 44 24 04 8B 48 FC 3B 4C 24 08 */
+/* Adjacent callback drafts already exist in this repository at their
+ * original entry addresses. These declarations match those C-draft
+ * signatures only; original guest argument bridging remains unresolved. */
+extern void FUN_00357470(int param_1,undefined4 param_2);
+extern void FUN_003573c0(int param_1);
 /* WARNING: Removing unreachable block (ram,0x00358011) */
 
 int * FUN_003574b0(int *param_1,uint param_2)
