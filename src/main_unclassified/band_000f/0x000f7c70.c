@@ -16,6 +16,15 @@ undefined4 FUN_000f7c70(int *param_1,undefined4 param_2)
   int iVar2;
   int iVar3;
   int unaff_EDI;
+  /* Original XBE 0x000F7DB6..0x000F7DC1: the virtual
+   * +0x8C method receives address of a distinct guest DWORD
+   * at entry ESP-0x50 (first argument), the interior address
+   * entry ESP-0x44 (second), and incoming guest DWORD #2 at
+   * entry ESP+8 (third). Ghidra's stack0xffffffac and
+   * param_1 were displaced by the synthetic stack model.
+   * The following 0x000F7DC7 reads this output word.
+   * Native Xbox COM/guest-stack ABI remains ABI_UNVERIFIED. */
+  uint32_t guest_result_word;
   undefined1 *puVar4;
   int *piVar5;
   int iStack_4c;
@@ -72,7 +81,9 @@ undefined4 FUN_000f7c70(int *param_1,undefined4 param_2)
       }
       return 1;
     }
-    (**(code **)(*DAT_00469ab4 + 0x8c))(&stack0xffffffac,auStack_48,param_1);
+    (**(code **)(*DAT_00469ab4 + 0x8c))
+        (&guest_result_word,auStack_48 + 4,param_2);
+    unaff_EDI = (int)guest_result_word;
     if (unaff_EDI != 0) {
       FUN_0010caa0();
       puVar4 = auStack_c;
