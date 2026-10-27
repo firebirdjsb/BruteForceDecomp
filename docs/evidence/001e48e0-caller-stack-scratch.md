@@ -1,6 +1,9 @@
 # 0x001E48E0: caller-owned argument words used as file and read-count outputs
 
-Status: **instruction-verified handoff; no source repair authorised yet**.
+Status: **historical instruction-verified handoff**. The later
+[stack-output repair](001e48e0-stack-output-repair.md) supersedes this note's
+draft description after tracing the direct caller. A partial C source adapter
+now passes syntax checks; a native guest entry/return bridge remains unverified.
 
 The private original `default(2).xbe` was authenticated by full SHA-256:
 `B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721`.
@@ -11,8 +14,8 @@ The original decomp body embedded digest remains:
 
 Let `S` be entry ESP. Original code executes `SUB ESP,0x0C`,
 `PUSH EBP`, `PUSH ESI`, `PUSH EDI`, leaving stable `ESP=S-0x18`.
-An additional `PUSH EBX` at 0x001E494F changes ESP to `S-0x1C`
-in the fallback branch.
+An unconditional `PUSH EBX` at 0x001E494F changes ESP to `S-0x1C`
+before testing the fallback condition.
 
 | Instruction | Observed original behavior |
 | --- | --- |
@@ -30,7 +33,7 @@ All twelve opcode windows were compared byte-for-byte against the authenticated 
 
 ## Why this is deferred
 
-The current draft `src/main_unclassified/band_001e/0x001e48e0.c`
+The draft at the time of this handoff, `src/main_unclassified/band_001e/0x001e48e0.c`,
 has a one-parameter signature, a synthetic `&stack0xfffffff0` and
 misassociated locals `local_c`, `puStack_1c`, `local_8` and `param_1`.
 Simply replacing the ghost with `&local_c` or an arbitrary four-byte local

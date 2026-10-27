@@ -12,100 +12,110 @@ extern uint32_t *DAT_004432f8;
 extern uint32_t PTR_DAT_0040757c;
 extern char s_d__version_bin_0040756c[];
 extern char s_z__cacheinfo_bin_00407558[];
-void FUN_001e48e0(char *param_1)
-
+/* Guest entry has two DWORDs (caller 0x1ea424..0x1ea42b, RET 8).
+ * ABI_UNVERIFIED: this ordinary C signature is a source adapter, not an Xbox
+ * entry binding. S is entry ESP; EBP saves the buffer originally at S+4.
+ * argument_words models the writable S+4/S+8 pair without exposing a native
+ * pointer-sized parameter object to four-byte guest output writes. */
+void FUN_001e48e0(char *param_1, uint32_t param_2)
 {
-  char *pcVar1;
-  char cVar2;
-  int iVar3;
-  int iVar4;
-  undefined4 uVar5;
-  undefined *puVar6;
-  int unaff_EBX;
-  int *unaff_EBP;
-  undefined **ppuVar7;
-  char *pcVar8;
-  int *piStack_20;
-  undefined4 *puStack_1c;
-  undefined4 local_c;
-  int local_8;
-  undefined4 local_4;
-  
-  pcVar1 = param_1;
-  puStack_1c = (undefined4 *)0x1e48ef;
-  local_4 = XAPILIB__XGetLanguage();
-  puStack_1c = &param_1;
-  piStack_20 = &local_8;
-  pcVar8 = s_d__version_bin_0040756c;
-  local_c = 0;
-  param_1 = (char *)0x0;
-  local_8 = -0x1f3bc2fb;
-  iVar3 = (**(code **)(*DAT_004432f8 + 0xc))(DAT_004432f8,s_d__version_bin_0040756c,0x80000000);
-  if (-1 < iVar3) {
-    (**(code **)(*unaff_EBP + 0x10))(unaff_EBP,&piStack_20,4,&puStack_1c);
-    (**(code **)(*piStack_20 + 0xc))(piStack_20);
+  uint32_t argument_words[2];
+  uint32_t local_c, local_8, local_4;
+  uint32_t object_word, saved_word, compare_word;
+  uint32_t *table_word;
+  uint8_t reformat;
+  int32_t result;
+
+  local_4 = XAPILIB__XGetLanguage(); /* S-4, 0x1e48fe. */
+  local_c = 0;                     /* S-12, first four-byte read destination. */
+  local_8 = UINT32_C(0xe0c43d05);   /* S-8, first open/read output. */
+  argument_words[0] = 0;           /* S+4 overwritten at 0x1e4917. */
+  argument_words[1] = param_2;     /* S+8, low byte tested at 0x1e4949. */
+
+  /* Each vtable entry is a guest DWORD at the stated BYTE offset. code()
+   * remains ABI_UNVERIFIED: the original indirect target/cleanup is unresolved.
+   * 0x1e48ef..0x1e4922 pushes both output addresses, not only three arguments. */
+  result = (int32_t)((code *)(uintptr_t)*(uint32_t *)(uintptr_t)
+                    (uint32_t)(*DAT_004432f8 + 0x0cU))
+      (DAT_004432f8, s_d__version_bin_0040756c, UINT32_C(0x80000000),
+       &local_8, &argument_words[0]);
+  if (result >= 0) {
+    object_word = argument_words[0];
+    ((code *)(uintptr_t)*(uint32_t *)(uintptr_t)
+     (uint32_t)(*(uint32_t *)(uintptr_t)object_word + 0x10U))
+        ((void *)(uintptr_t)object_word, &local_c, 4, &local_8);
+    object_word = argument_words[0];
+    ((code *)(uintptr_t)*(uint32_t *)(uintptr_t)
+     (uint32_t)(*(uint32_t *)(uintptr_t)object_word + 0x0cU))
+        ((void *)(uintptr_t)object_word);
   }
-  cVar2 = '\x01';
-  if ((char)local_c == '\0') {
-    local_c = 0xe0c43d05;
-    if (unaff_EBP != (int *)0x0) {
-      (**(code **)(*unaff_EBP + 8))(unaff_EBP);
-      unaff_EBP = (int *)0x0;
+  reformat = 1;
+  if ((uint8_t)argument_words[1] == 0) {
+    argument_words[1] = UINT32_C(0xe0c43d05); /* S+8 at 0x1e495e. */
+    object_word = argument_words[0];
+    if (object_word != 0) {
+      ((code *)(uintptr_t)*(uint32_t *)(uintptr_t)
+       (uint32_t)(*(uint32_t *)(uintptr_t)object_word + 8U))
+          ((void *)(uintptr_t)object_word);
+      argument_words[0] = 0;
     }
-    iVar3 = (**(code **)(*DAT_004432f8 + 0xc))
-                      (DAT_004432f8,s_z__cacheinfo_bin_00407558,0x80000000,&local_c,&stack0xfffffff0
-                      );
-    if (-1 < iVar3) {
-      (**(code **)(*unaff_EBP + 0x10))(unaff_EBP,pcVar1,0x34,&local_c);
-      if (puStack_1c == (undefined4 *)0x34) {
-        iVar3 = *(int *)(pcVar1 + 0xc);
-        pcVar1[0xc] = '\0';
-        pcVar1[0xd] = '\0';
-        pcVar1[0xe] = '\0';
-        pcVar1[0xf] = '\0';
-        iVar4 = FUN_00238370();
-        if ((((iVar4 == iVar3) && (*(int *)(pcVar1 + 0xc) = iVar3, *pcVar1 == -0x7d)) &&
-            (*(char **)(pcVar1 + 4) == pcVar8)) &&
-           ((unaff_EBX == *(int *)(pcVar1 + 8) && (unaff_EBX != 0)))) {
-          cVar2 = FUN_001e4a70(pcVar1);
-          cVar2 = '\x01' - (cVar2 != '\0');
+    result = (int32_t)((code *)(uintptr_t)*(uint32_t *)(uintptr_t)
+                      (uint32_t)(*DAT_004432f8 + 0x0cU))
+        (DAT_004432f8, s_z__cacheinfo_bin_00407558, UINT32_C(0x80000000),
+         &argument_words[1], &argument_words[0]);
+    if (result >= 0) {
+      object_word = argument_words[0];
+      ((code *)(uintptr_t)*(uint32_t *)(uintptr_t)
+       (uint32_t)(*(uint32_t *)(uintptr_t)object_word + 0x10U))
+          ((void *)(uintptr_t)object_word, param_1, 0x34, &argument_words[1]);
+      if (argument_words[1] == 0x34U) { /* 52-byte count, 0x1e49a3. */
+        memcpy(&saved_word, param_1 + 0x0c, 4);
+        memset(param_1 + 0x0c, 0, 4);
+        /* ABI_UNVERIFIED: original 0x1e49b0..0x1e49b5 supplies ECX=param_1,
+         * ESI=param_1+0x34 to 0x238370. This retained ordinary C call cannot
+         * express that register contract; it is not a verified checksum call. */
+        compare_word = FUN_00238370();
+        if (compare_word == saved_word) {
+          /* The original restores these four bytes ONLY on checksum equality. */
+          memcpy(param_1 + 0x0c, &saved_word, 4);
+          if ((uint8_t)param_1[0] == 0x83U) {
+            memcpy(&compare_word, param_1 + 4, 4);
+            if (compare_word == local_4) {
+              memcpy(&compare_word, param_1 + 8, 4);
+              if (compare_word == local_c && local_c != 0) {
+                reformat = (uint8_t)(1U - ((uint8_t)FUN_001e4a70(param_1) != 0));
+              }
+            }
+          }
         }
       }
-      (**(code **)(*piStack_20 + 0xc))(piStack_20);
-      if (cVar2 == '\0') goto LAB_001e4a25;
+      object_word = argument_words[0];
+      ((code *)(uintptr_t)*(uint32_t *)(uintptr_t)
+       (uint32_t)(*(uint32_t *)(uintptr_t)object_word + 0x0cU))
+          ((void *)(uintptr_t)object_word);
+      if (reformat == 0) goto LAB_001e4a25;
     }
   }
-  iVar3 = XAPILIB__XFormatUtilityDrive();
-  if (iVar3 != 0) {
-    pcVar8 = pcVar1;
-    for (iVar3 = 0xd; iVar3 != 0; iVar3 = iVar3 + -1) {
-      pcVar8[0] = '\0';
-      pcVar8[1] = '\0';
-      pcVar8[2] = '\0';
-      pcVar8[3] = '\0';
-      pcVar8 = pcVar8 + 4;
-    }
-    *pcVar1 = -0x7d;
-    pcVar1[8] = '\0';
-    pcVar1[9] = '\0';
-    pcVar1[10] = '\0';
-    pcVar1[0xb] = '\0';
-    uVar5 = XAPILIB__XGetLanguage();
-    *(undefined4 *)(pcVar1 + 4) = uVar5;
+  result = XAPILIB__XFormatUtilityDrive();
+  if (result != 0) {
+    memset(param_1, 0, 0x34); /* REP STOSD of thirteen four-byte words. */
+    param_1[0] = (char)0x83;
+    /* 0x1e4a13 stores ESI=0 here; four bytes were already zeroed above. */
+    compare_word = XAPILIB__XGetLanguage();
+    memcpy(param_1 + 4, &compare_word, 4);
   }
-  *(int **)(pcVar1 + 8) = piStack_20;
+  memcpy(param_1 + 8, &local_c, 4); /* S-12 DWORD, not a native pointer. */
 LAB_001e4a25:
-  if (PTR_DAT_0040757c != (undefined *)0x0) {
-    ppuVar7 = &PTR_DAT_0040757c;
-    puVar6 = PTR_DAT_0040757c;
-    do {
-      FUN_001e4e30(pcVar1,puVar6,0,1);
-      puVar6 = ppuVar7[1];
-      ppuVar7 = ppuVar7 + 1;
-    } while (puVar6 != (undefined *)0x0);
+  /* 0x1e4a25..0x1e4a47 traverses guest DWORDs at 0x40757c, stride four. */
+  table_word = &PTR_DAT_0040757c;
+  while (*table_word != 0) {
+    FUN_001e4e30(param_1, (void *)(uintptr_t)*table_word, 0, 1);
+    table_word = (uint32_t *)((unsigned char *)table_word + 4);
   }
-  if (unaff_EBP != (int *)0x0) {
-    (**(code **)(*unaff_EBP + 8))(unaff_EBP);
+  object_word = argument_words[0];
+  if (object_word != 0) {
+    ((code *)(uintptr_t)*(uint32_t *)(uintptr_t)
+     (uint32_t)(*(uint32_t *)(uintptr_t)object_word + 8U))
+        ((void *)(uintptr_t)object_word);
   }
-  return;
 }

@@ -12,6 +12,10 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x003451B7, 518, "43384cda3ac53586b4d07a826470e46340b17f9eaa9e63e4627bc2c4cc10eb07"),
+    (0x00338406, 255, "19fa00c8727ff84dee4d8369b3f57919a559ef7db0e0ebd5c135c8fb3c992997"),
+    (0x001E48E0, 386, "8866befbcd5d7ee5c9642b87d1105cd829f3530b3ac7f3db41bca78028975d1f"),
+    (0x000A42D0, 709, "49c324674e97b193cf2b87defab44da0e520aabd71b91824735aeb2a120f2c42"),
     (0x002C2530, ((0, 138), (144, 87)), "768031773dc47284a6eb2afd03a23e9c6dd05455e305c06fb7d633d05f890a8c"),
     (0x002CD2B0, 520, "c028d0c3efa30ca8c2f104ddd2bcdf9a132c1e73bb429530ef96a4334198421f"),
     (0x002EBEA0, 65, "b77ad187f6f3db2a5ae4f8e214b023d7c62ce25a38ce769a993d2a8c81643760"),
@@ -106,6 +110,41 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x00345268: "5756568d830009000050e8c9abcdff",  # original DWORD callback/data address representation
+    0x00345259: "5756568d83f008000050e8d8abcdff",  # original DWORD callback/data address representation
+    0x0034524A: "5756568d83d808000050e8e7abcdff",  # original DWORD callback/data address representation
+    0x00345233: "bf6a513400576a045e56568d83c808000050e8f6abcdff",  # original DWORD callback/data address representation
+    0x00345224: "c7836402000068743800e80daccdff",  # original DWORD callback/data address representation
+    0x00345209: "686a513400",  # original DWORD callback/data address representation
+    0x0033844D: "c7400899833300",  # original DWORD callback/data address representation
+    0x00338446: "c74004127d3300",  # original DWORD callback/data address representation
+    0x00338440: "c7006d833300",  # original DWORD callback/data address representation
+    0x00338431: "c706fe833300",  # original DWORD callback/data address representation
+    0x001EA424: "5150a358994600e8b0a4ffff",  # 0x001E48E0 caller/output/branch contract
+    0x001E48EF: "8d54241c528d542414526800000080",  # 0x001E48E0 caller/output/branch contract
+    0x001E4913: "8974241c8974242c897c24208b0850ff510c",  # 0x001E48E0 caller/output/branch contract
+    0x001E4929: "8b44241c8b088d542410526a048d5424145250ff5110",  # 0x001E48E0 caller/output/branch contract
+    0x001E4949: "8a44242084c053b301",  # 0x001E48E0 caller/output/branch contract
+    0x001E4975: "8d542420528d542428526800000080685875400050ff510c",  # 0x001E48E0 caller/output/branch contract
+    0x001E4991: "8b4424208b088d542424526a345550ff5110837c242434",  # 0x001E48E0 caller/output/branch contract
+    0x001E49AA: "8b7d0c89750c8d75348bcde8b63905003bc7752d807d0083897d0c",  # 0x001E48E0 caller/output/branch contract
+    0x001E49C7: "8b442418394504751b8b4424103b4508751285c0740e55e88d000000",  # 0x001E48E0 caller/output/branch contract
+    0x001E49ED: "8b4424208b0850ff510c84db742a",  # 0x001E48E0 caller/output/branch contract
+    0x001E4A1E: "8b542410895508",  # 0x001E48E0 caller/output/branch contract
+    0x001E4A3F: "8b460483c60485c075eb",  # 0x001E48E0 caller/output/branch contract
+    0x001E4A5F: "c20800",  # 0x001E48E0 caller/output/branch contract
+
+    0x000A42D0: "8b460883ec085355578d7e0833ed",  # initial object load and fixed eight-byte frame
+    0x000A42EF: "578d4c2410bbe8ad0e0451895c24148b1050ff5228",  # first query uses S-8
+    0x000A431B: "57558d542414528d54241c52c744241c56bda2f8895c24208b0850ff5124",  # first fallback reverses request word pointers
+    0x000A4350: "578d4c2414bb7f14b5e451895c24188b1050ff5228",  # second query uses S-4
+    0x000A437C: "57558d542418528d54241852c744242020e9f11e895c241c8b0850ff5124",  # second fallback word writes and arguments
+    0x000A43B1: "578d4c2414bbe16b7aeb51895c24188b1050ff5228",  # third query uses S-4
+    0x000A43DD: "57558d542418528d54241852c7442420c29ac3e2895c241c8b0850ff5124",  # third fallback word writes and arguments
+    0x000A4412: "578d4c2414bb9cbe161151895c24188b1050ff5228",  # fourth query uses S-4
+    0x000A443E: "57558d542418528d54241852c7442420a9f9ed1b895c241c8b0850ff5124",  # fourth fallback word writes and arguments
+    0x000A4462: "8d44241050c7442414b0c39607e8fc320000",  # subsequent helper reuses S-4
+
     0x002EBEA0: "85c07414",  # zero request still performs RET read
     0x002EBEAB: "f7d803c483c0048500948b0050c3",  # small request probe and return relocation
     0x002EBEB9: "518d4c240881e9001000002d",  # save ECX and first page decrement

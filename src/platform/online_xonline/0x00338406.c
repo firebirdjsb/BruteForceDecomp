@@ -17,11 +17,14 @@ void FUN_00338406(undefined4 param_1,undefined4 param_2,undefined4 param_3,undef
   puVar1 = (undefined4 *)(param_11 + 0x128);
   FUN_00330c2d(puVar1);
   *(undefined4 *)(param_11 + 0x130) = param_10;
-  *puVar1 = &LAB_003383fe;
+  /* 0x338431 writes a four-byte guest address, not a host symbol pointer. */
+  *puVar1 = UINT32_C(0x003383fe);
   *(undefined4 *)(param_11 + 0x134) = 0;
-  *(undefined1 **)(param_11 + 0xe8) = &LAB_0033836d;
-  *(undefined1 **)(param_11 + 0xec) = &LAB_00337d12;
-  *(undefined1 **)(param_11 + 0xf0) = &LAB_00338399;
+  /* 0x338440/0x338446/0x33844d: MOV DWORD immediates into +e8/+ec/+f0.
+   * ABI_UNVERIFIED: these raw code addresses are not callable host bindings. */
+  *(uint32_t *)(uintptr_t)((uint32_t)param_11 + 0xe8U) = UINT32_C(0x0033836d);
+  *(uint32_t *)(uintptr_t)((uint32_t)param_11 + 0xecU) = UINT32_C(0x00337d12);
+  *(uint32_t *)(uintptr_t)((uint32_t)param_11 + 0xf0U) = UINT32_C(0x00338399);
   *(undefined4 *)(param_11 + 0xf4) = 0;
   *(undefined4 *)(param_11 + 0xf8) = 0;
   *(undefined4 **)(param_11 + 0xfc) = puVar1;

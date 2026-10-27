@@ -9,7 +9,6 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0040f5b0;
-extern uint32_t PTR_LAB_00387468;
 int XONLINES__XnInit(undefined4 *param_1,undefined4 param_2,int param_3,int param_4,
                     undefined2 param_5,undefined2 *param_6)
 
@@ -48,12 +47,17 @@ int XONLINES__XnInit(undefined4 *param_1,undefined4 param_2,int param_3,int para
         *puVar4 = 0;
         puVar4 = puVar4 + 1;
       }
-      puVar1[0x99] = &PTR_LAB_00387468;
-      FUN_0001fe40(puVar1 + 0xa7,0x18,0x40,&LAB_0034516a);
-      FUN_0001fe40(puVar1 + 0x232,4,4,&LAB_0034516a);
-      FUN_0001fe40(puVar1 + 0x236,4,4,&LAB_0034516a);
-      FUN_0001fe40(puVar1 + 0x23c,4,4,&LAB_0034516a);
-      FUN_0001fe40(puVar1 + 0x240,4,4,&LAB_0034516a);
+      /* 0x345224: MOV DWORD [EBX+0x264],0x387468 stores a guest address. */
+      puVar1[0x99] = UINT32_C(0x00387468);
+      /* 0x345209 pushes 0x34516a; 0x345233 loads the same DWORD into EDI
+       * for four subsequent PUSH EDI packets. These are five initializer
+       * arguments, not direct calls to a host LAB symbol. ABI_UNVERIFIED:
+       * the implicit-register/helper/callback runtime contracts remain open. */
+      FUN_0001fe40(puVar1 + 0xa7,0x18,0x40,UINT32_C(0x0034516a));
+      FUN_0001fe40(puVar1 + 0x232,4,4,UINT32_C(0x0034516a));
+      FUN_0001fe40(puVar1 + 0x236,4,4,UINT32_C(0x0034516a));
+      FUN_0001fe40(puVar1 + 0x23c,4,4,UINT32_C(0x0034516a));
+      FUN_0001fe40(puVar1 + 0x240,4,4,UINT32_C(0x0034516a));
     }
     *param_1 = puVar1;
     if (puVar1 == (undefined4 *)0x0) {

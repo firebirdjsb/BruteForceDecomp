@@ -26,113 +26,104 @@ void FUN_000a42d0(void)
   undefined4 uVar5;
   uint uVar6;
   int unaff_ESI;
-  undefined4 **ppuStack_38;
-  undefined4 **ppuStack_34;
-  int *piStack_30;
-  undefined4 **ppuStack_2c;
-  undefined1 *puStack_28;
-  int *piStack_24;
-  undefined4 **ppuStack_20;
-  undefined4 *puStack_1c;
-  int *piStack_18;
-  undefined4 local_8 [2];
-  
-  piStack_18 = *(int **)(unaff_ESI + 8);
-  piVar4 = (int *)(unaff_ESI + 8);
-  if (piStack_18 != (int *)0x0) {
-    puStack_1c = (undefined4 *)0xa42e8;
-    (**(code **)(*piStack_18 + 8))();
-    *piVar4 = 0;
-  }
-  puStack_1c = local_8;
-  local_8[0] = 0x40eade8;
-  ppuStack_20 = DAT_00443308;
-  piStack_24 = (int *)0xa4304;
-  piStack_18 = piVar4;
-  iVar3 = (**(code **)(*DAT_00443308 + 0x28))();
-  if (iVar3 < 0) {
-    piStack_24 = (int *)*piVar4;
-    if (piStack_24 != (int *)0x0) {
-      puStack_28 = (undefined1 *)0xa4314;
-      (**(code **)(*piStack_24 + 8))();
-      *piVar4 = 0;
-    }
-    puStack_28 = (undefined1 *)0x0;
-    ppuStack_2c = (undefined4 **)&stack0xffffffec;
-    piStack_30 = (int *)&stack0xfffffff0;
-    ppuStack_34 = DAT_00443308;
-    ppuStack_38 = (undefined4 **)0xa4339;
-    piStack_24 = piVar4;
-    (**(code **)(*DAT_00443308 + 0x24))();
-  }
-  piStack_24 = *(int **)(unaff_ESI + 0xc);
-  piVar4 = (int *)(unaff_ESI + 0xc);
-  if (piStack_24 != (int *)0x0) {
-    puStack_28 = (undefined1 *)0xa4349;
-    (**(code **)(*piStack_24 + 8))();
-    *piVar4 = 0;
-  }
-  puStack_28 = &stack0xfffffff0;
-  ppuStack_2c = DAT_00443308;
-  piStack_30 = (int *)0xa4365;
-  piStack_24 = piVar4;
-  iVar3 = (**(code **)(*DAT_00443308 + 0x28))();
-  if (iVar3 < 0) {
-    piStack_30 = (int *)*piVar4;
-    if (piStack_30 != (int *)0x0) {
-      ppuStack_34 = (undefined4 **)0xa4375;
-      (**(code **)(*piStack_30 + 8))();
-      *piVar4 = 0;
-    }
-    ppuStack_34 = (undefined4 **)0x0;
-    ppuStack_38 = &puStack_1c;
-    puStack_1c = (undefined4 *)0x1ef1e920;
-    ppuStack_20 = (undefined4 **)0xe4b5147f;
-    piStack_30 = piVar4;
-    (**(code **)(*DAT_00443308 + 0x24))(DAT_00443308,&ppuStack_20);
-  }
-  piStack_30 = *(int **)(unaff_ESI + 0x10);
-  piVar4 = (int *)(unaff_ESI + 0x10);
-  if (piStack_30 != (int *)0x0) {
-    ppuStack_34 = (undefined4 **)0xa43aa;
-    (**(code **)(*piStack_30 + 8))();
-    *piVar4 = 0;
-  }
-  ppuStack_34 = &puStack_1c;
-  puStack_1c = (undefined4 *)0xeb7a6be1;
-  ppuStack_38 = DAT_00443308;
-  piStack_30 = piVar4;
-  iVar3 = (**(code **)(*DAT_00443308 + 0x28))();
-  if (iVar3 < 0) {
-    piVar2 = (int *)*piVar4;
-    if (piVar2 != (int *)0x0) {
-      (**(code **)(*piVar2 + 8))(piVar2);
-      *piVar4 = 0;
-    }
-    puStack_28 = (undefined1 *)0xe2c39ac2;
-    ppuStack_2c = (undefined4 **)0xeb7a6be1;
-    (**(code **)(*DAT_00443308 + 0x24))(DAT_00443308,&ppuStack_2c,&puStack_28,0,piVar4);
-  }
-  piVar2 = *(int **)(unaff_ESI + 0x14);
-  piVar4 = (int *)(unaff_ESI + 0x14);
+  /* Entry ESP S: SUB ESP,8 and three saved registers leave ESP=S-20.
+   * Provided each indirect call restores that steady ESP, the two guest
+   * DWORDs are S-8 and S-4 (0x000A42F0/0x000A4351). This is the caller
+   * stack-balance inference; indirect callee cleanup remains unverified.
+   * Reuse the two words across all observed request calls.
+   * The +0x28 method receives (self,word-address,output-address); +0x24
+   * receives (self,word-address,word-address,zero,output-address).
+   * Original PUSH/LEA sequences 0x000A42EF-0x000A4459 establish these
+   * argument words, not the old synthetic stack0x aliases. This repairs
+   * their storage/argument linkage only: incoming ESI, the vtable guest
+   * mapping, indirect callee cleanup and host execution remain ABI_UNVERIFIED.
+   */
+  uint32_t guest_request_words[2];
+
+  piVar4 = (int *)(unaff_ESI + 0x8);
+  piVar2 = *(int **)(unaff_ESI + 0x8);
   if (piVar2 != (int *)0x0) {
     (**(code **)(*piVar2 + 8))(piVar2);
     *piVar4 = 0;
   }
-  puStack_28 = (undefined1 *)0x1116be9c;
-  iVar3 = (**(code **)(*DAT_00443308 + 0x28))(DAT_00443308,&puStack_28,piVar4);
+  guest_request_words[0] = UINT32_C(0x040eade8);
+  iVar3 = (**(code **)(*DAT_00443308 + 0x28))
+              (DAT_00443308,&guest_request_words[0],piVar4);
   if (iVar3 < 0) {
     piVar2 = (int *)*piVar4;
     if (piVar2 != (int *)0x0) {
       (**(code **)(*piVar2 + 8))(piVar2);
       *piVar4 = 0;
     }
-    ppuStack_34 = (undefined4 **)0x1bedf9a9;
-    ppuStack_38 = (undefined4 **)0x1116be9c;
-    (**(code **)(*DAT_00443308 + 0x24))(DAT_00443308,&ppuStack_38,&ppuStack_34,0,piVar4);
+    guest_request_words[0] = UINT32_C(0xf8a2bd56);
+    guest_request_words[1] = UINT32_C(0x040eade8);
+    (**(code **)(*DAT_00443308 + 0x24))
+              (DAT_00443308,&guest_request_words[1],&guest_request_words[0],0,piVar4);
   }
-  ppuStack_34 = (undefined4 **)0x796c3b0;
-  piVar4 = (int *)FUN_000a7770(&ppuStack_34);
+  piVar4 = (int *)(unaff_ESI + 0xc);
+  piVar2 = *(int **)(unaff_ESI + 0xc);
+  if (piVar2 != (int *)0x0) {
+    (**(code **)(*piVar2 + 8))(piVar2);
+    *piVar4 = 0;
+  }
+  guest_request_words[1] = UINT32_C(0xe4b5147f);
+  iVar3 = (**(code **)(*DAT_00443308 + 0x28))
+              (DAT_00443308,&guest_request_words[1],piVar4);
+  if (iVar3 < 0) {
+    piVar2 = (int *)*piVar4;
+    if (piVar2 != (int *)0x0) {
+      (**(code **)(*piVar2 + 8))(piVar2);
+      *piVar4 = 0;
+    }
+    guest_request_words[1] = UINT32_C(0x1ef1e920);
+    guest_request_words[0] = UINT32_C(0xe4b5147f);
+    (**(code **)(*DAT_00443308 + 0x24))
+              (DAT_00443308,&guest_request_words[0],&guest_request_words[1],0,piVar4);
+  }
+  piVar4 = (int *)(unaff_ESI + 0x10);
+  piVar2 = *(int **)(unaff_ESI + 0x10);
+  if (piVar2 != (int *)0x0) {
+    (**(code **)(*piVar2 + 8))(piVar2);
+    *piVar4 = 0;
+  }
+  guest_request_words[1] = UINT32_C(0xeb7a6be1);
+  iVar3 = (**(code **)(*DAT_00443308 + 0x28))
+              (DAT_00443308,&guest_request_words[1],piVar4);
+  if (iVar3 < 0) {
+    piVar2 = (int *)*piVar4;
+    if (piVar2 != (int *)0x0) {
+      (**(code **)(*piVar2 + 8))(piVar2);
+      *piVar4 = 0;
+    }
+    guest_request_words[1] = UINT32_C(0xe2c39ac2);
+    guest_request_words[0] = UINT32_C(0xeb7a6be1);
+    (**(code **)(*DAT_00443308 + 0x24))
+              (DAT_00443308,&guest_request_words[0],&guest_request_words[1],0,piVar4);
+  }
+  piVar4 = (int *)(unaff_ESI + 0x14);
+  piVar2 = *(int **)(unaff_ESI + 0x14);
+  if (piVar2 != (int *)0x0) {
+    (**(code **)(*piVar2 + 8))(piVar2);
+    *piVar4 = 0;
+  }
+  guest_request_words[1] = UINT32_C(0x1116be9c);
+  iVar3 = (**(code **)(*DAT_00443308 + 0x28))
+              (DAT_00443308,&guest_request_words[1],piVar4);
+  if (iVar3 < 0) {
+    piVar2 = (int *)*piVar4;
+    if (piVar2 != (int *)0x0) {
+      (**(code **)(*piVar2 + 8))(piVar2);
+      *piVar4 = 0;
+    }
+    guest_request_words[1] = UINT32_C(0x1bedf9a9);
+    guest_request_words[0] = UINT32_C(0x1116be9c);
+    (**(code **)(*DAT_00443308 + 0x24))
+              (DAT_00443308,&guest_request_words[0],&guest_request_words[1],0,piVar4);
+  }
+  /* 0x000A4462/0x000A4467 reuse S-4 for this helper's address argument.
+   * The helper's implicit ECX input is still unresolved by this C draft. */
+  guest_request_words[1] = UINT32_C(0x0796c3b0);
+  piVar4 = (int *)FUN_000a7770(&guest_request_words[1]);
   if (piVar4 != (int *)0x0) {
     (**(code **)(*piVar4 + 4))(piVar4);
     piVar2 = *(int **)(unaff_ESI + 0x44);
