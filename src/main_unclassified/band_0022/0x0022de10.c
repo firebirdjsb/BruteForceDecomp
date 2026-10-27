@@ -19,6 +19,13 @@ void FUN_0022de10(void)
   int *piVar3;
   int iVar4;
   int *unaff_ESI;
+  /* XBE 0x0022DFF4 PUSH 0; 0x0022DFF6 LEA EAX,[ESP+0x14]
+   * gives entry ESP-0x6C, the following PUSH EAX preserves
+   * that address. 0x0022E005 LEA EAX,[ESP+0x14] gives entry
+   * ESP-0x70: a separate four-byte word immediately BEFORE
+   * the former local_6c, not a pointer to that buffer.
+   * The guest EAX/EBX/EDI call ABI remains ABI_UNVERIFIED. */
+  uint32_t guest_call_word;
   undefined1 local_6c [4];
   undefined **local_68;
   int iStack_5c;
@@ -76,7 +83,7 @@ LAB_0022df0a:
           uStack_34 = 1;
           uStack_38 = 0xbdaaaa7e;
         }
-        cVar1 = FUN_0017c110(&stack0xffffff88,0);
+        cVar1 = FUN_0017c110(&guest_call_word,0);
         if (cVar1 == '\0') {
           (**(code **)(*DAT_00469940 + 0x20))(unaff_ESI[0xd9],1);
           unaff_ESI[0xd9] = 0;
