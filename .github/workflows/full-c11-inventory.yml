@@ -24,6 +24,7 @@ on:
       - 'scripts/verify_20261026_caller_record_linkage.py'
       - 'scripts/verify_xapi_save_path_buffers.py'
       - 'scripts/verify_20261026_two_indirect_stack_links.py'
+      - 'scripts/verify_00232b70_guest_scan.py'
       - 'scripts/verify_00058740_disjoint_float3.py'
       - 'scripts/verify_000587d0_x87_sse_slots.py'
       - 'scripts/verify_002312e0_x87_sse_length.py'
@@ -411,6 +412,8 @@ jobs:
         run: python3 scripts/verify_xapi_save_path_buffers.py --root . --clang
       - name: Verify two indirect original x86 output slots (source and Clang)
         run: python3 scripts/verify_20261026_two_indirect_stack_links.py --root . --clang
+      - name: Verify 0x00232B70 dynamic-stack scan length (source and Clang)
+        run: python3 scripts/verify_00232b70_guest_scan.py --root . --clang
       - name: Verify 0x00058740 disjoint normalised vectors and x87 dot product (source-only)
         run: python3 scripts/verify_00058740_disjoint_float3.py --root .
       - name: Verify original 0x000587D0 guest F32 vector and normalized SSE lanes
