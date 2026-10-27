@@ -36,6 +36,11 @@ SITES=(
  (0x269126,"8d842490000000","address fourth guest f32 vector"),
  (0x26912d,"f30f1100","store fourth low float32"),
  (0x269131,"0f174004","store fourth upper float32 pair"),
+ (0x268dd4,"f30f10442424","load sqrt as scalar float32"),
+ (0x268dda,"f30f5f442410","MAXSS against original -1.0f lane"),
+ (0x268de0,"f30f5d44240c","MINSS against original +1.0f lane"),
+ (0x268de6,"f30f11442420","write clamped scalar float32"),
+
 )
 def active(s):
  return re.sub(r"/\*.*?\*/|//[^\n]*","",s,flags=re.S)
@@ -52,6 +57,15 @@ def check_source(root):
  assert "local_1c4 = local_23c;" in s
  assert "fStack_1c0 = fVar15;" in s
  assert "_local_258" not in s and "_local_1c4" not in s
+ assert "#include <xmmintrin.h>" in text
+ assert "float local_268;" in s
+ assert "_mm_max_ss(_mm_set_ss(local_264),_mm_set_ss(-1.0f))" in s
+ assert "_mm_min_ss(" in s
+ assert "_mm_set_ss(1.0f)" in s
+ assert "local_268 = local_238 + fVar15;" in s
+ assert "*(float *)(iVar11 + 0x10) = local_268;" in s
+ assert "(undefined4 *)local_264" not in s
+
  print("PASS three paired float32 writes, no fake 64-bit CONCAT44 stores")
 def check_clang(root):
  cmd=["clang","-std=c11","-fsyntax-only","-ferror-limit=3",
