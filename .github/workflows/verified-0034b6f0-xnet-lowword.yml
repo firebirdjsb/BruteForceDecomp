@@ -1,0 +1,19 @@
+name: Verified XNet 0x0034B6F0 guest low-WORD
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/platform/network_xnet/0x0034b6f0.c'
+      - 'scripts/verify_0034b6f0_xnet_lowword.py'
+      - '.github/workflows/verified-0034b6f0-xnet-lowword.yml'
+      - 'include/bf_ghidra_types.h'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guest-lowword:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source contract and isolated Clang C11
+        run: python3 scripts/verify_0034b6f0_xnet_lowword.py --root .
