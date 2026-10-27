@@ -80,7 +80,13 @@ LAB_00257961:
       }
     }
   }
-  (**(code **)(*DAT_0046990c + 0x2c))(DAT_0046990c,&stack0xffffffe8,param_1);
+  /* XBE 0x002579EF PUSH EDI; 0x002579F0 LEA EDX,[ESP+0x1C],
+   * 0x002579F4 PUSH EDX; 0x002579F5 PUSH EAX; 0x002579F6
+   * CALL [ECX+0x2C]. EDX addresses entry ESP-0x08,
+   * the saved 32-bit enumeration count read at 0x002579F9.
+   * The decompiler named this SAME writable DWORD 'unaff_EDI'.
+   * It is a caller-owned OUTPUT, not an arbitrary native pointer. */
+  (**(code **)(*DAT_0046990c + 0x2c))(DAT_0046990c,&unaff_EDI,param_1);
   iVar1 = 0;
   if (0 < unaff_EDI) {
     do {
