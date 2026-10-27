@@ -77,8 +77,16 @@ void FUN_00079510(undefined4 param_1,uint *param_2,undefined4 param_3,undefined4
         FUN_002ea9a9(local_800,0x401,uVar2);
         piVar4 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
         (**(code **)(*piVar4 + 0xc))(local_800,0,0);
-        FUN_002ea9a9(&stack0xfffff550,0x40,&DAT_0040ddcc,(iStack_814 << 0xe) >> 0x18);
-        uVar2 = FUN_001e97c0(uVar3,&stack0xfffff550);
+        /* XBE 0x00079A84 LEA EAX,[ESP+0x20] after two
+         * formatter argument pushes addresses stable ESP+0x18,
+         * the same 128-byte local_aa4 scratch used earlier.
+         * 0x00079A9B LEA ECX,[ESP+0x18] reuses its start after
+         * the formatting helper restores the guest stack.
+         * No distinct stack0xfffff550 memory exists; the helper
+         * and conversion MUST share local_aa4. Native Xbox stack
+         * and implicit register ABI remain unverified. */
+        FUN_002ea9a9(local_aa4,0x40,&DAT_0040ddcc,(iStack_814 << 0xe) >> 0x18);
+        uVar2 = FUN_001e97c0(uVar3,local_aa4);
         FUN_002ea9a9(local_80c,0x401,uVar2);
         piVar4 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
         goto LAB_00079773;
