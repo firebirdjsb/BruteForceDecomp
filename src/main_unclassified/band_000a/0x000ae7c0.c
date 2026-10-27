@@ -74,7 +74,15 @@ undefined4 FUN_000ae7c0(int *param_1,int param_2)
       FUN_000b0550();
       uStack_34 = aiStack_44[2];
       fStack_30 = (float)uStack_38;
-      iStack_20 = FUN_000b0770(in_EAX,&stack0xffffffac);
+      /* Original 0x000AE884 LEA EDX,[ESP+0x18] addresses the
+       * existing three-DWORD vector at entry ESP-0x44, after
+       * SUB ESP,0x4C and four saved guest registers. That is
+       * aiStack_44, already populated by the preceding 0x000B0550
+       * call and also used by 0x000B0940. 0x000AE888 pushes that
+       * exact pointer; FUN_000B0770 samples float lanes 0 and 2.
+       * Keep the original raw 32-bit storage; native alias/ABI
+       * verification remains separate (ABI_UNVERIFIED). */
+      iStack_20 = FUN_000b0770(in_EAX,(float *)aiStack_44);
       cVar3 = FUN_000ae360(in_EAX);
       if (cVar3 == '\0') {
         uStack_18 = *(undefined4 *)(in_EAX + 0xa4);
