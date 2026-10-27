@@ -26,12 +26,12 @@ FUN_002fe4a6(undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined
   undefined4 local_1c;
   undefined4 local_18;
   undefined4 local_14;
-  undefined1 *local_10;
-  undefined1 *local_c;
+  /* XBE 0x002FE4E7 MOV [EBP-0x0C],ESP and 0x002FE4EA
+   * MOV [EBP-0x08],EBP store guest SEH metadata. Their
+   * Ghidra host C aliases local_c and local_10 have no reads;
+   * no native stack address or Windows/Linux SEH is inferred. */
   int local_8;
   
-  local_c = &stack0xfffffffc;
-  local_10 = &stack0xffffffc4;
   local_28 = FUN_002fe2fd;
   local_24 = param_5;
   local_20 = param_2;
