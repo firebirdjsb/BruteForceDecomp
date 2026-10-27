@@ -18,17 +18,32 @@ int FUN_002c16a0(void)
   uint uVar1;
   int iVar2;
   int *unaff_ESI;
+  /* Xbox 0x002C16AF SUB ESP,0x81C reserves a caller-owned
+   * command packet. 0x002C16C8/0x002C16D0/0x002C16D4/0x002C16DF
+   * write only the original four DWORD fields at offsets 0x14,
+   * 0, 0x818 and 4; the remaining bytes are not initialized
+   * and must not be silently zeroed. 0x002C171C LEA [ESP]
+   * passes the packet start to the indirect dispatch.
+   * ECX/ESI register calling conventions and guest pointer
+   * translation remain ABI_UNVERIFIED for native targets. */
+  uint32_t guest_command_words[0x207];
+  _Static_assert(sizeof(guest_command_words)==0x81c,
+                 "original 0x81c-byte Xbox command packet");
   
   iVar2 = *(int *)(*(int *)(unaff_ESI[10] + 0x14) + 0x120);
   if (unaff_ESI[0x1c] == iVar2) {
     return 4;
   }
   unaff_ESI[0x1c] = iVar2;
+  guest_command_words[0] = (uint32_t)(uintptr_t)unaff_ESI;
+  guest_command_words[1] = 0;
+  guest_command_words[5] = 0;
+  guest_command_words[0x206] = 0;
   iVar2 = (*(code *)(&DAT_00443de8)
                     [(int)*(short *)(((unaff_ESI[5] ^ 0x100U) >> 8 & 3) * 0x1c + 0x32 +
                                     (int)unaff_ESI) +
                      *(short *)(((uint)unaff_ESI[5] >> 8 & 3) * 0x1c + 0x32 + (int)unaff_ESI) * 4])
-                    (&stack0xfffff7e4);
+                    (guest_command_words);
   while( true ) {
     if (iVar2 == 1) {
       unaff_ESI[5] = unaff_ESI[5] & 0xffff3fff;
@@ -56,7 +71,7 @@ int FUN_002c16a0(void)
                       [(int)*(short *)(((unaff_ESI[5] ^ 0x100U) >> 8 & 3) * 0x1c + 0x32 +
                                       (int)unaff_ESI) +
                        *(short *)(((uint)unaff_ESI[5] >> 8 & 3) * 0x1c + 0x32 + (int)unaff_ESI) * 4]
-            )(&stack0xfffff7e4);
+            )(guest_command_words);
   }
   if (((unaff_ESI[5] & 0x3000U) != 0x1000) && ((unaff_ESI[5] & 0x3c0000U) != 0x100000)) {
     (**(code **)(*unaff_ESI + 0x14))();
