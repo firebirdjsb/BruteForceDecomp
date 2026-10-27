@@ -114,6 +114,9 @@ on:
       - 'scripts/verify_001feb60_iterator_contract.py'
       - 'scripts/verify_000823b0_vector_begin_slot.py'
       - 'scripts/verify_000f7c70_first_loop_addresses.py'
+      - 'scripts/verify_000f7c70_vtable_outputs.py'
+      - 'scripts/verify_002ebfe0_cw_halves.py'
+      - 'scripts/verify_002d80b0_two_rsqrtss.py'
       - 'scripts/verify_000a2ec0_guest_arg9.py'
       - 'scripts/verify_00270790_stream_count_alias.py'
       - 'scripts/verify_002c16a0_command_packet.py'
@@ -392,6 +395,12 @@ jobs:
         run: python3 scripts/verify_000823b0_vector_begin_slot.py --root . --clang
       - name: Verify 0x000F7C70 original caller and output aliases
         run: python3 scripts/verify_000f7c70_first_loop_addresses.py --root .
+      - name: Verify 0x000F7C70 corrected vtable output/arguments
+        run: python3 scripts/verify_000f7c70_vtable_outputs.py --root . --clang
+      - name: Verify 0x002EBFE0 original saved EAX and x87 control halves
+        run: python3 scripts/verify_002ebfe0_cw_halves.py --root .
+      - name: Verify 0x002D80B0 original scalar RSQRTSS output lanes
+        run: python3 scripts/verify_002d80b0_two_rsqrtss.py --root .
       - name: Verify 0x000A2EC0 ninth guest DWORD and high-byte output (source and Clang)
         run: python3 scripts/verify_000a2ec0_guest_arg9.py --root . --clang
       - name: Verify 0x00270790 shared XAPI stream count outputs (source and Clang)
