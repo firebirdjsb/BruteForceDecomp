@@ -12,6 +12,16 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x0037F621, 163, "4fa3c5b8948efa4e67d27ab6e456445a6e64d5e42336a388cbe72bcd2f4fdcf1"),
+    (0x00379139, 636, "64d90201b8e3d27d1edf89bc2c84ccdd1e40d88a3a5c9d52b9eb1ba40083fcf2"),
+    (0x0036FF70, 513, "0b5aaf10156272d654e04dd5e33dbba318e63b76a5e991eb0b7919f3b9957225"),
+    (0x0035FEB0, 141, "fe3b9a017f31847f12ed380aa857d366575b43eb83ddf2b52f72ab200f7a94c6"),
+    (0x0035F8D0, 184, "f4b210f82bd2701874c5d47f1f3a5b1de8184ee7a90ee36bd4895d81c9f7f8da"),
+    (0x0034D726, 1136, "069af2dcf7328e19d49ecbcb28f9b8180b38888976ea4553d6ec2cd0dcf91d50"),
+    (0x0034CCA3, 409, "1e4a411dd2e51a52dc1bd547d48aa112974bfbba8f51ce0a360eadec7fd220f3"),
+    (0x00342A84, 1389, "cdd5d9daa4285f5112a0dd90785e2f4c098efae1deea94d039773e29027f1644"),
+    (0x003310CC, 335, "20622f01948f791a79fb5150355dbf13d06f14a7f9e059194627c50e18032f31"),
+    (0x00316530, 294, "9b8679937d2c83d86ad28de0a291c328c47dfa31e96ff0739b5cfbdb7939cdaa"),
     (0x0034F2B2, 448, "a812d0c32c08f75aeccc753222fd29367ff086a92bd6c4b231e4ca2e0267c87a"),
     (0x0031C7CC, 223, "6bb9e15b51ce3422a3b71d07fedc8af6a4858886a5e1da46050adf9f157245ac"),
     (0x003451B7, 518, "43384cda3ac53586b4d07a826470e46340b17f9eaa9e63e4627bc2c4cc10eb07"),
@@ -112,6 +122,74 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x00316530: "515355568bf18d5e0857",  # next147 original operand/call/storage evidence
+    0x00316565: "8b3d7c6338005668446331008d860007000050ffd7",  # next147 original operand/call/storage evidence
+    0x0031657A: "6a008d862007000050ff15ec633800",  # next147 original operand/call/storage evidence
+    0x00316589: "5668c46131008d864807000050ffd7",  # next147 original operand/call/storage evidence
+    0x00316598: "8d442410506a05ff1588633800",  # next147 original operand/call/storage evidence
+    0x003165A5: "6a016a00ff742418bf98fe32005056682465310057ff158c633800",  # next147 original operand/call/storage evidence
+    0x003165C0: "57ff1578633800",  # next147 original operand/call/storage evidence
+    0x003165E7: "8d86640700006a0150c700d0613100ff1584633800",  # next147 original operand/call/storage evidence
+    0x0031664E: "5f5e8bc55d5b59c3",  # next147 original operand/call/storage evidence
+    0x003310D8: "ff750c33db53536a105f57ff75088bf1576808054b008975f0e800d1fcff",  # next147 original operand/call/storage evidence
+    0x00331113: "a1c8024b008945f4a1cc024b008945f88d45d85053535783c650565768ac044b00e8bdd0fcff",  # next147 original operand/call/storage evidence
+    0x00331139: "8d45dc5053535756576898044b00e8aad0fcff",  # next147 original operand/call/storage evidence
+    0x0033114C: "6a188d45d850e899d0fcff8d45d8508d8558feffff506a01e881d0fcff",  # next147 original operand/call/storage evidence
+    0x00331169: "8d45f4506a018d8558feffff50ff7508ff7508576a01e860d0fcff",  # next147 original operand/call/storage evidence
+    0x0033119D: "8b0dfc044b00a164643800894df48b0d00054b00894df8",  # next147 original operand/call/storage evidence
+    0x003311B4: "8d4dd851535357505768ac044b008bf0e82dd0fcff",  # next147 original operand/call/storage evidence
+    0x003311C9: "8d45dc5053535756576898044b00e81ad0fcff",  # next147 original operand/call/storage evidence
+    0x003311DC: "6a188d45d850e809d0fcff8d45d8508d8558feffff506a01e8f1cffcff",  # next147 original operand/call/storage evidence
+    0x003311F9: "8d45f4506a018d8558feffff50ff7508ff7508576a01e8d0cffcff",  # next147 original operand/call/storage evidence
+    0x00342E9C: "8d9e98000000",  # next147 original operand/call/storage evidence
+    0x00342F19: "8d83e8000000",  # next147 original operand/call/storage evidence
+    0x00342F3E: "c74004c37c3300",  # next147 original operand/call/storage evidence
+    0x00342F45: "c74008127d3300",  # next147 original operand/call/storage evidence
+    0x00342F4C: "c7400c177d3300",  # next147 original operand/call/storage evidence
+    0x0034CD37: "6897cc3400",  # next147 original operand/call/storage evidence
+    0x0034CD58: "c783d801000080970600",  # next147 original operand/call/storage evidence
+    0x0034CD62: "a18c643800",  # next147 original operand/call/storage evidence
+    0x0034CD67: "8b00",  # next147 original operand/call/storage evidence
+    0x0034CD6D: "8983dc010000",  # next147 original operand/call/storage evidence
+    0x0034D747: "c780500200000bd63400",  # next147 original operand/call/storage evidence
+    0x0034D834: "681ad73400",  # next147 original operand/call/storage evidence
+    0x0034D85B: "6884d03400",  # next147 original operand/call/storage evidence
+    0x0034DA4E: "c7058000f0fe3e0f3b00",  # next147 original operand/call/storage evidence
+    0x0034DADB: "b810003000",  # next147 original operand/call/storage evidence
+    0x0034DAE6: "a34001f0fe",  # next147 original operand/call/storage evidence
+    0x0034DAEB: "a33c01f0fe",  # next147 original operand/call/storage evidence
+    0x0035F909: "c70680f23500",  # next147 original operand/call/storage evidence
+    0x0035F90F: "c74604a0f33500",  # next147 original operand/call/storage evidence
+    0x0035F916: "c7460880f63500",  # next147 original operand/call/storage evidence
+    0x0035F91D: "c7460ca0f63500",  # next147 original operand/call/storage evidence
+    0x0035F924: "c7461040f73500",  # next147 original operand/call/storage evidence
+    0x0035F92B: "c7461400f73500",  # next147 original operand/call/storage evidence
+    0x0035FED8: "c705384b4100b0fb3500",  # next147 original operand/call/storage evidence
+    0x0035FEE2: "c705104b410070fc3500",  # next147 original operand/call/storage evidence
+    0x0035FEED: "c705384b410010fa3500",  # next147 original operand/call/storage evidence
+    0x0035FEF7: "c705104b4100e0fa3500",  # next147 original operand/call/storage evidence
+    0x0035FF02: "c705384b410010fe3500",  # next147 original operand/call/storage evidence
+    0x0035FF0C: "c705104b410060fe3500",  # next147 original operand/call/storage evidence
+    0x0035FF22: "c7051c4b410010fa3500",  # next147 original operand/call/storage evidence
+    0x0035FF2C: "c705284b4100e0fa3500",  # next147 original operand/call/storage evidence
+    0x0036FFE2: "c7400400002100",  # next147 original operand/call/storage evidence
+    0x0037006C: "b939000000",  # next147 original operand/call/storage evidence
+    0x00370073: "bf98dd3700",  # next147 original operand/call/storage evidence
+    0x00370078: "f3a5",  # next147 original operand/call/storage evidence
+    0x0037007A: "8b8dd8000000",  # next147 original operand/call/storage evidence
+    0x00370080: "890db8df3700",  # next147 original operand/call/storage evidence
+    0x00370095: "c70060022000",  # next147 original operand/call/storage evidence
+    0x0037013D: "c780f000000088020800",  # next147 original operand/call/storage evidence
+    0x00379183: "c783f4070000ffc32800",  # next147 original operand/call/storage evidence
+    0x003791D1: "8b83f4070000",  # next147 original operand/call/storage evidence
+    0x003791D7: "898680084000",  # next147 original operand/call/storage evidence
+    0x00379207: "8986800b4000",  # next147 original operand/call/storage evidence
+    0x003792EF: "8d8680094000",  # next147 original operand/call/storage evidence
+    0x00379327: "8b8624031000",  # next147 original operand/call/storage evidence
+    0x0037932D: "8986a0094000",  # next147 original operand/call/storage evidence
+    0x0037933D: "898654074000",  # next147 original operand/call/storage evidence
+    0x0037F659: "68ee203800",  # next147 original operand/call/storage evidence
+    0x0037F6A3: "68362e3800",  # next147 original operand/call/storage evidence
     0x0034F3C3: "8d460c50566865f13400578bcbe868eeffff",  # original guest callback/import DWORD values
     0x0034F3AF: "6865f1340083c72b578bcbe87eeeffff",  # original guest callback/import DWORD values
     0x0034F37D: "a18c6438008b0089462c",  # original guest callback/import DWORD values

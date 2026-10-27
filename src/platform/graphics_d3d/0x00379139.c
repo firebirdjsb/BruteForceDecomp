@@ -52,7 +52,8 @@ void FUN_00379139(void)
   in_EAX[0x202] = 0;
   in_EAX[0x205] = 0;
   in_EAX[0x1fc] = 0x118700;
-  in_EAX[0x1fd] = (int)&LAB_0028c3ff;
+  /* 0x00379183: four-byte immediate at EBX+0x7f4 (index 0x1fd). */
+  in_EAX[0x1fd] = UINT32_C(0x0028c3ff);
   in_EAX[0x1fe] = -0xc21fb87;
   in_EAX[0x200] = 4;
   in_EAX[0x201] = 0x45ead10e;
@@ -64,7 +65,9 @@ void FUN_00379139(void)
   *(int *)((int)&PTR_PTR_0040008c + iVar3) = in_EAX[0x1fe];
   *(int *)(&DAT_00400090 + iVar3) = in_EAX[0x1ff];
   *(int *)((int)&PTR_PTR_00400094 + iVar3) = in_EAX[0x200];
-  *(int *)(&LAB_00400b80 + iVar3) = in_EAX[0x201];
+  /* 0x00379207: four-byte store at ESI+0x400b80. Form the guest
+   * byte address with 32-bit wrap before the unresolved host mapping. */
+  *(int *)(uintptr_t)((uint32_t)iVar3 + UINT32_C(0x00400b80)) = in_EAX[0x201];
   *(int *)(&DAT_00400b84 + iVar3) = in_EAX[0x202];
   *(int *)(&DAT_00400098 + iVar3) = in_EAX[0x203];
   *(int *)(&DAT_0040009c + iVar3) = in_EAX[0x204];
@@ -90,7 +93,8 @@ void FUN_00379139(void)
     *(undefined4 *)((int)&PTR_DAT_00400754 + iVar3) = uVar4;
     local_c = uVar2;
   } while ((int)uVar2 < 0x70);
-  puVar5 = (undefined4 *)(&LAB_00400980 + iVar3);
+  /* 0x003792ef: LEA EAX,[ESI+0x400980], in guest byte addresses. */
+  puVar5 = (undefined4 *)(uintptr_t)((uint32_t)iVar3 + UINT32_C(0x00400980));
   local_10 = 8;
   do {
     uVar4 = puVar5[-0xc01a0];
@@ -101,9 +105,12 @@ void FUN_00379139(void)
     local_10 = local_10 + -1;
     *(undefined4 *)((int)&PTR_DAT_00400754 + iVar3) = uVar4;
   } while (local_10 != 0);
-  *(undefined4 *)(&DAT_004009a0 + iVar3) = *(undefined4 *)(&LAB_00100324 + iVar3);
+  /* 0x00379327: load one DWORD from guest ESI+0x100324; its value
+   * feeds both stores at 0x0037932d and 0x0037933d. */
+  uVar4 = *(undefined4 *)(uintptr_t)((uint32_t)iVar3 + UINT32_C(0x00100324));
+  *(undefined4 *)(&DAT_004009a0 + iVar3) = uVar4;
   *(undefined4 *)(&DAT_00400750 + iVar3) = 0xea000c;
-  *(undefined4 *)((int)&PTR_DAT_00400754 + iVar3) = *(undefined4 *)(&LAB_00100324 + iVar3);
+  *(undefined4 *)((int)&PTR_DAT_00400754 + iVar3) = uVar4;
   uVar4 = *(undefined4 *)(iVar3 + 0x100200);
   *(undefined4 *)(&DAT_004009a4 + iVar3) = uVar4;
   *(undefined4 *)(&DAT_00400750 + iVar3) = 0xea0000;

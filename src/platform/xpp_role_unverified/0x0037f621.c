@@ -23,7 +23,8 @@ void FUN_0037f621(byte param_1,undefined1 param_2)
     iVar2 = 0;
   }
   else {
-    FUN_0001fe40(iVar2,0x20,(uint)param_1,&LAB_003820ee);
+    /* 0x37f659: PUSH imm32; initializer ABI remains unverified. */
+    FUN_0001fe40(iVar2,0x20,(uint)param_1,UINT32_C(0x003820ee));
   }
   *(int *)(in_ECX + 0xe0) = iVar2;
   in_ECX[0x7b] = param_2;
@@ -36,7 +37,8 @@ void FUN_0037f621(byte param_1,undefined1 param_2)
       iVar2 = (int)cVar1;
     } while (iVar2 < (int)((byte)in_ECX[0x7a] - 1));
   }
-  KeInitializeDpc(in_ECX + 0x34,&LAB_00382e36,0);
+  /* 0x37f6a3: PUSH imm32; no host callback binding is inferred. */
+  KeInitializeDpc(in_ECX + 0x34,UINT32_C(0x00382e36),0);
   KeInitializeTimerEx(in_ECX + 0x50,0);
   return;
 }

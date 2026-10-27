@@ -12,8 +12,6 @@ extern uint32_t DAT_00414b10;
 extern uint32_t DAT_00414b30;
 extern uint32_t DAT_00414b38;
 extern uint32_t DAT_004c07e0;
-extern uint32_t UNK_0035fe10;
-extern uint32_t UNK_0035fe60;
 extern uint32_t _DAT_00414b1c;
 extern uint32_t _DAT_00414b28;
 extern uint32_t _DAT_00414b44;
@@ -25,27 +23,29 @@ void FUN_0035feb0(int param_1)
   uint uVar1;
   uint *in_ECX;
   
+  /* 0x35fed8..0x35ff2c: MOV DWORD code-address immediates.
+   * ABI_UNVERIFIED: these uint32_t globals hold raw guest words. */
   if (DAT_004c07e0 == 1) {
     uVar1 = *in_ECX;
     if (((uVar1 & 1) == 0) || (0x2000 < uVar1)) {
-      DAT_00414b38 = &UNK_0035fe10;
-      DAT_00414b10 = &UNK_0035fe60;
+      DAT_00414b38 = UINT32_C(0x0035fe10);
+      DAT_00414b10 = UINT32_C(0x0035fe60);
       _DAT_00414b44 = in_ECX;
       *in_ECX = 0x82;
-      _DAT_00414b1c = &LAB_0035fa10;
-      _DAT_00414b28 = &LAB_0035fae0;
+      _DAT_00414b1c = UINT32_C(0x0035fa10);
+      _DAT_00414b28 = UINT32_C(0x0035fae0);
       DAT_00414b30 = 1;
       return;
     }
     uVar1 = uVar1 + param_1 * 4;
     *in_ECX = uVar1;
     if ((uVar1 & 2) == 0) {
-      DAT_00414b38 = &LAB_0035fa10;
-      DAT_00414b10 = &LAB_0035fae0;
+      DAT_00414b38 = UINT32_C(0x0035fa10);
+      DAT_00414b10 = UINT32_C(0x0035fae0);
       return;
     }
   }
-  DAT_00414b38 = &LAB_0035fbb0;
-  DAT_00414b10 = &LAB_0035fc70;
+  DAT_00414b38 = UINT32_C(0x0035fbb0);
+  DAT_00414b10 = UINT32_C(0x0035fc70);
   return;
 }

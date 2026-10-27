@@ -185,9 +185,11 @@ LAB_00342e26:
             *(undefined4 *)(iVar2 + 0x198) = 0;
             *(undefined4 *)(iVar2 + 0x19c) = 0;
             *(undefined4 *)(iVar2 + 0x1a0) = 0;
-            *(undefined1 **)(iVar2 + 0x184) = &LAB_00337cc3;
-            *(undefined1 **)(iVar2 + 0x188) = &LAB_00337d12;
-            *(undefined1 **)(iVar2 + 0x18c) = &LAB_00337d17;
+            /* 0x342f3e/0x342f45/0x342f4c: MOV DWORD immediates;
+             * EAX is guest base+0x180. ABI_UNVERIFIED: raw code words. */
+            *(uint32_t *)(uintptr_t)((uint32_t)iVar2 + 0x184U) = UINT32_C(0x00337cc3);
+            *(uint32_t *)(uintptr_t)((uint32_t)iVar2 + 0x188U) = UINT32_C(0x00337d12);
+            *(uint32_t *)(uintptr_t)((uint32_t)iVar2 + 0x18cU) = UINT32_C(0x00337d17);
             iVar4 = FUN_00337bcf(iVar2 + 0x1d4,local_a8,uVar6,0,0,0,puVar8);
             in_ECX = local_8;
             if (-1 < iVar4) {

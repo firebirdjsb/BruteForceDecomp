@@ -6,8 +6,6 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-/* Matched to C-draft definitions, NOT verified original Xbox callback ABI. */
-extern int FUN_0035f280(int param_1,int param_2,undefined4 param_3,undefined4 param_4);
 undefined4 FUN_0035f8d0(undefined4 *param_1,undefined4 param_2,uint param_3)
 
 {
@@ -37,11 +35,13 @@ undefined4 FUN_0035f8d0(undefined4 *param_1,undefined4 param_2,uint param_3)
     uVar1 = XAPILIB__SetFilePointer(param_2,0,0,1);
     param_1[0x1d] = uVar1;
   }
-  *param_1 = FUN_0035f280;
-  param_1[1] = &LAB_0035f3a0;
-  param_1[2] = &LAB_0035f680;
-  param_1[3] = FUN_0035f6a0;
-  param_1[4] = &LAB_0035f740;
-  param_1[5] = FUN_0035f700;
+  /* 0x35f909..0x35f92b: six MOV DWORD immediates at byte offsets 0..0x14.
+   * ABI_UNVERIFIED: guest code words, not callable host function pointers. */
+  *param_1 = UINT32_C(0x0035f280);
+  param_1[1] = UINT32_C(0x0035f3a0);
+  param_1[2] = UINT32_C(0x0035f680);
+  param_1[3] = UINT32_C(0x0035f6a0);
+  param_1[4] = UINT32_C(0x0035f740);
+  param_1[5] = UINT32_C(0x0035f700);
   return 1;
 }

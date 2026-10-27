@@ -9,8 +9,6 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0040f5d8;
-extern uint32_t UNK_00300010;
-extern uint32_t UNK_003b0f3e;
 extern uint32_t _DAT_fef00004;
 extern uint32_t _DAT_fef00080;
 extern uint32_t _DAT_fef0008c;
@@ -55,15 +53,17 @@ int FUN_0034d726(undefined4 param_1)
   if (iVar2 < 0) {
     return iVar2;
   }
-  *(undefined1 **)(local_c + 0x250) = &LAB_0034d60b;
+  /* 0x34d747: MOV DWORD [EAX+0x250],0x34d60b; raw guest word. */
+  *(uint32_t *)(uintptr_t)((uint32_t)local_c + 0x250U) = UINT32_C(0x0034d60b);
   *(undefined4 *)(local_c + 0x260) = *(undefined4 *)(*(int *)(unaff_FS_OFFSET + 0x20) + 0x24c);
   if (*(int *)(local_c + 0x260) == 0) {
     FUN_00352ebc(0x400);
     uVar6 = HalGetInterruptVector(4,local_c + 0x20c);
     *(undefined4 *)(local_c + 0x208) = uVar6;
-    KeInitializeDpc(local_c + 0x1ec,&LAB_0034d71a,local_c);
+    /* 0x34d834/0x34d85b: PUSH imm32; callback ABIs remain unverified. */
+    KeInitializeDpc(local_c + 0x1ec,UINT32_C(0x0034d71a),local_c);
     KeInitializeInterrupt
-              (&DAT_0040f5d8,&LAB_0034d084,local_c,*(undefined4 *)(local_c + 0x208),
+              (&DAT_0040f5d8,UINT32_C(0x0034d084),local_c,*(undefined4 *)(local_c + 0x208),
                *(undefined1 *)(local_c + 0x20c),0,1);
     FUN_0034ced7();
     *(uint *)(local_c + 0x240) = (uint)*(byte *)(local_c + 7);
@@ -119,7 +119,8 @@ int FUN_0034d726(undefined4 param_1)
     *(undefined2 *)(local_c + 0x1e4) = *(undefined2 *)(local_c + 0x1ea);
     _DAT_fef00090 = 0x5ee;
     _DAT_fef0008c = 0x7f0020;
-    _DAT_fef00080 = &UNK_003b0f3e;
+    /* 0x34da4e: immediate DWORD value, with no data-label identity implied. */
+    _DAT_fef00080 = UINT32_C(0x003b0f3e);
     FUN_0034c7e5(&local_5,1);
     local_5 = local_5 + (local_5 == 0);
     _DAT_fef0009c = local_5 | 0x7f00;
@@ -128,8 +129,9 @@ int FUN_0034d726(undefined4 param_1)
     _DAT_fef00100 = *(int *)(local_c + 0x228) + *(int *)(local_c + 0x21c);
     _DAT_fef00104 = *(int *)(local_c + 0x244) + *(int *)(local_c + 0x21c);
     _DAT_fef00108 = *(int *)(local_c + 0x240) * 0x10000 - 0x10000U | *(uint *)(local_c + 0x224);
-    _DAT_fef00140 = &UNK_00300010;
-    _DAT_fef0013c = &UNK_00300010;
+    /* 0x34dadb/0x34dae6/0x34daeb: EAX=0x300010, two DWORD stores. */
+    _DAT_fef00140 = UINT32_C(0x00300010);
+    _DAT_fef0013c = UINT32_C(0x00300010);
     _DAT_fef00188 = 0x1040000;
     _DAT_fef0018c = 0x105;
     KeStallExecutionProcessor(0x32);

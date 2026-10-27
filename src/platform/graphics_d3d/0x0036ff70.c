@@ -9,7 +9,6 @@
 #include "bf_xbox_d3d_device_x86.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_00080288;
 extern uint32_t DAT_0037dd90;
 extern uint32_t DAT_0037dfe8;
 extern uint32_t DAT_0037ec88;
@@ -42,7 +41,8 @@ void D3D8LTCG__D3DDevice_SetPixelShader_0__LTCG_eax_handle(void)
     }
     puVar4 = (undefined4 *)FUN_00370e10();
     *puVar4 = 0x41e78;
-    puVar4[1] = &LAB_00210000;
+    /* 0x0036ffe2: original four-byte immediate store at EAX+4. */
+    puVar4[1] = UINT32_C(0x00210000);
     *puVar3 = (uint)(puVar4 + 2);
     return;
   }
@@ -61,18 +61,23 @@ void D3D8LTCG__D3DDevice_SetPixelShader_0__LTCG_eax_handle(void)
   }
   if ((puVar3[2] & 0x10) == 0) {
     puVar9 = puVar4;
-    puVar8 = &D3D8__D3D_g_RenderState;
+    /* 0x00370073: EDI receives this guest address; REP MOVSD copies
+     * 0x39 four-byte words. ABI_UNVERIFIED: guest memory mapping. */
+    puVar8 = (undefined4 *)(uintptr_t)UINT32_C(0x0037dd98);
     for (iVar7 = 0x39; iVar7 != 0; iVar7 = iVar7 + -1) {
       *puVar8 = *puVar9;
       puVar9 = puVar9 + 1;
       puVar8 = puVar8 + 1;
     }
-    D3D8__D3DRS_PSTextureModes = puVar4[0x36];
+    /* 0x00370080: write the DWORD loaded from EBP+0xd8 to guest
+     * address 0x0037dfb8; no host render-state binding is inferred. */
+    *(undefined4 *)(uintptr_t)UINT32_C(0x0037dfb8) = puVar4[0x36];
   }
   if (uVar1 == 0) {
     puVar5 = (undefined4 *)FUN_00370e10();
   }
-  *puVar5 = &LAB_00200260;
+  /* 0x00370095: original four-byte immediate store at EAX. */
+  *puVar5 = UINT32_C(0x00200260);
   puVar8 = puVar4;
   puVar9 = puVar5;
   for (iVar7 = 8; puVar9 = puVar9 + 1, iVar7 != 0; iVar7 = iVar7 + -1) {
@@ -105,7 +110,9 @@ void D3D8LTCG__D3DDevice_SetPixelShader_0__LTCG_eax_handle(void)
   puVar5[0x3a] = puVar4[0x37];
   puVar5[0x3b] = puVar4[0x38];
   if (puVar3[0xdc] != 0) {
-    puVar5[0x3c] = &DAT_00080288;
+    /* 0x0037013d: EAX+0xf0 receives this literal DWORD, not a host
+     * address of a symbol whose name resembles the operand. */
+    puVar5[0x3c] = UINT32_C(0x00080288);
     puVar5[0x3d] = puVar4[8];
     puVar5[0x3e] = puVar4[9];
     *puVar3 = (uint)(puVar5 + 0x3f);

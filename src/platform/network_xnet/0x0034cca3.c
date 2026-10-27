@@ -6,8 +6,6 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-/* Matched to C-draft definitions, NOT verified original Xbox callback ABI. */
-extern void FUN_00069780(float param_1);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00356a90;
@@ -69,10 +67,16 @@ LAB_0034cd15:
   iVar7 = in_ECX + 0x1d0;
   *(int *)(in_ECX + 0x1d4) = iVar7;
   *(int *)iVar7 = iVar7;
-  KeInitializeDpc(in_ECX + 0x188,&LAB_0034cc97);
+  /* 0x34cd37: PUSH imm32; existing initializer ABI is unverified. */
+  KeInitializeDpc(in_ECX + 0x188,UINT32_C(0x0034cc97));
   KeInitializeTimerEx(in_ECX + 0x1a8,0);
-  *(code **)(in_ECX + 0x1d8) = FUN_00069780;
-  *(undefined4 *)(in_ECX + 0x1dc) = *(undefined4 *)KeTickCount_exref;
+  /* 0x34cd58: MOV DWORD [EBX+0x1d8],0x69780, not a host pointer. */
+  *(uint32_t *)(uintptr_t)((uint32_t)in_ECX + 0x1d8U) = UINT32_C(0x00069780);
+  /* 0x34cd62/0x34cd67: load a DWORD guest address from import slot
+   * 0x38648c, then load its DWORD value; 0x34cd6d stores at +0x1dc.
+   * ABI_UNVERIFIED: import resolution and guest memory mapping remain open. */
+  *(uint32_t *)(uintptr_t)((uint32_t)in_ECX + 0x1dcU) =
+      *(uint32_t *)(uintptr_t)(*(uint32_t *)(uintptr_t)UINT32_C(0x0038648c));
   FUN_00352ebc(0x40);
   bVar3 = *(byte *)(in_ECX + 6);
   iVar7 = (uint)bVar3 * 0x1000;
