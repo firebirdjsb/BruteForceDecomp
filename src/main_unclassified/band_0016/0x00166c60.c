@@ -26,18 +26,23 @@ extern uint32_t DAT_0041f630;
 extern uint32_t DAT_0046d2b4;
 extern uint32_t DAT_0046d2b8;
 extern uint32_t DAT_0046d2bc;
-extern uint32_t *_DAT_0041f570;
-extern uint32_t *_DAT_0041f574;
-extern uint32_t *_DAT_0041f578;
-extern uint32_t *_DAT_0041f5b0;
-extern uint32_t *_DAT_0041f5b4;
-extern uint32_t *_DAT_0041f5bc;
-extern uint32_t *_DAT_0041f5d0;
-extern uint32_t *_DAT_0041f5d8;
-extern uint32_t *_DAT_0041f5dc;
-extern uint32_t *_DAT_0041f5e4;
-extern uint32_t *_DAT_0041f5e8;
-extern uint32_t *_DAT_0041f5ec;
+/* Original x86 entry 0x00166C60: twelve absolute memory operands below
+ * are each read by D8 0D <guest VA>, FMUL m32fp, at 0x0016748A..0x00167570.
+ * These are 4-byte IEEE-754 scalar operands, not pointers. Correct only
+ * these twelve source declarations; the remaining global storage and
+ * full guest x87/control-word/linkage contracts are ABI_UNVERIFIED. */
+extern float _DAT_0041f570;
+extern float _DAT_0041f574;
+extern float _DAT_0041f578;
+extern float _DAT_0041f5b0;
+extern float _DAT_0041f5b4;
+extern float _DAT_0041f5bc;
+extern float _DAT_0041f5d0;
+extern float _DAT_0041f5d8;
+extern float _DAT_0041f5dc;
+extern float _DAT_0041f5e4;
+extern float _DAT_0041f5e8;
+extern float _DAT_0041f5ec;
 extern uint32_t _DAT_0041f5f0;
 extern uint32_t _DAT_0041f5f4;
 extern uint32_t _DAT_0041f5f8;
