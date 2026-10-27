@@ -30,7 +30,11 @@ undefined4 FUN_002578c0(int *param_1)
   
   puStack_1c = local_4;
   piStack_20 = param_1;
-  (**(code **)(*param_1 + 0x14))();
+  /* XBE 0x002578CD LEA ECX,[ESP+0x14]; 0x002578D1 PUSH ECX;
+   * 0x002578D2 PUSH EDI; 0x002578D3 CALL [EAX+0x14].
+   * The object and writable 4-byte schema ID MUST reach the callee,
+   * rather than invoking the method with zero C arguments. */
+  (**(code **)(*param_1 + 0x14))(param_1,local_4);
   memcpy(&schema_tag, local_4, sizeof(schema_tag));
   if (schema_tag == UINT32_C(0x0e07067e)) {
     return 0;
