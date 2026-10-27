@@ -117,6 +117,7 @@ on:
       - 'scripts/verify_0028e5f0_guest_float_pair.py'
       - 'scripts/verify_00233c20_caller_word.py'
       - 'scripts/verify_0029f0b0_x87_transform_lanes.py'
+      - 'scripts/verify_000af1a0_guest_d3d_cursor_global.py'
       - 'scripts/verify_00042280_eax_flag_clears.py'
       - 'scripts/verify_00147570_001579b0_guest_first_word.py'
       - 'scripts/verify_guest_serialization_buffer_widths.py'
@@ -390,6 +391,8 @@ jobs:
         run: python3 scripts/verify_00233c20_caller_word.py --root . --clang
       - name: Verify 0x0029F0B0 original x87 scalar returns and 3x4 matrix lanes
         run: python3 scripts/verify_0029f0b0_x87_transform_lanes.py --root . --clang
+      - name: Verify 0x000AF1A0 Xbox guest D3D cursor global (source-only)
+        run: python3 scripts/verify_000af1a0_guest_d3d_cursor_global.py --root .
       - name: Verify 0x00042280 returned EAX flag clears (source-only CI)
         run: python3 scripts/verify_00042280_eax_flag_clears.py --root .
       - name: Verify two first-argument DWORD output slots at 0x147570 and 0x1579B0 (source-only CI)
