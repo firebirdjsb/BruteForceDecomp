@@ -26,6 +26,11 @@ void FUN_00232b70(char param_1)
     cVar1 = *pcVar2;
     pcVar2 = pcVar2 + 1;
   } while (cVar1 != '\0');
-  FUN_0001fed0(&param_1,(int)pcVar2 - (int)&stack0x00000005);
+  /* Original 0x00232BB2: LEA EDX,[EAX+1] immediately before
+   * the NUL scan. 0x00232BC4: SUB EAX,EDX gives strlen
+   * (scan_end - (buffer_begin+1)), not a host stack address.
+   * Guest 0x2004-byte dynamic stack allocation, COM writer ABI,
+   * and buffer ownership still require native-port reconstruction. */
+  FUN_0001fed0(&param_1,(int)(pcVar2 - ((char *)&param_1 + 1)));
   return;
 }
