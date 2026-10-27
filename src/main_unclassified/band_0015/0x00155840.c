@@ -8,6 +8,12 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+/* Original guest code callback address 0x0014F480 is pushed at
+ * 0x001558F7 (68 80 F4 14 00). Its entry begins with
+ * 8B 44 24 04 8B 4C 24 08, independently observed in the pinned XBE.
+ * The external declaration preserves the guest code-address identity for
+ * isolated C11 syntax only. Host linkage and callback ABI are UNVERIFIED. */
+extern code LAB_0014f480;
 extern uint32_t DAT_0037bd48;
 extern uint32_t DAT_0037e1e8;
 extern uint32_t DAT_003f7f20;
