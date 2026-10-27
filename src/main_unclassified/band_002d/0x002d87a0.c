@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003b86e0;
@@ -24,8 +25,13 @@ undefined4 FUN_002d87a0(int *param_1,uint *param_2,int *param_3)
   float *pfVar6;
   float *pfVar7;
   float10 fVar8;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar9 [16];
+  /* Original x87 0x002D8BDB..0x002D8BFC and SSE 0x002D8C00:
+   * rounded F32 scalar stack results, not host pointers or byte-array
+   * vector fields. The earlier local_7c/94/90 pointer lifetimes
+   * remain distinct. Full x87 control-word/guest ABI UNVERIFIED. */
+  float guest_inverse_length;
+  float guest_scaled_length;
+  float guest_rsqrt_length;
   float fVar10;
   float fVar11;
   float fVar12;
@@ -132,13 +138,12 @@ undefined4 FUN_002d87a0(int *param_1,uint *param_2,int *param_3)
       local_88 = fStack_a0 * local_78 - fStack_70 * local_a8;
       local_84 = local_74 * local_a8 - local_a4 * local_78;
       fVar8 = (float10)FUN_0010ff10(&local_a8);
-      local_7c = (float *)(float)((float10)1.0 / fVar8);
+      guest_inverse_length = (float)((float10)1.0 / fVar8);
       fVar8 = (float10)FUN_0010ff10(&local_8c);
-      local_94 = (undefined1 *)(float)(fVar8 * (float10)(float)local_7c);
-      local_68 = (float)(fVar8 * (float10)(float)local_7c);
-      auVar9 = rsqrtss(in_XMM0,local_68);
-      local_90 = auVar9._0_4_;
-      *(float *)(*in_ECX + 0x54) = (float)local_90 * (float)local_94 - *(float *)(*in_ECX + 0x50);
+      guest_scaled_length = (float)(fVar8 * (float10)guest_inverse_length);
+      local_68 = guest_scaled_length;
+      guest_rsqrt_length = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(local_68)));
+      *(float *)(*in_ECX + 0x54) = guest_rsqrt_length * guest_scaled_length - *(float *)(*in_ECX + 0x50);
       fVar10 = local_a4 * local_8c;
       fVar11 = fStack_a0 * local_8c;
       fVar12 = local_84 * local_a8;
@@ -147,7 +152,7 @@ undefined4 FUN_002d87a0(int *param_1,uint *param_2,int *param_3)
       local_88 = fVar11 - fVar12;
       FUN_002c9620();
       iVar3 = *in_ECX;
-      fVar10 = -((float)local_90 * (float)local_7c);
+      fVar10 = -(guest_rsqrt_length * guest_inverse_length);
       *(float *)(iVar3 + 0x60) = local_8c * fVar10;
       *(float *)(iVar3 + 100) = local_88 * fVar10;
       *(float *)(iVar3 + 0x68) = local_84 * fVar10;
