@@ -196,7 +196,14 @@ void FUN_002688c0(int param_1)
                 );
     fVar16 = local_b8 - local_190;
     local_258 = local_bc - local_194;
-    _local_258 = CONCAT44(fVar16,local_258);
+    /* Original x86 SSE lane storage here is two adjacent f32 words.
+     * Low DWORD local_258 was assigned just above; high DWORD is
+     * the adjacent fStack_254. Never numeric-cast CONCAT44 float
+     * components to a 64-bit integer, which loses IEEE-754 bits.
+     * 0x00268F03 and 0x002690CA MOVHPS provide observed packed
+     * high-lane store provenance. Native SSE register ABI still
+     * requires exact x86 dispatch and rounding verification. */
+    fStack_254 = fVar16;
     if (1.1920929e-07 <
         SQRT(local_258 * local_258 +
              fVar16 * fVar16 + (local_c0 - local_198) * (local_c0 - local_198))) {
@@ -268,10 +275,15 @@ void FUN_002688c0(int param_1)
       local_1d0 = local_260 * local_22c;
       local_1cc = local_260 * fStack_228;
       local_1c8 = local_234 * fVar16;
-      _local_258 = CONCAT44(local_234 * fVar17,local_1d0);
+      /* Original paired 32-bit lanes: [local_258, fStack_254].
+       * This writes both overlapping guest DWORDs, not an f64. */
+      local_258 = local_1d0;
+      fStack_254 = local_234 * fVar17;
       fVar15 = local_1cc + local_234 * fVar17;
       local_23c = local_1d0 + local_234 * fVar14;
-      _local_1c4 = CONCAT44(fVar15,local_23c);
+      /* Original paired 32-bit lanes: [local_1c4, fStack_1c0]. */
+      local_1c4 = local_23c;
+      fStack_1c0 = fVar15;
       local_268 = (undefined4 *)(local_238 + fVar15);
       local_23c = (local_230 * fVar17 - fVar16 * fStack_228) + local_23c;
       iVar11 = *(int *)(param_1 + 0x24);
