@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003c053c;
@@ -32,7 +33,7 @@ undefined1 FUN_000bf7a0(int param_1,int param_2,int *param_3,undefined4 *param_4
   undefined4 *puVar10;
   float10 fVar11;
   float fVar12;
-  undefined1 auVar13 [16];
+  /* Low scalar only: original RCPSS at 0x000BF942. */
   int iStack_1e8;
   int *piStack_1e0;
   float fStack_1dc;
@@ -109,8 +110,10 @@ undefined1 FUN_000bf7a0(int param_1,int param_2,int *param_3,undefined4 *param_4
       FUN_000ab390(*(undefined4 *)(param_2 + 0xf0),&iStack_1d4);
       FUN_0006dfc0(piVar1,&fStack_1cc,(float)iStack_1d4,(float)iStack_1d0);
       fVar11 = (float10)(**(code **)(piVar1[0x12] + 0x24))();
-      auVar13 = rcpss(ZEXT416((uint)(float)fVar11),ZEXT416((uint)(float)fVar11));
-      fVar12 = auVar13._0_4_;
+      /* XBE 0x000BF92C stores ST0 to m32fp, 0x000BF938 loads
+       * MOVSS into XMM1, and 0x000BF942 applies approximate RCPSS.
+       * No float-to-uint conversion or 16-byte array assignment. */
+      fVar12 = _mm_cvtss_f32(_mm_rcp_ss(_mm_set_ss((float)fVar11)));
       fStack_1cc = fStack_1cc * fVar12;
       uVar4 = (ulonglong)_fStack_1c8 >> 0x20;
       fStack_1c8 = (float)_fStack_1c8 * fVar12;
