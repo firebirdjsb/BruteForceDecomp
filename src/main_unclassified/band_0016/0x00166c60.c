@@ -43,10 +43,14 @@ extern float _DAT_0041f5dc;
 extern float _DAT_0041f5e4;
 extern float _DAT_0041f5e8;
 extern float _DAT_0041f5ec;
-extern uint32_t _DAT_0041f5f0;
-extern uint32_t _DAT_0041f5f4;
-extern uint32_t _DAT_0041f5f8;
-extern uint32_t _DAT_0041f5fc;
+/* Four x87 result stores are D9 1D <guest VA> (FSTP m32fp) at
+ * 0x001674B8, 0x001674F8, 0x00167538 and 0x00167578.
+ * Their original 4-byte float words must not undergo C float->uint
+ * numeric conversion. Host storage binding and x87 behavior unverified. */
+extern float _DAT_0041f5f0;
+extern float _DAT_0041f5f4;
+extern float _DAT_0041f5f8;
+extern float _DAT_0041f5fc;
 extern uint32_t _DAT_0041f618;
 extern uint32_t _DAT_0041f61c;
 extern uint32_t _DAT_0041f624;
