@@ -1,0 +1,19 @@
+name: Verified 0x002CC340 SIMD and x87 float3 storage
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_002c/0x002cc340.c'
+      - 'scripts/verify_002cc340_float3_storage.py'
+      - '.github/workflows/verified-002cc340-float3.yml'
+      - 'include/bf_ghidra_types.h'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify source/Clang and preserved float3 original instruction contracts
+        run: python3 scripts/verify_002cc340_float3_storage.py --root .
