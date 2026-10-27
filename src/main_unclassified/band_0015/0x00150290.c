@@ -34,12 +34,12 @@ bool FUN_00150290(int param_1,int param_2)
       fVar4 = -1.0;
     }
     if ((*(byte *)((int)unaff_EDI + 0x3d) & 4) != 0) {
-      iVar1 = FUN_0023d240(*(undefined4 *)(unaff_ESI + 500),param_1 + 0x14,guest_query_word,fVar4);
+      iVar1 = FUN_0023d240(*(undefined4 *)(unaff_ESI + 500),param_1 + 0x14,&guest_query_word,fVar4);
       *(int *)(unaff_ESI + 0x248) = iVar1;
       return iVar1 != 0;
     }
     puVar2 = (undefined4 *)
-             FUN_0023d240(*(undefined4 *)(unaff_ESI + 500),param_1 + 0x14,guest_query_word,fVar4);
+             FUN_0023d240(*(undefined4 *)(unaff_ESI + 500),param_1 + 0x14,&guest_query_word,fVar4);
     *(undefined4 **)(unaff_ESI + 0x228 + param_2 * 4) = puVar2;
     if (puVar2 != (undefined4 *)0x0) {
       *(undefined4 *)(unaff_ESI + 0x550) = *(undefined4 *)*puVar2;
