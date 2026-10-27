@@ -32,9 +32,14 @@ extern uint32_t _DAT_004038b8;
 extern uint32_t _DAT_004038c0;
 extern uint32_t _DAT_004038c4;
 extern uint32_t _DAT_004038c8;
-extern uint32_t _DAT_004038d0;
-extern uint32_t _DAT_004038d4;
-extern uint32_t *_DAT_004038d8;
+/* XBE 0x002A1D31/0x002A1D40/0x002A1D46 copies three
+ * DWORDs into adjacent guest XYZ float words (0x004038D0..D8).
+ * Source RSQRTSS (0x002A1B84) and F32 arithmetic feed these words.
+ * Pointer types and numeric float->uint casts were decompiler errors.
+ * Guest32 storage aliasing and native ABI remain ABI_UNVERIFIED. */
+extern float _DAT_004038d0;
+extern float _DAT_004038d4;
+extern float _DAT_004038d8;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 undefined4 FUN_002a1a50(int param_1)
