@@ -45,8 +45,17 @@ undefined1 FUN_001659d0(int param_1)
   uVar4 = 0;
   local_120 = 0;
   iVar3 = (**(code **)(*DAT_00469908 + 0xc))(DAT_00469908,local_100,0x80000000,&local_124);
+  /* Original XBE 0x00165A4D LEA [ESP+0x10] supplies &local_124
+   * as factory output, and 0x00165B0D reloads that word for release.
+   * Guest pointers cannot be dereferenced natively without translation. */
+  unaff_EDI = (int *)(uintptr_t)local_124;
   if (-1 < iVar3) {
-    iVar3 = FUN_001a3c80(&stack0xfffffed0);
+    /* XBE 0x00165A76 LEA [ESP+0x14] passes &local_120.
+     * At 0x00165A80 MOV ESI,[ESP+0x18] after PUSH EAX reloads
+     * the SAME word, not a separate synthetic stack address.
+     * Subsequent +0x8 virtual release consumes this output ESI. */
+    iVar3 = FUN_001a3c80(&local_120);
+    unaff_ESI = (int *)(uintptr_t)local_120;
     uVar4 = 0;
     if (-1 < iVar3) {
       iVar3 = FUN_0023a790(0x9c255b3,1);
