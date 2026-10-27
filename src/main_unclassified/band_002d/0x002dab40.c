@@ -15,6 +15,7 @@ undefined4 FUN_002dab40(void)
   int iVar3;
   int iVar4;
   int *piVar5;
+  uint32_t guest_index_address;
   float fVar6;
   float fVar7;
   float fVar8;
@@ -112,7 +113,14 @@ LAB_002daf44:
         }
         fVar8 = 0.0;
         if (0 < (int)in_EAX[0x11]) {
-          piVar5 = (int *)in_EAX[0xd];
+          /* Original XBE 0x002DABA7 and 0x002DAC30 read an exact
+           * DWORD from [ESI+0x34], then address [ECX+index*4].
+           * This slot holds guest32 address bits, not a C float
+           * numeric value. memcpy preserves the original 32 bits.
+           * TODO/ABI_UNVERIFIED: translate this guest32 address when
+           * executing on a native host. */
+          memcpy(&guest_index_address, &in_EAX[0xd], sizeof(guest_index_address));
+          piVar5 = (int *)(uintptr_t)guest_index_address;
           do {
             iVar3 = *piVar5;
             fVar7 = *(float *)((int)in_EAX[8] + iVar3 * 4);
