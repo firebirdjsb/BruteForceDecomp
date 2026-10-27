@@ -21,7 +21,10 @@ void FUN_001bc4e0(int param_1,int param_2,uint param_3)
   undefined4 local_20;
   undefined4 local_1c;
   int local_18;
-  undefined1 *local_14;
+  /* Original XBE 0x001BC4FE: MOV [EBP-0x10],ESP saves the original
+   * x86 guest ESP after constructing the FS:0 SEH frame. Ghidra's
+   * local_14 synthetic pointer is assigned once and never used.
+   * Removing that dead C alias does not emulate native SEH. */
   undefined4 local_10;
   uint32_t puStack_c; /* original guest32 SEH stack word; FS:0 adapter pending */
   undefined4 local_8;
@@ -30,7 +33,6 @@ void FUN_001bc4e0(int param_1,int param_2,uint param_3)
   puStack_c = UINT32_C(0x00308e70); /* XBE push imm32 at 0x001bc4e5 */
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
-  local_14 = &stack0xffffff68;
   FUN_0003d6c0(local_54);
   local_24 = *(undefined4 *)(in_ECX + 0x34);
   local_20 = *(undefined4 *)(in_ECX + 0x38);
