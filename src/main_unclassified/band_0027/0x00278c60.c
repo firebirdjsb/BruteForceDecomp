@@ -33,7 +33,11 @@ void FUN_00278c60(void)
   int *piStack_20;
   int *piStack_1c;
   int *piStack_18;
-  int local_4;
+  /* Original 0x00278C93 and eleven matching constructor LEAs use
+   * the SAME guest entry-ESP-minus-4 DWORD as the helper argument.
+   * All source identifiers below come from original MOV imm32 ops.
+   * Helper EAX/EBX inputs remain ABI_UNVERIFIED on native PC. */
+  int32_t local_4;
   
   piStack_18 = (int *)0xc;
   local_4 = 0;
@@ -50,7 +54,10 @@ void FUN_00278c60(void)
     piStack_18 = &local_4;
     *piVar1 = (int)&PTR_LAB_00392220;
     piStack_1c = (int *)0x278caa;
-    FUN_00237ff0();
+    /* Original guest [ESP+0x10] caller DWORD sent by address.
+     * This is NOT a native PC calling-convention adapter. */
+    local_4 = (int32_t)UINT32_C(0xe38ea016);
+    FUN_00237ff0(&local_4);
   }
   piStack_1c = (int *)0x278cb3;
   piStack_18 = piVar1;
@@ -65,10 +72,13 @@ void FUN_00278c60(void)
     piVar1[2] = 0;
     piVar1[1] = 1;
     piVar1[2] = 0x1ef62dc5;
-    piStack_1c = (int *)&stack0xfffffff8;
+    piStack_1c = (int *)&local_4;
     *piVar1 = (int)&PTR_LAB_00391f90;
     piStack_20 = (int *)0x278cf2;
-    FUN_00237ff0();
+    /* Original guest [ESP+0x10] caller DWORD sent by address.
+     * This is NOT a native PC calling-convention adapter. */
+    local_4 = (int32_t)UINT32_C(0x1ef62dc5);
+    FUN_00237ff0(&local_4);
   }
   piStack_20 = (int *)0x278cfb;
   piStack_1c = piVar1;
@@ -81,12 +91,15 @@ void FUN_00278c60(void)
   }
   else {
     piVar1[2] = 0;
-    piStack_20 = (int *)&stack0xfffffff4;
+    piStack_20 = (int *)&local_4;
     piVar1[1] = 1;
     piVar1[2] = 0x8459364;
     *piVar1 = (int)&PTR_LAB_0039234c;
     piStack_24 = (int *)0x278d3a;
-    FUN_00237ff0();
+    /* Original guest [ESP+0x10] caller DWORD sent by address.
+     * This is NOT a native PC calling-convention adapter. */
+    local_4 = (int32_t)UINT32_C(0x08459364);
+    FUN_00237ff0(&local_4);
   }
   piStack_24 = (int *)0x278d43;
   piStack_20 = piVar1;
@@ -101,10 +114,13 @@ void FUN_00278c60(void)
     piVar1[2] = 0;
     piVar1[1] = 1;
     piVar1[2] = -0xf5b1349;
-    piStack_24 = (int *)&stack0xfffffff0;
+    piStack_24 = (int *)&local_4;
     *piVar1 = (int)&PTR_LAB_00392020;
     piStack_28 = (int *)0x278d82;
-    FUN_00237ff0();
+    /* Original guest [ESP+0x10] caller DWORD sent by address.
+     * This is NOT a native PC calling-convention adapter. */
+    local_4 = (int32_t)UINT32_C(0xf0a4ecb7);
+    FUN_00237ff0(&local_4);
   }
   piStack_28 = (int *)0x278d8b;
   piStack_24 = piVar1;
@@ -119,10 +135,13 @@ void FUN_00278c60(void)
     piVar1[2] = 0;
     piVar1[1] = 1;
     piVar1[2] = 0x9f2a8fb;
-    piStack_28 = (int *)&stack0xffffffec;
+    piStack_28 = (int *)&local_4;
     *piVar1 = (int)&PTR_LAB_00391f00;
     ppiStack_2c = (int **)0x278dca;
-    FUN_00237ff0();
+    /* Original guest [ESP+0x10] caller DWORD sent by address.
+     * This is NOT a native PC calling-convention adapter. */
+    local_4 = (int32_t)UINT32_C(0x09f2a8fb);
+    FUN_00237ff0(&local_4);
   }
   ppiStack_2c = (int **)0x278dd3;
   piStack_28 = piVar1;
@@ -141,7 +160,10 @@ void FUN_00278c60(void)
     ppiStack_2c = &piStack_18;
     *ppiVar2 = (int *)&PTR_LAB_003922b0;
     ppiStack_30 = (int **)0x278e12;
-    FUN_00237ff0();
+    /* Original guest [ESP+0x10] caller DWORD sent by address.
+     * This is NOT a native PC calling-convention adapter. */
+    local_4 = (int32_t)UINT32_C(0xe3eb9cdd);
+    FUN_00237ff0(&local_4);
   }
   ppiStack_30 = (int **)0x278e1b;
   ppiStack_2c = ppiVar2;
@@ -158,7 +180,10 @@ void FUN_00278c60(void)
     ppiVar2[2] = (int *)0x8459364;
     *ppiVar2 = (int *)&PTR_LAB_00392030;
     piStack_1c = (int *)0x8459364;
-    FUN_00237ff0();
+    /* Original guest [ESP+0x10] caller DWORD sent by address.
+     * This is NOT a native PC calling-convention adapter. */
+    local_4 = (int32_t)UINT32_C(0x08459364);
+    FUN_00237ff0(&local_4);
   }
   ppiStack_30 = ppiVar2;
   (*(code *)(*ppiVar2)[2])();
@@ -172,7 +197,10 @@ void FUN_00278c60(void)
     piVar1[2] = 0x5f7670f;
     piStack_20 = (int *)0x5f7670f;
     *piVar1 = (int)&PTR_LAB_00391e20;
-    FUN_00237ff0(&piStack_20);
+    /* Original guest [ESP+0x10] caller DWORD sent by address.
+     * This is NOT a native PC calling-convention adapter. */
+    local_4 = (int32_t)UINT32_C(0x05f7670f);
+    FUN_00237ff0(&local_4);
   }
   (**(code **)(*piVar1 + 8))(piVar1);
   piVar1 = (int *)FUN_002ea01d(0xc);
@@ -185,7 +213,10 @@ void FUN_00278c60(void)
     piVar1[2] = -0xf68219c;
     piStack_24 = (int *)0xf097de64;
     *piVar1 = (int)&PTR_LAB_00392150;
-    FUN_00237ff0(&piStack_24);
+    /* Original guest [ESP+0x10] caller DWORD sent by address.
+     * This is NOT a native PC calling-convention adapter. */
+    local_4 = (int32_t)UINT32_C(0xf097de64);
+    FUN_00237ff0(&local_4);
   }
   (**(code **)(*piVar1 + 8))(piVar1);
   piVar1 = (int *)FUN_002ea01d(0xc);
@@ -198,7 +229,10 @@ void FUN_00278c60(void)
     piVar1[2] = -0xce83bfd;
     piStack_28 = (int *)0xf317c403;
     *piVar1 = (int)&PTR_LAB_003923a0;
-    FUN_00237ff0(&piStack_28);
+    /* Original guest [ESP+0x10] caller DWORD sent by address.
+     * This is NOT a native PC calling-convention adapter. */
+    local_4 = (int32_t)UINT32_C(0xf317c403);
+    FUN_00237ff0(&local_4);
   }
   (**(code **)(*piVar1 + 8))(piVar1);
   piVar1 = (int *)FUN_002ea01d(0xc);
@@ -211,7 +245,10 @@ void FUN_00278c60(void)
     piVar1[2] = 0xb213bbb;
     ppiStack_2c = (int **)0xb213bbb;
     *piVar1 = (int)&PTR_LAB_00392100;
-    FUN_00237ff0(&ppiStack_2c);
+    /* Original guest [ESP+0x10] caller DWORD sent by address.
+     * This is NOT a native PC calling-convention adapter. */
+    local_4 = (int32_t)UINT32_C(0x0b213bbb);
+    FUN_00237ff0(&local_4);
   }
   (**(code **)(*piVar1 + 8))(piVar1);
   piVar3 = (int *)FUN_002ea01d(0xc);
@@ -222,7 +259,10 @@ void FUN_00278c60(void)
     piVar3[2] = -0x13ba917f;
     ppiStack_30 = (int **)0xec456e81;
     *piVar3 = (int)&PTR_LAB_00391e70;
-    FUN_00237ff0(&ppiStack_30);
+    /* Original guest [ESP+0x10] caller DWORD sent by address.
+     * This is NOT a native PC calling-convention adapter. */
+    local_4 = (int32_t)UINT32_C(0xec456e81);
+    FUN_00237ff0(&local_4);
     piVar1 = piVar3;
   }
   (**(code **)(*piVar1 + 8))(piVar1);
