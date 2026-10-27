@@ -9,6 +9,15 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t _DAT_0040d730;
+/* Original Xbox guest pointer global 0x0037DD88:
+ * XBE 0x000AF5B7 MOV EDX,[0x0037DD88] followed by
+ * 0x000AF5F6 MOV [EDX],EAX, then
+ * 0x000AF813 MOV ECX,[0x0037DD88] followed by
+ * 0x000AF829 MOV [ECX],EAX.
+ * The pointee is a 32-bit guest device-command cursor slot;
+ * it is NOT a host Direct3D device handle. Original global
+ * memory translation and native platform ABI remain unverified. */
+extern uint32_t *D3D8__D3D_g_pDevice;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void FUN_000af1a0(int param_1,undefined4 param_2,float param_3,float param_4,float param_5)
