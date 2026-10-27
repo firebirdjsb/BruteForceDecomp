@@ -31,6 +31,13 @@ void FUN_001e95e0(undefined4 param_1)
   undefined4 *puVar6;
   undefined4 ****ppppuVar7;
   undefined4 ***pppuStack_140;
+  /* Original 0x001E96C8/CC zero two separate 32-bit guest slots:
+   * stable ESP+0x14 = opened file, stable ESP+0x10 = parser.
+   * The original EDI/EBP register reloads and release vtable+8
+   * still require native guest pointer/ABI translation. */
+  uint32_t guest_parser_and_file[2];
+  _Static_assert(sizeof(guest_parser_and_file)==8,
+                 "original two adjacent Xbox output DWORDs");
   undefined1 local_13c [4];
   undefined4 ***local_138 [3];
   uint uStack_12c;
@@ -72,8 +79,14 @@ void FUN_001e95e0(undefined4 param_1)
     if (uStack_12c < 0x10) {
       ppppuVar7 = &pppuStack_140;
     }
-    iVar4 = (**(code **)(*DAT_00469908 + 0xc))(DAT_00469908,ppppuVar7,0x80000000,&stack0xfffffeb8);
-    if ((-1 < iVar4) && (iVar4 = FUN_001a2fe0(&stack0xfffffeb4), -1 < iVar4)) {
+    /* 0x001E96DD LEA EDI,[ESP+0x14] sends file output word1. */
+    guest_parser_and_file[0] = 0;
+    guest_parser_and_file[1] = 0;
+    iVar4 = (**(code **)(*DAT_00469908 + 0xc))
+        (DAT_00469908,ppppuVar7,0x80000000,&guest_parser_and_file[1]);
+    /* 0x001E96F4 LEA EAX,[ESP+0x10] sends parser output word0. */
+    if ((-1 < iVar4) &&
+        (iVar4 = FUN_001a2fe0(&guest_parser_and_file[0]), -1 < iVar4)) {
       iVar4 = FUN_002ea01d(0x10);
       if (iVar4 == 0) {
         iVar4 = 0;
@@ -85,7 +98,13 @@ void FUN_001e95e0(undefined4 param_1)
       }
       iVar5 = FUN_0023a790(0xfcf6f7f4,1);
       if (iVar5 != 0) {
-        FUN_001e98c0(*(undefined4 *)(iVar4 + 4),*(undefined4 *)(iVar4 + 8),iVar4);
+        /* 0x001E9748 reads the parser word0 for the 3rd argument
+         * to FUN_001E98C0. iVar4 denotes separately allocated
+         * 16-byte result storage, NOT the parser interface.
+         * Implicit ECX of FUN_0023A790 remains ABI_UNVERIFIED. */
+        FUN_001e98c0(*(undefined4 *)(iVar4 + 4),
+                      *(undefined4 *)(iVar4 + 8),
+                      guest_parser_and_file[0]);
         FUN_0010af20();
       }
     }
