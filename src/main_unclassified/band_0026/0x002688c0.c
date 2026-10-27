@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 void FUN_002688c0(int param_1)
@@ -31,7 +32,7 @@ void FUN_002688c0(int param_1)
   float local_274;
   float local_270;
   float local_26c;
-  undefined4 *local_268;
+  float local_268;
   float local_264;
   float local_260;
   float local_25c;
@@ -220,13 +221,17 @@ void FUN_002688c0(int param_1)
       local_270 = local_134 * fVar17 + local_128 * fVar14 + local_144[1] * fVar16;
       local_26c = local_130 * fVar17 + local_124 * fVar14 + local_144[2] * fVar16;
       local_264 = SQRT(fVar17 * fVar17 + fVar14 * fVar14 + fVar16 * fVar16);
-      local_268 = (undefined4 *)local_264;
-      if (local_264 <= -1.0) {
-        local_268 = (undefined4 *)-1.0;
-      }
-      if (1.0 <= (float)local_268) {
-        local_268 = (undefined4 *)1.0;
-      }
+      /* 0x00268DD4 MOVSS [ESP+0x24],XMM0;
+       * 0x00268DDA MAXSS XMM0,[ESP+0x10] (-1.0f);
+       * 0x00268DE0 MINSS XMM0,[ESP+0x0C] (+1.0f);
+       * 0x00268DE6 MOVSS [ESP+0x20],XMM0. Use the exact
+       * scalar SSE max/min lane selection for NaNs/signed zeros;
+       * Ghidra's previous pointer-typed local_268 was incorrect.
+       * Native non-x86 SIMD ABI still needs a portable adapter. */
+      local_268 = _mm_cvtss_f32(
+          _mm_min_ss(
+              _mm_max_ss(_mm_set_ss(local_264),_mm_set_ss(-1.0f)),
+              _mm_set_ss(1.0f)));
       iVar11 = *(int *)(**(int **)(param_1 + 0x24) + 0x10);
       fVar13 = (float10)FUN_00306b90();
       FUN_0001fc70(&local_224,&local_274,(float)(fVar13 * (float10)57.295776));
@@ -284,14 +289,14 @@ void FUN_002688c0(int param_1)
       /* Original paired 32-bit lanes: [local_1c4, fStack_1c0]. */
       local_1c4 = local_23c;
       fStack_1c0 = fVar15;
-      local_268 = (undefined4 *)(local_238 + fVar15);
+      local_268 = local_238 + fVar15;
       local_23c = (local_230 * fVar17 - fVar16 * fStack_228) + local_23c;
       iVar11 = *(int *)(param_1 + 0x24);
       *(float *)(iVar11 + 4) =
            local_234 * local_260 - (fStack_228 * fVar17 + local_22c * fVar14 + local_230 * fVar16);
       *(float *)(iVar11 + 8) = local_25c + local_1c8 + local_240;
       *(float *)(iVar11 + 0xc) = local_23c;
-      *(undefined4 **)(iVar11 + 0x10) = local_268;
+      *(float *)(iVar11 + 0x10) = local_268;
       local_1d4 = local_25c;
     }
     iVar11 = *(int *)(*(int *)(*(int *)(param_1 + 0x24) + iVar10 * 0x3c) + 0x10);
