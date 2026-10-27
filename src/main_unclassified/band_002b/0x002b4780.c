@@ -6,9 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+_Static_assert(sizeof(double) == 8 && sizeof(float) == 4,
+               "Original stack slot requires m64fp and m32fp storage");
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_00011170;
 extern uint32_t PTR_FUN_0038e7c4;
 extern uint32_t PTR_FUN_0038e7f4;
 extern uint32_t PTR_FUN_003bc650;
@@ -142,7 +143,8 @@ int * FUN_002b4780(int *param_1,int param_2,int *param_3,char *param_4,int param
       puVar2[1] = 1;
       puVar2[2] = 0x44fa0000;
       puVar2[4] = 0x3fc90fdb;
-      puVar2[3] = &DAT_00011170;
+      /* 0x2B497F stores the literal DWORD 0x11170, not a host symbol. */
+      puVar2[3] = UINT32_C(0x00011170);
     }
     param_1[9] = (int)puVar2;
   }
@@ -178,7 +180,13 @@ int * FUN_002b4780(int *param_1,int param_2,int *param_3,char *param_4,int param
   param_1[0x2f] = 0;
   param_1[0x30] = 0x411d47ae;
   param_1[0x31] = 0;
-  local_b8._0_4_ = 0x42c141ff;
+  /* 0x2B4A6B MOVSS [ESP+10],XMM1 writes four bytes, not a double.
+   * The existing folded SIMD value remains a draft (guest MXCSR unverified).
+   * Do not read or initialize the unwritten upper four bytes. */
+  {
+    const uint32_t low_word = UINT32_C(0x42c141ff);
+    memcpy(&local_b8, &low_word, 4);
+  }
   local_9c = 0x411d47ae;
   param_1[0x33] = 0x411d47ae;
   iVar8 = *param_1;
@@ -325,8 +333,16 @@ int * FUN_002b4780(int *param_1,int param_2,int *param_3,char *param_4,int param
   param_1[0x48] = 1;
   param_1[0x42] = 0;
   param_1[0x43] = 0;
-  local_b8 = (double)(float)param_1[0x2d];
-  *(double *)(param_1 + 0x44) = local_b8;
+  /* 0x2B4D5A FLD m32fp, then PUSH changes ESP by four before
+   * 0x2B4D62 FSTP m64fp to the same slot. No integer-to-float conversion.
+   * The two following DWORD loads/stores copy the complete double bits.
+   * Guest x87 control, exceptions and NaN payload behavior remain unverified. */
+  {
+    float value;
+    memcpy(&value, param_1 + 0x2d, 4);
+    local_b8 = (double)value;
+    memcpy(param_1 + 0x44, &local_b8, 8);
+  }
   puVar2 = (undefined4 *)FUN_002ea01d(0x14);
   if (puVar2 == (undefined4 *)0x0) {
     puVar2 = (undefined4 *)0x0;
@@ -400,7 +416,13 @@ int * FUN_002b4780(int *param_1,int param_2,int *param_3,char *param_4,int param
     *piVar3 = 0;
     piVar3 = piVar3 + 1;
   }
-  local_b8 = (double)CONCAT44(local_b8._4_4_,0x3f800000);
+  /* 0x2B4ED7 MOV [ESP+10],3F800000 replaces only the low DWORD.
+   * Retain the high DWORD left by FSTP m64fp; no numeric uint64->double
+   * conversion or whole-slot zero fill occurs in the original. */
+  {
+    const uint32_t low_word = UINT32_C(0x3f800000);
+    memcpy(&local_b8, &low_word, 4);
+  }
   uStack_88 = 0x3f800000;
   uStack_84 = 1;
   uStack_80 = 0x3f800000;
@@ -446,7 +468,8 @@ int * FUN_002b4780(int *param_1,int param_2,int *param_3,char *param_4,int param
   }
   param_1[0xc] = iVar8;
   if (aiStack_98[0] == 0) {
-    param_1[0x56] = (int)&LAB_0001e240;
+    /* 0x2B502F stores this immediate DWORD; no address relocation. */
+    param_1[0x56] = UINT32_C(0x0001e240);
     return param_1;
   }
   piVar3 = (int *)(*(code *)PTR_FUN_003bc654)(aiStack_98[0]);

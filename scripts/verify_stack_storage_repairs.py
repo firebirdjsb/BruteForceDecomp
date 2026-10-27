@@ -12,6 +12,11 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x002B4780, ((0, 1994), (2000, 190), (2218, 25)), "920c8454e85c99488f83fcdaf8f0ec28ed3b242eec2a136ac707d3fcc9fdb0c8"),
+    (0x002D9E70, ((0, 141), (144, 163)), "5ec0ae0658bbf8315e5b890eceeff15cf2a07218f4e17f5833373bf986cc1843"),
+    # Unchanged helpers inspected for descriptor inputs and pointed storage.
+    (0x002D9DD0, 150, "77d2e216d07b0af17c7badee9d6e3e323eefcdfe9137e3ee553d5d8c8ba64567"),
+    (0x002D9D10, 92, "69f156421d70bfbae4adc61fef865ade143d3bf92dfe817aa05565d22b134e70"),
     (0x000F44C0, 468, "b40f7f881edd4e333dcc1b105b34fc41e3e14cb6912336094df824b8a7e434a2"),
     (0x002BC340, 388, "012f233c2fa3b1dcc3861e14f13df3cda3736233864cc96875434745f00b5eb5"),
     (0x002B3B70, 78, "70e2692eca58c0dfa6db049f902f5d4216c95668ecfb8311bc52ed20762179ef"),
@@ -81,6 +86,24 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x002B497F: "c7400c70110100",  # literal DWORD, not a data-symbol address
+    0x002B4A6B: "f30f114c2410",  # low four bytes of reused scalar slot
+    0x002B4D5A: "d980b40000006a14dd5c24148b4c24148b542418898810010000",  # raw m32fp, PUSH, m64fp spill and low copy
+    0x002B4D77: "899014010000",  # high DWORD of m64fp copied to object
+    0x002B4ED7: "c74424100000803f",  # overwrite only the low DWORD
+    0x002B4FE1: "568d4c241451",  # PUSH then address the same reused slot
+    0x002B502F: "c7815801000040e20100",  # literal DWORD, not a code-label address
+    0x002D9E7B: "8b57048b4f0c",  # raw dimension and guest address DWORDs
+    0x002D9E94: "8b47088d1c818bc183e0f02bc8c1f9022bce03ca",  # stride, alignment and pre-helper count
+    0x002D9EB1: "e81affffff",  # unresolved EDI/ESI-input helper
+    0x002D9EC4: "d9e1d81fdfe0f6c4050f8bae000000",  # outer FCOMP unordered path
+    0x002D9ED3: "f30f5345f0f30f1145f8d945f8",  # RCPSS low-lane spill/reload
+    0x002D9EE3: "d9e08b4704d95df8",  # FCHS and m32fp boundary
+    0x002D9F06: "d81fdfe0f6c441755bd84df8",  # ordered greater then FMUL
+    0x002D9F18: "d95decf30f104dec",  # factor m32fp store before broadcast
+    0x002D9F30: "0f28130f1843300f5900",  # destination read before packed multiplication
+    0x002D9F41: "0f58c283c0100f2943f083e9047fdd",  # ADDPS, 16-byte write, SUB/JG
+    0x002D9F56: "8b4010d80cb08b5df4d80490d91c90",  # scalar guest words, FMUL/FADD/final m32fp
     0x000F4538: "b9070000008d7c2418f3ab",  # seven DWORD zero extent and packet base
     0x000F4548: "895c2420",  # incoming EAX/EBX word in packet
     0x000F4567: "c744241c11000000",  # first tag at packet word one
