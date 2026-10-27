@@ -44,7 +44,15 @@ undefined4 FUN_002060c0(void)
     }
     iVar1 = *(int *)(unaff_ESI + 0x54);
     if (((iVar1 == 1) || (iVar1 == 4)) || (iVar1 == 5)) {
-      FUN_00205fb0(&stack0xffffff70,&uStack_84);
+      /* XBE 0x00206142 PUSH EBP, 0x00206143 LEA ECX,[ESP+0x20]
+       * -> auStack_78 (second 12-byte output);
+       * 0x00206147 PUSH ECX; 0x00206148 LEA EDX,[ESP+0x18]
+       * -> uStack_84/uStack_80/uStack_7c (first 12-byte output);
+       * 0x0020614C PUSH EDX; 0x0020614F CALL 0x00205FB0.
+       * FUN_00205FB0 copies precisely three DWORDs into each
+       * output at 0x00206047..0x00206077. This is NOT a
+       * synthetic host stack pointer or a one-DWORD output. */
+      FUN_00205fb0(&uStack_84,(undefined4 *)auStack_78);
       uStack_50 = uStack_7c;
       uStack_6c = 1;
       uStack_4c = 1;
