@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <stdint.h>
+#include <string.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037bd48;
@@ -26,6 +28,12 @@ undefined4 FUN_0009ac90(int param_1,int *param_2,undefined4 param_3)
   float *pfVar9;
   uint in_stack_0000001c;
   int *in_stack_00000020;
+  /* Original [EBP+0x24] is one guest DWORD, overwritten first by
+   * FSTP m32fp and later by three MOV imm32 writes before PUSH &slot.
+   * Keep it as 4-byte raw guest storage; do not cast F32 to a pointer.
+   * TODO/ABI_UNVERIFIED: guest stack address and callee register contracts. */
+  uint32_t guest_stack_word_24;
+  float guest_shader_float_24;
   int in_stack_00000024;
   float local_60 [5];
   float local_4c;
@@ -144,7 +152,9 @@ undefined4 FUN_0009ac90(int param_1,int *param_2,undefined4 param_3)
       local_10 = 0.0;
       local_14 = 0.0;
       FUN_0006ec90();
-      in_stack_00000020 = (int *)(*(float *)(param_1 + 0x50) * 2.9 + 0.1);
+      /* Retail x87 FSTP m32fp [EBP+0x24] (a raw DWORD write). */
+      guest_shader_float_24 = (float)(*(float *)(param_1 + 0x50) * 2.9 + 0.1);
+      memcpy(&guest_stack_word_24,&guest_shader_float_24,sizeof(guest_stack_word_24));
       FUN_0009a750();
       FUN_0006ed80();
     }
@@ -165,12 +175,12 @@ undefined4 FUN_0009ac90(int param_1,int *param_2,undefined4 param_3)
     }
     D3D8LTCG__D3DDevice_SetVertexShaderConstant4();
     if (local_60[3] < 1.0) {
-      in_stack_00000020 = (int *)0x1;
-      FUN_0006a610(&stack0x00000020);
-      in_stack_00000020 = (int *)0x302;
-      FUN_0006a610(&stack0x00000020);
-      in_stack_00000020 = (int *)0x303;
-      FUN_0006a610(&stack0x00000020);
+      guest_stack_word_24 = 0x1;
+      FUN_0006a610(&guest_stack_word_24);
+      guest_stack_word_24 = 0x302;
+      FUN_0006a610(&guest_stack_word_24);
+      guest_stack_word_24 = 0x303;
+      FUN_0006a610(&guest_stack_word_24);
       pfVar7 = local_3c;
     }
     cVar3 = FUN_000a4d00();
