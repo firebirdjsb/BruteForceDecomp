@@ -37,6 +37,18 @@ void FUN_002278e0(int *param_1,undefined4 param_2,int param_3,int param_4)
   undefined4 uStack_c;
   undefined4 uStack_8;
   undefined4 uStack_4;
+  /* XBE 0x00227B22-0x00227B49 constructs five consecutive
+   * 32-bit guest words at original entry ESP-0xA4:
+   * [0]=0x003A3FB4 (guest vtable); [1]=6 (event kind);
+   * [2]=ESI (zero); [3]=EBP (this/param_1);
+   * [4]=0xFFFFFFFF (sentinel). The fifth word overlaps
+   * prior uStack_94 storage but is overwritten before the call.
+   * FUN_001FE3D0 consumes the address as its only stack
+   * input while receiving ECX=EBP. Original guest memory
+   * relocation and thiscall ABI remain ABI_UNVERIFIED. */
+  uint32_t guest_event_record[5];
+  _Static_assert(sizeof(guest_event_record)==20,
+                 "original five-DWORD guest event frame");
   
   if ((*(byte *)(param_1 + 0x88) & 2) != 0) {
     return;
@@ -97,7 +109,12 @@ LAB_00227a3e:
   (**(code **)(*(int *)(param_1[0x8d] + 0x1d4) + 8))(param_1[2],&uStack_94,1);
   *(byte *)(param_1 + 0x88) = *(byte *)(param_1 + 0x88) | 2;
   FUN_00228c70(param_1,*(undefined4 *)(param_1[0x8d] + 0x1f0));
-  FUN_001fe3d0(&stack0xffffff4c);
+  guest_event_record[0] = UINT32_C(0x003a3fb4);
+  guest_event_record[1] = 6;
+  guest_event_record[2] = 0;
+  guest_event_record[3] = (uint32_t)(uintptr_t)param_1;
+  guest_event_record[4] = UINT32_C(0xffffffff);
+  FUN_001fe3d0(guest_event_record);
   FUN_0004d490(param_1[0x6d],0x42960000);
   if (iStack_5c != 0) {
     FUN_0008f6e0();
