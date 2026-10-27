@@ -63,6 +63,7 @@ void FUN_002cc340(int param_1,undefined4 param_2,uint *param_3,int param_4,int *
   float local_b68;
   undefined4 local_b64;
   float local_b60 [3];
+  float guest_cross[3]; /* 3 x original FSTP m32fp stack outputs */
   undefined4 local_b54;
   undefined1 local_b50 [1448];
   undefined1 local_5a8 [1448];
@@ -108,13 +109,19 @@ void FUN_002cc340(int param_1,undefined4 param_2,uint *param_3,int param_4,int *
   fStack_bd8 = *(float *)(iVar5 + 0x30) * local_b90 +
                *(float *)(iVar5 + 0x38) * fStack_b88 + *(float *)(iVar5 + 0x34) * local_b8c;
   local_b60[0] = local_b60[0] - *(float *)(param_4 + 0x40);
-  fVar10 = (float)local_b60._4_8_ - (float)*(undefined8 *)(param_4 + 0x44);
-  fVar12 = SUB84(local_b60._4_8_,4) - (float)((ulonglong)*(undefined8 *)(param_4 + 0x44) >> 0x20);
+  /* XBE 0x002CC579..0x002CC581 writes the 3 vector lanes
+   * through MOVSS/MOVHPS, not a synthetic 64-bit member. */
+  fVar10 = local_b60[1] - *(float *)(param_4 + 0x44);
+  fVar12 = local_b60[2] - *(float *)(param_4 + 0x48);
   local_b64 = 0;
-  local_b70[0] = (uint *)(fVar10 * fStack_bd8 - fVar12 * local_bdc);
-  local_b70[1] = (uint *)(fVar12 * local_be0 - fStack_bd8 * local_b60[0]);
-  local_b68 = local_bdc * local_b60[0] - fVar10 * local_be0;
-  FUN_002b73d0(param_5[2] + 0x10,local_b70,local_b80);
+  /* XBE 0x002CC59E/0x002CC5B7/0x002CC5D0 stores three
+   * distinct F32 results to adjacent guest stack locations.
+   * Ghidra's later pointer-array lifetime in local_b70 must not
+   * reuse these live float values as host pointers. */
+  guest_cross[0] = fVar10 * fStack_bd8 - fVar12 * local_bdc;
+  guest_cross[1] = fVar12 * local_be0 - fStack_bd8 * local_b60[0];
+  guest_cross[2] = local_bdc * local_b60[0] - fVar10 * local_be0;
+  FUN_002b73d0(param_5[2] + 0x10,guest_cross,local_b80);
   FUN_002b65a0(local_b80);
   iVar5 = FUN_002dd8d0(&local_bc8,
                        *(float *)(&DAT_00469e20 +
