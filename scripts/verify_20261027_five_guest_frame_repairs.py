@@ -38,7 +38,7 @@ SITES = (
 )
 REPAIRS = (
     ("001bc4e0", ("XBE 0x001BC4FE",), ("local_14", "stack0xffffff68")),
-    ("002fe4a6", ("XBE 0x002FE4E7", "XBE 0x002FE4EA"), ("local_c", "local_10", "stack0xfffffffc", "stack0xffffffc4")),
+    ("002fe4a6", ("XBE 0x002FE4E7", "0x002FE4EA"), ("local_c", "local_10", "stack0xfffffffc", "stack0xffffffc4")),
     ("001ed8b0", ("0x001ED957", "))(local_24,iVar4);"), ("stack0xffffffd4",)),
     ("002578c0", ("uint32_t schema_tag;", "uint32_t schema_flags;",
                   "memcpy(&schema_tag, local_4, sizeof(schema_tag));",
