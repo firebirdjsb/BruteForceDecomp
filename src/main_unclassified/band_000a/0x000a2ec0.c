@@ -11,7 +11,16 @@
 extern uint32_t DAT_003e2304;
 /* WARNING: Type propagation algorithm not settling */
 
-undefined4 FUN_000a2ec0(int param_1,int param_2,undefined4 param_3)
+/* Original x86 entry 0x000A2EC0 has nine caller-owned DWORDs, proven
+ * by RET 0x24 at 0x000A33C8. Guest arg9 lives at EBP+0x28:
+ * 0x000A2EC9 reads its initial object pointer; later 0x000A312B and
+ * following instructions reuse that SAME writable DWORD as transient
+ * GPU constant values. 0x000A329D passes the address of its highest byte.
+ * Native C calling-convention and guest-memory translation remain
+ * ABI_UNVERIFIED; this spells the guest stack contract explicitly. */
+undefined4 FUN_000a2ec0(int param_1,int param_2,undefined4 param_3,
+                         uint32_t param_4,uint32_t param_5,uint32_t param_6,
+                         uint32_t param_7,uint32_t param_8,uint32_t param_9)
 
 {
   int iVar1;
@@ -20,15 +29,13 @@ undefined4 FUN_000a2ec0(int param_1,int param_2,undefined4 param_3)
   undefined4 uVar4;
   int iVar5;
   int *piVar6;
-  uint in_stack_0000001c;
-  undefined3 uStack00000024;
   int local_1c;
   float local_18 [2];
   int local_10;
   int *local_c;
   char local_5;
   
-  local_1c = *(int *)(_uStack00000024 + 0x88);
+  local_1c = *(int *)(uintptr_t)(param_9 + UINT32_C(0x88));
   piVar6 = *(int **)(param_2 + 0x18);
   iVar5 = 0;
   local_10 = 0;
@@ -91,35 +98,35 @@ LAB_000a300a:
   }
   FUN_0006ec90();
   D3D8LTCG__D3DDevice_SetVertexShaderConstant4();
-  local_18[0] = *(float *)(_uStack00000024 + 0x90);
+  local_18[0] = *(float *)(uintptr_t)(param_9 + UINT32_C(0x90));
   D3D8LTCG__D3DDevice_SetVertexShaderConstant1();
   if (local_1c == 1) {
-    _uStack00000024 = 1;
-    FUN_0006a610(&stack0x00000024);
-    _uStack00000024 = 0x303;
-    FUN_0006a610(&stack0x00000024);
-    _uStack00000024 = 0x302;
-    FUN_0006a610(&stack0x00000024);
-    _uStack00000024 = 0x1000000;
+    param_9 = 1;
+    FUN_0006a610(&param_9);
+    param_9 = 0x303;
+    FUN_0006a610(&param_9);
+    param_9 = 0x302;
+    FUN_0006a610(&param_9);
+    param_9 = 0x1000000;
 LAB_000a3251:
-    FUN_0006a610(&stack0x00000024);
+    FUN_0006a610(&param_9);
     piVar6 = local_c;
   }
   else if (local_1c == 2) {
-    _uStack00000024 = 0;
-    FUN_0006a610(&stack0x00000024);
-    _uStack00000024 = 0x202;
-    FUN_0006a610(&stack0x00000024);
-    _uStack00000024 = 0x10101;
-    FUN_0006a610(&stack0x00000024);
+    param_9 = 0;
+    FUN_0006a610(&param_9);
+    param_9 = 0x202;
+    FUN_0006a610(&param_9);
+    param_9 = 0x10101;
+    FUN_0006a610(&param_9);
     piVar6 = local_c;
 LAB_000a31ef:
     if (local_18[0] < 1.0) {
-      _uStack00000024 = 1;
-      FUN_0006a610(&stack0x00000024);
-      _uStack00000024 = 0x302;
-      FUN_0006a610(&stack0x00000024);
-      _uStack00000024 = 0x303;
+      param_9 = 1;
+      FUN_0006a610(&param_9);
+      param_9 = 0x302;
+      FUN_0006a610(&param_9);
+      param_9 = 0x303;
       goto LAB_000a3251;
     }
   }
@@ -138,8 +145,8 @@ LAB_000a31ef:
     }
     local_18[0] = 3.8595923e-24;
     local_1c = -0x111c8c42;
-    cVar3 = (**(code **)(*piVar6 + 0x6c))(piVar6,local_18,&local_1c,(int)&stack0x00000024 + 3);
-    _uStack00000024 = CONCAT13(cVar3,uStack00000024);
+    cVar3 = (**(code **)(*piVar6 + 0x6c))(piVar6,local_18,&local_1c,(uint8_t *)&param_9 + 3);
+    param_9 = (param_9 & UINT32_C(0x00ffffff)) | ((uint32_t)(uint8_t)cVar3 << 24);
     if (cVar3 != '\0') {
       local_1c = 0;
       FUN_0006a610(&local_1c);
@@ -155,16 +162,16 @@ LAB_000a32f6:
   else {
     (**(code **)(*piVar6 + 0x38))(piVar6,1);
   }
-  _uStack00000024 = 1;
-  FUN_0006a610(&stack0x00000024);
-  _uStack00000024 = 1;
-  FUN_0006a610(&stack0x00000024);
+  param_9 = 1;
+  FUN_0006a610(&param_9);
+  param_9 = 1;
+  FUN_0006a610(&param_9);
   iVar5 = FUN_000a4cb0();
   D3D8LTCG__D3DDevice_SetStreamSource_4((&DAT_003e2304)[iVar5 * 2]);
-  if (in_stack_0000001c < 0x514) {
+  if (param_7 < 0x514) {
     uVar4 = *(undefined4 *)(*(int *)(param_2 + 0x10) + 0xc);
     FUN_002386d0();
-    D3D8LTCG__D3DDevice_DrawIndexedVertices(param_3,in_stack_0000001c,uVar4);
+    D3D8LTCG__D3DDevice_DrawIndexedVertices(param_3,param_7,uVar4);
   }
   else {
     uVar4 = *(undefined4 *)(*(int *)(param_2 + 0x10) + 0xc);
