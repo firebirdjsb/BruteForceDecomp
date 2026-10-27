@@ -19,7 +19,13 @@ void FUN_000b1370(int param_1,uint param_2)
   uint uVar6;
   undefined4 *unaff_FS_OFFSET;
   undefined4 local_40 [11];
-  undefined1 *local_14;
+  /* XBE 0x000B138E: MOV [EBP-0x10],ESP saves original guest ESP
+   * after SUB ESP,0x68 and preserved-register pushes. The
+   * decompiler's stack0xffffff7c was assigned only to unread
+   * local_14, not passed to the 44-byte copied object constructor.
+   * No fabricated native pointer is needed for that dead C alias.
+   * Original FS:0 / exception frame and guest ESP restoration still
+   * require a dedicated Xbox ABI adapter (ABI_UNVERIFIED). */
   undefined4 local_10;
   /* Original x86 pushes a guest 32-bit SEH handler address; this is
    * not a native host pointer or a completed Windows SEH adaptation. */
@@ -30,7 +36,6 @@ void FUN_000b1370(int param_1,uint param_2)
   puStack_c = UINT32_C(0x00307e10);
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
-  local_14 = &stack0xffffff7c;
   puVar5 = local_40;
   for (iVar2 = 0xb; iVar2 != 0; iVar2 = iVar2 + -1) {
     *puVar5 = *in_EDX;
