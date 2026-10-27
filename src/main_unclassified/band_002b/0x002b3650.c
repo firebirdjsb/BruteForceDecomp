@@ -27,7 +27,7 @@ void FUN_002b3650(int *param_1)
   float fStack_b8;
   float fStack_b0;
   float local_ac;
-  int *local_a8;
+  float local_a8;
   undefined4 local_a4;
   undefined4 local_a0;
   int iStack_9c;
@@ -59,7 +59,7 @@ void FUN_002b3650(int *param_1)
   local_44 = 0;
   local_a0 = 0;
   local_a4 = 0;
-  local_a8 = (int *)0x0;
+  local_a8 = 0.0f;
   local_ac = 0.0;
   local_98 = iVar8;
   if (iVar7 == 0) {
@@ -78,7 +78,11 @@ void FUN_002b3650(int *param_1)
   iVar7 = param_1[0x24];
   local_a0 = 0;
   if (iVar8 == 2) {
-    (**(code **)(*(int *)param_1[0x1f] + 8))(auStack_94,&stack0xffffff44,&local_a0);
+    /* XBE 0x002B374D/52/57 passes original stack output slots
+     * [ESP+2C], [ESP+14], and [ESP+40] (after two pushes).
+     * [ESP+40] aliases earlier [ESP+38] from 0x002B36CD,
+     * the reconstructed local_90 x/y/z output. */
+    (**(code **)(*(int *)param_1[0x1f] + 8))(auStack_94,&local_90,&local_a0);
   }
   else if (iVar8 == 3) {
     local_a0 = 0;
@@ -108,7 +112,9 @@ void FUN_002b3650(int *param_1)
     else if (iStack_9c == 3) {
       fStack_b0 = fVar2 * fVar2 * 0.4;
       local_ac = fStack_b0;
-      local_a8 = (int *)fStack_b0;
+      /* Original x87 0x002B37D0/74/D8 stores 3 separate m32fp
+       * lanes to ESP+1C/+20/+24, not a float-to-pointer cast. */
+      local_a8 = fStack_b0;
     }
     else {
       _DAT_00000000 = 0;
@@ -117,7 +123,7 @@ void FUN_002b3650(int *param_1)
     fVar3 = *(float *)(in_EAX + 0x20);
     *pfVar1 = fStack_b0 * *(float *)(in_EAX + 0x18) * fStack_b8;
     *(float *)(iVar7 + 0x18) = local_ac * fVar2 * fStack_b8;
-    fVar2 = (float)local_a8 * fVar3 * fStack_b8;
+    fVar2 = local_a8 * fVar3 * fStack_b8;
   }
   *(float *)(iVar7 + 0x1c) = fVar2;
   if (*(float *)(in_EAX + 0x28) != 0.0) {
