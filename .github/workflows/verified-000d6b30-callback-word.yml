@@ -1,0 +1,19 @@
+name: Verified 0x000D6B30 guest callback input DWORD
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_000d/0x000d6b30.c'
+      - 'scripts/verify_000d6b30_guest_callback_word.py'
+      - '.github/workflows/verified-000d6b30-callback-word.yml'
+      - 'include/bf_ghidra_types.h'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guest-callback-word:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify original guest DWORD callback source and C11 syntax
+        run: python3 scripts/verify_000d6b30_guest_callback_word.py --root .
