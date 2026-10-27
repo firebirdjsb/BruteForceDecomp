@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail-closed provenance regression for thirteen dead Ghidra guest-ESP aliases.
+"""Fail-closed provenance regression for fourteen dead Ghidra guest-ESP aliases.
 
 Each entry's original instruction saves ESP to [EBP-0x10] in an Xbox SEH
 prologue. The synthetic &stack0x... pointer in the C draft had no reads.
@@ -29,13 +29,14 @@ CASES = (
     ("001c6cc0", "ffffff3c", 0x001c6ce1),
     ("000b1370", "ffffff7c", 0x000b138e),
     ("0016d7f0", "ffffff78", 0x0016d80e),
+    ("001ba180", "fffffba8", 0x001ba1a1),
 )
 
 def strip_comments(source):
     return re.sub(r"/\*.*?\*/|//[^\n]*", "", source, flags=re.S)
 
 def check_source(root):
-    assert len(CASES) == 13
+    assert len(CASES) == 14
     for entry, suffix, instruction in CASES:
         path = root / f"src/main_unclassified/band_{entry[:4]}/0x{entry}.c"
         source = path.read_text(encoding="utf-8")
@@ -51,7 +52,7 @@ def check_source(root):
         assert "*unaff_FS_OFFSET = &" in active, entry
         assert "*unaff_FS_OFFSET =" in active, entry
         print(f"PASS 0x{entry}: dead guest-ESP C alias absent; SEH source retained")
-    print("PASS: all thirteen source-only checks, no Xbox ABI equivalence implied")
+    print("PASS: all fourteen source-only checks, no Xbox ABI equivalence implied")
 
 def check_xbe(path):
     raw = path.read_bytes()
@@ -61,11 +62,11 @@ def check_xbe(path):
         offset = instruction - 0x10000
         assert raw[offset:offset + 3] == bytes.fromhex("8965f0"), (
             f"0x{entry}: saved guest ESP instruction mismatch")
-        # All thirteen functions must begin with the original SEH frame prologue.
+        # All fourteen functions must begin with the original SEH frame prologue.
         va = int(entry, 16)
         assert raw[va-0x10000:va-0x10000+5] == bytes.fromhex("558bec6aff"), entry
         print(f"PASS 0x{instruction:08x}: MOV [EBP-0x10],ESP")
-    print("PASS: all thirteen original x86 guest saved-ESP instructions")
+    print("PASS: all fourteen original x86 guest saved-ESP instructions")
 
 def main():
     p = argparse.ArgumentParser()
