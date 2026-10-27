@@ -1,0 +1,20 @@
+name: Verify paired 0x0009 guest FSTP and stack argument words
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_0009/0x0009ac90.c'
+      - 'src/main_unclassified/band_0009/0x0009e040.c'
+      - 'scripts/verify_0009_guest_stack_fstp_word_pair.py'
+      - '.github/workflows/verified-0009-fstp-stack-pair.yml'
+      - 'include/bf_ghidra_types.h'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify both guest stack argument lifetimes and Clang C11
+        run: python3 scripts/verify_0009_guest_stack_fstp_word_pair.py --root .
