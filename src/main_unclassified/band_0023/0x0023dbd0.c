@@ -27,11 +27,14 @@ undefined4 * FUN_0023dbd0(int param_1,int param_2,uint param_3,int param_4)
   undefined4 uStack_38;
   undefined4 uStack_34;
   undefined4 local_1c;
-  undefined1 *puStack_18;
+  /* Original XBE 0x0023DBE8 PUSH 0x00307AE0 is an Xbox 32-bit
+   * SEH handler VA, not the address of a host C label.
+   * Ghidra's 'puStack_18 = &LAB_00307ae0' was written only once
+   * and NEVER read in C; preserve evidence, drop the dead alias.
+   * Actual FS:0 exception registration still requires a guest ABI. */
   undefined4 local_14;
   
   local_14 = 0xffffffff;
-  puStack_18 = &LAB_00307ae0;
   local_1c = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_1c;
   local_40 = *(undefined4 *)(param_4 + 0x38);
