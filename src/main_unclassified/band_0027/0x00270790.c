@@ -23,6 +23,11 @@ undefined4 FUN_00270790(int *param_1)
   int unaff_EDI;
   undefined4 uVar5;
   uint uVar6;
+  /* Original 0x002707BB LEA [ESP+0x08] gives the initial count
+   * output. Both capacity-retry calls at 0x0027088E/0x00270928
+   * use the EXACT SAME [ESP+0x08] output DWORD, reloaded by
+   * MOV EDX,[ESP+0x08] afterwards. One guest slot, not two
+   * synthetic stack addresses. Native XAPI stream ABI unverified. */
   uint uStack_228;
   undefined4 uStack_224;
   float fStack_220;
@@ -55,7 +60,7 @@ undefined4 FUN_00270790(int *param_1)
         if ((char *)unaff_ESI[2] < pcVar4 + (unaff_ESI[3] - ((int)&uStack_210 + 1))) {
           uVar5 = 0;
           (**(code **)(*(int *)*unaff_ESI + 0x14))
-                    ((int *)*unaff_ESI,unaff_ESI[1],unaff_ESI[3],&stack0xfffffdd0);
+                    ((int *)*unaff_ESI,unaff_ESI[1],unaff_ESI[3],&uStack_228);
           if (unaff_EDI != unaff_ESI[3]) {
             uVar5 = 0x80004005;
           }
@@ -80,7 +85,7 @@ undefined4 FUN_00270790(int *param_1)
   if ((char *)unaff_ESI[2] < pcVar4 + (unaff_ESI[3] - ((int)&uStack_210 + 1))) {
     uVar5 = 0;
     (**(code **)(*(int *)*unaff_ESI + 0x14))
-              ((int *)*unaff_ESI,unaff_ESI[1],unaff_ESI[3],&stack0xfffffdd0);
+              ((int *)*unaff_ESI,unaff_ESI[1],unaff_ESI[3],&uStack_228);
     if (unaff_EDI != unaff_ESI[3]) {
       uVar5 = 0x80004005;
     }
