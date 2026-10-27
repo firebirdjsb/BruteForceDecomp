@@ -41,6 +41,11 @@ void FUN_002d22b0(int param_1)
   float fStack_90;
   undefined4 local_8c;
   float *local_88;
+  /* 0x002D2489 MOVSS/MOVHPS -> 0x002D2491 MULPS -> scalar
+   * 0x002D24A3 MOVSS [ESP+0x54],XMM1. The decompiler reuses
+   * local_88 (formerly a pointer to XYZ), but this later lifetime
+   * holds a 32-bit SSE squared-length result. No pointer conversion. */
+  float guest_squared_length;
   float local_84;
   float local_80;
   float fStack_7c;
@@ -96,8 +101,8 @@ void FUN_002d22b0(int param_1)
   fVar1 = fStack_90 * local_b4 - fStack_b0 * local_94;
   fVar2 = fStack_b0 * local_98 - fStack_90 * local_b8;
   fVar3 = local_94 * local_b8 - local_b4 * local_98;
-  local_88 = (float *)(fVar2 * fVar2 + fVar3 * fVar3 + fVar1 * fVar1);
-  if ((float)local_88 <= 1e-12) {
+  guest_squared_length = fVar2 * fVar2 + fVar3 * fVar3 + fVar1 * fVar1;
+  if (guest_squared_length <= 1e-12f) {
     in_stack_00000018[0x13] = (float)((uint)in_stack_00000018[0x13] & 0xfffffdff | 0x100);
     in_stack_0000001c[2] = 0;
     in_stack_0000001c[1] = 0;
@@ -150,7 +155,7 @@ void FUN_002d22b0(int param_1)
     fVar11 = (float10)FUN_002b67e0(&local_30);
     if (fVar11 <= (float10)1e-10) {
       *(undefined4 *)(param_1 + 0x58) = 0;
-      fVar6 = 1.0 / SQRT((float)local_88);
+      fVar6 = 1.0f / SQRT(guest_squared_length);
       *in_stack_00000018 = fVar6 * fVar1;
       in_stack_00000018[1] = fVar2 * fVar6;
       in_stack_00000018[2] = fVar3 * fVar6;
