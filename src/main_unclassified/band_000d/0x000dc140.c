@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0040d5c8;
@@ -19,7 +20,11 @@ bool FUN_000dc140(int param_1,undefined4 param_2,float *param_3,float *param_4,f
   undefined4 *puVar3;
   int iVar4;
   float fVar5;
-  undefined1 auVar6 [16];
+  __m128 auVar6;
+  __m128 packed_input;
+  float scaled[3];
+  uint32_t scaled_tail;
+  float norm_squared;
   int local_428;
   float local_424;
   undefined4 local_420;
@@ -93,16 +98,34 @@ bool FUN_000dc140(int param_1,undefined4 param_2,float *param_3,float *param_4,f
     fVar5 = 1.0 / *param_5;
     *param_4 = local_418 * fVar5;
     *param_7 = local_424 * fVar5;
-    auVar6._0_4_ = fVar5 * *param_6;
-    auVar6._4_4_ = fVar5 * 0.0;
-    auVar6._8_4_ = fVar5 * (float)*(undefined8 *)(param_6 + 1);
-    auVar6._12_4_ = fVar5 * (float)((ulonglong)*(undefined8 *)(param_6 + 1) >> 0x20);
-    *param_6 = auVar6._0_4_;
-    param_6[1] = auVar6._8_4_;
-    param_6[2] = auVar6._12_4_;
-    auVar6 = rsqrtss(auVar6,param_3[2] * param_3[2] + param_3[1] * param_3[1] + *param_3 * *param_3)
-    ;
-    fVar5 = auVar6._0_4_;
+    /* 0xdc42e..447: memory MOVSS clears upper 96 bits, SHUFPS 0
+     * broadcasts the factor; MOVSS/MOVHPS places input +0/+4/+8 in
+     * lanes 0/2/3 with lane 1 zero. MULPS includes that zero lane. */
+    auVar6 = _mm_load_ss(&fVar5);
+    auVar6 = _mm_shuffle_ps(auVar6,auVar6,0);
+    packed_input = _mm_load_ss(param_6);
+    packed_input = _mm_loadh_pi(packed_input,(const __m64 *)(param_6 + 1));
+    auVar6 = _mm_mul_ps(auVar6,packed_input);
+    /* 0xdc44e/452 writes exactly 12 bytes at original ESP+0x20:
+     * low lane, then high two lanes. It does not store lane 1. */
+    _mm_store_ss(&scaled[0],auVar6);
+    _mm_storeh_pi((__m64 *)&scaled[1],auVar6);
+    /* 0xdc456..488 reads scratch +8 as a raw word, moves +4 through
+     * x87 m32fp, then writes +0/+4/+8 in order. C float assignments
+     * do not establish exact x87 NaN/exception/rounding behavior. */
+    memcpy(&scaled_tail,&scaled[2],sizeof(scaled_tail));
+    fVar5 = scaled[1];
+    *param_6 = scaled[0];
+    memcpy(&param_6[1],&fVar5,sizeof(fVar5));
+    memcpy(&param_6[2],&scaled_tail,sizeof(scaled_tail));
+    /* x87 computes (x*x+y*y)+z*z and FSTP rounds to m32fp at
+     * 0xdc4aa. Its intermediate precision/control word is unverified. */
+    norm_squared = (*param_3 * *param_3 + param_3[1] * param_3[1]) +
+                   param_3[2] * param_3[2];
+    /* 0xdc4b4 RSQRTSS changes only lane 0; other lanes retain the
+     * preceding packed product. Only lane 0 is then stored at ESP+0xc. */
+    auVar6 = _mm_rsqrt_ss(_mm_move_ss(auVar6,_mm_load_ss(&norm_squared)));
+    _mm_store_ss(&fVar5,auVar6);
     *param_3 = fVar5 * *param_3;
     param_3[1] = fVar5 * param_3[1];
     param_3[2] = fVar5 * param_3[2];

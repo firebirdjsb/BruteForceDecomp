@@ -12,6 +12,14 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x002D44F0, 500, "e14462dca6da6e06808a74ad2289fa584f59e15985da4063d8d595434347e9b9"),
+    (0x002BA260, 190, "60e1f14faaecc9a839cd75d7a3dde838d215cb519421893b5bd09d15ad00316e"),
+    (0x001F45A0, 407, "c7a59c855728a403e7180e1d4276043560d74c00dd219ec9cc19991f11ef19f8"),
+    (0x0010A420, 470, "2700ffb7f14ba3a8679314853598d8d1e97028f9fed986e8906decd6484448a8"),
+    (0x000EF3A0, 109, "393662cca64b43f9b962a545a7513befb1a2713923a998ba185c07a3dcd96578"),
+    (0x000DC510, 803, "7016e00c4e198173d11c4c91b58efa1753b0e24a56226f189240abf1f8d7c087"),
+    (0x000DC140, ((0, 361), (368, 600)), "d05c90251ee01e8e1137c2502132deb3f57847bc2f49b1760ee99fe490113e85"),
+    (0x0009E9C0, 131, "f42cce2d01444d7f2f84fa12e4c349438b319dbf1b126132c138cdae8c40271e"),
     (0x0037F621, 163, "4fa3c5b8948efa4e67d27ab6e456445a6e64d5e42336a388cbe72bcd2f4fdcf1"),
     (0x00379139, 636, "64d90201b8e3d27d1edf89bc2c84ccdd1e40d88a3a5c9d52b9eb1ba40083fcf2"),
     (0x0036FF70, 513, "0b5aaf10156272d654e04dd5e33dbba318e63b76a5e991eb0b7919f3b9957225"),
@@ -122,6 +130,53 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x002BA2FF: "8b542400f30f10120f1652040f5cca8b442440f30f11080f174804",  # next137 original float/word/SSE/storage operands
+    0x002BA2DB: "8b4424408d4c24188d542408894c240089542404894424408b442404f30f10080f",  # next137 original float/word/SSE/storage operands
+    0x002D46AD: "8bbc9fec00000066ff4f68",  # next137 original float/word/SSE/storage operands
+    0x002D467C: "8b8fec0000008b410c8b48648b542460418948648bcf892c9a",  # next137 original float/word/SSE/storage operands
+    0x002D4669: "d907d80d50533a00d9c9ded9dfe0f6c4057a45",  # next137 original float/word/SSE/storage operands
+    0x002D463D: "d944246c8b8708010000d8480483c4183bddd9442458d848085edec1d944244cd808dec1",  # next137 original float/word/SSE/storage operands
+    0x002D4613: "8d542428528b948ff40000008d44243c508b849ff400000052508b849fec0000008d542458e8235cfeff",  # next137 original float/word/SSE/storage operands
+    0x002D4603: "8d44241450d95c24408b",  # next137 original float/word/SSE/storage operands
+    0x002D45D9: "8d54245052d95c244c",  # next137 original float/word/SSE/storage operands
+    0x002D4591: "56896c245cd95c2418",  # next137 original float/word/SSE/storage operands
+    0x002D4564: "896c2438896c2448896c2428896c2418",  # next137 original float/word/SSE/storage operands
+    0x002D4554: "8b4424608b1498f6020c",  # next137 original float/word/SSE/storage operands
+    0x002D453D: "dfe0f6c441750933dbb901000000eb07bb0100000033c9",  # next137 original float/word/SSE/storage operands
+    0x002D452A: "8b470c33ed3bc50f848a010000d94704d85f08",  # next137 original float/word/SSE/storage operands
+    0x002D4511: "8b87f00000008b08c1e11cc1f91eba010000002bd166015068",  # next137 original float/word/SSE/storage operands
+    0x002D44F8: "8b87ec0000008b08c1e11cc1f91eba010000002bd166015068",  # next137 original float/word/SSE/storage operands
+    0x0009EA40: "c20800",  # next137 original float/word/SSE/storage operands
+    0x0009EA36: "c7420c0000803f83c40c",  # next137 original float/word/SSE/storage operands
+    0x0009EA2F: "d95908",  # next137 original float/word/SSE/storage operands
+    0x0009EA1A: "d95a04",  # next137 original float/word/SSE/storage operands
+    0x0009EA06: "d9188b",  # next137 original float/word/SSE/storage operands
+    0x000DC7EB: "ddd8ddd8f30f52442424f30f114424",  # next137 original float/word/SSE/storage operands
+    0x000DC75E: "f30f104c24248b44246cf30f10000fc6c9000f1640040f59c1f30f11000f",  # next137 original float/word/SSE/storage operands
+    0x000DC729: "f30f104c24248b442464f30f10000fc6c9000f1640040f59c1f30f11000f",  # next137 original float/word/SSE/storage operands
+    0x000DC664: "e85723fcff",  # next137 original float/word/SSE/storage operands
+    0x000DC63F: "8d5424505256",  # next137 original float/word/SSE/storage operands
+    0x000DC613: "d95c2418ddd8f30f51442418f30f114424",  # next137 original float/word/SSE/storage operands
+    0x000DC4B0: "ddd8ddd8f30f52442414f30f114424",  # next137 original float/word/SSE/storage operands
+    0x000DC456: "8b442428d94424248b8c244c04000089442414d95c2414d9442420d9198b94244c0400008b4c2414894a048b94244c0400008942088b",  # next137 original float/word/SSE/storage operands
+    0x000DC43F: "f30f10080f1648040f59c18d442420f30f11000f1740",  # next137 original float/word/SSE/storage operands
+    0x000DC42A: "d95c2414f30f104424140fc6c0008b",  # next137 original float/word/SSE/storage operands
+    0x001F4722: "897e3c897e54897e6889",  # next137 original float/word/SSE/storage operands
+    0x001F46F2: "8b0d103344008b1183c00c50ff52208b4e2033ff3bef89",  # next137 original float/word/SSE/storage operands
+    0x001F46BD: "83c740d844241881c334010000",  # next137 original float/word/SSE/storage operands
+    0x001F46B0: "898310010000",  # next137 original float/word/SSE/storage operands
+    0x001F4690: "897718895f388b0d10",  # next137 original float/word/SSE/storage operands
+    0x001F4658: "8b583cd80d7c",  # next137 original float/word/SSE/storage operands
+    0x001F461E: "8b4620d94608d80d744f3a00897e18db00c7",  # next137 original float/word/SSE/storage operands
+    0x001F4607: "6820371f00",  # next137 original float/word/SSE/storage operands
+    0x001F45E8: "8b68040faf288bd5c1e20683c2045289",  # next137 original float/word/SSE/storage operands
+    0x001F45AF: "d87008535557d91ed940",  # next137 original float/word/SSE/storage operands
+    0x001F45A9: "894620894e1c",  # next137 original float/word/SSE/storage operands
+    0x0010A5CE: "d95c2404d944243cd806d91c24",  # next137 original float/word/SSE/storage operands
+    0x0010A59F: "8b4c243050668b4424360fb6d4c1e2080fb6d903d30fb6cdc1e20803d18b8ff00000000fb6c0c1e20803",  # next137 original float/word/SSE/storage operands
+    0x0010A572: "395e2472058b4610eb038d4610",  # next137 original float/word/SSE/storage operands
+    0x0010A4FA: "395e2472058b4610eb038d46108b5608d9442414d84604",  # next137 original float/word/SSE/storage operands
+    0x0010A441: "8d54241c52ff50088b44241c8b4c242089442414894c2410",  # next137 original float/word/SSE/storage operands
     0x00316530: "515355568bf18d5e0857",  # next147 original operand/call/storage evidence
     0x00316565: "8b3d7c6338005668446331008d860007000050ffd7",  # next147 original operand/call/storage evidence
     0x0031657A: "6a008d862007000050ff15ec633800",  # next147 original operand/call/storage evidence

@@ -6,79 +6,94 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_002d44f0(int param_1)
+#include "bf_x86_float_lane.h"
 
+void FUN_002d44f0(int param_1)
 {
-  int *piVar1;
-  float fVar2;
-  float *pfVar3;
-  float *in_EAX;
-  uint uVar4;
-  uint uVar5;
-  float local_50;
-  float local_4c;
-  float local_48;
-  undefined4 local_44;
-  float local_40;
-  float local_3c;
-  float local_38;
-  undefined4 local_34;
-  undefined4 local_30;
-  undefined4 local_2c;
-  undefined4 local_28;
-  undefined4 local_24;
-  undefined4 local_20;
-  undefined4 local_1c;
-  undefined4 local_18;
-  undefined4 local_14;
-  float local_10;
-  float local_c;
-  float local_8;
-  undefined4 local_4;
-  
-  piVar1 = (int *)in_EAX[0x3b] + 0x1a;
-  *(short *)piVar1 = (short)*piVar1 + (1 - (short)((*(int *)in_EAX[0x3b] << 0x1c) >> 0x1e));
-  piVar1 = (int *)in_EAX[0x3c] + 0x1a;
-  *(short *)piVar1 = (short)*piVar1 + (1 - (short)((*(int *)in_EAX[0x3c] << 0x1c) >> 0x1e));
-  if (in_EAX[3] != 0.0) {
-    uVar5 = (uint)(in_EAX[1] <= in_EAX[2]);
-    uVar4 = (uint)(in_EAX[2] < in_EAX[1]);
-    if ((**(byte **)(param_1 + uVar5 * 4) & 0xc) == 0) {
-      local_24 = 0;
-      local_14 = 0;
-      local_34 = 0;
-      local_44 = 0;
-      local_4c = in_EAX[uVar4 * 4 + 10];
-      local_50 = in_EAX[uVar4 * 4 + 9];
-      local_48 = in_EAX[uVar4 * 4 + 0xb];
-      local_4 = 0;
-      local_3c = in_EAX[uVar4 * 4 + 0x12];
-      local_38 = in_EAX[uVar4 * 4 + 0x13];
-      local_40 = in_EAX[uVar4 * 4 + 0x11];
-      fVar2 = in_EAX[uVar5 + 0x3b];
-      local_1c = *(undefined4 *)((int)fVar2 + 0xa0);
-      local_20 = *(undefined4 *)((int)fVar2 + 0x9c);
-      local_18 = *(undefined4 *)((int)fVar2 + 0xa4);
-      fVar2 = in_EAX[uVar5 + 0x3b];
-      local_2c = *(undefined4 *)((int)fVar2 + 0xb0);
-      local_28 = *(undefined4 *)((int)fVar2 + 0xb4);
-      local_30 = *(undefined4 *)((int)fVar2 + 0xac);
-      FUN_002ba260(in_EAX[uVar5 + 0x3d],in_EAX[uVar4 + 0x3d],&local_30,&local_40,&local_50,&local_10
-                  );
-      pfVar3 = (float *)in_EAX[0x42];
-      fVar2 = local_10 * *pfVar3 + local_8 * pfVar3[2] + local_c * pfVar3[1];
-      if (uVar5 != 0) {
-        fVar2 = fVar2 * -1.0;
-      }
-      if (fVar2 < *in_EAX * -0.8333333) {
-        *(int *)(*(int *)((int)in_EAX[0x3b] + 0xc) + 100) =
-             *(int *)(*(int *)((int)in_EAX[0x3b] + 0xc) + 100) + 1;
-        *(undefined4 *)(param_1 + uVar5 * 4) = 0;
+  uint32_t *in_EAX; /* ABI_UNVERIFIED: original incoming EAX, saved in EDI. */
+  uint32_t selected, other, node_address;
+  uint32_t *node_words;
+  /* 0x2d4564..0x2d4638: five consecutive 16-byte stack regions.
+   * Each fourth word is explicitly zeroed; the output XYZ is not initialized.
+   * Six stack arguments reach the helper, including stack_vectors[4].
+   * Its implicit EAX/EDX/ESI inputs still need an actual guest entry bridge. */
+  float stack_vectors[5][4];
+  float10 sum, threshold;
+
+  /* 0x2d44f8..0x2d4529: two guest pointers at +ec/+f0, each header
+   * SHL 28/SAR 30 sign-extends bits 2..3; ADD WORD touches ONLY +68/+69.
+   * Use unsigned 16-bit wrap and preserve the neighboring high bytes. */
+  for (uint32_t index = 0; index < 2; ++index) {
+    uint16_t count;
+    int32_t tag;
+    node_address = in_EAX[0x3b + index];
+    node_words = (uint32_t *)(uintptr_t)node_address;
+    tag = (int32_t)((node_words[0] >> 2) & 3u);
+    if ((tag & 2) != 0) tag -= 4;
+    memcpy(&count,(const void *)(uintptr_t)(node_address + UINT32_C(0x68)),2);
+    count = (uint16_t)(count + (uint16_t)(1 - tag));
+    memcpy((void *)(uintptr_t)(node_address + UINT32_C(0x68)),&count,2);
+  }
+  /* 0x2d452a tests a raw DWORD at +0c, not a floating zero comparison. */
+  if (in_EAX[3] != 0) {
+    /* FCOMP/TEST AH,41 selects 0 only for ordered greater-than. Equal,
+     * less-than and unordered select 1; the other selector is its complement. */
+    selected = bf_x86_word_to_f32(in_EAX[1]) > bf_x86_word_to_f32(in_EAX[2]) ? 0u : 1u;
+    other = 1u - selected;
+    uint32_t *argument_word = (uint32_t *)(uintptr_t)
+        ((uint32_t)param_1 + selected * UINT32_C(4));
+    if ((*(const uint8_t *)(uintptr_t)*argument_word & 0x0cU) == 0) {
+      stack_vectors[2][3] = 0.0f;
+      stack_vectors[3][3] = 0.0f;
+      stack_vectors[1][3] = 0.0f;
+      stack_vectors[0][3] = 0.0f;
+      memcpy(&stack_vectors[0][0],&in_EAX[other * 4 + 9],4);
+      stack_vectors[0][1] = bf_x86_word_to_f32(in_EAX[other * 4 + 10]);
+      stack_vectors[4][3] = 0.0f;
+      stack_vectors[0][2] = bf_x86_word_to_f32(in_EAX[other * 4 + 11]);
+      memcpy(&stack_vectors[1][0],&in_EAX[other * 4 + 17],4);
+      stack_vectors[1][1] = bf_x86_word_to_f32(in_EAX[other * 4 + 18]);
+      stack_vectors[1][2] = bf_x86_word_to_f32(in_EAX[other * 4 + 19]);
+      node_words = (uint32_t *)(uintptr_t)in_EAX[selected + 0x3b];
+      memcpy(&stack_vectors[3][0],&node_words[0x27],4);
+      stack_vectors[3][1] = bf_x86_word_to_f32(node_words[0x28]);
+      stack_vectors[3][2] = bf_x86_word_to_f32(node_words[0x29]);
+      node_words = (uint32_t *)(uintptr_t)in_EAX[selected + 0x3b];
+      memcpy(&stack_vectors[2][0],&node_words[0x2b],4);
+      stack_vectors[2][1] = bf_x86_word_to_f32(node_words[0x2c]);
+      stack_vectors[2][2] = bf_x86_word_to_f32(node_words[0x2d]);
+      /* 0x2d4618/0x2d4624 load raw guest words, never floats promoted to
+       * double. 0x2ba2db..0x2ba316 writes XYZ through the sixth argument.
+       * ABI_UNVERIFIED: original EDX=stack_vectors[3], EAX=selected node,
+       * ESI=other node are not transported by this retained ordinary C call. */
+      FUN_002ba260(in_EAX[selected + 0x3d],in_EAX[other + 0x3d],
+                  stack_vectors[2],stack_vectors[1],stack_vectors[0],stack_vectors[4]);
+      const float *direction = (const float *)(uintptr_t)in_EAX[0x42];
+      /* 0x2d463d..0x2d465f adds Y product, then Z, then X on x87.
+       * float10 follows the draft convention; host extended precision,
+       * control-word behavior and exceptions remain unverified. */
+      sum = (float10)stack_vectors[4][1] * (float10)direction[1];
+      sum += (float10)stack_vectors[4][2] * (float10)direction[2];
+      sum += (float10)stack_vectors[4][0] * (float10)direction[0];
+      if (selected != 0) sum *= (float10)*(const float *)(uintptr_t)UINT32_C(0x003a5000);
+      threshold = (float10)bf_x86_word_to_f32(in_EAX[0]) *
+                  (float10)*(const float *)(uintptr_t)UINT32_C(0x003a5350);
+      if (sum < threshold) {
+        /* 0x2d467c..0x2d468d: INC DWORD at first node's +0c target +64. */
+        uint32_t *first_node = (uint32_t *)(uintptr_t)in_EAX[0x3b];
+        uint32_t *target_word = (uint32_t *)(uintptr_t)(first_node[3] + UINT32_C(0x64));
+        *target_word += UINT32_C(1);
+        *argument_word = 0;
+        /* Original ECX/EAX contracts of these direct calls remain unbound. */
         FUN_002d47a0();
         FUN_002d37e0();
-        FUN_002d46f0(in_EAX,uVar5);
-        *(short *)((int)in_EAX[uVar5 + 0x3b] + 0x68) =
-             *(short *)((int)in_EAX[uVar5 + 0x3b] + 0x68) + -1;
+        FUN_002d46f0(in_EAX,selected);
+        /* Reload after the opaque calls (0x2d46ad), then DEC WORD only. */
+        uint16_t count;
+        node_address = in_EAX[selected + 0x3b];
+        memcpy(&count,(const void *)(uintptr_t)(node_address + UINT32_C(0x68)),2);
+        count = (uint16_t)(count - 1u);
+        memcpy((void *)(uintptr_t)(node_address + UINT32_C(0x68)),&count,2);
         return;
       }
     }
@@ -86,5 +101,4 @@ void FUN_002d44f0(int param_1)
   FUN_002d47a0();
   FUN_002d37e0();
   FUN_002d37e0();
-  return;
 }
