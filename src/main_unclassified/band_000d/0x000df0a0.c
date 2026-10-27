@@ -55,7 +55,14 @@ void FUN_000df0a0(int param_1,int param_2,int *param_3,char param_4)
     FUN_000d0330();
     while (local_8 != (float *)0x0) {
       if (bVar15 != 0) {
-        for (pfVar16 = (float *)local_8[7]; pfVar16 != (float *)0x0; pfVar16 = (float *)*pfVar16) {
+        /* Original 0x000DF22F MOV EBP,[EDX+0x1C] and 0x000DF2D2
+         * MOV EBP,[EBP] traverse raw guest32 pointer DWORDs.
+         * The surrounding record also contains F32 coordinates; a
+         * numeric cast from its float element would corrupt pointers.
+         * TODO/ABI_UNVERIFIED: translate guest32 addresses for native. */
+        for (pfVar16 = (float *)(uintptr_t)((uint32_t *)local_8)[7];
+             pfVar16 != (float *)0x0;
+             pfVar16 = (float *)(uintptr_t)*(uint32_t *)pfVar16) {
           piVar11 = *(int **)((uint)*(ushort *)(pfVar16 + 2) * 0x10 + 0xc +
                              *(int *)(*(int *)(param_1 + 0x204) + 0x14));
           if ((((((piVar11 != (int *)0x0) && (*(char *)((int)piVar11 + 0x26) < '\0')) &&
