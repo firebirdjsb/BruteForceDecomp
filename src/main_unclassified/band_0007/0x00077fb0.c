@@ -59,14 +59,20 @@ uint FUN_00077fb0(undefined4 *param_1)
                     /* WARNING: Subroutine does not return */
       thunk_FUN_00237ec0(local_220);
     }
-    unaff_EDI = (int *)0x104;
-    cVar1 = (**(code **)(*DAT_004432f8 + 0x28))(DAT_004432f8,local_104,local_208);
+    /* XBE 0x000780B3 PUSH 0x104; 0x780B8/0x780BD pass
+     * S-0x208 and S-0x104 respectively. The 0x104 was a
+     * fourth buffer-length argument, NOT an interface pointer. */
+    cVar1 = (**(code **)(*DAT_004432f8 + 0x28))
+        (DAT_004432f8,local_104,local_208,0x104);
     if (cVar1 == '\x01') {
       if (unaff_EBP != (int *)0x0) {
         (**(code **)(*unaff_EBP + 8))(unaff_EBP);
         unaff_EBP = (int *)0x0;
       }
-      (**(code **)(*DAT_0046990c + 0xc))(DAT_0046990c,auStack_214,&stack0xfffffdc0);
+      /* XBE 0x000780EA LEA [ESP+0x10] = S-0x234,
+       * distinct from pathname S-0x208. */
+      (**(code **)(*DAT_0046990c + 0xc))
+          (DAT_0046990c,local_208,local_234);
     }
   }
   else {
@@ -119,6 +125,10 @@ uint FUN_00077fb0(undefined4 *param_1)
     }
     (**(code **)(*DAT_0046990c + 0xc))(DAT_0046990c,local_208,local_234);
   }
+  /* Original 0x000780FA reloads the opened interface from
+   * [ESP+0x10] = S-0x234, i.e. local_234[0].
+   * Guest COM pointers need native memory translation before use. */
+  unaff_EBP = local_234[0];
   if (unaff_EBP != (int *)0x0) {
     local_234[0] = (int *)0x0;
     iVar3 = (**(code **)(*unaff_EBP + 0x28))(unaff_EBP,local_234);
@@ -128,7 +138,13 @@ uint FUN_00077fb0(undefined4 *param_1)
       piVar4 = (int *)FUN_00077f20(param_1,uStack_4);
       if (piVar4 != (int *)0x0) {
         (**(code **)(*piVar4 + 4))(piVar4);
-        iVar3 = (**(code **)(*piVar4 + 0x10))(piVar4,s_23_23_ISchema_00406e3c,&stack0xfffffdc4);
+        /* XBE 0x00078152 zeroes S-0x230; 0x00078158 passes
+         * its address as QueryInterface output. On success
+         * 0x0007816C reads it to [EBP+0x0C]. */
+        local_234[1] = (int *)0x0;
+        iVar3 = (**(code **)(*piVar4 + 0x10))
+            (piVar4,s_23_23_ISchema_00406e3c,&local_234[1]);
+        unaff_EDI = local_234[1];
         if (-1 < iVar3) {
           param_1[3] = unaff_EDI;
         }
