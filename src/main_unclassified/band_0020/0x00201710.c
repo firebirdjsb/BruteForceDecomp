@@ -36,8 +36,16 @@ undefined1 FUN_00201710(undefined4 param_1,undefined4 param_2,undefined4 param_3
   XAPILIB__OutputDebugStringA(s_someone_is_using_get_string_0040dbb4);
   XAPILIB__OutputDebugStringA(s_someone_is_using_get_string_0040dbb4);
   _strncpy(acStack_114,(char *)0x0,__n);
-  FUN_002383b0();
-  iVar1 = (**(code **)(*DAT_00443308 + 0x28))(DAT_00443308,&stack0xfffffee4,&stack0xfffffee8);
+  /* Original XBE 0x0020177D..0x0020179C:
+   * FUN_002383B0 returns its 32-bit word in EAX, stored in
+   * [ESP+0x10] after the first address PUSH. The interface slot
+   * at [ESP+0x14] is independent. The vtable +0x28 call receives
+   * receiver, address of returned word, address of interface slot.
+   * 0x002017A3 reloads the interface pointer for vtable +0x50.
+   * Xbox COM/vtable host ABI and guest pointer relocation TODO. */
+  uint32_t guest_resource_word = FUN_002383b0();
+  iVar1 = (**(code **)(*DAT_00443308 + 0x28))
+                   (DAT_00443308,&guest_resource_word,&piStack_110);
   if (iVar1 < 0) goto LAB_0020180d;
   acStack_114[0] = -0x77;
   acStack_114[1] = -0x24;
