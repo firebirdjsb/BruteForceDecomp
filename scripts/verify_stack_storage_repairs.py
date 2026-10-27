@@ -12,6 +12,11 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x000F44C0, 468, "b40f7f881edd4e333dcc1b105b34fc41e3e14cb6912336094df824b8a7e434a2"),
+    (0x002BC340, 388, "012f233c2fa3b1dcc3861e14f13df3cda3736233864cc96875434745f00b5eb5"),
+    (0x002B3B70, 78, "70e2692eca58c0dfa6db049f902f5d4216c95668ecfb8311bc52ed20762179ef"),
+    (0x002B3BC0, 157, "63cd7387932596d1b79f3439501ecf224698bef8edd9b3f311cf92dfb8c26515"),
+    (0x002B65A0, 145, "56854f87af82b0b8e08a44e207a2e58f986f8aabf682b977260b6de0efe031b4"),
     (0x00157260, ((0, 282), (288, 582)), "80c2a63d64fad4c47f5885c9845da25bf670bc67d50c0ff06af6c64bf4ebb4e7"),
     (0x003526E9, 1853, "f36960686064abaf3099a385af93bb14e788f25bc4d11431294d6d6827071614"),
     (0x00125AD0, ((0, 542), (553, 580)), "2c79f5187a5a3f6b3acebadc6f6c3738b63845d6cc749a9683ee8f565d09b9b4"),
@@ -76,6 +81,39 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x000F4538: "b9070000008d7c2418f3ab",  # seven DWORD zero extent and packet base
+    0x000F4548: "895c2420",  # incoming EAX/EBX word in packet
+    0x000F4567: "c744241c11000000",  # first tag at packet word one
+    0x000F458A: "8d4c241851",  # first packet LEA/PUSH
+    0x000F459D: "8b50108b480c89542438894c24108b4814895424148b5018",  # four source-field read order and first snapshots
+    0x000F45BA: "c744241c12000000",  # second tag at same packet offset
+    0x000F45C2: "894c24388b48088954240c",  # remaining raw snapshots
+    0x000F45D4: "8d4c241851",  # second packet LEA/PUSH
+    0x000F45E1: "5f",  # POP EDI changes stack coordinate base
+    0x000F45E4: "d944240c8b542410d84424348b068bce895610d9",  # sum, raw store, then m32 store
+    0x000F4606: "c744241813000000",  # third tag after POP
+    0x000F4618: "8d4c241451",  # third packet LEA/PUSH
+    0x000F4627: "d94424108b54240cd84424088b068bce89560cd95e10",  # second sum, raw store, then m32 store
+    0x000F4649: "c744241814000000",  # fourth tag
+    0x000F465B: "8d4c241451",  # fourth packet LEA/PUSH
+    0x000F466A: "d944240c8b16d84424348bced95e0cd9442410d8442408d95e10",  # both final sums and m32 stores
+    0x002BC343: "8b44244c8b48148b91b4000000",  # indirect address and retained raw word source
+    0x002BC363: "89542414",  # raw retained word at T+14
+    0x002BC377: "c744242c00000000",  # fourth delta word zero before SIMD
+    0x002BC38F: "f30f10080f1648048b542418f30f10120f1652040f5cca8b442410f30f11080f174804",  # three-lane target/source loads and subtraction
+    0x002BC3AA: "f30f11080f174804",  # three delta word stores
+    0x002BC3B2: "8d44242050e8e4a1ffff",  # delta address and normalizer call
+    0x002BC3CF: "d95c2410",  # callback result m32 spill
+    0x002BC3D3: "807e64087d6f",  # signed first status branch
+    0x002BC3EC: "d9442428c744244400000000d8c9d95c2438",  # first delta load, zero fourth, multiply, m32 store
+    0x002BC419: "8b4c24588b5424148d442440505189542448c744244c00000000c744245000000000c7",  # first target argument and raw/zero buffer
+    0x002BC448: "807d64087d6d",  # signed second status branch
+    0x002BC459: "d94424208d54244052d8c957c744245400000000d95c2448",  # first second-path multiply, zero fourth, m32 store
+    0x002BC48C: "8b54245c8b4424148d4c2430515289442438c744243c00000000c744244000000000c744244400000000",  # second target argument and buffer reuse
+    0x002B3BBB: "c20800",  # callee RET 8
+    0x002B3C5A: "c20800",  # callee RET 8
+    0x002B65E5: "c20400",  # normalizer RET 4 early path
+    0x002B662E: "c20400",  # normalizer RET 4 normal path
     0x001572BC: "8d54244852c744244cb43f3a00",  # contiguous object address/first DWORD
     0x001572C9: "c744245cffffffffc74424500600000089742458897c2454",  # trailing object words
     0x001572E1: "e8ea700a00",  # original object call

@@ -10,25 +10,32 @@
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0046995c;
 extern uint32_t DAT_00469b58;
-undefined4 FUN_000f44c0(void)
-
+/* The helper retains the sum until each observed m32 store. In the first
+ * two paths a raw DWORD store precedes rounding. Host extended precision,
+ * trapping/exception order and the full ABI remain unverified. */
+static long double bf_f44c0_sum_words(uint32_t first, uint32_t second)
 {
-  float fVar1;
+  float left, right;
+  _Static_assert(sizeof left == 4, "original binary32 word");
+  memcpy(&left, &first, 4);
+  memcpy(&right, &second, 4);
+  return (long double)left + (long double)right;
+}
+
+undefined4 FUN_000f44c0(void)
+{
   int in_EAX;
   undefined4 uVar2;
   byte *pbVar3;
   int *piVar4;
   undefined4 *puVar5;
   int iVar6;
-  float unaff_ESI;
-  float unaff_EDI;
-  int iStack_28;
-  undefined4 uStack_24;
-  undefined4 uStack_20;
-  int local_1c [4];
-  float fStack_c;
-  float fStack_4;
-  
+  uint32_t request[7];
+  uint32_t word_0c, word_10, word_14, word_18;
+  long double result;
+  float stored_result;
+  _Static_assert(sizeof request == 28, "seven original packet DWORDs");
+
   iVar6 = DAT_0046995c;
   if (in_EAX != 0) {
     if (*(int *)(DAT_0046995c + 0x1c) != 0) {
@@ -43,46 +50,61 @@ undefined4 FUN_000f44c0(void)
         FUN_00102120();
       }
     }
-    local_1c[0] = 0;
-    local_1c[3] = 0;
-    piVar4 = local_1c;
-    for (iVar6 = 7; iVar6 != 0; iVar6 = iVar6 + -1) {
-      *piVar4 = 0;
-      piVar4 = piVar4 + 1;
-    }
+    /* 0xf4526..0xf4541 zeros seven consecutive DWORDs at T+0x18.
+     * T is entry ESP-0x34 while EDI is saved. Do not overflow a 4-word local. */
+    request[0] = 0;
+    request[3] = 0;
+    for (unsigned word = 0; word < 7; ++word) request[word] = 0;
+    /* 0xf4548 copies the original incoming EAX, saved in EBX. */
+    request[2] = (uint32_t)in_EAX;
     piVar4 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x58))();
-    local_1c[1] = 0x11;
-    local_1c[3] = ((*piVar4 != 0x17506391) - 1 & 0xc6a8b8e2) + 0x1bafae47;
+    request[1] = 0x11;
+    request[3] = ((*piVar4 != 0x17506391) - 1 & 0xc6a8b8e2) + 0x1bafae47;
     puVar5 = (undefined4 *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
-    iVar6 = (**(code **)*puVar5)();
+    /* LEA/PUSH at 0xf458a/0xf458e passes this same packet to all four
+     * calls; a later POP EDI changes ESP-relative coordinates, not identity. */
+    iVar6 = (**(code **)*puVar5)(request);
     *(byte *)(iVar6 + 0x65) = *(byte *)(iVar6 + 0x65) | 4;
-    uStack_24 = *(undefined4 *)(iVar6 + 0x10);
-    iStack_28 = *(int *)(iVar6 + 0xc);
-    fVar1 = *(float *)(iVar6 + 0x18);
-    local_1c[0] = 0x12;
+    /* 0xf459d..0xf45c9 snapshots these four raw words before more calls.
+     * The +0x14 word reuses the incoming caller slot; it is not an array address. */
+    memcpy(&word_10, (const void *)(uintptr_t)((uint32_t)iVar6 + 0x10U), 4);
+    memcpy(&word_0c, (const void *)(uintptr_t)((uint32_t)iVar6 + 0x0cU), 4);
+    memcpy(&word_14, (const void *)(uintptr_t)((uint32_t)iVar6 + 0x14U), 4);
+    memcpy(&word_18, (const void *)(uintptr_t)((uint32_t)iVar6 + 0x18U), 4);
+    request[1] = 0x12;
     puVar5 = (undefined4 *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
-    piVar4 = (int *)(**(code **)*puVar5)(&uStack_20);
+    piVar4 = (int *)(**(code **)*puVar5)(request);
     if (piVar4 != (int *)0x0) {
-      piVar4[4] = iStack_28;
-      piVar4[3] = (int)(fVar1 + fStack_4);
+      /* 0xf45e4..0xf45f7: sum first, raw +0x10 store, m32 +0xc store. */
+      result = bf_f44c0_sum_words(word_0c, word_14);
+      memcpy((unsigned char *)piVar4 + 0x10, &word_10, 4);
+      stored_result = (float)result;
+      memcpy((unsigned char *)piVar4 + 0x0c, &stored_result, 4);
       (**(code **)(*piVar4 + 0x1c))();
       *(byte *)((int)piVar4 + 0x65) = *(byte *)((int)piVar4 + 0x65) | 4;
     }
-    uStack_20 = 0x13;
+    request[1] = 0x13;
     puVar5 = (undefined4 *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
-    piVar4 = (int *)(**(code **)*puVar5)(&uStack_24);
+    piVar4 = (int *)(**(code **)*puVar5)(request);
     if (piVar4 != (int *)0x0) {
-      piVar4[3] = (int)unaff_ESI;
-      piVar4[4] = (int)(fVar1 + unaff_EDI);
+      /* 0xf4627..0xf463a uses +0x10/+0x18 for the other sum. */
+      result = bf_f44c0_sum_words(word_10, word_18);
+      memcpy((unsigned char *)piVar4 + 0x0c, &word_0c, 4);
+      stored_result = (float)result;
+      memcpy((unsigned char *)piVar4 + 0x10, &stored_result, 4);
       (**(code **)(*piVar4 + 0x1c))();
       *(byte *)((int)piVar4 + 0x65) = *(byte *)((int)piVar4 + 0x65) | 4;
     }
-    uStack_24 = 0x14;
+    request[1] = 0x14;
     puVar5 = (undefined4 *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
-    piVar4 = (int *)(**(code **)*puVar5)(&iStack_28);
+    piVar4 = (int *)(**(code **)*puVar5)(request);
     if (piVar4 != (int *)0x0) {
-      piVar4[3] = (int)(unaff_EDI + fStack_c);
-      piVar4[4] = (int)(unaff_ESI + (float)local_1c);
+      result = bf_f44c0_sum_words(word_0c, word_14);
+      stored_result = (float)result;
+      memcpy((unsigned char *)piVar4 + 0x0c, &stored_result, 4);
+      result = bf_f44c0_sum_words(word_10, word_18);
+      stored_result = (float)result;
+      memcpy((unsigned char *)piVar4 + 0x10, &stored_result, 4);
       (**(code **)(*piVar4 + 0x1c))();
       *(byte *)((int)piVar4 + 0x65) = *(byte *)((int)piVar4 + 0x65) | 4;
     }

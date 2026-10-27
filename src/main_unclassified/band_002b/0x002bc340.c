@@ -6,58 +6,88 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+_Static_assert(sizeof(float) == 4, "original binary32 storage");
+
+static float bf_2bc340_load_f32(uint32_t base, uint32_t offset)
+{
+  float value;
+  memcpy(&value, (const void *)(uintptr_t)(uint32_t)(base + offset), 4);
+  return value;
+}
+
+static void bf_2bc340_store_f32(float *slot, float value)
+{
+  memcpy(slot, &value, 4);
+}
+
 void FUN_002bc340(int *param_1,int param_2,int param_3)
 
 {
-  float *pfVar1;
-  float *pfVar2;
-  int iVar3;
-  int iVar4;
+  uint32_t iVar3;
+  uint32_t iVar4;
   float10 fVar5;
-  undefined4 unaff_retaddr;
-  float local_30 [2];
-  float fStack_28;
-  float local_24;
-  float fStack_20;
-  undefined4 uStack_1c;
-  float fStack_18;
-  float fStack_14;
-  float fStack_10;
-  undefined4 uStack_c;
+  float delta[4];
+  float callback_result;
+  float stack30[4], stack40[4];
+  uint32_t source_word, indirect_word;
+  long double factor;
+  __m128 source, target, difference;
+  const void *source_base, *target_base;
   
-  iVar3 = *(int *)(param_2 + 0x90);
-  iVar4 = *(int *)(param_3 + 0x90);
-  pfVar1 = (float *)(iVar3 + 300);
-  pfVar2 = (float *)(iVar4 + 300);
-  local_24 = 0.0;
-  local_30[0] = *pfVar2 - *pfVar1;
-  fStack_28 = (float)((ulonglong)*(undefined8 *)(iVar4 + 0x130) >> 0x20) -
-              (float)((ulonglong)*(undefined8 *)(iVar3 + 0x130) >> 0x20);
-  FUN_002b65a0(local_30);
+  /* 0x2bc343..0x2bc34a: [param_2+0x14] supplies a guest address;
+   * the retained word is read from that object's +0xb4, before calls. */
+  memcpy(&indirect_word, (const void *)(uintptr_t)((uint32_t)param_2 + 0x14U), 4);
+  memcpy(&source_word, (const void *)(uintptr_t)(uint32_t)(indirect_word + 0xb4U), 4);
+  memcpy(&iVar3, (const void *)(uintptr_t)((uint32_t)param_2 + 0x90U), 4);
+  memcpy(&iVar4, (const void *)(uintptr_t)((uint32_t)param_3 + 0x90U), 4);
+  source_base = (const void *)(uintptr_t)(uint32_t)(iVar3 + 0x12c);
+  target_base = (const void *)(uintptr_t)(uint32_t)(iVar4 + 0x12c);
+  delta[3] = 0.0f; /* 0x2bc377 precedes all SIMD input loads. */
+  /* 0x2bc38f..0x2bc3ae: MOVSS/MOVHPS, SUBPS, then lanes 0,2,3 to
+   * T+0x20/0x24/0x28. T+0x2c is a separately zeroed fourth word. */
+  target = _mm_loadh_pi(_mm_load_ss((const float *)target_base),
+                        (const __m64 *)((const unsigned char *)target_base + 4));
+  source = _mm_loadh_pi(_mm_load_ss((const float *)source_base),
+                        (const __m64 *)((const unsigned char *)source_base + 4));
+  difference = _mm_sub_ps(target, source);
+  _mm_store_ss(delta, difference);
+  _mm_storeh_pi((__m64 *)(delta + 1), difference);
+  FUN_002b65a0(delta);
   fVar5 = (float10)(**(code **)(*param_1 + 0x14))(param_2,param_3);
-  if (*(char *)(iVar3 + 100) < '\b') {
-    fStack_20 = -(*(float *)(iVar3 + 0x20) * (float)fVar5);
-    uStack_1c = 0;
-    fStack_28 = (float)pfVar1 * fStack_20;
-    local_24 = (float)pfVar2 * fStack_20;
-    fStack_20 = local_30[0] * fStack_20;
-    FUN_002b3bc0(pfVar1,&fStack_28);
-    fStack_14 = 0.0;
-    fStack_10 = 0.0;
-    uStack_c = 0;
-    FUN_002b3b70(unaff_retaddr,&fStack_18);
+  /* 0x2bc3cf stores the callback's x87 result as m32fp at T+0x10. */
+  callback_result = (float)fVar5;
+  if (*(int8_t *)(uintptr_t)(iVar3 + 0x64U) < '\b') {
+    factor = -((long double)bf_2bc340_load_f32(iVar3, 0x20) *
+               (long double)callback_result);
+    long double first_delta = (long double)delta[0];
+    stack30[3] = 0.0f; /* 0x2bc3f0 precedes the first multiply. */
+    bf_2bc340_store_f32(stack30, (float)(first_delta * factor));
+    for (int lane = 1; lane < 3; ++lane)
+      bf_2bc340_store_f32(stack30 + lane, (float)((long double)delta[lane] * factor));
+    /* The first helper also consumes ESI=param_2; its implicit register
+     * contract is not modeled by this ordinary C call. */
+    FUN_002b3bc0(source_base,stack30);
+    memcpy(stack40, &source_word, 4);
+    stack40[1] = 0.0f;
+    stack40[2] = 0.0f;
+    stack40[3] = 0.0f;
+    FUN_002b3b70(param_2,stack40);
   }
-  if (*(char *)(iVar4 + 100) < '\b') {
-    fStack_10 = *(float *)(iVar4 + 0x20) * (float)fVar5;
-    fStack_18 = (float)pfVar1 * fStack_10;
-    uStack_c = 0;
-    fStack_14 = (float)pfVar2 * fStack_10;
-    fStack_10 = local_30[0] * fStack_10;
-    FUN_002b3bc0(pfVar1,&fStack_18);
-    local_24 = 0.0;
-    fStack_20 = 0.0;
-    uStack_1c = 0;
-    FUN_002b3b70(param_1,&fStack_28);
+  if (*(int8_t *)(uintptr_t)(iVar4 + 0x64U) < '\b') {
+    factor = (long double)bf_2bc340_load_f32(iVar4, 0x20) *
+             (long double)callback_result;
+    long double first_component = (long double)delta[0] * factor;
+    stack40[3] = 0.0f; /* 0x2bc465 follows multiply, before the m32 store. */
+    bf_2bc340_store_f32(stack40, (float)first_component);
+    for (int lane = 1; lane < 3; ++lane)
+      bf_2bc340_store_f32(stack40 + lane, (float)((long double)delta[lane] * factor));
+    FUN_002b3bc0(source_base,stack40);
+    memcpy(stack30, &source_word, 4);
+    stack30[1] = 0.0f;
+    stack30[2] = 0.0f;
+    stack30[3] = 0.0f;
+    FUN_002b3b70(param_3,stack30);
   }
   return;
 }
