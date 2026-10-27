@@ -76,7 +76,17 @@ void FUN_0007e570(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 
     iVar3 = FUN_002f2b3f(auStack_434,0x40000000,0,0,4,0x80,0);
     if (iVar3 != -1) {
       uStack_76c = param_3;
-      XAPILIB__WriteFile(iVar3,&stack0xfffff890,8,&stack0xfffff888,0);
+      /* Original XBE 0x0007E68A-0x0007E6A1:
+       * 0x7E699/0x7E69D write EBX (= incoming param_3) to
+       * adjacent DWORDs at the input buffer's ESP+0x1C/+0x20.
+       * 0x7E693 LEA [ESP+0x28] after three pushes passes their
+       * eight-byte address; 0x7E68C LEA [ESP+0x18] after one
+       * push passes a different DWORD output slot.
+       * The Ghidra stack0xfffff890/f888 aliases were displaced;
+       * guest-memory mapping/XAPI native calling ABI remain unverified. */
+      uint32_t guest_write_words[2] = {(uint32_t)param_3, (uint32_t)param_3};
+      uint32_t guest_bytes_written;
+      XAPILIB__WriteFile(iVar3,guest_write_words,8,&guest_bytes_written,0);
       XAPILIB__SetEndOfFile(iVar3);
       XAPILIB__CloseHandle(iVar3);
     }
