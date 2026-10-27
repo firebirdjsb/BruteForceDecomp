@@ -27,7 +27,15 @@ undefined4 FUN_00282360(undefined4 param_1,int *param_2)
   local_4 = (undefined4 *)0x0;
   local_8 = 0;
   (**(code **)(*param_2 + 0x10))();
-  (**(code **)(*unaff_ESI + 0x20))(unaff_ESI,&stack0x00000000);
+  /* Original 0x00282388..0x0028238E:
+   * LEA EDX,[ESP+0x1C]; PUSH EDX; PUSH EAX; CALL [ECX+0x20].
+   * With SUB ESP,0x0C and saved ESI/EDI, [ESP+0x1C] is exactly
+   * the incoming second DWORD argument, whose earlier value
+   * was independently retained at 0x0028236F/0x0028237B.
+   * This resolves only the draft's undefined guest-stack symbol.
+   * TODO/ABI_UNVERIFIED: 32-bit guest stack-word address translation
+   * and the virtual callee's host calling/register contracts. */
+  (**(code **)(*unaff_ESI + 0x20))(unaff_ESI,&param_2);
   if (local_8 < 0xedbd6b00) {
     if (local_8 == 0xedbd6aff) {
       if (iRam0000002c < 4) {
