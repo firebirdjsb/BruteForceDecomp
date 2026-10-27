@@ -76,7 +76,7 @@ void FUN_000a42d0(void)
   ppuStack_2c = DAT_00443308;
   piStack_30 = (int *)0xa4365;
   piStack_24 = piVar4;
-  iVar3 = (*(code *)(*DAT_00443308)[10])();
+  iVar3 = (**(code **)(*DAT_00443308 + 0x28))();
   if (iVar3 < 0) {
     piStack_30 = (int *)*piVar4;
     if (piStack_30 != (int *)0x0) {
@@ -89,7 +89,7 @@ void FUN_000a42d0(void)
     puStack_1c = (undefined4 *)0x1ef1e920;
     ppuStack_20 = (undefined4 **)0xe4b5147f;
     piStack_30 = piVar4;
-    (*(code *)(*DAT_00443308)[9])(DAT_00443308,&ppuStack_20);
+    (**(code **)(*DAT_00443308 + 0x24))(DAT_00443308,&ppuStack_20);
   }
   piStack_30 = *(int **)(unaff_ESI + 0x10);
   piVar4 = (int *)(unaff_ESI + 0x10);
@@ -102,7 +102,7 @@ void FUN_000a42d0(void)
   puStack_1c = (undefined4 *)0xeb7a6be1;
   ppuStack_38 = DAT_00443308;
   piStack_30 = piVar4;
-  iVar3 = (*(code *)(*DAT_00443308)[10])();
+  iVar3 = (**(code **)(*DAT_00443308 + 0x28))();
   if (iVar3 < 0) {
     piVar2 = (int *)*piVar4;
     if (piVar2 != (int *)0x0) {
@@ -111,7 +111,7 @@ void FUN_000a42d0(void)
     }
     puStack_28 = (undefined1 *)0xe2c39ac2;
     ppuStack_2c = (undefined4 **)0xeb7a6be1;
-    (*(code *)(*DAT_00443308)[9])(DAT_00443308,&ppuStack_2c,&puStack_28,0,piVar4);
+    (**(code **)(*DAT_00443308 + 0x24))(DAT_00443308,&ppuStack_2c,&puStack_28,0,piVar4);
   }
   piVar2 = *(int **)(unaff_ESI + 0x14);
   piVar4 = (int *)(unaff_ESI + 0x14);
@@ -120,7 +120,7 @@ void FUN_000a42d0(void)
     *piVar4 = 0;
   }
   puStack_28 = (undefined1 *)0x1116be9c;
-  iVar3 = (*(code *)(*DAT_00443308)[10])(DAT_00443308,&puStack_28,piVar4);
+  iVar3 = (**(code **)(*DAT_00443308 + 0x28))(DAT_00443308,&puStack_28,piVar4);
   if (iVar3 < 0) {
     piVar2 = (int *)*piVar4;
     if (piVar2 != (int *)0x0) {
@@ -129,7 +129,7 @@ void FUN_000a42d0(void)
     }
     ppuStack_34 = (undefined4 **)0x1bedf9a9;
     ppuStack_38 = (undefined4 **)0x1116be9c;
-    (*(code *)(*DAT_00443308)[9])(DAT_00443308,&ppuStack_38,&ppuStack_34,0,piVar4);
+    (**(code **)(*DAT_00443308 + 0x24))(DAT_00443308,&ppuStack_38,&ppuStack_34,0,piVar4);
   }
   ppuStack_34 = (undefined4 **)0x796c3b0;
   piVar4 = (int *)FUN_000a7770(&ppuStack_34);
