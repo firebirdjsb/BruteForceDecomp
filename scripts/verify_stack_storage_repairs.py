@@ -12,6 +12,11 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x002A6450, 194, "cd856200d4e1aa40079bbc85e2437c0d6e532b57c1a9e0e8977a987c61a2542e"),
+    (0x003764C0, 2383, "95b71225750e8e250472f2424f057fb5b8cab48179975a9aa75e0d1e4d900220"),
+    (0x00219110, 463, "14eac87692ce198065b6786a8e1429a62c344bd13e2bf08d6dabaab6386b51c5"),
+    (0x0036F320, 285, "3dea9d09e0d916691968326915db6b88cebcef02762c8a5e83fff20e54999b8d"),
+    (0x00370910, 62, "8ffafb7699c7bdf1ddc150c5e769846889dcaa2baf94931caeb974ecdcece02f"),
     (0x002344B0, 190, "32635e240c5eaeb5d5aff606d36dec6aca5fa86c03fd7f565eb67975a1006cf3"),
     (0x00291060, 297, "c79ebe3c1270f0ee163096f56b5e2862416864c2f7ea963bc70400411d66c983"),
     (0x002B5590, 48, "58030298ad41699924a77ef8db850f7708d045f819c893ec22c0f34d69321f26"),
@@ -94,6 +99,31 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x002A6450: "83ec20",  # 32-byte opaque allocation
+    0x002A6465: "8d4c240851894424088b0656ff5040",  # returned DWORD spill and output-address argument
+    0x002A6474: "8b5424088b076a006a048d4c2414515789542420ff5014",  # vtable base before frame copy, slot read afterward
+    0x002A649C: "6a006a028d54240c5257ff5114",  # two-byte word operation argument
+    0x002A64A9: "33db66395c2404765b",  # unsigned memory WORD bound
+    0x002A64B3: "8b068d4c24180fb7eb515556c744242800000000c744242c00000000c744243000000000ff502c",  # captured base, exact three zero words, then slot load
+    0x002A64F7: "6a006a0c8d4c24245157ff501443663b5c240872a7",  # 12-byte argument, full counter increment and WORD compare
+    0x00376DB3: "c7401cd0e93600",  # raw code-address-valued DWORD without guessed prototype
+    0x00376DD1: "a188dd3700",  # existing device pointer global
+    0x00376DE0: "8b90c8170000",  # device byte displacement rather than scaled word offset
+    0x0021912F: "d9fadddbddd8ddd8d95c2400",  # FSQRT and x87-to-m32 boundary
+    0x0021913B: "f30f10442400f30f53c08b44242cf30f10080fc6c0000f1648040f59c1",  # RCPSS broadcast and packed XYZ lanes
+    0x0021917E: "d81d80503a008944240cdfe0f6c4417a10",  # threshold comparison parity branch
+    0x002191EF: "894204d944240c8b442400d8ca894208dee9ddd9d912",  # first output order and unrounded FST X
+    0x00219231: "d944242cd80ad912d944242cd84a04d95204d944242cd84a08d95208",  # three FST-retained normalized components
+    0x0021924D: "d9c2d84c2408d9c2d84c2410dee9d95c2400",  # second cross retained x87 operands
+    0x00219267: "d8c9894108d9cb",  # second output begins at plus8
+    0x0021927A: "8b54242cd84c240c895104",  # second output plus4 write
+    0x0021928B: "dee9d9c9ddd8d911",  # second X remains extended after FST
+    0x002192B3: "f30f52442400",  # second norm RSQRTSS
+    0x002192BF: "d944242cd809d919d944242cd84904d95904d944242cd84908d95908",  # final m32 reloads and stores
+    0x003A5080: "da1b7c3f",  # exact binary32 basis threshold
+    0x0036F3A6: "c74008800b2000",  # literal command DWORD
+    0x0036F3F5: "391df8df3700",  # verified existing render-state word
+    0x0037091C: "a3f8df3700",  # setter corroborates the same DWORD
     0x00291480: "8b4c240883f9ff75158b4c24040fbf410c8b49088d04c08d4441eec20800",  # representative callback's index=-1 path, EAX result and RET8
     0x00291E80: "8b54240883faff75128b4424040fbf480c8b50088d448afcc20800",  # second callback's index=-1 path only; other paths remain partial
     0x00291068: "0fbf460c",  # signed 16-bit word load

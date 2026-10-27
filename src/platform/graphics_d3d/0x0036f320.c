@@ -7,6 +7,7 @@
  */
 #include "bf_ghidra_types.h"
 #include "bf_xbox_d3d_device_x86.h"
+#include "bf_xbox_d3d_state_globals_x86.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037df0c;
@@ -57,7 +58,7 @@ LAB_0036f361:
   }
   *puVar6 = 0x41ea4;
   puVar6[1] = 0;
-  puVar6[2] = &LAB_00200b80;
+  puVar6[2] = 0x00200b80;
   if (DAT_0037dfd4 == 2) {
     fVar4 = (float)unaff_ESI[0x143] * (float)unaff_ESI[0x142];
   }

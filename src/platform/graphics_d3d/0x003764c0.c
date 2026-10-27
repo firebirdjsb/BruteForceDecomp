@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbox_d3d_device_x86.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037af64;
@@ -265,12 +266,12 @@ int FUN_003764c0(void)
           puVar9[3] = puStack_10 + 0x5f2;
           puVar9[5] = puStack_10 + 0x126;
           puVar9[6] = puStack_10 + 0x128;
-          puVar9[7] = &LAB_0036e9d0;
+          puVar9[7] = 0x0036e9d0;
           puVar9[8] = 0xabcdef00;
         }
         D3D8LTCG__D3DDevice_SetFlickerFilter_0();
         if ((DAT_0037b830 == 0) || (DAT_0037b824 != 0)) {
-          AvSendTVEncoderOption(*(undefined4 *)(D3D8__D3D_g_pDevice + 0x17c8),0xe,0,0);
+          AvSendTVEncoderOption(*(undefined4 *)((uint8_t *)D3D8__D3D_g_pDevice + 0x17c8),0xe,0,0);
           DAT_0037b830 = 1;
           DAT_0037b824 = 0;
         }
