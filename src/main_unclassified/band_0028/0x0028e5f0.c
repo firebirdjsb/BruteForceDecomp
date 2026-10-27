@@ -31,7 +31,14 @@ undefined4 FUN_0028e5f0(undefined4 param_1,float *param_2)
   float local_fc;
   float fStack_f8;
   float local_f4;
-  float local_f0;
+  /* Original x86 has two adjacent binary32 scratch lanes.
+   * Ghidra collapsed both words into a 64-bit CONCAT44
+   * pseudo-lvalue. Restore the low and high 32-bit values
+   * separately without numeric float/pointer reinterpretation.
+   * Original x87 and native guest ABI remain ABI_UNVERIFIED. */
+  float guest_f32_pair_at_f0[2];
+  _Static_assert(sizeof(guest_f32_pair_at_f0) == 8,
+                 "original two adjacent binary32 scratch words");
   float fStack_ec;
   float local_e8;
   undefined8 local_e4;
@@ -99,7 +106,8 @@ undefined4 FUN_0028e5f0(undefined4 param_1,float *param_2)
   fVar6 = local_114 * (float)*(undefined8 *)(unaff_EDI + 2);
   local_114 = local_114 * (float)((ulonglong)*(undefined8 *)(unaff_EDI + 2) >> 0x20);
   local_84 = CONCAT44(local_114,fVar6);
-  _local_f0 = CONCAT44(local_114,fVar6);
+  guest_f32_pair_at_f0[0] = fVar6;
+  guest_f32_pair_at_f0[1] = local_114;
   fVar2 = *unaff_EDI;
   local_c4 = fVar2 * local_110;
   local_c0 = CONCAT44(fVar2 * fStack_108,fVar2 * local_10c);
@@ -127,7 +135,8 @@ undefined4 FUN_0028e5f0(undefined4 param_1,float *param_2)
   local_78 = fVar2 * (float)*(undefined8 *)(pfVar5 + 2);
   fVar6 = *pfVar5;
   fVar8 = fVar6 * (float)((ulonglong)*(undefined8 *)(unaff_EBX + 2) >> 0x20);
-  _local_f0 = CONCAT44(fVar8,local_78);
+  guest_f32_pair_at_f0[0] = local_78;
+  guest_f32_pair_at_f0[1] = fVar8;
   local_54 = (*pfVar3 * pfVar5[2] - *pfVar4 * unaff_EBX[2]) +
              fVar2 * (float)((ulonglong)*(undefined8 *)(pfVar5 + 2) >> 0x20) + fVar8;
   local_58 = (*pfVar4 * unaff_EBX[3] - *pfVar3 * pfVar5[3]) +
@@ -185,7 +194,8 @@ undefined4 FUN_0028e5f0(undefined4 param_1,float *param_2)
   fVar7 = fVar6 * (float)*(undefined8 *)(unaff_EDI + 2);
   fVar6 = fVar6 * (float)((ulonglong)*(undefined8 *)(unaff_EDI + 2) >> 0x20);
   local_cc = CONCAT44(fVar6,fVar7);
-  _local_f0 = CONCAT44(fVar6,fVar8);
+  guest_f32_pair_at_f0[0] = fVar8;
+  guest_f32_pair_at_f0[1] = fVar6;
   local_64 = local_74 + fVar2 * (float)((ulonglong)*(undefined8 *)(pfVar4 + 2) >> 0x20) + fVar6;
   local_68 = local_78 + fVar8 + fVar7;
   local_6c = local_f4 + local_d0 + local_7c;
