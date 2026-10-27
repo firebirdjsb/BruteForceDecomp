@@ -149,20 +149,32 @@ undefined4 FUN_002d80b0(uint *param_1,undefined4 param_2,int *param_3,int param_
       pfVar18 = (float *)((*(uint *)((int)local_74 +
                                     *(int *)(&DAT_003b86e0 + ((uint)local_74 & 0xc))) & 0xffff) *
                           0x10 + *piVar11 + (int)piVar11);
+      /* XBE 0x002D85D0..0x002D85F3 and 0x002D8603..0x002D8626:
+       * MOVSS/MOVHPS/SUBPS/MOVSS/MOVHPS write two independent
+       * float3 vectors at guest ESP+0x4C and ESP+0x5C. Earlier
+       * pointer-typed locals (local_50/local_40) share these
+       * stack DWORDs but their pointer lifetimes are over.
+       * 0x002D862A..0x002D8640 reads the six float32 values
+       * through x87 FLD/FMUL/FADDP, in X,Z,Y product order.
+       * Model scalar lanes and their x87 accumulation separately:
+       * Windows long-double and guest memory ABI remain UNVERIFIED. */
       local_44 = 0;
-      uVar1 = *(undefined8 *)(pfVar18 + 1);
-      local_50 = (uint *)(*pfVar18 - *pfVar16);
-      local_4c = (float)uVar1 - (float)*(undefined8 *)(pfVar16 + 1);
+      const __m128 guest_delta_edge = _mm_sub_ps(
+          _mm_setr_ps(pfVar18[0],pfVar18[1],pfVar18[2],0.0f),
+          _mm_setr_ps(pfVar16[0],pfVar16[1],pfVar16[2],0.0f));
       local_34 = 0;
-      local_40 = (int *)(*pfVar16 - *local_30);
-      local_3c = (float)*(undefined8 *)(pfVar16 + 1) - (float)*(undefined8 *)(local_30 + 1);
+      const __m128 guest_delta_position = _mm_sub_ps(
+          _mm_setr_ps(pfVar16[0],pfVar16[1],pfVar16[2],0.0f),
+          _mm_setr_ps(local_30[0],local_30[1],local_30[2],0.0f));
+      float guest_edge_lanes[4],guest_position_lanes[4];
+      _mm_storeu_ps(guest_edge_lanes,guest_delta_edge);
+      _mm_storeu_ps(guest_position_lanes,guest_delta_position);
+      long double guest_dot_x87 =
+          (long double)guest_position_lanes[0] * (long double)guest_edge_lanes[0] +
+          (long double)guest_position_lanes[2] * (long double)guest_edge_lanes[2] +
+          (long double)guest_position_lanes[1] * (long double)guest_edge_lanes[1];
       iVar12 = *in_ECX;
-      if (local_3c * local_4c +
-          ((float)((ulonglong)*(undefined8 *)(pfVar16 + 1) >> 0x20) -
-          (float)((ulonglong)*(undefined8 *)(local_30 + 1) >> 0x20)) *
-          ((float)((ulonglong)uVar1 >> 0x20) -
-          (float)((ulonglong)*(undefined8 *)(pfVar16 + 1) >> 0x20)) +
-          (float)local_40 * (float)local_50 < 0.0) {
+      if (guest_dot_x87 < 0.0L) {
         if (*(int *)(local_54 + 0x10) != (*(uint *)(iVar12 + 0x14) >> 8 & 3) * 0x1c + 0x18 + iVar12)
         {
           *(uint *)(iVar12 + 0x14) = *(uint *)(iVar12 + 0x14) ^ 0x100;
