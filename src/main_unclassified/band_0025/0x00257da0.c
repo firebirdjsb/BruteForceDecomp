@@ -28,6 +28,14 @@ undefined4 FUN_00257da0(void)
   int *local_10;
   int *local_c;
   int *piStack_8;
+  /* XBE 0x00257DA0 SUB ESP,0x10 + four saved registers:
+   * stable guest ESP=S-0x20. T+0x10=local_10 file,
+   * T+0x14=local_c, T+0x18=piStack_8 interface output,
+   * T+0x1C=iStack_4 count output. The original two LEA
+   * outputs address these separate local words; the original
+   * guest register, incoming stack arguments and 32-bit
+   * COM runtime ABI still require linkage (ABI_UNVERIFIED). */
+  int iStack_4;
   
   local_c = in_EAX;
   if (in_EAX != (int *)0x0) {
@@ -47,9 +55,12 @@ undefined4 FUN_00257da0(void)
     piVar4 = DAT_0046990c;
     (**(code **)(*DAT_0046990c + 0x20))(DAT_0046990c,0xe07067e);
     if (piStack_24 != (int *)0x0) break;
-    (**(code **)(*unaff_EDI + 0x18))(unaff_EDI,&stack0xffffffe4);
-    piVar4 = piStack_24;
-    if (piStack_24 == (int *)0x0) goto LAB_00257ecb;
+    /* XBE 0x00257DF8 LEA EDX,[ESP+0x18] writes piStack_8.
+     * The callee is vtable+0x18 on original local_c (EAX). */
+    piStack_8 = (int *)0x0;
+    (**(code **)(*local_c + 0x18))(local_c,&piStack_8);
+    piVar4 = piStack_8;
+    if (piStack_8 == (int *)0x0) goto LAB_00257ecb;
     if (piStack_28 != (int *)0x0) {
       (**(code **)(*piStack_28 + 8))(piStack_28);
       piStack_28 = (int *)0x0;
@@ -62,9 +73,11 @@ undefined4 FUN_00257da0(void)
       piStack_8 = (int *)0x0;
     }
   }
-  (**(code **)(*DAT_0046990c + 0x2c))(DAT_0046990c,&stack0xffffffe8,piStack_24);
+  /* 0x00257E54 pushes file word local_10; 0x00257E55 LEA
+   * [ESP+0x20] then pushes address of T+0x1C count word. */
+  (**(code **)(*DAT_0046990c + 0x2c))(DAT_0046990c,&iStack_4,local_10);
   iVar3 = 0;
-  if (0 < (int)unaff_EDI) {
+  if (0 < iStack_4) {
     do {
       piStack_24 = (int *)0x0;
       (**(code **)(*DAT_0046990c + 0x30))(DAT_0046990c,&local_10,iVar3,&piStack_24);
@@ -88,7 +101,7 @@ undefined4 FUN_00257da0(void)
         (**(code **)(*piStack_24 + 8))(piStack_24);
       }
       iVar3 = iVar3 + 1;
-    } while (iVar3 < (int)unaff_EDI);
+    } while (iVar3 < iStack_4);
   }
 LAB_00257ecb:
   if (&local_10 != (int **)0x0) {
