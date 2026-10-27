@@ -75,7 +75,20 @@ void FUN_0021abe0(void)
           if (bVar2) goto LAB_0021acde;
           iVar5 = FUN_0017beb0(iVar5);
           if (iVar5 != 0) {
-            uVar6 = FUN_00178e50(&stack0xffffff88);
+            /* XBE 0x0021AD56 stores EBX at entry ESP-0x78 and
+             * 0x0021AD5A stores the flags BYTE at entry ESP-0x74.
+             * Following the callee-cleaned resource lookup,
+             * 0x0021AD67 LEA EAX,[ESP+0x1C] addresses BOTH words.
+             * FUN_00178E50 reads [EBP+0] and low two flag bits of
+             * [EBP+4] (0x00178E59, 0x00178EB8-0x00178EDA).
+             * Do not fabricate a native host stack address.
+             * The implicit guest EAX input to the callee remains
+             * ABI_UNVERIFIED until linked register-adapter work. */
+            uint32_t guest_request_words[2];
+            guest_request_words[0] = (uint32_t)(uintptr_t)unaff_EBX;
+            guest_request_words[1] =
+                (uint32_t)((*(uint8_t *)(iVar5 + 0xc) & 1U) | 2U);
+            uVar6 = FUN_00178e50((int *)guest_request_words);
           }
           piVar3 = DAT_00469940;
           puVar7[3] = uVar6;
