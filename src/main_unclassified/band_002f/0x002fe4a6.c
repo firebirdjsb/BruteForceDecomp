@@ -10,7 +10,13 @@
 extern undefined4 FUN_002fe2fd(int param_1,int param_2,undefined4 param_3);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t *DAT_00414b58;
+/* XBE 0x002FE51B: FF 15 58 4B 41 00 is CALL DWORD PTR
+ * [0x00414B58]. This guest IAT cell holds a function pointer,
+ * NOT a pointer to a scalar uint32_t. CALL is preceded by
+ * PUSH [EAX] and PUSH &local_34 (right-to-left guest arguments),
+ * then ADD ESP,8. Exact external function and host call ABI are
+ * not yet identified; 'code *' is only a C11 syntax bridge. */
+extern code *DAT_00414b58;
 undefined4
 FUN_002fe4a6(undefined4 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
             undefined4 param_5,undefined4 param_6,undefined4 param_7)
