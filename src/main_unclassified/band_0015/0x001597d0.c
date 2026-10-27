@@ -14,6 +14,15 @@ void FUN_001597d0(undefined4 *param_1)
   int iVar3;
   float fVar4;
   float fVar5;
+  /* XBE 0x001597D0 reads one guest stack pointer input at S+4,
+   * copies its three DWORDs to the owner, then 0x001598A0
+   * FSTP DWORD [ESP+0x48] (stable ESP=S-0x44) overwrites
+   * that *same incoming guest word* with the Y float delta.
+   * At 0x001598F6 LEA ECX,[ESP+0x54] following three
+   * temporary pushes takes the address of that same delta
+   * for FUN_000DDDD0. Native guest stack aliasing remains
+   * ABI_UNVERIFIED; float scratch preserves observed dataflow. */
+  float guest_y_delta;
   int iVar6;
   int *in_ECX;
   int iVar7;
@@ -52,9 +61,9 @@ void FUN_001597d0(undefined4 *param_1)
     }
     iVar6 = (**(code **)(*in_ECX + 0x40))();
     fVar4 = *(float *)(iVar6 + 0x2c) - (float)in_ECX[0x65];
-    param_1 = (undefined4 *)(*(float *)(iVar6 + 0x28) - (float)in_ECX[100]);
+    guest_y_delta = *(float *)(iVar6 + 0x28) - (float)in_ECX[100];
     fVar5 = *(float *)(iVar6 + 0x24) - (float)in_ECX[99];
-    if (0.09 < fVar5 * fVar5 + (float)param_1 * (float)param_1 + fVar4 * fVar4) {
+    if (0.09 < fVar5 * fVar5 + guest_y_delta * guest_y_delta + fVar4 * fVar4) {
       iVar6 = *in_ECX;
       puVar8 = auStack_2c;
       for (iVar7 = 0xb; iVar7 != 0; iVar7 = iVar7 + -1) {
@@ -62,7 +71,7 @@ void FUN_001597d0(undefined4 *param_1)
         puVar8 = puVar8 + 1;
       }
       (**(code **)(iVar6 + 0x40))();
-      FUN_000dddd0(in_ECX[2],&param_1,0x42480000,in_ECX);
+      FUN_000dddd0(in_ECX[2],&guest_y_delta,0x42480000,in_ECX);
       iVar6 = in_ECX[0x1b];
       in_ECX[0x11] = 2 - (uint)((uStack_4 & 1) != 0);
       iVar7 = *(int *)(iVar6 + 0x40);
