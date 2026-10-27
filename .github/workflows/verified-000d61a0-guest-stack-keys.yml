@@ -1,0 +1,19 @@
+name: Verified 0x000D61A0 guest-stack DWORD callback keys
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_000d/0x000d61a0.c'
+      - 'scripts/verify_000d61a0_guest_stack_keys.py'
+      - '.github/workflows/verified-000d61a0-guest-stack-keys.yml'
+      - 'include/bf_ghidra_types.h'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guest-stack-keys:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert original guest call-key storage and isolated Clang C11
+        run: python3 scripts/verify_000d61a0_guest_stack_keys.py --root .
