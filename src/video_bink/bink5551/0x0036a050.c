@@ -9,6 +9,11 @@
 #include "bf_x86_mmx_byte_lanes.h"
 /* XBE-confirmed MOVD/PXOR/PUNPCKLBW zero-extends four packed guest bytes
  * into independent 16-bit MMX lanes, twice in this source function. */
+/* Ghidra's 48-bit int6/CONCAT61 alpha construction is exactly the
+ * four low-byte lanes from uVar7, zero-extended independently to
+ * u16 and shifted left eight within each 16-bit lane. uVar7
+ * already carries only 0x80808080 alpha bits. This is a pure
+ * bit-layout equivalence, not host MMX state/decoder ABI proof. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003b7d58;
@@ -113,13 +118,7 @@ void FUN_0036a050(int param_1)
                         CONCAT24((ushort)((ulonglong)uVar17 >> 0x20) >> 3,
                                  CONCAT22((ushort)((ulonglong)uVar17 >> 0x10) >> 3,
                                           (ushort)uVar17 >> 3))) | uVar13 |
-               (ulonglong)
-               CONCAT61((int6)(((ulonglong)
-                                CONCAT41((int)(((ulonglong)
-                                                CONCAT21((short)(((ulonglong)(byte)(uVar7 >> 0x18)
-                                                                 << 0x38) >> 0x30),
-                                                         (char)(uVar7 >> 0x10)) << 0x28) >> 0x20),
-                                         (char)(uVar7 >> 8)) << 0x18) >> 0x10),(char)uVar7) << 8 |
+               (bf_x86_unpack_u32_bytes_to_u16_lanes(uVar7) << 8) |
                uVar15;
     uVar17 = DAT_003b7d58;
     puVar11 = puVar10;
@@ -181,13 +180,7 @@ void FUN_0036a050(int param_1)
                         CONCAT24((ushort)((ulonglong)uVar18 >> 0x20) >> 3,
                                  CONCAT22((ushort)((ulonglong)uVar18 >> 0x10) >> 3,
                                           (ushort)uVar18 >> 3))) | uVar13 |
-               (ulonglong)
-               CONCAT61((int6)(((ulonglong)
-                                CONCAT41((int)(((ulonglong)
-                                                CONCAT21((short)(((ulonglong)(byte)(uVar7 >> 0x18)
-                                                                 << 0x38) >> 0x30),
-                                                         (char)(uVar7 >> 0x10)) << 0x28) >> 0x20),
-                                         (char)(uVar7 >> 8)) << 0x18) >> 0x10),(char)uVar7) << 8 |
+               (bf_x86_unpack_u32_bytes_to_u16_lanes(uVar7) << 8) |
                uVar15;
     puVar11 = puVar10;
   } while (puVar10 < puVar6);
