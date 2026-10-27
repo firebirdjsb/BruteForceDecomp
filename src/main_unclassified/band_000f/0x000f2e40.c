@@ -23,6 +23,17 @@ undefined1 FUN_000f2e40(int param_1)
   int iVar6;
   int *piVar7;
   int *piVar8;
+  /* XBE 0x000F2E45 SUB ESP,0x20 reserves exactly 32 guest bytes.
+   * Four register pushes then put stable ESP at entry S-0x30.
+   * Original guest alloc base B=S-0x20 equals stable ESP+0x10.
+   * B+0 is reused for error codes, B+4 passes the string output
+   * to 0x0010CB00, B+8 holds inline storage or a guest pointer,
+   * B+0x18 is string length and B+0x1C the small-string capacity.
+   * The host/guest memory and implicit-register ABI remain TODO. */
+  uint32_t guest_stack_words[8];
+  _Static_assert(sizeof(guest_stack_words)==0x20,
+                 "original 32-byte guest string/error packet");
+  uint16_t original_zero_word = 0;
   
   iVar4 = **(int **)(DAT_00469b58 + 8);
   uVar2 = FUN_00102000();
@@ -55,26 +66,51 @@ undefined1 FUN_000f2e40(int param_1)
     }
     *pbVar3 = *pbVar3 | 0x20;
     FUN_001020a0();
-    cVar1 = FUN_0010cb00(&stack0xffffffd8);
+    /* XBE 0x000F2F31 LEA [ESP+0x14] addresses B+4.
+     * At 0xF2F36/F2F3E/F2F42 only the observed DWORD, DWORD
+     * and WORD are initialized; do not zero the entire frame.
+     * On return 0xF2F5C compares capacity at B+0x1C with 8:
+     * short strings are stored inline at B+8, long strings use
+     * the guest DWORD pointer stored at the same address. */
+    guest_stack_words[7] = 7;
+    guest_stack_words[6] = 0;
+    memcpy((uint8_t *)guest_stack_words + 8,
+           &original_zero_word, sizeof(original_zero_word));
+    cVar1 = FUN_0010cb00((uint8_t *)guest_stack_words + 4);
     if (cVar1 != '\0') {
       uVar2 = FUN_00102000();
-      FUN_000f2dc0(uVar2,&stack0xffffffdc);
+      void *guest_string =
+          guest_stack_words[7] < 8
+              ? (void *)&guest_stack_words[2]
+              : (void *)(uintptr_t)guest_stack_words[2];
+      FUN_000f2dc0(uVar2,guest_string);
     }
     return 1;
   }
-  (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x22c))(&stack0xffffffd4);
+  /* Original XBE 0x000F2F9D loads raw error DWORD into B+0;
+   * 0x000F2FA6 LEA [ESP+0x10] passes that word to +0x22C. */
+  guest_stack_words[0] = UINT32_C(0xfd890279);
+  (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x22c))
+      (&guest_stack_words[0]);
   if (iVar4 == 1) {
     piVar7 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
+    guest_stack_words[0] = UINT32_C(0xed02be53);
   }
   else if (iVar4 == 2) {
     piVar7 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
+    guest_stack_words[0] = UINT32_C(0xf04087f4);
   }
   else {
     if (iVar4 != 3) goto LAB_000f3016;
     piVar7 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x78))();
+    guest_stack_words[0] = UINT32_C(0x14caa602);
   }
-  (**(code **)(*piVar7 + 8))(&stack0xffffffd0,0,0);
+  /* XBE 0x000F300A points to same B+0 word after one PUSH.
+   * Original call also carries the two trailing zero DWORDs. */
+  (**(code **)(*piVar7 + 8))(&guest_stack_words[0],0,0);
 LAB_000f3016:
-  (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x22c))(&stack0xffffffd0);
+  /* XBE 0x000F3025/2A passes the same B+0 error word again. */
+  (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x22c))
+      (&guest_stack_words[0]);
   return 0;
 }
