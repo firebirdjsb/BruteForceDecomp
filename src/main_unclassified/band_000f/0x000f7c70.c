@@ -42,8 +42,16 @@ undefined4 FUN_000f7c70(int *param_1,undefined4 param_2)
       iVar3 = 0;
       if (0 < iVar2) {
         do {
-          puVar4 = (undefined1 *)register0x00000010;
-          FUN_001e97c0(&stack0x00000000);
+          /* XBE 0x000F7D2D LEA EBX,[ESP+0x18] points to
+           * entry ESP-0x4C: iStack_4c, which the preceding
+           * 0x000F7D35 MOV [ESP+0x18],EAX populates.
+           * Ghidra register0x10 is not an independent pointer.
+           * Register-based callee ABI remains ABI_UNVERIFIED. */
+          puVar4 = (undefined1 *)&iStack_4c;
+          /* XBE 0x000F7D28 LEA ECX,[ESP+0x64] points to
+           * original entry ESP+4, the caller-owned first DWORD.
+           * 0x000F7D2C PUSH ECX passes its address. */
+          FUN_001e97c0(&param_1);
           FUN_0010c660(puVar4);
           iVar3 = iVar3 + 1;
         } while (iVar3 < iStack_4c);
