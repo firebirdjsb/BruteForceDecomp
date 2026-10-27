@@ -55,13 +55,21 @@ void FUN_002b09d0(void)
     *piVar2 = 0;
   }
   FUN_00063360(0x3f800000,piVar2);
-  piVar4 = (int *)0x0;
+  /* XBE 0x002B0A96 zeros [ESP+0x18], the same 32-bit guest
+   * output word reloaded at 0x002B0AA4 and 0x002B0ACC as
+   * [ESP+0x10] after the two pushed call arguments are removed.
+   * Keep the original guest word separate from host pointer/ABI proof. */
   auStack_8[0] = 0;
   (**(code **)(*(int *)*piVar2 + 0x24))((int *)*piVar2,0,auStack_8);
+  piVar4 = (int *)(uintptr_t)auStack_8[0];
   (**(code **)(*unaff_ESI + 0x14))(unaff_ESI,0x3f800000);
   (**(code **)(*piVar4 + 0x34))(piVar4,3);
-  if (&stack0xfffffff0 != (undefined1 *)0x0) {
-    (*pcRam3a831277)(&stack0xfffffff0);
+  piVar4 = (int *)(uintptr_t)auStack_8[0];
+  if (piVar4 != (int *)0x0) {
+    /* XBE 0x002B0ACC..0x002B0AD7: load DWORD [ESP+0x10],
+     * TEST EAX, then push the pointer and call [ECX+8].
+     * TODO/ABI_UNVERIFIED: translate guest32 address for native hosts. */
+    (**(code **)(*piVar4 + 8))(piVar4);
   }
   return;
 }
