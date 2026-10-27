@@ -12,6 +12,13 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x002C2530, ((0, 138), (144, 87)), "768031773dc47284a6eb2afd03a23e9c6dd05455e305c06fb7d633d05f890a8c"),
+    (0x002CD2B0, 520, "c028d0c3efa30ca8c2f104ddd2bcdf9a132c1e73bb429530ef96a4334198421f"),
+    (0x002EBEA0, 65, "b77ad187f6f3db2a5ae4f8e214b023d7c62ce25a38ce769a993d2a8c81643760"),
+    (0x0033F31D, 37, "a2ac32d1c4ddc6433dec56a64106d101dc9ddeddf9073db75f3afcb26b9840f2"),
+    (0x0033FA33, 65, "8b93eb1016a0f75c9584316977df8a5594f70a23854b51278d4f941549b7f803"),
+    (0x0033FA74, 378, "1887d95a6576f22a26249023be961860e83b5ce9a7f63577488431d44a2caae2"),
+    (0x00344AF4, 314, "aafe8cfacc22e9111794b1d365e0c821608666637b11745b8bd112184eda0844"),
     (0x002A6450, 194, "cd856200d4e1aa40079bbc85e2437c0d6e532b57c1a9e0e8977a987c61a2542e"),
     (0x003764C0, 2383, "95b71225750e8e250472f2424f057fb5b8cab48179975a9aa75e0d1e4d900220"),
     (0x00219110, 463, "14eac87692ce198065b6786a8e1429a62c344bd13e2bf08d6dabaab6386b51c5"),
@@ -99,6 +106,14 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x002EBEA0: "85c07414",  # zero request still performs RET read
+    0x002EBEAB: "f7d803c483c0048500948b0050c3",  # small request probe and return relocation
+    0x002EBEB9: "518d4c240881e9001000002d",  # save ECX and first page decrement
+    0x002EBEC4: "2d0010000085013d0010000073ec",  # remaining count, probe and loop comparison
+    0x002EBED2: "2bc88bc485018be18b088b400450c3",  # final probe operand, ECX restore and RET
+    0x002C254C: "0fbf780c8945fc8bc783c00383e0fce840990200",  # signed WORD count, DWORD rounding and helper call
+    0x002C2560: "8bcf8bd1c1e90233c08bdc8bfbf3ab8bca83e103f3aa",  # post-allocation ESP alias and exact REP zero length
+    0x0033FB3A: "397b10894510897d0c73128bc783c00383e0fce84ec3faff8b45108bd4",  # unsigned capacity branch, rounded request, postCALL reload and ESP alias
     0x002A6450: "83ec20",  # 32-byte opaque allocation
     0x002A6465: "8d4c240851894424088b0656ff5040",  # returned DWORD spill and output-address argument
     0x002A6474: "8b5424088b076a006a048d4c2414515789542420ff5014",  # vtable base before frame copy, slot read afterward
