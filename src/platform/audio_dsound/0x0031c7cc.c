@@ -35,10 +35,14 @@ int FUN_0031c7cc(undefined4 param_1)
         *(undefined1 *)(*piVar1 + -0x13ffef5) = 2;
       } while (uVar4 < 8);
       if ((*(byte *)(in_ECX + 8) & 1) == 0) {
-        KeInitializeDpc(in_ECX + 0x1c,&LAB_0031c6f6);
+        /* 0x31c81b: PUSH 0x31c6f6 is a DWORD guest code address.
+         * ABI_UNVERIFIED: the existing draft omits original context arguments;
+         * this literal fix does not establish the kernel callback interface. */
+        KeInitializeDpc(in_ECX + 0x1c,UINT32_C(0x0031c6f6));
       }
       HalGetInterruptVector(6,&param_1);
-      KeInitializeInterrupt(&DAT_0032fdf8,&LAB_0031c6e5);
+      /* 0x31c845: PUSH 0x31c6e5; raw guest value, no host LAB binding. */
+      KeInitializeInterrupt(&DAT_0032fdf8,UINT32_C(0x0031c6e5));
       cVar2 = KeConnectInterrupt(&DAT_0032fdf8);
       if (cVar2 == '\0') {
         iVar3 = -0x7fffbffb;
@@ -54,7 +58,8 @@ int FUN_0031c7cc(undefined4 param_1)
             iVar3 = -0x7fffbffb;
           }
           if (-1 < iVar3) {
-            *(undefined4 *)(in_ECX + 0xc) = &LAB_0031c7b0;
+            /* 0x31c896: MOV DWORD [EDI+0x0c],0x31c7b0 via EAX. */
+            *(undefined4 *)(in_ECX + 0xc) = UINT32_C(0x0031c7b0);
             HalRegisterShutdownNotification((undefined4 *)(in_ECX + 0xc),1);
           }
         }

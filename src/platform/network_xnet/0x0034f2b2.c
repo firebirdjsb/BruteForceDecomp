@@ -49,15 +49,22 @@ FUN_0034f2b2(undefined4 param_1,undefined4 *param_2,uint param_3,uint param_4,ui
         *piVar7 = (int)piVar7;
         piVar2[6] = 0;
         piVar2[8] = -1;
-        piVar2[9] = (int)&LAB_0034f155;
+        /* 0x34f369 stores a four-byte guest code address at object+0x24. */
+        piVar2[9] = UINT32_C(0x0034f155);
         piVar2[10] = (uint)*(byte *)(in_ECX + 0x43) * 1000;
-        piVar2[0xb] = *(int *)KeTickCount_exref;
+        /* 0x34f37d/0x34f382 load DWORD [0x38648c], then DWORD [EAX].
+         * Preserve the original guest import-slot address instead of inventing
+         * a host KeTickCount_exref object/type. Guest mapping is unverified. */
+        piVar2[0xb] = *(int32_t *)(uintptr_t)
+            *(uint32_t *)(uintptr_t)UINT32_C(0x0038648c);
         piVar2[0xd] = (int)(piVar2 + (uint)*(byte *)(in_ECX + 0x41) * 0xe + 0x10);
         piVar2[0xe] = (uint)*(byte *)(in_ECX + 0x41);
         iVar8 = ((uint)*(byte *)(in_ECX + 0xf) * 4 + 7 & 0xfffffff8) + 0x2b;
-        iVar4 = FUN_0034e23d(iVar8,&LAB_0034f165,piVar2,piVar2 + 2);
+        /* 0x34f3af/0x34f3c8 push the same DWORD callback address.
+         * ABI_UNVERIFIED: no host callback or helper prototype is inferred. */
+        iVar4 = FUN_0034e23d(iVar8,UINT32_C(0x0034f165),piVar2,piVar2 + 2);
         if ((iVar4 != 0) &&
-           (iVar4 = FUN_0034e23d(iVar8,&LAB_0034f165,piVar2,piVar2 + 3), iVar4 != 0)) {
+           (iVar4 = FUN_0034e23d(iVar8,UINT32_C(0x0034f165),piVar2,piVar2 + 3), iVar4 != 0)) {
           *(int **)(iVar1 + 0xf0) = piVar2;
           *piVar2 = iVar1;
           goto LAB_0034f3ea;

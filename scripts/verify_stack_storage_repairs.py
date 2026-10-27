@@ -12,6 +12,8 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x0034F2B2, 448, "a812d0c32c08f75aeccc753222fd29367ff086a92bd6c4b231e4ca2e0267c87a"),
+    (0x0031C7CC, 223, "6bb9e15b51ce3422a3b71d07fedc8af6a4858886a5e1da46050adf9f157245ac"),
     (0x003451B7, 518, "43384cda3ac53586b4d07a826470e46340b17f9eaa9e63e4627bc2c4cc10eb07"),
     (0x00338406, 255, "19fa00c8727ff84dee4d8369b3f57919a559ef7db0e0ebd5c135c8fb3c992997"),
     (0x001E48E0, 386, "8866befbcd5d7ee5c9642b87d1105cd829f3530b3ac7f3db41bca78028975d1f"),
@@ -110,6 +112,13 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x0034F3C3: "8d460c50566865f13400578bcbe868eeffff",  # original guest callback/import DWORD values
+    0x0034F3AF: "6865f1340083c72b578bcbe87eeeffff",  # original guest callback/import DWORD values
+    0x0034F37D: "a18c6438008b0089462c",  # original guest callback/import DWORD values
+    0x0034F369: "c7462455f13400",  # original guest callback/import DWORD values
+    0x0031C890: "8d470c6a0150c700b0c73100ff1584633800",  # original guest callback/import DWORD values
+    0x0031C837: "6a016a00ff7508bef8fd3200505768e5c6310056ff158c633800",  # original guest callback/import DWORD values
+    0x0031C81A: "5768f6c631008d471c50ff157c633800",  # original guest callback/import DWORD values
     0x00345268: "5756568d830009000050e8c9abcdff",  # original DWORD callback/data address representation
     0x00345259: "5756568d83f008000050e8d8abcdff",  # original DWORD callback/data address representation
     0x0034524A: "5756568d83d808000050e8e7abcdff",  # original DWORD callback/data address representation
