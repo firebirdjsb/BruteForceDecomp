@@ -12,6 +12,11 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x002344B0, 190, "32635e240c5eaeb5d5aff606d36dec6aca5fa86c03fd7f565eb67975a1006cf3"),
+    (0x00291060, 297, "c79ebe3c1270f0ee163096f56b5e2862416864c2f7ea963bc70400411d66c983"),
+    (0x002B5590, 48, "58030298ad41699924a77ef8db850f7708d045f819c893ec22c0f34d69321f26"),
+    (0x002BCCD0, 89, "211508feab89884209359813718b19524492c85895e32d26bf326a9a65a1735c"),
+    (0x002C4520, 270, "d26b2a0f796594557adc8fa929391a64a1b039114be12978e9a94c791a1f57f0"),
     (0x003760F0, 245, "dbad93505ee4f3cb9bdff75e9eecf959bef26f00881cfb9e9e934f7af2a9bb4f"),
     (0x0036F1F0, 291, "8acf6be3408e1e7603d680aa4ffd5a929ac5234cb2772f9e628d38439a49b74c"),
     (0x00379A01, 2527, "d0725f94d600582ce3e217a9bad7419baed4b33db5d7549ad5b711c27db655d4"),
@@ -89,6 +94,29 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x00291480: "8b4c240883f9ff75158b4c24040fbf410c8b49088d04c08d4441eec20800",  # representative callback's index=-1 path, EAX result and RET8
+    0x00291E80: "8b54240883faff75128b4424040fbf480c8b50088d448afcc20800",  # second callback's index=-1 path only; other paths remain partial
+    0x00291068: "0fbf460c",  # signed 16-bit word load
+    0x0029107B: "db442414d84e10",  # FILD then raw m32 multiply
+    0x0029108B: "d85c2418dfe0f6c441750f",  # ordered lower comparison
+    0x002910A9: "d8d9dfe0ddd8f6c4410f8ab3000000",  # upper comparison including unordered
+    0x002910B8: "d9442418894c2408d87610d95c2414f30f2c442414",  # division m32 spill then CVTTSS2SI
+    0x0029110C: "db442418c744241800000000d84e10d8e2def9d95c240cddd8",  # index+1 FILD, denominator, ratio spill
+    0x00291125: "f30f1044240cf30f5f442418f30f5d44241cf30f11442410",  # MAXSS and MINSS operand order
+    0x0029114C: "8b4c24245789018b1656ff521c",  # out1 write before second vtable reload
+    0x00291172: "8b4c2424d94424048b542420890189025e83c40cc21400",  # endpoint store order and RET20
+    0x0023451F: "8d542404528d54240c528b542414505256ff5120d95c240c",  # five caller pushes, virtual slot20, ST0 spill
+    0x00391208: "801e290060102900",  # representative slot1c and slot20 targets
+    0x0039123C: "8014290060102900",  # second representative table
+    0x002C4520: "83ec54",  # 84-byte local allocation
+    0x002C4571: "8b4e2c33c08944242489442434894424448b4618894424508d44240c8d54241850897c2410895c244c896c2450894c24588954241489742418",  # exact context initialization offsets and embedded pointer
+    0x002C45BA: "8d4c240c51",  # first conditional context argument
+    0x002C45D1: "8d44240c50",  # second conditional context argument
+    0x002B55AF: "8b45088b1150ff520c",  # forward original context DWORD
+    0x002B55BD: "c20400",  # helper RET4
+    0x002BCCD9: "8b5c2410",  # third stack-word capture
+    0x002BCD03: "53ff500c",  # forward third word to callback
+    0x002BCD26: "c20c00",  # helper RET12
     0x00376199: "c74008500a1000",  # immediate DWORD at command word two
     0x003761B8: "c7402800002100",  # immediate DWORD at command word ten
     0x0036F25D: "8d780cb90c000000be50b33700f3a5",  # destination, 12-DWORD count, guest source and REP MOVSD
