@@ -48,6 +48,7 @@ undefined4 FUN_00234f90(uint *param_1,undefined4 *param_2)
   float local_148;
   undefined8 local_144;
   undefined4 *local_13c;
+  float guest_position_z_sum; /* reused guest stack DWORD after pointer lifetime */
   float local_138;
   float local_134;
   float local_130;
@@ -258,7 +259,12 @@ undefined4 FUN_00234f90(uint *param_1,undefined4 *param_2)
       param_2[5] = uStack_e8;
       param_2[6] = uStack_e4;
       param_2[7] = uStack_e0;
-      local_13c = (undefined4 *)((float)param_1[0x14] + (float)param_1[6]);
+      /* Original XBE 0x0023508C FLD m32fp [EAX+0x50],
+       * 0x0023508F FADD m32fp [EAX+0x18], and 0x00235092
+       * FSTP m32fp [ESP+0x84]. The decompiler reused local_13c
+       * as a pointer although its prior pointer lifetime ended.
+       * Read original F32 bits, not integer-to-float conversions. */
+      guest_position_z_sum = *(float *)(param_1 + 0x14) + *(float *)(param_1 + 6);
     }
   }
   else {
