@@ -16,6 +16,8 @@ from pathlib import Path
 SHA="b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 SOURCE="src/main_unclassified/band_0026/0x002688c0.c"
 SITES=(
+ (0x2688d8,"8dbc2444010000","load real source buffer address into EDI"),
+ (0x268af1,"c74424200000803f","store original float32 +1.0 scratch literal"),
  (0x268ef1,"0f164804","load two high f32 lanes from 64-bit guest memory"),
  (0x268ef5,"0f59c1","multiply packed f32 SSE lanes"),
  (0x268ef8,"8d842484000000","address first float32 three-lane vector"),
@@ -65,6 +67,10 @@ def check_source(root):
  assert "local_268 = local_238 + fVar15;" in s
  assert "*(float *)(iVar11 + 0x10) = local_268;" in s
  assert "(undefined4 *)local_264" not in s
+ assert "local_268 = 1.0f;" in s
+ assert "local_268 = &local_1bc;" not in s
+ assert "(undefined4 *)0x3f800000" not in s
+
 
  print("PASS three paired float32 writes, no fake 64-bit CONCAT44 stores")
 def check_clang(root):
