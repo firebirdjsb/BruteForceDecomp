@@ -46,7 +46,12 @@ undefined1 FUN_001ed8b0(int param_1)
       local_28 = *(undefined4 **)(iVar2 + 0x210);
       uVar3 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x218))(&local_28);
       iVar4 = thunk_FUN_002ea01d(uVar3);
-      (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x21c))(&stack0xffffffd4,iVar4);
+      /* XBE 0x001ED957: PUSH EBX, LEA EAX,[ESP+0x14], PUSH EAX
+       * supplies entry ESP-0x24: the first guest word in local_24.
+       * It is the original 32-bit guest structure whose first word
+       * was written at 0x001ED8FA, NOT a fabricated host pointer.
+       * Vtable +0x21C register / stack ABI remains unverified. */
+      (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x21c))(local_24,iVar4);
       puVar5 = (undefined4 *)thunk_FUN_002ea01d(uVar3);
       local_28 = puVar5;
       uVar6 = FUN_001ebe60(uVar3);
