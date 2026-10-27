@@ -213,7 +213,13 @@ void FUN_000d6520(uint param_1)
   FUN_000b8b40(*(undefined4 *)(uVar4 + 0xbe4));
   FUN_00237a30(s_end_load_0040d608);
   if (unaff_EBP != 0) {
-    FUN_000762d0(&stack0xffffffc8,uStack_8);
+    /* XBE 0x000D693F reloads original incoming guest DWORD from
+     * [ESP+0x40], then 0x000D6944 LEA [ESP+0x14] addresses the first
+     * 4-byte local stack slot (auStack_2c) and 0x000D6943/48 push the
+     * two arguments before the direct call at 0x000D694D.
+     * uVar4 retained the incoming param_1 before that C draft recycled
+     * param_1 as a CRC accumulator. No guest-pointer ABI is inferred. */
+    FUN_000762d0(auStack_2c,uVar4);
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(unaff_EBP);
   }
