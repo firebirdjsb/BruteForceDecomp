@@ -36,7 +36,15 @@ undefined4 FUN_002ebfe0(int param_1,uint param_2,int param_3,uint param_4)
   short local_4;
   undefined2 uStack_2;
   
-  _local_4 = CONCAT22((short)(in_EAX >> 0x10),in_FPUControlWord);
+  /* Original XBE 0x002EBFE0..0x002EBFED: PUSH EAX saves a
+   * guest DWORD; WAIT/FSTCW WORD PTR [ESP] overwrites just the
+   * low 16 bits with the x87 control word. The upper 16 bits
+   * remain EAX[31:16]. Ghidra's synthetic _local_4 joined the
+   * adjacent local_4/uStack_2 halves into one undeclared symbol.
+   * Keep both original 16-bit writes explicit without fabricating
+   * a host pointer. x87 rounding/stack ABI remains ABI_UNVERIFIED. */
+  local_4 = in_FPUControlWord;
+  uStack_2 = (undefined2)(in_EAX >> 16);
   uVar1 = in_EAX;
   if (in_FPUControlWord != 0x27f) {
     auStack_e._6_4_ = 0x2ebff4;
