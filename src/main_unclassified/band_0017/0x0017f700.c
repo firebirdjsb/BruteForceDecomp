@@ -14,7 +14,10 @@ extern uint32_t *DAT_004432f8;
 extern code *DAT_004698d4;
 extern uint32_t DAT_004698d8;
 extern char s_sounds_dsstdfx_bin_0040c50c[];
-void FUN_0017f700(void)
+/* Xbox 0x0017F822 RET 4: one incoming guest DWORD is the
+ * DirectSound owner, dereferenced at guest +0xD8 at 0x0017F7BE.
+ * The original 32-bit guest memory/host call ABI remains unresolved. */
+void FUN_0017f700(uint32_t sound_owner)
 
 {
   int iVar1;
@@ -22,9 +25,13 @@ void FUN_0017f700(void)
   undefined4 uVar3;
   uint uVar4;
   undefined4 uStack_124;
-  undefined1 auStack_114 [16];
-  undefined1 local_104 [248];
-  int iStack_c;
+  /* Xbox entry ESP is S. The four guest control words occupy
+   * [S-0x114,S-0x105], with independent overlapping caller outputs:
+   * ReadFile writes at S-0x108 (word 3), while DirectSound takes
+   * S-0x114 (word 0) and S-0x10C (word 2).
+   * The adjacent path buffer occupies S-0x104 .. S-1. */
+  uint32_t guest_io_words[4];
+  undefined1 local_104[0x104];
   
   uVar3 = 0;
   uVar4 = 0;
@@ -33,8 +40,11 @@ void FUN_0017f700(void)
     (*DAT_004698d4)();
   }
   uStack_124 = 0x104;
-  (**(code **)(*DAT_004432f8 + 0x28))(DAT_004432f8,s_sounds_dsstdfx_bin_0040c50c,local_104);
-  iVar1 = FUN_002f2b3f(auStack_114,0x80000000,0,0,3,0,0);
+  /* XBE 0x0017F729 PUSH 0x104 supplies an actual fourth argument. */
+  (**(code **)(*DAT_004432f8 + 0x28))
+      (DAT_004432f8,s_sounds_dsstdfx_bin_0040c50c,local_104,0x104);
+  /* 0x0017F74B passes S-0x104, the start of local_104. */
+  iVar1 = FUN_002f2b3f(local_104,0x80000000,0,0,3,0,0);
   if (iVar1 == -1) {
     uVar4 = XAPILIB__GetLastError();
     if (0 < (int)uVar4) {
@@ -44,14 +54,21 @@ void FUN_0017f700(void)
   }
   uVar2 = XAPILIB__GetFileSize(iVar1,0);
   uVar3 = thunk_FUN_002ea01d(uVar2);
-  iVar1 = XAPILIB__ReadFile(iVar1,uVar3,uVar2,&stack0xfffffee8,0);
+  /* 0x0017F78D LEA [ESP+0x20] = S-0x108: word 3. */
+  iVar1 = XAPILIB__ReadFile(iVar1,uVar3,uVar2,&guest_io_words[3],0);
   if ((iVar1 == 0) && (uVar4 = XAPILIB__GetLastError(), 0 < (int)uVar4)) {
     uVar4 = uVar4 & 0xffff | 0x80070000;
   }
   if (-1 < (int)uVar4) {
-    uStack_124 = 0;
+    /* XBE 0x0017F7C4 points to S-0x10C (word 2); 0x0017F7C9
+     * to S-0x114 (word 0). Its two MOV DWORD stores zero word 0
+     * and set word 1 to one immediately before the indirect call.
+     * 0x0017F7B7 loads the caller's sound_owner guest pointer. */
+    guest_io_words[0] = 0;
+    guest_io_words[1] = 1;
     DSOUND__IDirectSound_DownloadEffectsImage
-              (*(undefined4 *)(iStack_c + 0xd8),uVar3,uVar2,&uStack_124,&stack0xfffffee4);
+        (*(undefined4 *)(uintptr_t)((uint32_t)sound_owner + UINT32_C(0xd8)),
+         uVar3,uVar2,&guest_io_words[0],&guest_io_words[2]);
   }
 LAB_0017f7e9:
                     /* WARNING: Subroutine does not return */
