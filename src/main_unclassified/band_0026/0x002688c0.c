@@ -138,7 +138,12 @@ void FUN_002688c0(int param_1)
     local_194 = pfVar12[1];
     local_198 = *pfVar12;
     puVar9 = *(undefined4 **)(param_1 + 0xc);
-    local_268 = &local_1bc;
+    /* The earlier source-pointer LEA at Xbox 0x002688D8 puts
+     * &local_1bc into EDI for a memcpy-like move sequence.
+     * Ghidra incorrectly merged that dead pointer live range with
+     * the later float32 scratch local_268; no C use reads it.
+     * Keep the real copy below but do not overwrite a float with
+     * a pointer to that copy's source. */
     local_1bc = *puVar9;
     uStack_1b8 = puVar9[1];
     uStack_1b4 = puVar9[2];
@@ -175,7 +180,9 @@ void FUN_002688c0(int param_1)
     fVar16 = SQRT(fVar15 * fVar15 + fVar14 * fVar14 + fVar17 * fVar17) +
              SQRT(fVar16 * fVar16 + fVar6 * fVar6 + fVar5 * fVar5);
     if (fVar16 < local_260 == (fVar16 == local_260)) {
-      local_268 = (undefined4 *)0x3f800000;
+      /* Xbox 0x00268AF1 MOV [ESP+0x20],0x3F800000:
+       * store binary32 +1.0, not a guest pointer. */
+      local_268 = 1.0f;
       local_264 = -1.0;
       fVar13 = (float10)FUN_00306c80();
       fVar13 = (float10)3.14159 - fVar13;
