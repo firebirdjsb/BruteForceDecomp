@@ -9,12 +9,17 @@
 void FUN_00287270(int param_1,int param_2,uint param_3)
 
 {
-  undefined1 *puVar1;
   undefined4 uVar2;
   undefined4 *in_ECX;
   int iVar3;
   int iVar4;
   int iVar5;
+  /* Xbox 0x0028728E: MOV [EBP-0x10],ESP saves original guest ESP
+   * for its FS:0 exception-unwind frame after SUB ESP,0x54 and three
+   * preserved registers. Ghidra's synthetic &stack0xffffff90
+   * pointers assigned only to unread puVar1/local_14 variables.
+   * Dropping these dead C aliases does NOT implement Xbox SEH
+   * or native stack restoration. All of that is ABI_UNVERIFIED. */
   uint uVar6;
   undefined4 *unaff_FS_OFFSET;
   undefined4 local_2c [2];
@@ -22,7 +27,6 @@ void FUN_00287270(int param_1,int param_2,uint param_3)
   undefined4 local_20;
   undefined4 local_1c;
   undefined1 local_18;
-  undefined1 *local_14;
   undefined4 local_10;
   /* Original x86 pushes a guest 32-bit SEH handler address; this is
    * not a native host pointer or a completed Windows SEH adaptation. */
@@ -33,21 +37,17 @@ void FUN_00287270(int param_1,int param_2,uint param_3)
   puStack_c = UINT32_C(0x00308a30);
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
-  local_14 = &stack0xffffff90;
   local_2c[0] = 0;
   local_24 = 0;
   local_20 = 0;
   local_1c = 0;
-  puVar1 = &stack0xffffff90;
   if (in_ECX != local_2c) {
     local_2c[0] = *in_ECX;
     FUN_0023c430();
     FUN_0010bc40();
     local_18 = *(undefined1 *)(in_ECX + 5);
     *(undefined1 *)(in_ECX + 5) = 0;
-    puVar1 = local_14;
   }
-  local_14 = puVar1;
   iVar4 = *(int *)(param_1 + 4);
   if (iVar4 == 0) {
     uVar6 = 0;
