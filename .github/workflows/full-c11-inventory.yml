@@ -113,6 +113,7 @@ on:
       - 'scripts/verify_00084f50_guest_local_aliases.py'
       - 'scripts/verify_001feb60_iterator_contract.py'
       - 'scripts/verify_000823b0_vector_begin_slot.py'
+      - 'scripts/verify_000a2ec0_guest_arg9.py'
       - 'scripts/verify_0022de10_call_output_word.py'
       - 'scripts/verify_00278c60_shared_guest_constructor_word.py'
       - 'scripts/verify_0028e5f0_guest_float_pair.py'
@@ -384,6 +385,8 @@ jobs:
         run: python3 scripts/verify_001feb60_iterator_contract.py --root .
       - name: Verify 0x000823B0 vector-begin guest stack alias
         run: python3 scripts/verify_000823b0_vector_begin_slot.py --root . --clang
+      - name: Verify 0x000A2EC0 ninth guest DWORD and high-byte output (source and Clang)
+        run: python3 scripts/verify_000a2ec0_guest_arg9.py --root . --clang
       - name: Verify 0x0022DE10 separate guest output DWORD (source-only CI)
         run: python3 scripts/verify_0022de10_call_output_word.py --root .
       - name: Verify original shared 0x00278C60 constructor caller DWORD (source and Clang)
