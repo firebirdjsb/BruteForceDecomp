@@ -138,7 +138,7 @@ uint FUN_00077fb0(undefined4 *param_1)
       piVar4 = (int *)FUN_00077f20(param_1,uStack_4);
       if (piVar4 != (int *)0x0) {
         (**(code **)(*piVar4 + 4))(piVar4);
-        /* XBE 0x00078152 zeroes S-0x230; 0x00078158 passes
+        /* XBE 0x00078152 zeroes S-0x230; 0x0007815A passes
          * its address as QueryInterface output. On success
          * 0x0007816C reads it to [EBP+0x0C]. */
         local_234[1] = (int *)0x0;
