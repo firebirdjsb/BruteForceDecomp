@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003b86e0;
@@ -36,8 +37,11 @@ undefined4 FUN_002d80b0(uint *param_1,undefined4 param_2,int *param_3,int param_
   float *pfVar18;
   uint *puVar19;
   float fVar20;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar21 [16];
+  /* Original XBE 0x002D833D/0x002D840A RSQRTSS xmm0,[esp+...]
+   * produces a scalar low-lane float32, stored with MOVSS and
+   * consumed by x87 FLD. The original high XMM lanes are not
+   * consumed at these two sites; native ABI remains ABI_UNVERIFIED. */
+  float guest_rsqrt_scalar;
   int *local_7c;
   uint *local_74;
   float local_70;
@@ -117,10 +121,11 @@ undefined4 FUN_002d80b0(uint *param_1,undefined4 param_2,int *param_3,int param_
                  local_6c * pfVar16[1] + local_70 * *(float *)(iVar15 + *piVar11)) -
                  (local_70 * *pfVar18 + fStack_68 * pfVar18[2] + local_6c * pfVar18[1]);
         if (0.0 < fVar20) {
-          in_XMM0 = rsqrtss(in_XMM0,(*pfVar16 - *pfVar18) * (*pfVar16 - *pfVar18) +
-                                    (pfVar16[1] - pfVar18[1]) * (pfVar16[1] - pfVar18[1]) +
-                                    (pfVar16[2] - pfVar18[2]) * (pfVar16[2] - pfVar18[2]));
-          fVar20 = in_XMM0._0_4_ * fVar20;
+          guest_rsqrt_scalar = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(
+              (*pfVar16 - *pfVar18) * (*pfVar16 - *pfVar18) +
+              (pfVar16[1] - pfVar18[1]) * (pfVar16[1] - pfVar18[1]) +
+              (pfVar16[2] - pfVar18[2]) * (pfVar16[2] - pfVar18[2]))));
+          fVar20 = guest_rsqrt_scalar * fVar20;
           if (local_28 < fVar20) {
             local_28 = fVar20;
             local_58 = *(undefined4 *)((int)&local_50 + iVar12);
@@ -177,8 +182,8 @@ undefined4 FUN_002d80b0(uint *param_1,undefined4 param_2,int *param_3,int param_
     iVar12 = *(int *)(param_4 + 0x10);
     *(undefined4 *)(iVar12 + 0x14) = param_2;
     *(undefined2 *)(iVar12 + 0x1a) = 0;
-    auVar21 = rsqrtss(in_XMM0,local_2c);
-    fVar20 = auVar21._0_4_;
+    guest_rsqrt_scalar = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(local_2c)));
+    fVar20 = guest_rsqrt_scalar;
     *(float *)(*in_ECX + 0x54) = fVar20 * local_2c - *(float *)(*in_ECX + 0x50);
     pfVar16 = (float *)((*param_1 & 0xffff) * 0x10 + *param_3);
     iVar12 = *in_ECX;
