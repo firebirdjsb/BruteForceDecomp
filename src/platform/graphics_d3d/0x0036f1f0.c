@@ -41,7 +41,8 @@ void D3D8LTCG__D3DDevice_SetShaderConstantMode_0__LTCG_eax1(void)
     *puVar2 = 0x41ea4;
     puVar2[1] = 0x3c;
     puVar2[2] = 0x300b80;
-    puVar5 = &LAB_0037b350;
+    /* Original x86 code loads this guest address into ESI and copies 12 DWORDs. */
+    puVar5 = (undefined4 *)(uintptr_t)UINT32_C(0x0037b350);
     puVar6 = puVar2 + 3;
     for (iVar4 = 0xc; iVar4 != 0; iVar4 = iVar4 + -1) {
       *puVar6 = *puVar5;
@@ -57,7 +58,7 @@ void D3D8LTCG__D3DDevice_SetShaderConstantMode_0__LTCG_eax1(void)
     puVar2[0x55] = 0;
     puVar2[0x57] = 0;
     puVar2[0x56] = 0x3f800000;
-    puVar2[0x58] = &LAB_00100a50;
+    puVar2[0x58] = 0x00100a50;
     puVar2[0x59] = 0;
     puVar2[0x5a] = 0;
     puVar2[0x5b] = 0;

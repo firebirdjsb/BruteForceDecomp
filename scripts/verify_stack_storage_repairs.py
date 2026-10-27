@@ -12,6 +12,9 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x003760F0, 245, "dbad93505ee4f3cb9bdff75e9eecf959bef26f00881cfb9e9e934f7af2a9bb4f"),
+    (0x0036F1F0, 291, "8acf6be3408e1e7603d680aa4ffd5a929ac5234cb2772f9e628d38439a49b74c"),
+    (0x00379A01, 2527, "d0725f94d600582ce3e217a9bad7419baed4b33db5d7549ad5b711c27db655d4"),
     (0x002B4780, ((0, 1994), (2000, 190), (2218, 25)), "920c8454e85c99488f83fcdaf8f0ec28ed3b242eec2a136ac707d3fcc9fdb0c8"),
     (0x002D9E70, ((0, 141), (144, 163)), "5ec0ae0658bbf8315e5b890eceeff15cf2a07218f4e17f5833373bf986cc1843"),
     # Unchanged helpers inspected for descriptor inputs and pointed storage.
@@ -86,6 +89,13 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x00376199: "c74008500a1000",  # immediate DWORD at command word two
+    0x003761B8: "c7402800002100",  # immediate DWORD at command word ten
+    0x0036F25D: "8d780cb90c000000be50b33700f3a5",  # destination, 12-DWORD count, guest source and REP MOVSD
+    0x0036F2E5: "c78624010000500a1000",  # ESI=command base+3C, literal at base+160
+    0x00379DC7: "be0800080089b4882c05000089b4883005000089b4883405000089b48838050000",  # immediate and four DWORD stores
+    0x0037A04A: "c7071b000c00",  # record word two literal
+    0x0037A38A: "c784880400700000e02f00",  # final literal DWORD
     0x002B497F: "c7400c70110100",  # literal DWORD, not a data-symbol address
     0x002B4A6B: "f30f114c2410",  # low four bytes of reused scalar slot
     0x002B4D5A: "d980b40000006a14dd5c24148b4c24148b542418898810010000",  # raw m32fp, PUSH, m64fp spill and low copy

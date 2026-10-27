@@ -152,10 +152,12 @@ void FUN_00379a01(void)
   *(undefined4 *)(iVar2 + 0x520 + iVar6 * 0x10) = 67000;
   *(undefined4 *)(iVar2 + 0x524 + iVar6 * 0x10) = 67000;
   *(undefined4 *)(iVar2 + 0x528 + iVar6 * 0x10) = 67000;
-  *(undefined1 **)(iVar2 + 0x52c + iVar6 * 0x10) = &LAB_00080008;
-  *(undefined1 **)(iVar2 + 0x530 + iVar6 * 0x10) = &LAB_00080008;
-  *(undefined1 **)(iVar2 + 0x534 + iVar6 * 0x10) = &LAB_00080008;
-  *(undefined1 **)(iVar2 + 0x538 + iVar6 * 0x10) = &LAB_00080008;
+  /* 0x379DC7 loads ESI with an immediate, then four DWORD stores follow.
+   * Preserve four-byte values instead of inferred host pointer labels. */
+  *(undefined4 *)(iVar2 + 0x52c + iVar6 * 0x10) = UINT32_C(0x00080008);
+  *(undefined4 *)(iVar2 + 0x530 + iVar6 * 0x10) = UINT32_C(0x00080008);
+  *(undefined4 *)(iVar2 + 0x534 + iVar6 * 0x10) = UINT32_C(0x00080008);
+  *(undefined4 *)(iVar2 + 0x538 + iVar6 * 0x10) = UINT32_C(0x00080008);
   *(undefined4 *)(iVar2 + 0x53c + iVar6 * 0x10) = 0;
   *(undefined4 *)(iVar2 + 0x540 + iVar6 * 0x10) = 0;
   *(undefined4 *)(iVar2 + 0x544 + iVar6 * 0x10) = 0;
@@ -298,7 +300,8 @@ void FUN_00379a01(void)
     iVar7 = iVar6;
     *puVar5 = 0x10700ff9;
     puVar5[1] = 0x436086c;
-    puVar5[2] = &BYTE_000c001b;
+    /* 0x37A04A: MOV DWORD PTR [EDI],000C001B. */
+    puVar5[2] = UINT32_C(0x000c001b);
     puVar5[3] = 0;
     puVar5 = puVar5 + 4;
     local_10 = (undefined4 *)((int)local_10 + -1);
@@ -420,7 +423,8 @@ void FUN_00379a01(void)
   *(undefined4 *)(iVar2 + (iVar4 + iVar7 + 0x365) * 4) = 0x3f8;
   *(undefined4 *)(iVar2 + (iVar4 + iVar7 + 0x366) * 4) = 0;
   *(undefined4 *)(iVar2 + 0x700004 + (iVar6 + iVar7 + 0x366) * 4) = 0;
-  *(undefined1 **)(iVar2 + 0x700004 + (iVar7 + 0x43c + iVar6) * 4) = &LAB_002fe000;
+  /* 0x37A38A writes an immediate DWORD, not a host symbol address. */
+  *(undefined4 *)(iVar2 + 0x700004 + (iVar7 + 0x43c + iVar6) * 4) = UINT32_C(0x002fe000);
   *(undefined4 *)(iVar2 + (iVar7 + 0x1c0444 + iVar3 * 4) * 4) = 0x1c527c;
   iVar6 = iVar6 + iVar7 + 0x440;
   *(undefined4 *)(iVar2 + 0x700014 + iVar6 * 4) = 0x1c527c;

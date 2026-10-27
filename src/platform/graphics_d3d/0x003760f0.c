@@ -47,12 +47,12 @@ void FUN_003760f0(void)
   puVar2[3] = 0;
   puVar2[4] = 0;
   puVar2[5] = 0;
-  puVar2[2] = &LAB_00100a50;
+  puVar2[2] = 0x00100a50;
   puVar2[6] = 0x3f800000;
   puVar2[7] = 0x416bc;
   puVar2[8] = 1;
   puVar2[9] = 0x41e78;
-  puVar2[10] = &LAB_00210000;
+  puVar2[10] = 0x00210000;
   puVar2[0xb] = 0x41d80;
   puVar2[0xc] = 1;
   puVar2[0xd] = 0x41e68;
