@@ -14,23 +14,26 @@ undefined4 * FUN_0023dbd0(int param_1,int param_2,uint param_3,int param_4)
   int iVar3;
   int iVar4;
   undefined4 *unaff_FS_OFFSET;
+  /* XBE 0x0023DC06: MOV [EBP-0x10],ESP saves the guest ESP
+   * after original x86 stack alignment, FS:0 registration and
+   * 0xA0-byte stack allocation. The Ghidra synthetic host-pointer
+   * assignments 'puStack_24' and 'local_20' were NEVER read in C.
+   * Remove only those dead assignments; do not simulate aligned
+   * guest ESP or SEH by manufacturing host stack pointers.
+   * Native guest stack, SSE scratch, FS:0 handling remain TODO. */
   uint local_7c;
   undefined4 local_40;
   undefined4 uStack_3c;
   undefined4 uStack_38;
   undefined4 uStack_34;
-  undefined1 *puStack_24;
-  undefined1 *local_20;
   undefined4 local_1c;
   undefined1 *puStack_18;
   undefined4 local_14;
   
-  puStack_24 = &stack0xfffffffc;
   local_14 = 0xffffffff;
   puStack_18 = &LAB_00307ae0;
   local_1c = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_1c;
-  local_20 = &stack0xffffff30;
   local_40 = *(undefined4 *)(param_4 + 0x38);
   uStack_3c = *(undefined4 *)(param_4 + 0x3c);
   uStack_38 = *(undefined4 *)(param_4 + 0x40);
@@ -53,9 +56,7 @@ undefined4 * FUN_0023dbd0(int param_1,int param_2,uint param_3,int param_4)
       iVar3 = (*(int *)(param_1 + 8) - iVar4) / 0x48;
     }
     if (0x38e38e3U - iVar3 < param_3) {
-      puStack_24 = &stack0xfffffffc;
-      local_20 = &stack0xffffff30;
-      puVar1 = (undefined4 *)FUN_00038940();
+              puVar1 = (undefined4 *)FUN_00038940();
     }
     else {
       if (iVar4 == 0) {
@@ -77,12 +78,8 @@ undefined4 * FUN_0023dbd0(int param_1,int param_2,uint param_3,int param_4)
         else {
           iVar4 = (*(int *)(param_1 + 8) - iVar4) / 0x48;
         }
-        puStack_24 = &stack0xfffffffc;
-        local_20 = &stack0xffffff30;
-        if (local_7c < iVar4 + param_3) {
-          puStack_24 = &stack0xfffffffc;
-          local_20 = &stack0xffffff30;
-          iVar4 = FUN_0023dba0();
+                    if (local_7c < iVar4 + param_3) {
+                          iVar4 = FUN_0023dba0();
           local_7c = iVar4 + param_3;
         }
         puVar1 = (undefined4 *)FUN_002ea01d();
@@ -108,9 +105,7 @@ undefined4 * FUN_0023dbd0(int param_1,int param_2,uint param_3,int param_4)
       }
       else {
         if ((uint)((*(int *)(param_1 + 8) - param_2) / 0x48) < param_3) {
-          puStack_24 = &stack0xfffffffc;
-          local_20 = &stack0xffffff30;
-          FUN_0023dff0(param_1);
+                          FUN_0023dff0(param_1);
           local_14 = 2;
           FUN_0023df70();
           local_14 = 0xffffffff;
