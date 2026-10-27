@@ -1,0 +1,19 @@
+name: Verified 0x000D6520 guest cleanup stack arguments
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_000d/0x000d6520.c'
+      - 'scripts/verify_000d6520_cleanup_stack_words.py'
+      - '.github/workflows/verified-000d6520-cleanup-stack.yml'
+      - 'include/bf_ghidra_types.h'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cleanup-stack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify guest-stack source and isolate Clang C11
+        run: python3 scripts/verify_000d6520_cleanup_stack_words.py --root .
