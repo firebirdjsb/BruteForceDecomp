@@ -39,6 +39,15 @@ void FUN_001e9350(void)
   undefined4 *puVar7;
   undefined4 *puVar8;
   undefined4 ***pppuStack_140;
+  /* XBE 0x001E9488/8C zero adjacent 32-bit output words at
+   * stable ESP+0x10 and +0x14, respectively. The virtual factory
+   * stores a file-interface guest DWORD to word 0; FUN_001A2FE0
+   * stores the parser-interface guest DWORD to word 1.
+   * On actual Xbox, EDI reloads word0, ESI reloads word1; both
+   * receive vtable+8 releases before exit (not yet reconstructed).
+   * Original guest pointer width=32; native ABI remains unverified. */
+  uint32_t guest_interfaces[2];
+  _Static_assert(sizeof(guest_interfaces)==8,"two guest output DWORDs");
   undefined1 local_13c [4];
   undefined4 ***local_138 [3];
   uint uStack_12c;
@@ -98,10 +107,22 @@ void FUN_001e9350(void)
     if (uStack_12c < 0x10) {
       ppppuVar6 = &pppuStack_140;
     }
-    iVar4 = (**(code **)(*DAT_00469908 + 0xc))(DAT_00469908,ppppuVar6,0x80000000,&stack0xfffffeb4);
-    if (((-1 < iVar4) && (iVar4 = FUN_001a2fe0(&stack0xfffffeb8), -1 < iVar4)) &&
+    guest_interfaces[0] = 0;
+    guest_interfaces[1] = 0;
+    /* 0x001E949D LEA ESI,[ESP+0x10], PUSH ESI: file slot word 0. */
+    iVar4 = (**(code **)(*DAT_00469908 + 0xc))
+        (DAT_00469908,ppppuVar6,0x80000000,&guest_interfaces[0]);
+    /* 0x001E94B0 LEA EAX,[ESP+0x14] passes parser word 1;
+     * FUN_001A2FE0 stores through its argument. On success,
+     * original ESI and EDI reload these guest words. */
+    if (((-1 < iVar4) && (iVar4 = FUN_001a2fe0(&guest_interfaces[1]), -1 < iVar4)) &&
        (iVar4 = FUN_0023a790(0xfcf6f7f4,1), iVar4 != 0)) {
-      FUN_001e98c0(*(undefined4 *)(DAT_00469970 + 4),*(undefined4 *)(DAT_00469970 + 8),0);
+      /* XBE 0x001E94E7 pushes the saved parser-interface guest
+       * DWORD as the third argument of FUN_001E98C0. The original
+       * inline register-based FUN_0023A790 call remains ABI_UNVERIFIED. */
+      FUN_001e98c0(*(undefined4 *)(DAT_00469970 + 4),
+                    *(undefined4 *)(DAT_00469970 + 8),
+                    guest_interfaces[1]);
     }
   }
   FUN_00237a30(s_post_lst_load_0040725c);
