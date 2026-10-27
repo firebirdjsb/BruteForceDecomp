@@ -62,7 +62,9 @@ void FUN_002b09d0(void)
   auStack_8[0] = 0;
   (**(code **)(*(int *)*piVar2 + 0x24))((int *)*piVar2,0,auStack_8);
   piVar4 = (int *)(uintptr_t)auStack_8[0];
-  (**(code **)(*unaff_ESI + 0x14))(unaff_ESI,0x3f800000);
+  /* Original 0x002B0AA4 loads EAX from the same guest DWORD and
+   * calls its vtable +0x14, not the unrelated Ghidra unaff_ESI. */
+  (**(code **)(*piVar4 + 0x14))(piVar4,0x3f800000);
   (**(code **)(*piVar4 + 0x34))(piVar4,3);
   piVar4 = (int *)(uintptr_t)auStack_8[0];
   if (piVar4 != (int *)0x0) {
