@@ -30,6 +30,18 @@ extern uint32_t DAT_004b169c;
 extern uint32_t DAT_004b16a0;
 extern uint32_t DAT_004b16a4;
 extern uint32_t DAT_004b16c4;
+/* Private original XBE disassembly confirms distinct executable entry bytes
+ * at these guest addresses. They are used as function-pointer constants by
+ * this draft; Ghidra emitted them as LAB_* without C declarations.
+ * Syntax-only declarations do NOT implement these callbacks, establish
+ * callable host addresses, or verify their x86 stack/register ABI.
+ * Their guest32 target relocation remains ABI_UNVERIFIED. */
+extern code LAB_00357370; /* 8B 4C 24 04 8B 81 4C FF FF FF */
+extern code LAB_00357420; /* 8B 44 24 04 8B 0D 8C 16 4B 00 */
+extern code LAB_003573e0; /* 8B 44 24 04 8B 0D 8C 16 4B 00 */
+extern code LAB_00357400; /* 8B 44 24 04 8B 0D 8C 16 4B 00 */
+extern code LAB_00357440; /* E8 FB 3A 00 00 C2 04 00 */
+extern code LAB_00357450; /* 8B 44 24 04 8B 48 FC 3B 4C 24 08 */
 /* WARNING: Removing unreachable block (ram,0x00358011) */
 
 int * FUN_003574b0(int *param_1,uint param_2)
