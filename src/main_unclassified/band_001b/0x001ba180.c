@@ -19,7 +19,12 @@ void FUN_001ba180(int param_1,uint param_2)
   undefined4 *puVar6;
   undefined4 *unaff_FS_OFFSET;
   undefined4 local_414 [256];
-  undefined1 *local_14;
+  /* Original XBE 0x001BA1A1 MOV [EBP-0x10],ESP records saved
+   * guest ESP after a 0x43C-byte allocation and three register
+   * pushes. Ghidra's &stack0xfffffba8 produced only an unread
+   * local_14 assignment, not the REP MOVSD 0x400-byte copy.
+   * Do not invent a native host stack pointer here.
+   * FS:0 guest SEH/ESP restoration remains ABI_UNVERIFIED. */
   undefined4 local_10;
   uint32_t puStack_c; /* original guest32 SEH word; native FS:0 adapter TBD */
   undefined4 local_8;
@@ -28,7 +33,6 @@ void FUN_001ba180(int param_1,uint param_2)
   puStack_c = UINT32_C(0x003081f0); /* original x86 push imm32 at 0x001ba185 */
   local_10 = *unaff_FS_OFFSET;
   *unaff_FS_OFFSET = &local_10;
-  local_14 = &stack0xfffffba8;
   puVar6 = local_414;
   for (iVar3 = 0x100; iVar3 != 0; iVar3 = iVar3 + -1) {
     *puVar6 = *in_EDX;
