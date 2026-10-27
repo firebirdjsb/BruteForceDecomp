@@ -35,6 +35,12 @@ void FUN_000d6b30(undefined **param_1)
   int *piVar8;
   undefined4 uVar9;
   int iVar10;
+  /* 0x000D7311 original MOV DWORD PTR [ESP+0x1C],0x035DE755
+   * rewrites the caller's incoming 32-bit guest argument word after
+   * its address is taken at 0x000D730B. Model the 4-byte call key,
+   * NOT a manufactured host pointer. Shared incoming guest-stack
+   * aliasing and the indirect callee ABI remain ABI_UNVERIFIED. */
+  uint32_t guest_callback_key;
   
   ppuVar3 = param_1;
   FUN_001e9550();
@@ -504,7 +510,8 @@ void FUN_000d6b30(undefined **param_1)
   puVar7 = ppuVar3[0x2dd];
   if ((puVar7 != (undefined *)0x0) && (piVar8 = *(int **)(puVar7 + 0x5c), piVar8 != (int *)0x0)) {
     (**(code **)(*piVar8 + 8))(piVar8);
-    (**(code **)(*DAT_00443308 + 0x30))(DAT_00443308,0,&stack0x00000000);
+    guest_callback_key = UINT32_C(0x035de755);
+    (**(code **)(*DAT_00443308 + 0x30))(DAT_00443308,0,&guest_callback_key);
     *(undefined4 *)(puVar7 + 0x5c) = 0;
   }
   puVar7 = ppuVar3[0x2de];
