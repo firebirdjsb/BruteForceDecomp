@@ -12,6 +12,17 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x002CB4B0, 987, "7711f09cbf8a6d12f0bb890f930423093b73f664005f16f71e84ca5011433145"),
+    (0x002A35B0, 1568, "9e114c355a1e33862895bd9f01a8cbcce151df05057e1de2a8f57e8950960a81"),
+    (0x001611D0, 95, "c5d8b914c4f07cf2e568e5e538ea662184fb8f4df3bed268964463746c03ae84"),
+    (0x00123850, 1609, "e5b7d4d37872832a39ab6640638139f29d64d8ef6f91fd4c9179cd23f0478ec2"),
+    (0x000F7C70, 411, "b45db82aacde6146d99b320e0b8c30b0473b309a02c8c233833196b4c072c80a"),
+    (0x000DDD10, 178, "a37afa4c9272c9f49fce7fab4bd1613c0f0df9679d0c38b1a056cb44a5e0ac81"),
+    (0x000DD8E0, ((0, 989), (992, 47)), "41b54e44320c39f53b5a1f11c026842690fc830fa6fb1c90a31d12cd958837e4"),
+    (0x0004AEF0, 95, "f10b15a1b36a6dbbd7b0c00f0ad1ecd219c970d583b69bc712060049b609a7fd"),
+    (0x0004ADE0, ((0, 199), (205, 36)), "d5d60d9b7c3f7a67cdcb5fefbedb001e186652c252d1b4c221ce247c081fdbd1"),
+    (0x00027540, ((0, 606), (609, 240), (852, 307)), "438f31bb01f3c29793524a5b2ce9a3771fb6fb699ab5a7cfd44e874d902830eb"),
+    (0x00027490, 176, "046191d73265e5050b743c7b2303c56edd1b8f986d3e61c2226484c79aa78f75"),
     (0x002D44F0, 500, "e14462dca6da6e06808a74ad2289fa584f59e15985da4063d8d595434347e9b9"),
     (0x002BA260, 190, "60e1f14faaecc9a839cd75d7a3dde838d215cb519421893b5bd09d15ad00316e"),
     (0x001F45A0, 407, "c7a59c855728a403e7180e1d4276043560d74c00dd219ec9cc19991f11ef19f8"),
@@ -130,6 +141,101 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x00027490: "83ec14",  # next118 original lane/storage or deferred contract evidence
+    0x00027534: "8906",  # next118 original lane/storage or deferred contract evidence
+    0x00027536: "894e04",  # next118 original lane/storage or deferred contract evidence
+    0x00027539: "895608",  # next118 original lane/storage or deferred contract evidence
+    0x00027540: "81ecac010000",  # next118 original lane/storage or deferred contract evidence
+    0x000275F4: "f30f52442414",  # next118 original lane/storage or deferred contract evidence
+    0x000275FA: "f30f11442418",  # next118 original lane/storage or deferred contract evidence
+    0x00027604: "8d8b4c040000",  # next118 original lane/storage or deferred contract evidence
+    0x0002760E: "8d442434",  # next118 original lane/storage or deferred contract evidence
+    0x00027612: "8d742458",  # next118 original lane/storage or deferred contract evidence
+    0x00027632: "e859feffff",  # next118 original lane/storage or deferred contract evidence
+    0x0002764B: "f30f1044241c",  # next118 original lane/storage or deferred contract evidence
+    0x00027655: "8b442414",  # next118 original lane/storage or deferred contract evidence
+    0x0002765D: "0f164804",  # next118 original lane/storage or deferred contract evidence
+    0x00027661: "0f59c1",  # next118 original lane/storage or deferred contract evidence
+    0x0004ADE0: "55",  # next118 original lane/storage or deferred contract evidence
+    0x0004AEA2: "e871f12900",  # next118 original lane/storage or deferred contract evidence
+    0x0004AEA7: "83c40c8b5de8",  # next118 original lane/storage or deferred contract evidence
+    0x0004AEB2: "89460c",  # next118 original lane/storage or deferred contract evidence
+    0x0004AEF0: "51",  # next118 original lane/storage or deferred contract evidence
+    0x000DD8E0: "55",  # next118 original lane/storage or deferred contract evidence
+    0x000DD917: "8b7d10",  # next118 original lane/storage or deferred contract evidence
+    0x000DD91F: "8b0f",  # next118 original lane/storage or deferred contract evidence
+    0x000DD932: "d94708",  # next118 original lane/storage or deferred contract evidence
+    0x000DD935: "d94704",  # next118 original lane/storage or deferred contract evidence
+    0x000DDD10: "83ec30",  # next118 original lane/storage or deferred contract evidence
+    0x000DDD43: "8b44245c",  # next118 original lane/storage or deferred contract evidence
+    0x000DDD56: "50",  # next118 original lane/storage or deferred contract evidence
+    0x000F7C70: "83ec50",  # next118 original lane/storage or deferred contract evidence
+    0x000F7DAA: "8b442468",  # next118 original lane/storage or deferred contract evidence
+    0x000F7DB6: "50",  # next118 original lane/storage or deferred contract evidence
+    0x000F7DB7: "8d442420",  # next118 original lane/storage or deferred contract evidence
+    0x000F7DBC: "8d442418",  # next118 original lane/storage or deferred contract evidence
+    0x000F7DC1: "ff928c000000",  # next118 original lane/storage or deferred contract evidence
+    0x000F7DC7: "8b442410",  # next118 original lane/storage or deferred contract evidence
+    0x000F7DDA: "8b4c2410",  # next118 original lane/storage or deferred contract evidence
+    0x000F7DDE: "8b54241c",  # next118 original lane/storage or deferred contract evidence
+    0x000F7DE2: "8d442464",  # next118 original lane/storage or deferred contract evidence
+    0x000F7DF3: "e8c8190f00",  # next118 original lane/storage or deferred contract evidence
+    0x00123850: "81ecc8010000",  # next118 original lane/storage or deferred contract evidence
+    0x001238F7: "ff5230",  # next118 original lane/storage or deferred contract evidence
+    0x001238FA: "8b5004",  # next118 original lane/storage or deferred contract evidence
+    0x001238FD: "8b4808",  # next118 original lane/storage or deferred contract evidence
+    0x00123900: "8b00",  # next118 original lane/storage or deferred contract evidence
+    0x00123910: "8944243c",  # next118 original lane/storage or deferred contract evidence
+    0x00123918: "894c2440",  # next118 original lane/storage or deferred contract evidence
+    0x0012391C: "89542444",  # next118 original lane/storage or deferred contract evidence
+    0x00123ABE: "e84da2fbff",  # next118 original lane/storage or deferred contract evidence
+    0x00123B40: "e8cba1fbff",  # next118 original lane/storage or deferred contract evidence
+    0x00123B77: "f30f1044240c",  # next118 original lane/storage or deferred contract evidence
+    0x00123B98: "0f174004",  # next118 original lane/storage or deferred contract evidence
+    0x00123BD2: "f30f1044240c",  # next118 original lane/storage or deferred contract evidence
+    0x00123BF3: "0f174004",  # next118 original lane/storage or deferred contract evidence
+    0x00123C5B: "f30f52442410",  # next118 original lane/storage or deferred contract evidence
+    0x00123CCA: "e841a0fbff",  # next118 original lane/storage or deferred contract evidence
+    0x00123D01: "f30f1044240c",  # next118 original lane/storage or deferred contract evidence
+    0x00123D22: "0f174004",  # next118 original lane/storage or deferred contract evidence
+    0x00123D5C: "f30f1044240c",  # next118 original lane/storage or deferred contract evidence
+    0x00123D7D: "0f174004",  # next118 original lane/storage or deferred contract evidence
+    0x00123DE5: "f30f52442410",  # next118 original lane/storage or deferred contract evidence
+    0x00123E54: "e8b79efbff",  # next118 original lane/storage or deferred contract evidence
+    0x001611D0: "51",  # next118 original lane/storage or deferred contract evidence
+    0x002A35B0: "81ecac000000",  # next118 original lane/storage or deferred contract evidence
+    0x002A35CF: "f30f10442400",  # next118 original lane/storage or deferred contract evidence
+    0x002A35D5: "0fc6c000",  # next118 original lane/storage or deferred contract evidence
+    0x002A35DD: "f30f1008",  # next118 original lane/storage or deferred contract evidence
+    0x002A35E1: "0f164804",  # next118 original lane/storage or deferred contract evidence
+    0x002A35E5: "0f59c1",  # next118 original lane/storage or deferred contract evidence
+    0x002A35EC: "f30f1100",  # next118 original lane/storage or deferred contract evidence
+    0x002A35F0: "0f174004",  # next118 original lane/storage or deferred contract evidence
+    0x002A35F4: "d944243c",  # next118 original lane/storage or deferred contract evidence
+    0x002A3626: "d95808",  # next118 original lane/storage or deferred contract evidence
+    0x002A36DA: "d9442414",  # next118 original lane/storage or deferred contract evidence
+    0x002A36FE: "d95c2400",  # next118 original lane/storage or deferred contract evidence
+    0x002A3702: "f30f52442400",  # next118 original lane/storage or deferred contract evidence
+    0x002A3708: "f30f11442408",  # next118 original lane/storage or deferred contract evidence
+    0x002A3AF4: "d95c2418",  # next118 original lane/storage or deferred contract evidence
+    0x002A3AFE: "f30f11442404",  # next118 original lane/storage or deferred contract evidence
+    0x002CB4B0: "81ecb80b0000",  # next118 original lane/storage or deferred contract evidence
+    0x002CB59E: "d95c244c",  # next118 original lane/storage or deferred contract evidence
+    0x002CB5A4: "d95c2450",  # next118 original lane/storage or deferred contract evidence
+    0x002CB5A8: "d95c2454",  # next118 original lane/storage or deferred contract evidence
+    0x002CB734: "8d54244c",  # next118 original lane/storage or deferred contract evidence
+    0x002CB738: "89542474",  # next118 original lane/storage or deferred contract evidence
+    0x002CB751: "8d44244c",  # next118 original lane/storage or deferred contract evidence
+    0x002CB755: "89442460",  # next118 original lane/storage or deferred contract evidence
+    0x002CB78A: "f30f1008",  # next118 original lane/storage or deferred contract evidence
+    0x002CB79E: "0f5cca",  # next118 original lane/storage or deferred contract evidence
+    0x002CB7A5: "f30f1108",  # next118 original lane/storage or deferred contract evidence
+    0x002CB7A9: "0f174804",  # next118 original lane/storage or deferred contract evidence
+    0x002CB7B1: "f30f1000",  # next118 original lane/storage or deferred contract evidence
+    0x002CB7C7: "f30f58c8",  # next118 original lane/storage or deferred contract evidence
+    0x002CB7CB: "f30f114c2414",  # next118 original lane/storage or deferred contract evidence
+    0x002CB7D5: "894c2470",  # next118 original lane/storage or deferred contract evidence
+    0x002CB7D9: "f30f52442470",  # next118 original lane/storage or deferred contract evidence
     0x002BA2FF: "8b542400f30f10120f1652040f5cca8b442440f30f11080f174804",  # next137 original float/word/SSE/storage operands
     0x002BA2DB: "8b4424408d4c24188d542408894c240089542404894424408b442404f30f10080f",  # next137 original float/word/SSE/storage operands
     0x002D46AD: "8bbc9fec00000066ff4f68",  # next137 original float/word/SSE/storage operands

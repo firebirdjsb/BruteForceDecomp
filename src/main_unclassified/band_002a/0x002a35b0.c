@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 void FUN_002a35b0(int param_1,int param_2,float param_3)
@@ -18,7 +19,10 @@ void FUN_002a35b0(int param_1,int param_2,float param_3)
   int iVar5;
   float10 fVar6;
   float fVar7;
-  undefined1 auVar8 [16];
+  __m128 auVar8;
+  __m128 packed_input;
+  float scaled[3];
+  float norm_squared;
   float fVar9;
   float local_90;
   float local_8c;
@@ -55,14 +59,23 @@ void FUN_002a35b0(int param_1,int param_2,float param_3)
   float local_8;
   float fStack_4;
   
-  auVar8._0_4_ = param_3 * *(float *)(param_2 + 0x18);
-  auVar8._4_4_ = param_3 * 0.0;
-  auVar8._8_4_ = param_3 * (float)*(undefined8 *)(param_2 + 0x1c);
-  auVar8._12_4_ = param_3 * (float)((ulonglong)*(undefined8 *)(param_2 + 0x1c) >> 0x20);
-  local_70 = auVar8._8_8_;
-  *(float *)(param_2 + 0xc) = auVar8._0_4_ + *(float *)(param_2 + 0xc);
-  *(float *)(param_2 + 0x10) = auVar8._8_4_ + *(float *)(param_2 + 0x10);
-  *(float *)(param_2 + 0x14) = auVar8._12_4_ + *(float *)(param_2 + 0x14);
+  /* 0x2a35cf..2a35e5: memory MOVSS and SHUFPS 0 broadcast param_3.
+   * MOVSS/MOVHPS loads the raw floats at input +0x18/+0x1c/+0x20
+   * into lanes 0/2/3; lane 1 is zero from memory MOVSS. MULPS has
+   * the broadcast in its destination and includes the unstored lane. */
+  auVar8 = _mm_load_ss(&param_3);
+  auVar8 = _mm_shuffle_ps(auVar8,auVar8,0);
+  packed_input = _mm_load_ss((const float *)(param_2 + 0x18));
+  packed_input = _mm_loadh_pi(packed_input,(const __m64 *)(param_2 + 0x1c));
+  auVar8 = _mm_mul_ps(auVar8,packed_input);
+  /* 0x2a35ec/2a35f0 stores 4+8 bytes at original ESP+0x38.
+   * Preserve binary32 words; the qword is not a numeric conversion. */
+  _mm_store_ss(&scaled[0],auVar8);
+  _mm_storeh_pi((__m64 *)&scaled[1],auVar8);
+  memcpy(&local_70,&scaled[1],sizeof(local_70));
+  *(float *)(param_2 + 0xc) = scaled[0] + *(float *)(param_2 + 0xc);
+  *(float *)(param_2 + 0x10) = scaled[1] + *(float *)(param_2 + 0x10);
+  *(float *)(param_2 + 0x14) = scaled[2] + *(float *)(param_2 + 0x14);
   local_30 = 0;
   local_34 = 0;
   local_38 = 0;
@@ -75,15 +88,19 @@ void FUN_002a35b0(int param_1,int param_2,float param_3)
   local_20 = *(undefined4 *)(param_2 + 0x14);
   fVar9 = *(float *)(param_2 + 0x10);
   local_28 = *(undefined4 *)(param_2 + 0xc);
-  local_78 = auVar8._12_4_;
-  local_74 = auVar8._0_4_;
+  memcpy(&local_78,&scaled[2],sizeof(local_78));
+  memcpy(&local_74,&scaled[0],sizeof(local_74));
   local_24 = fVar9;
   if ((*(byte *)(*(int *)(param_1 + 200) + 0x80) & 1) != 0) {
     local_80 = *(float *)(param_2 + 0x20);
     fVar9 = *(float *)(param_2 + 0x1c);
     fVar1 = *(float *)(param_2 + 0x18);
-    auVar8 = rsqrtss(auVar8,fVar9 * fVar9 + fVar1 * fVar1 + local_80 * local_80);
-    fVar7 = auVar8._0_4_;
+    /* 0x2a36da..2a36fe: x87 adds (z*z+x*x)+y*y, spills m32fp.
+     * 0x2a3702 RSQRTSS changes only lane 0 of the packed product.
+     * x87 intermediate precision/control-word effects remain unverified. */
+    norm_squared = (local_80 * local_80 + fVar1 * fVar1) + fVar9 * fVar9;
+    auVar8 = _mm_rsqrt_ss(_mm_move_ss(auVar8,_mm_load_ss(&norm_squared)));
+    _mm_store_ss(&fVar7,auVar8);
     fVar9 = fVar7 * fVar9;
     local_80 = fVar7 * local_80;
     if (0.99 <= ABS(fVar9)) {
@@ -137,7 +154,11 @@ void FUN_002a35b0(int param_1,int param_2,float param_3)
                 *(float *)(param_2 + 0x1c) * *(float *)(param_2 + 0x1c) +
                 *(float *)(param_2 + 0x18) * *(float *)(param_2 + 0x18);
         if (0.25 <= fVar1) {
-          fVar1 = SQRT(fVar1) * param_3 + *(float *)(param_2 + 0x68);
+          /* 0x2a3af4..2a3afe spills m32fp, executes SQRTSS and stores
+           * only its low lane. No later explicit SSE reads occur in this body;
+           * later calls retain unverified upper-register ABI contracts. */
+          fVar1 = _mm_cvtss_f32(_mm_sqrt_ss(_mm_set_ss(fVar1))) * param_3 +
+                  *(float *)(param_2 + 0x68);
         }
         else {
           *(undefined4 *)(param_2 + 0x5c) = 0;
