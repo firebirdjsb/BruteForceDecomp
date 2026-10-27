@@ -34,8 +34,9 @@ def source_check(root):
     assert "Input x86 body SHA-256:" in s and "Entry: 0x0023dbd0," in s
     assert "ABI_UNVERIFIED" in s
     assert "XBE 0x0023DC06" in s
+    assert "XBE 0x0023DBE8" in s
     a=strip_comments(s)
-    for symbol in ("puStack_24", "local_20", "stack0xfffffffc", "stack0xffffff30"):
+    for symbol in ("puStack_24", "local_20", "stack0xfffffffc", "stack0xffffff30", "puStack_18", "LAB_00307ae0"):
         assert re.search(r"\b"+symbol+r"\b",a) is None, symbol
     for symbol in ("*unaff_FS_OFFSET = &local_1c;", "*unaff_FS_OFFSET = local_1c;",
                    "local_40 = *(undefined4 *)(param_4 + 0x38);"):
