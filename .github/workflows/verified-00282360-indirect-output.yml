@@ -1,0 +1,18 @@
+name: Verify 0x00282360 indirect guest second-argument output
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_0028/0x00282360.c'
+      - 'scripts/verify_00282360_indirect_guest_output.py'
+      - '.github/workflows/verified-00282360-indirect-output.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify original guest argument alias without inventing native ABI
+        run: python3 scripts/verify_00282360_indirect_guest_output.py --root .
