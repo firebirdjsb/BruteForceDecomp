@@ -25,6 +25,10 @@ void FUN_000d61a0(int param_1)
   int *piVar5;
   int unaff_EBX;
   uint uVar6;
+  /* Original 0x000D642D and 0x000D6448 overwrite a 32-bit guest
+   * outgoing-call stack word before passing its address to two virtual
+   * calls. The actual guest ESP and callback ABI remain ABI_UNVERIFIED. */
+  uint32_t guest_call_key;
   
   iVar2 = FUN_002ea01d(0x70);
   if (iVar2 == 0) {
@@ -148,9 +152,11 @@ void FUN_000d61a0(int param_1)
   *(undefined4 *)(param_1 + 0xa40) = uVar4;
   *(undefined1 *)(iVar2 + 0x60) = 0;
   FUN_00149bd0();
-  (**(code **)(*DAT_00469980 + 0x1c))(&stack0xfffffffc,iVar2);
+  guest_call_key = UINT32_C(0x0039b664); /* XBE 0x000D642D MOV [ESP+0x18], imm32 */
+  (**(code **)(*DAT_00469980 + 0x1c))(&guest_call_key,iVar2);
   *(undefined1 *)(iVar2 + 0x60) = 0;
-  piVar5 = (int *)(**(code **)(*DAT_00443300 + 0x2c))(&stack0xfffffff4);
+  guest_call_key = UINT32_C(0x1db973c7); /* XBE 0x000D6448 MOV [ESP+0x14], imm32 */
+  piVar5 = (int *)(**(code **)(*DAT_00443300 + 0x2c))(&guest_call_key);
   piVar1 = *(int **)(param_1 + 0xc44);
   if (piVar1 != piVar5) {
     if (piVar1 != (int *)0x0) {
