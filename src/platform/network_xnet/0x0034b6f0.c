@@ -48,6 +48,12 @@ void FUN_0034b6f0(int *param_1,int param_2,undefined2 *param_3,uint param_4)
   
   if ((*(int *)(param_2 + 0xc) != 0) && (0xb < param_4)) {
     uVar5 = param_4 - 0xc;
+    /* Original 0x0034B710: SUB DWORD PTR [EBP+0x14], 0x0c.
+     * Retain the complete guest stack word here even when uVar5 is
+     * reused for unrelated length arithmetic. Subsequent 0x0034BB26,
+     * 0x0034BB2C, 0x0034BB57 and 0x0034BB6F writes update only its
+     * low 16 bits; the high half must survive unchanged. */
+    param_4 = uVar5;
     if (*(int *)(param_3 + 4) == 0) {
       if ((*(byte *)((int)param_1 + 0xb) & 3) == 0) {
         FUN_0034b3c4(param_1,*(undefined4 *)(param_2 + 0xc),*param_3,param_3 + 6,uVar5);
@@ -226,10 +232,9 @@ void FUN_0034b6f0(int *param_1,int param_2,undefined2 *param_3,uint param_4)
                 FUN_0034b4a9(param_1,pbVar11,local_18,puVar1,uVar9 - local_20);
               }
               else {
-                param_4._2_2_ = (undefined2)(uVar5 >> 0x10);
                 if (local_30 == 0) {
                   sVar6 = -0x17fd;
-                  param_4 = CONCAT22(param_4._2_2_,0xe803);
+                  param_4 = (param_4 & 0xffff0000U) | 0xe803U;
                 }
                 else {
                   pbVar11 = (byte *)((uVar9 - local_14) + (int)puVar1);
@@ -241,7 +246,7 @@ void FUN_0034b6f0(int *param_1,int param_2,undefined2 *param_3,uint param_4)
                     sVar8 = *(short *)pbVar11;
                     sVar6 = *(short *)(pbVar11 + 2);
                   }
-                  param_4 = CONCAT22(param_4._2_2_,sVar8);
+                  param_4 = (param_4 & 0xffff0000U) | (uint)(ushort)sVar8;
                   if (sVar8 == 0) {
                     return;
                   }
