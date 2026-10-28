@@ -1,0 +1,19 @@
+name: Verify 0x002CBA20 original float3 x87 cross output
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_002c/0x002cba20.c'
+      - 'scripts/verify_002cba20_guest_float_cross.py'
+      - '.github/workflows/verified-002cba20-guest-float-cross.yml'
+      - 'include/bf_ghidra_types.h'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert original vector float storage and isolated host Clang C11
+        run: python3 scripts/verify_002cba20_guest_float_cross.py --root .
