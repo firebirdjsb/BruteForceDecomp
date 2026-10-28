@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003b86e0;
@@ -17,8 +18,6 @@ extern uint32_t PTR_LAB_0038e5e0;
 void FUN_002cafa0(int param_1,uint *param_2,uint *param_3,int *param_4,int *param_5)
 
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
   int *piVar3;
   float fVar4;
   float *pfVar5;
@@ -31,7 +30,11 @@ void FUN_002cafa0(int param_1,uint *param_2,uint *param_3,int *param_4,int *para
   float10 fVar12;
   float fVar13;
   float fVar15;
-  undefined1 auVar14 [16];
+  __m128 auVar14;
+  __m128 packed_left;
+  __m128 packed_right;
+  __m128 packed_difference;
+  __m128 reduction;
   int local_be8;
   undefined **local_be0;
   float local_bdc;
@@ -44,9 +47,8 @@ void FUN_002cafa0(int param_1,uint *param_2,uint *param_3,int *param_4,int *para
   float local_bb8;
   float local_bb4;
   undefined4 local_bb0;
-  float local_bac;
-  float local_ba8;
-  float fStack_ba4;
+  /* Original ESP+0x54/+0x58/+0x5c: twelve-byte input/output region. */
+  float local_bac[3];
   undefined4 local_ba0;
   undefined4 local_b94;
   float *local_b90 [3];
@@ -86,9 +88,9 @@ void FUN_002cafa0(int param_1,uint *param_2,uint *param_3,int *param_4,int *para
   local_bb0 = 0;
   local_ba0 = 0;
   iVar8 = *(int *)(param_1 + 0x10);
-  local_ba8 = *(float *)(iVar8 + 100) * -1.0;
-  fStack_ba4 = *(float *)(iVar8 + 0x68) * -1.0;
-  local_bac = *(float *)(iVar8 + 0x60) * -1.0;
+  local_bac[1] = *(float *)(iVar8 + 100) * -1.0;
+  local_bac[2] = *(float *)(iVar8 + 0x68) * -1.0;
+  local_bac[0] = *(float *)(iVar8 + 0x60) * -1.0;
   local_bdc = *(float *)(param_1 + 8);
   local_bd8 = 1.0 / local_bdc;
   fVar13 = *(float *)(*(int *)(param_1 + 0x10) + 0x50);
@@ -131,12 +133,12 @@ void FUN_002cafa0(int param_1,uint *param_2,uint *param_3,int *param_4,int *para
   local_b68 = param_2;
   local_b90[0] = local_5a8;
   local_b90[1] = (float *)local_b50;
-  local_b74 = &local_bac;
+  local_b74 = local_bac;
   iVar7 = 0;
   local_b58 = param_4;
   local_b54 = param_5;
   local_b64 = param_3;
-  local_b78 = &local_bac;
+  local_b78 = local_bac;
   local_be8 = 0;
   local_b84 = (fVar4 / fVar15) * -0.5;
   do {
@@ -164,24 +166,33 @@ void FUN_002cafa0(int param_1,uint *param_2,uint *param_3,int *param_4,int *para
       local_b90[2] = (float *)((*(uint *)((int)piVar10 +
                                          *(int *)(&DAT_003b86e0 + ((uint)piVar10 & 0xc))) & 0xffff)
                                * 0x10 + **(int **)(local_b50 + iVar7 + -4));
-      uVar1 = *(undefined8 *)(local_b90[2] + 1);
-      uVar2 = *(undefined8 *)(local_b70 + 1);
-      *local_b78 = *local_b90[2] - *local_b70;
-      *(ulonglong *)(pfVar5 + 1) =
-           CONCAT44((float)((ulonglong)uVar1 >> 0x20) - (float)((ulonglong)uVar2 >> 0x20),
-                    (float)uVar1 - (float)uVar2);
-      auVar14._0_4_ = *local_b74 * *local_b74;
-      auVar14._4_4_ = 0;
-      fVar13 = (float)*(undefined8 *)(local_b74 + 1);
-      fVar15 = (float)((ulonglong)*(undefined8 *)(local_b74 + 1) >> 0x20);
-      auVar14._8_4_ = fVar13 * fVar13;
-      auVar14._12_4_ = fVar15 * fVar15;
-      local_b6c = auVar14._8_4_ + auVar14._12_4_ + auVar14._0_4_;
-      auVar14 = rsqrtss(auVar14,local_b6c);
-      fVar13 = auVar14._0_4_;
-      local_bac = local_bac * fVar13;
-      local_ba8 = local_ba8 * fVar13;
-      fStack_ba4 = fStack_ba4 * fVar13;
+      /* 0x2cb37a..2cb391: memory MOVSS clears the upper lanes, then
+       * MOVHPS places the next eight input bytes in lanes 2/3. */
+      packed_left = _mm_load_ss(local_b90[2]);
+      packed_left = _mm_loadh_pi(packed_left,(const __m64 *)(local_b90[2] + 1));
+      packed_right = _mm_load_ss(local_b70);
+      packed_right = _mm_loadh_pi(packed_right,(const __m64 *)(local_b70 + 1));
+      packed_difference = _mm_sub_ps(packed_left,packed_right);
+      /* 0x2cb39b/2cb39f: exactly four plus eight bytes are stored. */
+      _mm_store_ss(local_b78,packed_difference);
+      _mm_storeh_pi((__m64 *)(pfVar5 + 1),packed_difference);
+      /* 0x2cb3aa..2cb3c0 reloads the actual stored region and preserves
+       * all packed operations: SHUFPS 0x80 / ADDPS / SHUFPS 3 / ADDSS.
+       * The low result is (y*y+z*z)+x*x; upper lanes also execute. */
+      auVar14 = _mm_load_ss(local_b74);
+      auVar14 = _mm_loadh_pi(auVar14,(const __m64 *)(local_b74 + 1));
+      auVar14 = _mm_mul_ps(auVar14,auVar14);
+      reduction = _mm_shuffle_ps(packed_difference,auVar14,0x80);
+      reduction = _mm_add_ps(reduction,auVar14);
+      reduction = _mm_shuffle_ps(reduction,reduction,3);
+      reduction = _mm_add_ss(reduction,auVar14);
+      _mm_store_ss(&local_b6c,reduction);
+      /* 0x2cb3d5: RSQRTSS replaces only lane 0 of the squared vector. */
+      auVar14 = _mm_rsqrt_ss(_mm_move_ss(auVar14,_mm_load_ss(&local_b6c)));
+      _mm_store_ss(&fVar13,auVar14);
+      local_bac[0] = local_bac[0] * fVar13;
+      local_bac[1] = local_bac[1] * fVar13;
+      local_bac[2] = local_bac[2] * fVar13;
       iVar6 = FUN_002dd650(&local_be0,fVar13 * local_b6c * local_b84,0,local_b94,
                            *(undefined4 *)((int)local_b90 + iVar7 + 4),0,
                            (undefined4 *)(param_1 + 0x30),*(undefined4 *)(param_1 + 0x18),

@@ -6,10 +6,18 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <string.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t _DAT_0040c9dc;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+static float bf_00140a60_f32(uint32_t bits)
+{
+  float value;
+  memcpy(&value, &bits, sizeof(value));
+  return value;
+}
 
 int FUN_00140a60(int param_1,int *param_2)
 
@@ -18,13 +26,14 @@ int FUN_00140a60(int param_1,int *param_2)
   float fVar2;
   int *piVar3;
   float fVar4;
-  float fVar5;
+  float guest_slot_28;
   char cVar6;
   int iVar7;
   int iVar8;
   int iVar9;
   float10 fVar10;
   float10 fVar11;
+  float10 guest_sum;
   int unaff_retaddr;
   int iStack_8;
   
@@ -50,17 +59,38 @@ int FUN_00140a60(int param_1,int *param_2)
         fVar10 = (float10)FUN_00141020(unaff_retaddr,10);
         fVar11 = (float10)FUN_00141020(unaff_retaddr,iStack_8);
         fVar1 = (float)fVar11;
-        param_2 = (int *)0x7f7fffff;
+        /* 0x140b6c reuses [ESP+0x28] as one binary32 word after the
+         * incoming pointer's lifetime. It is not a host pointer conversion. */
+        guest_slot_28 = bf_00140a60_f32(UINT32_C(0x7f7fffff));
         fVar4 = (float)fVar10 - fVar1;
         fVar2 = *(float *)(iVar7 + 0x50);
-        if ((((fVar1 <= 0.0) || (fVar5 = _DAT_0040c9dc + fVar1, fVar5 < fVar2 == (fVar5 == fVar2)))
-            && (fVar5 = fVar1, fVar1 < fVar2 == (fVar1 == fVar2))) &&
-           (((fVar4 <= 0.0 || (fVar5 = _DAT_0040c9dc + fVar4, fVar5 < fVar2 == (fVar5 == fVar2))) &&
-            (fVar5 = (float)param_2, fVar4 < fVar2 != (fVar4 == fVar2))))) {
-          fVar5 = fVar4;
+        /* FLD/FADD/FCOM compare the unspilled sum; FSTP m32fp rounds only
+         * on selection. AH&0x41 branches exclude unordered comparisons. */
+        if (fVar1 > 0.0f) {
+          guest_sum = (float10)bf_00140a60_f32(_DAT_0040c9dc) + (float10)fVar1;
+          if (guest_sum <= (float10)fVar2) {
+            guest_slot_28 = (float)guest_sum;
+            goto guest_slot_28_ready;
+          }
         }
-        param_2 = (int *)fVar5;
-        if (((float)param_2 < fVar2 != ((float)param_2 == fVar2)) &&
+        if (fVar1 <= fVar2) {
+          guest_slot_28 = fVar1;
+          goto guest_slot_28_ready;
+        }
+        if (fVar4 > 0.0f) {
+          guest_sum = (float10)bf_00140a60_f32(_DAT_0040c9dc) + (float10)fVar4;
+          if (guest_sum <= (float10)fVar2) {
+            guest_slot_28 = (float)guest_sum;
+            goto guest_slot_28_ready;
+          }
+        }
+        if (fVar4 <= fVar2) {
+          guest_slot_28 = fVar4;
+        }
+guest_slot_28_ready:
+        /* ABI_UNVERIFIED: float10 is a host approximation of x87 state;
+         * entry/virtual-call register contracts are not repaired here. */
+        if ((guest_slot_28 <= fVar2) &&
            (cVar6 = FUN_00140a40(iStack_8), cVar6 != '\0')) {
           FUN_00141000();
           iVar9 = FUN_002ea01d(0x50);
@@ -77,9 +107,11 @@ int FUN_00140a60(int param_1,int *param_2)
           *(byte *)(iVar9 + 0xc) =
                ((*(byte *)(iVar7 + 0x48) >> 2 & 1) << 2 | *(byte *)(iVar7 + 0x48) & 2) << 1 |
                *(byte *)(iVar9 + 0xc) & 0xf3;
-          if (0.0 < (float)param_2) {
+          if (0.0f < guest_slot_28) {
             *(int *)(unaff_retaddr + 4) = iVar9;
-            *(int **)(unaff_retaddr + 8) = param_2;
+            /* 0x140ca2/0x140cab copy exactly four raw bytes to object+8. */
+            memcpy((void *)(uintptr_t)((uint32_t)unaff_retaddr + UINT32_C(8)),
+                   &guest_slot_28, sizeof(guest_slot_28));
             return iVar9;
           }
           FUN_00140cd0(unaff_retaddr,iVar9,0);

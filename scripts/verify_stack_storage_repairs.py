@@ -12,6 +12,13 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x002D3EA0, 1614, "0009dd5b3714eb37b42e34e24f727ad60da8313dbb1bb2238937ac53bb22bc20"),
+    (0x0001D0C0, 594, "799425f204b00db36dec83019e43890e71d10113dc10721cb8a2efe0caa969a4"),
+    (0x0011C810, 647, "a97770d13e1a1c3bc02e893ef9fad35032c102c9b4fd0c175e0ac596459ee255"),
+    (0x0012B2A0, 93, "c5bd3de3abd46f47ca74fcbcf49e2399087b322b7e4bc54dada22c6ff89eed1e"),
+    (0x00140A60, 621, "e62f93a64226307b9c623dc0d55c30ec31d85ec4babeb87a3d6ccb5874dc174e"),
+    (0x002CAFA0, ((0, 937), (944, 338)), "c1084551861b663e1f22057313342ecc7cd7faae50697ffd4807d51815fb3e6c"),
+    (0x002D8E40, 2145, "b3ae974aa4b632fb10a3fc1711064f6d45a3fdf5348b258c98457afdb63f0b4e"),
     (0x002CB4B0, 987, "7711f09cbf8a6d12f0bb890f930423093b73f664005f16f71e84ca5011433145"),
     (0x002A35B0, 1568, "9e114c355a1e33862895bd9f01a8cbcce151df05057e1de2a8f57e8950960a81"),
     (0x001611D0, 95, "c5d8b914c4f07cf2e568e5e538ea662184fb8f4df3bed268964463746c03ae84"),
@@ -141,6 +148,147 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x002CB389: "f30f1012",  # movss    xmm2, dword ptr [edx]
+    0x002CB38D: "0f165204",  # movhps   xmm2, qword ptr [edx + 4]
+    0x002CB3AE: "0f164004",  # movhps   xmm0, qword ptr [eax + 4]
+    0x002CB3B2: "0f59c0",  # mulps    xmm0, xmm0
+    0x002CB3B5: "0fc6c880",  # shufps   xmm1, xmm0, 0x80
+    0x002CB3B9: "0f58c8",  # addps    xmm1, xmm0
+    0x002CB3BC: "0fc6c903",  # shufps   xmm1, xmm1, 3
+    0x002D3EFA: "8b82ec000000",  # mov      eax, dword ptr [edx + 0xec]
+    0x002D3F04: "8901",  # mov      dword ptr [ecx], eax
+    0x002D3F0A: "8b82f0000000",  # mov      eax, dword ptr [edx + 0xf0]
+    0x002D3F14: "894104",  # mov      dword ptr [ecx + 4], eax
+    0x002D3F1B: "8b82ec000000",  # mov      eax, dword ptr [edx + 0xec]
+    0x002D3F21: "8b400c",  # mov      eax, dword ptr [eax + 0xc]
+    0x002D3F2B: "8b88ec000000",  # mov      ecx, dword ptr [eax + 0xec]
+    0x002D3F4A: "895020",  # mov      dword ptr [eax + 0x20], edx
+    0x002D3F72: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002D3F76: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002D3F7E: "f30f1012",  # movss    xmm2, dword ptr [edx]
+    0x002D3F82: "0f165204",  # movhps   xmm2, qword ptr [edx + 4]
+    0x002D3F86: "0f58ca",  # addps    xmm1, xmm2
+    0x002D3F8D: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002D3F91: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002D3FBD: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002D3FC1: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002D3FC9: "f30f1012",  # movss    xmm2, dword ptr [edx]
+    0x002D3FCD: "0f165204",  # movhps   xmm2, qword ptr [edx + 4]
+    0x002D3FD1: "0f58ca",  # addps    xmm1, xmm2
+    0x002D3FD8: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002D3FDC: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002D4005: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002D4009: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002D4011: "f30f1012",  # movss    xmm2, dword ptr [edx]
+    0x002D4015: "0f165204",  # movhps   xmm2, qword ptr [edx + 4]
+    0x002D4019: "0f58ca",  # addps    xmm1, xmm2
+    0x002D4020: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002D4024: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002D4050: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002D4054: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002D405C: "f30f1012",  # movss    xmm2, dword ptr [edx]
+    0x002D4060: "0f165204",  # movhps   xmm2, qword ptr [edx + 4]
+    0x002D4064: "0f58ca",  # addps    xmm1, xmm2
+    0x002D406B: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002D406F: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002D4090: "8b880c010000",  # mov      ecx, dword ptr [eax + 0x10c]
+    0x002D40C1: "8b8708010000",  # mov      eax, dword ptr [edi + 0x108]
+    0x002D40F6: "896c2430",  # mov      dword ptr [esp + 0x30], ebp
+    0x002D40FA: "8b8708010000",  # mov      eax, dword ptr [edi + 0x108]
+    0x002D410E: "8d442428",  # lea      eax, [esp + 0x28]
+    0x002D4114: "50",  # push     eax
+    0x002D4115: "d95c242c",  # fstp     dword ptr [esp + 0x2c]
+    0x002D411C: "d95c2434",  # fstp     dword ptr [esp + 0x34]
+    0x002D4120: "d95c2438",  # fstp     dword ptr [esp + 0x38]
+    0x002D4124: "e847f8ffff",  # call     0x2d3970
+    0x002D4168: "8b8808010000",  # mov      ecx, dword ptr [eax + 0x108]
+    0x002D4202: "8b8708010000",  # mov      eax, dword ptr [edi + 0x108]
+    0x002D424E: "8b8108010000",  # mov      eax, dword ptr [ecx + 0x108]
+    0x002D42B9: "8b8108010000",  # mov      eax, dword ptr [ecx + 0x108]
+    0x002D43C4: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002D43C8: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002D43D0: "f30f1012",  # movss    xmm2, dword ptr [edx]
+    0x002D43D4: "0f165204",  # movhps   xmm2, qword ptr [edx + 4]
+    0x002D43D8: "0f58ca",  # addps    xmm1, xmm2
+    0x002D43DF: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002D43E3: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002D4400: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002D4404: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002D440C: "f30f1012",  # movss    xmm2, dword ptr [edx]
+    0x002D4410: "0f165204",  # movhps   xmm2, qword ptr [edx + 4]
+    0x002D4414: "0f58ca",  # addps    xmm1, xmm2
+    0x002D441B: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002D441F: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002D4437: "8908",  # mov      dword ptr [eax], ecx
+    0x002D446E: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002D4472: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002D447A: "f30f1012",  # movss    xmm2, dword ptr [edx]
+    0x002D447E: "0f165204",  # movhps   xmm2, qword ptr [edx + 4]
+    0x002D4482: "0f58ca",  # addps    xmm1, xmm2
+    0x002D4489: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002D448D: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002D44AA: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002D44AE: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002D44B6: "f30f1012",  # movss    xmm2, dword ptr [edx]
+    0x002D44BA: "0f165204",  # movhps   xmm2, qword ptr [edx + 4]
+    0x002D44BE: "0f58ca",  # addps    xmm1, xmm2
+    0x002D44C5: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002D44C9: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002D44E1: "894a04",  # mov      dword ptr [edx + 4], ecx
+    0x00140B59: "d95c2428",  # fstp     dword ptr [esp + 0x28]
+    0x00140B64: "d95c2410",  # fstp     dword ptr [esp + 0x10]
+    0x00140B68: "d9442428",  # fld      dword ptr [esp + 0x28]
+    0x00140B6C: "c7442428ffff7f7f",  # mov      dword ptr [esp + 0x28], 0x7f7fffff
+    0x00140B74: "d8642410",  # fsub     dword ptr [esp + 0x10]
+    0x00140B78: "d95c2414",  # fstp     dword ptr [esp + 0x14]
+    0x00140B7C: "d94350",  # fld      dword ptr [ebx + 0x50]
+    0x00140B83: "d81d884f3a00",  # fcomp    dword ptr [0x3a4f88]
+    0x00140B90: "d905dcc94000",  # fld      dword ptr [0x40c9dc]
+    0x00140B96: "d8442410",  # fadd     dword ptr [esp + 0x10]
+    0x00140B9A: "d8d1",  # fcom     st(1)
+    0x00140B9E: "f6c441",  # test     ah, 0x41
+    0x00140BA1: "7a06",  # jp       0x140ba9
+    0x00140BA3: "d95c2428",  # fstp     dword ptr [esp + 0x28]
+    0x00140BB8: "8b542410",  # mov      edx, dword ptr [esp + 0x10]
+    0x00140BBC: "89542428",  # mov      dword ptr [esp + 0x28], edx
+    0x00140BC6: "d81d884f3a00",  # fcomp    dword ptr [0x3a4f88]
+    0x00140BD3: "d905dcc94000",  # fld      dword ptr [0x40c9dc]
+    0x00140BD9: "d8442414",  # fadd     dword ptr [esp + 0x14]
+    0x00140BDD: "d8d1",  # fcom     st(1)
+    0x00140BE1: "f6c441",  # test     ah, 0x41
+    0x00140BE4: "7a06",  # jp       0x140bec
+    0x00140BE6: "d95c2428",  # fstp     dword ptr [esp + 0x28]
+    0x00140BFB: "8b442414",  # mov      eax, dword ptr [esp + 0x14]
+    0x00140BFF: "89442428",  # mov      dword ptr [esp + 0x28], eax
+    0x00140C03: "d9442428",  # fld      dword ptr [esp + 0x28]
+    0x00140C0D: "f6c441",  # test     ah, 0x41
+    0x00140C10: "0f8aab000000",  # jp       0x140cc1
+    0x00140C67: "d9442428",  # fld      dword ptr [esp + 0x28]
+    0x00140C6F: "d81d884f3a00",  # fcomp    dword ptr [0x3a4f88]
+    0x00140C99: "f6c441",  # test     ah, 0x41
+    0x00140C9C: "8b442420",  # mov      eax, dword ptr [esp + 0x20]
+    0x00140CA2: "8b542428",  # mov      edx, dword ptr [esp + 0x28]
+    0x00140CAB: "895008",  # mov      dword ptr [eax + 8], edx
+    0x002CB0C5: "d95c2454",  # fstp     dword ptr [esp + 0x54]
+    0x002CB0CB: "d95c2458",  # fstp     dword ptr [esp + 0x58]
+    0x002CB0CF: "d95c245c",  # fstp     dword ptr [esp + 0x5c]
+    0x002CB25D: "8d542454",  # lea      edx, [esp + 0x54]
+    0x002CB270: "8994248c000000",  # mov      dword ptr [esp + 0x8c], edx
+    0x002CB279: "8d4c2454",  # lea      ecx, [esp + 0x54]
+    0x002CB294: "898c2488000000",  # mov      dword ptr [esp + 0x88], ecx
+    0x002CB37A: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002CB37E: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002CB382: "8b942490000000",  # mov      edx, dword ptr [esp + 0x90]
+    0x002CB391: "0f5cca",  # subps    xmm1, xmm2
+    0x002CB39B: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002CB39F: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002CB3AA: "f30f1000",  # movss    xmm0, dword ptr [eax]
+    0x002CB3C0: "f30f58c8",  # addss    xmm1, xmm0
+    0x002CB3C4: "f30f114c241c",  # movss    dword ptr [esp + 0x1c], xmm1
+    0x002CB3CA: "8b54241c",  # mov      edx, dword ptr [esp + 0x1c]
+    0x002CB3CE: "89942494000000",  # mov      dword ptr [esp + 0x94], edx
+    0x002CB3D5: "f30f52842494000000",  # rsqrtss  xmm0, dword ptr [esp + 0x94]
+    0x0040C9DC: "9a99993e",  # Original binary32 data word
     0x00027490: "83ec14",  # next118 original lane/storage or deferred contract evidence
     0x00027534: "8906",  # next118 original lane/storage or deferred contract evidence
     0x00027536: "894e04",  # next118 original lane/storage or deferred contract evidence
