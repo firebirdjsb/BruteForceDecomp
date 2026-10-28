@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+/* Preserve FILD/FMUL/FIDIV extended arithmetic until the original m32 spill.
+ * Host float10 precision/control and full guest ABI remain unverified. */
+#pragma STDC FENV_ACCESS ON
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00469b58;
@@ -18,7 +22,7 @@ undefined4 FUN_000f0a30(void)
   int in_EAX;
   int *piVar3;
   int iVar4;
-  float fVar5;
+  int *result_1c4;
   int iVar6;
   undefined4 uVar7;
   int **ppiVar8;
@@ -36,7 +40,9 @@ undefined4 FUN_000f0a30(void)
   int *local_220;
   int iStack_21c;
   int *local_218;
-  int iStack_214;
+  /* S+0x3c/+0x40: adjacent signed DWORD outputs, not a host pointer plus
+   * an unrelated integer. The +0x1dc virtual-call ABI is still unverified. */
+  int32_t counter_words[2];
   byte bStack_210;
   int *piStack_20c;
   int *local_208;
@@ -136,11 +142,13 @@ undefined4 FUN_000f0a30(void)
   local_228 = (int *)FUN_001039b0();
   local_228 = (int *)*local_228;
   iVar4 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0xd8))(&local_228);
-  fVar5 = (float)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x1c4))();
+  /* 0xf0d35..0xf0d3f: result is EAX -> EDI -> DWORD[S+0x34].
+   * No x87 return or numeric float conversion occurs here. */
+  result_1c4 = (int *)(**(code **)(**(int **)(DAT_00469b58 + 8) + 0x1c4))();
+  local_220 = result_1c4;
   if (iVar4 == 0) {
     return 0;
   }
-  local_220 = (int *)fVar5;
   iVar6 = FUN_00103d40();
   piVar3 = piStack_240;
   if (iVar6 == 0) {
@@ -159,7 +167,7 @@ undefined4 FUN_000f0a30(void)
     }
   }
   if (iStack_21c != 0) {
-    if (fVar5 == 0.0) {
+    if (result_1c4 == (int *)0x0) {
       piVar3 = *(int **)(iVar4 + 100);
       if (((piVar3 != (int *)0x0) && (0 < piVar3[1])) && (0 < *piVar3)) {
         FUN_000ef180();
@@ -206,12 +214,12 @@ LAB_000f0e49:
     ppiVar8 = &local_224;
   }
   piVar10 = *ppiVar8;
-  local_218 = (int *)0x0;
-  iStack_214 = 0;
+  counter_words[0] = 0;
+  counter_words[1] = 0;
   bStack_210 = 0;
   cVar1 = '\0';
   if ((piVar3 != (int *)0x0) && (*(int *)(iVar4 + 0x48) != 0)) {
-    cVar1 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x1dc))(*(int *)(iVar4 + 0x48),&local_218);
+    cVar1 = (**(code **)(**(int **)(DAT_00469b58 + 8) + 0x1dc))(*(int *)(iVar4 + 0x48),counter_words);
   }
   if (local_208 == (int *)0x0) goto LAB_000f1030;
   if (piVar3 == (int *)0x0) {
@@ -264,11 +272,15 @@ LAB_000f1030:
       local_220 = (int *)0x173ebcaf;
       uVar7 = FUN_001e97c0();
       iVar4 = 0;
-      if (0 < iStack_214) {
-        local_220 = (int *)(((float)(int)local_218 * 100.0) / (float)iStack_214);
-        iVar4 = (int)(float)local_220;
+      if (0 < counter_words[1]) {
+        /* 0xf107d..0xf108f: signed FILD, FMUL m32fp 100, signed FIDIV,
+         * FSTP m32fp, then truncating CVTTSS2SI. Keep the single f32 spill
+         * and SSE's indefinite result for an out-of-range conversion. */
+        float percentage = (float)(((float10)counter_words[0] * (float10)100.0f) /
+                                    (float10)counter_words[1]);
+        iVar4 = _mm_cvttss_si32(_mm_load_ss(&percentage));
       }
-      FUN_002ea9a9(local_204,0x100,uVar7,local_218,iStack_214,iVar4);
+      FUN_002ea9a9(local_204,0x100,uVar7,counter_words[0],counter_words[1],iVar4);
       FUN_000ef180();
       FUN_0010a7d0();
     }
