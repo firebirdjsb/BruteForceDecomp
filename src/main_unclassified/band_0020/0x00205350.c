@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "../../contracts/bf_0001fc40_getter_operations.h"
+#include <xmmintrin.h>
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 void FUN_00205350(int param_1,float param_2)
@@ -14,25 +16,22 @@ void FUN_00205350(int param_1,float param_2)
   int *piVar1;
   int iVar2;
   undefined4 *puVar3;
-  float local_ec;
   undefined4 *local_e8;
   float local_e4;
   undefined8 local_e0;
-  float local_d8;
-  float local_d4;
-  undefined4 *local_d0;
-  float fStack_cc;
-  float fStack_c8;
-  undefined4 *puStack_c4;
-  float fStack_c0;
-  float fStack_bc;
-  float fStack_b8;
-  float fStack_b4;
-  float fStack_b0;
-  undefined4 *puStack_ac;
-  float fStack_a8;
-  undefined8 uStack_a4;
-  float fStack_94;
+  float scalar_at_s08;
+  float axis_at_s18[3];
+  float position_at_t1c[3];
+  float base_at_t34[3];
+  float getter_at_t1c[3], getter_at_t4c[3], getter_at_t34[3];
+  float base_at_t40[3];
+  float scaled_at_t10[3];
+  float output_at_t28[3];
+  const void *getter_source;
+  const float *selected_getter;
+  __m128 broadcast, packed_input, packed_product;
+  float sum_y, sum_z;
+  float10 retained_y;
   undefined4 local_90;
   undefined4 uStack_8c;
   undefined4 uStack_88;
@@ -62,26 +61,21 @@ void FUN_00205350(int param_1,float param_2)
         return;
       }
       if (iVar2 == -0x16b14996) {
-        local_e8 = (undefined4 *)(param_2 * 0.017453292);
-        FUN_00234dc0(*(undefined4 *)(*(int *)(param_1 + 0x9c) + 0x10),&local_e8);
+        /* 2053bc..2053dc: one m32fp at S+8, passed by address.
+         * x87 arithmetic/rounding remains an unverified host C proxy. */
+        scalar_at_s08 = (float)((float10)param_2 * (float10)0.017453292f);
+        FUN_00234dc0(*(undefined4 *)(*(int *)(param_1 + 0x9c) + 0x10),&scalar_at_s08);
         return;
       }
       if ((iVar2 != 0x1b0dc6c7) && (iVar2 == -0x1c41e972)) {
-        local_e8 = (undefined4 *)0x0;
-        local_d4 = 0.0;
-        local_d8 = 0.0;
-        local_d0 = (undefined4 *)0x0;
+        /* 205403..20546d: actual twelve-byte output at S+0x18.
+         * Zero words and axis replacement are original stores, not defaults. */
+        memset(axis_at_s18, 0, sizeof(axis_at_s18));
         iVar2 = *(int *)(param_1 + 0x44);
-        if (iVar2 == 0) {
-          local_d8 = param_2;
+        if (iVar2 == 0 || iVar2 == 1 || iVar2 == 2) {
+          memcpy(&axis_at_s18[iVar2], &param_2, 4);
         }
-        else if (iVar2 == 1) {
-          local_d4 = param_2;
-        }
-        else if (iVar2 == 2) {
-          local_d0 = (undefined4 *)param_2;
-        }
-        FUN_00234dc0(*(undefined4 *)(*(int *)(param_1 + 0x9c) + 0x10),&local_d8);
+        FUN_00234dc0(*(undefined4 *)(*(int *)(param_1 + 0x9c) + 0x10),axis_at_s18);
         return;
       }
     }
@@ -135,69 +129,71 @@ void FUN_00205350(int param_1,float param_2)
   }
   if (iVar2 == 0) {
     iVar2 = (**(code **)(*piVar1 + 0x40))();
-    local_d8 = *(float *)(iVar2 + 0x24);
-    local_e8 = *(undefined4 **)(iVar2 + 0x2c);
-    local_d4 = *(float *)(iVar2 + 0x28);
-    local_e0 = *(undefined8 *)(iVar2 + 0x28);
-    fStack_b8 = *(float *)(param_1 + 0x90);
-    fStack_c0 = *(float *)(param_1 + 0x88);
-    fStack_bc = *(float *)(param_1 + 0x8c);
+    /* 2054c3..205530: the first word uses FLD/FSTP; the other
+     * two position words are raw MOV copies into the T+0x1c buffer. */
+    position_at_t1c[0] = (float)(float10)*(float *)(iVar2 + 0x24);
+    memcpy(&position_at_t1c[2], (const void *)(iVar2 + 0x2c), 4);
+    memcpy(&position_at_t1c[1], (const void *)(iVar2 + 0x28), 4);
+    memcpy(&base_at_t34[2], (const void *)(param_1 + 0x90), 4);
+    memcpy(&base_at_t34[0], (const void *)(param_1 + 0x88), 4);
+    memcpy(&base_at_t34[1], (const void *)(param_1 + 0x8c), 4);
     iVar2 = *(int *)(param_1 + 0x44);
-    local_d0 = local_e8;
-    if (iVar2 == 0) {
-      local_d8 = fStack_c0 + param_2;
-    }
-    else if (iVar2 == 1) {
-      local_d4 = fStack_bc + param_2;
-    }
-    else if (iVar2 == 2) {
-      local_d0 = (undefined4 *)(fStack_b8 + param_2);
+    if (iVar2 == 0 || iVar2 == 1 || iVar2 == 2) {
+      position_at_t1c[iVar2] =
+          (float)((float10)base_at_t34[iVar2] + (float10)param_2);
     }
     piVar1 = (int *)FUN_001fb020();
-    (**(code **)(*piVar1 + 0x48))(&local_d8);
+    (**(code **)(*piVar1 + 0x48))(position_at_t1c);
     return;
   }
   if (iVar2 != 1) {
     return;
   }
-  (**(code **)(*piVar1 + 0x40))();
-  FUN_0001fd10();
-  FUN_0001fc40();
-  FUN_0001fdd0();
-  puStack_ac = *(undefined4 **)(param_1 + 0x90);
-  fStack_b0 = *(float *)(param_1 + 0x8c);
-  fStack_b4 = *(float *)(param_1 + 0x88);
+  /* 2055a8 returns the source in EAX; the virtual ECX/return interface
+   * still depends on the unbound original register ABI. The scoped producer
+   * calls below model only observed memory effects, not Xbox entry calls.
+   * Getter EAX/ECX/EDX and flags are overwritten before caller consumption;
+   * ESI/EDI retain the source/object across all three original calls. */
+  getter_source = (const void *)(uintptr_t)(**(code **)(*piVar1 + 0x40))();
+  bf_0001fd10_produce(getter_at_t1c, getter_source);
+  bf_0001fc40_produce(getter_at_t4c, getter_source);
+  bf_0001fdd0_produce(getter_at_t34, getter_source);
+  /* 2055d5..205601: copy object +0x90, +0x8c, +0x88 bits, then
+   * consume the axis at +0x44. These are three four-byte float lanes. */
+  memcpy(&base_at_t40[2], (const void *)(param_1 + 0x90), 4);
+  memcpy(&base_at_t40[1], (const void *)(param_1 + 0x8c), 4);
+  memcpy(&base_at_t40[0], (const void *)(param_1 + 0x88), 4);
   iVar2 = *(int *)(param_1 + 0x44);
-  if (iVar2 == 0) {
-    local_e4 = param_2 * local_d8;
-    fStack_94 = param_2 * (float)local_d0;
-    local_e0 = CONCAT44(fStack_94,param_2 * local_d4);
-    local_e8 = (undefined4 *)(fStack_94 + (float)puStack_ac);
-    local_ec = param_2 * local_d4 + fStack_b0;
-    fStack_cc = fStack_b4 + local_e4;
+  if (iVar2 == 0 || iVar2 == 1 || iVar2 == 2) {
+    selected_getter = iVar2 == 0 ? getter_at_t1c :
+                      iVar2 == 1 ? getter_at_t4c : getter_at_t34;
+    /* 205628..20571c: MOVSS/SHUFPS broadcast; MOVSS/MOVHPS gives
+     * [X,+0,Y,Z]. MULPS executes all four lanes, including scalar*zero.
+     * Store lanes 0,2,3 as exactly twelve bytes at original T+0x10. */
+    broadcast = _mm_load_ss(&param_2);
+    broadcast = _mm_shuffle_ps(broadcast, broadcast, 0);
+    packed_input = _mm_load_ss(selected_getter);
+    packed_input = _mm_loadh_pi(packed_input, (const __m64 *)(selected_getter + 1));
+    packed_product = _mm_mul_ps(broadcast, packed_input);
+    _mm_store_ss(&scaled_at_t10[0], packed_product);
+    _mm_storeh_pi((__m64 *)&scaled_at_t10[1], packed_product);
+    /* 20564d..20575e: x87 loads Y before Z, then forms Z, Y, X;
+     * each sum spills m32fp. X operand order differs on axis zero.
+     * Host long double does not establish x87 exception/status behavior. */
+    retained_y = (float10)scaled_at_t10[1];
+    sum_z = (float)((float10)scaled_at_t10[2] + (float10)base_at_t40[2]);
+    sum_y = (float)(retained_y + (float10)base_at_t40[1]);
+    if (iVar2 == 0) {
+      output_at_t28[0] = (float)((float10)base_at_t40[0] + (float10)scaled_at_t10[0]);
+    }
+    else {
+      output_at_t28[0] = (float)((float10)scaled_at_t10[0] + (float10)base_at_t40[0]);
+    }
+    memcpy(&output_at_t28[1], &sum_y, 4);
+    memcpy(&output_at_t28[2], &sum_z, 4);
   }
-  else if (iVar2 == 1) {
-    local_e4 = param_2 * fStack_a8;
-    local_ec = param_2 * (float)uStack_a4;
-    fStack_94 = param_2 * (float)((ulonglong)uStack_a4 >> 0x20);
-    local_e0 = CONCAT44(fStack_94,local_ec);
-    local_e8 = (undefined4 *)(fStack_94 + (float)puStack_ac);
-    local_ec = local_ec + fStack_b0;
-    fStack_cc = local_e4 + fStack_b4;
-  }
-  else {
-    local_e8 = puStack_ac;
-    if (iVar2 != 2) goto LAB_00205762;
-    local_e4 = param_2 * fStack_c0;
-    fStack_94 = param_2 * fStack_b8;
-    local_e0 = CONCAT44(fStack_94,param_2 * fStack_bc);
-    local_e8 = (undefined4 *)(fStack_94 + (float)puStack_ac);
-    local_ec = param_2 * fStack_bc + fStack_b0;
-    fStack_cc = local_e4 + fStack_b4;
-  }
-  fStack_c8 = local_ec;
-  puStack_c4 = local_e8;
-LAB_00205762:
-  (**(code **)(*piVar1 + 0x48))(&fStack_cc);
+  /* Other axes reach 205762 with the twelve output bytes unestablished.
+   * Deliberately retain that unresolved original-stack path; do not zero it. */
+  (**(code **)(*piVar1 + 0x48))(output_at_t28);
   return;
 }

@@ -1,7 +1,9 @@
-# 0x00205350: connected scalar/vector lifetimes, repair deferred
+# 0x00205350: connected scalar/vector lifetimes and scoped getter operations
 
-Status: original instruction facts observed; caller source unchanged. This is
-not a syntax repair, complete interface review, behavior test, or byte match.
+Status: bounded C11 memory-operation and stack-lifetime repair; caller and
+three getter drafts pass focused syntax checks. Original entry interfaces,
+complete x87 behavior, Xbox runtime behavior and byte match remain unverified.
+This note retains the original deferral facts and records the scoped repair.
 
 ## Provenance
 
@@ -18,8 +20,10 @@ The XBE and the following original body digests were checked before analysis:
 | `0x0001FDD0` | 40 | `13832B0FFE3CCB2E86EC5E06B944B7E16DDDFE35C04F722A781393BBBEECF49F` |
 
 `tools/source_layout.py` resolves the caller to
-`src/main_unclassified/band_0020/0x00205350.c`. Its unchanged canonical Git LF source SHA-256 is
-`6d23844061dbc3373096b3657f5d48e2bc4e4751fa960f7f27bef383809bc9bc`.
+`src/main_unclassified/band_0020/0x00205350.c`. The pre-repair canonical Git LF source SHA-256 was
+`6d23844061dbc3373096b3657f5d48e2bc4e4751fa960f7f27bef383809bc9bc`;
+the repaired canonical LF digest is `87c0b479a79b1f45dc909124263c69a96e71b83d785ac4517884d197fd22e56f`.
+Whole-XBE and all four changed bodies were freshly reauthenticated.
 
 ## Branch and slot map
 
@@ -64,27 +68,93 @@ The mode-1 getters are a different interface:
 | `0x002055BE -> 0x0001FC40` | EAX=`T+0x4C`, ECX=ESI | Three floats from ECX `+4/+0x10/+0x1C` to EAX `+0/+4/+8` through x87 loads/stores. |
 | `0x002055C9 -> 0x0001FDD0` | EAX=`T+0x34`, ECX=ESI | Three floats from ECX `+8/+0x14/+0x20` to EAX `+0/+4/+8` through x87 loads/stores. |
 
-All three original getters use plain RET, no stack arguments, and explicit
-output memory through EAX. Their current C drafts are `void(void)` with unbound
-`in_EAX/in_ECX` locals. No typed callable bridge was found in the shared include,
-assembly-reviewed source aliases, or existing relevant evidence. New arrays
-combined with those unchanged no-argument calls would remain unbound. This
-batch neither invents their C ABI nor adds competing inline getter logic.
+All three original getters use plain RET and no stack arguments. They receive
+an output address through EAX and source through ECX. Their original
+`void(void)` C entry declarations and original identity/body labels remain
+unchanged. The wrappers retain explicitly unbound `in_EAX/in_ECX` values and
+remain `ABI_UNVERIFIED`; no C argument convention is asserted for those entries.
 
-## Verification and next step
+## Scoped repair
 
-Before/after focused Clang checks use unchanged `tools/sweep_c11.py` FLAGS for
-`i686-pc-windows-msvc` and `x86_64-pc-windows-msvc`. Both retain the same first
-three float-to-pointer diagnostics, at draft lines 65, 82, and 154. The caller
-source digest is unchanged; no syntax improvement is claimed.
+`src/contracts/bf_0001fc40_getter_operations.h` defines three function-specific
+internal memory operations. The getter wrappers and the caller use those same
+operations, so each observed producer has one C implementation. These are host
+operations with explicit inputs, not a global-register ABI, runtime bridge,
+new original-function prototype or duplicate implementation. The header is
+active C11 reconstruction source under `src/`.
 
-Defer the complete caller until a scoped register-bridge/getter review can
-connect all mode-1 producers and consumers, then split the documented stack
-lifetimes into actual scalar/vector/pointer objects. Keep the invalid-axis
-uninitialized-output path explicit. Preserve 32-bit guest mapping, x87 load/store
-and exception details, SSE behavior, indirect call ownership, and unresolved
-callee semantics as ABI_UNVERIFIED. No runtime or byte-match claim is made.
+Each operation stages the third, second and first source components before
+writing any destination bytes, then writes exactly twelve bytes at output
+`+0/+4/+8`. There is no `restrict`; source/output overlap retains these snapshots.
+`0x1fd10` preserves its first component as raw MOV bits; its other components,
+and all components in `0x1fc40/0x1fdd0`, retain explicit C proxies for the observed
+x87 m32fp load/spill steps. The original eight-byte guest scratch stack is not
+modeled: overlap with that scratch, guest address mapping, memory fault order,
+x87 control/status, signaling-NaN quieting, rounding and exception behavior
+remain unverified. Host `long double` is not an x87 emulator.
 
-Only this evidence note changed for this candidate. No production, process,
-game data, assets, headers, metadata, verifier, or deployment changed. Rollback
-removes this note. Original entry signature and body labels remain untouched.
+The caller now binds each operation to the source returned in EAX by virtual
+slot `+0x40`, and to the actual twelve-byte producer outputs at `T+0x1c`,
+`T+0x4c`, and `T+0x34`. That virtual call's original ECX/return contract remains
+unbound at the C entry interface. No virtual target or prototype was invented.
+After `0x2055b3`, the caller sets EAX/ECX for the next producer; EDX is not
+consumed before a later overwrite. The same holds after `0x2055be`. After
+`0x2055c9`, `0x2055ce/d5/db` overwrite EAX/ECX/EDX before use. The SUB at
+`0x2055ee` replaces flags before its branch. ESI and EDI survive all three
+original getter bodies. This establishes that omitted getter register/flag
+outputs have no observed consumer along this caller path; it does not establish
+a general register-output contract for other callers.
+
+The caller separates the early scalar at `S+8`, early axis vector at `S+0x18`,
+mode-0 position and object-base vectors at `T+0x1c` and `T+0x34`, mode-1 getter
+outputs, object-base vector at `T+0x40`, scaled vector at `T+0x10`, and result
+at `T+0x28`. Existing matrix-branch pointer scratch and unverified helper
+interfaces remain separate. Original constant `0x003a4fe0` has bytes
+`35 fa 8e 3c`, matching the retained `0.017453292f` operand.
+
+Mode 1 retains MOVSS/SHUFPS scalar broadcast, memory MOVSS/MOVHPS lanes
+`[X,+0,Y,Z]`, all four MULPS lanes (including scalar times zero), and twelve-byte
+stores of lanes 0,2,3. The x87 path loads Y before Z, adds/spills Z then Y, and
+finally forms X. Axis zero uses `base X + scaled X`; other axes use
+`scaled X + base X`. Result stores remain X/Y/Z. C floating expressions do not
+verify the original processor or floating-point environment. Invalid axes still
+pass twelve unestablished result bytes; they are deliberately not zero-filled.
+
+## Verification and limits
+
+- Before editing, the caller failed both Windows-target focused C11 checks with
+  the original float-to-pointer diagnostics; the three getter drafts passed.
+- After editing, all four entries pass with no diagnostics for
+  `i686-pc-windows-msvc` and `x86_64-pc-windows-msvc`, using unchanged
+  `tools/sweep_c11.py` flags. `git diff --check` passes.
+- Private native tests compared the exact shared-header operations against
+  adapted original getter x87/MOV instruction sequences at O0 and O2. Each
+  build passed 154,836 full-backing-buffer comparisons: all three operations,
+  finite random values, signed zeros, finite extrema/subnormals and 51 output
+  placements including disjoint, identical, partially overlapping and unaligned
+  source/output regions. The oracle uses host pointer registers and scratch
+  placement, masked extended/RNE x87 control `037f`, and MXCSR `1f80`.
+- A wrong third-component offset mutation was rejected. This validates the
+  bounded memory-operation corpus against adapted instructions; it does not
+  execute the original Xbox entry ABI, caller, original machine or game.
+  Status flags, signaling NaNs, scratch aliasing and fault/trap behavior were
+  not compared. Private test inputs/outputs are not public repository artifacts.
+- Independent review checked original bytes, read/write and operand order,
+  register-output liveness, unchanged signatures and both-target syntax.
+  The review accepted this limited memory/lifetime scope, not full semantics.
+
+Only four original-entry C sources, the scoped contract header and this note
+changed for this repair. No shared verifier, metadata, game data, assets, process,
+production installation or deployment changed. Rollback restores those four
+sources and this note and removes the new contract header. Full callee behavior,
+32-bit guest mapping, original stack aliasing, matrix helpers, virtual interfaces,
+x87/SSE environment, runtime behavior and byte-identical rebuilding remain
+`ABI_UNVERIFIED`. No whole-function behavior or byte-match claim is made.
+
+Portable regression fixtures are retained in
+`tests/test_20261028_memory_operations.c` and run by
+`scripts/verify_20261028_memory_operations.py` in the full audit workflow.
+Each O0/O2 run checks 745 fixed-value full-buffer cases, including unaligned
+and overlapping output placements and FD10 raw first-word preservation.
+These golden tests check the shared memory operations, not the caller ABI
+or original-game execution.
