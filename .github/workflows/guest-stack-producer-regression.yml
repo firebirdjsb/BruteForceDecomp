@@ -7,6 +7,8 @@ on:
       - 'scripts/test_verify_guest_stack_pair_20261028.py'
       - 'scripts/verify_002ac100_eight_byte_output.py'
       - 'src/main_unclassified/band_002a/0x002ac100.c'
+      - 'scripts/verify_002ac280_stream_float_and_buffer.py'
+      - 'src/main_unclassified/band_002a/0x002ac280.c'
       - '.github/workflows/guest-stack-producer-regression.yml'
   workflow_dispatch:
 jobs:
@@ -23,3 +25,7 @@ jobs:
         run: |
           python3 scripts/verify_002ac100_eight_byte_output.py --root .
           clang -std=c11 -fsyntax-only -Wno-implicit-function-declaration -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast -Wno-return-type -Wno-deprecated-non-prototype -I include src/main_unclassified/band_002a/0x002ac100.c
+      - name: Check 0x002AC280 stream float and 16-byte contiguous buffer, host C11
+        run: |
+          python3 scripts/verify_002ac280_stream_float_and_buffer.py --root .
+          clang -std=c11 -fsyntax-only -Wno-implicit-function-declaration -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast -Wno-return-type -Wno-deprecated-non-prototype -I include src/main_unclassified/band_002a/0x002ac280.c

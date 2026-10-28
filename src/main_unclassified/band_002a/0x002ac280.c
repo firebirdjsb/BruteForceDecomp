@@ -20,6 +20,7 @@ undefined4 FUN_002ac280(int *param_1,int *param_2)
   char *pcVar4;
   int iVar5;
   int iVar6;
+  float original_format_version;
   int iStack_1d4;
   int *piStack_1d0;
   undefined1 *puStack_1cc;
@@ -54,13 +55,14 @@ undefined4 FUN_002ac280(int *param_1,int *param_2)
   puStack_17c = local_154;
   piStack_180 = param_2;
   uStack_184 = 0x2ac2a2;
-  (**(code **)(*param_2 + 0x10))();
+  (**(code **)(*param_2 + 0x10))(param_2,local_154,4,0);
   uStack_184 = 0;
   uStack_188 = 4;
-  puStack_18c = &stack0xfffffe98;
+  /* XBE 0x2AC2A7: B+0x18 is the count word, not the float word. */
+  puStack_18c = (undefined1 *)&auStack_178[0];
   piStack_190 = param_2;
   uStack_194 = 0x2ac2b0;
-  (**(code **)(*param_2 + 0x10))();
+  (**(code **)(*param_2 + 0x10))(param_2,&auStack_178[0],4,0);
   puStack_17c = (undefined1 *)0x0;
   if (0 < (int)auStack_178[0]) {
     do {
@@ -125,7 +127,11 @@ undefined4 FUN_002ac280(int *param_1,int *param_2)
       ppuStack_1ac = (undefined1 **)0x2ac387;
       piStack_1a8 = piVar3;
       (**(code **)(*piVar3 + 0x10))();
-      if ((float)puStack_18c < 1.1) {
+      /* XBE 0x2AC387 FLD [ESP+0x1C] reads the first four-byte
+       * stream output, local_154, as IEEE-754 binary32. Byte copy
+       * preserves this f32 storage identity without pointer-to-float. */
+      memcpy(&original_format_version,local_154,sizeof(original_format_version));
+      if (original_format_version < 1.1) {
         uStack_188 = 0;
         auStack_178[1] = 0;
         ppuStack_1ac = (undefined1 **)auStack_178;
@@ -138,20 +144,22 @@ undefined4 FUN_002ac280(int *param_1,int *param_2)
       else {
         ppuStack_1ac = (undefined1 **)0x0;
         piStack_1b0 = (int *)0xc;
-        puStack_1b4 = auStack_150;
+        /* B+0x58 is 8 bytes into the 24-byte auStack_150 region. */
+        puStack_1b4 = &auStack_150[8];
         piStack_1b8 = param_2;
         uStack_1bc = 0x2ac3a6;
-        (**(code **)(*param_2 + 0x10))();
+        (**(code **)(*param_2 + 0x10))(param_2,&auStack_150[8],0xc,0);
         uStack_1bc = 0;
         uStack_1c0 = 4;
-        puStack_1c4 = local_154;
+        /* Adjacent four bytes: B+0x64, completing 16 contiguous bytes. */
+        puStack_1c4 = &auStack_150[20];
         piStack_1c8 = param_2;
         puStack_1cc = (undefined1 *)0x2ac3b4;
-        (**(code **)(*param_2 + 0x10))();
-        puStack_1cc = &stack0xfffffe90;
+        (**(code **)(*param_2 + 0x10))(param_2,&auStack_150[20],4,0);
+        puStack_1cc = &auStack_150[8];
         iStack_1d4 = 0x2ac3bf;
         piStack_1d0 = piVar3;
-        (**(code **)(*piVar3 + 0x4c))();
+        (**(code **)(*piVar3 + 0x4c))(piVar3,&auStack_150[8]);
       }
       iStack_1d4 = 0;
       (**(code **)(*param_2 + 0x10))(param_2,&puStack_1c4,4);
