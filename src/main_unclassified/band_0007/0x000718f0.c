@@ -6,6 +6,17 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <stdint.h>
+#include <string.h>
+
+/* Raw F32 bits, not a numeric conversion of guest address bits.
+ * Original x87 stores to m32fp and SSE MOVSS maintain 4-byte lanes. */
+static float bf_000718f0_float_bits(uint32_t bits)
+{
+  float value;
+  memcpy(&value,&bits,sizeof(value));
+  return value;
+}
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003f7f18;
@@ -41,7 +52,15 @@ float10 FUN_000718f0(int param_1,float *param_2,float param_3,float param_4,unde
   float local_304;
   float local_300;
   float local_2fc;
-  float **local_2f8;
+  float *local_2f8;
+  /* The original stack DWORDs are reused across different lifetimes:
+   * the 0x3F060A92 F32 angle increment, a stored FSIN result,
+   * the six F32 radius scales, and a later pointer to result data.
+   * Keep their scalar lives separate from host pointer storage. */
+  float guest_angle_step;
+  float guest_sin_component;
+  float guest_radius_scale;
+  float guest_quarter_radius;
   float local_2f4;
   float local_2f0;
   float local_2ec;
@@ -52,7 +71,7 @@ float10 FUN_000718f0(int param_1,float *param_2,float param_3,float param_4,unde
   float afStack_164 [16];
   undefined1 local_124 [292];
   
-  local_328 = (float *)0x3f060a92;
+  guest_angle_step = bf_000718f0_float_bits(UINT32_C(0x3f060a92));
   local_304 = 0.5;
   local_300 = 1.0;
   local_2fc = 0.5;
@@ -60,13 +79,14 @@ float10 FUN_000718f0(int param_1,float *param_2,float param_3,float param_4,unde
   fVar13 = (float10)fsin((float10)(0.08726647 - param_4));
   local_320[0] = (float)fVar3;
   local_320[2] = (float)fVar13;
-  local_330 = local_320 + 1;
+  /* The former pointer-typed local_330 is an FSIN m32fp lane
+   * until the later guest data-buffer address assignment. */
   local_324 = -param_4 - 0.08726647;
   fVar3 = (float10)fcos((float10)local_324);
   fVar13 = (float10)fsin((float10)local_324);
   local_320[1] = (float)fVar3;
   local_320[3] = (float)fVar13;
-  local_2f8 = &local_330;
+  local_2f8 = &guest_sin_component;
   local_30c = &local_324;
   local_308 = (param_3 + 3.1415927) - 0.5235988;
   pfVar10 = afStack_164 + 1;
@@ -84,14 +104,14 @@ float10 FUN_000718f0(int param_1,float *param_2,float param_3,float param_4,unde
       fVar3 = (float10)fcos((float10)local_334);
       fVar13 = (float10)fsin((float10)local_334);
       *local_30c = (float)fVar3;
-      *local_2f8 = (float *)(float)fVar13;
+      *local_2f8 = (float)fVar13;
       fVar1 = *(float *)((int)local_320 + iVar9);
       pfVar8[1] = *(float *)((int)local_320 + iVar9 + 8);
       iVar11 = iVar11 + -1;
       fVar2 = *(float *)((int)local_320 + iVar9);
       pfVar8[2] = -(local_324 * fVar1);
-      *pfVar8 = -((float)local_330 * fVar2);
-      local_334 = local_334 + (float)local_328;
+      *pfVar8 = -(guest_sin_component * fVar2);
+      local_334 = local_334 + guest_angle_step;
       pfVar8 = pfVar8 + 3;
     } while (iVar11 != 0);
     iVar9 = iVar9 + 4;
@@ -104,12 +124,12 @@ float10 FUN_000718f0(int param_1,float *param_2,float param_3,float param_4,unde
   iVar9 = 0;
   do {
     local_32c = (float *)((int)&local_218 + iVar9);
-    local_310 = (float *)(param_6 * afStack_164[iVar11]);
+    guest_radius_scale = param_6 * afStack_164[iVar11];
     local_328 = (float *)((int)&local_2e8 + iVar9);
-    *local_328 = *local_32c * (float)local_310;
+    *local_328 = *local_32c * guest_radius_scale;
     *(ulonglong *)((int)&local_2e4 + iVar9) =
          CONCAT44((float)((ulonglong)*(undefined8 *)((int)local_214 + iVar9) >> 0x20) *
-                  (float)local_310,(float)*(undefined8 *)((int)local_214 + iVar9) * (float)local_310
+                  guest_radius_scale,(float)*(undefined8 *)((int)local_214 + iVar9) * guest_radius_scale
                  );
     iVar11 = iVar11 + 1;
     *local_328 = *param_2 + *local_328;
@@ -141,23 +161,23 @@ float10 FUN_000718f0(int param_1,float *param_2,float param_3,float param_4,unde
         pfVar10 = (float *)((int)pfVar10 + 1);
       }
     }
-    local_328 = (float *)(param_6 * 0.25);
+    guest_quarter_radius = param_6 * 0.25f;
     local_334 = 1.4013e-45;
     bVar4 = true;
     do {
       if (!bVar4) break;
       iVar11 = 1;
-      param_6 = param_6 - (float)local_328;
+      param_6 = param_6 - guest_quarter_radius;
       iVar9 = 0;
       do {
         local_310 = (float *)((int)&local_218 + iVar9);
-        local_30c = (float *)(param_6 * afStack_164[iVar11]);
+        guest_radius_scale = param_6 * afStack_164[iVar11];
         local_32c = (float *)((int)&local_2e8 + iVar9);
-        *local_32c = *local_310 * (float)local_30c;
+        *local_32c = *local_310 * guest_radius_scale;
         *(ulonglong *)((int)&local_2e4 + iVar9) =
              CONCAT44((float)((ulonglong)*(undefined8 *)((int)local_214 + iVar9) >> 0x20) *
-                      (float)local_30c,
-                      (float)*(undefined8 *)((int)local_214 + iVar9) * (float)local_30c);
+                      guest_radius_scale,
+                      (float)*(undefined8 *)((int)local_214 + iVar9) * guest_radius_scale);
         iVar11 = iVar11 + 1;
         *local_32c = *local_32c + *param_2;
         *(float *)((int)&local_2e4 + iVar9) = param_2[1] + *(float *)((int)&local_2e4 + iVar9);
