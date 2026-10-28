@@ -2,6 +2,9 @@
  * Input x86 body SHA-256: 925663FE25ABAFA5F1CA8C0D3CD6710CBF1A7302A0B202B9863C8E5239F916AB
  * Entry: 0x001e4e30, Ghidra index: 6791, label: FUN_001e4e30
  * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * 2026-10-28: Original guest ESP+0x1C output alias is bound to one
+ * explicit 32-bit out-word, not an uninitialized host pseudo EBP.
+ * This isolated correction does not verify virtual call ABI or behavior.
  * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
@@ -34,7 +37,8 @@ undefined4 FUN_001e4e30(int param_1,undefined4 param_2,undefined4 *param_3)
   undefined4 uVar3;
   uint uVar4;
   int *piVar5;
-  int unaff_EBP;
+  /* Original 0x001E4FAE LEA [ESP+0x1C] supplies the out-DWORD. */
+  undefined4 bytes_read_word;
   char *pcVar6;
   int **ppiVar7;
   int *local_7ec;
@@ -98,8 +102,8 @@ undefined4 FUN_001e4e30(int param_1,undefined4 param_2,undefined4 *param_3)
                         (DAT_004432f8,s_z__mp_common_ml_sounds_bin_004074b8,0x80000000,&local_7e8);
       if (-1 < iVar2) {
         FUN_001e48b0();
-        (*(code *)(*ppiVar7)[4])(ppiVar7,&iStack_428,0x20c,&stack0xfffff80c);
-        if (((unaff_EBP == 0x20c) && (iStack_428 == 0)) && (iStack_424 == 0x20)) {
+        (*(code *)(*ppiVar7)[4])(ppiVar7,&iStack_428,0x20c,&bytes_read_word);
+        if (((bytes_read_word == 0x20c) && (iStack_428 == 0)) && (iStack_424 == 0x20)) {
           (*(code *)(*ppiVar7)[3])(ppiVar7);
           local_7e8 = 0;
           if (uStack_40c != 0) {
