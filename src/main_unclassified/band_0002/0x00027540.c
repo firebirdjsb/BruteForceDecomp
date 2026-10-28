@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+#include <stdint.h>
+#include <string.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_LAB_0039cc18;
@@ -23,8 +26,18 @@ undefined4 FUN_00027540(int param_1,float *param_2)
   float *pfVar9;
   int iVar10;
   float fVar11;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar12 [16];
+  /* Original 0x000275F4/0x00027958 RSQRTSS operates only on
+   * a scalar memory F32 lane. 0x0002764B..0x0002766C uses
+   * MOVSS/MOVHPS, MULPS, then stores exactly three F32 words.
+   * This replaces Ghidra byte-array pseudo-vector assignments.
+   * TODO/ABI_UNVERIFIED: x87 control state, upper SSE lanes and
+   * original guest-address/virtual-call contracts. */
+  float guest_rsqrt;
+  float guest_scaled_xyz[3];
+  float guest_original_y;
+  float guest_original_z;
+  uint32_t guest_y_bits;
+  uint32_t guest_z_bits;
   float fStack_1a8;
   float fStack_1a4;
   float fStack_1a0;
@@ -75,22 +88,30 @@ undefined4 FUN_00027540(int param_1,float *param_2)
   fStack_180 = -fStack_16c;
   fStack_188 = -*(float *)(iVar7 + 8);
   fStack_1a8 = fStack_188 * fStack_188 + fStack_180 * fStack_180;
-  auVar12 = rsqrtss(in_XMM0,fStack_1a8);
-  fStack_1a4 = auVar12._0_4_;
+  guest_rsqrt = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(fStack_1a8)));
+  fStack_1a4 = guest_rsqrt;
   fStack_188 = fStack_1a4 * fStack_188;
   fStack_184 = fStack_1a4 * 0.0;
   fStack_180 = fStack_180 * fStack_1a4;
   FUN_00027490();
   fStack_1a4 = 0.0;
-  auVar12._0_4_ = fStack_164 * 25.0;
-  auVar12._4_4_ = 0;
-  auVar12._8_4_ = (float)uStack_160 * 25.0;
-  auVar12._12_4_ = (float)((ulonglong)uStack_160 >> 0x20) * 25.0;
-  uStack_198 = auVar12._8_8_;
-  fStack_1a8 = auVar12._12_4_ + *(float *)(iVar6 + 0x2c);
-  fStack_1a0 = auVar12._8_4_ + *(float *)(iVar6 + 0x28);
-  fStack_174 = auVar12._0_4_ + *pfVar9;
-  fStack_19c = auVar12._0_4_;
+  /* Original SSE MOVSS/MOVHPS at 0x00027659 loads three
+   * contiguous F32 lanes; MULPS scales them, and MOVSS/MOVHPS
+   * writes all three lanes back. uStack_160 encodes two adjacent
+   * guest F32 words. Bit-preserving loads avoid the incorrect
+   * integer-to-float conversions of the decompiler. */
+  guest_y_bits = (uint32_t)uStack_160;
+  guest_z_bits = (uint32_t)(uStack_160 >> 32);
+  memcpy(&guest_original_y,&guest_y_bits,sizeof(guest_original_y));
+  memcpy(&guest_original_z,&guest_z_bits,sizeof(guest_original_z));
+  guest_scaled_xyz[0] = fStack_164 * 25.0f;
+  guest_scaled_xyz[1] = guest_original_y * 25.0f;
+  guest_scaled_xyz[2] = guest_original_z * 25.0f;
+  memcpy(&uStack_198,&guest_scaled_xyz[1],sizeof(uStack_198));
+  fStack_1a8 = guest_scaled_xyz[2] + *(float *)(iVar6 + 0x2c);
+  fStack_1a0 = guest_scaled_xyz[1] + *(float *)(iVar6 + 0x28);
+  fStack_174 = guest_scaled_xyz[0] + *pfVar9;
+  fStack_19c = guest_scaled_xyz[0];
   fStack_170 = fStack_1a0;
   fStack_16c = fStack_1a8;
   cStack_138 = FUN_0004cd10(piVar5[2],0x41c8cccd);
@@ -170,8 +191,9 @@ undefined4 FUN_00027540(int param_1,float *param_2)
       fVar1 = *(float *)((int)fStack_1a4 + 0x1c) - *(float *)(iVar6 + 0x2c);
       fVar2 = *(float *)((int)fStack_1a4 + 0x18) - *(float *)(iVar6 + 0x28);
       fVar3 = *(float *)((int)fStack_1a4 + 0x14) - *pfVar9;
-      auVar12 = rsqrtss(auVar12,fVar2 * fVar2 + fVar1 * fVar1 + fVar3 * fVar3);
-      fVar11 = auVar12._0_4_;
+      guest_rsqrt = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(
+          fVar2 * fVar2 + fVar1 * fVar1 + fVar3 * fVar3)));
+      fVar11 = guest_rsqrt;
       *param_2 = fVar11 * fVar3;
       param_2[1] = fVar2 * fVar11;
       param_2[2] = fVar1 * fVar11;
