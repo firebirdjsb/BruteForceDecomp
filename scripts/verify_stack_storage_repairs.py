@@ -12,6 +12,8 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x0003D6C0, 100, "a3875bc357803fb9e03f912e86eabf8ec659f52f2474af548cbea08d675632e8"),
+    (0x002A1A50, ((0, 2685), (2688, 198)), "68cbe263227919de03cac12d03f674a88b800bfaebe5b4e88c55a7ab6ed1eada"),
     (0x0001FC40, 40, "de39b6dece42b44e9508dd2033a9641d4725d83ce2f99f0bbc52be9d5e26a993"),
     (0x0001FD10, 39, "08d2cc5256cd581be8ffa89cec01b4c39be7f3cdd29052bb4827cb1c2fcc4815"),
     (0x0001FDD0, 40, "13832b0ffe3ccb2e86ec5e06b944b7e16dddfe35c04f722a781393bbbeecf49f"),
@@ -156,6 +158,46 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x002A1A74: "8b4848",  # mov      ecx, dword ptr [eax + 0x48]
+    0x002A1A88: "8955b4",  # mov      dword ptr [ebp - 0x4c], edx
+    0x002A1AD9: "8d95f0feffff",  # lea      edx, [ebp - 0x110]
+    0x002A1AE0: "e8dbbbd9ff",  # call     0x3d6c0
+    0x002A1B13: "8d852cffffff",  # lea      eax, [ebp - 0xd4]
+    0x002A1B1A: "e8a1bbd9ff",  # call     0x3d6c0
+    0x002A1B84: "f30f5245f4",  # rsqrtss  xmm0, dword ptr [ebp - 0xc]
+    0x002A1BF4: "f30f5245f4",  # rsqrtss  xmm0, dword ptr [ebp - 0xc]
+    0x002A1D1B: "a3d0384000",  # mov      dword ptr [0x4038d0], eax
+    0x002A1D40: "890dd4384000",  # mov      dword ptr [0x4038d4], ecx
+    0x002A1D46: "8915d8384000",  # mov      dword ptr [0x4038d8], edx
+    0x002A1E93: "c700201a1000",  # mov      dword ptr [eax], 0x101a20
+    0x002A1F18: "8b8510ffffff",  # mov      eax, dword ptr [ebp - 0xf0]
+    0x002A1F47: "899578ffffff",  # mov      dword ptr [ebp - 0x88], edx
+    0x002A1F68: "d945d8",  # fld      dword ptr [ebp - 0x28]
+    0x002A1F6B: "d84e0c",  # fmul     dword ptr [esi + 0xc]
+    0x002A1F6E: "d945dc",  # fld      dword ptr [ebp - 0x24]
+    0x002A1F71: "d84e10",  # fmul     dword ptr [esi + 0x10]
+    0x002A1F74: "dec1",  # faddp    st(1)
+    0x002A1F76: "d945d4",  # fld      dword ptr [ebp - 0x2c]
+    0x002A1F79: "d84e08",  # fmul     dword ptr [esi + 8]
+    0x002A1F7C: "dec1",  # faddp    st(1)
+    0x002A1F7E: "d88578ffffff",  # fadd     dword ptr [ebp - 0x88]
+    0x002A1F84: "d81dec523a00",  # fcomp    dword ptr [0x3a52ec]
+    0x002A1F8A: "dfe0",  # fnstsw   ax
+    0x002A1F8C: "f6c441",  # test     ah, 0x41
+    0x002A1F8F: "0f8497050000",  # je       0x2a252c
+    0x002A2196: "d945fc",  # fld      dword ptr [ebp - 4]
+    0x002A21B5: "8945fc",  # mov      dword ptr [ebp - 4], eax
+    0x002A21D2: "c1e018",  # shl      eax, 0x18
+    0x002A21DA: "894dfc",  # mov      dword ptr [ebp - 4], ecx
+    0x002A2212: "c700101a1000",  # mov      dword ptr [eax], 0x101a10
+    0x002A2370: "8b4de4",  # mov      ecx, dword ptr [ebp - 0x1c]
+    0x002A2373: "c700301a1000",  # mov      dword ptr [eax], 0x101a30
+    0x002A2383: "894810",  # mov      dword ptr [eax + 0x10], ecx
+    0x002A239A: "668b4608",  # mov      ax, word ptr [esi + 8]
+    0x002A24B1: "8906",  # mov      dword ptr [esi], eax
+    0x002A24B5: "85c0",  # test     eax, eax
+    0x002A252A: "7c9c",  # jl       0x2a24c8
+    0x003A52EC: "9a9999be",  # Original binary32 branch threshold
     0x0001FC43: "d9411c",  # fld      dword ptr [ecx + 0x1c]
     0x0001FC46: "d95c2404",  # fstp     dword ptr [esp + 4]
     0x0001FC4A: "d94110",  # fld      dword ptr [ecx + 0x10]
