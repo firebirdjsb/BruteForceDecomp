@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_float_lane.h"
+#include <xmmintrin.h>
+/* Preserve the explicit extended intermediates and m32fp spill points.
+ * The host float10 proxy does not implement original x87/MXCSR state. */
+#pragma STDC FENV_ACCESS ON
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 undefined4 FUN_00226cc0(float param_1)
@@ -29,24 +34,19 @@ undefined4 FUN_00226cc0(float param_1)
   int *extraout_EDX;
   float fVar15;
   float fVar16;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar17 [16];
-  undefined1 auVar18 [16];
-  undefined1 auVar19 [16];
-  undefined1 auVar20 [16];
+  float original_length;
+  /* S = ESP after the aligned allocation and saved registers.
+   * MOVSS/MOVHPS and LEAs establish these separate 12-byte spans:
+   * S+0x2c direction, S+0x38 target, S+0x48 forward, S+0x5c scaled.
+   * Register-only helpers and complete guest frame binding remain ABI_UNVERIFIED. */
+  float direction[3];
+  float target[3];
+  float forward[3];
+  float scaled[3];
+  float target_delta[3]; /* S+0x1c, used before the +0x40/0x1fdd0 calls. */
   float fStack_c0;
-  float fStack_a4;
-  undefined8 uStack_a0;
-  float fStack_98;
-  float fStack_94;
-  float fStack_90;
   float local_8c;
-  float fStack_88;
-  float fStack_84;
-  float fStack_80;
   undefined4 uStack_78;
-  float fStack_74;
-  undefined8 uStack_70;
   int iStack_60;
   int iStack_30;
   
@@ -57,8 +57,8 @@ undefined4 FUN_00226cc0(float param_1)
   if (cVar7 == '\0') {
     return 0;
   }
-  if (((float)in_ECX[0x76] < 0.0 != ((float)in_ECX[0x76] == 0.0)) &&
-     ((float)in_ECX[0x75] < 0.0 != ((float)in_ECX[0x75] == 0.0))) {
+  if ((bf_x86_word_to_f32((uint32_t)in_ECX[0x76]) < 0.0 != (bf_x86_word_to_f32((uint32_t)in_ECX[0x76]) == 0.0)) &&
+     (bf_x86_word_to_f32((uint32_t)in_ECX[0x75]) < 0.0 != (bf_x86_word_to_f32((uint32_t)in_ECX[0x75]) == 0.0))) {
     return 0;
   }
   local_8c = 1.0;
@@ -66,9 +66,11 @@ undefined4 FUN_00226cc0(float param_1)
     local_8c = 5.0;
   }
   *(byte *)(in_ECX + 0x88) = *(byte *)(in_ECX + 0x88) & 0xfe;
-  if ((((0.0 < (float)in_ECX[0x8c]) &&
-       (in_ECX[0x8c] = (int)((float)in_ECX[0x8c] - param_1),
-       (float)in_ECX[0x8c] < 0.0 != ((float)in_ECX[0x8c] == 0.0))) &&
+  if ((((0.0 < bf_x86_word_to_f32((uint32_t)in_ECX[0x8c])) &&
+       (bf_x86_store_f32_word((uint32_t *)(in_ECX + 0x8c),
+                             (float)((float10)bf_x86_word_to_f32((uint32_t)in_ECX[0x8c]) -
+                                     (float10)param_1)),
+       bf_x86_word_to_f32((uint32_t)in_ECX[0x8c]) < 0.0 != (bf_x86_word_to_f32((uint32_t)in_ECX[0x8c]) == 0.0))) &&
       (in_ECX[0x8c] = 0, (*(byte *)(in_ECX + 0x88) & 0x40) != 0)) && (in_ECX[0x81] == 0)) {
     FUN_00226b80(param_1);
   }
@@ -78,124 +80,155 @@ undefined4 FUN_00226cc0(float param_1)
   }
   if (((*(byte *)(in_ECX + 0x88) & 4) == 0) &&
      (((*(byte *)(in_ECX + 0x88) & 0x48) == 0 ||
-      ((float)in_ECX[0x8c] < 0.0 == ((float)in_ECX[0x8c] == 0.0))))) goto LAB_00227259;
+      (bf_x86_word_to_f32((uint32_t)in_ECX[0x8c]) < 0.0 == (bf_x86_word_to_f32((uint32_t)in_ECX[0x8c]) == 0.0))))) goto LAB_00227259;
   if (((*(byte *)(in_ECX + 0x88) & 0x40) != 0) && ((in_ECX[0x7b] == 0 && (in_ECX[0x81] == 0)))) {
     FUN_00226b80(param_1);
   }
   pfVar8 = (float *)(**(code **)(*in_ECX + 0x54))();
-  fStack_a4 = *pfVar8;
-  fVar1 = pfVar8[2];
-  fVar2 = pfVar8[1];
-  uStack_a0 = *(undefined8 *)(pfVar8 + 1);
-  auVar17._4_12_ = in_XMM0._4_12_;
-  auVar17._0_4_ = SQRT(fVar1 * fVar1 + fVar2 * fVar2 + fStack_a4 * fStack_a4);
-  auVar20 = auVar17;
-  if (1.1920929e-07 < auVar17._0_4_) {
-    auVar20 = rcpss(ZEXT416((uint)auVar17._0_4_),ZEXT416((uint)auVar17._0_4_));
-    fVar16 = auVar20._0_4_;
-    auVar20._0_4_ = fStack_a4 * fVar16;
-    auVar20._4_4_ = fVar16 * 0.0;
-    auVar20._8_4_ = fVar2 * fVar16;
-    auVar20._12_4_ = fVar1 * fVar16;
-    uStack_a0 = auVar20._8_8_;
-    fStack_a4 = auVar20._0_4_;
+  /* 0x226e33..0x226e89: (X*X+Y*Y)+Z*Z stays in x87 until a
+   * four-byte spill, then SQRTSS stores its low word at S+0x28. */
+  float10 input_x = (float10)*pfVar8;
+  memcpy(&direction[2], pfVar8 + 2, sizeof(float));
+  memcpy(&direction[1], pfVar8 + 1, sizeof(float));
+  direction[0] = (float)input_x;
+  float10 input_y = (float10)direction[1];
+  float10 input_z = (float10)direction[2];
+  float norm_word = (float)((input_x * input_x + input_y * input_y) + input_z * input_z);
+  original_length = _mm_cvtss_f32(_mm_sqrt_ss(_mm_set_ss(norm_word)));
+  if ((float10)0x1p-23f < (float10)original_length) {
+    /* 0x226eb0..0x226ed1: RCPSS, broadcast, {X,+0,Y,Z} MULPS,
+     * then exactly twelve bytes stored. The unstored lane executes too. */
+    __m128 reciprocal = _mm_rcp_ss(_mm_load_ss(&original_length));
+    reciprocal = _mm_shuffle_ps(reciprocal, reciprocal, 0);
+    __m128 vector = _mm_load_ss(direction);
+    vector = _mm_loadh_pi(vector, (const __m64 *)(direction + 1));
+    vector = _mm_mul_ps(vector, reciprocal);
+    _mm_store_ss(direction, vector);
+    _mm_storeh_pi((__m64 *)(direction + 1), vector);
   }
   if (((*(byte *)(in_ECX + 0x88) & 0x48) != 0) &&
-     ((float)in_ECX[0x8c] < 0.0 != ((float)in_ECX[0x8c] == 0.0))) {
-    fStack_90 = (float)in_ECX[0x7e];
-    fStack_94 = (float)in_ECX[0x7d];
-    fStack_98 = (float)in_ECX[0x7c];
+     (bf_x86_word_to_f32((uint32_t)in_ECX[0x8c]) < 0.0 != (bf_x86_word_to_f32((uint32_t)in_ECX[0x8c]) == 0.0))) {
+    target[2] = bf_x86_word_to_f32((uint32_t)in_ECX[0x7e]);
+    target[1] = bf_x86_word_to_f32((uint32_t)in_ECX[0x7d]);
+    target[0] = bf_x86_word_to_f32((uint32_t)in_ECX[0x7c]);
     iVar9 = (**(code **)(*in_ECX + 0x40))();
-    fVar1 = fStack_90 - *(float *)(iVar9 + 0x2c);
-    fVar2 = fStack_94 - *(float *)(iVar9 + 0x28);
-    fVar16 = fStack_98 - *(float *)(iVar9 + 0x24);
-    fVar15 = fVar2 * fVar2 + fVar1 * fVar1 + fVar16 * fVar16;
-    if (fVar15 <= 1.0) {
+    /* 0x226f2c..0x226f86 spills Z, Y, X, then compares the extended
+     * (X*X+Z*Z)+Y*Y with one. <= and unordered take the fallback. */
+    target_delta[2] = (float)((float10)target[2] - (float10)*(float *)(iVar9 + 0x2c));
+    target_delta[1] = (float)((float10)target[1] - (float10)*(float *)(iVar9 + 0x28));
+    target_delta[0] = (float)((float10)target[0] - (float10)*(float *)(iVar9 + 0x24));
+    float10 delta_x = (float10)target_delta[0];
+    float10 delta_y = (float10)target_delta[1];
+    float10 delta_z = (float10)target_delta[2];
+    float10 target_norm = (delta_x * delta_x + delta_z * delta_z) + delta_y * delta_y;
+    if (!(target_norm > (float10)1.0f)) {
 LAB_00227038:
       pfVar8 = (float *)(**(code **)(*in_ECX + 0x54))();
-      auVar19._0_4_ = *pfVar8 * 200.0;
-      auVar19._4_4_ = 0;
-      auVar19._8_4_ = (float)*(undefined8 *)(pfVar8 + 1) * 200.0;
-      auVar19._12_4_ = (float)((ulonglong)*(undefined8 *)(pfVar8 + 1) >> 0x20) * 200.0;
-      uStack_70 = auVar19._8_8_;
-      fStack_88 = auVar19._0_4_;
-      fStack_84 = auVar19._8_4_;
-      fStack_80 = auVar19._12_4_;
-      fStack_74 = auVar19._0_4_;
+      /* 0x227045..0x22706e broadcasts 200, then multiplies by
+       * {X,+0,Y,Z}, with the scalar broadcast as MULPS destination. */
+      float scale_200 = 200.0f;
+      __m128 broadcast = _mm_load_ss(&scale_200);
+      broadcast = _mm_shuffle_ps(broadcast, broadcast, 0);
+      __m128 input = _mm_load_ss(pfVar8);
+      input = _mm_loadh_pi(input, (const __m64 *)(pfVar8 + 1));
+      __m128 product = _mm_mul_ps(broadcast, input);
+      _mm_store_ss(scaled, product);
+      _mm_storeh_pi((__m64 *)(scaled + 1), product);
+      memcpy(forward, scaled, sizeof(forward));
       iVar9 = (**(code **)(*in_ECX + 0x40))();
-      fStack_90 = fStack_80 + *(float *)(iVar9 + 0x2c);
-      fStack_94 = fStack_84 + *(float *)(iVar9 + 0x28);
-      fStack_98 = fStack_88 + *(float *)(iVar9 + 0x24);
+      target[2] = (float)((float10)forward[2] + (float10)*(float *)(iVar9 + 0x2c));
+      target[1] = (float)((float10)forward[1] + (float10)*(float *)(iVar9 + 0x28));
+      target[0] = (float)((float10)forward[0] + (float10)*(float *)(iVar9 + 0x24));
       FUN_00226360();
       if ((*(byte *)(in_ECX + 0x88) & 0x40) != 0) {
         in_ECX[0x74] = 0x3f000000;
       }
     }
     else {
-      auVar20 = rsqrtss(auVar20,fVar15);
-      fVar15 = auVar20._0_4_;
-      auVar18._0_4_ = fVar16 * fVar15;
-      auVar18._4_4_ = fVar15 * 0.0;
-      auVar18._8_4_ = fVar2 * fVar15;
-      auVar18._12_4_ = fVar1 * fVar15;
-      auVar19 = auVar18;
+      float target_norm_word = (float)target_norm;
+      __m128 reciprocal = _mm_rsqrt_ss(_mm_load_ss(&target_norm_word));
+      reciprocal = _mm_shuffle_ps(reciprocal, reciprocal, 0);
+      __m128 vector = _mm_load_ss(target_delta);
+      vector = _mm_loadh_pi(vector, (const __m64 *)(target_delta + 1));
+      vector = _mm_mul_ps(vector, reciprocal);
+      _mm_store_ss(target_delta, vector);
+      _mm_storeh_pi((__m64 *)(target_delta + 1), vector);
       (**(code **)(*in_ECX + 0x40))();
       pfVar8 = (float *)FUN_0001fdd0();
-      fStack_80 = -pfVar8[2];
-      fStack_84 = -pfVar8[1];
-      if (fStack_84 * auVar18._8_4_ + fStack_80 * auVar18._12_4_ + auVar18._0_4_ * -*pfVar8 < 0.5)
+      forward[2] = (float)-(float10)pfVar8[2];
+      forward[1] = (float)-(float10)pfVar8[1];
+      float10 negative_x = -(float10)*pfVar8;
+      float10 facing_dot = ((float10)target_delta[0] * negative_x +
+                            (float10)forward[2] * (float10)target_delta[2]) +
+                            (float10)forward[1] * (float10)target_delta[1];
+      if (facing_dot < (float10)0.5f)
       goto LAB_00227038;
     }
     if ((int *)in_ECX[0x7b] != (int *)0x0) {
       iVar10 = (**(code **)(*(int *)in_ECX[0x7b] + 0x40))();
-      fStack_90 = *(float *)(iVar10 + 0x2c);
-      iVar9 = *(int *)(iVar10 + 0x28);
-      in_ECX[0x7c] = (int)*(float *)(iVar10 + 0x24);
-      in_ECX[0x7d] = iVar9;
-      in_ECX[0x7e] = (int)fStack_90;
-      fStack_94 = (float)in_ECX[0x7d];
-      fStack_98 = (float)in_ECX[0x7c];
+      /* 0x22710d..0x22712f copies raw Z/Y/X DWORDs before storing X/Y/Z. */
+      uint32_t follow_z = *(uint32_t *)(iVar10 + 0x2c);
+      uint32_t follow_y = *(uint32_t *)(iVar10 + 0x28);
+      uint32_t follow_x = *(uint32_t *)(iVar10 + 0x24);
+      memcpy(in_ECX + 0x7c, &follow_x, sizeof(follow_x));
+      memcpy(in_ECX + 0x7d, &follow_y, sizeof(follow_y));
+      memcpy(in_ECX + 0x7e, &follow_z, sizeof(follow_z));
+      target[2] = bf_x86_word_to_f32(follow_z);
+      target[1] = bf_x86_word_to_f32((uint32_t)in_ECX[0x7d]);
+      target[0] = bf_x86_word_to_f32((uint32_t)in_ECX[0x7c]);
       if ((*(byte *)((int)in_ECX + 0x221) & 1) != 0) {
-        FUN_00226930(in_ECX,param_1,&fStack_98);
+        FUN_00226930(in_ECX,param_1,target);
       }
     }
     iVar9 = (**(code **)(*in_ECX + 0x40))();
-    fVar1 = fStack_90 - *(float *)(iVar9 + 0x2c);
-    fVar2 = fStack_94 - *(float *)(iVar9 + 0x28);
-    fStack_a4 = fStack_98 - *(float *)(iVar9 + 0x24);
-    uStack_a0 = CONCAT44(fVar1,fVar2);
-    fVar16 = fStack_a4 * fStack_a4 + fVar2 * fVar2 + fVar1 * fVar1;
-    if (1.4210855e-14 < fVar16) {
-      auVar20 = rsqrtss(auVar19,fVar16);
-      fVar16 = auVar20._0_4_;
-      fStack_a4 = fStack_a4 * fVar16;
-      uStack_a0 = CONCAT44(fVar1 * fVar16,fVar2 * fVar16);
+    direction[2] = (float)((float10)target[2] - (float10)*(float *)(iVar9 + 0x2c));
+    direction[1] = (float)((float10)target[1] - (float10)*(float *)(iVar9 + 0x28));
+    /* 0x2271a5 stores X without popping it; its norm term stays extended. */
+    float10 final_x = (float10)target[0] - (float10)*(float *)(iVar9 + 0x24);
+    direction[0] = (float)final_x;
+    float10 final_y = (float10)direction[1];
+    float10 final_z = (float10)direction[2];
+    float10 final_norm = (final_z * final_z + final_y * final_y) + final_x * final_x;
+    if ((float10)0x1p-46f < final_norm) {
+      float final_norm_word = (float)final_norm;
+      __m128 reciprocal = _mm_rsqrt_ss(_mm_load_ss(&final_norm_word));
+      reciprocal = _mm_shuffle_ps(reciprocal, reciprocal, 0);
+      __m128 vector = _mm_load_ss(direction);
+      vector = _mm_loadh_pi(vector, (const __m64 *)(direction + 1));
+      vector = _mm_mul_ps(vector, reciprocal);
+      _mm_store_ss(direction, vector);
+      _mm_storeh_pi((__m64 *)(direction + 1), vector);
     }
   }
-  fStack_c0 = auVar17._0_4_;
+  fStack_c0 = original_length;
   if ((*(byte *)(in_ECX + 0x88) & 4) != 0) {
-    fStack_c0 = (float)in_ECX[0x82];
+    fStack_c0 = bf_x86_word_to_f32((uint32_t)in_ECX[0x82]);
   }
-  FUN_002266d0(in_ECX,param_1,auVar17._0_4_,&fStack_a4,fStack_c0);
+  FUN_002266d0(in_ECX,param_1,original_length,direction,fStack_c0);
 LAB_00227259:
-  if (((float)in_ECX[0x76] < 0.0 == ((float)in_ECX[0x76] == 0.0)) ||
+  if ((bf_x86_word_to_f32((uint32_t)in_ECX[0x76]) < 0.0 == (bf_x86_word_to_f32((uint32_t)in_ECX[0x76]) == 0.0)) ||
      ((*(byte *)((int)in_ECX + 0x221) & 4) != 0)) {
-    in_ECX[0x76] = (int)((float)in_ECX[0x76] - local_8c * param_1);
+    bf_x86_store_f32_word((uint32_t *)(in_ECX + 0x76),
+        (float)((float10)bf_x86_word_to_f32((uint32_t)in_ECX[0x76]) -
+                (float10)local_8c * (float10)param_1));
   }
-  else if (0.0 < (float)in_ECX[0x75]) {
-    in_ECX[0x75] = (int)((float)in_ECX[0x75] - local_8c * param_1);
+  else if (0.0 < bf_x86_word_to_f32((uint32_t)in_ECX[0x75])) {
+    bf_x86_store_f32_word((uint32_t *)(in_ECX + 0x75),
+        (float)((float10)bf_x86_word_to_f32((uint32_t)in_ECX[0x75]) -
+                (float10)local_8c * (float10)param_1));
   }
   if (((in_ECX[0x81] == 1) && (iVar9 = (**(code **)(*in_ECX + 0x54))(), *(float *)(iVar9 + 4) < 0.5)
-      ) && ((float)in_ECX[0x8c] == 0.0)) {
+      ) && (bf_x86_word_to_f32((uint32_t)in_ECX[0x8c]) == 0.0)) {
     FUN_00227f80(in_ECX);
   }
   bVar6 = false;
-  if (((((0.0 < (float)in_ECX[0x85]) && ((*(byte *)(in_ECX + 0x88) & 0x20) != 0)) &&
+  if (((((0.0 < bf_x86_word_to_f32((uint32_t)in_ECX[0x85])) && ((*(byte *)(in_ECX + 0x88) & 0x20) != 0)) &&
        ((in_ECX[0x7b] != 0 || (in_ECX[0x87] != 2)))) &&
       ((in_ECX[0x6d] != 0 && (*(int *)(*(int *)(in_ECX[0x6d] + 0xc) + 4) == 3)))) &&
      (cVar7 = FUN_00112800(), cVar7 != '\0')) {
-    if ((float)in_ECX[0x86] < 0.25) {
-      in_ECX[0x86] = (int)(param_1 + (float)in_ECX[0x86]);
+    if (bf_x86_word_to_f32((uint32_t)in_ECX[0x86]) < 0.25) {
+      bf_x86_store_f32_word((uint32_t *)(in_ECX + 0x86),
+          (float)((float10)param_1 + (float10)bf_x86_word_to_f32((uint32_t)in_ECX[0x86])));
     }
     else {
       in_ECX[0x86] = 0;
@@ -205,7 +238,7 @@ LAB_00227259:
       (**(code **)(*in_ECX + 0x40))();
       FUN_000d4240(in_ECX[0x85]);
       FUN_000d1420(uStack_78);
-      FUN_000d4270(&fStack_88);
+      FUN_000d4270(forward);
       if (iStack_60 != iStack_30) {
         do {
           if (bVar6) goto LAB_002276a3;
@@ -227,17 +260,18 @@ LAB_00227259:
                     iVar12 = (**(code **)(*piVar14 + 0x40))();
                     fVar1 = *(float *)(iVar12 + 0x2c) - *(float *)(iVar11 + 0x2c);
                     local_8c = *(float *)(iVar12 + 0x28) - *(float *)(iVar11 + 0x28);
-                    fStack_a4 = *(float *)(iVar12 + 0x24) - *(float *)(iVar11 + 0x24);
-                    uStack_a0 = CONCAT44(fVar1,local_8c);
-                    fVar1 = fStack_a4 * fStack_a4 + local_8c * local_8c + fVar1 * fVar1;
-                    fVar2 = (float)in_ECX[0x85] * (float)in_ECX[0x85];
+                    direction[0] = *(float *)(iVar12 + 0x24) - *(float *)(iVar11 + 0x24);
+                    direction[1] = local_8c;
+                    direction[2] = fVar1;
+                    fVar1 = direction[0] * direction[0] + local_8c * local_8c + fVar1 * fVar1;
+                    fVar2 = bf_x86_word_to_f32((uint32_t)in_ECX[0x85]) * bf_x86_word_to_f32((uint32_t)in_ECX[0x85]);
                     if (fVar1 < fVar2 != (fVar1 == fVar2)) {
                       if (fVar1 < 0.0 != (fVar1 == 0.0)) goto LAB_0022767c;
                       pfVar8 = (float *)(**(code **)(*in_ECX + 0x54))();
                       if (1.1920929e-07 <
                           pfVar8[2] * pfVar8[2] + pfVar8[1] * pfVar8[1] + *pfVar8 * *pfVar8) {
-                        fVar2 = (float)uStack_a0 * pfVar8[1] + uStack_a0._4_4_ * pfVar8[2];
-                        fVar1 = fStack_a4;
+                        fVar2 = direction[1] * pfVar8[1] + direction[2] * pfVar8[2];
+                        fVar1 = direction[0];
                         goto LAB_00227667;
                       }
                     }
@@ -251,7 +285,7 @@ LAB_00227259:
                 fVar16 = *(float *)(iVar12 + 0x28) - *(float *)(iVar11 + 0x28);
                 fVar1 = *(float *)(iVar12 + 0x24) - *(float *)(iVar11 + 0x24);
                 fVar15 = fVar1 * fVar1 + fVar16 * fVar16 + fVar2 * fVar2;
-                fVar5 = (float)in_ECX[0x85] * (float)in_ECX[0x85];
+                fVar5 = bf_x86_word_to_f32((uint32_t)in_ECX[0x85]) * bf_x86_word_to_f32((uint32_t)in_ECX[0x85]);
                 local_8c = fVar16;
                 if (fVar15 < fVar5 != (fVar15 == fVar5)) {
                   if (fVar15 < 0.0 != (fVar15 == 0.0)) {
@@ -281,11 +315,11 @@ LAB_002276a3:
       }
     }
   }
-  if ((float)in_ECX[0x76] < 0.0 != ((float)in_ECX[0x76] == 0.0)) {
+  if (bf_x86_word_to_f32((uint32_t)in_ECX[0x76]) < 0.0 != (bf_x86_word_to_f32((uint32_t)in_ECX[0x76]) == 0.0)) {
     if ((in_ECX[0x81] == 2) || (in_ECX[0x81] == 1)) {
       FUN_00227f80(in_ECX);
     }
-    else if ((float)in_ECX[0x75] < 0.0 != ((float)in_ECX[0x75] == 0.0)) {
+    else if (bf_x86_word_to_f32((uint32_t)in_ECX[0x75]) < 0.0 != (bf_x86_word_to_f32((uint32_t)in_ECX[0x75]) == 0.0)) {
       if ((((*(byte *)(in_ECX + 0x88) & 0x10) != 0) || (bVar6)) &&
          ((*(byte *)(in_ECX + 0x88) & 2) == 0)) {
         FUN_00227760();
