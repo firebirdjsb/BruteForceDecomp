@@ -6,7 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_0012b2a0(void)
+#include "bf_0011c810_register_calls.h"
+/* Original guest EAX=output[3], ECX=vector[3], EDX=matrix[9].
+ * Host formal parameters represent observed register-sourced addresses only;
+ * no original cdecl prototype, x87 semantics or guest mapping is asserted. */
+void FUN_0012b2a0(float *in_EAX, const float *in_ECX, const float *in_EDX)
 
 {
   float fVar1;
@@ -21,9 +25,6 @@ void FUN_0012b2a0(void)
   float fVar10;
   float fVar11;
   float fVar12;
-  float *in_EAX;
-  float *in_ECX;
-  float *in_EDX;
   
   fVar1 = in_EDX[6];
   fVar2 = in_ECX[2];

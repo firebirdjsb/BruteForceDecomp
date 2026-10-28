@@ -219,6 +219,12 @@ on:
       - 'scripts/verify_002ebea0_pilot_callers.py'
       - 'scripts/verify_001feb60_guest_output.py'
       - 'scripts/verify_0011c810_matrix_frame.py'
+      - 'scripts/verify_0011c810_source_register_links.py'
+      - 'tests/test_0011c810_guest_producer_bridge.c'
+      - 'tests/test_0011c810_register_calls_syntax.c'
+      - 'src/abi/bf_0011c810_guest_producer_bridge.c'
+      - 'include/bf_0011c810_register_calls.h'
+      - 'include/bf_0011c810_guest_producer_bridge.h'
       - 'tests/test_0011c810_matrix_frame.c'
       - 'tests/test_0011c810_matrix_frame_syntax.c'
       - 'tests/test_001feb60_guest_output.c'
@@ -748,6 +754,8 @@ jobs:
         run: python3 scripts/verify_001feb60_guest_output.py --root .
       - name: Verify 0x0011C810 guest matrix producer-to-consumer storage (source only)
         run: python3 scripts/verify_0011c810_matrix_frame.py --root .
+      - name: Verify original 0x0001D0C0 and 0x0012B2A0 C links to 0x0011C810 guest frame
+        run: python3 scripts/verify_0011c810_source_register_links.py --root .
       - name: Verify original F32 dot storage and SIMD XYZ scale source contracts
         run: python3 scripts/verify_20261026_x87_dot_and_xyz_scale.py --root .
       - name: Verify 0x0005CC20 three F32 guest XYZ deltas and raw saved Z word

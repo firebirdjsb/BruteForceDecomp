@@ -6,10 +6,14 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_0011c810_register_calls.h"
 #include <xmmintrin.h>
 #include <math.h>
 /* Original x86 rsqrtss instruction, scalar lane only. x87 rounding TBD. */
-void FUN_0001d0c0(void)
+/* Original guest EAX points to 3 float DWORDs; ECX is a 9-DWORD result.
+ * These are explicit HOST C inputs, NOT the original Xbox entry ABI.
+ * Guest VA mapping and x87/MXCSR effects remain unverified. */
+void FUN_0001d0c0(const float *in_EAX, float *in_ECX)
 
 {
   float fVar1;
@@ -19,8 +23,6 @@ void FUN_0001d0c0(void)
   float fVar5;
   float fVar6;
   float fVar7;
-  float *in_EAX;
-  float *in_ECX;
   float fVar8;
   float fVar9;
   float fVar10;
