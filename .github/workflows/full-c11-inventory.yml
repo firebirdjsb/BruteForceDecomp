@@ -227,6 +227,8 @@ on:
       - 'scripts/verify_0011c810_xbe_vector_lanes.py'
       - 'scripts/verify_0010fbf0_scalar_projection.py'
       - 'scripts/verify_0011c810_threshold_reset.py'
+      - 'scripts/verify_00175090_guest_output.py'
+      - 'tests/test_00175090_guest_output.py'
       - 'scripts/test_verify_0011c810_threshold_reset.py'
       - 'tests/test_0011c810_threshold_reset.c'
       - 'tests/test_0011c810_threshold_syntax.c'
@@ -793,6 +795,10 @@ jobs:
         run: python3 scripts/verify_0010fbf0_scalar_projection.py --root .
       - name: Verify original 0x0011C810 x87 strict threshold reset via independent hardware oracle
         run: python3 scripts/verify_0011c810_threshold_reset.py --root .
+      - name: Verify original 0x00175090 common guest EAX output slot (source-only)
+        run: python3 scripts/verify_00175090_guest_output.py --root .
+      - name: Test synthetic 0x00175090 wrapping guest stack slot and XBE section parsing
+        run: python3 tests/test_00175090_guest_output.py
       - name: Reject 0x0011C810 reset-branch original opcode corruption (synthetic)
         run: python3 scripts/test_verify_0011c810_threshold_reset.py
       - name: Verify pinned 0x0010FBF0 scalar opcode-window corruption rejection (synthetic)

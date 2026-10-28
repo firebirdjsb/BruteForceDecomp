@@ -28,6 +28,14 @@ void FUN_00175090(int param_1)
   byte *pbVar10;
   bool bVar11;
   int unaff_retaddr;
+  /* XBE 0x175105, 0x175213 and 0x175269 each execute
+   * LEA EAX,[ESP+0x20] after three outgoing DWORD pushes.
+   * Guest slot is entry ESP-8 after the 12-byte local reservation
+   * and four saved registers (EBX,EDI,EBP,ESI). Both called helpers
+   * copy EAX to EDI and write a 32-bit output word through EDI.
+   * A single four-byte local therefore backs all three call outputs.
+   * Original guest stack/implicit register ABI remains unverified. */
+  undefined4 caller_stack_output_word;
   
   iVar2 = (**(code **)(**(int **)(param_1 + 0x74) + 0x18))(*(int **)(param_1 + 0x74));
   iVar8 = 0;
@@ -55,7 +63,7 @@ switchD_001750d2_caseD_1:
           puVar3 = (undefined4 *)*puVar3;
         } while ((iVar4 == 0) || (iVar6 != *(int *)(iVar4 + 4)));
         if (iVar4 != 0) {
-          FUN_000dec40(unaff_retaddr,iVar8,&stack0xfffffff0);
+          FUN_000dec40(unaff_retaddr,iVar8,&caller_stack_output_word);
         }
         break;
       case 7:
@@ -131,14 +139,14 @@ LAB_001751bb:
         FUN_002383b0();
         iVar6 = FUN_000da6f0();
         if (iVar6 != 0) {
-          FUN_000ded40(unaff_retaddr,iVar8,&stack0xfffffff0);
+          FUN_000ded40(unaff_retaddr,iVar8,&caller_stack_output_word);
         }
         break;
       case 0xb:
         FUN_002383b0();
         iVar4 = FUN_000da6f0();
         if (iVar4 != 0) {
-          FUN_000ded40(iVar6,iVar8,&stack0xfffffff0);
+          FUN_000ded40(iVar6,iVar8,&caller_stack_output_word);
         }
       }
 switchD_001750d2_caseD_2:
