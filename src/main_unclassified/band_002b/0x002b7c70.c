@@ -6,6 +6,19 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <stdint.h>
+#include <string.h>
+
+/* Original XBE 0x002B7DFE and 0x002B8200 read guest32 words
+ * from [param_1+0x44] and [param_1+0x48] for indirect dispatch.
+ * Do not numerically cast an IEEE F32 field to a host pointer.
+ * TODO/ABI_UNVERIFIED: native guest32 address translation and callee ABI. */
+static uint32_t bf_2b7c70_guest_word(const float *field)
+{
+  uint32_t bits;
+  memcpy(&bits,field,sizeof(bits));
+  return bits;
+}
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003b86e0;
@@ -42,7 +55,9 @@ void FUN_002b7c70(float *param_1,int *param_2)
   float local_1c;
   float local_18;
   undefined4 local_14;
-  float *local_10 [4];
+  /* XBE 0x002B81A9 loads [ESP+index*4+0x50] as F32. The
+   * original outgoing vector scratch cannot be host pointers. */
+  float local_10 [4];
   
   iVar7 = (int)(short)param_2[3];
   iVar9 = 0;
@@ -69,8 +84,11 @@ void FUN_002b7c70(float *param_1,int *param_2)
           fStack_38 = fStack_38 * -1.0;
         }
         FUN_002b65a0(&local_40);
-        (*(code *)**(undefined4 **)param_1[0x11])
-                  (param_1[0x12],param_2,param_2 + 4,fVar15 * param_1[0x13],&local_40);
+        /* 0x002B7DFE..0x002B7E19: raw guest callback address, five
+         * pushed arguments including the actual F32 normal vector. */
+        (*(code *)**(undefined4 **)(uintptr_t)bf_2b7c70_guest_word(&param_1[0x11]))
+                  (bf_2b7c70_guest_word(&param_1[0x12]),param_2,param_2 + 4,
+                   fVar15 * param_1[0x13],&local_40);
         return;
       }
     }
@@ -165,19 +183,24 @@ void FUN_002b7c70(float *param_1,int *param_2)
               fVar15 = param_1[0x13];
               FUN_002b65a0(&local_40);
               pfVar3 = &local_40;
-              (*(code *)**(undefined4 **)param_1[0x11])
-                        (param_1[0x12],param_2,(uint)puVar10 & 0xfffffff0,fVar13 * fVar15);
-              fVar15 = local_10[0][0x13];
-              local_10[0][8] = *local_10[0] + local_10[0][0xc] * fVar15;
-              *(ulonglong *)(local_10[0] + 9) =
-                   CONCAT44((float)((ulonglong)*(undefined8 *)(local_10[0] + 1) >> 0x20) +
-                            (float)((ulonglong)*(undefined8 *)(local_10[0] + 0xd) >> 0x20) * fVar15,
-                            (float)*(undefined8 *)(local_10[0] + 1) +
-                            (float)*(undefined8 *)(local_10[0] + 0xd) * fVar15);
-              local_10[0][0x13] = (float)pfVar3;
+              /* 0x002B81F1..0x002B821C pushes five arguments,
+               * including normal vector at [ESP+0x20]. The draft
+               * omitted that fifth argument. Post-call 0x002B821E
+               * reloads the original param_1, not a pointer from
+               * the independent F32 scratch at [ESP+0x50]. */
+              (*(code *)**(undefined4 **)(uintptr_t)bf_2b7c70_guest_word(&param_1[0x11]))
+                        (bf_2b7c70_guest_word(&param_1[0x12]),param_2,
+                         (uint)puVar10 & 0xfffffff0,fVar13 * fVar15,&local_40);
+              /* 0x002B8237..0x002B8267 updates three SIMD F32
+               * positions, and 0x002B826B/8274 stores saved F32. */
+              fVar15 = param_1[0x13];
+              param_1[8] = *param_1 + param_1[0xc] * fVar15;
+              param_1[9] = param_1[1] + param_1[0xd] * fVar15;
+              param_1[10] = param_1[2] + param_1[0xe] * fVar15;
+              param_1[0x13] = fVar13;
               return;
             }
-            if ((float)local_10[iVar9] <= 0.0) break;
+            if (local_10[iVar9] <= 0.0f) break;
             puVar5 = (uint *)((int)puVar5 + *(int *)(&DAT_003b86e0 + ((uint)puVar5 & 0xc)));
             iVar9 = iVar9 + 1;
           }
