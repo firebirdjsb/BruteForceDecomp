@@ -127,17 +127,22 @@ undefined4 FUN_002ac100(int param_1,undefined4 **param_2)
     pcVar4 = (char *)0x0;
     if (0 < iStack_64) {
       do {
-        piStack_74 = (int *)&stack0xffffffb0;
+        /* XBE 0x002AC23A and 0x002AC24A address the same eight guest
+         * bytes: B+0x20 (local_38[2..3]), where B is ESP after PUSH EDI.
+         * 0x002AC11B anchors local_38[0] at B+0x18. The virtual +0x38
+         * implementation remains unverified; this binds only the caller's
+         * exact output slot and its subsequent eight-byte stream write. */
+        piStack_74 = (int *)&local_38[2];
         uStack_80 = 0x2ac244;
         piStack_7c = piVar2;
         pcStack_78 = pcVar4;
-        (**(code **)(*piVar2 + 0x38))();
+        (**(code **)(*piVar2 + 0x38))(piVar2,(uint)pcVar4,&local_38[2]);
         uStack_80 = 0;
         ppcStack_84 = (char **)0x8;
-        ppuStack_88 = &puStack_5c;
+        ppuStack_88 = (undefined4 **)&local_38[2];
         ppuStack_8c = param_2;
         uStack_90 = 0x2ac253;
-        (*(code *)(*param_2)[5])();
+        (*(code *)(*param_2)[5])(param_2,&local_38[2],8,0);
         pcVar4 = pcVar4 + 1;
       } while ((int)pcVar4 < iStack_64);
     }
