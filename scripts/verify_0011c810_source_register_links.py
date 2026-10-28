@@ -66,7 +66,10 @@ def main() -> None:
                         "-fsyntax-only", str(syntax)], check=True)
     # Keep the existing original source's floating-constant comparison and
     # implicit grouping unchanged, without asserting these are x87-parity.
-    prior_warnings = ["-Wno-parentheses", "-Wno-literal-range"]
+    # Only while compiling existing Ghidra draft inputs: its shared code()
+    # declaration intentionally retains an unknown (non-prototype) ABI.
+    prior_warnings = ["-Wno-parentheses", "-Wno-literal-range",
+                      "-Wno-strict-prototypes"]
     for src in SOURCES:
         subprocess.run([args.clang, *flags, "-fsyntax-only", str(root / src)], check=True)
     with tempfile.TemporaryDirectory(prefix="bf_0011c810_live_src_") as tmp:
