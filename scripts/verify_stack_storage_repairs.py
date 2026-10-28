@@ -158,6 +158,12 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x0006E1F2: "d95c2418",  # fstp     dword ptr [esp + 0x18]
+    0x0006E1F6: "f30f104c2418",  # movss    xmm1, dword ptr [esp + 0x18]
+    0x0006E1FC: "8b442478",  # mov      eax, dword ptr [esp + 0x78]
+    0x0006E200: "f30f1000",  # movss    xmm0, dword ptr [eax]
+    0x0006E204: "0fc6c900",  # shufps   xmm1, xmm1, 0
+    0x0006E208: "0f164004",  # movhps   xmm0, qword ptr [eax + 4]
     0x002A1A74: "8b4848",  # mov      ecx, dword ptr [eax + 0x48]
     0x002A1A88: "8955b4",  # mov      dword ptr [ebp - 0x4c], edx
     0x002A1AD9: "8d95f0feffff",  # lea      edx, [ebp - 0x110]

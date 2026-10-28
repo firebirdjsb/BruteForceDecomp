@@ -1,6 +1,6 @@
 # 0x000BF7A0: connected vectors and 0x000A0C60 memory operation
 
-Status: scoped storage, memory-operation and SSE correction. Both entries
+Status: scoped storage, memory-operation and SSE correction. The caller and both helper entries
 pass focused syntax checks; original calling conventions, virtual interfaces,
 x87 environment, complete helper semantics and game behavior remain unverified.
 One formerly failing caller gains a syntax pass; the helper already passed.
@@ -15,9 +15,9 @@ Ordered body bytes were reauthenticated against these digests:
 | --- | ---: | --- |
 | `0x000BF7A0` | 1691 | `762D235EBA97653EA681FA7726DE9FCF54CD4D582A8662525AAC0420ED6163F7` |
 | `0x000A0C60` | 130 | `935B88AD31D3725F6207AA21E0490ED49242151D70F54666D78641AE85450B90` |
-| `0x0006DFC0` (unchanged dependency) | 686 | `FB8D19C22EC7C4C248DA7329C705E6673926F9E7FB9AA9B82127F011FAD87928` |
+| `0x0006DFC0` (scoped final-scale dependency) | 686 | `FB8D19C22EC7C4C248DA7329C705E6673926F9E7FB9AA9B82127F011FAD87928` |
 
-Source paths are routed through `tools/source_layout.py`. Both original entry
+Source paths are routed through `tools/source_layout.py`. All three original entry
 signatures and body labels are retained. One shared C11 memory operation under
 `src/contracts/` supplies the helper draft and this caller; no second algorithm,
 new original-entry parameter, global register ABI or executable bridge is added.
@@ -79,6 +79,20 @@ Host `long double` and float conversions are arithmetic proxies. Original
 precision control, status, NaN quieting, traps and aliasing with the helper's
 own guest scratch stack are not modeled or verified.
 
+## 0x0006DFC0 final packed scale
+
+The already passing dependency had numerically converted packed Y/Z float
+bits to integers and back. At 0x0006e1f2..0x0006e213 the original instead
+spills one scalar to m32fp, loads/broadcasts it with MOVSS/SHUFPS, and loads
+`[X,+0,Y,Z]` from the actual second argument with MOVSS/MOVHPS. MULPS keeps
+data as the left operand and scale as the right operand; four-byte then
+eight-byte stores write the same twelve-byte region. The source now uses
+these observed packed operations, including the zero lane's multiplication.
+The preceding scalar producer and all other arithmetic/virtual calls remain
+ABI_UNVERIFIED. Independent review reauthenticated this instruction region
+and repeated both target checks. No new syntax pass is credited for this
+already passing helper, and no full helper/runtime equivalence is claimed.
+
 ## Checks and boundaries
 
 Before editing, the caller failed unchanged sweep flags on i686/x86_64 Windows
@@ -98,13 +112,14 @@ These cases do not test non-finite inputs, cancellation/rounding extremes,
 exceptions, original flags/register state, complete callers or the game.
 
 Independent review accepted the changed memory/storage/SSE facts and repeated
-the four focused architecture checks and both oracle executables. The complete 0x0006dfc0
-draft still has unresolved packed-lane/numeric conversions; all virtual targets,
+the four focused architecture checks and both oracle executables. Only the final packed scale in 0x0006dfc0 is separately corrected; its other
+arithmetic and virtual interfaces, all virtual targets,
 other callback/output interfaces, guest addresses, original stack aliases,
 x87 return transport and the later ignored/popped helper result remain
 ABI_UNVERIFIED. Their existing code is not promoted to reviewed semantics.
 No game execution, native port deployment, production or asset change occurred.
-Rollback restores the two sources/script and removes this operation header/note.
+Rollback reverts the affected integration commits, including sources, tests,
+CI inputs and inventory records, then reruns the complete audit.
 
 Portable regression fixtures are retained in
 `tests/test_20261028_memory_operations.c` and run by

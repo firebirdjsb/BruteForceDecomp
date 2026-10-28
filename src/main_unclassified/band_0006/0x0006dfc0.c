@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 void FUN_0006dfc0(int *param_1,float *param_2,float param_3,float param_4)
@@ -22,6 +23,8 @@ void FUN_0006dfc0(int *param_1,float *param_2,float param_3,float param_4)
   float fVar9;
   float *pfVar10;
   float10 fVar11;
+  __m128 guest_scale;
+  __m128 guest_output_xyz;
   float local_6c;
   float local_68;
   
@@ -56,10 +59,14 @@ void FUN_0006dfc0(int *param_1,float *param_2,float param_3,float param_4)
   param_2[2] = (fVar9 * fVar3 + fVar8 * fVar5) - fVar1;
   fVar11 = (float10)(**(code **)(*(int *)param_1[0x14] + 0x24))();
   fVar1 = (float)fVar11;
-  *param_2 = *param_2 * fVar1;
-  *(ulonglong *)(param_2 + 1) =
-       CONCAT44((float)((ulonglong)*(undefined8 *)(param_2 + 1) >> 0x20) * fVar1,
-                (float)*(undefined8 *)(param_2 + 1) * fVar1);
+  /* 0x6e1f6..0x6e213: MOVSS/SHUFPS broadcasts the m32fp scalar.
+   * Memory MOVSS/MOVHPS forms [X,0,Y,Z]; MULPS uses all four lanes.
+   * The old numeric conversion of packed Y/Z bits was not a float load. */
+  guest_scale = _mm_set1_ps(fVar1);
+  guest_output_xyz = _mm_loadh_pi(_mm_load_ss(param_2), (const __m64 *)(param_2 + 1));
+  guest_output_xyz = _mm_mul_ps(guest_output_xyz, guest_scale);
+  _mm_store_ss(param_2, guest_output_xyz);
+  _mm_storeh_pi((__m64 *)(param_2 + 1), guest_output_xyz);
   if ((*(byte *)(param_1 + 0x13) & 1) != 0) {
     FUN_0006e450(local_68 + local_68);
     iVar7 = param_1[0x14];
