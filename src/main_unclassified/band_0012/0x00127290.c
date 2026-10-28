@@ -444,8 +444,16 @@ LAB_00127b66:
       FUN_002bde70(*(undefined4 *)(*(int *)(iVar17 + 4) + 0x98),iVar17);
     }
     iVar17 = *(int *)(*(int *)(unaff_retaddr + 8) + 0xe0);
+    /* Original XBE 0x00127BFC LEA ECX,[ESP+0x6C] passes the
+     * address of the incoming first argument DWORD, not a new
+     * unresolved local. Prologue SUB ESP,0x58 and four saved x86
+     * registers place that word at [ESP+0x6C] = entry ESP+4.
+     * 0x00127BE6 writes the original ESI value into that same
+     * guest stack slot immediately before FUN_000FF730.
+     * TODO/ABI_UNVERIFIED: guest32 address translation and callee
+     * mutation of that incoming argument word on native hosts. */
     iVar16 = FUN_000ff730(*(int *)(unaff_retaddr + 8) + 0xdc,iVar17,*(undefined4 *)(iVar17 + 4),
-                          &stack0x00000000);
+                          &param_1);
     FUN_000b2a50();
     piVar14 = piStack_1c;
     piVar15 = piStack_20;
