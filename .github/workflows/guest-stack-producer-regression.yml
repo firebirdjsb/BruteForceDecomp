@@ -1,0 +1,19 @@
+name: Guest-stack producer/callee regression (synthetic)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/verify_guest_stack_pair_20261028.py'
+      - 'scripts/test_verify_guest_stack_pair_20261028.py'
+      - '.github/workflows/guest-stack-producer-regression.yml'
+  workflow_dispatch:
+jobs:
+  synthetic-checks-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate contracts without private XBE
+        run: python3 scripts/test_verify_guest_stack_pair_20261028.py
