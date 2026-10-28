@@ -7,6 +7,24 @@
  */
 #include "bf_ghidra_types.h"
 #include <xmmintrin.h>
+#include "../../contracts/bf_000a0c60_memory_operation.h"
+/* 0x6dfc0 reads four stack words and RET 16; its existing definition agrees.
+ * Explicit float argument widths avoid default double promotion. Its body,
+ * virtual calls and original guest entry remain ABI_UNVERIFIED. */
+extern void FUN_0006dfc0(int *, float *, float, float);
+
+static __m128 bf_000bf7a0_load_xyz(const float *words)
+{
+  /* Original memory MOVSS clears lanes 1..3; MOVHPS loads Y/Z into 2/3. */
+  return _mm_loadh_pi(_mm_load_ss(words), (const __m64 *)(words + 1));
+}
+
+static void bf_000bf7a0_store_xyz(float *words, __m128 lanes)
+{
+  /* Original four-byte MOVSS then eight-byte MOVHPS, without a lane-1 store. */
+  _mm_store_ss(words, lanes);
+  _mm_storeh_pi((__m64 *)(words + 1), lanes);
+}
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003c053c;
@@ -24,7 +42,6 @@ undefined1 FUN_000bf7a0(int param_1,int param_2,int *param_3,undefined4 *param_4
   int *piVar1;
   undefined4 uVar2;
   undefined4 uVar3;
-  ulonglong uVar4;
   char cVar5;
   int iVar6;
   float *pfVar7;
@@ -40,9 +57,10 @@ undefined1 FUN_000bf7a0(int param_1,int param_2,int *param_3,undefined4 *param_4
   float fStack_1d8;
   int iStack_1d4;
   int iStack_1d0;
-  float fStack_1cc;
-  float fStack_1c8;
-  float fStack_1c4;
+  float guest_vec_2c[3];
+  float guest_vec_54[3];
+  float guest_vec_6c[3];
+  float guest_scale_18;
   float fStack_1c0;
   undefined4 uStack_1bc;
   undefined4 uStack_1b8;
@@ -50,8 +68,6 @@ undefined1 FUN_000bf7a0(int param_1,int param_2,int *param_3,undefined4 *param_4
   float fStack_1b0;
   int iStack_1ac;
   int iStack_1a8;
-  float fStack_1a4;
-  float fStack_1a0;
   int *piStack_19c;
   int *local_198;
   undefined4 uStack_194;
@@ -108,29 +124,43 @@ undefined1 FUN_000bf7a0(int param_1,int param_2,int *param_3,undefined4 *param_4
     else {
       pfVar7 = (float *)(**(code **)(*param_3 + 0x134))();
       FUN_000ab390(*(undefined4 *)(param_2 + 0xf0),&iStack_1d4);
-      FUN_0006dfc0(piVar1,&fStack_1cc,(float)iStack_1d4,(float)iStack_1d0);
+      /* 0xbf90d/0xbf91c supplies the same twelve bytes read at 0xbf946. */
+      FUN_0006dfc0(piVar1,guest_vec_2c,(float)iStack_1d4,(float)iStack_1d0);
       fVar11 = (float10)(**(code **)(piVar1[0x12] + 0x24))();
       /* XBE 0x000BF92C stores ST0 to m32fp, 0x000BF938 loads
        * MOVSS into XMM1, and 0x000BF942 applies approximate RCPSS.
        * No float-to-uint conversion or 16-byte array assignment. */
       fVar12 = _mm_cvtss_f32(_mm_rcp_ss(_mm_set_ss((float)fVar11)));
-      fStack_1cc = fStack_1cc * fVar12;
-      uVar4 = (ulonglong)_fStack_1c8 >> 0x20;
-      fStack_1c8 = (float)_fStack_1c8 * fVar12;
-      fStack_1c4 = (float)uVar4 * fVar12;
+      /* 0xbf946..0xbf959: all four MULPS lanes, including 0*reciprocal. */
+      bf_000bf7a0_store_xyz(guest_vec_2c,
+          _mm_mul_ps(bf_000bf7a0_load_xyz(guest_vec_2c), _mm_set1_ps(fVar12)));
       fStack_184 = pfVar7[5] + pfVar7[2];
       fStack_188 = pfVar7[4] + pfVar7[1];
       fStack_18c = *pfVar7 + pfVar7[3];
-      fStack_1a4 = fStack_18c * 0.5;
-      piStack_1e0 = (int *)(fStack_184 * 0.5);
-      _fStack_1a0 = CONCAT44(piStack_1e0,fStack_188 * 0.5);
+      guest_vec_6c[0] = fStack_18c;
+      guest_vec_6c[1] = fStack_188;
+      guest_vec_6c[2] = fStack_184;
+      /* 0xbf99a..0xbf9bb: broadcast 0.5 is the LEFT MULPS operand. */
+      bf_000bf7a0_store_xyz(guest_vec_54,
+          _mm_mul_ps(_mm_set1_ps(0.5f), bf_000bf7a0_load_xyz(guest_vec_6c)));
       iVar8 = (**(code **)(*piVar1 + 0x40))();
-      iVar6 = FUN_000a0c60();
-      piStack_1e0 = (int *)-*(float *)(iVar6 + 8);
-      fStack_1cc = fStack_1cc * (float)piStack_1e0 + *(float *)(iVar8 + 0x24);
-      _fStack_1c8 = CONCAT44(fStack_1c4 * (float)piStack_1e0 + *(float *)(iVar8 + 0x2c),
-                             fStack_1c8 * (float)piStack_1e0 + *(float *)(iVar8 + 0x28));
-      FUN_0015b450(pfVar7,&fStack_1cc,auStack_180);
+      /* 0xbf9ee/0xbf9f2/0xbf9f6 bind EDX/EAX/ECX for 0xa0c60.
+       * Original EAX survives as the output address; its +8 word is used.
+       * The preceding virtual receiver/return ABI remains unverified. */
+      bf_000a0c60_produce(guest_vec_6c,
+          (const void *)(uintptr_t)(uint32_t)iVar8, guest_vec_54);
+      guest_scale_18 = -guest_vec_6c[2];
+      bf_000bf7a0_store_xyz(guest_vec_2c,
+          _mm_mul_ps(bf_000bf7a0_load_xyz(guest_vec_2c),
+                     _mm_set1_ps(guest_scale_18)));
+      /* 0xbfa2f..0xbfa56: three x87 additions, each FSTP m32fp. */
+      guest_vec_2c[0] = (float)((float10)guest_vec_2c[0] +
+                              (float10)*(float *)(iVar8 + 0x24));
+      guest_vec_2c[1] = (float)((float10)guest_vec_2c[1] +
+                              (float10)*(float *)(iVar8 + 0x28));
+      guest_vec_2c[2] = (float)((float10)guest_vec_2c[2] +
+                              (float10)*(float *)(iVar8 + 0x2c));
+      FUN_0015b450(pfVar7,guest_vec_2c,auStack_180);
       iStack_1a8 = 1;
     }
     uStack_1c = 0;

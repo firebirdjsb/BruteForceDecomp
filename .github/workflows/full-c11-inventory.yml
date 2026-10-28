@@ -7,6 +7,9 @@ on:
       - 'src/**'
       - 'include/**'
       - 'metadata/**'
+      - 'scripts/verify_20261028_memory_operations.py'
+      - 'tests/test_20261028_memory_operations.c'
+      - 'scripts/verify_20261027_four_guest_lifetimes.py'
       - 'tools/sweep_c11.py'
       - 'tools/triage_c11_failures.py'
       - 'tools/test_triage_c11_failures.py'
@@ -750,6 +753,10 @@ jobs:
         run: python3 scripts/verify_001f3d30_guest_texture_address.py --root .
       - name: Verify three original x86 floating-point and interface-storage corrections
         run: python3 scripts/verify_xbe_three_storage_repairs_20261027.py --root . --clang
+      - name: Test scoped shared memory operations against golden alias fixtures
+        run: python3 scripts/verify_20261028_memory_operations.py --root .
+      - name: Verify four guest lifetimes including the complete 0x000BF7A0 caller
+        run: python3 scripts/verify_20261027_four_guest_lifetimes.py --root .
       - name: Audit all 13,694 discovered function source files
         run: python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
       - name: Validate and categorize exact audit failures without XBE assumptions

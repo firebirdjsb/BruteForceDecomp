@@ -12,6 +12,14 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x0001FC40, 40, "de39b6dece42b44e9508dd2033a9641d4725d83ce2f99f0bbc52be9d5e26a993"),
+    (0x0001FD10, 39, "08d2cc5256cd581be8ffa89cec01b4c39be7f3cdd29052bb4827cb1c2fcc4815"),
+    (0x0001FDD0, 40, "13832b0ffe3ccb2e86ec5e06b944b7e16dddfe35c04f722a781393bbbeecf49f"),
+    (0x0006DFC0, 686, "fb8d19c22ec7c4c248da7329c705e6673926f9e7fb9aa9b82127f011fad87928"),
+    (0x000A0C60, 130, "935b88ad31d3725f6207aa21e0490ed49242151d70f54666d78641ae85450b90"),
+    (0x000BF7A0, 1691, "762d235eba97653ea681fa7726de9fcf54cd4d582a8662525aac0420ed6163f7"),
+    (0x00205350, 1392, "6f0dfa692f241ae1d5888daca0e579145b1b7072a4fec12440bca1c2da136a28"),
+    (0x00234DC0, 312, "ecb5d129e8c5efb3d488e233677d4db54f3e01e85fdf9d18b880af3b7119b10b"),
     (0x002D3EA0, 1614, "0009dd5b3714eb37b42e34e24f727ad60da8313dbb1bb2238937ac53bb22bc20"),
     (0x0001D0C0, 594, "799425f204b00db36dec83019e43890e71d10113dc10721cb8a2efe0caa969a4"),
     (0x0011C810, 647, "a97770d13e1a1c3bc02e893ef9fad35032c102c9b4fd0c175e0ac596459ee255"),
@@ -148,6 +156,100 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x0001FC43: "d9411c",  # fld      dword ptr [ecx + 0x1c]
+    0x0001FC46: "d95c2404",  # fstp     dword ptr [esp + 4]
+    0x0001FC4A: "d94110",  # fld      dword ptr [ecx + 0x10]
+    0x0001FC4D: "8b542404",  # mov      edx, dword ptr [esp + 4]
+    0x0001FC51: "d95c2400",  # fstp     dword ptr [esp]
+    0x0001FC5C: "d918",  # fstp     dword ptr [eax]
+    0x0001FC5E: "894804",  # mov      dword ptr [eax + 4], ecx
+    0x0001FC61: "895008",  # mov      dword ptr [eax + 8], edx
+    0x0001FD13: "d94118",  # fld      dword ptr [ecx + 0x18]
+    0x0001FD16: "d95c2404",  # fstp     dword ptr [esp + 4]
+    0x0001FD1A: "d9410c",  # fld      dword ptr [ecx + 0xc]
+    0x0001FD1D: "8b09",  # mov      ecx, dword ptr [ecx]
+    0x0001FD1F: "d95c2400",  # fstp     dword ptr [esp]
+    0x0001FD23: "8b542400",  # mov      edx, dword ptr [esp]
+    0x0001FD27: "8908",  # mov      dword ptr [eax], ecx
+    0x0001FD2D: "895004",  # mov      dword ptr [eax + 4], edx
+    0x0001FD30: "894808",  # mov      dword ptr [eax + 8], ecx
+    0x0001FDD3: "d94120",  # fld      dword ptr [ecx + 0x20]
+    0x0001FDD6: "d95c2404",  # fstp     dword ptr [esp + 4]
+    0x0001FDDA: "d94114",  # fld      dword ptr [ecx + 0x14]
+    0x0001FDDD: "8b542404",  # mov      edx, dword ptr [esp + 4]
+    0x0001FDE1: "d95c2400",  # fstp     dword ptr [esp]
+    0x0001FDEC: "d918",  # fstp     dword ptr [eax]
+    0x0001FDEE: "894804",  # mov      dword ptr [eax + 4], ecx
+    0x0001FDF1: "895008",  # mov      dword ptr [eax + 8], edx
+    0x002053BC: "d98424f8000000",  # fld      dword ptr [esp + 0xf8]
+    0x002053C3: "8d442408",  # lea      eax, [esp + 8]
+    0x002055B3: "e858a7e1ff",  # call     0x1fd10
+    0x002055BE: "e87da6e1ff",  # call     0x1fc40
+    0x002055C9: "e802a8e1ff",  # call     0x1fdd0
+    0x002055EE: "83e800",  # sub      eax, 0
+    0x00205768: "50",  # push     eax
+    0x0006E1D2: "d919",  # fstp     dword ptr [ecx]
+    0x0006E1D8: "894204",  # mov      dword ptr [edx + 4], eax
+    0x0006E1E3: "895108",  # mov      dword ptr [ecx + 8], edx
+    0x0006E20C: "0f59c1",  # mulps    xmm0, xmm1
+    0x0006E20F: "f30f1100",  # movss    dword ptr [eax], xmm0
+    0x0006E213: "0f174004",  # movhps   qword ptr [eax + 4], xmm0
+    0x0006E26B: "c21000",  # ret      0x10
+    0x000A0C63: "d902",  # fld      dword ptr [edx]
+    0x000A0C68: "d95c2408",  # fstp     dword ptr [esp + 8]
+    0x000A0C72: "d95c2404",  # fstp     dword ptr [esp + 4]
+    0x000A0C7C: "d9542400",  # fst      dword ptr [esp]
+    0x000A0C80: "d84918",  # fmul     dword ptr [ecx + 0x18]
+    0x000A0C8A: "dec1",  # faddp    st(1)
+    0x000A0C92: "dec1",  # faddp    st(1)
+    0x000A0CAB: "dec1",  # faddp    st(1)
+    0x000A0CC4: "dec1",  # faddp    st(1)
+    0x000A0CC6: "d95c2404",  # fstp     dword ptr [esp + 4]
+    0x000A0CCE: "d95c2408",  # fstp     dword ptr [esp + 8]
+    0x000A0CD2: "895008",  # mov      dword ptr [eax + 8], edx
+    0x000A0CD9: "d918",  # fstp     dword ptr [eax]
+    0x000A0CDB: "894804",  # mov      dword ptr [eax + 4], ecx
+    0x000BF90D: "8d442434",  # lea      eax, [esp + 0x34]
+    0x000BF911: "d95c2404",  # fstp     dword ptr [esp + 4]
+    0x000BF919: "d91c24",  # fstp     dword ptr [esp]
+    0x000BF91C: "50",  # push     eax
+    0x000BF91D: "57",  # push     edi
+    0x000BF91E: "e89de6faff",  # call     0x6dfc0
+    0x000BF938: "f30f104c2418",  # movss    xmm1, dword ptr [esp + 0x18]
+    0x000BF942: "f30f53c9",  # rcpss    xmm1, xmm1
+    0x000BF946: "f30f1000",  # movss    xmm0, dword ptr [eax]
+    0x000BF94A: "0fc6c900",  # shufps   xmm1, xmm1, 0
+    0x000BF94E: "0f164004",  # movhps   xmm0, qword ptr [eax + 4]
+    0x000BF952: "0f59c1",  # mulps    xmm0, xmm1
+    0x000BF955: "f30f1100",  # movss    dword ptr [eax], xmm0
+    0x000BF959: "0f174004",  # movhps   qword ptr [eax + 4], xmm0
+    0x000BF99A: "f30f10442418",  # movss    xmm0, dword ptr [esp + 0x18]
+    0x000BF9A0: "0fc6c000",  # shufps   xmm0, xmm0, 0
+    0x000BF9A8: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x000BF9AC: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x000BF9B0: "0f59c1",  # mulps    xmm0, xmm1
+    0x000BF9B7: "f30f1100",  # movss    dword ptr [eax], xmm0
+    0x000BF9BB: "0f174004",  # movhps   qword ptr [eax + 4], xmm0
+    0x000BF9EE: "8d542454",  # lea      edx, [esp + 0x54]
+    0x000BF9F2: "8d44246c",  # lea      eax, [esp + 0x6c]
+    0x000BF9F6: "8bcf",  # mov      ecx, edi
+    0x000BF9F8: "e86312feff",  # call     0xa0c60
+    0x000BF9FD: "d94008",  # fld      dword ptr [eax + 8]
+    0x000BFA00: "d9e0",  # fchs
+    0x000BFA0E: "f30f104c2418",  # movss    xmm1, dword ptr [esp + 0x18]
+    0x000BFA18: "f30f1000",  # movss    xmm0, dword ptr [eax]
+    0x000BFA1C: "0fc6c900",  # shufps   xmm1, xmm1, 0
+    0x000BFA20: "0f164004",  # movhps   xmm0, qword ptr [eax + 4]
+    0x000BFA24: "0f59c1",  # mulps    xmm0, xmm1
+    0x000BFA27: "f30f1100",  # movss    dword ptr [eax], xmm0
+    0x000BFA2B: "0f174004",  # movhps   qword ptr [eax + 4], xmm0
+    0x000BFA33: "d84724",  # fadd     dword ptr [edi + 0x24]
+    0x000BFA3F: "d95c2430",  # fstp     dword ptr [esp + 0x30]
+    0x000BFA48: "d84728",  # fadd     dword ptr [edi + 0x28]
+    0x000BFA4B: "d95c2438",  # fstp     dword ptr [esp + 0x38]
+    0x000BFA53: "d8472c",  # fadd     dword ptr [edi + 0x2c]
+    0x000BFA56: "d95c243c",  # fstp     dword ptr [esp + 0x3c]
+    0x003A4FE0: "35fa8e3c",  # Original binary32 multiplier
     0x002CB389: "f30f1012",  # movss    xmm2, dword ptr [edx]
     0x002CB38D: "0f165204",  # movhps   xmm2, qword ptr [edx + 4]
     0x002CB3AE: "0f164004",  # movhps   xmm0, qword ptr [eax + 4]
