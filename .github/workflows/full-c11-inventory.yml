@@ -222,7 +222,7 @@ on:
       - 'scripts/verify_0011c810_source_register_links.py'
       - 'tests/test_0011c810_guest_producer_bridge.c'
       - 'tests/test_0011c810_register_calls_syntax.c'
-      - 'src/abi/bf_0011c810_guest_producer_bridge.c'
+      - 'tests/support/bf_0011c810_guest_producer_bridge.c'
       - 'include/bf_0011c810_register_calls.h'
       - 'include/bf_0011c810_guest_producer_bridge.h'
       - 'tests/test_0011c810_matrix_frame.c'

@@ -39,7 +39,7 @@ caller's actual register sources and guest memory translation are verified.
 
 ## Connected storage projection
 
-`src/abi/bf_0011c810_guest_producer_bridge.c` links the **real newly parameterized
+`tests/support/bf_0011c810_guest_producer_bridge.c` links the **real newly parameterized
 producer functions** into a synthetic guest stack-frame callback, unlike the
 prior byte-copy-only model. It requires supplied original guest `S`, input
 `virtual_eax` (the still-unresolved first `+0x30` virtual call result), and

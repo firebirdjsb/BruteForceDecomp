@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCES = [
     "src/main_unclassified/band_0001/0x0001d0c0.c",
     "src/main_unclassified/band_0012/0x0012b2a0.c",
-    "src/abi/bf_0011c810_guest_producer_bridge.c",
+    "tests/support/bf_0011c810_guest_producer_bridge.c",
 ]
 BODY_IDS = {
     "0x0001d0c0.c": "799425F204B00DB36DEC83019E43890E71D10113DC10721CB8A2EFE0CAA969A4",
