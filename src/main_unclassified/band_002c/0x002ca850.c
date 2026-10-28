@@ -41,6 +41,14 @@ void FUN_002ca850(int param_1,uint *param_2,uint *param_3,int *param_4,int *para
   float fVar18;
   float fVar19;
   float *local_c68 [4];
+  /* Original XBE x87 FSTP writes scalar F32 transformed-vector
+   * values before the same guest stack words are recycled as
+   * traversal pointers later. Keep these disjoint C lifetimes.
+   * TODO/ABI_UNVERIFIED: full SIMD/x87 and guest pointer ABI. */
+  float guest_transform_x;
+  float guest_transform_y;
+  float guest_cross_x;
+  float guest_cross_y;
   undefined **local_c58;
   float local_c54;
   float local_c50;
@@ -138,21 +146,21 @@ void FUN_002ca850(int param_1,uint *param_2,uint *param_3,int *param_4,int *para
   iVar12 = param_4[2];
   fVar15 = *(float *)(iVar5 + 0x38) * fStack_c0c +
            *(float *)(iVar5 + 0x34) * local_c10 + *(float *)(iVar5 + 0x30) * local_c14;
-  local_c68[0] = (float *)(local_c34 * *(float *)(iVar12 + 0x10) +
-                          *(float *)(iVar12 + 0x18) * fStack_c2c +
-                          *(float *)(iVar12 + 0x14) * local_c30);
-  local_c68[1] = (float *)(*(float *)(iVar12 + 0x28) * fStack_c2c +
-                          *(float *)(iVar12 + 0x24) * local_c30 +
-                          *(float *)(iVar12 + 0x20) * local_c34);
+  guest_transform_x = local_c34 * *(float *)(iVar12 + 0x10) +
+                      *(float *)(iVar12 + 0x18) * fStack_c2c +
+                      *(float *)(iVar12 + 0x14) * local_c30;
+  guest_transform_y = *(float *)(iVar12 + 0x28) * fStack_c2c +
+                      *(float *)(iVar12 + 0x24) * local_c30 +
+                      *(float *)(iVar12 + 0x20) * local_c34;
   iVar5 = *(int *)(param_1 + 0x10);
   fVar16 = *(float *)(iVar12 + 0x38) * fStack_c2c +
            *(float *)(iVar12 + 0x34) * local_c30 + *(float *)(iVar12 + 0x30) * local_c34;
-  local_bfc = (int *)((float)local_c68[1] * fVar15 - fVar16 * fVar18);
-  local_bf8 = (int *)(fVar16 * fVar14 - fVar15 * (float)local_c68[0]);
-  bVar13 = -((float)local_bfc * *(float *)(iVar5 + 0x60) +
-            (float)local_bf8 * *(float *)(iVar5 + 100) +
-            (fVar18 * (float)local_c68[0] - (float)local_c68[1] * fVar14) * *(float *)(iVar5 + 0x68)
-            ) <= 0.0;
+  guest_cross_x = guest_transform_y * fVar15 - fVar16 * fVar18;
+  guest_cross_y = fVar16 * fVar14 - fVar15 * guest_transform_x;
+  bVar13 = -(guest_cross_x * *(float *)(iVar5 + 0x60) +
+             guest_cross_y * *(float *)(iVar5 + 100) +
+             (fVar18 * guest_transform_x - guest_transform_y * fVar14) * *(float *)(iVar5 + 0x68)
+             ) <= 0.0;
   if (bVar13) {
     local_c04 = 0x3f800000;
   }
