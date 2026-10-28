@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* 0x0011C893/AE/966/977/986: original reloads one incoming object
+ * DWORD at guest S+0x90 (S = ESP after SUB 0x88; PUSH ESI).
+ * These original-object uses are bound to param_1; no implicit frame,
+ * virtual output, or x87 register contract is inferred by this correction.
+ * ABI_UNVERIFIED: this does not resolve remaining float/pointer errors. */
 /* WARNING: Removing unreachable block (ram,0x0011c954) */
 
 void FUN_0011c810(int param_1)
@@ -15,7 +20,6 @@ void FUN_0011c810(int param_1)
   float fVar2;
   int iVar3;
   int iVar4;
-  int unaff_retaddr;
   undefined1 auStack_74 [8];
   float fStack_6c;
   float fStack_68;
@@ -41,7 +45,6 @@ void FUN_0011c810(int param_1)
   undefined4 uStack_10;
   undefined4 uStack_c;
   undefined4 uStack_8;
-  int iStack_4;
   
   (**(code **)(*(int *)(param_1 + 0x1b4) + 0x30))(local_64);
   FUN_0001d0c0();
@@ -58,18 +61,18 @@ void FUN_0011c810(int param_1)
   uStack_44 = uStack_14;
   uStack_40 = uStack_10;
   uStack_3c = uStack_c;
-  (**(code **)(*(int *)(unaff_retaddr + 0x1b4) + 0x30))(auStack_74);
-  iVar4 = iStack_4;
-  iVar3 = *(int *)(iStack_4 + 0x6c);
+  (**(code **)(*(int *)(param_1 + 0x1b4) + 0x30))(auStack_74);
+  iVar4 = param_1;
+  iVar3 = *(int *)(param_1 + 0x6c);
   fVar2 = *(float *)(iVar3 + 0x34);
   local_64[0] = -fVar2;
   fStack_68 = -*(float *)(iVar3 + 0x28);
   fStack_6c = -*(float *)(iVar3 + 0x1c);
   FUN_0012b2a0();
   if (ABS((float)puVar1 * 8.0) < ABS(fVar2)) {
-    *(undefined4 *)(iStack_4 + 0x7b0) = 0x3f800000;
-    *(undefined4 *)(iStack_4 + 0x7b4) = 0;
-    *(undefined4 *)(iStack_4 + 0x7b8) = 0;
+    *(undefined4 *)(param_1 + 0x7b0) = 0x3f800000;
+    *(undefined4 *)(param_1 + 0x7b4) = 0;
+    *(undefined4 *)(param_1 + 0x7b8) = 0;
     return;
   }
   if (0.0 <= (float)puVar1) {
