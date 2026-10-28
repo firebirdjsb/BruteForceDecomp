@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <xmmintrin.h>
+_Static_assert(sizeof(float) == 4, "original m32/SSE lane storage is four bytes");
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t _DAT_00000000;
@@ -18,7 +20,6 @@ void FUN_002d29f0(int param_1)
 
 {
   double *pdVar1;
-  undefined8 uVar2;
   int iVar3;
   undefined4 uVar4;
   uint uVar5;
@@ -36,6 +37,12 @@ void FUN_002d29f0(int param_1)
   int32_t guest_mode_16;
   int32_t guest_mode_2a;
   uint *local_88;
+  float scalar_88;
+  uint32_t flags_word;
+  uint32_t object_word;
+  __m128 source_xyz;
+  __m128 destination_xyz;
+  __m128 scale_xyzw;
   float local_84;
   float local_80;
   float fStack_7c;
@@ -71,7 +78,11 @@ void FUN_002d29f0(int param_1)
   }
   *(undefined1 *)(pfVar6 + 0x13) = 0;
   *(undefined2 *)((int)pfVar6 + 0x4a) = 0;
-  pfVar6[0x13] = (float)((uint)pfVar6[0x13] & 0xfffffcff);
+  /* 0x002D2A40/47/4D: preserve the four raw bytes at +0x4C while
+   * clearing bits 8/9. This is MOV/AND/MOV, not float conversion. */
+  memcpy(&flags_word, (byte *)pfVar6 + 0x4c, 4);
+  flags_word &= UINT32_C(0xfffffcff);
+  memcpy((byte *)pfVar6 + 0x4c, &flags_word, 4);
   *(float **)(param_1 + 0x40) = pfVar6;
   iVar3 = param_1 + 8;
   *(int *)(local_94 + 0x88) = *(int *)(local_94 + 0x88) + 1;
@@ -142,29 +153,44 @@ switchD_002d2bc8_default:
     _DAT_00000000 = 0;
   }
 LAB_002d2c8b:
-  local_88 = *(uint **)(*(int *)(param_1 + 0x10) + 0x88);
+  /* 0x002D2C8E/97/9F: FLD m32 then FST/FSTP m32. The reused
+   * original stack words now hold binary32, not local_88's earlier pointer. */
+  scalar_88 = *(float *)(*(int *)(param_1 + 0x10) + 0x88);
   local_90 = pfVar6 + 8;
-  uVar2 = *(undefined8 *)(local_58 + 1);
-  *local_90 = *local_90 + *local_58 * (float)local_88;
-  *(ulonglong *)(pfVar6 + 9) =
-       CONCAT44((float)((ulonglong)*(undefined8 *)(pfVar6 + 9) >> 0x20) +
-                (float)((ulonglong)uVar2 >> 0x20) * (float)local_88,
-                (float)*(undefined8 *)(pfVar6 + 9) + (float)uVar2 * (float)local_88);
+  /* 0x002D2CA7..2CD7: MOVSS clears lane 1, MOVHPS supplies Y/Z
+   * in lanes 2/3. Broadcast, MULPS and ADDPS evaluate all four lanes;
+   * the original stores write X, then the eight-byte Y/Z pair. */
+  scale_xyzw = _mm_load_ss(&scalar_88);
+  source_xyz = _mm_load_ss(local_58);
+  source_xyz = _mm_loadh_pi(source_xyz, (const __m64 *)(local_58 + 1));
+  scale_xyzw = _mm_shuffle_ps(scale_xyzw, scale_xyzw, 0);
+  destination_xyz = _mm_load_ss(local_90);
+  destination_xyz = _mm_loadh_pi(destination_xyz, (const __m64 *)(local_90 + 1));
+  source_xyz = _mm_mul_ps(source_xyz, scale_xyzw);
+  destination_xyz = _mm_add_ps(destination_xyz, source_xyz);
+  _mm_store_ss(local_90, destination_xyz);
+  _mm_storeh_pi((__m64 *)(local_90 + 1), destination_xyz);
+  /* 0x002D2CDE..2CEE: x87 adds the second m32 value to the spilled
+   * first value, subtracts that sum from +0x58, then rounds once to m32.
+   * Host long double remains an unverified x87 precision/state proxy. */
   *(float *)(param_1 + 0x58) =
-       *(float *)(param_1 + 0x58) - (*(float *)(*(int *)(param_1 + 0x24) + 0x88) + (float)local_88);
+       (float)((float10)*(float *)(param_1 + 0x58) -
+               ((float10)*(float *)(*(int *)(param_1 + 0x24) + 0x88) + (float10)scalar_88));
   if (*(float *)(param_1 + 0x58) < 0.0) {
     *(undefined4 *)(param_1 + 0x58) = 0;
   }
   *(int *)(local_30 + 100) = *(int *)(local_30 + 100) + -1;
   *(int *)(local_48 + 100) = *(int *)(local_48 + 100) + -1;
   local_8c = local_90;
-  local_74 = local_88;
   FUN_002b65a0(pfVar6 + 0x1c);
   pfVar6[0x20] = pfVar6[0x1e] * pfVar6[1] - pfVar6[2] * pfVar6[0x1d];
   pfVar6[0x21] = pfVar6[2] * pfVar6[0x1c] - pfVar6[0x1e] * *pfVar6;
   pfVar6[0x22] = *pfVar6 * pfVar6[0x1d] - pfVar6[1] * pfVar6[0x1c];
   local_78 = 0;
-  local_b4 = *(byte **)(*(int *)(param_1 + 0x10) + 0x90);
+  /* Original 0x002D2D6C MOV reads one 32-bit guest pointer word. */
+  memcpy(&object_word, (const void *)(uintptr_t)
+         ((uint32_t)*(int *)(param_1 + 0x10) + UINT32_C(0x90)), 4);
+  local_b4 = (byte *)(uintptr_t)object_word;
   if ((*local_b4 & 0xc) == 0) {
     local_a4 = 0;
     FUN_002b7360(local_b4 + 0xfc,pfVar6 + 8,pfVar6 + 0x24);
@@ -191,8 +217,13 @@ LAB_002d2c8b:
     pfVar6[0x2d] = 0.0;
     pfVar6[0x2c] = 0.0;
   }
-  pfVar6[0x1a] = (float)local_b4;
-  pbVar7 = *(byte **)(*(int *)(param_1 + 0x24) + 0x90);
+  /* 0x002D2EA2: MOV [ESI+0x68],EAX stores pointer bits in four bytes. */
+  object_word = (uint32_t)(uintptr_t)local_b4;
+  memcpy((byte *)pfVar6 + 0x68, &object_word, 4);
+  /* Original 0x002D2EA8 reads the second 32-bit guest pointer word. */
+  memcpy(&object_word, (const void *)(uintptr_t)
+         ((uint32_t)*(int *)(param_1 + 0x24) + UINT32_C(0x90)), 4);
+  pbVar7 = (byte *)(uintptr_t)object_word;
   if ((*pbVar7 & 0xc) == 0) {
     local_a4 = 0;
     FUN_002b7360(pbVar7 + 0xfc,pfVar6 + 8,pfVar6 + 0x28);
@@ -219,7 +250,9 @@ LAB_002d2c8b:
     pfVar6[0x30] = 0.0;
     pbVar7 = (byte *)0x0;
   }
-  pfVar6[0x1b] = (float)pbVar7;
+  /* 0x002D2FFF: MOV [ESI+0x6C],EBX; no integer-to-float conversion. */
+  object_word = (uint32_t)(uintptr_t)pbVar7;
+  memcpy((byte *)pfVar6 + 0x6c, &object_word, 4);
   pfVar6[0x18] = 1.0 / pfVar6[0x19];
   iVar3 = *(int *)(*(int *)(param_1 + 0x10) + 0x14);
   pdVar1 = (double *)(iVar3 + 0x108);
