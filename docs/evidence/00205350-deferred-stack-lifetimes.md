@@ -18,8 +18,8 @@ The XBE and the following original body digests were checked before analysis:
 | `0x0001FDD0` | 40 | `13832B0FFE3CCB2E86EC5E06B944B7E16DDDFE35C04F722A781393BBBEECF49F` |
 
 `tools/source_layout.py` resolves the caller to
-`src/main_unclassified/band_0020/0x00205350.c`. Its unchanged source SHA-256 is
-`fc1b997676e5bb631cb0efed6efa9a4cff59f2820dab50e99ee50d4d0ec5c23c`.
+`src/main_unclassified/band_0020/0x00205350.c`. Its unchanged canonical Git LF source SHA-256 is
+`6d23844061dbc3373096b3657f5d48e2bc4e4751fa960f7f27bef383809bc9bc`.
 
 ## Branch and slot map
 

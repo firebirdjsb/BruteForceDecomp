@@ -15,8 +15,8 @@ does not promote syntax, interface, runtime behavior, or byte-match status.
   `799425F204B00DB36DEC83019E43890E71D10113DC10721CB8A2EFE0CAA969A4`.
 - Source path resolved through `tools/source_layout.py`:
   `src/main_unclassified/band_0011/0x0011c810.c`.
-- Caller source is unchanged; SHA-256 of its checked bytes:
-  `2d8c00de0251c80158389d830eace8cd17d47967e912c445b7a35f9aa6399df0`.
+- Caller source is unchanged; canonical Git LF source SHA-256:
+  `7a48e576f1a3b4b8c61b70f63dcad20f20a5759e4001293cbeaa3b91fccc3e2e`.
 
 The original XBE hash and all three body hashes were checked against extracted
 original bytes before drawing the following conclusions. No process memory,
