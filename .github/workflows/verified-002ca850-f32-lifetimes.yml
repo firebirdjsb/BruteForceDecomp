@@ -1,0 +1,19 @@
+name: Verified 0x002CA850 original x87 scalar lifetimes
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_002c/0x002ca850.c'
+      - 'scripts/verify_002ca850_x87_float_lifetimes.py'
+      - '.github/workflows/verified-002ca850-f32-lifetimes.yml'
+      - 'include/bf_ghidra_types.h'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-f32-lifetimes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify float FSTP stack output and isolated host Clang C11
+        run: python3 scripts/verify_002ca850_x87_float_lifetimes.py --root .
