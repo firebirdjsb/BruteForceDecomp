@@ -223,6 +223,10 @@ on:
       - 'scripts/verify_0011c810_virtual_call_link.py'
       - 'scripts/verify_0011c810_second_vector.py'
       - 'scripts/inspect_0011c810_original.py'
+      - 'scripts/verify_0011c810_xbe_vector_lanes.py'
+      - 'scripts/test_verify_0011c810_xbe_vector_lanes.py'
+      - 'tests/test_0011c810_original_vector_lanes.c'
+      - 'tests/test_0011c810_original_vector_lanes_syntax.c'
       - 'scripts/test_inspect_0011c810_original.py'
       - 'tests/test_0011c810_second_vector.c'
       - 'tests/test_0011c810_second_vector_syntax.c'
@@ -770,6 +774,10 @@ jobs:
         run: python3 scripts/verify_0011c810_second_vector.py --root .
       - name: Test pinned XBE original 0x0011C810 offline review parser (synthetic only)
         run: python3 scripts/test_inspect_0011c810_original.py
+      - name: Verify original XBE-derived 0x0011C810 concrete vtable and FCHS guest vector lanes (source only)
+        run: python3 scripts/verify_0011c810_xbe_vector_lanes.py --root .
+      - name: Reject unpinned original XBE and test guest extraction (synthetic)
+        run: python3 scripts/test_verify_0011c810_xbe_vector_lanes.py
       - name: Verify original F32 dot storage and SIMD XYZ scale source contracts
         run: python3 scripts/verify_20261026_x87_dot_and_xyz_scale.py --root .
       - name: Verify 0x0005CC20 three F32 guest XYZ deltas and raw saved Z word
