@@ -6,6 +6,19 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <stdint.h>
+#include <string.h>
+
+/* The input struct mixes float32 lanes and raw guest32 addresses.
+ * 0x002B85C2 MOV ECX,[EDX+44] and 0x002B85D5 MOV ESI,[ESP+4C]
+ * pass raw pointer words, not IEEE-754 numerical conversions.
+ * TODO/ABI_UNVERIFIED: translate guest32 addresses on native hosts. */
+static uint32_t bf_2b8290_guest_word(const float *field)
+{
+  uint32_t bits;
+  memcpy(&bits,field,sizeof(bits));
+  return bits;
+}
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003b86e0;
@@ -21,7 +34,6 @@ void FUN_002b8290(float *param_1,int *param_2)
   float *pfVar6;
   uint *puVar7;
   float *pfVar8;
-  float unaff_ESI;
   int iVar9;
   float fVar10;
   float fVar11;
@@ -33,9 +45,10 @@ void FUN_002b8290(float *param_1,int *param_2)
   int *local_1c;
   int *local_18;
   int local_14;
-  float *local_10;
-  float local_c;
-  float fStack_8;
+  /* XBE 0x002B8541/8545 stores three F32 lanes to [ESP+28..30].
+   * The resulting vector is consumed by FUN_002B65A0 and the
+   * callback at 0x002B85DB. It never becomes an object pointer. */
+  float guest_cross[3];
   undefined4 local_4;
   
   local_14 = (int)(short)param_2[3];
@@ -108,28 +121,34 @@ LAB_002b8442:
       fVar13 = *pfVar5 - fVar13;
       fVar14 = (float)uVar2 - fVar14;
       fVar15 = (float)((ulonglong)uVar2 >> 0x20) - fVar15;
-      local_10 = (float *)(fVar11 * fVar15 - fVar12 * fVar14);
-      local_c = fVar12 * fVar13 - fVar10 * fVar15;
-      fStack_8 = fVar10 * fVar14 - fVar11 * fVar13;
-      FUN_002b65a0(&local_10);
+      guest_cross[0] = fVar11 * fVar15 - fVar12 * fVar14;
+      guest_cross[1] = fVar12 * fVar13 - fVar10 * fVar15;
+      guest_cross[2] = fVar10 * fVar14 - fVar11 * fVar13;
+      FUN_002b65a0(guest_cross);
       if ((param_1[0x10] != 1.4013e-45) ||
-         ((float)local_10 * param_1[0xc] + local_c * param_1[0xd] + fStack_8 * param_1[0xe] <= 0.0))
+         (guest_cross[0] * param_1[0xc] + guest_cross[1] * param_1[0xd] + guest_cross[2] * param_1[0xe] <= 0.0))
       {
-        if (local_c < 0.0) {
-          local_10 = (float *)((float)local_10 * -1.0);
-          local_c = local_c * -1.0;
-          fStack_8 = fStack_8 * -1.0;
+        if (guest_cross[1] < 0.0) {
+          guest_cross[0] *= -1.0f;
+          guest_cross[1] *= -1.0f;
+          guest_cross[2] *= -1.0f;
         }
-        (*(code *)**(undefined4 **)param_1[0x11])(param_1[0x12],param_2,local_18,local_24,&local_10)
-        ;
-        fVar13 = local_10[0x13];
-        local_10[8] = *local_10 + local_10[0xc] * fVar13;
-        *(ulonglong *)(local_10 + 9) =
-             CONCAT44((float)((ulonglong)*(undefined8 *)(local_10 + 1) >> 0x20) +
-                      (float)((ulonglong)*(undefined8 *)(local_10 + 0xd) >> 0x20) * fVar13,
-                      (float)*(undefined8 *)(local_10 + 1) +
-                      (float)*(undefined8 *)(local_10 + 0xd) * fVar13);
-        local_10[0x13] = unaff_ESI;
+        /* XBE 0x002B85C2..0x002B85DB takes the original callback
+         * interface pointer from [param_1+0x44], pushes the raw
+         * guest32 [param_1+0x48] value, polygon and float arguments,
+         * and passes the actual cross-product vector by address.
+         * The indirect callee ABI is still ABI_UNVERIFIED. */
+        (*(code *)**(undefined4 **)(uintptr_t)bf_2b8290_guest_word(&param_1[0x11]))
+            (bf_2b8290_guest_word(&param_1[0x12]),param_2,local_18,local_24,guest_cross);
+        /* 0x002B85DD..0x002B8629 then computes three 32-bit SSE
+         * position components from the first original param_1,
+         * NOT from the stack vector supplied to the callback. */
+        fVar13 = param_1[0x13];
+        param_1[8] = *param_1 + param_1[0xc] * fVar13;
+        param_1[9] = param_1[1] + param_1[0xd] * fVar13;
+        param_1[10] = param_1[2] + param_1[0xe] * fVar13;
+        /* XBE 0x002B862A/862E/8632: FLD [ESP+14]; FSTP [EAX+4C]. */
+        param_1[0x13] = local_24;
       }
     }
   }
