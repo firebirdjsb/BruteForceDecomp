@@ -6,13 +6,15 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_float_lane.h"
 #include <xmmintrin.h>
 /* Ghidra SSE scalar opcode model; only observed low lane is reconstructed.
  * Original ABI, upper lanes and game behavior remain UNVERIFIED. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_003ffd80;
-extern uint32_t DAT_00414da0;
+/* 0x223bd5/0x223be4 and 0x223c60 index DWORD heads at base+index*4. */
+extern uint32_t DAT_00414da0[];
 extern uint32_t PTR_FUN_0039efb8;
 extern uint32_t PTR_LAB_0039cc18;
 extern uint32_t PTR_LAB_0039efc0;
@@ -24,8 +26,8 @@ void FUN_002237c0(int param_1,float *param_2,float param_3,float param_4,int par
 {
   undefined4 *puVar1;
   int iVar2;
-  float *pfVar3;
-  float *pfVar4;
+  uint32_t *link_next;
+  uint32_t *link_cursor;
   char cVar5;
   float *in_EAX;
   int *piVar6;
@@ -36,8 +38,13 @@ void FUN_002237c0(int param_1,float *param_2,float param_3,float param_4,int par
   float fVar11;
   __m128 auVar12;
   int local_264;
-  float local_25c;
-  uint uStack_258;
+  /* S = ESP after the aligned allocation and saved EBX/ESI/EDI.
+   * S+0x14 holds m32fp until 0x223be0 overwrites it with a link DWORD.
+   * S+0x18 is the adjacent value DWORD. Both later calls receive this base;
+   * the existing-capacity path advances its output pointer by eight bytes.
+   * ABI_UNVERIFIED: publishing this host address still needs guest mapping;
+   * no native PC stack is claimed to be a 32-bit Xbox guest stack. */
+  uint32_t local_25c[2];
   float fStack_254;
   undefined1 local_250 [4];
   int *local_24c;
@@ -77,7 +84,7 @@ void FUN_002237c0(int param_1,float *param_2,float param_3,float param_4,int par
   undefined4 local_14;
   
   fVar10 = (float10)fcos((float10)param_4 * (float10)0.017453292);
-  local_25c = (float)fVar10;
+  local_25c[0] = bf_x86_f32_word((float)fVar10);
   local_24c = (int *)FUN_0025ae60(local_250);
   *(undefined1 *)((int)local_24c + 0x15) = 1;
   local_24c[1] = (int)local_24c;
@@ -110,7 +117,7 @@ void FUN_002237c0(int param_1,float *param_2,float param_3,float param_4,int par
   FUN_000d1420(param_3);
   do {
     if (local_1e0 == 0) {
-      local_25c = (float)param_5;
+      local_25c[0] = bf_x86_f32_word((float)param_5);
       local_23c = (float)local_248;
       if (local_248 < 0) {
         local_23c = local_23c + 4.2949673e+09;
@@ -121,36 +128,37 @@ void FUN_002237c0(int param_1,float *param_2,float param_3,float param_4,int par
       if (0 < local_264) {
         do {
           uVar9 = *(uint *)(local_240 + 0x10);
-          uStack_258 = 0;
-          if ((uVar9 != 0) && (uStack_258 = uVar9, (uVar9 & 1) == 0)) {
-            uVar9 = uVar9 * 0x19660d + 0x3c6ef35f >> 0x15;
-            local_25c = *(float *)(&DAT_00414da0 + uVar9 * 4);
-            *(float **)(&DAT_00414da0 + uVar9 * 4) = &local_25c;
+          local_25c[1] = 0;
+          if ((uVar9 != 0) && (local_25c[1] = uVar9, (uVar9 & 1) == 0)) {
+            /* IMUL/ADD wrap at 32 bits; SHR selects the bucket. */
+            uVar9 = (uVar9 * UINT32_C(0x19660d) + UINT32_C(0x3c6ef35f)) >> 0x15;
+            local_25c[0] = DAT_00414da0[uVar9];
+            DAT_00414da0[uVar9] = (uint32_t)(uintptr_t)local_25c;
           }
           iVar7 = *(int *)(param_1 + 4);
           if ((iVar7 == 0) ||
-             ((uint)(*(int *)(param_1 + 0xc) - iVar7 >> 3) <=
-              (uint)(*(int *)(param_1 + 8) - iVar7 >> 3))) {
-            FUN_0004aff0(param_1,*(undefined4 *)(param_1 + 8),1,&local_25c);
+             ((uint)((*(int *)(param_1 + 0xc) - iVar7) >> 3) <=
+              (uint)((*(int *)(param_1 + 8) - iVar7) >> 3))) {
+            FUN_0004aff0(param_1,*(undefined4 *)(param_1 + 8),1,local_25c);
           }
           else {
             iVar7 = *(int *)(param_1 + 8);
-            FUN_0004b6d0(iVar7,1,&local_25c,param_1,local_25c);
+            FUN_0004b6d0(iVar7,1,local_25c,param_1,local_25c[0]);
             *(int *)(param_1 + 8) = iVar7 + 8;
           }
-          if ((uStack_258 != 0) && ((uStack_258 & 1) == 0)) {
-            iVar7 = uStack_258 * 0x19660d;
-            uStack_258 = 0;
-            fVar11 = *(float *)(&DAT_00414da0 + (iVar7 + 0x3c6ef35fU >> 0x15) * 4);
-            pfVar4 = (float *)(&DAT_00414da0 + (iVar7 + 0x3c6ef35fU >> 0x15) * 4);
-            while (fVar11 != 0.0) {
-              pfVar3 = (float *)*pfVar4;
-              if (pfVar3 == &local_25c) {
-                *pfVar4 = *(float *)*pfVar4;
+          if ((local_25c[1] != 0) && ((local_25c[1] & 1) == 0)) {
+            uVar9 = (local_25c[1] * UINT32_C(0x19660d) + UINT32_C(0x3c6ef35f)) >> 0x15;
+            local_25c[1] = 0;
+            link_cursor = &DAT_00414da0[uVar9];
+            /* 0x223c6b..0x223c86 tests and copies raw DWORD links.
+             * Zero is the only terminator; no float comparison/conversion. */
+            while (*link_cursor != 0) {
+              link_next = (uint32_t *)(uintptr_t)*link_cursor;
+              if (link_next == local_25c) {
+                *link_cursor = *link_next;
                 break;
               }
-              pfVar4 = pfVar3;
-              fVar11 = *pfVar3;
+              link_cursor = link_next;
             }
           }
           FUN_0012aba0();
@@ -158,7 +166,7 @@ void FUN_002237c0(int param_1,float *param_2,float param_3,float param_4,int par
         } while (local_264 != 0);
       }
       local_128[0] = &PTR_LAB_0039cc18;
-      FUN_00223fd0(&local_25c,*local_24c,local_24c);
+      FUN_00223fd0(local_25c,*local_24c,local_24c);
                     /* WARNING: Subroutine does not return */
       thunk_FUN_00237ec0(local_24c);
     }
@@ -193,7 +201,7 @@ void FUN_002237c0(int param_1,float *param_2,float param_3,float param_4,int par
             fStack_254 = local_238 * *param_2 + local_230 * param_2[2] + local_234 * param_2[1];
             iVar7 = local_240;
             local_23c = local_244;
-            if (local_25c <= fStack_254) {
+            if (bf_x86_word_to_f32(local_25c[0]) <= fStack_254) {
               local_1fc = 0;
               fStack_208 = local_238;
               fStack_204 = local_234;
