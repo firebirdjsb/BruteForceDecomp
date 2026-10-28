@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_float_lane.h"
+#include <xmmintrin.h>
+/* Retain the explicit x87-proxy operations and m32fp spill boundaries when
+ * optimizing. This does not supply original x87/MXCSR state or exception ABI. */
+#pragma STDC FENV_ACCESS ON
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_FUN_003a400c;
@@ -16,8 +21,6 @@ undefined4 FUN_0002f270(int param_1,undefined4 param_2,undefined4 param_3)
   uint *puVar1;
   undefined4 uVar2;
   undefined4 uVar3;
-  float *pfVar4;
-  float fVar5;
   char cVar6;
   int *piVar7;
   uint uVar8;
@@ -27,12 +30,12 @@ undefined4 FUN_0002f270(int param_1,undefined4 param_2,undefined4 param_3)
   int *piVar12;
   float *pfVar13;
   float fVar14;
-  undefined1 in_XMM0 [16];
-  undefined1 auVar15 [16];
   undefined4 local_3fc;
-  undefined **ppuStack_3f8;
-  undefined1 *puStack_3f4;
-  float fStack_3f0;
+  /* S = ESP after SUB ESP,0x3fc and saved EBX/EBP/ESI/EDI.
+   * S+0x14/+0x18/+0x1c are three adjacent raw DWORDs. The earlier query
+   * record and the later float3 share these bytes in the original frame.
+   * ABI_UNVERIFIED: host stack addresses still need guest-memory binding. */
+  uint32_t scratch_3f8[3];
   float *local_3ec;
   int *local_3e4;
   undefined4 uStack_3e0;
@@ -112,14 +115,14 @@ LAB_0002f44c:
     aiStack_250[iStack_150] = *(int *)(param_1 + 0x510);
     iStack_150 = iStack_150 + 1;
   }
-  puStack_3f4 = auStack_254;
-  ppuStack_3f8 = &PTR_FUN_003a400c;
-  fStack_3f0 = 1.4013e-44;
+  scratch_3f8[1] = (uint32_t)(uintptr_t)auStack_254;
+  scratch_3f8[0] = UINT32_C(0x003a400c); /* 0x2f749: literal guest code/data word. */
+  scratch_3f8[2] = 10; /* 0x2f751: raw DWORD, not a numeric float conversion. */
   while( true ) {
     piVar7[0x94] = piVar7[0x94] | 1;
     (**(code **)(*piVar7 + 0x40))();
     bStack_3d0 = bStack_3d0 & 0xfd | 1;
-    iVar9 = FUN_000594a0(piVar7[0x93],&ppuStack_3f8,0);
+    iVar9 = FUN_000594a0(piVar7[0x93],scratch_3f8,0);
     if (iVar9 != 0) break;
     if ((bStack_10 & 4) == 0) goto LAB_0002f44c;
     bStack_10 = bStack_10 & 0xfb;
@@ -138,44 +141,66 @@ LAB_0002f454:
     if (cVar6 != '\0') {
       FUN_00025730(param_1 + 0x930,1,0);
       *(undefined4 *)(param_1 + 0x518) = 0;
-      fVar14 = *pfVar13 - *(float *)(iVar9 + 0x14);
-      fVar5 = pfVar13[2] - *(float *)(iVar9 + 0x1c);
-      pfVar4 = (float *)(fVar5 * fVar5 + fVar14 * fVar14);
-      auVar15._4_12_ = in_XMM0._4_12_;
-      auVar15._0_4_ = SQRT((float)pfVar4);
-      *(float *)(param_1 + 0x540) = auVar15._0_4_;
-      if (((*(int *)(param_1 + 0x934) != 0) &&
-          (local_3ec = (float *)((*(int *)(param_1 + 0x938) - *(int *)(param_1 + 0x934)) / 0x18),
-          pfVar4 = local_3ec, local_3ec != (float *)0x0)) && (local_3e4 != (int *)0x0)) {
-        (**(code **)(*local_3e4 + 0x40))();
-        FUN_0004c480(param_1 + 0x488);
-        FUN_00012650();
-        FUN_00012600();
-        puVar11 = (undefined4 *)FUN_000233d0();
-        uVar2 = puVar11[2];
-        uVar3 = puVar11[1];
-        *(undefined4 *)(param_1 + 0x478) = *puVar11;
-        *(undefined4 *)(param_1 + 0x480) = uVar2;
-        *(undefined4 *)(param_1 + 0x47c) = uVar3;
-        fStack_3f0 = *(float *)(param_1 + 0x480) - pfVar13[2];
-        puStack_3f4 = (undefined1 *)0x0;
-        ppuStack_3f8 = (undefined **)(*(float *)(param_1 + 0x478) - *pfVar13);
-        *(uint *)(param_1 + 0x534) = *(uint *)(param_1 + 0x534) & 0xfffffeff;
-        local_3ec = (float *)(fStack_3f0 * fStack_3f0 +
-                             (float)ppuStack_3f8 * (float)ppuStack_3f8 + 0.0);
-        pfVar4 = (float *)fStack_3f0;
-        if (1.1920929e-07 < (float)local_3ec) {
-          auVar15 = rsqrtss(auVar15,local_3ec);
-          fVar14 = auVar15._0_4_;
-          ppuStack_3f8 = (undefined **)(fVar14 * (float)ppuStack_3f8);
-          puStack_3f4 = (undefined1 *)(fVar14 * 0.0);
-          fStack_3f0 = fStack_3f0 * fVar14;
-          *(uint *)(param_1 + 0x3c4) = *(uint *)(param_1 + 0x3c4) | 0x4000;
-          (**(code **)(piVar7[0x6d] + 0x3c))(&ppuStack_3f8);
-          pfVar4 = local_3ec;
+      /* 0x2f508..0x2f523 keeps both differences in x87 until their
+       * squared sum is spilled as m32fp at S+0x20. float10 remains a
+       * host proxy, not a complete model of x87 precision/control. */
+      float10 delta_x = (float10)*pfVar13 - (float10)*(float *)(iVar9 + 0x14);
+      float10 delta_z = (float10)pfVar13[2] - (float10)*(float *)(iVar9 + 0x1c);
+      float distance_squared = (float)(delta_x * delta_x + delta_z * delta_z);
+      /* SQRTSS at 0x2f525 stores only its low DWORD. Upper guest XMM0
+       * bits at calls/entry/exit remain unresolved; no packed use is modeled. */
+      *(float *)(param_1 + 0x540) =
+          _mm_cvtss_f32(_mm_sqrt_ss(_mm_set_ss(distance_squared)));
+      /* 0x2f55d..0x2f570 reuses S+0x20 for a signed count. SUB wraps
+       * in 32 bits; the IMUL/SAR/sign correction is signed division by 24. */
+      uint32_t begin_word = *(uint32_t *)(param_1 + 0x934);
+      if (begin_word != 0) {
+        uint32_t span_bits = *(uint32_t *)(param_1 + 0x938) - begin_word;
+        int32_t entry_count;
+        memcpy(&entry_count, &span_bits, sizeof(entry_count));
+        entry_count /= 24;
+        if ((entry_count != 0) && (local_3e4 != (int *)0x0)) {
+          (**(code **)(*local_3e4 + 0x40))();
+          FUN_0004c480(param_1 + 0x488);
+          FUN_00012650();
+          FUN_00012600();
+          puVar11 = (undefined4 *)FUN_000233d0();
+          uVar2 = puVar11[2];
+          uVar3 = puVar11[1];
+          *(undefined4 *)(param_1 + 0x478) = *puVar11;
+          *(undefined4 *)(param_1 + 0x480) = uVar2;
+          *(undefined4 *)(param_1 + 0x47c) = uVar3;
+          /* 0x2f606..0x2f631 keeps Z unspilled, loads receiver X, writes
+           * +0.0 to Y, subtracts input X, then spills Z and X. Retain this
+           * ordering rather than assuming the input cannot alias a slot.
+           * The virtual call at 0x2f6ce receives this 12-byte base. */
+          float10 vector_delta_z = (float10)*(float *)(param_1 + 0x480) -
+                                   (float10)pfVar13[2];
+          float10 vector_delta_x = (float10)*(float *)(param_1 + 0x478);
+          scratch_3f8[1] = 0;
+          vector_delta_x -= (float10)*pfVar13;
+          scratch_3f8[2] = bf_x86_f32_word((float)vector_delta_z);
+          scratch_3f8[0] = bf_x86_f32_word((float)vector_delta_x);
+          *(uint *)(param_1 + 0x534) = *(uint *)(param_1 + 0x534) & 0xfffffeff;
+          float10 norm_x = (float10)bf_x86_word_to_f32(scratch_3f8[0]);
+          float10 norm_y = (float10)bf_x86_word_to_f32(scratch_3f8[1]);
+          float10 norm_z = (float10)bf_x86_word_to_f32(scratch_3f8[2]);
+          float10 norm_squared = (norm_x * norm_x + norm_y * norm_y) + norm_z * norm_z;
+          /* FCOM at 0x2f663 precedes the FSTP at 0x2f674. TEST AH,0x41
+           * rejects <= and unordered. Pinned m32fp threshold is 0x34000000. */
+          if ((float10)0x1p-23f < norm_squared) {
+            float reciprocal = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss((float)norm_squared)));
+            /* The three original FMUL/FSTP pairs round to m32fp separately.
+             * Preserve reciprocal*X, reciprocal*Y and Z*reciprocal order;
+             * do not replace the explicit Y multiply with a constant zero. */
+            scratch_3f8[0] = bf_x86_f32_word((float)((float10)reciprocal * norm_x));
+            scratch_3f8[1] = bf_x86_f32_word((float)((float10)reciprocal * norm_y));
+            scratch_3f8[2] = bf_x86_f32_word((float)(norm_z * (float10)reciprocal));
+            *(uint *)(param_1 + 0x3c4) = *(uint *)(param_1 + 0x3c4) | 0x4000;
+            (**(code **)(piVar7[0x6d] + 0x3c))(scratch_3f8);
+          }
         }
       }
-      local_3ec = pfVar4;
       *(uint *)(param_1 + 0x534) = *(uint *)(param_1 + 0x534) & 0xfffffffe;
       if (*(int *)(param_1 + 0x510) != 0) {
         puVar1 = (uint *)(*(int *)(param_1 + 0x510) + 0x28);
