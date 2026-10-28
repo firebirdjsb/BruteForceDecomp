@@ -1,0 +1,19 @@
+name: Verified 0x002B8290 float3 indirect callback
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_002b/0x002b8290.c'
+      - 'scripts/verify_002b8290_float3_callback.py'
+      - '.github/workflows/verified-002b8290-float3-callback.yml'
+      - 'include/bf_ghidra_types.h'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verified-float3-callback:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert original x86 and isolated Clang C11 callback dataflow
+        run: python3 scripts/verify_002b8290_float3_callback.py --root .
