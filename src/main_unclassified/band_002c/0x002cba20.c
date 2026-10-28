@@ -74,7 +74,14 @@ void FUN_002cba20(int param_1,uint *param_2,uint *param_3,int *param_4,int *para
   float local_b70 [3];
   undefined4 local_b64;
   float local_b60;
-  undefined8 local_b5c;
+  /* Original 0x002CBCDA..0x002CBCF9 stores three SSE F32 lanes
+   * to the scratch vector. The two upper lanes are m32fp values,
+   * not an unsigned 64-bit integer to convert numerically. */
+  float local_b5c[2];
+  /* 0x002CBD2D/46/5F FSTP m32fp to three adjacent output
+   * stack words before FUN_002B73D0. The old local_b84 pointer
+   * array has a distinct later lifetime holding traversal links. */
+  float guest_cross[3];
   undefined4 local_b54;
   undefined1 local_b50 [1448];
   undefined1 local_5a8 [1448];
@@ -127,13 +134,13 @@ void FUN_002cba20(int param_1,uint *param_2,uint *param_3,int *param_4,int *para
               *(float *)(iVar6 + 0x24) * local_ba4 + *(float *)(iVar6 + 0x20) * local_ba8;
   fStack_bf0 = *(float *)(iVar6 + 0x38) * fStack_ba0 +
                *(float *)(iVar6 + 0x34) * local_ba4 + *(float *)(iVar6 + 0x30) * local_ba8;
-  fVar15 = (float)local_b70._4_8_ - (float)local_b5c;
-  fVar17 = SUB84(local_b70._4_8_,4) - (float)((ulonglong)local_b5c >> 0x20);
+  fVar15 = local_b70[1] - local_b5c[0];
+  fVar17 = local_b70[2] - local_b5c[1];
   local_b78 = 0;
-  local_b84[0] = (uint *)(fVar15 * fStack_bf0 - fVar17 * local_bf4);
-  local_b84[1] = (uint *)(fVar17 * local_bf8 - fStack_bf0 * (local_b70[0] - local_b60));
-  local_b7c = local_bf4 * (local_b70[0] - local_b60) - fVar15 * local_bf8;
-  FUN_002b73d0(param_5[2] + 0x10,local_b84,&local_b98);
+  guest_cross[0] = fVar15 * fStack_bf0 - fVar17 * local_bf4;
+  guest_cross[1] = fVar17 * local_bf8 - fStack_bf0 * (local_b70[0] - local_b60);
+  guest_cross[2] = local_bf4 * (local_b70[0] - local_b60) - fVar15 * local_bf8;
+  FUN_002b73d0(param_5[2] + 0x10,guest_cross,&local_b98);
   FUN_002b65a0(&local_b98);
   iVar6 = FUN_002dd8d0(&local_be0,
                        *(float *)(&DAT_00469e20 +
