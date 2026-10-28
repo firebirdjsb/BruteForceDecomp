@@ -1,0 +1,19 @@
+name: Verified 0x002B7C70 guest float3 callback arguments
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_002b/0x002b7c70.c'
+      - 'scripts/verify_002b7c70_float3_callback.py'
+      - '.github/workflows/verified-002b7c70-float3-callback.yml'
+      - 'include/bf_ghidra_types.h'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verified-float3-callback:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify two x86 callback argument contracts and isolated Clang C11
+        run: python3 scripts/verify_002b7c70_float3_callback.py --root .
