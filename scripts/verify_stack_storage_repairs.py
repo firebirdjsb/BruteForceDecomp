@@ -12,6 +12,12 @@ from source_layout import source_path
 
 # Entry, byte count or ordered (relative offset, size) spans, exact body SHA-256.
 BODIES = (
+    (0x00117310, 289, "1418af0500bb361e1729ffc8e552631838ac81e6d1b09e5af92104c69afa4d78"),
+    (0x002B6500, 152, "4da4f3748f3ec3da37b178462b78c7ca09ed2c655319dd40d6a81bb9122592f0"),
+    (0x002C2A20, 1121, "c41fe2fa640e68d9b56e7f4885b7e7d3153fb5fc79fdef77cc1f0967713db9db"),
+    (0x002C2E90, 175, "a8468c8dfc760be46e8bc8e98d850d0f3d1e75dc0a6f61a9d8f562756131149b"),
+    (0x002C37D0, 1242, "8992eae863fc22009b77ae36f8fdb55426c0022671ccc2e3b0b8518c13c42121"),
+    (0x002D29F0, 1695, "8410b9159f7e13616468e55670c8d2c5b39aacb44e5ce477a904d7f75571cd49"),
     (0x0003D6C0, 100, "a3875bc357803fb9e03f912e86eabf8ec659f52f2474af548cbea08d675632e8"),
     (0x002A1A50, ((0, 2685), (2688, 198)), "68cbe263227919de03cac12d03f674a88b800bfaebe5b4e88c55a7ab6ed1eada"),
     (0x0001FC40, 40, "de39b6dece42b44e9508dd2033a9641d4725d83ce2f99f0bbc52be9d5e26a993"),
@@ -158,6 +164,120 @@ BODIES = (
     (0x002D62F0, 165, "5ef676ee82d3ae3d81bad457b0bbb6d32be308656a394a870de5345c18dde6b3"),
 )
 WINDOWS = {
+    0x002C37E3: "50",  # push     eax
+    0x002C37EB: "e8a0f6ffff",  # call     0x2c2e90
+    0x002C37F0: "d95c2414",  # fstp     dword ptr [esp + 0x14]
+    0x002C3801: "8b8a94000000",  # mov      ecx, dword ptr [edx + 0x94]
+    0x002C380D: "894c245c",  # mov      dword ptr [esp + 0x5c], ecx
+    0x002C3811: "8b8a94000000",  # mov      ecx, dword ptr [edx + 0x94]
+    0x002C3820: "894c2460",  # mov      dword ptr [esp + 0x60], ecx
+    0x002C3834: "8928",  # mov      dword ptr [eax], ebp
+    0x002C3880: "e8db68ffff",  # call     0x2ba160
+    0x002C3887: "896e04",  # mov      dword ptr [esi + 4], ebp
+    0x002C388A: "892e",  # mov      dword ptr [esi], ebp
+    0x002C388C: "896efc",  # mov      dword ptr [esi - 4], ebp
+    0x002C38BE: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002C38C2: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002C38CA: "f30f1012",  # movss    xmm2, dword ptr [edx]
+    0x002C38CE: "0f165204",  # movhps   xmm2, qword ptr [edx + 4]
+    0x002C38D2: "0f5cca",  # subps    xmm1, xmm2
+    0x002C38D9: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002C38DD: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002C38E1: "d9442458",  # fld      dword ptr [esp + 0x58]
+    0x002C38E5: "d84c2430",  # fmul     dword ptr [esp + 0x30]
+    0x002C38F0: "d9442454",  # fld      dword ptr [esp + 0x54]
+    0x002C38F9: "d84c242c",  # fmul     dword ptr [esp + 0x2c]
+    0x002C38FD: "dec1",  # faddp    st(1)
+    0x002C38FF: "d9442450",  # fld      dword ptr [esp + 0x50]
+    0x002C3903: "d84c2428",  # fmul     dword ptr [esp + 0x28]
+    0x002C3907: "dec1",  # faddp    st(1)
+    0x002C3909: "d95c2424",  # fstp     dword ptr [esp + 0x24]
+    0x002C3910: "8928",  # mov      dword ptr [eax], ebp
+    0x002C3924: "8928",  # mov      dword ptr [eax], ebp
+    0x002C3938: "8928",  # mov      dword ptr [eax], ebp
+    0x002C39E9: "f30f101a",  # movss    xmm3, dword ptr [edx]
+    0x002C39ED: "0f165a04",  # movhps   xmm3, qword ptr [edx + 4]
+    0x002C39F5: "f30f1000",  # movss    xmm0, dword ptr [eax]
+    0x002C39F9: "0f164004",  # movhps   xmm0, qword ptr [eax + 4]
+    0x002C3A00: "0fc6e400",  # shufps   xmm4, xmm4, 0
+    0x002C3A04: "f30f104810",  # movss    xmm1, dword ptr [eax + 0x10]
+    0x002C3A09: "0f164814",  # movhps   xmm1, qword ptr [eax + 0x14]
+    0x002C3A0D: "0f59c4",  # mulps    xmm0, xmm4
+    0x002C3A13: "0fc6edaa",  # shufps   xmm5, xmm5, 0xaa
+    0x002C3A17: "f30f105020",  # movss    xmm2, dword ptr [eax + 0x20]
+    0x002C3A1C: "0f165024",  # movhps   xmm2, qword ptr [eax + 0x24]
+    0x002C3A20: "0f59cd",  # mulps    xmm1, xmm5
+    0x002C3A23: "0fc6dbff",  # shufps   xmm3, xmm3, 0xff
+    0x002C3A27: "0f58c1",  # addps    xmm0, xmm1
+    0x002C3A2A: "0f59d3",  # mulps    xmm2, xmm3
+    0x002C3A2D: "0f58c2",  # addps    xmm0, xmm2
+    0x002C3A34: "f30f1100",  # movss    dword ptr [eax], xmm0
+    0x002C3A38: "0f174004",  # movhps   qword ptr [eax + 4], xmm0
+    0x002C3B20: "50",  # push     eax
+    0x002C3B3C: "e81f66ffff",  # call     0x2ba160
+    0x002C3C09: "f30f105c2434",  # movss    xmm3, dword ptr [esp + 0x34]
+    0x002C3C13: "f30f1010",  # movss    xmm2, dword ptr [eax]
+    0x002C3C17: "0f165004",  # movhps   xmm2, qword ptr [eax + 4]
+    0x002C3C1B: "0fc6db00",  # shufps   xmm3, xmm3, 0
+    0x002C3C23: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002C3C27: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002C3C2B: "0f59d3",  # mulps    xmm2, xmm3
+    0x002C3C2E: "0f58ca",  # addps    xmm1, xmm2
+    0x002C3C35: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002C3C39: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002C3C5C: "f30f105c2430",  # movss    xmm3, dword ptr [esp + 0x30]
+    0x002C3C66: "f30f1010",  # movss    xmm2, dword ptr [eax]
+    0x002C3C6A: "0f165004",  # movhps   xmm2, qword ptr [eax + 4]
+    0x002C3C6E: "0fc6db00",  # shufps   xmm3, xmm3, 0
+    0x002C3C76: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002C3C7A: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002C3C7E: "0f59d3",  # mulps    xmm2, xmm3
+    0x002C3C81: "0f58ca",  # addps    xmm1, xmm2
+    0x002C3C88: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002C3C8C: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002C2E9A: "d94138",  # fld      dword ptr [ecx + 0x38]
+    0x002C2EB4: "d95c2400",  # fstp     dword ptr [esp]
+    0x002C2EBD: "d919",  # fstp     dword ptr [ecx]
+    0x002C2EC3: "d95a04",  # fstp     dword ptr [edx + 4]
+    0x002C2ECE: "d95908",  # fstp     dword ptr [ecx + 8]
+    0x002C2EE4: "f30f105c2408",  # movss    xmm3, dword ptr [esp + 8]
+    0x002C2EEE: "f30f1010",  # movss    xmm2, dword ptr [eax]
+    0x002C2EF2: "0f165004",  # movhps   xmm2, qword ptr [eax + 4]
+    0x002C2EF6: "0fc6db00",  # shufps   xmm3, xmm3, 0
+    0x002C2EFE: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002C2F02: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002C2F06: "0f59d3",  # mulps    xmm2, xmm3
+    0x002C2F09: "0f58ca",  # addps    xmm1, xmm2
+    0x002C2F10: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002C2F14: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002C2F1D: "e8de35ffff",  # call     0x2b6500
+    0x002C2F30: "ddd8",  # fstp     st(0)
+    0x002C2F34: "e8e7faffff",  # call     0x2c2a20
+    0x002C2F3C: "c20800",  # ret      8
+    0x002D2A40: "8b7e4c",  # mov      edi, dword ptr [esi + 0x4c]
+    0x002D2A47: "81e7fffcffff",  # and      edi, 0xfffffcff
+    0x002D2A4D: "897e4c",  # mov      dword ptr [esi + 0x4c], edi
+    0x002D2C8B: "8b4f08",  # mov      ecx, dword ptr [edi + 8]
+    0x002D2C8E: "d98188000000",  # fld      dword ptr [ecx + 0x88]
+    0x002D2C97: "d9542438",  # fst      dword ptr [esp + 0x38]
+    0x002D2C9F: "d95c244c",  # fstp     dword ptr [esp + 0x4c]
+    0x002D2CA7: "f30f105c244c",  # movss    xmm3, dword ptr [esp + 0x4c]
+    0x002D2CB1: "f30f1010",  # movss    xmm2, dword ptr [eax]
+    0x002D2CB5: "0f165004",  # movhps   xmm2, qword ptr [eax + 4]
+    0x002D2CB9: "0fc6db00",  # shufps   xmm3, xmm3, 0
+    0x002D2CC1: "f30f1008",  # movss    xmm1, dword ptr [eax]
+    0x002D2CC5: "0f164804",  # movhps   xmm1, qword ptr [eax + 4]
+    0x002D2CC9: "0f59d3",  # mulps    xmm2, xmm3
+    0x002D2CCC: "0f58ca",  # addps    xmm1, xmm2
+    0x002D2CD3: "f30f1108",  # movss    dword ptr [eax], xmm1
+    0x002D2CD7: "0f174804",  # movhps   qword ptr [eax + 4], xmm1
+    0x002D2CDE: "d98288000000",  # fld      dword ptr [edx + 0x88]
+    0x002D2CE4: "8b4508",  # mov      eax, dword ptr [ebp + 8]
+    0x002D2CEE: "d95858",  # fstp     dword ptr [eax + 0x58]
+    0x002D2D6C: "8b8090000000",  # mov      eax, dword ptr [eax + 0x90]
+    0x002D2EA2: "894668",  # mov      dword ptr [esi + 0x68], eax
+    0x002D2EA8: "8b9890000000",  # mov      ebx, dword ptr [eax + 0x90]
+    0x002D2FFF: "895e6c",  # mov      dword ptr [esi + 0x6c], ebx
     0x0006E1F2: "d95c2418",  # fstp     dword ptr [esp + 0x18]
     0x0006E1F6: "f30f104c2418",  # movss    xmm1, dword ptr [esp + 0x18]
     0x0006E1FC: "8b442478",  # mov      eax, dword ptr [esp + 0x78]
