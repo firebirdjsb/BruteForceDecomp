@@ -19,8 +19,8 @@ linkage fix. Both drafts still have unbound original register/callee contracts.
   in this part of the XBE. Matching these windows does **not** authenticate
   every noncontiguous body range, identify virtual targets, or prove source behavior.
 - Private repro: `python3 scripts/verify_guest_stack_pair_20261028.py --xbe /path/to/default.xbe`.
-  Run locally; never commit the executable. The script checks the full XBE hash
-  before all 26 exact instruction windows and fails closed if any byte differs.
+  Run locally; never commit the executable. The extended script checks the full XBE hash
+  before the original 26 and additional original instruction windows and fails closed if any byte differs.
 
 ## 0x00257B50: one 260-byte string buffer, not two independent arrays
 
@@ -51,17 +51,17 @@ Let `S` be ESP after the early `PUSH EDI` at `0x2A7610`,
 excluding temporary call arguments.
 
 - At `0x2A7660`, the one-byte read pushes zero then one;
-  `0x2A7663 LEA EDX,[ESP+0x40]` passes **`S+0x38`** to the
+  `0x2A7663 LEA EDX,[ESP+0x40]` passes **`S+0x34`** to the
   stream vtable slot `+0x10`.
 - The other branch at `0x2A76AD` pushes four and
-  `0x2A76AF LEA EAX,[ESP+0x3C]` passes that same **`S+0x38`**
+  `0x2A76AF LEA EAX,[ESP+0x3C]` passes that same **`S+0x34`**
   guest address. The difference in raw ESP displacements is explained
   by the additional pushed argument in the one-byte branch.
-- `0x2A76B8 MOV EAX,[ESP+0x34]` reads **`S+0x34`**, a distinct
+- `0x2A76B8 MOV EAX,[ESP+0x34]` reads **`S+0x30`**, a distinct
   raw word. Do not silently treat it as the four-byte output.
 - The indirect interface query at `0x2A770D/0x2A7717` uses
-  output address `S+0x10`; `0x2A7726` supplies another output
-  address `S+0x14`. Their caller/callee handoffs must be joined
+  output address `S+0x0C`; `0x2A7726` supplies another output
+  address `S+0x10`. Their caller/callee handoffs must be joined
   before claiming pointer ABI reconstruction.
 
 **Repair blocker:** a one-byte-only host variable would lose the shared
@@ -72,8 +72,8 @@ contracts have been recovered.
 
 ## Verification boundary and next action
 
-The local pinned-XBE checker passed **12 + 14 = 26** exact instruction
-windows. This does not run the game, verify virtual method output sizes,
+The earlier private-XBE check passed **12 + 14 = 26** original instruction
+windows. The expanded caller/callee check is recorded in the accompanying producer-contract report. This does not run the game, verify virtual method output sizes,
 resolve 32-bit guest to host pointers, or validate end-to-end x87/SSE
 behavior. No source or canonical digest inventory was changed, and no
 syntax progress number should be increased on this evidence alone.
