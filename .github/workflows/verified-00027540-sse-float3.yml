@@ -1,0 +1,19 @@
+name: Verified 0x00027540 SSE float3 and scalar RSQRTSS
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_0002/0x00027540.c'
+      - 'scripts/verify_00027540_sse_float3.py'
+      - '.github/workflows/verified-00027540-sse-float3.yml'
+      - 'include/bf_ghidra_types.h'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-sse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify original 3 F32 lanes and isolated Clang C11
+        run: python3 scripts/verify_00027540_sse_float3.py --root .
