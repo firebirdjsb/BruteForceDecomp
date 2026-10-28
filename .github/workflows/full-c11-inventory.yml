@@ -216,6 +216,9 @@ on:
       - 'tests/test_00219110_vectors.c'
       - 'tests/x86_219110_reference.S'
       - 'scripts/verify_002ebea0_stack_probe.py'
+      - 'scripts/verify_002ebea0_pilot_callers.py'
+      - 'tests/test_002ebea0_pilot_callers.c'
+      - 'tests/test_002ebea0_pilot_callers_syntax.c'
       - 'tests/test_002ebea0_stack_probe.c'
       - 'tests/test_002ebea0_native.c'
       - 'tests/x86_2ebea0_reference.S'
@@ -733,6 +736,8 @@ jobs:
         run: python3 scripts/verify_00219110_vectors.py
       - name: Verify explicit 0x2EBEA0 stack effects (portable; native oracle on Windows)
         run: python3 scripts/verify_002ebea0_stack_probe.py
+      - name: Verify two original 0x2EBEA0 caller CALL boundaries (source/portable only)
+        run: python3 scripts/verify_002ebea0_pilot_callers.py --root .
       - name: Verify original F32 dot storage and SIMD XYZ scale source contracts
         run: python3 scripts/verify_20261026_x87_dot_and_xyz_scale.py --root .
       - name: Verify 0x0005CC20 three F32 guest XYZ deltas and raw saved Z word
