@@ -5,6 +5,8 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+
+MATH_LIBRARIES = [] if sys.platform == "win32" else ["-lm"]
 import tempfile
 
 BODIES = {
@@ -28,7 +30,7 @@ def main():
   ap.error("Original caller interface changed; reassess virtual bridge")
  if args.xbe:
   subprocess.run([sys.executable,str(root/"scripts/verify_0011c810_matrix_frame.py"),
-      "--root",str(root),"--xbe",str(args.xbe)],check=True)
+      "--root",str(root),"--xbe",str(args.xbe),"--clang",args.clang],check=True)
  flags=["-std=c11","-Wall","-Wextra","-Werror","-pedantic","-I",str(root/"include")]
  syntax=str(root/"tests/test_0011c810_virtual_call_syntax.c")
  for target in ("i686-pc-windows-msvc","x86_64-pc-windows-msvc"):
@@ -42,7 +44,7 @@ def main():
   for opt in ("-O0","-O2"):
    out=str(Path(temp)/("test_"+opt[1:]))
    subprocess.run([args.clang,*flags,"-Wno-parentheses","-Wno-literal-range",
-      "-Wno-strict-prototypes",opt,*sources,"-lm","-o",out],check=True)
+      "-Wno-strict-prototypes",opt,*sources,*MATH_LIBRARIES,"-o",out],check=True)
    subprocess.run([out],check=True)
  print("PASS vtable +0x30 guest pointer chain, returned EAX, two callsite slots and host source linkage")
  print("NOTE: the actual virtual method and Xbox ABI/x87 parity are NOT established")

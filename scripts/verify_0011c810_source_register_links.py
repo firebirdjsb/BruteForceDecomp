@@ -14,6 +14,8 @@ import subprocess
 import tempfile
 import sys
 
+MATH_LIBRARIES = [] if sys.platform == "win32" else ["-lm"]
+
 ROOT = Path(__file__).resolve().parents[1]
 SOURCES = [
     "src/main_unclassified/band_0001/0x0001d0c0.c",
@@ -78,7 +80,7 @@ def main() -> None:
             subprocess.run([args.clang, *flags, *strict, *prior_warnings,
                             opt, "-msse", *(str(root / x) for x in SOURCES),
                             str(root / "tests/test_0011c810_guest_producer_bridge.c"),
-                            "-lm", "-o", str(exe)], check=True)
+                            *MATH_LIBRARIES, "-o", str(exe)], check=True)
             subprocess.run([str(exe)], check=True)
     print("PASS two real source functions linked into guest-address transfer at O0/O2")
     print("NOTE the original 0x0011C810 caller, virtual +0x30 return, x87 and MXCSR are UNVERIFIED")

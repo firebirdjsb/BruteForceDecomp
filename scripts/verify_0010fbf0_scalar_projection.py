@@ -12,6 +12,8 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
+import sys
+import os
 from verify_0011c810_xbe_vector_lanes import check_original, guest
 
 METHOD_SHA="76fa58db21575d08e0cb43636a07deb374229d553cff0aab4f8ee845c63882d1"
@@ -92,17 +94,18 @@ def main():
         "src/main_unclassified/band_0001/0x0001d0c0.c",
         "src/main_unclassified/band_0012/0x0012b2a0.c")]
     draft_warnings=["-Wno-parentheses","-Wno-literal-range","-Wno-strict-prototypes"]
+    math_libraries=[] if sys.platform=="win32" else ["-lm"]
     with tempfile.TemporaryDirectory(prefix="bf_0010fbf0_scalar_") as tmp:
         for opt in ("-O0","-O2"):
             executable=Path(tmp)/(opt[1:])
-            subprocess.run([a.clang,*flags,*draft_warnings,opt,*sources,"-lm","-o",str(executable)],check=True)
+            subprocess.run([a.clang,*flags,*draft_warnings,opt,*sources,*math_libraries,"-o",str(executable)],check=True)
             subprocess.run([str(executable)],check=True)
         if a.sanitize:
             executable=Path(tmp)/"sanitizer"
             subprocess.run([a.clang,*flags,*draft_warnings,"-O1","-g","-fsanitize=address,undefined",
-                            "-fno-omit-frame-pointer",*sources,"-lm","-o",str(executable)],check=True)
-            subprocess.run([str(executable)],env={"UBSAN_OPTIONS":"halt_on_error=1",
+                            "-fno-omit-frame-pointer",*sources,*math_libraries,"-o",str(executable)],check=True)
+            subprocess.run([str(executable)],env={**os.environ,"UBSAN_OPTIONS":"halt_on_error=1",
                 "ASAN_OPTIONS":"detect_leaks=1"},check=True)
-    print("PASS instruction-equivalent x87/RSQRTSS host oracle, guest first/second virtual and live C producers")
+    print("PASS scoped scalar tests; runner reports numeric-oracle availability or explicit unsupported-host rejection")
     print("LIMITS: finite normal domain, no exact Xbox FPU/MXCSR/SEH or original whole caller parity")
 if __name__=="__main__":main()

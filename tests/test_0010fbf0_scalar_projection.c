@@ -42,6 +42,7 @@ static float gen(unsigned seed, unsigned scale){
 }
 int main(void){
     bus*b=malloc(sizeof *b);CHECK(b);
+#if BF_0010FBF0_NUMERIC_PROJECTION_AVAILABLE
     const bf_0011c810_frame f=bf_0011c810_frame_at(SP);
     for (unsigned seed=1; seed<=20000u; ++seed) {
         const float x=gen(seed,seed),z=gen(seed*11939u,seed+1u);
@@ -126,7 +127,23 @@ int main(void){
         scenarios++;
     }
     CHECK(!bf_0010fbf0_project(NULL,ARG,SP).completed);
-    free(b);
     printf("PASS %u source-linked hardware-oracle scenarios, %u assertions per build (bounded finite inputs only)\n",scenarios,checks);
+#else
+    /* Unsupported host arithmetic must decline without creating guest output.
+     * This is rejection-path coverage, not a numeric-oracle comparison. */
+    for(unsigned seed=1;seed<=1024u;++seed){
+        setup(b,gen(seed,0),gen(seed+1u,1));
+        put32(b,SP+0x28u,UINT32_C(0xdeadbeef));
+        const bf_0011c810_guest_bytes io=io_for(b);
+        const bf_0010fbf0_result result=bf_0010fbf0_project(&io,ARG+0x1b4u,SP+0x28u);
+        CHECK(!result.completed && result.stage==BF_0010FBF0_FLOAT_UNVERIFIED);
+        CHECK(b->reads==2u && b->writes==0u);
+        CHECK(get32(b,SP+0x28u)==UINT32_C(0xdeadbeef));
+        ++scenarios;
+    }
+    CHECK(!bf_0010fbf0_project(NULL,ARG,SP).completed);
+    printf("PASS %u unsupported-host rejection scenarios, %u assertions; SKIP numeric oracle: no supported 80-bit proxy\n",scenarios,checks);
+#endif
+    free(b);
     return 0;
 }

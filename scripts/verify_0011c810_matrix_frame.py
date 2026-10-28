@@ -6,11 +6,25 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
+from body_hash_labels import read_body_digest
+from source_layout import source_path
 
 XBE_SHA="b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 BODIES={0x0011C810:(647,"a97770d13e1a1c3bc02e893ef9fad35032c102c9b4fd0c175e0ac596459ee255"),
-        0x0001D0C0:(594,"799425f204b00db36dec83019e43890e71d10113dc10721cba8e72efe0caa969a4"),
-        0x0012B2A0:(93,"c5bd3de3abd46f47ca74fcbb49e2399087b322b7e4bc54dada22c6ff89eed1e")}
+        0x0001D0C0:(594,"799425f204b00db36dec83019e43890e71d10113dc10721cb8a2efe0caa969a4"),
+        0x0012B2A0:(93,"c5bd3de3abd46f47ca74fcbcf49e2399087b322b7e4bc54dada22c6ff89eed1e")}
+
+
+def check_source_body_ids(root, bodies=None):
+    """Catch verifier digest drift even when public CI has no private XBE."""
+    for entry, (_, digest) in (BODIES if bodies is None else bodies).items():
+        embedded, conflict = read_body_digest(
+            source_path(root, f"0x{entry:08x}").read_text(encoding="utf8"))
+        if conflict or embedded is None or embedded.lower() != digest.lower():
+            raise ValueError(f"Verifier/source original-body digest mismatch 0x{entry:08x}")
 
 
 def guest(xbe,addr,size):
@@ -35,6 +49,7 @@ def main():
     p.add_argument("--xbe",type=Path)
     a=p.parse_args()
     if not a.clang:p.error("Clang required")
+    check_source_body_ids(a.root.resolve())
     if a.xbe:
         raw=a.xbe.read_bytes()
         if hashlib.sha256(raw).hexdigest()!=XBE_SHA:p.error("Wrong XBE hash")

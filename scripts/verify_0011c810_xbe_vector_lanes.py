@@ -12,6 +12,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
+import sys
 
 XBE_SHA = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 METHOD_SHA = "76fa58db21575d08e0cb43636a07deb374229d553cff0aab4f8ee845c63882d1"
@@ -107,17 +108,18 @@ def main()->None:
     ]
     # Original helper Ghidra draft's source warnings have not been changed.
     allowed_original=["-Wno-parentheses","-Wno-literal-range","-Wno-strict-prototypes"]
+    math_libraries=[] if sys.platform=="win32" else ["-lm"]
     with tempfile.TemporaryDirectory(prefix="bf_0011c810_xbe_lanes_") as tmp:
         for opt in ("-O0","-O2"):
             exe=Path(tmp)/("test"+opt)
             subprocess.run([a.clang,*flags,*allowed_original,opt,"-msse",
-                            *(str(root/x) for x in paths),"-lm","-o",str(exe)],check=True)
+                            *(str(root/x) for x in paths),*math_libraries,"-o",str(exe)],check=True)
             subprocess.run([str(exe)],check=True)
         if a.sanitize:
             exe=Path(tmp)/"san"
             subprocess.run([a.clang,*flags,*allowed_original,"-O1","-g",
                             "-fsanitize=address,undefined","-fno-omit-frame-pointer","-msse",
-                            *(str(root/x) for x in paths),"-lm","-o",str(exe)],check=True)
+                            *(str(root/x) for x in paths),*math_libraries,"-o",str(exe)],check=True)
             subprocess.run([str(exe)],check=True)
     print("PASS original-supported guest vector layout and actual two C helper source links")
     print("NOTE: executable virtual dispatch, Xbox x87 and NaN/fault parity remain separately unverified")

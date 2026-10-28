@@ -11,6 +11,8 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+
+MATH_LIBRARIES = [] if sys.platform == "win32" else ["-lm"]
 import tempfile
 
 BODIES = {
@@ -46,7 +48,8 @@ def main() -> None:
     if args.xbe:
         subprocess.run([sys.executable,
                         str(root / "scripts/verify_0011c810_matrix_frame.py"),
-                        "--root", str(root), "--xbe", str(args.xbe)], check=True)
+                        "--root", str(root), "--xbe", str(args.xbe),
+                        "--clang", args.clang], check=True)
     flags = ["-std=c11", "-Wall", "-Wextra", "-Werror", "-pedantic",
              "-I", str(root / "include")]
     fixture = str(root / "tests/test_0011c810_second_vector_syntax.c")
@@ -66,13 +69,13 @@ def main() -> None:
         for opt in ("-O0", "-O2"):
             target = str(Path(tmp) / ("test_" + opt[1:]))
             subprocess.run([args.clang, *flags, *known_original_draft_warnings,
-                            opt, *sources, "-lm", "-o", target], check=True)
+                            opt, *sources, *MATH_LIBRARIES, "-o", target], check=True)
             subprocess.run([target], check=True)
         if args.sanitize:
             target = str(Path(tmp) / "asan_ubsan")
             subprocess.run([args.clang, *flags, *known_original_draft_warnings,
                             "-O1", "-g", "-fsanitize=address,undefined",
-                            "-fno-omit-frame-pointer", *sources, "-lm",
+                            "-fno-omit-frame-pointer", *sources, *MATH_LIBRARIES,
                             "-o", target], check=True)
             subprocess.run([target], check=True)
     print("PASS real host C producers via second virtual/guest component/output boundaries")
