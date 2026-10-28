@@ -221,6 +221,9 @@ on:
       - 'scripts/verify_0011c810_matrix_frame.py'
       - 'scripts/verify_0011c810_source_register_links.py'
       - 'scripts/verify_0011c810_virtual_call_link.py'
+      - 'scripts/verify_0011c810_second_vector.py'
+      - 'tests/test_0011c810_second_vector.c'
+      - 'tests/test_0011c810_second_vector_syntax.c'
       - 'tests/test_0011c810_virtual_call_link.c'
       - 'tests/test_0011c810_virtual_call_syntax.c'
       - 'tests/test_0011c810_guest_producer_bridge.c'
@@ -761,6 +764,8 @@ jobs:
         run: python3 scripts/verify_0011c810_source_register_links.py --root .
       - name: Verify 0x0011C810 first and second virtual +0x30 caller/EAX contracts
         run: python3 scripts/verify_0011c810_virtual_call_link.py --root .
+      - name: Verify 0x0011C810 second virtual raw object components and source-linked output (lane map deferred)
+        run: python3 scripts/verify_0011c810_second_vector.py --root .
       - name: Verify original F32 dot storage and SIMD XYZ scale source contracts
         run: python3 scripts/verify_20261026_x87_dot_and_xyz_scale.py --root .
       - name: Verify 0x0005CC20 three F32 guest XYZ deltas and raw saved Z word
