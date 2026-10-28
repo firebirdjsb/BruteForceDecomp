@@ -1,0 +1,19 @@
+name: Verify 0x001E4E30 read-count out-DWORD
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/main_unclassified/band_001e/0x001e4e30.c'
+      - 'scripts/verify_001e4e30_original_read_count.py'
+      - '.github/workflows/verify-001e4e30-read-count.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-read-count:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify original output alias and isolated Clang C11 (no original game binary)
+        run: python3 scripts/verify_001e4e30_original_read_count.py --root .
