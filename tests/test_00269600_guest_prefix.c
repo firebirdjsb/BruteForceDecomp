@@ -23,8 +23,10 @@ static void verify_prefix(memory*m,uint32_t receiver,unsigned count,bool df) {
     CHECK(r.fault_address==0u);
     CHECK(r.probe.regs.next_eip==UINT32_C(0x00269610));
     CHECK(r.probe.regs.esp==post_probe);
-    CHECK(r.esp==saved_esp);
-    CHECK(r.ebx==receiver && r.edx==count && r.ecx==0u && r.eax==0u);
+    CHECK(r.esp==saved_esp-4u); /* 0x26963B PUSH EAX */
+    CHECK(r.ebx==receiver && r.edx==count && r.ecx==0u);
+    CHECK(r.eax==saved_esp+0x60u); /* 0x269637 LEA EAX */
+    CHECK(get(m,saved_esp-4u)==saved_esp+0x60u);
     CHECK(r.copies.source_count==count);
     CHECK(r.esi==receiver+(df?-UINT32_C(0x518):UINT32_C(0x518)));
     CHECK(r.edi==saved_esp+UINT32_C(0x578)+(df?-UINT32_C(0x518):UINT32_C(0x518)));
@@ -73,6 +75,15 @@ static void verify_faults(memory*m){
     r=bf_00269600_execute_prefix(&io,in);
     CHECK(r.status==BF_00269600_PREFIX_PROBE_FAULT);
     CHECK(r.fault_address==EBP-4u-UINT32_C(0x1000)+4u);
+    /* 1 CALL push + 2 probe pushes + 3 saved-register pushes,
+     * 1 count store + 3 STOSD writes = 10 completed writes.
+     * The 11th write is precisely the missing 0x26963B PUSH EAX. */
+    seed(m,3u);
+    m->fail_write=11u;
+    r=bf_00269600_execute_prefix(&io,in);
+    CHECK(r.status==BF_00269600_PREFIX_PUSH_FAULT);
+    CHECK(r.fault_address==(EBP-UINT32_C(0x14b4)-16u));
+    CHECK(r.copies.repeat.words_completed==3u);
     seed(m,3u);
     /* Probe has multiple reads; inject error at original count read
      * by recognizing the guest address instead of a guessed read number. */
