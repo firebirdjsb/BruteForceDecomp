@@ -40,6 +40,14 @@ static void case_identity(void){mem_model m;fp_model f={0};uint32_t fault=0;floa
  CHECK(f.instructions==30); /* three nine-step accumulations and three FSTP */
  CHECK(memcmp(f.ops,"LMLMPLMPALMLMPLMPALMLMPLMPASSS",30)==0);
  CHECK(m.wn==5&&m.rn==23);
+ /* Exact successful guest read ordering: every FLD/FMUL/FADD memory
+  * operand, then the two scratch reloads after FSTP. */
+ const uint32_t expected_reads[23]={
+   MATRIX+8u,EBP-0x60u,MATRIX+4u,EBP-0x64u,MATRIX,EBP-0x68u,MATRIX+36u,
+   MATRIX+20u,EBP-0x60u,MATRIX+12u,EBP-0x68u,MATRIX+16u,EBP-0x64u,MATRIX+40u,
+   MATRIX+32u,EBP-0x60u,MATRIX+24u,EBP-0x68u,MATRIX+28u,EBP-0x64u,MATRIX+44u,
+   ENTRY_ESP-4u,ENTRY_ESP-8u};
+ for(size_t i=0;i<23;i++)CHECK(m.ra[i]==expected_reads[i]);
  CHECK(m.wa[0]==ENTRY_ESP-4u&&m.wa[1]==ENTRY_ESP-8u);
  CHECK(m.wa[2]==EBP-0x24u&&m.wa[3]==EBP-0x2cu&&m.wa[4]==EBP-0x28u);
  CHECK(to_float(get(&m,r.eax_guest))==7.f);
