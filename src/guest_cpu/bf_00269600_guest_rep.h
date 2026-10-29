@@ -63,9 +63,11 @@ typedef struct bf_00269600_copy_result {
     uint32_t fault_address;
 } bf_00269600_copy_result;
 
-/* Caller stage 0x00269611..0x0026963C, after original PUSH EBX/ESI/EDI.
- * Live ESP must correspond to the frame immediately after those pushes.
- * EDX is loaded from [EBX+0x514], saved to [ESP+0x58], then:
+/* Original 0x0026961B..0x0026963C REP operations, after
+ * PUSH EBX, MOV EBX,ECX, MOV EDX,[EBX+0x514], PUSH ESI, PUSH EDI.
+ * Live ESP is immediately after those three pushes; EDX was already
+ * captured BEFORE the last two pushes.
+ * The saved EDX count is written to [ESP+0x58], then:
  *   XOR EAX,EAX; LEA EDI,[ESP+0x10]; REP STOSD (ECX=EDX);
  *   MOV ECX,0x146; MOV ESI,EBX; LEA EDI,[ESP+0x578];
  *   REP MOVSD.
