@@ -51,4 +51,36 @@ typedef struct bf_00155840_call_621c0_inputs {
     uint32_t eax_guest;
 } bf_00155840_call_621c0_inputs;
 
+/* Construct the original guest register values at the call boundaries.
+ * These functions do NOT dereference guest addresses, execute calls or
+ * approximate the x87 instructions. Unsigned 32-bit subtraction models
+ * original x86 LEA address wraparound.
+ */
+static inline bf_00155840_call_22bc0_inputs
+bf_00155840_bind_22bc0(uint32_t guest_ebp, uint32_t saved_esi)
+{
+    bf_00155840_call_22bc0_inputs r;
+    r.esi_guest = saved_esi;
+    r.edi_guest = guest_ebp - UINT32_C(0x68);
+    r.stack_arg_guest = guest_ebp - UINT32_C(0x04);
+    return r;
+}
+
+static inline bf_00155840_call_621c0_inputs
+bf_00155840_bind_621c0(uint32_t guest_ebp, uint32_t virtual_result_eax)
+{
+    bf_00155840_call_621c0_inputs r;
+    r.ecx_guest = virtual_result_eax;
+    r.edx_guest = guest_ebp - UINT32_C(0x68);
+    r.eax_guest = guest_ebp - UINT32_C(0x2c);
+    return r;
+}
+
+/* Original 0x000621C0 computes the three x87 sums before stores.
+ * Store order: FSTP [esp+4] (Z), FSTP [esp] (Y),
+ * MOV [eax+8] (Z), FSTP [eax] (X), MOV [eax+4] (Y).
+ * In particular, callers MUST NOT replace this with a host-C float
+ * matrix multiply without x87 precision, rounding and alias tests.
+ */
+
 #endif
