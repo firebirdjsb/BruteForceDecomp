@@ -1,7 +1,10 @@
-#define main bf_previous_prefix_tests_main
-#include "test_00269600_guest_prefix.c"
+#define main bf_previous_rep_tests_main
+#include "test_00269600_guest_rep.c"
 #undef main
 #include "bf_00269600_downstream_calls.h"
+#define ORIGINAL_EBX UINT32_C(0x1234fedc)
+#define ORIGINAL_ESI UINT32_C(0xabcd0123)
+#define ORIGINAL_EDI UINT32_C(0xdeadbeef)
 
 static void verify_three_calls(memory *m,unsigned count,bool df) {
     seed(m,count);
