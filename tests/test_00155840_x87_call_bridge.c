@@ -1,5 +1,5 @@
 /* Bounded C11 reference tests; NOT full x87 exception/NaN parity. */
-#include "bf_00155840_x87_call_bridge.h"
+#include "bf_00155840_virtual_621c0.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -99,6 +99,34 @@ static void case_alias_and_faults(void){
  CHECK(execute(&m,&f,r,&fault)==BF_621C0_X87_BACKEND_FAILED);
  CHECK(m.wn==0&&f.depth==8);
 }
-int main(void){case_identity();case_many_numeric();case_alias_and_faults();
+static bool virtual_executor(void *v,uint32_t target,uint32_t receiver,uint32_t *eax){
+ unsigned *calls=v;
+ (*calls)++;
+ if(target!=UINT32_C(0x0022aabb)||receiver!=BASE+0x3048u)return false;
+ *eax=MATRIX;
+ return true;
+}
+static void case_virtual_dispatch(void){
+ float a[12]={1,0,0,0,1,0,0,0,1,2,3,4},v[3]={5,6,7};
+ mem_model m;fp_model f={0};unsigned calls=0;seed(&m,a,v);
+ const uint32_t object=BASE+0x3000u,table=BASE+0x4000u;
+ put(&m,EBP+8u,object);put(&m,object+0x48u,table);
+ put(&m,table+0x14u,UINT32_C(0x0022aabb));
+ const bf_621c0_guest_words guest={&m,rd,wr};
+ const bf_621c0_x87_operations x87={&f,fld,mul,addp,add,pop};
+ const bf_00155840_guest_virtual callback={&calls,virtual_executor};
+ bf_00155840_virtual_621c0_result r=bf_00155840_execute_virtual_621c0(&guest,&x87,&callback,EBP,ENTRY_ESP);
+ CHECK(r.status==BF_00155840_V621C0_OK && r.bridge_status==BF_621C0_OK);
+ CHECK(r.method_target_va==UINT32_C(0x0022aabb)&&r.receiver_ecx==object+0x48u&&r.matrix_eax==MATRIX);
+ CHECK(get(&m,EBP-0x2cu)==bits(7.f)&&get(&m,EBP-0x28u)==bits(9.f)&&get(&m,EBP-0x24u)==bits(11.f));
+ CHECK(calls==1&&m.wn==5&&m.rn==26);
+ /* Unknown guest vtable target must never be executed by guessing. */
+ seed(&m,a,v);put(&m,EBP+8u,object);put(&m,object+0x48u,table);put(&m,table+0x14u,0);
+ memset(&f,0,sizeof f);calls=0;
+ r=bf_00155840_execute_virtual_621c0(&guest,&x87,&callback,EBP,ENTRY_ESP);
+ CHECK(r.status==BF_00155840_V621C0_METHOD_UNRESOLVED);
+ CHECK(calls==1&&m.wn==0&&f.depth==0);
+}
+int main(void){case_identity();case_many_numeric();case_alias_and_faults();case_virtual_dispatch();
  printf("PASS guest 621c0 bridge: %u assertions; 512 finite examples, alias and fault cases\n",checks);
  return 0;}
