@@ -5,6 +5,7 @@ on:
     paths:
       - 'include/bf_00155840_frame_contract.h'
       - 'include/bf_00155840_x87_call_bridge.h'
+      - 'include/bf_00155840_virtual_621c0.h'
       - 'tests/test_00155840_x87_call_bridge.c'
       - '.github/workflows/focused-00155840-x87-bridge.yml'
   workflow_dispatch:
