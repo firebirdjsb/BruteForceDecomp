@@ -10,8 +10,10 @@
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0037ec88;
 extern uint32_t DAT_003f7f1c;
-extern uint32_t _DAT_00407064;
-extern uint32_t *_DAT_00407068;
+/* XBE 0x00214122: FLD m32fp [0x00407064], a 32-bit float word. */
+extern float _DAT_00407064;
+/* XBE 0x002140F6: FMUL m32fp [0x00407068], not a pointer. */
+extern float _DAT_00407068;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void FUN_00213fc0(int *param_1,int param_2,char *param_3,char *param_4,int *param_5,int *param_6,
@@ -88,7 +90,9 @@ void FUN_00213fc0(int *param_1,int param_2,char *param_3,char *param_4,int *para
   if (param_11 == '\0') {
     bVar15 = *(byte *)(*param_1 + 0x22);
     local_c[0] = *(byte *)(*param_1 + 0x23);
-    local_18 = (undefined4 *)CONCAT31(local_18._1_3_,bVar15);
+    /* XBE 0x0021409D stores one byte at [EBP-0x14]; it does NOT
+     * initialize or overwrite the remaining three bytes. */
+    *(byte *)&local_18 = bVar15;
     if (*(int *)(param_2 + 0xd8) == 1) {
       if ((bVar15 == 0xff) && (local_c[0] == 0xff)) goto LAB_002140d3;
       ppuVar18 = (undefined4 **)local_c;
