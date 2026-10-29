@@ -75,15 +75,15 @@ static void finite(memory*m){
         CHECK(get(m,LIVE_ESP+0x1cu)==bits(a+1.f));
         CHECK(get(m,LIVE_ESP+0x38u)==bits(a-b+1.f));
         CHECK(get(m,LIVE_ESP+0x3cu)==0u);
-        CHECK(m->reads==8u && m->writes==15u);
+        CHECK(m->reads==8u && m->writes==14u);
         CHECK(m->write_addr[0]==LIVE_ESP+0x24u);
         CHECK(m->write_addr[1]==LIVE_ESP+0x28u);
         CHECK(m->write_addr[2]==LIVE_ESP+0x2cu);
-        CHECK(m->write_addr[10]==LIVE_ESP+0x14u);
-        CHECK(m->write_addr[11]==LIVE_ESP-4u);
-        CHECK(m->write_addr[12]==LIVE_ESP-8u);
-        CHECK(m->write_addr[13]==LIVE_ESP+0x3cu);
-        CHECK(m->write_addr[14]==LIVE_ESP+0x38u);
+        CHECK(m->write_addr[9]==LIVE_ESP+0x14u);
+        CHECK(m->write_addr[10]==LIVE_ESP-4u);
+        CHECK(m->write_addr[11]==LIVE_ESP-8u);
+        CHECK(m->write_addr[12]==LIVE_ESP+0x3cu);
+        CHECK(m->write_addr[13]==LIVE_ESP+0x38u);
         CHECK(p.depth==0&&p.loads==2u&&p.adds==2u&&p.subs==1u&&p.pops==2u);
     }
 }
@@ -97,7 +97,7 @@ static void fault_cases(memory*m){
     r=run(m,&p,LIVE_ESP);
     CHECK(r.status==BF_001F3AA0_PRODUCER_WRITE_FAULT);
     CHECK(r.fault_guest_va==LIVE_ESP-4u);
-    CHECK(m->writes==12u&&p.depth==1);
+    CHECK(m->writes==11u&&p.depth==1);
     seed(m,10.f,2.f);memset(&p,0,sizeof p);p.fail_add=true;
     r=run(m,&p,LIVE_ESP);
     CHECK(r.status==BF_001F3AA0_PRODUCER_X87_FAULT);
