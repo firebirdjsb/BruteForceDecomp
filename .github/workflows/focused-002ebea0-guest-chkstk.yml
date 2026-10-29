@@ -9,6 +9,8 @@ on:
       - 'tests/test_002ebea0_callers.c'
       - 'src/guest_cpu/bf_001f3aa0_sparse_frame.h'
       - 'tests/test_001f3aa0_sparse_frame.c'
+      - 'src/guest_cpu/bf_001f3aa0_sparse_site.h'
+      - 'tests/test_001f3aa0_sparse_site.c'
       - '.github/workflows/focused-002ebea0-guest-chkstk.yml'
   workflow_dispatch:
 permissions:
@@ -50,6 +52,16 @@ jobs:
               -I src/guest_cpu tests/test_001f3aa0_sparse_frame.c \
               -o "$RUNNER_TEMP/test_1f3aa0_sparse_$opt"
             "$RUNNER_TEMP/test_1f3aa0_sparse_$opt"
+          done
+      - name: Verify sparse-frame original ESP at caller boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_001f3aa0_sparse_site.c \
+              -o "$RUNNER_TEMP/test_001f3aa0_sparse_site_$opt"
+            "$RUNNER_TEMP/test_001f3aa0_sparse_site_$opt"
           done
       - name: Address and undefined behavior sanitizers
         shell: bash
