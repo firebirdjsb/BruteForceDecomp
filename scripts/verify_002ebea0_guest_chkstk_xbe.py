@@ -23,6 +23,11 @@ OPCODES = {
     0x001F3AA6: "b8a8200000e8f0830f00", # allocation 0x20A8
     0x00269606: "b8b4140000e890280800", # allocation 0x14B4
     0x001F3B4A: "8d8424b0000000b900010000c7000000000083c0204975f4", # 256 sparse DWORD writes
+    0x001F3B18: "5051",           # two temporary args to 002B7970
+    0x001F3B2C: "e83f3e0c00",   # CALL 002B7970
+    0x002B7AED: "c20800",       # callee RET 8
+    0x001F3B45: "e816520c00",   # CALL 002B8D60
+    0x002B8DD9: "c3",           # callee plain RET
 }
 
 def main():
