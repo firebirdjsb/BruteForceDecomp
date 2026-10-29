@@ -46,7 +46,13 @@ static inline bf_00269600_call_contracts
 bf_00269600_bind_original_downstream(bf_00269600_prefix_result prefix)
 {
     bf_00269600_call_contracts r={0};
-    if(prefix.status!=BF_00269600_PREFIX_OK) return r;
+    /* A zero-initialized diagnostic result has enum status 0; it is
+     * NOT a completed original guest prologue. Require the observed
+     * post-probe return PC as well as its status. */
+    if(prefix.status!=BF_00269600_PREFIX_OK ||
+       prefix.continuation_eip!=UINT32_C(0x00269610) ||
+       prefix.probe.regs.next_eip!=UINT32_C(0x00269610))
+        return r;
     const uint32_t S=prefix.esp+UINT32_C(4);
     const uint32_t B=prefix.ebx;
     r.valid=true;
