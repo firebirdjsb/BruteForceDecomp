@@ -1,3 +1,4 @@
+/* Original VA tables are tested separately from the still-unverified case bodies. */
 #include "bf_001feb60_caller_dispatch.h"
 #include <stdint.h>
 #include <stdio.h>
