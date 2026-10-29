@@ -1,0 +1,36 @@
+name: Focused original parser caller dispatch
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'include/bf_001feb60_guest_iterator.h'
+      - 'include/bf_001feb60_caller_dispatch.h'
+      - 'tests/test_001feb60_caller_dispatch.c'
+      - '.github/workflows/focused-001feb60-caller-dispatch.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  caller-dispatch:
+    name: Both original dispatch jump tables and guest outputs
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify C11 guest dispatch at O0 and O2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -Iinclude tests/test_001feb60_caller_dispatch.c \
+              -o "$RUNNER_TEMP/test_parser_callers_$opt"
+            "$RUNNER_TEMP/test_parser_callers_$opt"
+          done
+      - name: State scope
+        run: |
+          echo "Guest iterator return AL and its caller output slot now feed two original dispatch tables."
+          echo "Case bodies, original caller ABI, partial faults and native linkage remain unverified."
+          echo "This test does not count original FUN_001FF0F0 or FUN_002058C0 as syntax repaired."
