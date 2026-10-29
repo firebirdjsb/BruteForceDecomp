@@ -8,6 +8,13 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+/* Original 0x002141AF PUSH 0x001F3710, whose original entry
+ * starts 8B 44 24 04 8B 4C 24 08. Syntax name only; caller ABI pending. */
+extern code LAB_001f3710;
+/* Original 0x00214401 MOV EBX,[0x0037DD88]. This is a guest
+ * DWORD containing the current D3D command-buffer pointer, not an
+ * array stored at VA 0x0037DD88. Host guest-pointer translation pending. */
+extern undefined4 *D3D8__D3D_g_pDevice;
 extern uint32_t DAT_0037ec88;
 extern uint32_t DAT_003f7f1c;
 /* XBE 0x00214122: FLD m32fp [0x00407064], a 32-bit float word. */
