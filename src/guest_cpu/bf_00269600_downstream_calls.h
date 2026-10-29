@@ -13,7 +13,9 @@ typedef struct bf_00269600_guest_call {
     uint32_t target_va, return_eip;
     uint32_t entry_esp, post_return_esp;
     uint32_t argument_count, args[4]; /* [callee ESP+4+4*i] */
-    uint32_t ebx, ecx, edx, eax; /* observed register inputs */
+    uint32_t ebx, ecx, edx, eax; /* original values where mask set */
+    uint32_t known_reg_mask; /* 1 EBX, 2 ECX, 4 EDX, 8 EAX.
+                              * Unset fields are placeholders, not values. */
 } bf_00269600_guest_call;
 
 typedef struct bf_00269600_call_contracts {
@@ -53,19 +55,19 @@ bf_00269600_bind_original_downstream(bf_00269600_prefix_result prefix)
         UINT32_C(0x00269870),UINT32_C(0x0026965f),
         S-UINT32_C(20),S,4u,
         {B,S+UINT32_C(0x578),S+UINT32_C(0x10),S+UINT32_C(0x60)},
-        B,S+UINT32_C(0x10),S+UINT32_C(0x578),S+UINT32_C(0x60)
+        B,S+UINT32_C(0x10),S+UINT32_C(0x578),S+UINT32_C(0x60),UINT32_C(0xf)
     };
     r.scale=(bf_00269600_guest_call){
         UINT32_C(0x0026a780),UINT32_C(0x002696c3),
         S-UINT32_C(12),S-UINT32_C(8),2u,
         {S+UINT32_C(0xa90),S+UINT32_C(0x60),0u,0u},
-        S+UINT32_C(0x10),S+UINT32_C(0xa90),0u,S+UINT32_C(0x60)
+        S+UINT32_C(0x10),S+UINT32_C(0xa90),0u,S+UINT32_C(0x60),UINT32_C(0xb)
     };
     r.combine=(bf_00269600_guest_call){
         UINT32_C(0x0026a810),UINT32_C(0x002696e0),
         S-UINT32_C(24),S-UINT32_C(20),3u,
         {S+UINT32_C(0xfa8),S+UINT32_C(0xa90),S+UINT32_C(0x578),0u},
-        S+UINT32_C(0x10),S+UINT32_C(0xfa8),S+UINT32_C(0x578),S+UINT32_C(0xa90)
+        S+UINT32_C(0x10),S+UINT32_C(0xfa8),S+UINT32_C(0x578),S+UINT32_C(0xa90),UINT32_C(0xf)
     };
     r.after_caller_add_esp_14=S;
     r.output_dword_count=UINT32_C(0x146);
