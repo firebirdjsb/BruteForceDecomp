@@ -59,8 +59,8 @@ def render(source):
     for call in ("FUN_0003d6c0(&matrix_64[0],iVar10,iVar10 + 0x24);",
                  "FUN_00306c80();", "bf_002339d0_quaternion_operation(&quaternion_8c[0],",
                  "bf_002339d0_quaternion_operation(&quaternion_78[0],&matrix_64[0]);",
-                 "FUN_0012b250(&quaternion_8c[0],fStack_a0);",
-                 "FUN_002333b0(&basis_9c[0]);"):
+                 "bf_0012b250_blend_operation(&basis_9c[0],",
+                 "bf_002333b0_matrix_operation((float *)(param_1 + 0x37c),&basis_9c[0]);"):
         if call not in source:
             raise ValueError("Existing unresolved call/storage boundary changed")
     if source.count("_mm_rsqrt_ss(") != 5 or source.count("_mm_rcp_ss(") != 2 or source.count("_mm_sqrt_ss(") != 1:
@@ -264,6 +264,17 @@ def main():
             subprocess.run([*cmd,"-o",str(exe)],check=True)
             subprocess.run([str(exe)],check=True)
             print("PASS original-source-derived quaternion operation",opt)
+    with tempfile.TemporaryDirectory(prefix="bf_connected_quat_matrix_") as temp:
+        real_source=source_path(root,"0x00233b10")
+        for opt in ("-O0","-O2"):
+            exe=Path(temp)/("connected.exe" if sys.platform=="win32" else "connected")
+            cmd=[clang,"-std=c11","-Wall","-Wextra","-Werror","-pedantic",
+                 "-ffp-contract=off",opt,"-I",str(root/"include"),
+                 str(root/"tests/test_0012b250_002333b0_connected.c"),str(real_source)]
+            if sys.platform!="win32":cmd+=["-lm"]
+            subprocess.run([*cmd,"-o",str(exe)],check=True)
+            subprocess.run([str(exe)],check=True)
+            print("PASS real 00233b10 blend and 002333b0 matrix operations",opt)
     print("PASS bounded syntax/storage fixtures; full helper ABI, x87 control/status and Xbox runtime unverified")
 
 

@@ -7,6 +7,8 @@
  */
 #include "bf_ghidra_types.h"
 #include "bf_002339d0_quaternion_operation.h"
+#include "bf_0012b250_blend_operation.h"
+#include "bf_002333b0_matrix_operation.h"
 #include <xmmintrin.h>
 #include "../../contracts/bf_0001fd40_normalize_operation.h"
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
@@ -297,11 +299,14 @@ void FUN_0011afa0(int param_1,float param_2)
           (const float *)(uintptr_t)((uint32_t)*(uint32_t *)(param_1 + 0x3e8) + UINT32_C(0x14)));
       /* 0x0011BC33: the second matrix is exactly F+0x78. */
       bf_002339d0_quaternion_operation(&quaternion_78[0],&matrix_64[0]);
-      /* Original ECX=F+0x40 output, EDX=F+0x64 input. Keep the
-       * unresolved register contract explicit; do not invent a prototype. */
-      FUN_0012b250(&quaternion_8c[0],fStack_a0);
-      /* Original EDX=self+0x37c destination remains ABI_UNVERIFIED. */
-      FUN_002333b0(&basis_9c[0]);
+      /* Observed 0x0011BC4B: ECX=F+0x40 output, EDX=F+0x64 input;
+       * two pushed words are the first quaternion and interpolation ratio.
+       * This host C operation is not the original x86 register ABI. */
+      bf_0012b250_blend_operation(&basis_9c[0],
+          &quaternion_8c[0],&quaternion_78[0],fStack_a0);
+      /* Original EDX=self+0x37c: nine F32 output words.
+       * Guest32-to-host object mapping and x87 environment remain unverified. */
+      bf_002333b0_matrix_operation((float *)(param_1 + 0x37c),&basis_9c[0]);
     }
     *(byte *)(param_1 + 0x262) = *(byte *)(param_1 + 0x262) & 0xf7;
   }
