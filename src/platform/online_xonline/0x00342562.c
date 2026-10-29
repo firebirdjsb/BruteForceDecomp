@@ -25,12 +25,12 @@ void FUN_00342562(char *param_1,int *param_2,int param_3)
   undefined4 *puVar11;
   byte *pbVar12;
   bool bVar13;
-  undefined4 auStackY_370 [4];
-  undefined4 local_340;
-  undefined1 local_33c [20];
-  undefined1 local_328 [20];
-  undefined1 local_314 [4];
-  undefined4 local_310 [183];
+  /* Original records have 13 DWORDs/0x34 bytes and at most 15 live levels.
+   * One unused prefix and one unused suffix keep the preincrement/current
+   * cursor expressions inside one C object. They do not initialize guest
+   * bytes or model additional records. Guest frame/addresses and helper ABI
+   * remain ABI_UNVERIFIED. Only records 1..15 are read/written as records. */
+  uint32_t record_words[17 * 13];
   char *local_34;
   undefined4 *local_30;
   int local_2c;
@@ -51,14 +51,14 @@ void FUN_00342562(char *param_1,int *param_2,int param_3)
   if (*param_1 == '\0') {
     return;
   }
-  local_10 = local_310;
-  local_18 = local_328;
-  local_1c = local_33c;
-  local_24 = (undefined4 *)&stack0xfffffca4;
-  puVar9 = &local_340;
+  local_10 = record_words + 13 + 12;
+  local_18 = (undefined1 *)(record_words + 13 + 6);
+  local_1c = (undefined1 *)(record_words + 13 + 1);
+  local_24 = record_words + 6;
+  puVar9 = record_words + 13;
   local_14 = puVar9;
-  local_20 = auStackY_370;
-  param_1 = local_314;
+  local_20 = record_words + 1;
+  param_1 = (char *)(record_words + 13 + 11);
   do {
     if (*local_34 == '<') {
       if (pbVar10 != (byte *)0x0) {
@@ -100,10 +100,10 @@ LAB_00342742:
         if (local_c != 0) {
           if (local_8 == param_2[1]) {
             if (*(int *)(param_3 + 4) == 0) {
-              FUN_00342480(param_2,param_3,&local_340,&local_c);
+              FUN_00342480(param_2,param_3,record_words + 13,&local_c);
             }
             else {
-              FUN_00341c77(param_2,param_3,&local_340,&local_c);
+              FUN_00341c77(param_2,param_3,record_words + 13,&local_c);
             }
             if (local_c == 0) {
               return;
@@ -189,10 +189,10 @@ LAB_00342682:
           if (local_8 == param_2[1]) {
             uVar8 = 0;
             if (local_8 != 0) {
-              local_30 = &local_340;
+              local_30 = record_words + 13;
               do {
                 uVar1 = uVar8 + 1;
-                iVar6 = FUN_00342002(*local_30,*(undefined4 *)(*param_2 + uVar8 * 4),&local_340,0,
+                iVar6 = FUN_00342002(*local_30,*(undefined4 *)(*param_2 + uVar8 * 4),record_words + 13,0,
                                      uVar1);
                 if (iVar6 == 0) break;
                 local_30 = local_30 + 0xd;

@@ -47,15 +47,19 @@ int FUN_00340983(int param_1,undefined4 *param_2,int param_3,undefined4 *param_4
   undefined4 *local_10;
   undefined4 local_c;
   int local_8;
+  /* 0x34098f..0x3409c0: fixed 0x7d0-byte region, then 500 DWORD
+   * zero stores. Host storage below models only its base/current/end;
+   * original ESP, probing, other frame aliases and calls are ABI_UNVERIFIED. */
+  uint32_t scratch_words[500];
   
   FUN_002ebea0();
   uVar1 = *param_4;
   local_58 = 0;
   local_54 = 0;
-  local_64 = &stack0x00000694;
-  puVar6 = (undefined4 *)&stack0xfffffec4;
-  local_68 = &stack0xfffffec4;
-  local_60 = &stack0xfffffec4;
+  local_64 = (undefined1 *)(scratch_words + 500);
+  puVar6 = scratch_words;
+  local_68 = (undefined1 *)scratch_words;
+  local_60 = (undefined1 *)scratch_words;
   for (iVar5 = 500; iVar5 != 0; iVar5 = iVar5 + -1) {
     *puVar6 = 0;
     puVar6 = puVar6 + 1;

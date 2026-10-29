@@ -32,6 +32,12 @@ uint FUN_0035b680(void)
   uint *in_stack_000040a8;
   uint in_stack_000040ac;
   undefined4 in_stack_000040b0;
+  /* Original fixed 0x4088-byte allocation: after four saved registers,
+   * coefficient F32s start at S+0x30 and samples at S+0x98, with the
+   * sample region ending at S+0x4098. Keep their 0x68-byte separation
+   * inside one object so original overlap is not silently separated.
+   * Guest ESP/probing, input bounds, x87 helpers and ABI stay UNVERIFIED. */
+  float frame_f32[26 + 4096];
   
   FUN_002ebea0();
   uStack00000010 = 0;
@@ -42,7 +48,7 @@ uint FUN_0035b680(void)
     puStack00000004 = in_stack_000040a8 + 1;
     uStack00000010 = 0x1e;
   }
-  pfVar4 = (float *)&stack0x00000088;
+  pfVar4 = frame_f32 + 26;
   for (iVar2 = in_stack_00004094; iVar2 != 0; iVar2 = iVar2 + -1) {
     if (uStack00000010 < 0x1d) {
       uVar3 = *puStack00000004 >> (0x1d - (byte)uStack00000010 & 0x1f);
@@ -89,11 +95,11 @@ uint FUN_0035b680(void)
           uStack00000010 = uStack00000010 - 8;
         }
         fVar5 = (float10)thunk_FUN_002ebfbe();
-        *(float *)(&stack0x00000020 + uVar3 * 4) = (float)fVar5;
+        frame_f32[uVar3] = (float)fVar5;
         uVar3 = uVar3 + 1;
       } while (uVar3 < in_stack_000040ac);
     }
-    FUN_0035b390(pfVar4,in_stack_0000408c,&stack0x00000020,in_stack_000040b0);
+    FUN_0035b390(pfVar4,in_stack_0000408c,frame_f32,in_stack_000040b0);
     if ((in_stack_00004098 & 1) == 0) {
       FUN_002fde80(in_stack_0000408c,0xffffffff,pfVar4,in_stack_0000409c,in_stack_000040a0);
     }
