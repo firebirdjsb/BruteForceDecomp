@@ -57,7 +57,9 @@ static void verify_alias(memory*m){
     CHECK(r.status==BF_00269600_PREFIX_OK);
     CHECK(r.edx==2u&&r.copies.source_count==2u);
     CHECK(get(m,receiver+0x514u)==ORIGINAL_ESI);
-    CHECK(get(m,r.esp+0x578u+0x514u)==ORIGINAL_ESI);
+    /* EDI for REP MOVSD was captured before PUSH EAX; the live ESP
+     * is now four bytes lower, so the same destination is ESP+0x57C. */
+    CHECK(get(m,r.esp+0x57cu+0x514u)==ORIGINAL_ESI);
 }
 static void verify_faults(memory*m){
     const bf_002ebea0_guest_mem io={m,rd,wr};
