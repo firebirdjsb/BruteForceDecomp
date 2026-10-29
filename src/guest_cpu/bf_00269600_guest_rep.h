@@ -71,6 +71,41 @@ typedef struct bf_00269600_copy_result {
  *   REP MOVSD.
  * This routine stops before the later PUSH/CALL and additional stack writes.
  */
+/* EDX was read at 0x00269613, before the original PUSH ESI/EDI.
+ * A combined caller adapter must pass that captured DWORD here, not
+ * reload [EBX+0x514] after the pushes (which could alias that address).
+ */
+static inline bf_00269600_copy_result bf_00269600_guest_prepare_from_edx(
+    const bf_002ebea0_guest_mem *mem, uint32_t receiver_ebx,
+    uint32_t live_guest_esp, uint32_t captured_edx, bool direction_flag)
+{
+    bf_00269600_copy_result out={0};
+    out.status=BF_00269600_REP_INVALID_INTERFACE;
+    out.receiver_ebx=receiver_ebx;
+    out.source_count=captured_edx;
+    if (!mem || !mem->write_dword || !mem->read_dword) return out;
+    if (!mem->write_dword(mem->context,live_guest_esp+UINT32_C(0x58),captured_edx)) {
+        out.status=BF_00269600_REP_WRITE_FAULT;
+        out.fault_address=live_guest_esp+UINT32_C(0x58);
+        return out;
+    }
+    out.repeat=bf_00269600_guest_repeat(mem,false,direction_flag,0u,receiver_ebx,
+                                       live_guest_esp+UINT32_C(0x10),captured_edx);
+    out.status=out.repeat.status;
+    out.fault_address=out.repeat.fault_address;
+    if (out.status!=BF_00269600_REP_OK) return out;
+    out.repeat=bf_00269600_guest_repeat(mem,true,direction_flag,0u,receiver_ebx,
+                                       live_guest_esp+UINT32_C(0x578),
+                                       UINT32_C(0x146));
+    out.status=out.repeat.status;
+    out.fault_address=out.repeat.fault_address;
+    return out;
+}
+
+/* Isolated convenience entry when the callee's receiver count has not
+ * yet been read. This models the load with no intervening CPU pushes.
+ * Full original caller integration must use *_prepare_from_edx above.
+ */
 static inline bf_00269600_copy_result bf_00269600_guest_prepare(
     const bf_002ebea0_guest_mem *mem,
     uint32_t receiver_ecx, uint32_t live_guest_esp, bool direction_flag)
@@ -79,28 +114,15 @@ static inline bf_00269600_copy_result bf_00269600_guest_prepare(
     out.status=BF_00269600_REP_INVALID_INTERFACE;
     out.receiver_ebx=receiver_ecx;
     if (!mem || !mem->read_dword || !mem->write_dword) return out;
-    if (!mem->read_dword(mem->context,receiver_ecx+UINT32_C(0x514),&out.source_count)) {
+    uint32_t source_count;
+    if (!mem->read_dword(mem->context,receiver_ecx+UINT32_C(0x514),&source_count)) {
         out.status=BF_00269600_REP_READ_FAULT;
         out.fault_address=receiver_ecx+UINT32_C(0x514);
         return out;
     }
-    if (!mem->write_dword(mem->context,live_guest_esp+UINT32_C(0x58),out.source_count)) {
-        out.status=BF_00269600_REP_WRITE_FAULT;
-        out.fault_address=live_guest_esp+UINT32_C(0x58);
-        return out;
-    }
-    out.repeat=bf_00269600_guest_repeat(mem,false,direction_flag,0u,receiver_ecx,
-                                       live_guest_esp+UINT32_C(0x10),
-                                       out.source_count);
-    out.status=out.repeat.status;
-    out.fault_address=out.repeat.fault_address;
-    if (out.status!=BF_00269600_REP_OK) return out;
-    out.repeat=bf_00269600_guest_repeat(mem,true,direction_flag,0u,receiver_ecx,
-                                       live_guest_esp+UINT32_C(0x578),
-                                       UINT32_C(0x146));
-    out.status=out.repeat.status;
-    out.fault_address=out.repeat.fault_address;
-    return out;
+    return bf_00269600_guest_prepare_from_edx(mem,receiver_ecx,
+                                               live_guest_esp,source_count,
+                                               direction_flag);
 }
 
 /* 0x002696E0..0x002696F1: returned EAX from FUN_0026A810
