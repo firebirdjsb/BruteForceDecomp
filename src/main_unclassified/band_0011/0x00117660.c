@@ -132,7 +132,7 @@ LAB_001181f3:
           if (uVar3 == 0x1342def2) {
             *(byte *)(param_1 + 0x1df) = *(byte *)(param_1 + 0x1df) | 1;
             param_1[0x1dd] = 0;
-            return (uint)uStack_9c._3_1_;
+            return (uint)((uint)uStack_9c >> 24);
           }
           if (uVar3 != 0x14ee2201) {
             return 0;
@@ -287,7 +287,7 @@ LAB_001181f3:
           return (uint)uStack_9c >> 0x18;
         }
         param_1[0x107] = 1;
-        return CONCAT31(0x17c672,uStack_9c._3_1_);
+        return CONCAT31(0x17c672,((uint)uStack_9c >> 24));
       }
       if (uVar3 != 0x1a6b4920) {
         return 0;
@@ -363,15 +363,15 @@ LAB_001181f3:
         if (uVar3 == 0xefa982b) {
           *(byte *)(param_1 + 0x1df) = *(byte *)(param_1 + 0x1df) & 0xfd;
           param_1[0x1de] = 0;
-          return (uint)uStack_9c._3_1_;
+          return (uint)((uint)uStack_9c >> 24);
         }
         if (uVar3 == 0xc0bd8c0) {
           *(byte *)(param_1 + 0x1df) = *(byte *)(param_1 + 0x1df) | 2;
           param_1[0x1de] = 0;
-          return (uint)uStack_9c._3_1_;
+          return (uint)((uint)uStack_9c >> 24);
         }
         if (uVar3 == 0xcd73c75) {
-          return CONCAT31(0xcd73c,uStack_9c._3_1_);
+          return CONCAT31(0xcd73c,((uint)uStack_9c >> 24));
         }
       }
       else if (uVar3 == 0xf8408d5) {
@@ -576,7 +576,7 @@ LAB_001186cb:
       if (uVar3 == 0xe3f05d60) {
         *(byte *)(param_1 + 0x1df) = *(byte *)(param_1 + 0x1df) & 0xfe;
         param_1[0x1dd] = 0;
-        return (uint)uStack_9c._3_1_;
+        return (uint)((uint)uStack_9c >> 24);
       }
       if (0xe141f815 < uVar3) {
         if (uVar3 == 0xe24bbc42) {
@@ -708,11 +708,11 @@ LAB_00118d51:
           return (uint)uStack_9c >> 0x18;
         }
         *(undefined1 *)(param_1 + 0x164) = 1;
-        return (uint)uStack_9c._3_1_;
+        return (uint)((uint)uStack_9c >> 24);
       }
       if (uVar3 == 0xf9c94f64) {
         param_1[0x107] = 2;
-        return CONCAT31(0xf9c94f,uStack_9c._3_1_);
+        return CONCAT31(0xf9c94f,((uint)uStack_9c >> 24));
       }
       if (uVar3 != 0xfa48a9af) {
         return 0;
