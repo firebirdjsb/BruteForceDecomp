@@ -9,6 +9,7 @@ unresolved in this function.
 """
 import argparse
 import hashlib
+import re
 import subprocess
 from pathlib import Path
 
@@ -27,6 +28,23 @@ OPS={
   0x0028238D:"50",          # push interface pointer
   0x0028238E:"ff5120",      # virtual call at vtable +0x20
   0x00282391:"8b44241c",    # reload second argument after call
+}
+# New object-field opcodes retain first-argument base and exact DWORD widths.
+FIELD_OPS={
+  0x002824B1:"8b4c2418",        # first guest argument is object
+  0x002824B5:"8b412c",          # load signed count at object+2c
+  0x002824BD:"8d5001",          # add one without replacing original compare
+  0x002824C0:"89512c",          # write count at object+2c
+  0x002824C9:"89548130",        # store third-argument DWORD at object+index*4+30
+  0x002824D2:"c744241005400080", # E_FAIL status word
+  0x0028251A:"8b542418",        # first argument -> EDX
+  0x0028251E:"8b421c",          # object+1c interface
+  0x0028254A:"8d6b24",          # object+24 output address
+  0x0028255B:"894500",          # object+24 write
+  0x00282562:"895500",          # object+24 alternate write
+  0x00282565:"8b431c",          # object+1c read
+  0x002825AC:"8b4b18",          # object+18 read
+  0x002825CE:"c21400",          # RET 20; other 3 guest words unmodeled
 }
 def guest(b,a,n):
     assert b[:4]==b"XBEH"
@@ -49,6 +67,23 @@ def check(root,xbe):
     assert "(unaff_ESI,&param_2)" in s
     assert "&stack0x00000000" not in s
     assert "TODO/ABI_UNVERIFIED" in s
+    # Exact original scalar fields, not invented absolute guest symbols.
+    for fragment in ("*(int *)(param_1 + 0x2c)",
+                     "*(undefined4 *)(param_1 + iVar1 + 0x30)",
+                     "*(int **)(param_1 + 0x1c)",
+                     "*(undefined4 *)(param_1 + 0x24)",
+                     "*(undefined4 *)(param_1 + 0x18)"):
+        assert fragment in s, fragment
+    assert not re.search(r"\b(?:iRam|uRam|piRam)000000(?:18|1c|24|2c)\b", s)
+    # Every diagnostic, not merely the first three: use the original
+    # repository flags at both optimization levels (syntax-only C11).
+    flags=["-std=c11","-fsyntax-only","-ferror-limit=0",
+           "-Wno-implicit-function-declaration","-Wno-int-conversion",
+           "-Wno-incompatible-pointer-types","-Wno-pointer-to-int-cast",
+           "-Wno-int-to-pointer-cast","-Wno-return-type",
+           "-Wno-deprecated-non-prototype"]
+    for opt in ("-O0","-O2"):
+        subprocess.run(["clang",opt,*flags,"-I",str(root/"include"),str(root/SOURCE)],check=True)
     # Source-only syntax fixture proves that the revised address-of-argument
     # expression is well-formed C11, not the incomplete whole function.
     c="typedef unsigned int u32; void cb(void*,int**); void f(int* second,void* iface) { cb(iface,&second); }\n"
@@ -57,10 +92,11 @@ def check(root,xbe):
     if xbe:
         b=xbe.read_bytes()
         assert hashlib.sha256(b).hexdigest()==XBE_SHA,"Wrong original Xbox executable"
-        for a,op in OPS.items():
+        assert hashlib.sha256(guest(b,0x00282360,0x271)).hexdigest()==BODY.lower(),"Body digest mismatch"
+        for a,op in {**OPS,**FIELD_OPS}.items():
             assert guest(b,a,len(op)//2)==bytes.fromhex(op),hex(a)
     print("PASS 0x00282360 second guest stack argument address; isolated syntax fixture")
-    print("NOTE original whole function remains ABI_UNVERIFIED / syntax-incomplete")
+    print("PASS original source host Clang C11 at O0/O2; function ABI_UNVERIFIED")
     print("Original XBE instructions verified" if xbe else "No private XBE in public CI")
 if __name__=="__main__":
     p=argparse.ArgumentParser()
