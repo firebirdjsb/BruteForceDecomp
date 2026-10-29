@@ -47,6 +47,11 @@ jobs:
             -I src/guest_cpu tests/test_00269600_guest_rep.c \
             -o "$RUNNER_TEMP/test_00269600_rep_san"
           "$RUNNER_TEMP/test_00269600_rep_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_00269600_guest_prefix.c \
+            -o "$RUNNER_TEMP/test_00269600_prefix_san"
+          "$RUNNER_TEMP/test_00269600_prefix_san"
       - name: Verification boundaries
         run: |
           echo "Original Xbox guest memory order, ESI/EDI/ECX and direction flag are modeled."
