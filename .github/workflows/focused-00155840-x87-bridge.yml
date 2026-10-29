@@ -1,0 +1,37 @@
+name: Focused 0x00155840 guest x87 call bridge
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'include/bf_00155840_frame_contract.h'
+      - 'include/bf_00155840_x87_call_bridge.h'
+      - 'tests/test_00155840_x87_call_bridge.c'
+      - '.github/workflows/focused-00155840-x87-bridge.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guest-x87-bridge:
+    name: Guest word ordering and finite x87 reference checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clang C11 reference tests (unoptimized and optimized)
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic \
+              -ffp-contract=off -Iinclude \
+              tests/test_00155840_x87_call_bridge.c \
+              -o "$RUNNER_TEMP/test_00155840_x87_bridge_$opt"
+            "$RUNNER_TEMP/test_00155840_x87_bridge_$opt"
+          done
+      - name: State verification scope
+        run: |
+          echo "Source helper replays observed 0x000621C0 guest memory and x87 operations."
+          echo "Finite dyadic reference tests and access ordering do not prove full x87 exception/control/status parity."
+          echo "Original FUN_00155840 caller, virtual-call target and linked native execution remain ABI_UNVERIFIED."
