@@ -7,8 +7,9 @@
  */
 #include "bf_ghidra_types.h"
 #include <xmmintrin.h>
-/* Ghidra SSE scalar opcode model; only observed low lane is reconstructed.
- * Original ABI, upper lanes and game behavior remain UNVERIFIED. */
+#pragma STDC FENV_ACCESS ON
+/* Scoped x87/SSE operations; inherited SIMD state, original ABI and game
+ * behavior remain UNVERIFIED. Host float10 precision is still a proxy. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00469aac;
@@ -28,11 +29,10 @@ uint FUN_00224a90(byte *param_1)
   int *piVar5;
   float10 fVar6;
   float fVar7;
-  __m128 auVar8;
   undefined8 uVar9;
   int *local_21c;
-  float local_218;
-  undefined8 local_214;
+  /* S+0x14/+0x18/+0x1c: contiguous F32 direction words. */
+  float direction[3];
   float *pfStack_20c;
   int *local_208;
   float local_204;
@@ -64,9 +64,8 @@ uint FUN_00224a90(byte *param_1)
   float fStack_19c;
   float fStack_198;
   float fStack_194;
-  float fStack_18c;
-  float fStack_188;
-  float fStack_184;
+  /* S+0xa0/+0xa4/+0xa8: separate three-F32 output span. */
+  float scaled_direction[3];
   undefined4 uStack_180;
   undefined1 auStack_17c [12];
   float fStack_170;
@@ -89,8 +88,9 @@ uint FUN_00224a90(byte *param_1)
         if (local_1c8 != 0) {
           local_1fc = *(int *)(local_1c8 + 4);
           local_204 = 1.0;
-          local_214 = 0x3f800000;
-          local_218 = 0.0;
+          direction[0] = 0.0f;
+          direction[1] = 1.0f;
+          direction[2] = 0.0f;
           in_EAX = (int *)FUN_000e0af0();
           if (in_EAX != (int *)0x0) {
             do {
@@ -109,23 +109,37 @@ uint FUN_00224a90(byte *param_1)
                       piVar5 = (int *)0x0;
                     }
                     iVar3 = (**(code **)(*piVar5 + 0x40))();
-                    fStack_1b8 = *(float *)(param_1 + 0xc) - *(float *)(iVar3 + 0x2c);
-                    fStack_1c4 = *(float *)(param_1 + 8) - *(float *)(iVar3 + 0x28);
-                    local_218 = *(float *)(param_1 + 4) - *(float *)(iVar3 + 0x24);
-                    pfStack_20c = (float *)(fStack_1c4 * fStack_1c4 +
-                                           local_218 * local_218 + fStack_1b8 * fStack_1b8);
-                    fStack_200 = SQRT((float)pfStack_20c);
+                    /* 0x224bb4..0x224c15: spill Z/Y, retain extended X for
+                     * (Z*Z+X*X)+Y*Y, then spill once before SQRTSS. */
+                    fStack_1b8 = (float)((float10)*(float *)(param_1 + 0xc) -
+                                        (float10)*(float *)(iVar3 + 0x2c));
+                    fStack_1c4 = (float)((float10)*(float *)(param_1 + 8) -
+                                        (float10)*(float *)(iVar3 + 0x28));
+                    float10 delta_x = (float10)*(float *)(param_1 + 4) -
+                                      (float10)*(float *)(iVar3 + 0x24);
+                    direction[0] = (float)delta_x;
+                    direction[1] = fStack_1c4;
+                    direction[2] = fStack_1b8;
+                    float norm_word = (float)(((float10)fStack_1b8 * (float10)fStack_1b8 +
+                                               delta_x * delta_x) +
+                                              (float10)fStack_1c4 * (float10)fStack_1c4);
+                    fStack_200 = _mm_cvtss_f32(_mm_sqrt_ss(_mm_load_ss(&norm_word)));
                     if (fStack_200 < 0.0 == (fStack_200 == 0.0)) {
-                      pfStack_20c = &local_218;
-                      auVar8 = _mm_rcp_ss(_mm_set_ss(fStack_200));
-                      fVar7 = _mm_cvtss_f32(auVar8);
-                      local_218 = local_218 * fVar7;
-                      local_214 = CONCAT44(fStack_1b8 * fVar7,fStack_1c4 * fVar7);
+                      /* MOVSS/MOVHPS forms {X,+0,Y,Z}; RCPSS is broadcast
+                       * and MULPS writes exactly the three stored lanes. */
+                      pfStack_20c = direction;
+                      __m128 reciprocal = _mm_rcp_ss(_mm_load_ss(&fStack_200));
+                      reciprocal = _mm_shuffle_ps(reciprocal, reciprocal, 0);
+                      __m128 vector = _mm_load_ss(direction);
+                      vector = _mm_loadh_pi(vector, (const __m64 *)(direction + 1));
+                      vector = _mm_mul_ps(vector, reciprocal);
+                      _mm_store_ss(direction, vector);
+                      _mm_storeh_pi((__m64 *)(direction + 1), vector);
                       local_204 = fStack_200;
                       fStack_1b0 = fStack_200;
                     }
                     else {
-                      local_214 = CONCAT44(fStack_1b8,0x3f800000);
+                      direction[1] = 1.0f;
                       local_204 = 0.0;
                     }
                     uStack_1e4 = *(undefined4 *)(param_1 + 0xc);
@@ -189,7 +203,7 @@ uint FUN_00224a90(byte *param_1)
                     }
                     if (local_21c != (int *)0x0) {
                       fVar7 = *(float *)(*(int *)(param_1 + 0x54) + 0x234);
-                      in_EAX = (int *)FUN_00224320(param_1,local_21c,&piStack_1ec,&local_218,0,0);
+                      in_EAX = (int *)FUN_00224320(param_1,local_21c,&piStack_1ec,direction,0,0);
                       if (((((char)in_EAX != '\0') && (1.0 <= fVar7)) &&
                           (in_EAX = (int *)FUN_00169d50(), in_EAX == (int *)0x0)) &&
                          (((*param_1 & 0x10) == 0 &&
@@ -202,10 +216,10 @@ uint FUN_00224a90(byte *param_1)
                         fVar6 = -((float10)fVar7 * (float10)fVar7 * fVar6 * (float10)_DAT_003bc6f0);
                         uStack_1a4 = *(undefined4 *)(param_1 + 0xc);
                         uStack_1a8 = *(undefined4 *)(param_1 + 8);
-                        fStack_18c = (float)((float10)local_218 * fVar6);
-                        fStack_188 = (float)((float10)(float)local_214 * fVar6);
-                        fStack_184 = (float)((float10)local_214._4_4_ * fVar6);
-                        in_EAX = (int *)FUN_002b3bc0(&uStack_1ac,&fStack_18c);
+                        scaled_direction[0] = (float)((float10)direction[0] * fVar6);
+                        scaled_direction[1] = (float)((float10)direction[1] * fVar6);
+                        scaled_direction[2] = (float)((float10)direction[2] * fVar6);
+                        in_EAX = (int *)FUN_002b3bc0(&uStack_1ac,scaled_direction);
                       }
                     }
                   }
@@ -213,9 +227,10 @@ uint FUN_00224a90(byte *param_1)
                 else {
                   uStack_1d8 = 0x3f800000;
                   uStack_1dc = 0;
-                  local_214 = 0x3f800000;
-                  local_218 = 0.0;
-                  in_EAX = (int *)FUN_00224320(param_1,in_EAX,param_1 + 4,&local_218,0,0);
+                  direction[0] = 0.0f;
+                  direction[1] = 1.0f;
+                  direction[2] = 0.0f;
+                  in_EAX = (int *)FUN_00224320(param_1,in_EAX,param_1 + 4,direction,0,0);
                 }
               }
 LAB_00224fb3:
