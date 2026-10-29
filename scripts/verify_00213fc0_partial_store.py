@@ -15,12 +15,17 @@ SPANS = (
     (0x002140A9, "8b45ec"),         # MOV EAX,DWORD [EBP-0x14]; top bytes unchanged
     (0x002140F6, "d80d68704000"),   # FMUL m32fp [0x00407068]
     (0x00214122, "d90564704000"),   # FLD m32fp [0x00407064]
+    (0x002141AF, "6810371f00"),     # PUSH code callback 001F3710
+    (0x001F3710, "8b4424048b4c2408"), # callback uses two stack args
+    (0x00214401, "8b1d88dd3700"),   # MOV EBX,DWORD [0x0037DD88]
 )
 SOURCE = "src/main_unclassified/band_0021/0x00213fc0.c"
 CONTRACTS = (
     "extern float _DAT_00407064;",
     "extern float _DAT_00407068;",
     "*(byte *)&local_18 = bVar15;",
+    "extern code LAB_001f3710;",
+    "extern undefined4 *D3D8__D3D_g_pDevice;",
 )
 BANNED = (
     "local_18._1_3_",
