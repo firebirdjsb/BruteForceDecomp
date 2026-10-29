@@ -101,14 +101,54 @@ static inline bf_00269600_prefix_result bf_00269600_execute_prefix(
     }
     out.esp=save_edi_addr;
     /* 0x26961B MOV ECX,EDX, then REP STOSD; MOV ECX,0x146;
-     * MOV ESI,EBX, then REP MOVSD. In original CPU an incoming DF
+     * MOV ESI,EBX, PUSH EAX, then REP MOVSD. Incoming DF
      * can reverse the traversal: do not silently force CLD. */
-    out.copies=bf_00269600_guest_prepare_from_edx(
-        mem,out.ebx,out.esp,out.edx,input.direction_flag);
+    /* Original 0x26961D saves ECX=EDX; 0x269621 XOR EAX,EAX.
+     * 0x269623 LEA EDI,[ESP+0x10]; 0x269627 REP STOSD. */
+    out.copies.receiver_ebx=out.ebx;
+    out.copies.source_count=out.edx;
+    if(!mem->write_dword(mem->context,out.esp+UINT32_C(0x58),out.edx)){
+        out.status=BF_00269600_PREFIX_REP_FAULT;
+        out.copies.status=BF_00269600_REP_WRITE_FAULT;
+        out.fault_address=out.esp+UINT32_C(0x58);
+        return out;
+    }
+    out.eax=0u;
+    out.copies.repeat=bf_00269600_guest_repeat(
+        mem,false,input.direction_flag,0u,out.esi,
+        out.esp+UINT32_C(0x10),out.edx);
+    out.copies.status=out.copies.repeat.status;
+    out.copies.fault_address=out.copies.repeat.fault_address;
+    out.ecx=out.copies.repeat.ecx;
+    out.edi=out.copies.repeat.edi;
+    if(out.copies.status!=BF_00269600_REP_OK){
+        out.status=BF_00269600_PREFIX_REP_FAULT;
+        out.fault_address=out.copies.fault_address;
+        return out;
+    }
+    /* 0x269629 MOV ECX,0x146; 0x26962E MOV ESI,EBX;
+     * 0x269630 LEA EDI,[ESP+0x578];
+     * 0x269637 LEA EAX,[ESP+0x60]; 0x26963B PUSH EAX.
+     * The EDI address is evaluated BEFORE PUSH EAX.
+     * If PUSH faults, neither REP MOVSD nor its first read executes. */
+    out.ecx=UINT32_C(0x146);
+    out.esi=out.ebx;
+    out.edi=out.esp+UINT32_C(0x578);
+    out.eax=out.esp+UINT32_C(0x60);
+    if(!mem->write_dword(mem->context,out.esp-UINT32_C(4),out.eax)){
+        out.status=BF_00269600_PREFIX_PUSH_FAULT;
+        out.fault_address=out.esp-UINT32_C(4);
+        return out;
+    }
+    out.esp-=UINT32_C(4);
+    out.copies.repeat=bf_00269600_guest_repeat(
+        mem,true,input.direction_flag,out.eax,out.esi,
+        out.edi,out.ecx);
+    out.copies.status=out.copies.repeat.status;
+    out.copies.fault_address=out.copies.repeat.fault_address;
     out.esi=out.copies.repeat.esi;
     out.edi=out.copies.repeat.edi;
     out.ecx=out.copies.repeat.ecx;
-    out.eax=out.copies.repeat.eax;
     if(out.copies.status!=BF_00269600_REP_OK){
         out.status=BF_00269600_PREFIX_REP_FAULT;
         out.fault_address=out.copies.fault_address;
