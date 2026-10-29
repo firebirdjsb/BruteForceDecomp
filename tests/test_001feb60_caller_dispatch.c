@@ -102,7 +102,8 @@ static void match_cases(fixture*f) {
        CHECK(f->write_addresses[0]==ESP+0x10u);
        CHECK(f->write_addresses[1]==ESP+0x10u);
        CHECK(f->write_addresses[2]==ESP+0x14u);
-       CHECK(f->reads>0u&&f->read_addresses[f->reads-2u]==ITEM+8u);
+       const bool in_range=c.index<=bf_001feb60_dispatch_layout_for(c.entry).maximum_index;
+       CHECK(f->reads>1u&&f->read_addresses[f->reads-(in_range?2u:1u)]==ITEM+8u);
        CHECK(f->bytes_read==(c.index<=bf_001feb60_dispatch_layout_for(c.entry).maximum_index?1u:0u));
     }
 }
