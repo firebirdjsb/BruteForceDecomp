@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_float_lane.h"
+#pragma STDC FENV_ACCESS ON
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00414da0;
@@ -15,7 +17,6 @@ uint FUN_001f8db0(undefined4 *param_1,uint param_2,char param_3)
 
 {
   int *piVar1;
-  float fVar2;
   uint uVar3;
   undefined **ppuVar4;
   undefined ***pppuVar5;
@@ -50,10 +51,17 @@ uint FUN_001f8db0(undefined4 *param_1,uint param_2,char param_3)
   int iStack_c;
   undefined4 uStack_8;
   undefined4 uStack_4;
+  float incoming_step;
   
   if ((in_EAX[0x39] == 0) && (*(int *)(param_2 + 8) == 0)) {
     return param_2 & 0xffffff00;
   }
+  /* 0x1f8e7b/0x1f8eaf FLD the first incoming guest DWORD as F32.
+   * This draft's pointer-typed argument is a host proxy for that word;
+   * decode its low 32 bits, without dereferencing or numerically converting
+   * it. S+0x68 is reused as a traversal pointer only later (0x1f8f44).
+   * Entry/caller ABI and host pointer translation remain ABI_UNVERIFIED. */
+  incoming_step = bf_x86_word_to_f32((uint32_t)(uintptr_t)param_1);
   puVar8 = (undefined4 *)FUN_00061500(local_4c);
   local_44 = 0;
   bVar6 = true;
@@ -65,7 +73,8 @@ uint FUN_001f8db0(undefined4 *param_1,uint param_2,char param_3)
       puVar14 = *(undefined4 **)in_EAX[0x38];
     }
     for (; puVar14 != (undefined4 *)in_EAX[0x38]; puVar14 = (undefined4 *)*puVar14) {
-      if ((0.1 <= (float)puVar14[4]) || (puVar14[4] == -0x40800000)) {
+      if (((float10)0.1f <= (float10)bf_x86_word_to_f32(puVar14[4])) ||
+          (puVar14[4] == UINT32_C(0xbf800000))) {
         bVar6 = false;
         break;
       }
@@ -80,8 +89,11 @@ uint FUN_001f8db0(undefined4 *param_1,uint param_2,char param_3)
     do {
       iVar10 = piVar15[3];
       if (iVar10 != 0) {
-        if (0.0 <= (float)piVar15[4]) {
-          piVar15[4] = (int)((float)param_1 + (float)piVar15[4]);
+        if ((float10)0.0f <= (float10)bf_x86_word_to_f32((uint32_t)piVar15[4])) {
+          /* FLD/FADD/FSTP at 0x1f8e7b..0x1f8e82: four-byte F32 field. */
+          bf_x86_store_f32_word((uint32_t *)(piVar15 + 4),
+              (float)((float10)incoming_step +
+                      (float10)bf_x86_word_to_f32((uint32_t)piVar15[4])));
         }
         puVar14 = *(undefined4 **)(param_2 + 4);
         if (puVar14 == (undefined4 *)0x0) {
@@ -97,9 +109,12 @@ uint FUN_001f8db0(undefined4 *param_1,uint param_2,char param_3)
           } while (puVar9 != puVar14);
           if (puVar9 != puVar14) goto LAB_001f8efd;
         }
-        fVar2 = (float)piVar15[5];
-        piVar15[5] = (int)((float)param_1 + fVar2);
-        if (0.2 <= (float)param_1 + fVar2) {
+        /* 0x1f8eaf..0x1f8eb9 retains the extended sum after FST m32fp;
+         * the comparison uses that sum, not the rounded field copy. */
+        float10 elapsed_sum = (float10)incoming_step +
+                              (float10)bf_x86_word_to_f32((uint32_t)piVar15[5]);
+        bf_x86_store_f32_word((uint32_t *)(piVar15 + 5), (float)elapsed_sum);
+        if ((float10)0.2f <= elapsed_sum) {
           local_50 = iVar10;
           iVar10 = FUN_000ff730(local_4c,puVar8,puVar8[1],&local_50);
           FUN_000b2a50();
@@ -138,7 +153,7 @@ LAB_001f8efd:
             puVar14 = (undefined4 *)*puVar14;
           } while (puVar14 != puVar8);
           if (puVar14 != puVar8) {
-            if ((0.1 <= (float)puVar14[4]) && (puVar14[4] = 0xbf800000, param_3 == '\0')) {
+            if (((float10)0.1f <= (float10)bf_x86_word_to_f32(puVar14[4])) && (puVar14[4] = 0xbf800000, param_3 == '\0')) {
               local_50 = puVar14[3];
               piVar15 = local_30 + 1;
               iVar10 = FUN_000ff730(local_34,local_30,local_30[1],&local_50);
@@ -182,7 +197,8 @@ LAB_001f909c:
       param_1 = (undefined4 *)*param_1;
     } while (param_1 != *(undefined4 **)(param_2 + 4));
   }
-  param_2 = CONCAT31(param_2._1_3_,in_EAX[0x39] == 0);
+  /* 0x1f90c1 SETE writes only BYTE[S+0x6c], preserving the upper 24 bits. */
+  param_2 = (param_2 & UINT32_C(0xffffff00)) | (uint32_t)(in_EAX[0x39] == 0);
   piVar15 = (int *)0x0;
   if ((undefined4 *)in_EAX[0x38] != (undefined4 *)0x0) {
     piVar15 = *(int **)in_EAX[0x38];
