@@ -2,6 +2,7 @@
 """Actual-source host storage fixtures; not original-Xbox differential tests."""
 import argparse
 import ctypes
+import platform
 from pathlib import Path
 import shutil
 import subprocess
@@ -30,8 +31,13 @@ def allocate_low_buffer():
         api.mmap.restype = ctypes.c_void_p
         api.munmap.argtypes = [ctypes.c_void_p, ctypes.c_size_t]
         api.munmap.restype = ctypes.c_int
-        # A hint only: never replace an existing mapping with MAP_FIXED.
-        base = api.mmap(0x18000000, size, 3, 0x22, -1, 0)
+        # MAP_32BIT requests a genuine low-address mapping on Linux x86-64.
+        # The former 0x18000000 hint could silently return an address above
+        # 4 GiB under ASLR, making unrelated tests fail before the C11 sweep.
+        # MAP_32BIT is x86-64 specific; retain the safe hint on other hosts.
+        # Never use MAP_FIXED (which could overwrite a live mapping).
+        flags = 0x22 | (0x40 if platform.machine().lower() in ("x86_64", "amd64") else 0)
+        base = api.mmap(0x18000000, size, 3, flags, -1, 0)
         if base == ctypes.c_void_p(-1).value:
             base = None
 
