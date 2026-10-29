@@ -57,8 +57,8 @@ def render(source):
         if f"float {declaration};" not in source:
             raise ValueError("Missing original storage span")
     for call in ("FUN_0003d6c0(&matrix_64[0],iVar10,iVar10 + 0x24);",
-                 "FUN_00306c80();", "FUN_002339d0(&quaternion_8c[0]);",
-                 "FUN_002339d0(&quaternion_78[0]);",
+                 "FUN_00306c80();", "bf_002339d0_quaternion_operation(&quaternion_8c[0],",
+                 "bf_002339d0_quaternion_operation(&quaternion_78[0],&matrix_64[0]);",
                  "FUN_0012b250(&quaternion_8c[0],fStack_a0);",
                  "FUN_002333b0(&basis_9c[0]);"):
         if call not in source:
@@ -254,6 +254,16 @@ def main():
             result=run_fixture(fixture_text,"-O2")
             assert result.returncode==1 and "AssertionError" in result.stderr,"Negative control escaped"
             print("PASS rejected disconnected in-place producer")
+    with tempfile.TemporaryDirectory(prefix="bf_quat_op_") as temp:
+        for opt in ("-O0","-O2"):
+            exe=Path(temp)/("quat.exe" if sys.platform=="win32" else "quat")
+            cmd=[clang,"-std=c11","-Wall","-Wextra","-Werror","-pedantic",
+                 "-ffp-contract=off",opt,"-I",str(root/"include"),
+                 str(root/"tests/test_002339d0_quaternion_operation.c")]
+            if sys.platform!="win32":cmd+=["-lm"]
+            subprocess.run([*cmd,"-o",str(exe)],check=True)
+            subprocess.run([str(exe)],check=True)
+            print("PASS original-source-derived quaternion operation",opt)
     print("PASS bounded syntax/storage fixtures; full helper ABI, x87 control/status and Xbox runtime unverified")
 
 

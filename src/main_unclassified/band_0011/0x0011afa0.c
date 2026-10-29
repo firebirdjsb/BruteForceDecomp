@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002339d0_quaternion_operation.h"
 #include <xmmintrin.h>
 #include "../../contracts/bf_0001fd40_normalize_operation.h"
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
@@ -287,11 +288,15 @@ void FUN_0011afa0(int param_1,float param_2)
       matrix_64[4] = transverse_ac[1];
       matrix_64[8] = direction_c8[2];
       matrix_64[5] = direction_c8[1];
-      /* ABI_UNVERIFIED: original ECX=*(self+0x3e8)+0x14, then F+0x78.
-       * The existing helper drafts still omit these register inputs.
-       * Their actual output spans are 16 bytes, not standalone scalars. */
-      FUN_002339d0(&quaternion_8c[0]);
-      FUN_002339d0(&quaternion_78[0]);
+      /* Original matrix-register inputs now feed the shared C operation.
+       * The Xbox call/return register ABI and FPU control remain unverified. */
+      /* 0x0011BC1D: matrix source is guest ECX = [self+0x3E8]+0x14.
+       * The cast below is a legacy guest32-to-host draft projection,
+       * NOT native PC guest address translation (ABI_UNVERIFIED). */
+      bf_002339d0_quaternion_operation(&quaternion_8c[0],
+          (const float *)(uintptr_t)((uint32_t)*(uint32_t *)(param_1 + 0x3e8) + UINT32_C(0x14)));
+      /* 0x0011BC33: the second matrix is exactly F+0x78. */
+      bf_002339d0_quaternion_operation(&quaternion_78[0],&matrix_64[0]);
       /* Original ECX=F+0x40 output, EDX=F+0x64 input. Keep the
        * unresolved register contract explicit; do not invent a prototype. */
       FUN_0012b250(&quaternion_8c[0],fStack_a0);
