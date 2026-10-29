@@ -5,6 +5,8 @@ on:
     paths:
       - 'src/guest_cpu/bf_00269600_guest_rep.h'
       - 'tests/test_00269600_guest_rep.c'
+      - 'src/guest_cpu/bf_00269600_guest_prefix.h'
+      - 'tests/test_00269600_guest_prefix.c'
       - '.github/workflows/focused-00269600-guest-rep.yml'
   workflow_dispatch:
 permissions:
@@ -25,6 +27,16 @@ jobs:
               -I src/guest_cpu tests/test_00269600_guest_rep.c \
               -o "$RUNNER_TEMP/test_00269600_rep_$opt"
             "$RUNNER_TEMP/test_00269600_rep_$opt"
+          done
+      - name: Verify original CALL-to-REP caller prefix at O0 and O2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_00269600_guest_prefix.c \
+              -o "$RUNNER_TEMP/test_00269600_prefix_$opt"
+            "$RUNNER_TEMP/test_00269600_prefix_$opt"
           done
       - name: Address and undefined-behavior sanitizers
         shell: bash
