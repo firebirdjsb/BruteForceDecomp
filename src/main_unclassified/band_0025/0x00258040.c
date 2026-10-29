@@ -12,6 +12,12 @@ extern uint32_t DAT_004698bc;
 extern uint32_t DAT_0046cfc8;
 extern uint32_t DAT_0046cfd4;
 extern char s_23_23_ISchema_00406e3c[];
+/* Original 0x00258288 LEA EDX,[ESP+0x44] and
+ * 0x00258379 LEA ECX,[ESP+0x44] take the address of the SAME
+ * third incoming guest DWORD argument after a 0x28-byte allocation
+ * and four saved registers. The two C addresses below use &param_3,
+ * not a fabricated independent stack buffer. TODO/ABI_UNVERIFIED:
+ * guest 32-bit address translation and virtual/helper output contracts. */
 int FUN_00258040(uint param_1,int *param_2,undefined4 *******param_3,int param_4,uint param_5)
 
 {
@@ -103,7 +109,7 @@ LAB_002581fd:
             if (uStack_10 < 0x10) {
               pppppppuVar8 = &ppppppuStack_24;
             }
-            iVar7 = FUN_00257da0(iStack_8,pppppppuVar8,&stack0x00000000);
+            iVar7 = FUN_00257da0(iStack_8,pppppppuVar8,&param_3);
             if (iVar7 < 0) {
               FUN_000519c0();
               return -0x7fffbffb;
@@ -145,7 +151,7 @@ LAB_002581fd:
         if ((iVar2 == 0) ||
            ((uint)(*(int *)(iStack_8 + 0x40) - iVar2) <= (uint)(*(int *)(iStack_8 + 0x3c) - iVar2)))
         {
-          FUN_00071d20(*(undefined4 *)(iStack_8 + 0x3c),1,&stack0x00000000);
+          FUN_00071d20(*(undefined4 *)(iStack_8 + 0x3c),1,&param_3);
         }
         else {
           iVar2 = *(int *)(iStack_8 + 0x3c);
