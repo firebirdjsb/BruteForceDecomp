@@ -22,6 +22,7 @@ OPCODES = {
     0x002EBEDA: "8b088b400450c3",     # restore ECX and return
     0x001F3AA6: "b8a8200000e8f0830f00", # allocation 0x20A8
     0x00269606: "b8b4140000e890280800", # allocation 0x14B4
+    0x001F3B4A: "8d8424b0000000b900010000c7000000000083c0204975f4", # 256 sparse DWORD writes
 }
 
 def main():
