@@ -30,7 +30,9 @@ extern uint32_t _DAT_0040c8a4;
 extern uint32_t _DAT_0040c8a8;
 extern uint32_t _DAT_0040c8ac;
 extern uint32_t _DAT_0040c8b0;
-extern uint32_t *_DAT_0040c8b4;
+/* XBE 0x00155AA6: D8 0D B4 C8 40 00 = FMUL m32fp [0x0040C8B4].
+ * Original guest memory contains a 32-bit float operand, not a pointer. */
+extern float _DAT_0040c8b4;
 extern uint32_t _DAT_0040c8b8;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
