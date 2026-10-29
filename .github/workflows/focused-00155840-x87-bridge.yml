@@ -6,6 +6,9 @@ on:
       - 'include/bf_00155840_frame_contract.h'
       - 'include/bf_00155840_x87_call_bridge.h'
       - 'include/bf_00155840_virtual_621c0.h'
+      - 'include/bf_00155840_concrete_virtual.h'
+      - 'include/bf_00155840_frame_x87_increment.h'
+      - 'tests/test_00155840_concrete_frame.c'
       - 'include/bf_00155840_upload_bridge.h'
       - 'tests/test_00155840_upload_bridge.c'
       - 'tests/test_00155840_x87_rounding.c'
@@ -54,6 +57,17 @@ jobs:
               tests/test_00155840_x87_rounding.c -lm \
               -o "$RUNNER_TEMP/test_00155840_rounding_$opt"
             "$RUNNER_TEMP/test_00155840_rounding_$opt"
+          done
+      - name: Constructor-backed method and x87 frame increment
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic \
+              -ffp-contract=off -Iinclude \
+              tests/test_00155840_concrete_frame.c \
+              -o "$RUNNER_TEMP/test_00155840_concrete_$opt"
+            "$RUNNER_TEMP/test_00155840_concrete_$opt"
           done
       - name: State verification scope
         run: |
