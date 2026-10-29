@@ -8,6 +8,8 @@ on:
       - 'include/bf_00155840_virtual_621c0.h'
       - 'include/bf_00155840_concrete_virtual.h'
       - 'include/bf_00155840_frame_x87_increment.h'
+      - 'include/bf_00155840_frame_x87_scale.h'
+      - 'tests/test_00155840_x87_scale.c'
       - 'tests/test_00155840_concrete_frame.c'
       - 'include/bf_00155840_upload_bridge.h'
       - 'tests/test_00155840_upload_bridge.c'
@@ -68,6 +70,17 @@ jobs:
               tests/test_00155840_concrete_frame.c \
               -o "$RUNNER_TEMP/test_00155840_concrete_$opt"
             "$RUNNER_TEMP/test_00155840_concrete_$opt"
+          done
+      - name: Original instruction-backed 00155BDD scale/add sequence
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic \
+              -ffp-contract=off -Iinclude \
+              tests/test_00155840_x87_scale.c \
+              -o "$RUNNER_TEMP/test_00155840_scale_$opt"
+            "$RUNNER_TEMP/test_00155840_scale_$opt"
           done
       - name: State verification scope
         run: |
