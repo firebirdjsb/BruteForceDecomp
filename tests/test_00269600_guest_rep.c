@@ -50,7 +50,10 @@ static void check_prepare(memory*m,uint32_t count){
     CHECK(r.repeat.edi==ESP+UINT32_C(0x578)+UINT32_C(0x518));
     CHECK(m->reads==UINT32_C(0x147));
     CHECK(m->writes==count+UINT32_C(0x147));
-    CHECK(get(m,ESP+UINT32_C(0x58))==count);
+    /* REP STOSD starts at ESP+0x10; element 18 overlaps the
+     * earlier [ESP+0x58] count save when count exceeds 18.
+     * EDX still retains the original count. */
+    CHECK(get(m,ESP+UINT32_C(0x58))==(count>18u ? 0u : count));
     CHECK(m->ops[0]==1 && m->addresses[0]==EBX+UINT32_C(0x514));
     CHECK(m->ops[1]==2 && m->addresses[1]==ESP+UINT32_C(0x58));
     for(unsigned i=0;i<count;i++) {
