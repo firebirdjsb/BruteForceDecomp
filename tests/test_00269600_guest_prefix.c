@@ -28,9 +28,11 @@ static void verify_prefix(memory*m,uint32_t receiver,unsigned count,bool df) {
     CHECK(r.copies.source_count==count);
     CHECK(r.esi==receiver+(df?-UINT32_C(0x518):UINT32_C(0x518)));
     CHECK(r.edi==saved_esp+UINT32_C(0x578)+(df?-UINT32_C(0x518):UINT32_C(0x518)));
-    CHECK(get(m,post_probe-4u)==ORIGINAL_EBX);
-    CHECK(get(m,post_probe-8u)==ORIGINAL_ESI);
-    CHECK(get(m,post_probe-12u)==ORIGINAL_EDI);
+    /* When DF=1, REP STOSD moves backward from post_probe+4.
+     * The third DWORD is saved EBX; fourth/fifth reach ESI/EDI. */
+    CHECK(get(m,post_probe-4u)==(df&&count>=3u ? 0u : ORIGINAL_EBX));
+    CHECK(get(m,post_probe-8u)==(df&&count>=4u ? 0u : ORIGINAL_ESI));
+    CHECK(get(m,post_probe-12u)==(df&&count>=5u ? 0u : ORIGINAL_EDI));
     /* Original MOV EDX,[EBX+0x514] is before the pushes.
      * All 326 source reads and writes are performed in REP order. */
     for(uint32_t i=0;i<UINT32_C(0x146);i++){
