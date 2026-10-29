@@ -11,6 +11,18 @@ CALLER_BODY_SHA = "f7b7ffd8d854213afa2ef6ffe9ce142c332cd7ec3a27b05bcce526f83a1a7
 # Exact instruction bytes confirming final writes of the 48-byte upload frame,
 # conditional REP MOVSD, and the original virtual/transform call handoffs.
 INSTRUCTIONS = {
+    # Tail arithmetic: retain the non-popping spill and live x87 registers.
+    0x00155C1C: "d9 45 e4 d8 45 fc d8 75 e8 d9 5d e4",
+    0x00155C28: "f3 0f 52 45 e4 f3 0f 11 45 e8",
+    0x00155C38: "8d 45 c8 8b ce",        # getter EAX=EBP-38, ECX=ESI
+    0x00155C4B: "d9 5d f4 e8 ed 9f ec ff",
+    0x00155C8B: "de e9 d9 55 a8",       # FSUBP; FST m32, NOT FSTP
+    0x00155C9E: "d9 c1 d8 ca de c1",    # duplicate extended X; square it
+    0x00155CA4: "d9 5d e4 dd d8",       # spill sum; discard retained X
+    0x00155CA9: "f3 0f 52 45 e4 f3 0f 11 45 f0",
+    0x00155CB3: "d9 45 a8 d8 4d f0 d9 45 ac d8 4d f0 d9 45 b0 d8 4d f0 d9 5d b0",
+    0x00155CC8: "d9 45 d4 d8 c9 d9 c2 d8 4d d8 de e9 d9 5d e8",
+    0x00155D1F: "d9 c9 d8 4d f4 d9 5d a8 d8 4d f4 d9 5d ac",
     0x0015595B: "c7 45 a4 00 00 80 3f",  # [EBP-5c] = 1.0f
     0x00155C01: "d9 5d 98",              # [EBP-68]
     0x00155C0D: "d9 5d 9c",              # [EBP-64]
