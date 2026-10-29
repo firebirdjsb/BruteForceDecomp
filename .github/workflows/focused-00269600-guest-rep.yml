@@ -7,6 +7,8 @@ on:
       - 'tests/test_00269600_guest_rep.c'
       - 'src/guest_cpu/bf_00269600_guest_prefix.h'
       - 'tests/test_00269600_guest_prefix.c'
+      - 'src/guest_cpu/bf_00269600_x87_loop.h'
+      - 'tests/test_00269600_x87_loop.c'
       - '.github/workflows/focused-00269600-guest-rep.yml'
   workflow_dispatch:
 permissions:
@@ -38,6 +40,17 @@ jobs:
               -o "$RUNNER_TEMP/test_00269600_prefix_$opt"
             "$RUNNER_TEMP/test_00269600_prefix_$opt"
           done
+      - name: Verify x87 FCOMP parity and reciprocal guest effects
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -ffp-contract=off -I src/guest_cpu \
+              tests/test_00269600_x87_loop.c -lm \
+              -o "$RUNNER_TEMP/test_00269600_x87_$opt"
+            "$RUNNER_TEMP/test_00269600_x87_$opt"
+          done
       - name: Address and undefined-behavior sanitizers
         shell: bash
         run: |
@@ -52,6 +65,12 @@ jobs:
             -I src/guest_cpu tests/test_00269600_guest_prefix.c \
             -o "$RUNNER_TEMP/test_00269600_prefix_san"
           "$RUNNER_TEMP/test_00269600_prefix_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -ffp-contract=off -I src/guest_cpu \
+            tests/test_00269600_x87_loop.c -lm \
+            -o "$RUNNER_TEMP/test_00269600_x87_san"
+          "$RUNNER_TEMP/test_00269600_x87_san"
       - name: Verification boundaries
         run: |
           echo "Original Xbox guest memory order, ESI/EDI/ECX and direction flag are modeled."
