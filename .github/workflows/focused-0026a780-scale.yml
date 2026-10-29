@@ -1,0 +1,45 @@
+name: Focused original 0x0026A780 guest x87 scaling
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/guest_cpu/bf_0026a780_guest_scale.h'
+      - 'tests/test_0026a780_guest_scale.c'
+      - 'src/guest_cpu/bf_00269600_scale_call.h'
+      - 'tests/test_00269600_scale_call.c'
+      - '.github/workflows/focused-0026a780-scale.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guest-x87-scale:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Original 0x0026A780 stack, x87, REP MOVSD tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -ffp-contract=off -I src/guest_cpu \
+              tests/test_0026a780_guest_scale.c \
+              -o "$RUNNER_TEMP/test_26a780_$opt"
+            "$RUNNER_TEMP/test_26a780_$opt"
+          done
+      - name: Address and undefined-behavior sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -ffp-contract=off -Wall -Wextra \
+            -Werror -pedantic-errors -I src/guest_cpu \
+            tests/test_0026a780_guest_scale.c \
+            -o "$RUNNER_TEMP/test_26a780_san"
+          "$RUNNER_TEMP/test_26a780_san"
+      - name: Verification boundaries
+        run: |
+          echo "Instruction-ordered guest storage, backend x87 and REP MOVSD are tested."
+          echo "This is a separate adapter; original FUN_0026A780 and FUN_00269600 are unchanged."
+          echo "Xbox exception/SEH, X87 status/control, and full native linkage are not proven."
