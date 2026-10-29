@@ -9,6 +9,8 @@ on:
       - 'tests/test_00269600_guest_prefix.c'
       - 'src/guest_cpu/bf_00269600_x87_loop.h'
       - 'tests/test_00269600_x87_loop.c'
+      - 'src/guest_cpu/bf_00269600_downstream_calls.h'
+      - 'tests/test_00269600_downstream_calls.c'
       - '.github/workflows/focused-00269600-guest-rep.yml'
   workflow_dispatch:
 permissions:
@@ -50,6 +52,16 @@ jobs:
               tests/test_00269600_x87_loop.c -lm \
               -o "$RUNNER_TEMP/test_00269600_x87_$opt"
             "$RUNNER_TEMP/test_00269600_x87_$opt"
+          done
+      - name: Verify all three original downstream callsite registers
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_00269600_downstream_calls.c \
+              -o "$RUNNER_TEMP/test_00269600_calls_$opt"
+            "$RUNNER_TEMP/test_00269600_calls_$opt"
           done
       - name: Address and undefined-behavior sanitizers
         shell: bash
