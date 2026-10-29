@@ -6,6 +6,9 @@ on:
       - 'include/bf_00155840_frame_contract.h'
       - 'include/bf_00155840_x87_call_bridge.h'
       - 'include/bf_00155840_virtual_621c0.h'
+      - 'include/bf_00155840_upload_bridge.h'
+      - 'tests/test_00155840_upload_bridge.c'
+      - 'tests/test_00155840_x87_rounding.c'
       - 'tests/test_00155840_x87_call_bridge.c'
       - '.github/workflows/focused-00155840-x87-bridge.yml'
   workflow_dispatch:
@@ -15,7 +18,7 @@ permissions:
 
 jobs:
   guest-x87-bridge:
-    name: Guest word ordering and finite x87 reference checks
+    name: Guest copy, x87 ordering and bounded rounding/exception checks
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
@@ -30,6 +33,27 @@ jobs:
               tests/test_00155840_x87_call_bridge.c \
               -o "$RUNNER_TEMP/test_00155840_x87_bridge_$opt"
             "$RUNNER_TEMP/test_00155840_x87_bridge_$opt"
+          done
+      - name: Verify original guest upload copies and aliases
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic \
+              -Iinclude tests/test_00155840_upload_bridge.c \
+              -o "$RUNNER_TEMP/test_00155840_upload_$opt"
+            "$RUNNER_TEMP/test_00155840_upload_$opt"
+          done
+      - name: Host x87 long-double rounding and exceptional references
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic \
+              -frounding-math -ffp-contract=off -Iinclude \
+              tests/test_00155840_x87_rounding.c -lm \
+              -o "$RUNNER_TEMP/test_00155840_rounding_$opt"
+            "$RUNNER_TEMP/test_00155840_rounding_$opt"
           done
       - name: State verification scope
         run: |
