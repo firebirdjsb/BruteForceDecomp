@@ -1,0 +1,42 @@
+name: Focused original 0x00269600 guest REP loops
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/guest_cpu/bf_00269600_guest_rep.h'
+      - 'tests/test_00269600_guest_rep.c'
+      - '.github/workflows/focused-00269600-guest-rep.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  rep-operations:
+    name: Three original REP loops, DF, alias and fault prefix
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify guest word operations at O0 and O2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_00269600_guest_rep.c \
+              -o "$RUNNER_TEMP/test_00269600_rep_$opt"
+            "$RUNNER_TEMP/test_00269600_rep_$opt"
+          done
+      - name: Address and undefined-behavior sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_00269600_guest_rep.c \
+            -o "$RUNNER_TEMP/test_00269600_rep_san"
+          "$RUNNER_TEMP/test_00269600_rep_san"
+      - name: Verification boundaries
+        run: |
+          echo "Original Xbox guest memory order, ESI/EDI/ECX and direction flag are modeled."
+          echo "Original FUN_00269600 still needs guest receiver ECX, caller ESP, and downstream function behavior."
+          echo "No original source syntax pass or complete 1:1 runtime equivalence is claimed."
