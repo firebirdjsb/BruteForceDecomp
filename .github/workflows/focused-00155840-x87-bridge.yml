@@ -8,6 +8,8 @@ on:
       - 'include/bf_00155840_virtual_621c0.h'
       - 'include/bf_00155840_concrete_virtual.h'
       - 'include/bf_00155840_frame_x87_increment.h'
+      - 'include/bf_00155840_scalar_sse.h'
+      - 'tests/test_00155840_scalar_sse.c'
       - 'include/bf_00155840_frame_x87_scale.h'
       - 'tests/test_00155840_x87_scale.c'
       - 'tests/test_00155840_concrete_frame.c'
@@ -81,6 +83,17 @@ jobs:
               tests/test_00155840_x87_scale.c \
               -o "$RUNNER_TEMP/test_00155840_scale_$opt"
             "$RUNNER_TEMP/test_00155840_scale_$opt"
+          done
+      - name: Verify original scalar RSQRTSS and SQRTSS stores
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -ffp-contract=off -Iinclude \
+              tests/test_00155840_scalar_sse.c \
+              -o "$RUNNER_TEMP/test_00155840_sse_$opt"
+            "$RUNNER_TEMP/test_00155840_sse_$opt"
           done
       - name: State verification scope
         run: |
