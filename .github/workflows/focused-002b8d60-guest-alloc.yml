@@ -1,0 +1,42 @@
+name: Focused original Xbox 0x002B8D60 guest allocations
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/guest_cpu/bf_002b8d60_guest_alloc.h'
+      - 'tests/test_002b8d60_guest_alloc.c'
+      - 'src/guest_cpu/bf_001f3aa0_allocator_call.h'
+      - 'tests/test_001f3aa0_allocator_call.c'
+      - '.github/workflows/focused-002b8d60-guest-alloc.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guest-allocation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - name: Original guest allocator execution at O0 and O2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_002b8d60_guest_alloc.c \
+              -o "$RUNNER_TEMP/guest_alloc_$opt"
+            "$RUNNER_TEMP/guest_alloc_$opt"
+          done
+      - name: Address and undefined-behavior sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_002b8d60_guest_alloc.c \
+            -o "$RUNNER_TEMP/guest_alloc_san"
+          "$RUNNER_TEMP/guest_alloc_san"
+      - name: Scope
+        run: |
+          echo "Original indirect allocator target remains unresolved, supplied by callback."
+          echo "No guest SEH, host pointer reinterpretation, or complete original FUN_ caller parity is claimed."
