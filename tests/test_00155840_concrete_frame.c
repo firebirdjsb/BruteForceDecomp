@@ -22,7 +22,10 @@ static void concrete_case(void) {
     float matrix[12]={1,0,0,0,1,0,0,0,1,2,3,4};
     float input[3]={5,6,7};
     seed(&m,matrix,input);
-    for(unsigned i=0;i<12;i++)put(&m,object+4u*i,bits(matrix[i]));
+    /* Synthetic runtime words at +4..+2C, never constructor initialization
+     * evidence. Preserve the actual primary-table word at returned base+0. */
+    for(unsigned i=1;i<12;i++)put(&m,object+4u*i,bits(matrix[i]));
+    put(&m,object,BF_00155840_PRIMARY_22D330);
     put(&m,object+0x48u,BF_00155840_KNOWN_SUBOBJECT_TABLE);
     put(&m,EBP+8u,object);
     const bf_621c0_guest_words guest={&m,dispatch_rd,wr};
@@ -35,9 +38,22 @@ static void concrete_case(void) {
     CHECK(r.status==BF_00155840_V621C0_OK);
     CHECK(r.method_target_va==BF_00155840_KNOWN_METHOD_ENTRY);
     CHECK(r.matrix_eax==object);
-    CHECK(get(&m,EBP-0x2cu)==bits(7.f));
+    /* The tiny binary32 primary-table bits contribute to the first sum;
+     * replacing them with 1.0f would incorrectly produce 7.0f here. */
+    CHECK(get(&m,EBP-0x2cu)==bits(2.f));
     CHECK(get(&m,EBP-0x28u)==bits(9.f));
     CHECK(get(&m,EBP-0x24u)==bits(11.f));
+    const uint32_t primaries[]={BF_00155840_PRIMARY_149F10,BF_00155840_PRIMARY_162E90};
+    for(unsigned i=0;i<2;i++) {
+        put(&m,object,primaries[i]);
+        CHECK(bf_00155840_known_matrix_virtual((void*)&guest,
+            BF_00155840_KNOWN_METHOD_ENTRY,object+0x48u,&fault));
+        CHECK(fault==object);
+    }
+    put(&m,object,bits(1.f)); /* previous invented concrete-matrix first word */
+    CHECK(!bf_00155840_known_matrix_virtual((void*)&guest,
+        BF_00155840_KNOWN_METHOD_ENTRY,object+0x48u,&fault));
+    put(&m,object,BF_00155840_PRIMARY_22D330);
     put(&m,object+0x48u,UINT32_C(0x0039adf8));
     CHECK(!bf_00155840_known_matrix_virtual((void*)&guest,
        BF_00155840_KNOWN_METHOD_ENTRY,object+0x48u,&fault));
