@@ -268,8 +268,12 @@ def main():
         real_source=source_path(root,"0x00233b10")
         for opt in ("-O0","-O2"):
             exe=Path(temp)/("connected.exe" if sys.platform=="win32" else "connected")
+            # The real Ghidra C source includes a known legacy function-type
+            # placeholder: typedef uintptr_t code();. The full C11 sweep
+            # already tolerates that source-only ABI notation. Keep the
+            # strict fixture checks for all other compiler diagnostics.
             cmd=[clang,"-std=c11","-Wall","-Wextra","-Werror","-pedantic",
-                 "-ffp-contract=off",opt,"-I",str(root/"include"),
+                 "-Wno-strict-prototypes","-ffp-contract=off",opt,"-I",str(root/"include"),
                  str(root/"tests/test_0012b250_002333b0_connected.c"),str(real_source)]
             if sys.platform!="win32":cmd+=["-lm"]
             subprocess.run([*cmd,"-o",str(exe)],check=True)
