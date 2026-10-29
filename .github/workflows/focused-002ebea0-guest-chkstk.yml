@@ -72,6 +72,11 @@ jobs:
             -I src/guest_cpu tests/test_002ebea0_guest_chkstk.c \
             -o "$RUNNER_TEMP/test_chkstk_san"
           "$RUNNER_TEMP/test_chkstk_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_001f3aa0_sparse_site.c \
+            -o "$RUNNER_TEMP/test_001f3aa0_sparse_site_san"
+          "$RUNNER_TEMP/test_001f3aa0_sparse_site_san"
       - name: State verification scope
         run: |
           echo "Exact guest touch and data-access order is tested for this isolated function."
