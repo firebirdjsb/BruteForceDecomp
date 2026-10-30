@@ -1,4 +1,4 @@
-name: Focused original 0x002B7970 pre-SSE guest vector
+name: Focused original 0x002B7970 x87/SSE and 0x001F3AA0 guest chain
 on:
   push:
     branches: [main]
@@ -11,6 +11,8 @@ on:
       - 'tests/test_002b7970_guest_tail.c'
       - 'tests/test_001f3aa0_vector_call.c'
       - 'tests/test_001f3aa0_producer_to_vector.c'
+      - 'src/guest_cpu/bf_001f3aa0_vector_alloc_sparse.h'
+      - 'tests/test_001f3aa0_vector_alloc_sparse.c'
       - 'src/guest_cpu/bf_001f3aa0_guest_producer.h'
       - '.github/workflows/focused-002b7970-guest-base.yml'
   workflow_dispatch:
@@ -36,7 +38,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for test in test_002b7970_guest_tail test_001f3aa0_vector_call test_001f3aa0_producer_to_vector; do
+          for test in test_002b7970_guest_tail test_001f3aa0_vector_call test_001f3aa0_producer_to_vector test_001f3aa0_vector_alloc_sparse; do
             for opt in 0 2; do
               clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
                 -ffp-contract=off -I src/guest_cpu "tests/$test.c" \
