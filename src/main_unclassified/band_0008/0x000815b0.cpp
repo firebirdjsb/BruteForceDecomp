@@ -8,7 +8,8 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
-extern void FUN_00160da0(void);
+/* XBE confirms two guest DWORDs and RET 8, but guest ECX/EDX remain unresolved. */
+extern uint32_t FUN_00160da0(uint32_t guest_word0, uint32_t guest_word1);
 extern int FUN_0014d330(void);
 extern int FUN_0014d3b0(void);
 
