@@ -98,7 +98,7 @@ static void success(fixture*f,unsigned value){
         CHECK(get(f,address+4u)==UINT32_C(0xa5a5a5a5));
     }
 }
-static void faults(fixture*f){
+static void chain_faults(fixture*f){
     prepare(f,0u);
     bf_001f3aa0_producer_result prod=produce(f);
     fail_allocation=2u;
@@ -121,7 +121,7 @@ static void faults(fixture*f){
 int main(void){
     fixture*f=calloc(1,sizeof *f);CHECK(f);f->data=malloc(SIZE);CHECK(f->data);
     for(unsigned i=0;i<128u;i++)success(f,i);
-    faults(f);
+    chain_faults(f);
     printf("PASS original 001F3AA0 vector/allocator/sparse chain %u assertions\n",checks);
     free(f->data);free(f);return 0;
 }
