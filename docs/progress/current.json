@@ -1,18 +1,17 @@
 {
   "schema_version": 2,
+  "status": "complete_host_cpp_syntax_audit",
   "metric": "isolated Clang C++17 syntax of 13,694 source drafts",
-  "status": "last_confirmed_full_cpp_audit_newer_source_reaudit_required",
+  "audited_commit": "e1486ac69937220ba38800e1e509b72b23420dc0",
+  "workflow_run_id": 41056383767,
   "total": 13694,
-  "passing": 2430,
-  "failing": 11264,
-  "percentage": 17.74,
-  "audited_commit": "1d2113987ff9c8a1a7d70b88cdad6ed233ed6a98",
-  "workflow_run_id": 41051666046,
-  "roadmap_percentage": 2.53,
+  "passing": 2433,
+  "failing": 11261,
+  "percentage": 17.77,
+  "roadmap_percentage": 2.54,
   "roadmap_method": "seven_equal_phases_cpp_syntax_fraction_six_unverified_zero_credited",
   "body_hash_mismatches": 0,
   "verified_instruction_contracts": null,
   "verified_interfaces": null,
-  "native_pc_build": "not_yet_buildable_or_playable",
-  "notes": "The complete 13,694-function C++17 audit at commit 1d211398 passed with zero provenance errors and zero check errors; later source repairs remain unmeasured until their exact-commit sweep completes."
+  "native_pc_build": "not_yet_buildable_or_playable"
 }
