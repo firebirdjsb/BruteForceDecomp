@@ -81,7 +81,7 @@ void FUN_00071d20(int param_1,uint param_2)
         }
         local_1c = iVar4 + param_2;
       }
-      iVar3 = FUN_002ea01d();
+      /* XBE 0x00071DF6: PUSH ESI; CALL 0x002EA01D; ADD ESP,4.\n       * ESI is the capacity represented here by local_1c. The allocator\n       * receives this guest32 size word; native memory ABI is unverified. */\n      iVar3 = FUN_002ea01d(local_1c);
       local_8 = 0;
       FUN_0024bb30();
       FUN_00258640();
