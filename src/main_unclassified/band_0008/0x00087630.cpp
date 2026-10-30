@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002ea018_heap_free_guest32.h"
 /* Original x86 ABI (evidence: 0x00087631-0x00087638, 0x00087668):
  *   EAX = 32-bit guest range start; [entry ESP+4] = guest range end;
  *   RET (no callee argument pop); record stride = 0x20 bytes.
