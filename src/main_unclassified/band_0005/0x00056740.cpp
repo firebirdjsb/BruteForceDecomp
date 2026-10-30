@@ -9,6 +9,9 @@
 #include <xmmintrin.h>
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern void FUN_0005e310(int param_1,int *param_2);
+
 int * FUN_00056740(undefined4 param_1,undefined4 param_2,int param_3)
 
 {

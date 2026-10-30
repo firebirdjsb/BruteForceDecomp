@@ -9,6 +9,17 @@
 #include <xmmintrin.h> /* XBE 0x0005AE61 uses approximate RSQRTSS */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern void FUN_0005a7d0(void);
+extern void FUN_000e0c80(void);
+extern void FUN_0005a950(int param_1);
+extern undefined4 FUN_0005a890(void);
+extern undefined4 FUN_0005a860(void);
+extern undefined4 FUN_000456c0(void);
+extern void FUN_0005e4f0(void);
+extern void FUN_0005a8d0(void);
+extern int FUN_0005a800(void);
+extern void FUN_00085620(void);
+
 extern uint32_t DAT_003ffca0;
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 

@@ -10,6 +10,23 @@
 /* Original RSQRTSS affects low scalar lane; upper lanes not consumed. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern undefined4 FUN_00049ca0(void);
+extern void FUN_00055a60(void);
+extern int FUN_000388b0(int param_1);
+extern void FUN_000124f0(float param_1, int32_t in_ECX);
+extern void FUN_00023b20(undefined4 param_1);
+extern void FUN_00023990(undefined4 param_1,undefined4 param_2);
+extern void FUN_0004d520(int *param_1);
+extern undefined1 FUN_00024f80(int *param_1,int *param_2,float param_3);
+extern bool FUN_00012620(int32_t in_ECX);
+extern undefined4 FUN_00026d80(int *param_1,int param_2,float *param_3,undefined4 param_4,float param_5);
+extern undefined4 FUN_00055aa0(void);
+extern undefined4 FUN_000255d0(undefined4 param_1,byte param_2);
+extern int FUN_0004d970(int *param_1,float *param_2,int param_3,char param_4,char param_5);
+extern uint FUN_00126ba0(void);
+extern void FUN_00023a80(undefined4 param_1);
+
 extern uint32_t PTR_LAB_0039cc18;
 undefined4 FUN_0002bf60(undefined4 param_1)
 

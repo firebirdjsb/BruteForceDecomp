@@ -8,6 +8,8 @@
 #include "bf_ghidra_types.h"
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+
 char FUN_0003fff0(int param_1,float *param_2,undefined4 param_3)
 
 {

@@ -38,6 +38,8 @@ static inline int32_t BF_float_to_i32(float n){uint32_t b=BF_float_to_u32(n);ret
 // incoming EAX address bits and signed ECX value; they are draft parameters.
 // TODO: Supply the declaration and ABI for FUN_0008f6a0. Its apparent lack
 // of arguments does not establish whether it consumes register values.
+extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
+
 void FUN_00012250(uint32_t in_EAX, int32_t in_ECX)
 {
     /* TODO: original x86 is 32-bit; host pointer width need not be 32-bit. */

@@ -10,6 +10,23 @@
  * safe host pointers/callbacks. ABI and native relocation remain TODO. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern void FUN_000dcc10(char param_1,char param_2);
+extern void FUN_001e2200(void);
+extern void FUN_000d6970(void);
+extern void FUN_0001fed0(undefined4 *param_1,uint param_2);
+extern void FUN_000764c0(undefined4 param_1);
+extern void FUN_001e14c0(void);
+extern uint FUN_002383b0(void);
+extern void FUN_000762d0(void);
+extern undefined4 FUN_00174180(void);
+extern void FUN_000d8140(int param_1);
+extern void FUN_000d8d80(int param_1,char *param_2);
+extern void FUN_000a4110(void);
+extern void FUN_001e9350(void);
+extern undefined1 FUN_000d6490(void);
+extern void FUN_000b8b40(int param_1);
+extern void FUN_00237a30(undefined4 param_1);
+
 extern uint32_t DAT_003bc150;
 extern uint32_t DAT_003bc550;
 extern uint32_t *DAT_00443310;

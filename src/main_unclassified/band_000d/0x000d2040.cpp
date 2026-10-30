@@ -9,6 +9,10 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 /* XBE 0xd205c multiplies by the f32 stored at [0x0040d630]. */
+extern void FUN_002b3590(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+extern void FUN_002333b0(float *param_1);
+extern uint FUN_000d2890(int param_1);
+
 extern float _DAT_0040d630;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

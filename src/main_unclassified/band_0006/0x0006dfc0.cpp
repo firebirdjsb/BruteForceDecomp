@@ -9,6 +9,10 @@
 #include <xmmintrin.h>
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
+extern undefined4 FUN_0006e450(float param_1);
+extern void FUN_0006ad90(void);
+extern void FUN_0006c840(int param_1);
+
 void FUN_0006dfc0(int *param_1,float *param_2,float param_3,float param_4)
 
 {

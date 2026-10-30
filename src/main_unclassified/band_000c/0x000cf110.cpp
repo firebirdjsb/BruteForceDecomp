@@ -8,6 +8,16 @@
 #include "bf_ghidra_types.h"
 /* Callee source declares FUN_000a3d50(void).  Xbox callback/register ABI remains
  * ABI_UNVERIFIED; this forward declaration is for C11 source inspection only. */
+extern undefined4 FUN_000ce120(void);
+extern undefined4 FUN_000ce130(void);
+extern void FUN_0001fe40(undefined4 param_1,undefined4 param_2,int param_3,code *param_4);
+extern float10 FUN_000661c0(float param_1);
+extern unkbyte10 FUN_0006eee0(float param_1);
+extern void FUN_00039510(void);
+extern void FUN_000cf0c0(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+extern void FUN_002185a0(void);
+extern void FUN_000cf600(void);
+
 extern void FUN_000a3d50(void);
 void FUN_000cf110(int param_1,int *param_2,char param_3)
 

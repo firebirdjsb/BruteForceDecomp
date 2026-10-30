@@ -7,6 +7,8 @@
  */
 #include "bf_ghidra_types.h"
 #include "bf_xbox_d3d_device_x86.h"
+extern void FUN_0037834e(void);
+
 void FUN_00067d90(undefined4 param_1,float param_2)
 
 {

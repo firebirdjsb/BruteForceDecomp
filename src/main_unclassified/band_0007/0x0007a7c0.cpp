@@ -9,6 +9,11 @@
 #include <string.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern undefined4 FUN_0023a280(int param_1);
+extern undefined4 FUN_000862e0(undefined4 param_1);
+extern void FUN_000854b0(void);
+extern void FUN_000853c0(void);
+
 extern uint32_t *DAT_004432f8;
 extern char s__s_s_s_0040dd8c[];
 undefined4 FUN_0007a7c0(int *param_1)

@@ -8,6 +8,13 @@
 #include "bf_ghidra_types.h"
 /* WARNING: Removing unreachable block (ram,0x00035be9) */
 
+extern undefined4 FUN_00026d80(int *param_1,int param_2,float *param_3,undefined4 param_4,float param_5);
+extern undefined4 FUN_00055aa0(void);
+extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
+extern void FUN_00038440(void);
+extern undefined4 FUN_000255d0(undefined4 param_1,byte param_2);
+extern int FUN_0004d970(int *param_1,float *param_2,int param_3,char param_4,char param_5);
+
 undefined4 FUN_00035b30(undefined4 param_1)
 
 {

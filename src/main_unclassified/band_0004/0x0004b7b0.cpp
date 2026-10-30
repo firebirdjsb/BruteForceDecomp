@@ -7,6 +7,8 @@
  */
 #include "bf_ghidra_types.h"
 /* TODO: Original mapped address; ABI/relocations unverified. */
+extern int FUN_001e0dd0(int param_1);
+
 int FUN_0004b7b0(int param_1,int param_2,int param_3)
 
 {

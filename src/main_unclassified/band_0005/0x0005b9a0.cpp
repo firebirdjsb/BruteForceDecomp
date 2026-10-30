@@ -7,6 +7,11 @@
  */
 #include "bf_ghidra_types.h"
 #include "bf_002ea01d_allocator_guest32.h"
+extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
+extern void FUN_0005dc80(void);
+extern void FUN_0014cb60(int param_1);
+extern void FUN_0005bda0(void);
+
 void FUN_0005b9a0(uint *param_1,int param_2)
 
 {

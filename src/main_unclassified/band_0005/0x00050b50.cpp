@@ -7,6 +7,8 @@
  */
 #include "bf_ghidra_types.h"
 /* TODO: Original mapped XBE image address; ABI/relocations unverified. */
+extern void FUN_00050e40(void);
+
 void FUN_00050b50(undefined4 param_1,int param_2,undefined4 param_3)
 
 {

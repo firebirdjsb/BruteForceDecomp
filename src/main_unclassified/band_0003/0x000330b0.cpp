@@ -16,6 +16,8 @@
  * or the three stored results. Packed FP exception state is unverified.
  */
 
+extern undefined4 FUN_000233a0(void);
+
 undefined1 FUN_000330b0(int param_1,float *param_2)
 
 {

@@ -10,6 +10,10 @@
 /* Original RSQRTSS affects low scalar lane; upper lanes not consumed. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern float10 FUN_00024ae0(void);
+extern float10 FUN_00023900(float param_1,float param_2);
+
 extern uint32_t DAT_0040e740;
 extern uint32_t DAT_0046cfd8;
 extern uint32_t _DAT_0040e744;

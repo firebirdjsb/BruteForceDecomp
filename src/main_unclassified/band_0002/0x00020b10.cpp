@@ -6,6 +6,30 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern undefined4 FUN_0005e540(undefined4 param_1,int param_2);
+extern int FUN_0005bca0(void);
+extern undefined4 FUN_00020ad0(void);
+extern float10 FUN_001faba0(int param_1);
+extern void FUN_000124f0(float param_1, int32_t in_ECX);
+extern undefined4 FUN_00022130(int param_1,undefined4 param_2,undefined1 *param_3);
+extern undefined4 FUN_00021fa0(undefined4 param_1,undefined1 *param_2);
+extern undefined4 FUN_000223c0(undefined1 *param_1);
+extern int FUN_00022520(void);
+extern undefined4 FUN_000225d0(undefined1 *param_1);
+extern undefined4 FUN_00022790(undefined4 param_1,undefined1 *param_2);
+extern undefined4 FUN_000210c0(undefined4 param_1,undefined1 *param_2);
+extern undefined4 FUN_000212d0(void);
+extern undefined4 FUN_000213e0(int param_1,undefined4 *param_2,undefined1 *param_3);
+extern undefined4 FUN_00021b70(undefined1 *param_1);
+extern int FUN_00021d10(undefined4 param_1,undefined1 *param_2);
+extern undefined4 FUN_00021840(int param_1,undefined1 *param_2);
+extern void FUN_00021b20(void);
+extern undefined4 FUN_000216b0(undefined1 *param_1);
+extern int FUN_000216f0(undefined4 *param_1);
+extern undefined4 FUN_000212b0(void);
+extern undefined4 FUN_00022420(int param_1,undefined4 param_2,float param_3);
+
 undefined4 FUN_00020b10(undefined4 param_1)
 
 {

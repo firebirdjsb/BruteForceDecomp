@@ -13,6 +13,10 @@
  * record's address. A 16-byte by-value record models those guest
  * words ONLY, not the unverified host/Xbox calling convention, EAX,
  * ECX, or any caller-visible stack writeback. */
+extern void FUN_000d0d20(int param_1,int param_2,uint param_3,int param_4);
+extern void FUN_000d0cb0(int *param_1,int param_2,int param_3);
+extern void FUN_0008f6e0(std::uint32_t guest_edx);
+
 typedef struct {
   undefined4 word_04;
   undefined4 word_08;

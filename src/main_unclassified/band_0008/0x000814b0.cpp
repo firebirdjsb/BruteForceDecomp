@@ -8,6 +8,11 @@
 #include "bf_ghidra_types.h"
 /* Source-matched callback/address references (not an ABI verification).
  * Original x86 register, stack and indirect call contracts remain ABI_UNVERIFIED. */
+extern void FUN_0001fe40(undefined4 param_1,undefined4 param_2,int param_3,code *param_4);
+extern int FUN_000782c0(int param_1);
+extern void FUN_00077eb0(int param_1,float param_2);
+extern void FUN_0001fe00(undefined4 param_1,undefined4 param_2,int param_3,code *param_4);
+
 extern void FUN_00050b40(void);
 uint FUN_000814b0(int *param_1,byte param_2)
 

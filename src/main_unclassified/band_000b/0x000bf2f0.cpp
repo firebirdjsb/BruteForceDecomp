@@ -11,6 +11,12 @@
  * No assembly/ABI or behavior equivalence has been established. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern undefined4 FUN_000bf1e0(void);
+extern void FUN_0015a500(int *param_1);
+extern void FUN_0015a480(int *param_1);
+extern void FUN_00023940(void);
+extern uint FUN_000de330(float param_1);
+
 extern uint32_t DAT_00469aac;
 undefined1 FUN_000bf2f0(int param_1,int param_2,undefined4 *param_3,float *param_4)
 

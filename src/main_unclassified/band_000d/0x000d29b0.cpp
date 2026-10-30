@@ -12,6 +12,8 @@
  * the first incoming guest-stack slot's storage, NOT a verified host
  * ABI or caller-visible guest-stack writeback. EAX and ECX are implicit
  * guest inputs; the original function ends with RET 18h. */
+extern void FUN_000d2a60(int param_1,uint param_2);
+
 void FUN_000d29b0(undefined4 guest_out_word)
 
 {

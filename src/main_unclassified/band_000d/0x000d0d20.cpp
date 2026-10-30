@@ -7,6 +7,15 @@
  */
 #include "bf_ghidra_types.h"
 /* Xbox VA 0x00308520; original label address; definition and semantics pending. */
+extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
+extern void FUN_00038940(void);
+extern uint32_t FUN_002ea01d(uint32_t guest_size);
+extern void FUN_000d1030(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+extern int FUN_000d1010(void);
+extern void FUN_000d11b0(void);
+extern void FUN_000d10e0(void);
+extern void FUN_000d1060(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3);
+
 extern unsigned char LAB_00308520;
 
 /* WARNING: Removing unreachable block (ram,0x000d0ff2) */

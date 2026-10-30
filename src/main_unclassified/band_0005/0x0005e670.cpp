@@ -6,6 +6,14 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern int FUN_0005bca0(void);
+extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
+extern void FUN_0005eb10(int param_1,undefined4 param_2);
+extern void FUN_0004b5f0(void);
+extern void FUN_0005eab0(void);
+extern void FUN_0008f6e0(std::uint32_t guest_edx);
+
 void FUN_0005e670(int param_1,int *param_2)
 
 {

@@ -8,6 +8,8 @@
 #include "bf_ghidra_types.h"
 #include "bf_002ea01d_allocator_guest32.h"
 /* Xbox image VA 0x00307200; address-only label. Link definition and role unverified. */
+extern void FUN_0005dac0(undefined4 param_1,undefined4 param_2,undefined1 param_3);
+
 extern unsigned char LAB_00307200;
 
 int FUN_0005d9f0(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,

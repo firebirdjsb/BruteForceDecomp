@@ -11,6 +11,8 @@
  * into that slot before the call to 0x000E0860. The callee reads one
  * DWORD from its first pointer argument. Incoming EAX/ESI and callee EDI
  * register contracts remain ABI_UNVERIFIED, as does guest32 translation. */
+extern void FUN_000e0860(int *param_1);
+
 void FUN_000b2660(void)
 
 {

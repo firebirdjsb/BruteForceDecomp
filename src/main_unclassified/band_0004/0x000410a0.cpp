@@ -12,6 +12,9 @@
  * arithmetic still does not establish the original extended x87 intermediates,
  * FCOM-before-FSTP boundary, exception state, or implicit helper ABI. */
 
+extern float10 FUN_000394b0(void);
+extern void FUN_0004ce30(void);
+
 undefined4 FUN_000410a0(float param_1)
 
 {

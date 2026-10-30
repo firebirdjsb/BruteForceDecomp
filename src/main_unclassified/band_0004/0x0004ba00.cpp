@@ -12,6 +12,9 @@
 /* WARNING: Removing unreachable block (ram,0x0004ba5e) */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
+extern void FUN_00058b60(void);
+extern uint FUN_00058bc0(void);
+
 uint FUN_0004ba00(int param_1,float *param_2,float *param_3,float param_4,undefined4 *param_5)
 
 {

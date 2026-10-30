@@ -13,6 +13,10 @@
  * The local vector is reconstructed contiguously; host pointer size and
  * the external callback ABI remain unverified. */
 
+extern undefined4 FUN_0004c530(float *param_1);
+extern undefined4 FUN_0004c480(float *param_1);
+extern void FUN_000124f0(float param_1, int32_t in_ECX);
+
 undefined1 FUN_000587d0(int *param_1, float *param_2)
 {
   char cVar1;

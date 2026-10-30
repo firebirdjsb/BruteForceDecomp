@@ -8,6 +8,14 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern float10 FUN_000bb170(void);
+extern undefined4 FUN_0006a610(int *param_1);
+extern undefined4 FUN_000a4a60(int param_1);
+extern undefined4 FUN_000a4d00(void);
+extern void FUN_000a4d80(void);
+extern undefined4 FUN_002386d0(void);
+extern void FUN_003721b0(void);
+
 extern uint32_t _DAT_0040d730;
 /* Original Xbox guest pointer global 0x0037DD88:
  * XBE 0x000AF5B7 MOV EDX,[0x0037DD88] followed by

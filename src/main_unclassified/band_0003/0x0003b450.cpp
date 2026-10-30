@@ -9,6 +9,11 @@
 /* WARNING: Removing unreachable block (ram,0x0003b556) */
 /* WARNING: Removing unreachable block (ram,0x0003b567) */
 
+extern void FUN_00022dc0(void);
+extern void FUN_00055650(void);
+extern void FUN_00055d30(undefined4 param_1);
+extern void FUN_0001d470(void);
+
 undefined1 FUN_0003b450(void)
 
 {

@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+extern void FUN_000d0c20(bf_000d0c20_incoming_words guest_words);
+
 void FUN_000d05d0(void)
 
 {

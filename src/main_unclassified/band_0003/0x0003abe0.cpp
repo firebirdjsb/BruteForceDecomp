@@ -8,6 +8,30 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern void FUN_0001d4c0(int param_1,int param_2,undefined4 param_3);
+extern void FUN_0001ba60(uint32_t unaff_ESI);
+
+extern undefined4 FUN_00055aa0(void);
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern undefined1 FUN_0004c970(uint param_1);
+extern void FUN_001fe3d0(void);
+extern void FUN_00022dc0(void);
+extern void FUN_00055d30(undefined4 param_1);
+extern void FUN_0001d470(void);
+extern void FUN_000556e0(void);
+extern uint FUN_0008f690(void);
+extern void FUN_0008f6e0(std::uint32_t guest_edx);
+extern void FUN_0001fe80(void);
+extern int32_t FUN_000125b0(int32_t in_EAX);
+extern uint FUN_00022ef0(void);
+extern void FUN_00055b10(void);
+extern uint FUN_00022eb0(void);
+extern undefined4 FUN_00022f70(void);
+extern undefined4 FUN_00022f30(void);
+extern uint32_t FUN_0001ba10(uint32_t unaff_ESI);
+extern void FUN_00022e90(void);
+extern void FUN_0003b580(int param_1);
+
 extern uint32_t DAT_00414da0;
 extern uint32_t DAT_004a5908;
 extern uint32_t PTR_FUN_003a4f64;

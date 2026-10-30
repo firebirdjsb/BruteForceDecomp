@@ -11,6 +11,25 @@
  * Upper XMM lanes are not reconstructed; original opcode/ABI remain UNVERIFIED. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern void FUN_00055a60(void);
+extern int FUN_000388b0(int param_1);
+extern void FUN_0011dfa0(void);
+extern void FUN_00041660(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+extern undefined4 FUN_00025730(int param_1,undefined4 param_2,int param_3);
+extern int FUN_0017c5a0(void);
+extern undefined4 FUN_00026d80(int *param_1,int param_2,float *param_3,undefined4 param_4,float param_5);
+extern undefined4 FUN_000255d0(undefined4 param_1,byte param_2);
+extern float10 FUN_00023900(float param_1,float param_2);
+extern undefined4 FUN_000337f0(undefined4 param_1,float param_2);
+extern undefined4 FUN_00055aa0(void);
+extern undefined1 FUN_00024f80(int *param_1,int *param_2,float param_3);
+extern void FUN_00012560(void);
+extern uint FUN_00058bc0(void);
+extern void FUN_00012540(uint32_t* in_ECX);
+extern void FUN_0004e8f0(void);
+extern int FUN_0004d970(int *param_1,float *param_2,int param_3,char param_4,char param_5);
+
 extern uint32_t switchD_000290c0_caseD_1[];
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 

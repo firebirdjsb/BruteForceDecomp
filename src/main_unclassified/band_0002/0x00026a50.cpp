@@ -11,6 +11,10 @@
  * Upper XMM lanes are not reconstructed; original opcode/ABI remain UNVERIFIED. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern float10 FUN_000394b0(void);
+extern void FUN_0004ce30(void);
+
 undefined4 FUN_00026a50(undefined4 param_1,int param_2,int param_3)
 
 {

@@ -8,6 +8,46 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern void FUN_00237a30(undefined4 param_1);
+extern void FUN_000dd380(float param_1,float param_2);
+extern void FUN_00073330(float param_1);
+extern void FUN_00149e60(void);
+extern void FUN_000e40d0(float param_1);
+extern void FUN_000d9320(int param_1);
+extern void FUN_00177ba0(short *param_1,float param_2);
+extern void FUN_001f48f0(float param_1);
+extern void FUN_00140d70(float param_1);
+extern void FUN_00169e20(int param_1,float param_2);
+extern void FUN_000cdf90(int param_1);
+extern void FUN_000d2040(int *param_1,float param_2);
+extern void FUN_00225220(int *param_1,float param_2);
+extern void FUN_002173a0(float param_1);
+extern void FUN_002292a0(float param_1);
+extern void FUN_00057a30(uint param_1,float param_2);
+extern undefined4 FUN_000d4360(int param_1,float param_2);
+extern void FUN_000d9090(int param_1,float param_2);
+extern void FUN_000d9770(undefined4 param_1,int param_2);
+extern void FUN_0008f6e0(std::uint32_t guest_edx);
+extern void FUN_00127290(int *param_1);
+extern void FUN_0022bfc0(int param_1,float param_2);
+extern void FUN_0022cea0(int param_1,undefined4 param_2);
+extern void FUN_000e0810(int *param_1);
+extern void FUN_000d9840(undefined4 param_1);
+extern void FUN_00174270(int param_1,float param_2);
+extern void FUN_000d99d0(undefined4 param_1);
+extern void FUN_0005c1c0(undefined4 param_1);
+extern void FUN_000e0410(int param_1,undefined4 param_2);
+extern void FUN_000b8e30(int *param_1,float param_2,byte param_3);
+extern void FUN_00074a60(float param_1);
+extern void FUN_000d0890(undefined4 param_1);
+extern int FUN_001794f0(void);
+extern undefined4 FUN_00179590(int param_1);
+extern int FUN_00179660(int param_1);
+extern void FUN_0017a580(int param_1,undefined4 param_2);
+extern void FUN_0017a7a0(undefined4 *param_1);
+extern int FUN_001793e0(int param_1,int param_2);
+extern void FUN_00179ec0(int param_1,float param_2);
+
 extern uint32_t DAT_0040d5fc;
 extern uint32_t *DAT_00443310;
 extern uint32_t DAT_00469ab9;

@@ -8,6 +8,51 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern void FUN_00160da0(void);
+extern void FUN_00228ed0(undefined4 param_1,int param_2,int *param_3);
+extern void FUN_00178b20(void);
+
+extern void FUN_0001f4f0(int param_1,uint param_2,uint param_3);
+extern void FUN_001e8a20(void);
+extern void FUN_000784c0(uint param_1);
+extern void FUN_000d5680(void);
+extern undefined4 FUN_000e2320(undefined4 param_1);
+
+extern undefined4 FUN_000e49d0(void);
+extern void FUN_0001fed0(undefined4 *param_1,uint param_2);
+extern undefined1 FUN_001659d0(int param_1);
+extern void FUN_0001fe90(char *param_1);
+
+extern void FUN_000b89b0(undefined4 param_1);
+extern void FUN_000d03a0(void);
+extern void FUN_00179110(undefined4 param_1);
+extern void FUN_00074450(undefined4 param_1);
+extern void FUN_001521c0(void);
+extern void FUN_001513a0(void);
+extern undefined4 FUN_000e3f50(void);
+extern undefined4 FUN_000723f0(undefined4 *param_1);
+extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
+extern void FUN_000b8af0(void);
+extern undefined4 FUN_000e9720(void);
+
+extern void FUN_00237a30(undefined4 param_1);
+extern undefined4 FUN_001e4e30(int param_1,undefined4 param_2,undefined4 *param_3);
+extern uint FUN_002383b0(void);
+extern uint32_t FUN_002ea01d(uint32_t guest_size);
+extern void FUN_00225dd0(void);
+extern void FUN_001658c0(void);
+extern void FUN_000d19d0(undefined4 param_1);
+extern void FUN_00061500(void);
+extern void FUN_00174130(undefined4 param_1);
+extern void FUN_000d44c0(undefined4 param_1);
+extern void FUN_000e4670(void);
+extern void FUN_002192e0(void);
+extern void FUN_000e3ed0(void);
+extern void FUN_00149b00(void);
+extern void FUN_00140870(undefined4 param_1);
+extern void FUN_0008bf70(undefined4 param_1);
+extern void FUN_00072190(undefined4 param_1);
+
 extern uint32_t DAT_004000a0;
 extern uint32_t DAT_004000b4;
 extern uint32_t DAT_004000d8;

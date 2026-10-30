@@ -9,6 +9,15 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 /* XBE 0x000228A1 (fld) / 0x000228AE (fmul): 32-bit float, not a pointer. */
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern float10 FUN_0002fba0(undefined4 param_1,float *param_2,float param_3);
+extern void FUN_0001fd10(void);
+extern void FUN_0001fdd0(void);
+extern undefined4 FUN_00026d80(int *param_1,int param_2,float *param_3,undefined4 param_4,float param_5);
+extern void FUN_0004e8f0(void);
+extern undefined4 FUN_000255d0(undefined4 param_1,byte param_2);
+extern int FUN_0004d970(int *param_1,float *param_2,int param_3,char param_4,char param_5);
+
 extern float DAT_0040e748;
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 

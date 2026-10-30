@@ -9,6 +9,8 @@
 /* XBE ret 12: third incoming stack word originally holds an Xbox pointer;
  * its low byte is cleared, passed by address, and retested. The hidden
  * pointer/register operations are not yet modelled: ABI_UNVERIFIED. */
+extern void FUN_00057730(undefined4 param_1);
+
 void FUN_000577c0(undefined4 param_1, undefined4 param_2,
                   uint32_t caller_stack_word_3)
 

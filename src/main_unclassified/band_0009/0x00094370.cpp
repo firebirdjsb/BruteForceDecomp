@@ -8,6 +8,8 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern undefined4 FUN_00238080(undefined4 param_1,undefined4 *param_2);
+
 extern char s_23_23_IRampSingle_0040e3ec[];
 /* WARNING: Removing unreachable block (ram,0x00094399) */
 /* WARNING: Removing unreachable block (ram,0x00094403) */

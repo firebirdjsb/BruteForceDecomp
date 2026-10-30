@@ -7,6 +7,15 @@
  */
 #include "bf_ghidra_types.h"
 /* TODO: Original mapped address; ABI/relocations unverified. */
+extern int FUN_001e0dd0(int param_1);
+extern void FUN_00038940(void);
+extern uint32_t FUN_002ea01d(uint32_t guest_size);
+extern void FUN_0028e350(undefined4 param_1,undefined4 param_2);
+extern int FUN_0028e250(void);
+extern void FUN_0027cc10(void);
+extern void FUN_0004b6a0(void);
+extern void FUN_0004b670(int param_1,int param_2);
+
 void FUN_0004b310(int param_1,int param_2,uint param_3)
 
 {

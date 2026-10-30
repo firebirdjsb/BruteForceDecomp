@@ -39,6 +39,8 @@ static inline int32_t BF_float_to_i32(float n){uint32_t b=BF_float_to_u32(n);ret
 // the incoming ECX register; it is not an evidenced stack parameter.
 // TODO: Supply declarations for PTR_FUN_003a4f70 and the external functions.
 // Their calling conventions, implicit register inputs, and signatures are unknown.
+extern void FUN_00015fe0(void);
+
 void FUN_00016200(uint8_t param_1, uint32_t* in_ECX)
 {
     /* TODO: original x86 is 32-bit; host pointer width need not be 32-bit. */

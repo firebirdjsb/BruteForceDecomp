@@ -8,6 +8,14 @@
 #include "bf_ghidra_types.h"
 /* XBE 0x0005739d: fcomp m32fp [0x003c05fc], a four-byte float.
  * Original file bits 0x40800000 (4.0f); symbol linkage remains ABI_UNVERIFIED. */
+extern int FUN_0014d2e0(void);
+extern void FUN_00232180(int param_1);
+extern void FUN_00056d20(void);
+extern undefined4 FUN_00039360(void);
+extern float10 FUN_000394b0(void);
+extern char FUN_0004cd10(undefined4 param_1,float param_2);
+extern uint FUN_00022bc0(int *param_1);
+
 extern float DAT_003c05fc;
 char FUN_00057360(undefined4 param_1,int param_2,int *param_3)
 

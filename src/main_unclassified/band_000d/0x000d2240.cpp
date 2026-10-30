@@ -8,6 +8,9 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern undefined4 FUN_000ea6c0(int param_1,int param_2,int param_3,int *param_4);
+extern void FUN_001f6e60(undefined4 param_1);
+
 extern uint32_t *DAT_00469b54;
 /* Source-grounded f32 stores at +0x120 and +0x11c feed float arithmetic.
  * ABI_UNVERIFIED: confirm both destination widths against original XBE. */

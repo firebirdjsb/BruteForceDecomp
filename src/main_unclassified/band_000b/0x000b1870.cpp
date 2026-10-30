@@ -7,6 +7,8 @@
  */
 #include "bf_ghidra_types.h"
 /* Xbox VA 0x00307090; original label address; definition and semantics pending. */
+extern void FUN_000b1940(void);
+
 extern unsigned char LAB_00307090;
 
 void FUN_000b1870(undefined4 param_1,int param_2)

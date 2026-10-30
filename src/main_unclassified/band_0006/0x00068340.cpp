@@ -8,6 +8,14 @@
 #include "bf_ghidra_types.h"
 /* Source-matched callback/address references (not an ABI verification).
  * Original x86 register, stack and indirect call contracts remain ABI_UNVERIFIED. */
+extern undefined4 FUN_0006a750(void);
+extern int FUN_00068020(void);
+extern undefined4 FUN_002376b0(int param_1,int param_2,int param_3);
+extern char FUN_001ea2e0(undefined4 param_1,int param_2);
+extern void FUN_00067d90(undefined4 param_1,float param_2);
+extern uint32_t FUN_002ea01d(uint32_t guest_size);
+extern void FUN_00079e70(void);
+
 extern float10 FUN_00233b90(void);
 /* TODO(ABI_UNVERIFIED): DAT_00469830 receives this function address in a
  * reconstructed 32-bit word. Validate the original XBE's storage width and

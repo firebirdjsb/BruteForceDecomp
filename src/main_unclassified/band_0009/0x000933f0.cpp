@@ -7,6 +7,8 @@
  */
 #include "bf_ghidra_types.h"
 #include "bf_002ea01d_allocator_guest32.h"
+extern void FUN_00093480(void);
+
 undefined4 FUN_000933f0(int param_1,int *param_2,int *param_3)
 
 {

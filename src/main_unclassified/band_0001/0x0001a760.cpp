@@ -46,6 +46,9 @@ static inline int32_t BF_float_to_i32(float n){uint32_t b=BF_float_to_u32(n);ret
 // TODO: Supply verified declarations for FUN_00232520 and FUN_00223780.
 // Their implementations and complete ABI contracts are not provided.
 
+extern float10 FUN_00232520(void);
+extern float10 FUN_00223780(float param_1,float param_2);
+
 float10 /* TODO: The in_ECX parameter(s) explicitly MODEL incoming register/FS or post-call values.
    They are NOT established original stack parameters or ABI declarations. */
 FUN_0001a760(int32_t param_1, float param_2, uint32_t in_ECX, char in_AL)

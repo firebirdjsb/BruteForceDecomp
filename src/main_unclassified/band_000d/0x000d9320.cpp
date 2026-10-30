@@ -11,6 +11,12 @@
  * The Ghidra float slot carries a raw 32-bit integer selector (1..4),
  * not a numeric float switch. Keep the raw bits; other ABI paths remain
  * unverified. The jump table at 0xD9758 targets 0xD9623/43/63/83. */
+extern char FUN_00072b90(void);
+extern ulonglong FUN_002ebf10(void);
+extern int FUN_0008b790(void);
+extern void FUN_0006c660(void);
+extern void FUN_002171d0(int param_1);
+
 static uint32_t bf_d9320_raw_word(float value)
 {
   uint32_t bits;

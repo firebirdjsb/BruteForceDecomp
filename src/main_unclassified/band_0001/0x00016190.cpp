@@ -37,6 +37,9 @@ static inline int32_t BF_float_to_i32(float n){uint32_t b=BF_float_to_u32(n);ret
 // TODO: Confirm the calling convention under the original 32-bit Xbox x86 ABI.
 // TODO: Supply evidence-based declarations for FUN_0001b4b0 and FUN_00016030.
 // param_1 preserves the 32-bit width of Ghidra's undefined4; its meaning is unknown.
+extern void FUN_0001b4b0(float param_1);
+extern void FUN_00016030(uint32_t in_EAX);
+
 void FUN_00016190(uint32_t param_1)
 {
     FUN_0001b4b0(param_1);

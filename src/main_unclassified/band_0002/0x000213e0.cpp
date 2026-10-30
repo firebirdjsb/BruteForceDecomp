@@ -8,6 +8,11 @@
 #include "bf_ghidra_types.h"
 #include <xmmintrin.h>
 /* Original rsqrtss uses only the low single-precision lane. */
+extern int FUN_00126b40(void);
+extern int FUN_00126a40(void);
+extern void FUN_0004e8f0(void);
+extern undefined4 FUN_00020ad0(void);
+
 undefined4 FUN_000213e0(int param_1,undefined4 *param_2,undefined1 *param_3)
 
 {

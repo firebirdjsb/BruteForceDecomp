@@ -34,6 +34,9 @@ static inline int32_t BF_float_to_i32(float n){uint32_t b=BF_float_to_u32(n);ret
 // DRAFT: not validated against the original executable.
 #include <stdint.h>
 
+extern void FUN_0001c1a0(int32_t param_1);
+extern void FUN_0001c5d0(void);
+
 uint32_t* /* TODO: The unaff_ESI parameter(s) explicitly MODEL incoming register/FS or post-call values.
    They are NOT established original stack parameters or ABI declarations. */
 FUN_0001c120(uint32_t* param_1,

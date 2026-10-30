@@ -9,6 +9,12 @@
 #include "bf_xbox_d3d_device_x86.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern undefined4 FUN_00062280(void);
+extern undefined4 FUN_000a4a60(int param_1);
+extern undefined4 FUN_000a4d00(void);
+extern void FUN_000a4d80(void);
+extern float10 FUN_000bb170(void);
+
 extern uint32_t DAT_0037ec88;
 extern uint32_t DAT_0040d72e;
 extern uint32_t DAT_0046b2e8;

@@ -7,6 +7,9 @@
  */
 #include "bf_ghidra_types.h"
 /* Xbox image VA 0x003089a0; address-only label. Link definition and role unverified. */
+extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
+extern void FUN_00056c20(void);
+
 extern unsigned char LAB_003089a0;
 
 /* TODO: Ghidra data labels have unresolved type and storage identities.

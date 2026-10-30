@@ -6,6 +6,21 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+extern uint32_t FUN_0001ba10(uint32_t unaff_ESI);
+extern int FUN_00054c40(int param_1,uint param_2,undefined4 param_3,int param_4);
+extern void FUN_0015b7c0(void);
+extern void FUN_0003a8c0(undefined4 param_1,int param_2,int param_3);
+extern undefined4 FUN_0003a200(int param_1,undefined ***param_2,int param_3,int param_4);
+extern undefined4 FUN_0003aa10(int param_1,undefined1 *param_2);
+extern void FUN_00022dc0(void);
+extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
+extern void FUN_00055650(void);
+extern void FUN_00058b60(void);
+extern undefined1 FUN_0003b750(int param_1);
+extern void FUN_00055c00(void);
+extern void FUN_0001d470(void);
+extern void FUN_0003abe0(float param_1);
+
 void FUN_0003b580(int param_1)
 
 {

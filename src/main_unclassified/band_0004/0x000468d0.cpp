@@ -9,6 +9,19 @@
 #include <xmmintrin.h>
 /* Ghidra RSQRTSS scalar low-lane opcode model; unobserved upper lanes omitted.
  * Original x86 ABI/behavior still ABI_UNVERIFIED. */
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern int FUN_000388b0(int param_1);
+extern int FUN_0005bca0(void);
+extern undefined1 FUN_00024f80(int *param_1,int *param_2,float param_3);
+extern undefined4 FUN_00026d80(int *param_1,int param_2,float *param_3,undefined4 param_4,float param_5);
+extern undefined4 FUN_00055aa0(void);
+extern undefined4 FUN_000255d0(undefined4 param_1,byte param_2);
+extern int FUN_0004d970(int *param_1,float *param_2,int param_3,char param_4,char param_5);
+extern float10 FUN_00039460(void);
+extern float10 FUN_00045230(void);
+extern undefined4 FUN_000464d0(void);
+extern void FUN_0001c5d0(void);
+
 undefined4 FUN_000468d0(undefined4 param_1)
 
 {

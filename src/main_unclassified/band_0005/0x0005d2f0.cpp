@@ -7,6 +7,11 @@
  */
 #include "bf_ghidra_types.h"
 /* Xbox image VA 0x00307e70; address-only label. Link definition and role unverified. */
+extern uint32_t FUN_002ea01d(uint32_t guest_size);
+extern void FUN_0005dc50(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+extern void FUN_0001d590(void);
+extern void FUN_00038940(void);
+
 extern unsigned char LAB_00307e70;
 
 void FUN_0005d2f0(void)

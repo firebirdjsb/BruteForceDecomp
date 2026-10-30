@@ -12,6 +12,9 @@
 extern uint32_t DAT_0037ec88;
 /* Xbox x86 mov esi, [0x0037dd88] loads a pointer VALUE. */
 #include "bf_xbox_d3d_device_x86.h"
+extern undefined4 FUN_002386d0(void);
+extern void FUN_003736b0(void);
+
 undefined4 bf_emit_two_word_d3d_command(undefined4 param_1)
 
 {

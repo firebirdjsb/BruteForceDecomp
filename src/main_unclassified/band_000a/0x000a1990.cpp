@@ -9,6 +9,9 @@
 /* WARNING: Removing unreachable block (ram,0x000a1a08) */
 /* WARNING: Removing unreachable block (ram,0x000a1a25) */
 
+extern undefined4 FUN_00090930(int *param_1);
+extern int FUN_000a7770(uint *param_1);
+
 undefined4 FUN_000a1990(int param_1)
 
 {

@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+extern void FUN_00012680(int32_t unaff_ESI, uint32_t in_EAX);
+
 void FUN_00041810(void)
 
 {

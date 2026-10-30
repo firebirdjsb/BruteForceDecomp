@@ -8,6 +8,51 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern void FUN_000c4f60(void);
+extern void FUN_000b9e80(void);
+extern void FUN_000c0040(void);
+
+extern void FUN_000c1d80(void);
+extern void FUN_000c3a50(void);
+extern void FUN_000b45c0(void);
+extern void FUN_000bd860(void);
+extern void FUN_000c7660(void);
+extern void FUN_000c37a0(void);
+extern void FUN_000b6510(void);
+extern void FUN_000c72b0(void);
+extern void FUN_000c67b0(void);
+extern void FUN_000b2230(void);
+extern void FUN_000b9ee0(void);
+extern void FUN_000ad8d0(void);
+extern void FUN_000acd90(void);
+extern void FUN_000b2af0(void);
+extern void FUN_000c24f0(void);
+extern void FUN_000c2d40(void);
+
+extern uint32_t FUN_002ea01d(uint32_t guest_size);
+extern void FUN_000b4010(void);
+extern void FUN_000b9e60(void);
+extern void FUN_000ab8d0(void);
+extern void FUN_000c3550(void);
+extern void FUN_000c1b30(void);
+extern void FUN_000ad2d0(void);
+extern void FUN_000ca490(void);
+extern void FUN_000bc310(void);
+extern void FUN_000a9b90(void);
+extern void FUN_000b9f00(void);
+extern void FUN_000c4550(void);
+extern void FUN_000adbc0(void);
+extern void FUN_000c7cf0(void);
+extern void FUN_000cc2a0(void);
+extern void FUN_000bc060(void);
+extern void FUN_000be6e0(void);
+extern void FUN_000c1810(void);
+extern void FUN_000b79a0(void);
+extern void FUN_000b1c70(void);
+extern void FUN_000c9b10(void);
+extern void FUN_000aa000(void);
+extern void FUN_000b9f20(void);
+
 extern uint32_t DAT_004a5ca0;
 extern uint32_t PTR_FUN_0039ff18;
 extern uint32_t _DAT_004a5ca4;

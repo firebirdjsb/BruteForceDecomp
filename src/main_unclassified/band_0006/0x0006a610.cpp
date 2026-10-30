@@ -8,6 +8,9 @@
 #include "bf_6a610_stack_contract.h"
 /* XBE 0x0006A699 stores the immediate x86 word 0x003A3890.
  * This is not a read of, nor a numeric conversion of, a host C pointer. */
+extern void FUN_00238740(void);
+extern void FUN_00238910(undefined4 param_1);
+
 undefined4 FUN_0006a610(int *param_1)
 
 {

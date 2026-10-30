@@ -8,6 +8,9 @@
 #include "bf_ghidra_types.h"
 /* XBE 0x0001C3F6/0x0001C444: address of first caller stack word;
  * both exits ret 12. Incoming EAX/ECX still ABI_UNVERIFIED. */
+extern void FUN_0001cc80(int param_1,int param_2,uint param_3);
+extern void FUN_0001cc20(int param_1,int *param_2,int param_3,int param_4);
+
 void FUN_0001c3b0(undefined4 caller_stack_word_1,
                   undefined4 caller_stack_word_2,
                   undefined4 caller_stack_word_3)

@@ -7,6 +7,8 @@
  */
 #include "bf_ghidra_types.h"
 /* Address-only XBE labels; symbol definitions / roles pending. */
+extern uint32_t FUN_002ea01d(uint32_t guest_size);
+
 extern unsigned char LAB_003071d0; /* VA 0x003071d0 */
 
 void FUN_00075fc0(void)

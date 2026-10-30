@@ -43,6 +43,12 @@ static inline int32_t BF_float_to_i32(float n){uint32_t b=BF_float_to_u32(n);ret
 // symbols from further evidence; their implementations and ABIs are unknown.
 // TODO: Bind unaff_EDI to the incoming EDI register value. It is an implicit
 // input in the pseudocode, not evidence of a global or an explicit parameter.
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern void FUN_00015fe0(void);
+extern void FUN_0008f6e0(std::uint32_t guest_edx);
+extern undefined1 FUN_0003b450(void);
+extern void FUN_0003abe0(float param_1);
+
 uint32_t /* TODO: The unaff_EDI parameter(s) explicitly MODEL incoming register/FS or post-call values.
    They are NOT established original stack parameters or ABI declarations. */
 FUN_0001a4e0(uint32_t * unaff_EDI)

@@ -9,6 +9,10 @@
 #if defined(__SSE__) || defined(__x86_64__)
 #include <xmmintrin.h>
 #include <emmintrin.h>
+extern uint32_t FUN_002ea01d(uint32_t guest_size);
+extern void FUN_002634a0(undefined4 param_1,undefined4 param_2,undefined4 param_3);
+extern void FUN_00038940(void);
+
 #endif
 #ifndef __fastcall
 #define __fastcall /* TODO: Calling convention unresolved */

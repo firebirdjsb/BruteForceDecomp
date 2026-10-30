@@ -8,6 +8,8 @@
 #include "bf_ghidra_types.h"
 #include "bf_002ea01d_allocator_guest32.h"
 /* Address-only XBE labels; symbol definitions / roles pending. */
+extern void FUN_000761a0(undefined4 param_1,undefined1 param_2);
+
 extern unsigned char LAB_003085a0; /* VA 0x003085a0 */
 
 int FUN_00076070(void)

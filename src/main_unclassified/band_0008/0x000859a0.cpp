@@ -7,6 +7,16 @@
  */
 #include "bf_ghidra_types.h"
 /* Address-only XBE labels; symbol definitions / roles pending. */
+extern void FUN_00086200(void);
+extern void FUN_00038940(void);
+extern int FUN_00162850(void);
+extern uint32_t FUN_002ea01d(uint32_t guest_size);
+extern void FUN_000867d0(undefined4 param_1,undefined4 param_2);
+extern int FUN_00085830(void);
+extern void FUN_00086a20(void);
+extern void FUN_00086870(void);
+extern void FUN_00086800(int param_1,int param_2);
+
 extern unsigned char LAB_00308570; /* VA 0x00308570 */
 
 void FUN_000859a0(int param_1,int param_2,uint param_3)

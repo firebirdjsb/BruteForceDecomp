@@ -11,6 +11,10 @@
 /* WARNING: Removing unreachable block (ram,0x0008bacb) */
 /* WARNING: Removing unreachable block (ram,0x0008bb20) */
 
+extern int FUN_000735f0(void);
+extern undefined4 FUN_0008b9e0(void);
+extern void FUN_001611d0(void);
+
 void FUN_0008ba30(int param_1)
 
 {

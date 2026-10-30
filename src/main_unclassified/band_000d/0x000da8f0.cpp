@@ -8,6 +8,14 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern int FUN_00073510(void);
+extern void FUN_00160da0(void);
+extern int FUN_000da840(int *param_1);
+extern void FUN_0006ff00(void);
+extern undefined4 FUN_002eaa86(undefined1 *param_1,undefined4 param_2,undefined4 param_3);
+extern uint FUN_002383b0(void);
+extern undefined4 FUN_000ba040(int param_1);
+
 extern char s_follow_cam__X_0040d5e0[];
 int FUN_000da8f0(void)
 

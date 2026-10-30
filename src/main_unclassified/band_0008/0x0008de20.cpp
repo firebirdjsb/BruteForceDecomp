@@ -8,6 +8,10 @@
 #include "bf_ghidra_types.h"
 /* WARNING: Removing unreachable block (ram,0x0008de7c) */
 
+extern void FUN_0001fed0(undefined4 *param_1,uint param_2);
+extern undefined4 FUN_0008f200(void);
+extern undefined4 FUN_0023a1c0(undefined4 param_1);
+
 bool FUN_0008de20(int param_1)
 
 {

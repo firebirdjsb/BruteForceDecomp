@@ -9,6 +9,10 @@
 /* Original x86 ba42d LEA EAX,[ESP+0x10] after three saved registers = entry ESP+4; the same guest DWORD is loaded into EBX at ba411.
  * This is an address-taken incoming 32-bit guest word, not a local zero.
  * Implicit EAX/EBX register inputs and host guest32 mapping remain ABI_UNVERIFIED. */
+extern uint FUN_000ba460(void);
+extern undefined4 FUN_000ff730(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 *param_4);
+extern void FUN_000b2a50(void);
+
 void FUN_000ba410(undefined4 guest_stack_word)
 
 {

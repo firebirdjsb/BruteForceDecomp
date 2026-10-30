@@ -9,6 +9,19 @@
 /* Verified XBE .data addresses 0x003FFCA4, 0x003FFCC4, 0x003FFCE4.
  * Declarations preserve Ghidra address expressions; definitions, sizes,
  * storage layout and semantics are NOT yet recovered. */
+extern void FUN_0004f6b0(uint *param_1);
+extern uint FUN_0004e9a0(void);
+extern void FUN_000a7d80(int param_1);
+extern void FUN_0003efa0(undefined4 *param_1,int param_2);
+extern void FUN_001aa220(void);
+extern void FUN_001e10c0(int param_1);
+extern void FUN_00144b10(undefined4 *param_1,int param_2);
+extern void FUN_0004f530(undefined4 param_1);
+extern void FUN_00050250(int param_1,int param_2,uint param_3);
+extern void FUN_00050c70(undefined4 *param_1,int param_2,undefined4 *param_3);
+extern void FUN_000e35e0(byte param_1);
+extern void FUN_0004f640(void);
+
 extern unsigned char LAB_003ffca4;
 extern unsigned char LAB_003ffcc4;
 extern unsigned char LAB_003ffce4;

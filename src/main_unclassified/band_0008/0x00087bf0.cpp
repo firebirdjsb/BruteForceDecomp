@@ -8,6 +8,11 @@
 #include "bf_ghidra_types.h"
 /* Source-matched declaration of FUN_00087cc0; callback ABI and behavior remain
  * ABI_UNVERIFIED. This only resolves name lookup in the C11 draft. */
+extern void FUN_0001fed0(undefined4 *param_1,uint param_2);
+extern uint32_t FUN_002ea01d(uint32_t guest_size);
+extern void FUN_000d45d0(void);
+extern void FUN_000d4bf0(void);
+
 extern undefined4 FUN_00087cc0(undefined1 *param_1);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */

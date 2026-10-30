@@ -11,6 +11,9 @@
  * Both 0x000ff730 calls copy exactly four bytes through that pointer.
  * RET 0Ch shows three guest stack words; the third word, implicit register
  * inputs and native host calling convention remain ABI_UNVERIFIED. */
+extern undefined4 FUN_000ff730(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 *param_4);
+extern void FUN_000b2a50(void);
+
 void FUN_000da880(int param_1,undefined4 guest_second_word)
 
 {

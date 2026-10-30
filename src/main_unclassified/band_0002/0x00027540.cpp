@@ -11,6 +11,15 @@
 #include <string.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern void FUN_00027490(void);
+extern char FUN_0004cd10(undefined4 param_1,float param_2);
+extern undefined4 FUN_00032fd0(undefined4 param_1);
+extern void FUN_0008f6e0(std::uint32_t guest_edx);
+extern void FUN_0011dfa0(void);
+extern char FUN_000416a0(int param_1,uint param_2);
+extern void FUN_0001bc90(int32_t unaff_EBX);
+
 extern uint32_t PTR_LAB_0039cc18;
 undefined4 FUN_00027540(int param_1,float *param_2)
 

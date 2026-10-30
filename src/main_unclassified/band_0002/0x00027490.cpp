@@ -7,6 +7,8 @@
  */
 #include "bf_ghidra_types.h"
 #include <xmmintrin.h>
+extern ushort FUN_00039410(void);
+
 void FUN_00027490(void)
 
 {

@@ -42,6 +42,14 @@ static inline int32_t BF_float_to_i32(float n){uint32_t b=BF_float_to_u32(n);ret
 // FUN_000120f0 appears with both zero and one explicit argument in the
 // pseudocode. Its actual signature, return type, and implicit register
 // arguments remain unresolved. Other calls may also have implicit arguments.
+extern void FUN_0004e8f0(void);
+extern void FUN_00018000(int32_t in_EAX);
+extern void FUN_00039f00(int param_1);
+extern void FUN_00055b50(void);
+extern void FUN_00015fe0(void);
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern void FUN_0005e8b0(int *param_1,char param_2);
+
 void FUN_00018040(int32_t param_1,
                   uint32_t param_2,
                   int32_t in_EAX)

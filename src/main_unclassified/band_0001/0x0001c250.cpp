@@ -12,6 +12,8 @@
  * source-level pointer models this address, NOT the original 64-byte
  * by-value stack ABI or the implicit incoming EAX/ECX registers.
  * ABI_UNVERIFIED: do not link as an ordinary native game entry. */
+extern void FUN_0001c980(int param_1,uint param_2);
+
 void FUN_0001c250(undefined4 *original_first_stack_word)
 
 {

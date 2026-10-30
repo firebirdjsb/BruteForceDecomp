@@ -8,6 +8,24 @@
 #include "bf_ghidra_types.h"
 /* Callee source declares FUN_0030dec0(void).  Xbox callback/register ABI remains
  * ABI_UNVERIFIED; this forward declaration is for C11 source inspection only. */
+extern uint32_t FUN_0001ba10(uint32_t unaff_ESI);
+extern void FUN_0003bad0(void);
+extern void FUN_00048360(int param_1,int param_2);
+extern undefined4 FUN_00022f70(void);
+extern void FUN_00055d30(undefined4 param_1);
+extern void FUN_001611d0(void);
+extern void FUN_0008f6e0(std::uint32_t guest_edx);
+extern void FUN_0001fe80(void);
+extern int FUN_00054bc0(void);
+extern int FUN_00054c40(int param_1,uint param_2,undefined4 param_3,int param_4);
+extern undefined4 FUN_0003aa10(int param_1,undefined1 *param_2);
+extern void FUN_00022dc0(void);
+extern void FUN_00048da0(int param_1,int param_2);
+extern undefined4 FUN_00055aa0(void);
+extern void FUN_000122d0(uint32_t param_1, uint32_t* in_EAX);
+extern void FUN_0004dff0(void);
+extern void FUN_00016150(int in_EAX);
+
 extern void FUN_0030dec0(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */

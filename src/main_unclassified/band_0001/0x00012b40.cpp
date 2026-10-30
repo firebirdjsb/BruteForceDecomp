@@ -37,6 +37,9 @@ static inline int32_t BF_float_to_i32(float n){uint32_t b=BF_float_to_u32(n);ret
 // 6384DC072D6DF539A6480919851D722CE8F3F9381E45D7F3AA9D2305404BC563
 #include <stdint.h>
 
+extern void FUN_00012af0(uint32_t* in_EAX);
+extern void FUN_0001c250(undefined4 *original_first_stack_word);
+
 void /* TODO: The unaff_EBX parameter(s) explicitly MODEL incoming register/FS or post-call values.
    They are NOT established original stack parameters or ABI declarations. */
 FUN_00012b40(uint32_t * unaff_EBX)

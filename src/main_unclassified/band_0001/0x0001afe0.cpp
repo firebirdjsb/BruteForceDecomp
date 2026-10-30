@@ -9,6 +9,34 @@
 #if defined(__SSE__) || defined(__x86_64__)
 #include <xmmintrin.h>
 #include <emmintrin.h>
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern void FUN_00129530(void);
+extern void FUN_00047960(undefined4 param_1);
+extern void FUN_00047ac0(undefined4 param_1);
+extern void FUN_00047730(float param_1);
+extern void FUN_00048080(float param_1);
+extern void FUN_00058670(undefined4 param_1);
+extern void FUN_0001ad50(float param_1);
+extern uint16_t FUN_0001ab90(int32_t* param_1);
+extern uint8_t FUN_0001a910(int32_t param_1);
+extern void FUN_00041870(int *param_1);
+extern void FUN_00041ff0(void);
+extern void FUN_000426b0(void);
+extern void FUN_0001adf0(uint32_t in_EAX);
+extern undefined4 FUN_000456c0(void);
+extern void FUN_000564c0(void);
+extern void FUN_0005acb0(int param_1,int *param_2);
+extern void FUN_000126f0(float param_1, uint32_t unaff_EDI);
+extern undefined4 FUN_0004cb60(void);
+extern uint32_t FUN_0001bb00(uint32_t in_EAX);
+extern void FUN_0001b750(void);
+extern void FUN_00047930(void);
+extern void FUN_000481a0(void);
+extern void FUN_000377b0(int param_1);
+extern void FUN_00048270(char *param_1,int param_2,float param_3);
+extern uint32_t FUN_00019ed0(float* param_1, float* param_2);
+extern float10 FUN_0011e7c0(int param_1,float param_2);
+
 #endif
 #ifndef __fastcall
 #define __fastcall /* TODO: Calling convention unresolved */

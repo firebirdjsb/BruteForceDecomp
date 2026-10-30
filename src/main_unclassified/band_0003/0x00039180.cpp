@@ -9,6 +9,8 @@
 /* TODO: Address from mapped original XBE; ABI/runtime mapping remains unverified. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
+
 extern uint32_t PTR_FUN_003a4f68;
 void FUN_00039180(undefined4 *param_1,int param_2)
 

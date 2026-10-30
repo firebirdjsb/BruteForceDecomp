@@ -8,6 +8,10 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern void FUN_000cd2f0(int param_1);
+extern undefined4 FUN_000cd510(undefined4 param_1,int param_2);
+extern void FUN_00238630(void);
+
 extern uint32_t DAT_0046b2e8;
 extern uint32_t _DAT_0040d644;
 extern uint32_t _DAT_0040d648;

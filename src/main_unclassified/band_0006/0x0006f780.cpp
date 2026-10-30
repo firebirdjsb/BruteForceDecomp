@@ -11,6 +11,8 @@
  * Original x86 ABI/behavior still ABI_UNVERIFIED. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern void FUN_002334b0(void);
+
 extern uint32_t DAT_0040de24;
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 

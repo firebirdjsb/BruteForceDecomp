@@ -8,6 +8,14 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern int FUN_002eaa70(short *param_1);
+extern void FUN_0014c470(undefined4 guest_stack_word_04);
+extern undefined4 FUN_000aa340(undefined4 param_1,float param_2);
+extern int FUN_000876a0(int param_1,uint param_2);
+extern uint FUN_000aaff0(ushort *param_1);
+extern void FUN_00087a00(void);
+extern void FUN_000aae70(uint param_1,undefined4 *param_2,uint param_3);
+
 extern uint32_t DAT_0040d760;
 /* WARNING: Removing unreachable block (ram,0x000aa5be) */
 

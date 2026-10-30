@@ -8,6 +8,9 @@
 #include "bf_ghidra_types.h"
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
+extern void FUN_0004cea0(void);
+extern bool FUN_000df6f0(undefined4 param_1,undefined4 param_2);
+
 char FUN_0004cfd0(int param_1)
 
 {

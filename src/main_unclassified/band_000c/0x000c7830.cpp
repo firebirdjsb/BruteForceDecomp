@@ -9,6 +9,8 @@
 #include "bf_x86_word_lanes.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern void FUN_000b25a0(int param_1,int *param_2);
+
 extern uint32_t DAT_00469ab0;
 extern uint32_t DAT_004a5ca0;
 extern uint32_t _DAT_004a5ca4;

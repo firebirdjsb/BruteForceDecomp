@@ -42,6 +42,10 @@ static inline int32_t BF_float_to_i32(float n){uint32_t b=BF_float_to_u32(n);ret
 // and Ghidra's unresolved FS-relative pointer. They are not a recovered ABI.
 // TODO: Supply declarations and verify the ABIs of all external functions
 // and the identity/type of LAB_00307960.
+extern uint32_t FUN_002ea01d(uint32_t guest_size);
+extern void FUN_001e0da0(undefined4 param_1,undefined4 param_2);
+extern void FUN_00038940(void);
+
 void FUN_0001b650(int32_t in_ECX,
                   uint32_t in_EDX,
                   uint32_t* unaff_FS_OFFSET)

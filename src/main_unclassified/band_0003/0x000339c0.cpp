@@ -7,6 +7,9 @@
  */
 #include "bf_ghidra_types.h"
 #include <xmmintrin.h>
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern undefined4 FUN_000337f0(undefined4 param_1,float param_2);
+
 void FUN_000339c0(int param_1,int param_2)
 
 {

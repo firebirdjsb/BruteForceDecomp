@@ -11,6 +11,8 @@
  * No assembly/ABI or behavior equivalence has been established. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern int FUN_0006e6b0(int param_1,code *param_2,undefined4 param_3);
+
 extern uint32_t DAT_003f7f1c;
 /* 0x000c70ce: IMUL ECX,[0x003f7f20] consumes a 4-byte integer word.
  * This is not a host pointer operand; symbol binding is still unverified. */

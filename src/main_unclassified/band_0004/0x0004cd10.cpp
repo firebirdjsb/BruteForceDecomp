@@ -11,6 +11,8 @@
  * Original x86 ABI/behavior still ABI_UNVERIFIED. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
+extern bool FUN_000df6f0(undefined4 param_1,undefined4 param_2);
+
 char FUN_0004cd10(undefined4 param_1,float param_2)
 
 {

@@ -7,6 +7,9 @@
  */
 #include "bf_ghidra_types.h"
 #include <xmmintrin.h>
+extern void FUN_000d1a90(float *param_1,float *param_2,int *param_3);
+extern void FUN_000a0c60(void);
+
 undefined2 FUN_000d1bf0(undefined4 param_1,float *param_2,float *param_3,undefined4 param_4)
 
 {

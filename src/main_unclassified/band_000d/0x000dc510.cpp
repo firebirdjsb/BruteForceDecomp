@@ -10,6 +10,8 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 /* XBE 0x000DC5DA/0x000DC5E7/0x000DC5F3: fcomp/fld/fmul m32fp. */
+extern void FUN_0009e9c0(int param_1,float *param_2);
+
 extern float DAT_0040d5c4;
 bool FUN_000dc510(int param_1,float *param_2,float *param_3,float *param_4,float *param_5,
                  undefined4 param_6,char param_7)

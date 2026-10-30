@@ -9,6 +9,8 @@
 #include "bf_002ea01d_allocator_guest32.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern undefined4 FUN_00237ff0(int *param_1);
+
 extern uint32_t PTR_LAB_003a3e80;
 undefined4 FUN_0005ee50(void)
 

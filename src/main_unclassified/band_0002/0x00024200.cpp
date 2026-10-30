@@ -11,6 +11,14 @@
  * Upper XMM lanes are not reconstructed; original opcode/ABI remain UNVERIFIED. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern undefined4 FUN_00112800(void);
+extern void FUN_002316a0(int param_1);
+extern void FUN_00232200(undefined4 param_1);
+extern void FUN_000124f0(float param_1, int32_t in_ECX);
+extern void FUN_0004dff0(void);
+extern void FUN_0001c5d0(void);
+
 extern uint32_t DAT_00469b58;
 void FUN_00024200(int param_1)
 

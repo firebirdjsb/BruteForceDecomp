@@ -9,6 +9,10 @@
 #if defined(__SSE__) || defined(__x86_64__)
 #include <xmmintrin.h>
 #include <emmintrin.h>
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern void FUN_000121f0(uint32_t* in_ECX);
+extern void FUN_000122d0(uint32_t param_1, uint32_t* in_EAX);
+
 #endif
 #ifndef __fastcall
 #define __fastcall /* TODO: Calling convention unresolved */

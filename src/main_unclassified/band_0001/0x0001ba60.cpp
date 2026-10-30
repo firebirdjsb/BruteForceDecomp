@@ -42,6 +42,9 @@ static inline int32_t BF_float_to_i32(float n){uint32_t b=BF_float_to_u32(n);ret
 // TODO: Supply evidence-based declarations for FUN_0001d4c0 and FUN_0001d7a0.
 // Their complete argument types, return types, and calling conventions are unknown.
 // Requires C++20 for bit_cast and defined arithmetic signed right shift.
+extern void FUN_0001d4c0(int param_1,int param_2,undefined4 param_3);
+extern void FUN_0001d7a0(int param_1);
+
 void FUN_0001ba60(uint32_t unaff_ESI)
 {
     /* TODO: original x86 is 32-bit; host pointer width need not be 32-bit. */

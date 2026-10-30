@@ -8,6 +8,9 @@
 #include "bf_ghidra_types.h"
 #include <xmmintrin.h>
 /* Original RSQRTSS affects low scalar lane; upper lanes not consumed. */
+extern float10 FUN_00023140(int param_1,float *param_2);
+extern void FUN_00306c80(void);
+
 uint FUN_00026060(void)
 
 {

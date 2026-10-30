@@ -39,6 +39,8 @@ static inline int32_t BF_float_to_i32(float n){uint32_t b=BF_float_to_u32(n);ret
 // below represents the incoming ECX register, not an evidenced stack argument.
 // TODO: Supply declarations for PTR_FUN_003a402c, FUN_0008f6e0,
 // and thunk_FUN_00237ec0; their types, ABIs, and implicit operands are unresolved.
+extern void FUN_0008f6e0(std::uint32_t guest_edx);
+
 void FUN_00012a50(uint32_t* in_ECX, uint8_t param_1)
 {
     /* TODO: original x86 is 32-bit; host pointer width need not be 32-bit. */

@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+extern void FUN_000518b0(int param_1);
+extern void FUN_00051760(void);
+extern void FUN_00051710(int param_1);
+extern void FUN_000516c0(int param_1);
+
 void FUN_00051630(void)
 
 {

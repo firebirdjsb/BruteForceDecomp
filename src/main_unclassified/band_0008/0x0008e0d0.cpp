@@ -9,6 +9,10 @@
 /* Matching original XBE: these two guest VAs contain NUL-terminated
  * 16-bit UTF-16 format strings, referenced by PUSH immediate instructions.
  * Syntax-only declarations; guest-to-host relocation/linking is NOT done. */
+extern int FUN_002eaa70(short *param_1);
+extern void FUN_0008ed00(void);
+extern undefined4 FUN_002ea9a9(undefined1 *param_1,int param_2,undefined4 param_3,undefined4 param_4);
+
 extern const uint16_t u__7_1d_0040db8c[];
 extern const uint16_t u__3_1d___0040db7c[];
 

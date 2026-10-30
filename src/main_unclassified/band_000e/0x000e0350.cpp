@@ -9,6 +9,9 @@
 /* Original entry ESP+12 is a caller-supplied DWORD; 0x000e0365 LEA forwards
  * its address to 0x000ff730, which copies exactly four bytes into node+8.
  * Host argument placement and implicit register ABI remain ABI_UNVERIFIED. */
+extern undefined4 FUN_000ff730(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 *param_4);
+extern void FUN_000b2a50(void);
+
 undefined4 * FUN_000e0350(int param_1,undefined4 *param_2,undefined4 guest_stack_word_3)
 
 {

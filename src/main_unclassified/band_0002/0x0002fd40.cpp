@@ -8,6 +8,51 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern void FUN_000124f0(float param_1, int32_t in_ECX);
+extern void FUN_00047b40(void);
+extern float10 FUN_00233b90(void);
+extern void FUN_0001fd10(void);
+
+extern void FUN_00057730(undefined4 param_1);
+extern void FUN_00048030(void);
+extern void FUN_000239d0(undefined4 param_1);
+extern int FUN_0004ad00(int param_1);
+extern void FUN_0004dd70(void);
+extern void FUN_0001fd40(void);
+extern undefined1 FUN_0002fa90(void);
+extern float10 FUN_00012520(uint32_t incoming_eax_bits);
+extern undefined4 FUN_0002f270(int param_1,undefined4 param_2,undefined4 param_3);
+extern float10 FUN_0002f250(void);
+extern void FUN_000454b0(undefined4 *param_1);
+
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern void FUN_00055a60(void);
+extern int FUN_000388b0(int param_1);
+extern undefined4 FUN_00055aa0(void);
+extern int FUN_00049c60(void);
+extern undefined4 FUN_00049ca0(void);
+extern bool FUN_00012620(int32_t in_ECX);
+extern int FUN_000238e0(int param_1);
+extern void FUN_00058b60(void);
+extern uint FUN_00058bc0(void);
+extern void FUN_0008f6e0(std::uint32_t guest_edx);
+extern float10 FUN_0002fba0(undefined4 param_1,float *param_2,float param_3);
+extern undefined4 FUN_00026d80(int *param_1,int param_2,float *param_3,undefined4 param_4,float param_5);
+extern undefined4 FUN_000255d0(undefined4 param_1,byte param_2);
+extern float10 FUN_00023900(float param_1,float param_2);
+extern int FUN_0004d970(int *param_1,float *param_2,int param_3,char param_4,char param_5);
+extern undefined4 FUN_0004c480(float *param_1);
+extern undefined1 FUN_00024f80(int *param_1,int *param_2,float param_3);
+extern byte FUN_0002f960(char param_1);
+extern uint FUN_0003f0e0(char param_1);
+extern void FUN_0001fdd0(void);
+extern void FUN_000384a0(undefined4 *param_1);
+extern void FUN_00038470(void);
+extern undefined4 FUN_000456c0(void);
+extern void FUN_000122d0(uint32_t param_1, uint32_t* in_EAX);
+extern void FUN_00045250(undefined4 param_1,undefined4 param_2,int *param_3);
+extern undefined1 FUN_000571e0(undefined4 *param_1);
+
 extern uint32_t PTR_FUN_003a3fe4;
 extern uint32_t PTR_FUN_003a4f68;
 undefined4 FUN_0002fd40(float *param_1)

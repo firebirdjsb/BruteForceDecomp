@@ -11,6 +11,10 @@
 
 /* Raw F32 bits, not a numeric conversion of guest address bits.
  * Original x87 stores to m32fp and SSE MOVSS maintain 4-byte lanes. */
+extern void FUN_0006ef40(void);
+extern undefined4 FUN_00152a50(int param_1,int *param_2);
+extern void FUN_0024a600(undefined4 guest_element_word);
+
 static float bf_000718f0_float_bits(uint32_t bits)
 {
   float value;

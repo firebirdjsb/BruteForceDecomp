@@ -9,6 +9,8 @@
 #include <xmmintrin.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern void FUN_000e2600(int param_1,int *param_2,int param_3,char param_4);
+
 extern uint32_t DAT_0040d5c8;
 bool FUN_000dc140(int param_1,undefined4 param_2,float *param_3,float *param_4,float *param_5,
                  float *param_6,float *param_7,undefined8 *param_8,int param_9,int param_10,

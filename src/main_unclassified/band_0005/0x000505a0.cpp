@@ -8,6 +8,8 @@
 #include "bf_ghidra_types.h"
 #include "bf_002ea01d_allocator_guest32.h"
 /* TODO: Original mapped address; ABI/relocations unverified. */
+extern void FUN_000506a0(undefined4 param_1,undefined1 param_2);
+
 int FUN_000505a0(void)
 
 {

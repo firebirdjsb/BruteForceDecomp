@@ -7,6 +7,8 @@
  */
 #include "bf_ghidra_types.h"
 /* TODO: Address from mapped original XBE; ABI/runtime mapping remains unverified. */
+extern void FUN_0001d6e0(void);
+
 int FUN_0001d720(int param_1,int param_2,int param_3)
 
 {

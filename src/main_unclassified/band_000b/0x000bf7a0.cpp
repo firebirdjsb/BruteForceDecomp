@@ -11,6 +11,16 @@
 /* 0x6dfc0 reads four stack words and RET 16; its existing definition agrees.
  * Explicit float argument widths avoid default double promotion. Its body,
  * virtual calls and original guest entry remain ABI_UNVERIFIED. */
+extern bool FUN_000bf6d0(undefined4 param_1,int param_2);
+extern float10 FUN_00232520(void);
+extern void FUN_0001fe40(undefined4 param_1,undefined4 param_2,int param_3,code *param_4);
+extern float10 FUN_0015b450(float *param_1,float *param_2,float *param_3);
+extern undefined4 FUN_000bff40(undefined4 param_1,float param_2,float *param_3);
+extern bool FUN_0006e270(float *param_1,float *param_2,float *param_3);
+extern uint FUN_000bfeb0(void);
+extern void FUN_0012ac00(void);
+extern void FUN_000be9c0(void);
+
 extern void FUN_0006dfc0(int *, float *, float, float);
 
 static __m128 bf_000bf7a0_load_xyz(const float *words)

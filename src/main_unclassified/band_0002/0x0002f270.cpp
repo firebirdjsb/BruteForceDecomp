@@ -10,6 +10,27 @@
 #include <xmmintrin.h>
 /* Retain the explicit x87-proxy operations and m32fp spill boundaries when
  * optimizing. This does not supply original x87/MXCSR state or exception ABI. */
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern void FUN_00055a60(void);
+extern undefined4 FUN_00055aa0(void);
+extern int FUN_000388b0(int param_1);
+extern void FUN_00023b20(undefined4 param_1);
+extern void FUN_00023990(undefined4 param_1,undefined4 param_2);
+extern void FUN_0004d520(int *param_1);
+extern undefined4 FUN_00023d00(void);
+extern void FUN_00020170(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+extern uint FUN_000594a0(int param_1,undefined4 *param_2,int param_3);
+extern void FUN_0011dfa0(void);
+extern char FUN_000416a0(int param_1,uint param_2);
+extern undefined4 FUN_00025730(int param_1,undefined4 param_2,int param_3);
+extern undefined4 FUN_0004c480(float *param_1);
+extern void FUN_00012600(uint32_t in_EAX, int32_t in_ECX);
+extern void FUN_000233d0(void);
+extern int FUN_0005bca0(void);
+extern void FUN_0002f140(void);
+extern void FUN_00045250(undefined4 param_1,undefined4 param_2,int *param_3);
+extern int FUN_00140a60(int param_1,int *param_2);
+
 #pragma STDC FENV_ACCESS ON
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */

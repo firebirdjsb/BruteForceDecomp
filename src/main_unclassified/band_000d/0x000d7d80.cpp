@@ -8,6 +8,12 @@
 #include "bf_ghidra_types.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern void FUN_000a7d80(int param_1);
+extern void FUN_0003efa0(undefined4 *param_1,int param_2);
+extern void FUN_000e2970(int param_1,int param_2,int param_3, int original_stack_arg4);
+extern void FUN_000e2a90(int param_1,int param_2,int param_3, int original_stack_arg4);
+extern bool FUN_000d7cd0(void);
+
 extern uint32_t DAT_00414da0;
 /* 0x000d80c3 loads DWORD [0x004698d4]; 0x000d80d3 calls EAX.
  * ABI_UNVERIFIED: host pointer width and callee prototype remain unknown. */

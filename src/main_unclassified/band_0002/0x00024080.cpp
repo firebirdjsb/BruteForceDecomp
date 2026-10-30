@@ -9,6 +9,9 @@
 #include <xmmintrin.h>
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern float10 FUN_000235d0(int *param_1,int param_2);
+
 extern uint32_t DAT_0046d028;
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 

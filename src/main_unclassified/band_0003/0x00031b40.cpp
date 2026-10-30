@@ -9,6 +9,20 @@
 #include <xmmintrin.h>
 /* Ghidra indicates scalar RSQRTSS; use the x86 low-lane approximation, not 1/x or 1/sqrt(x).
  * Upper XMM lanes are not reconstructed; original opcode/ABI remain UNVERIFIED. */
+extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern void FUN_00055a60(void);
+extern int FUN_000388b0(int param_1);
+extern undefined4 FUN_00055aa0(void);
+extern int FUN_00049c60(void);
+extern undefined4 FUN_00049ca0(void);
+extern undefined4 FUN_00023d00(void);
+extern void FUN_0004dff0(void);
+extern undefined1 FUN_00024f80(int *param_1,int *param_2,float param_3);
+extern undefined4 FUN_00026d80(int *param_1,int param_2,float *param_3,undefined4 param_4,float param_5);
+extern void FUN_0004e8f0(void);
+extern undefined4 FUN_000255d0(undefined4 param_1,byte param_2);
+extern int FUN_0004d970(int *param_1,float *param_2,int param_3,char param_4,char param_5);
+
 undefined4 FUN_00031b40(float *param_1)
 
 {
