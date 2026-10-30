@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original-address 0x000BA5B0 constructor draft accepts one 32-bit
+ * word-pointer argument. Xbox guest object layout/ABI remain UNVERIFIED. */
+extern undefined4 * FUN_000ba5b0(undefined4 *guest_object);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern void FUN_00061500(void);
