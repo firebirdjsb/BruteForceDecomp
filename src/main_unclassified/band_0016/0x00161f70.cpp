@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-level declaration matches original-address callee 0x00160E40.
+ * The callee draft takes the address of one 32-bit local DWORD, but
+ * original Xbox implicit registers and native ABI remain UNVERIFIED. */
+extern void FUN_00160e40(uint *guest_word);
 void FUN_00161f70(int param_1,int param_2)
 
 {
