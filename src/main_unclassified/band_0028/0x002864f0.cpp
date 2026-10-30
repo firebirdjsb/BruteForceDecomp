@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Recorded 0x000FF730 four-DWORD guest call with final stack-word
+ * address, and 0x000B2A50 source-level void() helper. Register inputs,
+ * guest-memory translation and full Xbox ABI remain UNVERIFIED. */
+extern undefined4 FUN_000ff730(undefined4, undefined4, undefined4, undefined4 *);
+extern void FUN_000b2a50(void);
 /* XBE 0x002864FC: LEA EAX,[ESP+0x10] after three register pushes;
  * 0x00286500-04 forwards the address of the entry ESP+4 DWORD to
  * 0x000FF730. Its 0x000FF777-7C copies exactly one DWORD through

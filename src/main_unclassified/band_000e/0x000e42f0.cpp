@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Recorded 0x000FF730 four-DWORD guest call with final stack-word
+ * address, and 0x000B2A50 source-level void() helper. Register inputs,
+ * guest-memory translation and full Xbox ABI remain UNVERIFIED. */
+extern undefined4 FUN_000ff730(undefined4, undefined4, undefined4, undefined4 *);
+extern void FUN_000b2a50(void);
 /* Original 0x000e4306 LEA EAX,[ESP+0x10] after three saved registers
  * takes the address of the incoming guest DWORD at entry ESP+4.
  * ESI register input and host guest32 address mapping remain ABI_UNVERIFIED. */
