@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Existing 0x001E97C0 source draft returns int* with no explicit args.
+ * These callsites discard EAX; incoming guest ECX/EBX and ABI remain UNVERIFIED. */
+extern int * FUN_001e97c0(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_00469b58;

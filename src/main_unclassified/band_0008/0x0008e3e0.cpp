@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Existing 0x001E97C0 source draft returns int* with no explicit args.
+ * These callsites discard EAX; incoming guest ECX/EBX and ABI remain UNVERIFIED. */
+extern int * FUN_001e97c0(void);
 void FUN_0008e3e0(void)
 
 {
