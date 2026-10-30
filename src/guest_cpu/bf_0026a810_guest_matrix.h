@@ -69,7 +69,7 @@ static inline bf_0026a810_result bf_0026a810_execute(
     if(left_rows!=0u){
         READ(right+UINT32_C(0x514),right_cols,UINT32_C(0x26a848));
         WRITE(E-UINT32_C(0x534),entry.ebx,UINT32_C(0x26a84e));
-        const uint32_t offset=src_frame-left;
+        uint32_t offset=src_frame-left;
         WRITE(E-UINT32_C(0x538),entry.ebp,UINT32_C(0x26a855));
         WRITE(E-UINT32_C(0x51c),right_cols,UINT32_C(0x26a856));
         WRITE(E-UINT32_C(0x520),offset,UINT32_C(0x26a85c));
@@ -106,17 +106,16 @@ static inline bf_0026a810_result bf_0026a810_execute(
                     WRITE(E-UINT32_C(0x528),remaining,UINT32_C(0x26a8ad));
                     if(remaining==0u)break;
                 }
-                READ(E-UINT32_C(0x520),word,UINT32_C(0x26a8b3));
+                READ(E-UINT32_C(0x520),offset,UINT32_C(0x26a8b3));
                 READ(E-UINT32_C(0x51c),right_cols,UINT32_C(0x26a8b7));
                 READ(E+8u,left,UINT32_C(0x26a8bb));
                 READ(E+12u,right,UINT32_C(0x26a8c2));
-                (void)word;
             }
             READ(E-UINT32_C(0x524),remaining,UINT32_C(0x26a8c9));
             ptr_left+=UINT32_C(0x48);--remaining;
             WRITE(E-UINT32_C(0x524),remaining,UINT32_C(0x26a8d1));
             if(remaining==0u)break;
-            ptr_out=ptr_left+(src_frame-left);
+            ptr_out=ptr_left+offset;
             ptr_right=right;
         }
         READ(E-UINT32_C(0x538),r.ebp,UINT32_C(0x26a8d7));
