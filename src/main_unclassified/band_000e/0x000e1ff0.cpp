@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE 0x0008F6A0 reads guest ESI and one caller-pushed DWORD. ABI_UNVERIFIED. */
+extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
 void FUN_000e1ff0(void)
 
 {
@@ -16,7 +18,8 @@ void FUN_000e1ff0(void)
   
   *(undefined4 *)(in_EAX + 4) = 0;
   if (*(int *)(unaff_EDI + 4) != 0) {
-    FUN_0008f6a0(*(int *)(unaff_EDI + 4));
+    /* XBE 0x000E1FF0 ESI=incoming EAX and PUSH EAX; host guest-register model only, ABI_UNVERIFIED. */
+    FUN_0008f6a0(static_cast<std::uint32_t>(in_EAX), static_cast<std::uint32_t>(*(int *)(unaff_EDI + 4)));
   }
   *(undefined4 *)(in_EAX + 8) = *(undefined4 *)(unaff_EDI + 8);
   uVar1 = *(undefined4 *)(unaff_EDI + 0x14);
