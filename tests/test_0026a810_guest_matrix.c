@@ -117,6 +117,20 @@ static void cases(fixture*f){
         }
     }
 }
+static void nonzero_accumulator(fixture*f){
+    /* Original 26A87E loads its initial x87 accumulator from a guest
+     * m32fp global; no host zero assumption is valid. */
+    seed(f,1u,1u,2u);
+    put(f,UINT32_C(0x003a4f88),bits(1.5f));
+    const bf_0026a810_result r=run(f,false);
+    CHECK(r.status==BF_0026A810_OK&&r.products==2u);
+    CHECK(get(f,OUT)==bits(36.5f));
+    seed(f,1u,1u,0u);
+    put(f,UINT32_C(0x003a4f88),bits(1.5f));
+    const bf_0026a810_result none=run(f,false);
+    CHECK(none.status==BF_0026A810_OK);
+    CHECK(get(f,OUT)==bits(0.f));
+}
 static void faults(fixture*f){
     seed(f,1,1,1);f->fail_nread=1;
     bf_0026a810_result r=run(f,false);
@@ -133,7 +147,7 @@ static void faults(fixture*f){
 }
 int main(void){
     fixture f={0};f.data=malloc(SIZE);CHECK(f.data);
-    cases(&f);faults(&f);
+    cases(&f);nonzero_accumulator(&f);faults(&f);
     printf("PASS original 0026A810 guest matrix and raw REP: %u assertions\n",checks);
     free(f.data);return 0;
 }
