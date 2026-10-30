@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Recorded 0x002EA018 -> 0x00067BF0 -> initial 0x00237EC0
+ * free-thunk boundary. The original target receives a guest32 stack
+ * DWORD; this source callsite and its guest registers are ABI_UNVERIFIED. */
+#include "bf_002ea018_heap_free_guest32.h"
 extern void FUN_000518b0(int param_1);
 
 void FUN_000517c0(void)
