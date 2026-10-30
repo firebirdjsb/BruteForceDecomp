@@ -6,16 +6,20 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_00237ea0(int param_1)
+#include "bf_00237ea0_heap_malloc_guest32.h"
 
+/* 0x00237EA0..0x00237EB7, authenticated opcode ledger:
+ * scripts/verify_002b8c60_heap_xbe.py. EAX is explicitly zeroed
+ * before the conditional JE; otherwise the direct 0x002F6E31
+ * callee's EAX is returned unchanged.
+ *
+ * The callee is not yet a verified host ABI; the missing guest-call
+ * adapter explicitly blocks a fake native game build. ABI_UNVERIFIED. */
+extern uint32_t FUN_002f77f3(void);
+uint32_t FUN_00237ea0(uint32_t guest_size)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  
-  if (param_1 != 0) {
-    uVar2 = 0;
-    uVar1 = FUN_002f77f3(0,param_1);
-    FUN_002f6e31(uVar1,uVar2,param_1);
-  }
-  return;
+  if (guest_size == 0)
+    return 0;
+  const uint32_t heap = FUN_002f77f3();
+  return bf_xbox_guest_call_002f6e31_u32(heap, 0, guest_size);
 }
