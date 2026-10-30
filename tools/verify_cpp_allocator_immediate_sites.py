@@ -63,7 +63,10 @@ def verify(xbe=None):
         seen.add((caller, call))
         if not re.fullmatch(r"src/main_unclassified/band_[0-9a-f]{4}/0x[0-9a-f]{8}\.cpp", row["source"]):
             raise ValueError("noncanonical source path")
-        if int(source.stem, 16) != caller or not 0 <= size <= 0x7f:
+        if int(source.stem, 16) != caller or not 0 <= size <= 0xffffffff:
+            raise ValueError("wrong caller identity/size")
+        encoding = row["push_encoding"]
+        if encoding not in ("6a", "68") or (encoding == "6a" and size > 0x7f):
             raise ValueError("wrong caller identity/size")
         text = source.read_text(encoding="utf-8")
         if ('#include "bf_002ea01d_allocator_guest32.h"' not in text
@@ -72,8 +75,14 @@ def verify(xbe=None):
         if row["source_status"] != "XBE_VERIFIED_DIRECT_CALL_SIZE_ONLY":
             raise ValueError("missing limited evidence status")
         if read is not None:
-            if read(call - 2, 2) != bytes((0x6A, size)):
-                raise ValueError(f"original PUSH mismatch at 0x{call-2:08x}")
+            if encoding == "6a":
+                push_va = call - 2
+                push_bytes = bytes((0x6A, size))
+            else:
+                push_va = call - 5
+                push_bytes = bytes((0x68,)) + struct.pack("<I", size)
+            if read(push_va, len(push_bytes)) != push_bytes:
+                raise ValueError(f"original PUSH mismatch at 0x{push_va:08x}")
             op, displacement = struct.unpack("<Bi", read(call, 5))
             if op != 0xE8 or (call + 5 + displacement) & 0xffffffff != DEST:
                 raise ValueError(f"original CALL mismatch at 0x{call:08x}")
