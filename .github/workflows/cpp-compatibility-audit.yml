@@ -76,6 +76,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_cpp_evidenced_declaration_batches.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261030_source_matched_batch.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_draft_signature_repair_batch.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_002be9e0_002bea90_callers.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_00058d40_guest_handoff.py' -v
           python3 -m py_compile tools/verify_cpp_hotspot_xbe.py
           python3 tools/verify_cpp_allocator_immediate_sites.py
