@@ -6,6 +6,14 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Known direct x86 call sites 0x002876DA / 0x00287746-0x00287796
+ * push the 32-bit output/range words. These declarations match the
+ * current in-tree callee drafts only; C++ object and guest-memory ABI
+ * are not verified, and integer guest VAs are not translated pointers. */
+extern void FUN_00287930(undefined4 *param_1,int *param_2,int *param_3);
+extern void FUN_00287e30(undefined4 *param_1,undefined4 *param_2);
+extern void FUN_00288130(int param_1,int param_2);
+extern void FUN_00287dc0(int param_1,int param_2);
 void FUN_002876a0(int param_1,int param_2,int param_3)
 
 {
@@ -20,7 +28,9 @@ void FUN_002876a0(int param_1,int param_2,int param_3)
 LAB_00287741:
       if (1 < iVar1) {
         /* 0x00287746-0x00287755: EBX=start, EDI=end; two stack DWORDs. */
-        FUN_00287e30(param_1,param_2);
+        /* Retain both pushed 32-bit guest VA words without host pointer arithmetic. */
+        FUN_00287e30((undefined4 *)(uintptr_t)param_1,
+                     (undefined4 *)(uintptr_t)param_2);
       }
       return;
     }
