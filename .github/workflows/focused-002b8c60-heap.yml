@@ -8,6 +8,8 @@ on:
       - 'tests/test_heap_wrapper_guest.c'
       - 'src/guest_cpu/bf_001f35b0_entry_gate.h'
       - 'tests/test_001f35b0_entry_gate.c'
+      - 'src/guest_cpu/bf_001f35b0_first_allocation.h'
+      - 'tests/test_001f35b0_first_allocation.c'
       - 'tests/test_002b8c60_guest_dispatch.c'
       - 'scripts/verify_002b8c60_heap_xbe.py'
       - '.github/workflows/focused-002b8c60-heap.yml'
@@ -47,6 +49,15 @@ jobs:
               -o "$RUNNER_TEMP/test_owner_gate_$opt"
             "$RUNNER_TEMP/test_owner_gate_$opt"
           done
+      - name: Verify original 001F35B0 first nested heap allocation
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_001f35b0_first_allocation.c \
+              -o "$RUNNER_TEMP/test_owner_first_alloc_$opt"
+            "$RUNNER_TEMP/test_owner_first_alloc_$opt"
+          done
       - name: Verify memory and undefined behavior with sanitizers
         run: |
           set -euo pipefail
@@ -65,6 +76,11 @@ jobs:
             -I src/guest_cpu tests/test_001f35b0_entry_gate.c \
             -o "$RUNNER_TEMP/test_owner_gate_san"
           "$RUNNER_TEMP/test_owner_gate_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_001f35b0_first_allocation.c \
+            -o "$RUNNER_TEMP/test_owner_first_alloc_san"
+          "$RUNNER_TEMP/test_owner_first_alloc_san"
       - name: Scope of confirmation
         run: |
           echo "Conforms to bounded original 002B8C60 x86 gate/dispatch ordering."
