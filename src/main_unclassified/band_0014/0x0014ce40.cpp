@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE verified: call passes two guest DWORDs; ECX/EDX ABI remains unresolved. */
+extern uint32_t FUN_00160da0(uint32_t guest_word0, uint32_t guest_word1);
 int FUN_0014ce40(undefined4 param_1)
 
 {

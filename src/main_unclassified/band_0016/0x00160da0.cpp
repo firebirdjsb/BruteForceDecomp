@@ -6,12 +6,18 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_00160da0(void)
+/* XBE 0x00160E2F: RET 8 pops two guest stack DWORDs; no reads of those
+ * words occur in the verified function window. ECX and EDX are separate,
+ * still-unbound guest-register inputs. EAX=0 at entry/loop reset and
+ * receives the selected node DWORD at 0x00160E1A. ABI_UNVERIFIED. */
+uint32_t FUN_00160da0(uint32_t guest_stack_word0, uint32_t guest_stack_word1)
 
 {
   char cVar1;
   uint uVar2;
-  int iVar3;
+  int iVar3 = 0;
+  (void)guest_stack_word0;
+  (void)guest_stack_word1;
   int in_ECX;
   undefined4 *puVar4;
   undefined4 **ppuVar5;
@@ -51,9 +57,9 @@ void FUN_00160da0(void)
         iVar3 = (*ppuVar5)[5];
       }
       if (iVar3 != 0) {
-        return;
+        return (uint32_t)iVar3;
       }
     }
   }
-  return;
+  return (uint32_t)iVar3;
 }
