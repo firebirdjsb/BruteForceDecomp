@@ -2,7 +2,11 @@
  * bounded x87/guest-memory fixture from the standalone matrix test.
  */
 #define main bf_previous_matrix_test_main
+#define cases bf_previous_matrix_cases
+#define faults bf_previous_matrix_faults
 #include "test_0026a810_guest_matrix.c"
+#undef faults
+#undef cases
 #undef main
 #include "bf_00269600_combine_call.h"
 
