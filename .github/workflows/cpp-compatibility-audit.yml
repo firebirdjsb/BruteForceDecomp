@@ -15,6 +15,8 @@ on:
       - 'tools/test_cpp_virtual_bridge_syntax.py'
       - 'include/bf_00155840_concrete_virtual.h'
       - 'include/bf_0011c810_concrete_virtual.h'
+      - 'include/bf_0011c810_virtual_call_link.h'
+      - 'include/bf_00155840_virtual_621c0.h'
       - 'metadata/x86_verified_call_edges.csv'
       - 'tools/test_classify_cpp_failures.py'
       - 'tools/test_sweep_cpp_compat.py'

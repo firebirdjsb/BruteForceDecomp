@@ -36,7 +36,7 @@ bf_00155840_execute_virtual_621c0(const bf_621c0_guest_words *mem,
     const bf_00155840_guest_virtual *method,
     uint32_t guest_ebp, uint32_t transform_callee_entry_esp)
 {
-    bf_00155840_virtual_621c0_result r = {0};
+    bf_00155840_virtual_621c0_result r = {BF_00155840_V621C0_OK};
     uint32_t arg, table;
     if (!mem || !mem->read_u32 || !method || !method->invoke || !x87) {
         r.status = BF_00155840_V621C0_INVALID_INTERFACE;
