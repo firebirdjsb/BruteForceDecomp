@@ -41,6 +41,18 @@ class GhidraConcatTests(unittest.TestCase):
             p = subprocess.run([str(binary)], capture_output=True, text=True)
             self.assertEqual(p.returncode, 0, p.stderr)
 
+    def test_three_original_address_cpp_drafts_parse(self):
+        # These original-address drafts had CONCAT31 as their first C++ error.
+        # Isolated parsing is not original x86 calling-convention verification.
+        sources = ["0x00023110", "0x000241e0", "0x0002e2e0"]
+        for entry in sources:
+            with self.subTest(entry=entry):
+                source = ROOT / "src" / "main_unclassified" / "band_0002" / (entry + ".cpp")
+                p = subprocess.run([CLANG, "-std=c++17", "-fsyntax-only",
+                                    "-I", str(ROOT / "include"), str(source)],
+                                   capture_output=True, text=True)
+                self.assertEqual(p.returncode, 0, p.stderr)
+
     def test_refuses_host_pointer_baking_in_guest_width(self):
         code = '#include "bf_ghidra_types.h"\nuint64_t x(int *p){return CONCAT44(p, 0x100);}\n'
         with tempfile.TemporaryDirectory() as tmp:
