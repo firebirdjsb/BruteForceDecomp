@@ -19,7 +19,7 @@ int main() {
     assert(CONCAT44(0x12345678u, 0x9abcdef0u) == UINT64_C(0x123456789abcdef0));
     assert(CONCAT11(0x1234u, 0x5678u) == 0x3478u);
     assert(CONCAT12(0xab, 0x12345) == 0xab2345u);
-    assert(CONCAT13(0x1234u, 0x12345678u) == 0x345678u);
+    assert(CONCAT13(0x1234u, 0x12345678u) == 0x34345678u);
     assert(CONCAT21(0x12345u, 0x678u) == 0x234578u);
     assert(CONCAT22(0x12345u, 0x67890u) == 0x23457890u);
     return 0;
