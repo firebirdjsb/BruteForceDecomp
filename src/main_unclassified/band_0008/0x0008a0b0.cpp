@@ -6,7 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_0008a0b0(void)
+/* Original XBE 0x0008A0B0..0x0008A12C writes guest object memory,
+ * but never overwrites EAX; RET preserves incoming object address.
+ * Host pointer is a syntax-only stand-in: guest ABI is not bound. */
+undefined4 * FUN_0008a0b0(void)
 
 {
   undefined4 *in_EAX;
@@ -47,5 +50,5 @@ void FUN_0008a0b0(void)
     puVar1 = puVar1 + 2;
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);
-  return;
+  return in_EAX;
 }
