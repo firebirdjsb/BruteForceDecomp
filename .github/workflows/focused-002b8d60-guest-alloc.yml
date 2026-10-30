@@ -27,6 +27,16 @@ jobs:
               -o "$RUNNER_TEMP/guest_alloc_$opt"
             "$RUNNER_TEMP/guest_alloc_$opt"
           done
+      - name: Connect original 0x001F3AA0 allocator call and sparse frame
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_001f3aa0_allocator_call.c \
+              -o "$RUNNER_TEMP/guest_1f3aa0_allocator_$opt"
+            "$RUNNER_TEMP/guest_1f3aa0_allocator_$opt"
+          done
       - name: Address and undefined-behavior sanitizers
         shell: bash
         run: |
@@ -36,6 +46,11 @@ jobs:
             -I src/guest_cpu tests/test_002b8d60_guest_alloc.c \
             -o "$RUNNER_TEMP/guest_alloc_san"
           "$RUNNER_TEMP/guest_alloc_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_001f3aa0_allocator_call.c \
+            -o "$RUNNER_TEMP/guest_1f3aa0_allocator_san"
+          "$RUNNER_TEMP/guest_1f3aa0_allocator_san"
       - name: Scope
         run: |
           echo "Original indirect allocator target remains unresolved, supplied by callback."
