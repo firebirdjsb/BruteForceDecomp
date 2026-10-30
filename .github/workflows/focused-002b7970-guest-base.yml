@@ -5,6 +5,11 @@ on:
     paths:
       - 'src/guest_cpu/bf_002b7970_guest_base.h'
       - 'tests/test_002b7970_guest_base.c'
+      - 'src/guest_cpu/bf_002b7970_guest_tail.h'
+      - 'src/guest_cpu/bf_002b7970_guest_complete.h'
+      - 'src/guest_cpu/bf_001f3aa0_vector_call.h'
+      - 'tests/test_002b7970_guest_tail.c'
+      - 'tests/test_001f3aa0_vector_call.c'
       - '.github/workflows/focused-002b7970-guest-base.yml'
   workflow_dispatch:
 permissions:
@@ -25,6 +30,18 @@ jobs:
               -o "$RUNNER_TEMP/test_guest_base_$opt"
             "$RUNNER_TEMP/test_guest_base_$opt"
           done
+      - name: Verify complete x87/SSE tail and original 001F3B2C call
+        shell: bash
+        run: |
+          set -euo pipefail
+          for test in test_002b7970_guest_tail test_001f3aa0_vector_call; do
+            for opt in 0 2; do
+              clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+                -ffp-contract=off -I src/guest_cpu "tests/$test.c" \
+                -o "$RUNNER_TEMP/$test-$opt"
+              "$RUNNER_TEMP/$test-$opt"
+            done
+          done
       - name: Address and undefined-behavior sanitizers
         shell: bash
         run: |
@@ -34,7 +51,15 @@ jobs:
             -I src/guest_cpu tests/test_002b7970_guest_base.c \
             -o "$RUNNER_TEMP/test_guest_base_san"
           "$RUNNER_TEMP/test_guest_base_san"
+          for test in test_002b7970_guest_tail test_001f3aa0_vector_call; do
+            clang -std=c11 -O1 -g -fsanitize=address,undefined \
+              -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+              -ffp-contract=off -I src/guest_cpu "tests/$test.c" \
+              -o "$RUNNER_TEMP/$test-san"
+            "$RUNNER_TEMP/$test-san"
+          done
       - name: Scope
         run: |
-          echo "Original 002B7970 only through 002B7A2D, before x87 FMUL/SSE MULPS/ADDPS."
-          echo "Do NOT count original FUN_002B7970 as fully reconstructed or proven 1:1."
+          echo "Entire original 002B7970 guest operations tested with backend callbacks."
+          echo "Xbox x87/MXCSR state, guest fault restart, and host ABI are not yet verified 1:1."
+          echo "The original FUN_002B7970 source is unchanged; no draft syntax pass claimed."
