@@ -1,0 +1,40 @@
+name: Focused original 0x002B8C60 guest dispatch and heap evidence
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/guest_cpu/bf_002b8c60_guest_dispatch.h'
+      - 'tests/test_002b8c60_guest_dispatch.c'
+      - 'scripts/verify_002b8c60_heap_xbe.py'
+      - '.github/workflows/focused-002b8c60-heap.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guest-dispatch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify original flag masks and dispatch at O0/O2
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_002b8c60_guest_dispatch.c \
+              -o "$RUNNER_TEMP/test_dispatch_$opt"
+            "$RUNNER_TEMP/test_dispatch_$opt"
+          done
+      - name: Verify memory and undefined behavior with sanitizers
+        run: |
+          set -euo pipefail
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_002b8c60_guest_dispatch.c \
+            -o "$RUNNER_TEMP/test_dispatch_san"
+          "$RUNNER_TEMP/test_dispatch_san"
+      - name: Scope of confirmation
+        run: |
+          echo "Conforms to bounded original 002B8C60 x86 gate/dispatch ordering."
+          echo "Type 3 enters 002B89F0; type 2 uses runtime vtable +0x18."
+          echo "Concrete heap hooks, original target callee behavior and guest SEH require separate verification."
