@@ -99,4 +99,13 @@ class CppToolingRoutes(unittest.TestCase):
                   '<!-- BF_PROGRESS_END -->')
             (root/'README.md').write_text(text)
             (folder/'cpp-syntax.svg').write_text('C++17 syntax coverage: 17.15 percent '
-                '2348 of 13694 2,348 / 13,694 bbbbbbb width="12
+                '2348 of 13694 2,348 / 13,694 bbbbbbb width="127.60"')
+            (folder/'overall.svg').write_text('roadmap tracking: 2.45 percent width="18.23" not verified game completion')
+            check(root)
+            (root/'README.md').write_text(text.replace('Newer source repairs are awaiting their own full audit.',
+                                                     'These numbers measure the latest source.'))
+            with self.assertRaises(ValueError):check(root)
+
+
+if __name__ == '__main__':
+    unittest.main()
