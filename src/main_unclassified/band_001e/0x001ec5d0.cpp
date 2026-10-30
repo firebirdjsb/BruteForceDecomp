@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Byte-returning 0x002E5880 callee reads implicit guest ECX.
+ * Host C++ declaration matches existing draft only; ABI_UNVERIFIED. */
+extern undefined1 FUN_002e5880(void);
 int FUN_001ec5d0(int param_1,int param_2)
 
 {
