@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE 0x002BE9E0 returns with RET 8 after two guest DWORDs.
+ * The caller also supplies an implicit ECX receiver (ABI_UNVERIFIED).
+ * Source-matched C++ declaration only; not a native guest ABI adapter. */
+extern void FUN_002be9e0(uint param_1, uint param_2);
 void FUN_002b6080(void)
 
 {
