@@ -22,7 +22,7 @@ int FUN_000540a0(int param_1,int param_2,int param_3)
   
   puStack_c = &LAB_003075a0;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   local_8 = 0;
   for (; param_1 != param_2; param_1 = param_1 + 0xc) {
     FUN_00053d60(in_ECX);

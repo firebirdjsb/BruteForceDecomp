@@ -17,12 +17,12 @@ void FUN_0031aa6e(void)
   undefined4 *in_ECX;
   
   puVar1 = in_ECX + 1;
-  in_ECX[2] = *puVar1;
-  *puVar1 = *puVar1;
+  in_ECX[2] = puVar1;
+  *puVar1 = puVar1;
   puVar1 = in_ECX + 3;
-  *in_ECX = PTR_FUN_00386ad4;
-  in_ECX[7] = DAT_0032f7d4;
-  in_ECX[4] = *puVar1;
-  *puVar1 = *puVar1;
+  *in_ECX = &PTR_FUN_00386ad4;
+  in_ECX[7] = &DAT_0032f7d4;
+  in_ECX[4] = puVar1;
+  *puVar1 = puVar1;
   return;
 }

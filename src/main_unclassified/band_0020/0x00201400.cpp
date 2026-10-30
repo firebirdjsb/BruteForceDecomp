@@ -20,9 +20,9 @@ void FUN_00201400(void)
   undefined4 *in_ECX;
   
   iVar1 = in_ECX[0x1b];
-  *in_ECX = PTR_FUN_00395e88;
-  in_ECX[2] = PTR_FUN_0039c24c;
-  in_ECX[3] = PTR_FUN_0039e7e8;
+  *in_ECX = &PTR_FUN_00395e88;
+  in_ECX[2] = &PTR_FUN_0039c24c;
+  in_ECX[3] = &PTR_FUN_0039e7e8;
   if (iVar1 != 0) {
     if (*(char *)(in_ECX + 0x1a) == '\0') {
       if (*(int *)(iVar1 + 0x14) != 0) {

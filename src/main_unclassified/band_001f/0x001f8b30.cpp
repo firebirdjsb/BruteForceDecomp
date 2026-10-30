@@ -25,12 +25,12 @@ void FUN_001f8b30(void)
   undefined1 auStack_4 [4];
   
   puVar1 = (undefined4 *)in_ECX[0x3e];
-  *in_ECX = PTR_FUN_00396620;
-  in_ECX[2] = PTR_LAB_00396470;
-  in_ECX[3] = PTR_LAB_003967b8;
-  in_ECX[0x10] = PTR_LAB_00396458;
-  in_ECX[0x11] = PTR_LAB_003967a8;
-  in_ECX[0x1f] = PTR_LAB_0039644c;
+  *in_ECX = &PTR_FUN_00396620;
+  in_ECX[2] = &PTR_LAB_00396470;
+  in_ECX[3] = &PTR_LAB_003967b8;
+  in_ECX[0x10] = &PTR_LAB_00396458;
+  in_ECX[0x11] = &PTR_LAB_003967a8;
+  in_ECX[0x1f] = &PTR_LAB_0039644c;
   if (puVar1 != (undefined4 *)0x0) {
     piVar2 = (int *)puVar1[0x1f];
     (**(code **)*puVar1)(1);

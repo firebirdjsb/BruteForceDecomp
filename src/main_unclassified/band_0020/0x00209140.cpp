@@ -21,11 +21,11 @@ void FUN_00209140(void)
   undefined4 uVar2;
   undefined1 local_4 [4];
   
-  *in_ECX = PTR_FUN_00395838;
-  in_ECX[2] = PTR_LAB_0039581c;
-  in_ECX[3] = PTR_LAB_0039580c;
-  in_ECX[0x10] = PTR_LAB_003957f4;
-  in_ECX[0x11] = PTR_LAB_003957e4;
+  *in_ECX = &PTR_FUN_00395838;
+  in_ECX[2] = &PTR_LAB_0039581c;
+  in_ECX[3] = &PTR_LAB_0039580c;
+  in_ECX[0x10] = &PTR_LAB_003957f4;
+  in_ECX[0x11] = &PTR_LAB_003957e4;
   puVar1 = (undefined4 *)in_ECX[0x3d];
   if (puVar1 == (undefined4 *)0x0) {
     uVar2 = 0;

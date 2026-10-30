@@ -16,9 +16,9 @@ void FUN_001fdaf0(void)
 {
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = PTR_FUN_00395510;
-  unaff_ESI[2] = PTR_FUN_0039c24c;
-  unaff_ESI[3] = PTR_FUN_0039e7e8;
+  *unaff_ESI = &PTR_FUN_00395510;
+  unaff_ESI[2] = &PTR_FUN_0039c24c;
+  unaff_ESI[3] = &PTR_FUN_0039e7e8;
   if ((undefined4 *)unaff_ESI[0x1f] != (undefined4 *)0x0) {
     (*(code *)**(undefined4 **)unaff_ESI[0x1f])(1);
     unaff_ESI[0x1f] = 0;

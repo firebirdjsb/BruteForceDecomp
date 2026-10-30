@@ -25,7 +25,7 @@ void FUN_00258790(void)
   unaff_ESI[5] = 0;
   unaff_ESI[6] = 0;
   unaff_ESI[7] = 7;
-  *unaff_ESI = PTR_FUN_00393640;
+  *unaff_ESI = &PTR_FUN_00393640;
   *(undefined1 *)(unaff_ESI + 9) = local_1;
   iVar1 = FUN_0025ae60(unaff_ESI + 9);
   unaff_ESI[10] = iVar1;

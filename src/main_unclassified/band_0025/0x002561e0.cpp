@@ -28,7 +28,7 @@ void FUN_002561e0(void)
   in_EAX[0x18] = 0xf;
   *(undefined1 *)(in_EAX + 0x13) = 0;
   in_EAX[10] = 1;
-  *in_EAX = PTR_LAB_00393850;
+  *in_EAX = &PTR_LAB_00393850;
   in_EAX[0x19] = 1;
   return;
 }

@@ -19,7 +19,7 @@ void FUN_0017e7c0(void)
   undefined4 in_ECX;
   undefined1 local_1;
   
-  *in_EAX = PTR_LAB_00399cd8;
+  *in_EAX = &PTR_LAB_00399cd8;
   *(undefined1 *)(in_EAX + 1) = 0;
   in_EAX[9] = 0;
   in_EAX[8] = 0;

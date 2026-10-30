@@ -22,7 +22,7 @@ int FUN_00247640(int param_1)
   /* Original entry+5: push 0x003095b0; guest SEH handler VA, not a host symbol. */
   puStack_c = (undefined1 *)(uintptr_t)0x003095b0U;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   if (*(int *)(in_ECX + 4) == 0) {
     uVar3 = 0;
   }

@@ -23,7 +23,7 @@ int FUN_000915e0(byte param_1)
   
   puVar2 = (undefined4 *)(-(uint)(in_ECX != 4) & in_ECX);
   iVar1 = puVar2[2];
-  *puVar2 = PTR_FUN_003a1c18;
+  *puVar2 = &PTR_FUN_003a1c18;
   if (iVar1 != 0) {
     FUN_0001fe00(iVar1,0xc,*(undefined4 *)(iVar1 + -4),FUN_0008f670);
                     /* WARNING: Subroutine does not return */

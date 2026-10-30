@@ -21,9 +21,9 @@ void FUN_0024ca40(void)
   undefined1 auStack_4 [4];
   
   piVar1 = (int *)unaff_EBX[3];
-  *unaff_EBX = PTR_FUN_00393be0;
-  unaff_EBX[1] = PTR_FUN_00393bc0;
-  unaff_EBX[2] = PTR_FUN_00393ba4;
+  *unaff_EBX = &PTR_FUN_00393be0;
+  unaff_EBX[1] = &PTR_FUN_00393bc0;
+  unaff_EBX[2] = &PTR_FUN_00393ba4;
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 8))(piVar1);
     piVar1 = (int *)unaff_EBX[3];

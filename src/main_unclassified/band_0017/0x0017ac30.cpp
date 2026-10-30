@@ -17,7 +17,7 @@ void FUN_0017ac30(void)
   int *piVar2;
   int *local_4;
   
-  *in_ECX = PTR_LAB_00399d94;
+  *in_ECX = &PTR_LAB_00399d94;
   if (in_ECX[0x50] != 0) {
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(in_ECX[0x50]);

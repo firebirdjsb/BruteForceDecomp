@@ -19,7 +19,7 @@ void FUN_00022d20(void)
   int in_EAX;
   undefined4 *unaff_EDI;
   
-  *unaff_EDI = PTR_FUN_003a4f68;
+  *unaff_EDI = &PTR_FUN_003a4f68;
   unaff_EDI[5] = 0;
   uVar1 = *(undefined4 *)(in_EAX + 0xc);
   uVar2 = *(undefined4 *)(in_EAX + 8);

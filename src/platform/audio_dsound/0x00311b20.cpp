@@ -17,7 +17,7 @@ void FUN_00311b20(void)
   int *piVar1;
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_FUN_00386988;
+  *in_ECX = &PTR_FUN_00386988;
   DAT_0032fe68 = 0;
   piVar1 = (int *)in_ECX[3];
   if (piVar1 != (int *)0x0) {

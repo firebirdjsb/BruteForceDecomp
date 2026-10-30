@@ -16,7 +16,7 @@ void FUN_0028d250(void)
   undefined4 in_ECX;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = PTR_LAB_003914d0;
+  *unaff_ESI = &PTR_LAB_003914d0;
   unaff_ESI[6] = 0;
   unaff_ESI[7] = 0;
   unaff_ESI[8] = 0;

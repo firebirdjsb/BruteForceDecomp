@@ -15,7 +15,7 @@ void FUN_002e4130(undefined4 param_1,undefined4 param_2,undefined4 param_3)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_LAB_00386630;
+  *in_ECX = &PTR_LAB_00386630;
   in_ECX[1] = param_3;
   in_ECX[2] = 0;
   in_ECX[3] = 0;

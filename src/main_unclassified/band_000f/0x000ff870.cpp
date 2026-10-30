@@ -21,7 +21,7 @@ void FUN_000ff870(void)
   int iVar4;
   int iVar5;
   
-  *in_EAX = PTR_FUN_0039e3d8;
+  *in_EAX = &PTR_FUN_0039e3d8;
   if (in_EAX[0x1d] == 0) {
     iVar5 = 0;
   }

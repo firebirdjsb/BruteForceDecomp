@@ -18,8 +18,8 @@ void FUN_0025c040(void)
   undefined4 *unaff_EBX;
   undefined1 local_4 [4];
   
-  *unaff_EBX = PTR_FUN_00393090;
-  unaff_EBX[1] = PTR_FUN_0039307c;
+  *unaff_EBX = &PTR_FUN_00393090;
+  unaff_EBX[1] = &PTR_FUN_0039307c;
   FUN_0025c100();
   puVar1 = (undefined4 *)unaff_EBX[10];
   if (puVar1 == (undefined4 *)0x0) {

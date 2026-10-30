@@ -22,8 +22,8 @@ void FUN_000b7f60(void)
   int *piVar1;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = PTR_FUN_0039fcc8;
-  unaff_ESI[0xb] = PTR_LAB_0039fcb4;
+  *unaff_ESI = &PTR_FUN_0039fcc8;
+  unaff_ESI[0xb] = &PTR_LAB_0039fcb4;
   if (unaff_ESI[0x1d] != 0) {
     FUN_0008f6e0();
   }

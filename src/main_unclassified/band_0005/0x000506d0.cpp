@@ -26,7 +26,7 @@ int FUN_000506d0(int param_1)
   local_8 = 0xffffffff;
   puStack_c = ((unsigned char *)(uintptr_t)0x00308fe0u);
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   if (*(int *)(in_ECX + 4) == 0) {
     uVar1 = 0;
   }

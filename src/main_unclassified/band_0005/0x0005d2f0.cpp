@@ -29,7 +29,7 @@ void FUN_0005d2f0(void)
   local_8 = 0xffffffff;
   puStack_c = &LAB_00307e70;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   if (in_EDX < 0x20000000) {
     if (*(int *)(in_ECX + 4) == 0) {
       uVar1 = 0;

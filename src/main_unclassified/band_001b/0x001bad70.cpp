@@ -20,7 +20,7 @@ int FUN_001bad70(int param_1)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x003093d0); /* original x86 push imm32 at 0x001bad75 */
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   cVar1 = FUN_001b2970();
   if (cVar1 != '\0') {
     local_8 = 0;

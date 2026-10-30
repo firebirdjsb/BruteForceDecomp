@@ -23,7 +23,7 @@ void FUN_001baa20(int param_1,int param_2,uint param_3)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x003099f0); /* original x86 push imm32 at 0x001baa25 */
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   if (*(int **)(in_ECX + 4) != (int *)0x0) {
     (**(code **)(**(int **)(in_ECX + 4) + 4))();
   }

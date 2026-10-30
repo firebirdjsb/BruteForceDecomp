@@ -18,8 +18,8 @@ void FUN_000c1f50(void)
   undefined4 uVar2;
   undefined1 local_4 [4];
   
-  *in_ECX = PTR_FUN_0039f62c;
-  in_ECX[0xb] = PTR_LAB_0039f618;
+  *in_ECX = &PTR_FUN_0039f62c;
+  in_ECX[0xb] = &PTR_LAB_0039f618;
   puVar1 = (undefined4 *)in_ECX[0x1a];
   if (puVar1 == (undefined4 *)0x0) {
     uVar2 = 0;

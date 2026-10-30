@@ -23,7 +23,7 @@ void FUN_0005df00(undefined4 param_1,undefined4 param_2)
   in_EAX[0x45] = 0;
   in_EAX[0x46] = param_1;
   *(undefined1 *)(in_EAX + 0x42) = 1;
-  *in_EAX = PTR_LAB_003a3f10;
+  *in_EAX = &PTR_LAB_003a3f10;
   uVar1 = in_ECX[2];
   uVar2 = in_ECX[1];
   in_EAX[0x47] = *in_ECX;

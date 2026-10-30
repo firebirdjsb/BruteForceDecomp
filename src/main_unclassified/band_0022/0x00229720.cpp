@@ -25,10 +25,10 @@ void FUN_00229720(void)
   undefined4 *in_ECX;
   
   if (in_EAX != 0) {
-    in_ECX[0x13] = DAT_00394528;
-    in_ECX[0xed] = PTR_FUN_0039efec;
-    in_ECX[0xec] = PTR_LAB_0039efdc;
-    in_ECX[0xed] = PTR_FUN_0039efd0;
+    in_ECX[0x13] = &DAT_00394528;
+    in_ECX[0xed] = &PTR_FUN_0039efec;
+    in_ECX[0xec] = &PTR_LAB_0039efdc;
+    in_ECX[0xed] = &PTR_FUN_0039efd0;
   }
   FUN_0022d330();
   *in_ECX = &PTR_FUN_00394548;

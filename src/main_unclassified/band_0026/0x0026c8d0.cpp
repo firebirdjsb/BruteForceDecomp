@@ -25,7 +25,7 @@ void FUN_0026c8d0(undefined4 *param_1)
   iVar3 = DAT_00443644;
   uVar1 = param_1[4];
   bVar4 = DAT_00443644 != 0;
-  *param_1 = PTR_FUN_00392720;
+  *param_1 = &PTR_FUN_00392720;
   if (bVar4) {
     puVar2 = *(undefined4 **)(iVar3 + 4);
     DAT_00469888 = uVar1;

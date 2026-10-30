@@ -36,7 +36,7 @@ void FUN_00287270(int param_1,int param_2,uint param_3)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x00308a30);
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   local_2c[0] = 0;
   local_24 = 0;
   local_20 = 0;

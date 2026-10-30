@@ -22,7 +22,7 @@ void FUN_000c77a0(void)
   int *piVar5;
   int iVar6;
   
-  *in_ECX = PTR_FUN_0039f290;
+  *in_ECX = &PTR_FUN_0039f290;
   piVar5 = (int *)in_ECX[0x19];
   if (piVar5 != (int *)0x0) {
     (**(code **)(*piVar5 + 8))(piVar5);

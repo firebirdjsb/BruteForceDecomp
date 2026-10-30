@@ -16,6 +16,6 @@ void FUN_002ea02b(void)
   
   in_ECX[1] = 0;
   in_ECX[2] = 0;
-  *in_ECX = PTR_FUN_00386ae8;
+  *in_ECX = &PTR_FUN_00386ae8;
   return;
 }

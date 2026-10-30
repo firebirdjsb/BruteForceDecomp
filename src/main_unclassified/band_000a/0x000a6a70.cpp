@@ -23,7 +23,7 @@ void FUN_000a6a70(void)
   
   in_EAX[1] = 0;
   in_EAX[2] = 0;
-  *in_EAX = PTR_FUN_003a07a8;
+  *in_EAX = &PTR_FUN_003a07a8;
   in_EAX[0x6c] = 0;
   in_EAX[0x6d] = 0;
   FUN_000a5300(0);

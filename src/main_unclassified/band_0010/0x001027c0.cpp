@@ -14,7 +14,7 @@ void FUN_001027c0(void)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_FUN_0039e310;
+  *in_ECX = &PTR_FUN_0039e310;
   FUN_00102d50();
   if (in_ECX[0x24] != 0) {
                     /* WARNING: Subroutine does not return */

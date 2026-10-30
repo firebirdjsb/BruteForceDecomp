@@ -15,7 +15,7 @@ void FUN_002565f0(void)
   int iVar1;
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_FUN_00393780;
+  *in_ECX = &PTR_FUN_00393780;
   iVar1 = in_ECX[6];
   while (iVar1 != 0) {
     FUN_00256900(iVar1);

@@ -36,7 +36,7 @@ void FUN_001c6cc0(int param_1,uint param_2,int param_3)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x00308100);
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   puVar5 = (undefined4 *)(param_3 + 8);
   puVar6 = local_78;
   for (iVar2 = 5; iVar2 != 0; iVar2 = iVar2 + -1) {

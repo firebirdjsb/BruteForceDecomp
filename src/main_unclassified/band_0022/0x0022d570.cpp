@@ -28,10 +28,10 @@ void FUN_0022d570(void)
   undefined4 *in_ECX;
   int iVar6;
   
-  *in_ECX = PTR_FUN_00394340;
-  in_ECX[0x12] = PTR_FUN_0039adec;
-  in_ECX[0x1a] = PTR_LAB_0039a8c0;
-  in_ECX[0x74] = PTR_LAB_0039433c;
+  *in_ECX = &PTR_FUN_00394340;
+  in_ECX[0x12] = &PTR_FUN_0039adec;
+  in_ECX[0x1a] = &PTR_LAB_0039a8c0;
+  in_ECX[0x74] = &PTR_LAB_0039433c;
   *(undefined ***)(*(int *)(in_ECX[0x13] + 4) + 0x4c + (int)in_ECX) = &PTR_LAB_00394334;
   *(undefined ***)(*(int *)(in_ECX[0x13] + 4) + 0x50 + (int)in_ECX) = &PTR_LAB_00394328;
   *(int *)(*(int *)(in_ECX[0x13] + 4) + 0x48 + (int)in_ECX) = *(int *)(in_ECX[0x13] + 4) + -0x330;

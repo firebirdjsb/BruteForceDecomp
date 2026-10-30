@@ -19,7 +19,7 @@ void FUN_00020100(undefined4 param_1,undefined4 param_2,undefined4 param_3)
   
   in_EAX[0x43] = param_1;
   in_EAX[0x44] = param_2;
-  *in_EAX = PTR_LAB_003a4004;
+  *in_EAX = &PTR_LAB_003a4004;
   in_EAX[0x41] = 0;
   in_EAX[0x42] = 0;
   uVar1 = in_ECX[2];

@@ -15,7 +15,7 @@ void FUN_0017e8e0(void)
   undefined4 *in_ECX;
   undefined1 local_4 [4];
   
-  *in_ECX = PTR_FUN_00399c40;
+  *in_ECX = &PTR_FUN_00399c40;
   if (in_ECX[0x36] != 0) {
     DSOUND__IDirectSound_Release(in_ECX[0x36]);
     in_ECX[0x36] = 0;

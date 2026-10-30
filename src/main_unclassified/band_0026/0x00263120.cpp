@@ -20,18 +20,18 @@ void FUN_00263120(void)
   undefined4 *unaff_ESI;
   int unaff_EDI;
   
-  *unaff_ESI = PTR_FUN_00392b80;
+  *unaff_ESI = &PTR_FUN_00392b80;
   unaff_ESI[1] = 0;
   (**(code **)(*DAT_00443300 + 0x30))();
-  *unaff_ESI = PTR_LAB_00392a38;
+  *unaff_ESI = &PTR_LAB_00392a38;
   puVar1 = unaff_ESI + 9;
-  *puVar1 = PTR_LAB_00392c1c;
+  *puVar1 = &PTR_LAB_00392c1c;
   unaff_ESI[10] = 1;
-  unaff_ESI[0xb] = *unaff_ESI;
+  unaff_ESI[0xb] = unaff_ESI;
   iVar2 = *(int *)(unaff_EDI + 8);
   unaff_ESI[8] = iVar2;
   if (iVar2 == 0) {
-    unaff_ESI[8] = *puVar1;
+    unaff_ESI[8] = puVar1;
     return;
   }
   **(int **)(unaff_EDI + 0xc) = (int)puVar1;

@@ -26,9 +26,9 @@ void FUN_002e0090(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3)
       puVar1 = puVar1 + 4;
       puVar2 = puVar2 + 4;
     } while (param_1 != param_2);
-    *in_EAX = *param_3;
+    *in_EAX = param_3;
     return;
   }
-  *in_EAX = *param_3;
+  *in_EAX = param_3;
   return;
 }

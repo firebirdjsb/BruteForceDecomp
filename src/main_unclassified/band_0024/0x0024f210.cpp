@@ -23,6 +23,6 @@ void FUN_0024f210(undefined4 *param_1,undefined4 *param_2)
     }
     *(undefined4 **)(unaff_EBX + 8) = puVar2;
   }
-  *in_EAX = *param_1;
+  *in_EAX = param_1;
   return;
 }

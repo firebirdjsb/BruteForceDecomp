@@ -17,8 +17,8 @@ void FUN_00312310(void)
   undefined4 *in_ECX;
   
   piVar1 = (int *)in_ECX[8];
-  in_ECX[-1] = PTR_CDirectSoundStream_AddRef_003869c4;
-  *in_ECX = PTR_FUN_003869b8;
+  in_ECX[-1] = &PTR_CDirectSoundStream_AddRef_003869c4;
+  *in_ECX = &PTR_FUN_003869b8;
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 8))(piVar1);
     in_ECX[8] = 0;

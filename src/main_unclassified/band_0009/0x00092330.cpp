@@ -25,17 +25,17 @@ void FUN_00092330(void)
   in_EAX[2] = 0;
   in_EAX[0xe] = 0x3a83126f;
   *(undefined1 *)((int)in_EAX + 0x3d) = 0;
-  *in_EAX = PTR_LAB_003a19d0;
-  in_EAX[3] = PTR_LAB_003a19c0;
-  in_EAX[4] = PTR_LAB_003a19b0;
+  *in_EAX = &PTR_LAB_003a19d0;
+  in_EAX[3] = &PTR_LAB_003a19c0;
+  in_EAX[4] = &PTR_LAB_003a19b0;
   puVar1 = in_EAX + 0x11;
-  *puVar1 = PTR_LAB_003a1b10;
+  *puVar1 = &PTR_LAB_003a1b10;
   in_EAX[0x12] = 1;
-  in_EAX[0x13] = *in_EAX;
+  in_EAX[0x13] = in_EAX;
   iVar2 = *(int *)(unaff_ESI + 8);
   in_EAX[0x10] = iVar2;
   if (iVar2 == 0) {
-    in_EAX[0x10] = *puVar1;
+    in_EAX[0x10] = puVar1;
     return;
   }
   **(int **)(unaff_ESI + 0xc) = (int)puVar1;

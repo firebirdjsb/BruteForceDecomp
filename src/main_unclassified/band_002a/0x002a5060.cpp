@@ -19,8 +19,8 @@ void FUN_002a5060(void)
   undefined4 *puVar2;
   undefined1 auStack_4 [4];
   
-  in_ECX[-1] = PTR_FUN_00390d58;
-  *in_ECX = PTR_FUN_00390d28;
+  in_ECX[-1] = &PTR_FUN_00390d58;
+  *in_ECX = &PTR_FUN_00390d28;
   FUN_002a57c0(in_ECX + -1,in_ECX[7]);
   piVar1 = (int *)in_ECX[7];
   if (piVar1 != (int *)0x0) {

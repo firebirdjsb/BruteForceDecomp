@@ -28,7 +28,7 @@ void FUN_001fb0b0(void)
     do {
       puVar1 = (undefined4 *)puVar2[2];
       if (puVar1 != (undefined4 *)0x0) {
-        *puVar1 = PTR_LAB_0039641c;
+        *puVar1 = &PTR_LAB_0039641c;
                     /* WARNING: Subroutine does not return */
         thunk_FUN_00237ec0(puVar1);
       }

@@ -15,7 +15,7 @@ void FUN_002c71c0(void)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_FUN_0038e698;
+  *in_ECX = &PTR_FUN_0038e698;
   if ((int *)in_ECX[2] != (int *)0x0) {
     (**(code **)(*(int *)in_ECX[2] + 4))(1);
   }

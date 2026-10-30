@@ -16,8 +16,8 @@ undefined4 * FUN_002b7970(undefined4 *param_1,undefined4 *param_2)
   undefined4 uVar2;
   float fVar3;
   
-  *param_1 = PTR_FUN_0039efb8;
-  *param_1 = PTR_FUN_0039efb8;
+  *param_1 = &PTR_FUN_0039efb8;
+  *param_1 = &PTR_FUN_0039efb8;
   param_1[7] = 0;
   param_1[0xb] = 0;
   param_1[0xf] = 0;

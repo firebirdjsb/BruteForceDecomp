@@ -18,9 +18,9 @@ void FUN_00226640(void)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_FUN_003946c8;
-  in_ECX[0x12] = PTR_FUN_0039adec;
-  in_ECX[0x1a] = PTR_LAB_0039a8c0;
+  *in_ECX = &PTR_FUN_003946c8;
+  in_ECX[0x12] = &PTR_FUN_0039adec;
+  in_ECX[0x1a] = &PTR_LAB_0039a8c0;
   *(undefined ***)(*(int *)(in_ECX[0x13] + 4) + 0x4c + (int)in_ECX) = &PTR_LAB_003946bc;
   *(undefined ***)(*(int *)(in_ECX[0x13] + 4) + 0x50 + (int)in_ECX) = &PTR_LAB_003946b0;
   *(int *)(*(int *)(in_ECX[0x13] + 4) + 0x48 + (int)in_ECX) = *(int *)(in_ECX[0x13] + 4) + -0x1f0;

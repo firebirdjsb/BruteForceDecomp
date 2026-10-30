@@ -20,7 +20,7 @@ void FUN_00053bc0(undefined4 param_1,int param_2)
   
   puStack_c = ((unsigned char *)(uintptr_t)0x00307210u);
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   local_8 = 0;
   for (; param_2 != 0; param_2 = param_2 + -1) {
     FUN_00053d60(in_ECX);

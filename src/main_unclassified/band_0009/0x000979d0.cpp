@@ -23,15 +23,15 @@ void FUN_000979d0(void)
   *(undefined1 *)((int)in_EAX + 0x55) = 0;
   *(undefined1 *)(in_EAX + 0x15) = 0;
   *(undefined1 *)((int)in_EAX + 0x56) = 1;
-  *in_EAX = PTR_LAB_003a13f8;
+  *in_EAX = &PTR_LAB_003a13f8;
   puVar1 = in_EAX + 0x18;
-  *puVar1 = PTR_LAB_003a0f0c;
+  *puVar1 = &PTR_LAB_003a0f0c;
   in_EAX[0x19] = 1;
-  in_EAX[0x1a] = *in_EAX;
+  in_EAX[0x1a] = in_EAX;
   iVar2 = *(int *)(unaff_ESI + 8);
   in_EAX[0x17] = iVar2;
   if (iVar2 == 0) {
-    in_EAX[0x17] = *puVar1;
+    in_EAX[0x17] = puVar1;
     return;
   }
   **(int **)(unaff_ESI + 0xc) = (int)puVar1;

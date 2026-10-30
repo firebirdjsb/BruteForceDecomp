@@ -19,7 +19,7 @@ void FUN_00056d50(int param_1,int param_2)
   uint *puVar2;
   undefined4 *unaff_EDI;
   
-  *unaff_EDI = PTR_FUN_003a3f80;
+  *unaff_EDI = &PTR_FUN_003a3f80;
   unaff_EDI[2] = 0;
   unaff_EDI[4] = 0;
   *(byte *)(unaff_EDI + 5) = *(byte *)(unaff_EDI + 5) & 0xf8;

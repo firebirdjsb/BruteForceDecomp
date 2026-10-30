@@ -23,8 +23,8 @@ void FUN_001e0ef0(void)
   *(undefined1 *)(unaff_ESI + 6) = 0;
   unaff_ESI[7] = 0;
   unaff_ESI[8] = 0;
-  *unaff_ESI = PTR_FUN_00396d00;
-  unaff_ESI[5] = PTR_FUN_00396cdc;
+  *unaff_ESI = &PTR_FUN_00396d00;
+  unaff_ESI[5] = &PTR_FUN_00396cdc;
   unaff_ESI[0xb] = 0;
   unaff_ESI[0xc] = 0;
   unaff_ESI[0xd] = 0;

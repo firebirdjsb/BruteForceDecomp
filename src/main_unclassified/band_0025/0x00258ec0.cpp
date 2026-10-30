@@ -18,7 +18,7 @@ void FUN_00258ec0(uint param_1)
   
   iVar2 = 0x100;
   in_ECX[1] = (int)in_EAX + param_1;
-  *in_ECX = *in_EAX;
+  *in_ECX = in_EAX;
   local_20[0] = 0x100;
   local_20[1] = 0x200;
   local_20[2] = 0xc00;

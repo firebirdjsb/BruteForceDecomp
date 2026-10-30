@@ -26,7 +26,7 @@ void FUN_00153f60(int param_1,uint param_2)
   local_8 = 0xffffffff;
   puStack_c = &LAB_00307d20;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   FUN_00154290();
   iVar3 = *(int *)(in_ECX + 4);
   if (iVar3 == 0) {

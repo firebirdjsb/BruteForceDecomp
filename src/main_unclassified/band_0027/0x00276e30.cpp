@@ -17,7 +17,7 @@ void FUN_00276e30(void)
   undefined4 unaff_EDI;
   
   unaff_ESI[3] = DAT_0046988c;
-  *unaff_ESI = PTR_FUN_00392660;
+  *unaff_ESI = &PTR_FUN_00392660;
   unaff_ESI[2] = 0;
   unaff_ESI[4] = 0;
   unaff_ESI[7] = 0;

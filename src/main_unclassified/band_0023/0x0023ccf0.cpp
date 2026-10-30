@@ -15,7 +15,7 @@ void FUN_0023ccf0(void)
   int iVar1;
   undefined4 *in_EAX;
   
-  *in_EAX = PTR_LAB_00394068;
+  *in_EAX = &PTR_LAB_00394068;
   FUN_0023d3a0();
   if ((in_EAX[8] != 0) && (in_EAX[8] != -1)) {
     FUN_00235b40();

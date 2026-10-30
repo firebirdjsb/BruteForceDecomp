@@ -18,8 +18,8 @@ void FUN_0025f890(void)
   undefined4 uVar2;
   undefined1 local_4 [4];
   
-  *in_EAX = PTR_FUN_00392f1c;
-  in_EAX[1] = PTR_FUN_00392f0c;
+  *in_EAX = &PTR_FUN_00392f1c;
+  in_EAX[1] = &PTR_FUN_00392f0c;
   FUN_0025fab0();
   FUN_0025fb40();
   puVar1 = (undefined4 *)in_EAX[8];

@@ -18,7 +18,7 @@ void FUN_002ea03c(int param_1)
   undefined4 *in_ECX;
   char *pcVar4;
   
-  *in_ECX = PTR_FUN_00386ae8;
+  *in_ECX = &PTR_FUN_00386ae8;
   iVar2 = *(int *)(param_1 + 8);
   in_ECX[2] = iVar2;
   pcVar3 = *(char **)(param_1 + 4);

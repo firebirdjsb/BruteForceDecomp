@@ -19,7 +19,7 @@ void FUN_002b9980(void)
   int in_EDX;
   undefined4 *unaff_EDI;
   
-  *unaff_EDI = PTR_LAB_0038e7d0;
+  *unaff_EDI = &PTR_LAB_0038e7d0;
   unaff_EDI[4] = 0;
   unaff_EDI[0xc] = 0;
   unaff_EDI[0x10] = 0;

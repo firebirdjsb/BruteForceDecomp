@@ -29,9 +29,9 @@ undefined4 * FUN_0016c750(undefined4 *param_1)
   
   puVar2 = param_1;
   param_1[1] = 0;
-  param_1[3] = PTR_FUN_0039a828;
-  param_1[2] = PTR_FUN_0039c2a0;
-  param_1[3] = PTR_FUN_0039a828;
+  param_1[3] = &PTR_FUN_0039a828;
+  param_1[2] = &PTR_FUN_0039c2a0;
+  param_1[3] = &PTR_FUN_0039a828;
   param_1[4] = 0;
   param_1[1] = 0xed0305a6;
   *param_1 = &LAB_0039a770;

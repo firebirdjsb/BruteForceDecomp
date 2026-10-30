@@ -23,7 +23,7 @@ void FUN_000a17a0(void)
   
   unaff_ESI[1] = 0;
   unaff_ESI[2] = 0;
-  *unaff_ESI = PTR_FUN_003a0d18;
+  *unaff_ESI = &PTR_FUN_003a0d18;
   unaff_ESI[3] = 0;
   unaff_ESI[4] = 0;
   unaff_ESI[6] = 0;

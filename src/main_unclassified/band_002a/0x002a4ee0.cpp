@@ -18,16 +18,16 @@ void FUN_002a4ee0(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3)
     puVar1 = (undefined4 *)param_2[1];
     puVar2 = (undefined4 *)*param_2;
     if (puVar1 == (undefined4 *)0x0) {
-      *unaff_EBX = *puVar2;
+      *unaff_EBX = puVar2;
     }
     else {
-      *puVar1 = *puVar2;
+      *puVar1 = puVar2;
     }
     if (puVar2 == (undefined4 *)0x0) {
-      unaff_EBX[1] = *puVar1;
+      unaff_EBX[1] = puVar1;
     }
     else {
-      puVar2[1] = *puVar1;
+      puVar2[1] = puVar1;
     }
     param_2[1] = 0;
     *param_2 = 0;

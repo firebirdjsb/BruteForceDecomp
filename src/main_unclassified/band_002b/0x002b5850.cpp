@@ -18,7 +18,7 @@ void FUN_002b5850(void)
   uint uVar1;
   
   uVar1 = (uint)*(ushort *)((int)unaff_ESI + 0x12);
-  *unaff_ESI = PTR_FUN_0038e818;
+  *unaff_ESI = &PTR_FUN_0038e818;
   while (uVar1 = uVar1 - 1, -1 < (int)uVar1) {
     (**(code **)(**(int **)(unaff_ESI[5] + uVar1 * 4) + 8))();
   }

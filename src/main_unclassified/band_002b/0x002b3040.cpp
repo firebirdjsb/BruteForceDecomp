@@ -20,7 +20,7 @@ void FUN_002b3040(void)
   int aiStack_10 [3];
   
   iVar2 = in_ECX[6];
-  *in_ECX = PTR_FUN_0038e5b4;
+  *in_ECX = &PTR_FUN_0038e5b4;
   if (iVar2 != 0) {
     FUN_002b5a30();
                     /* WARNING: Subroutine does not return */

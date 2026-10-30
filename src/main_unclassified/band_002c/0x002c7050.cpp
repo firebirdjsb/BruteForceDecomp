@@ -20,7 +20,7 @@ void FUN_002c7050(void)
   int iVar3;
   
   iVar3 = unaff_ESI[1];
-  *unaff_ESI = PTR_LAB_0038e65c;
+  *unaff_ESI = &PTR_LAB_0038e65c;
   for (; -1 < iVar3; iVar3 = iVar3 + -1) {
     puVar2 = *(undefined4 **)(unaff_ESI[3] + 4 + iVar3 * 8);
     if (puVar2 != (undefined4 *)0x0) {

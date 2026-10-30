@@ -24,7 +24,7 @@ void FUN_001b8750(int param_1,int param_2,uint param_3)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x00309420); /* x86 push imm32 at 0x001b8755 */
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   FUN_001cb420();
   iVar3 = *(int *)(param_1 + 4);
   if (iVar3 == 0) {

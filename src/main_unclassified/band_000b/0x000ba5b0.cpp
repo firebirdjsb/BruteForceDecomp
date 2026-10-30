@@ -14,7 +14,7 @@ undefined4 * FUN_000ba5b0(undefined4 *param_1)
 {
   int *piVar1;
   
-  *param_1 = PTR_FUN_0039f8bc;
+  *param_1 = &PTR_FUN_0039f8bc;
   param_1[8] = 0;
   param_1[9] = 0;
   *(byte *)((int)param_1 + 0x13) = *(byte *)((int)param_1 + 0x13) & 0xfe;

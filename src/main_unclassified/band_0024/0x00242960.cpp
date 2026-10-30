@@ -22,7 +22,7 @@ void FUN_00242960(void)
   /* Original entry+5: push 0x00308b90; guest SEH handler VA, not a host symbol. */
   puStack_c = (undefined1 *)(uintptr_t)0x00308b90U;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   if (in_ECX < 0x4924925) {
     if (*(int *)(in_EDX + 4) == 0) {
       uVar2 = 0;

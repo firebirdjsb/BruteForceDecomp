@@ -18,7 +18,7 @@ void FUN_002c82c0(void)
   undefined4 *in_ECX;
   uint uVar3;
   
-  *in_ECX = PTR_LAB_0038e620;
+  *in_ECX = &PTR_LAB_0038e620;
   if (in_ECX[3] != 0) {
     FUN_002d5de0();
     in_ECX[3] = 0;

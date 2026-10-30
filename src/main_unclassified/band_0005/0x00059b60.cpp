@@ -22,14 +22,14 @@ void FUN_00059b60(void)
   undefined4 *unaff_ESI;
   
   unaff_ESI[1] = 0;
-  unaff_ESI[3] = PTR_FUN_0039a828;
-  unaff_ESI[2] = PTR_FUN_0039c2a0;
-  unaff_ESI[3] = PTR_FUN_0039a828;
+  unaff_ESI[3] = &PTR_FUN_0039a828;
+  unaff_ESI[2] = &PTR_FUN_0039c2a0;
+  unaff_ESI[3] = &PTR_FUN_0039a828;
   unaff_ESI[4] = 0;
   unaff_ESI[1] = 0xed0305a6;
-  *unaff_ESI = PTR_FUN_003a3f30;
-  unaff_ESI[2] = PTR_LAB_003a3f18;
-  unaff_ESI[3] = PTR_FUN_0039e7e8;
+  *unaff_ESI = &PTR_FUN_003a3f30;
+  unaff_ESI[2] = &PTR_LAB_003a3f18;
+  unaff_ESI[3] = &PTR_FUN_0039e7e8;
   uVar1 = FUN_000e0c80(unaff_ESI + 0xb);
   unaff_ESI[0xc] = uVar1;
   unaff_ESI[0xd] = 0;

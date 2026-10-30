@@ -31,7 +31,7 @@ void FUN_0013b770(void)
   in_EAX[10] = 0x42480000;
   in_EAX[0xb] = 0;
   in_EAX[0xc] = 0;
-  *in_EAX = PTR_LAB_0039c730;
+  *in_EAX = &PTR_LAB_0039c730;
   in_EAX[0xf] = 0x3f800000;
   return;
 }

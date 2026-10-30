@@ -18,7 +18,7 @@ void FUN_000204e0(undefined1 param_1)
   in_EAX[0x43] = 0;
   in_EAX[0x41] = 0;
   in_EAX[0x42] = 0;
-  *in_EAX = PTR_LAB_003a4000;
+  *in_EAX = &PTR_LAB_003a4000;
   in_EAX[0x45] = in_ECX;
   in_EAX[0x43] = *(undefined4 *)(in_ECX + 0x10c);
   in_EAX[0x44] = *(undefined4 *)(in_ECX + 0x110);

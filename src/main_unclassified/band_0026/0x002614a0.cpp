@@ -15,6 +15,6 @@ void FUN_002614a0(int param_1,int param_2,undefined4 *param_3)
     param_3 = param_3 + -1;
     *param_3 = *(undefined4 *)(param_2 + -4);
   }
-  *in_EAX = *param_3;
+  *in_EAX = param_3;
   return;
 }

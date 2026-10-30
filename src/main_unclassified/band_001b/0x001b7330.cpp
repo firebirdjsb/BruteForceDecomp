@@ -33,6 +33,6 @@ undefined4 * FUN_001b7330(int param_1,undefined4 *param_2,undefined4 *param_3,un
     }
     *(undefined4 **)(param_1 + 8) = puVar2;
   }
-  *param_2 = *param_3;
+  *param_2 = param_3;
   return param_2;
 }

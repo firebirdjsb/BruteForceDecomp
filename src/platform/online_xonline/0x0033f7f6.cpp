@@ -50,9 +50,9 @@ undefined4 FUN_0033f7f6(int param_1,uint param_2,undefined4 *param_3,undefined4 
       }
       puVar3[2] = param_2;
       puVar3[1] = 0xcd;
-      puVar3[3] = *puVar4;
+      puVar3[3] = puVar4;
       *puVar3 = *param_4;
-      *param_4 = *puVar3;
+      *param_4 = puVar3;
     }
   }
   return local_8;

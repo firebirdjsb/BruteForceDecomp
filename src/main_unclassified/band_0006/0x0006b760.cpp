@@ -26,7 +26,7 @@ void FUN_0006b760(void)
   unaff_EDI[7] = 0x3f800000;
   unaff_EDI[9] = 0x3f800000;
   unaff_EDI[0x16] = 1;
-  *unaff_EDI = PTR_LAB_003a27a0;
+  *unaff_EDI = &PTR_LAB_003a27a0;
   unaff_EDI[0xe] = 0xbf800000;
   unaff_EDI[8] = 0x47c35000;
   unaff_EDI[0xb] = 0x3faaaaab;

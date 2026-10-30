@@ -19,8 +19,8 @@ void FUN_0031a4dc(void)
   uint uVar2;
   int iVar3;
   
-  in_ECX[-1] = PTR_LAB_00386aac;
-  *in_ECX = PTR_FUN_00386aa0;
+  in_ECX[-1] = &PTR_LAB_00386aac;
+  *in_ECX = &PTR_FUN_00386aa0;
   FUN_0031a689(in_ECX + -1);
   if (in_ECX[0xf] != 0) {
     uVar2 = 0;

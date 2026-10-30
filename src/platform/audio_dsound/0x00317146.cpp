@@ -17,7 +17,7 @@ void FUN_00317146(void)
   undefined4 *in_ECX;
   uint uVar3;
   
-  *in_ECX = PTR_FUN_00386a20;
+  *in_ECX = &PTR_FUN_00386a20;
   uVar3 = 0;
   do {
     FUN_00316bd8(uVar3);

@@ -19,11 +19,11 @@ void FUN_00023a80(undefined4 param_1)
   undefined4 *in_EAX;
   undefined4 *in_EDX;
   
-  *in_EAX = PTR_FUN_003a479c;
+  *in_EAX = &PTR_FUN_003a479c;
   in_EAX[4] = 0;
   in_EAX[9] = 0;
   in_EAX[2] = 0;
-  in_EAX[1] = PTR_FUN_003a4f64;
+  in_EAX[1] = &PTR_FUN_003a4f64;
   in_EAX[7] = 0;
   in_EAX[6] = 0;
   in_EAX[5] = 0;

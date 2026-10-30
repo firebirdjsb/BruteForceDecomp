@@ -17,7 +17,7 @@ void FUN_002c70d0(undefined4 param_1)
   undefined4 *puVar1;
   undefined4 *unaff_EDI;
   
-  *unaff_EDI = PTR_FUN_0038e698;
+  *unaff_EDI = &PTR_FUN_0038e698;
   *(undefined2 *)(unaff_EDI + 4) = 0;
   *(undefined2 *)((int)unaff_EDI + 0x12) = 0;
   unaff_EDI[5] = 0;

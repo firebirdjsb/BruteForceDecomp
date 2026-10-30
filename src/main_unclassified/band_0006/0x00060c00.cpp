@@ -18,7 +18,7 @@ void FUN_00060c00(void)
   undefined4 uVar3;
   undefined1 auStack_4 [4];
   
-  *in_ECX = PTR_FUN_003a3e90;
+  *in_ECX = &PTR_FUN_003a3e90;
   piVar1 = (int *)in_ECX[0xf];
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 8))(piVar1);

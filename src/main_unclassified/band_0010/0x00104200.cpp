@@ -17,7 +17,7 @@ void FUN_00104200(void)
   int iVar2;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = PTR_FUN_0039e204;
+  *unaff_ESI = &PTR_FUN_0039e204;
   puVar1 = unaff_ESI + 0x21;
   iVar2 = 0x20;
   do {
@@ -36,7 +36,7 @@ void FUN_00104200(void)
   unaff_ESI[0x4b] = 0;
   unaff_ESI[0x4a] = 0;
   unaff_ESI[0x44] = 0;
-  unaff_ESI[0x4c] = DAT_003c060c;
+  unaff_ESI[0x4c] = &DAT_003c060c;
   unaff_ESI[0x43] = 0;
   FUN_00104330();
   return;

@@ -17,14 +17,14 @@ void FUN_00022dc0(void)
 {
   undefined4 *in_EAX;
   
-  *in_EAX = PTR_FUN_003a4f68;
+  *in_EAX = &PTR_FUN_003a4f68;
   in_EAX[5] = 0;
   in_EAX[3] = 0;
   in_EAX[2] = 0;
   in_EAX[1] = 0;
   in_EAX[10] = 0;
   in_EAX[0xf] = 0;
-  in_EAX[7] = PTR_FUN_003a4f64;
+  in_EAX[7] = &PTR_FUN_003a4f64;
   in_EAX[8] = 0;
   in_EAX[0xd] = 0;
   in_EAX[0xc] = 0;

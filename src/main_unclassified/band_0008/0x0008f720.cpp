@@ -29,7 +29,7 @@ void FUN_0008f720(void)
       puVar1[1] = 0;
     }
     else {
-      *puVar3 = *puVar1;
+      *puVar3 = puVar1;
       puVar3 = puVar1;
     }
     iVar2 = DAT_00469b24;

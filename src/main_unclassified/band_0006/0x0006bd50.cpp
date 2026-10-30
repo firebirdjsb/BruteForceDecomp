@@ -19,8 +19,8 @@ void FUN_0006bd50(void)
   int iVar1;
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_FUN_003a2868;
-  in_ECX[0x12] = PTR_LAB_003a2810;
+  *in_ECX = &PTR_FUN_003a2868;
+  in_ECX[0x12] = &PTR_LAB_003a2810;
   if ((in_ECX[0x48] != 0) &&
      (iVar1 = *(int *)(in_ECX[2] + 0xbf0), -1 < (char)(*(char *)(in_ECX + 0x49) << 1))) {
     FUN_0006e850(1);

@@ -23,7 +23,7 @@ void FUN_00085710(void)
   local_8 = 0xffffffff;
   puStack_c = &LAB_003071c0;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   iVar1 = FUN_002ea01d(0x4c);
   if (iVar1 != 0) {
     *(int *)iVar1 = iVar1;

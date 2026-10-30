@@ -18,13 +18,13 @@ void FUN_002894a0(byte param_1)
   undefined4 *in_ECX;
   
   iVar2 = in_ECX[4];
-  *in_ECX = PTR_LAB_00391530;
+  *in_ECX = &PTR_LAB_00391530;
   if ((iVar2 != 0) && (in_ECX[5] != -1)) {
     in_ECX[4] = 0;
     piVar1 = (int *)(iVar2 + 0x30);
     *piVar1 = *piVar1 + -1;
   }
-  *in_ECX = PTR_LAB_003914e0;
+  *in_ECX = &PTR_LAB_003914e0;
   if ((param_1 & 1) != 0) {
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0();

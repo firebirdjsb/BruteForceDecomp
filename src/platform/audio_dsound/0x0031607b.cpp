@@ -16,8 +16,8 @@ void DSOUND__CMcpxAPU_ServiceDeferredCommandsLow(void)
   undefined4 ****local_c;
   undefined4 ****local_8;
   
-  local_8 = local_c;
-  local_c = local_c;
+  local_8 = &local_c;
+  local_c = &local_c;
   FUN_003118f0();
   ppppuVar1 = (undefined4 ****)(in_ECX + 0x6e8);
   while ((undefined4 ****)*ppppuVar1 != ppppuVar1) {

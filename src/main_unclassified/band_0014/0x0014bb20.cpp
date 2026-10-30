@@ -17,7 +17,7 @@ void FUN_0014bb20(void)
   int iVar2;
   
   in_EAX[1] = 0;
-  *in_EAX = PTR_FUN_0039b290;
+  *in_EAX = &PTR_FUN_0039b290;
   iVar2 = 10;
   puVar1 = in_EAX;
   do {

@@ -21,8 +21,8 @@ void FUN_0025fd40(int param_1)
   undefined4 uVar3;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = PTR_FUN_00392f1c;
-  unaff_ESI[1] = PTR_FUN_00392f0c;
+  *unaff_ESI = &PTR_FUN_00392f1c;
+  unaff_ESI[1] = &PTR_FUN_00392f0c;
   uVar3 = FUN_0025fcb0(unaff_ESI + 3);
   unaff_ESI[4] = uVar3;
   unaff_ESI[5] = 0;

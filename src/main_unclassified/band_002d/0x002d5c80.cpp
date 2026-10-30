@@ -19,7 +19,7 @@ void FUN_002d5c80(void)
   undefined4 *unaff_EDI;
   
   iVar2 = unaff_EDI[1];
-  *unaff_EDI = PTR_LAB_0038e790;
+  *unaff_EDI = &PTR_LAB_0038e790;
   for (; -1 < iVar2; iVar2 = iVar2 + -1) {
     iVar1 = *(int *)(unaff_EDI[3] + 4 + iVar2 * 8);
     if (iVar1 != 0) {

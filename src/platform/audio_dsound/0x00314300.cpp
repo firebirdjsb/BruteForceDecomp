@@ -14,7 +14,7 @@ void FUN_00314300(void)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_FUN_003869ec;
+  *in_ECX = &PTR_FUN_003869ec;
   DSOUND__CDirectSoundBufferSettings_SetBufferData(0,0);
   FUN_00311e60(0,0);
   FUN_00313e3c();

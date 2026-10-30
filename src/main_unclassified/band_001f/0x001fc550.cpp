@@ -16,9 +16,9 @@ void FUN_001fc550(void)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_FUN_003962b8;
-  in_ECX[2] = PTR_FUN_0039c24c;
-  in_ECX[3] = PTR_FUN_0039e7e8;
+  *in_ECX = &PTR_FUN_003962b8;
+  in_ECX[2] = &PTR_FUN_0039c24c;
+  in_ECX[3] = &PTR_FUN_0039e7e8;
   if (in_ECX[0x17] != 0) {
     FUN_0008f6e0();
   }

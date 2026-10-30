@@ -19,8 +19,8 @@ undefined4 XAPILIB__CancelIo(undefined4 ***param_1)
   undefined4 ***local_c;
   undefined4 ***local_8;
   
-  local_8 = local_c;
-  local_c = local_c;
+  local_8 = &local_c;
+  local_c = &local_c;
   iVar4 = ObReferenceObjectByHandle(param_1,*(uint32_t *)(uintptr_t)UINT32_C(0x00386564),&param_1);
   if (iVar4 < 0) {
     XapiSetLastNTError(iVar4);

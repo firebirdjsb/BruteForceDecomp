@@ -22,10 +22,10 @@ void FUN_00221470(void)
   undefined4 uVar2;
   undefined1 local_4 [4];
   
-  *in_ECX = PTR_FUN_00394918;
-  in_ECX[0x12] = PTR_FUN_0039adec;
-  in_ECX[0x1a] = PTR_LAB_0039a8c0;
-  in_ECX[0x6c] = PTR_FUN_00394908;
+  *in_ECX = &PTR_FUN_00394918;
+  in_ECX[0x12] = &PTR_FUN_0039adec;
+  in_ECX[0x1a] = &PTR_LAB_0039a8c0;
+  in_ECX[0x6c] = &PTR_FUN_00394908;
   *(undefined ***)(*(int *)(in_ECX[0x13] + 4) + 0x4c + (int)in_ECX) = &PTR_LAB_00394900;
   *(undefined ***)(*(int *)(in_ECX[0x13] + 4) + 0x50 + (int)in_ECX) = &PTR_LAB_003948f4;
   *(int *)(*(int *)(in_ECX[0x13] + 4) + 0x48 + (int)in_ECX) = *(int *)(in_ECX[0x13] + 4) + -0x19c;

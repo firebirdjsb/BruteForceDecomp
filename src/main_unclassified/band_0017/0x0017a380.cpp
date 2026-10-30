@@ -20,7 +20,7 @@ undefined4 * FUN_0017a380(undefined4 param_1,undefined4 param_2,undefined4 param
   local_8 = 0xffffffff;
   puStack_c = &LAB_003074d0;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   puVar1 = (undefined4 *)FUN_002ea01d(0x88);
   local_8 = 0;
   if (puVar1 != (undefined4 *)0x0) {

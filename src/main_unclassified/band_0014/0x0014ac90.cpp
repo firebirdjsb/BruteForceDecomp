@@ -16,7 +16,7 @@ void FUN_0014ac90(void)
   undefined4 *unaff_EDI;
   
   unaff_EDI[1] = 0;
-  *unaff_EDI = PTR_FUN_0039b2b0;
+  *unaff_EDI = &PTR_FUN_0039b2b0;
   unaff_EDI[4] = 0;
   *(undefined2 *)((int)unaff_EDI + 0x1a) = 0;
   unaff_EDI[2] = 0;

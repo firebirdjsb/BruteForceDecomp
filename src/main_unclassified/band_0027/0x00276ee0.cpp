@@ -15,7 +15,7 @@ void FUN_00276ee0(void)
 {
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = PTR_FUN_00392660;
+  *unaff_ESI = &PTR_FUN_00392660;
   if (0xf < (uint)unaff_ESI[0x21]) {
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(unaff_ESI[0x1c]);

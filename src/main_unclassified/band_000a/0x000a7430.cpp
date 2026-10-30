@@ -17,7 +17,7 @@ void FUN_000a7430(void)
   undefined4 *unaff_EDI;
   undefined1 local_4 [4];
   
-  *unaff_EDI = PTR_LAB_003a0640;
+  *unaff_EDI = &PTR_LAB_003a0640;
   FUN_000a70d0();
   FUN_000a7b20(local_4,*(undefined4 *)unaff_EDI[0x43],(undefined4 *)unaff_EDI[0x43]);
                     /* WARNING: Subroutine does not return */

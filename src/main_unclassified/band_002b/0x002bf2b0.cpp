@@ -21,11 +21,11 @@ void FUN_002bf2b0(void)
   in_EAX[2] = in_ECX;
   in_EAX[4] = 0xffffffff;
   in_EAX[3] = 0xffffffff;
-  *in_EAX = PTR_LAB_0038e720;
+  *in_EAX = &PTR_LAB_0038e720;
   puVar1 = in_EAX + 6;
   iVar2 = 2;
   do {
-    *puVar1 = PTR_FUN_0038e6f8;
+    *puVar1 = &PTR_FUN_0038e6f8;
     puVar1 = puVar1 + 7;
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);

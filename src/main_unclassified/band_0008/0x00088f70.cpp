@@ -19,13 +19,13 @@ void FUN_00088f70(void)
   undefined4 *unaff_ESI;
   int *piVar3;
   
-  *unaff_ESI = PTR_LAB_003a21bc;
+  *unaff_ESI = &PTR_LAB_003a21bc;
   unaff_ESI[3] = 0;
   unaff_ESI[4] = 0;
   unaff_ESI[5] = 0;
   unaff_ESI[1] = in_EAX;
   unaff_ESI[2] = *(undefined4 *)(in_EAX + 0xbec);
-  *unaff_ESI = PTR_DAT_003a219c;
+  *unaff_ESI = &PTR_DAT_003a219c;
   puVar1 = unaff_ESI + 0xc;
   iVar2 = 8;
   do {

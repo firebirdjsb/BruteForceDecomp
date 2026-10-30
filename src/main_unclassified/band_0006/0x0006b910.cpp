@@ -19,7 +19,7 @@ void FUN_0006b910(byte param_1)
   int iVar1;
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_LAB_003a27a0;
+  *in_ECX = &PTR_LAB_003a27a0;
   if ((in_ECX[0x17] != 0) && (in_ECX[0x17] != -1)) {
     FUN_00235b40();
     iVar1 = in_ECX[0x17];

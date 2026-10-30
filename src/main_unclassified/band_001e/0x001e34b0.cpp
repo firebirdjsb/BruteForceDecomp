@@ -19,7 +19,7 @@ void FUN_001e34b0(int param_1,int param_2,undefined4 param_3,undefined4 *param_4
     in_EAX = (in_EAX + -1) / 2;
     puVar1 = param_4;
     if (in_stack_00000024 < 0x10) {
-      puVar1 = param_4;
+      puVar1 = &param_4;
     }
     iVar2 = FUN_000e0b20(0,puVar1,in_stack_00000020);
     if (-1 < iVar2) break;

@@ -19,7 +19,7 @@ void FUN_00142c20(undefined4 param_1,undefined4 param_2,undefined4 *param_3,unde
   
   puStack_c = &LAB_00307f80;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   local_8 = 0;
   for (; param_3 != param_4; param_3 = (undefined4 *)*param_3) {
     FUN_000ff700(param_2);

@@ -20,7 +20,7 @@ void FUN_0008bf70(undefined4 param_1)
   int iVar2;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = PTR_DAT_003a2108;
+  *unaff_ESI = &PTR_DAT_003a2108;
   iVar2 = 8;
   puVar1 = unaff_ESI;
   do {

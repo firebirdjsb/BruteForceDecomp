@@ -17,7 +17,7 @@ void FUN_00132e90(void)
   unaff_EDI[4] = 0;
   unaff_EDI[4] = 0;
   unaff_EDI[2] = 0;
-  *unaff_EDI = PTR_LAB_0039db74;
+  *unaff_EDI = &PTR_LAB_0039db74;
   *(byte *)(unaff_EDI + 5) = *(byte *)(unaff_EDI + 5) & 0xfb | 0xb;
   unaff_EDI[0x17] = 0;
   unaff_EDI[0x19] = 0;

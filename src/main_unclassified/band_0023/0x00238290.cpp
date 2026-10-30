@@ -43,7 +43,7 @@ int FUN_00238290(void)
     in_ECX[6] = (int)puVar1;
   }
   else {
-    *(undefined4 *)in_ECX[7] = *puVar1;
+    *(undefined4 *)in_ECX[7] = puVar1;
     puVar1[1] = in_ECX[7];
   }
   in_ECX[7] = (int)puVar1;

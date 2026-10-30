@@ -42,10 +42,10 @@ undefined4 * FUN_00110d30(undefined4 *param_1,int param_2)
   
   local_8[0] = 0;
   if (param_2 != 0) {
-    param_1[0x13] = DAT_0039dcc8;
-    param_1[0x217] = PTR_FUN_0039efec;
-    param_1[0x216] = PTR_LAB_0039efdc;
-    param_1[0x217] = PTR_FUN_0039efd0;
+    param_1[0x13] = &DAT_0039dcc8;
+    param_1[0x217] = &PTR_FUN_0039efec;
+    param_1[0x216] = &PTR_LAB_0039efdc;
+    param_1[0x217] = &PTR_FUN_0039efd0;
   }
   FUN_00156930();
   param_1[0x6c] = &PTR_FUN_0039a714;

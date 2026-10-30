@@ -28,7 +28,7 @@ undefined4 * FUN_002710e0(undefined4 *param_1,int param_2)
   int iVar11;
   char *pcVar12;
   
-  *param_1 = PTR_FUN_00392638;
+  *param_1 = &PTR_FUN_00392638;
   param_1[2] = 0;
   param_1[3] = 0;
   param_1[9] = 0;

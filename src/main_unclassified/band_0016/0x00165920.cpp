@@ -19,7 +19,7 @@ void FUN_00165920(void)
   undefined4 *unaff_EDI;
   
   iVar2 = unaff_EDI[2];
-  *unaff_EDI = PTR_LAB_0039a864;
+  *unaff_EDI = &PTR_LAB_0039a864;
   if (iVar2 != 0) {
     FUN_00165970();
                     /* WARNING: Subroutine does not return */

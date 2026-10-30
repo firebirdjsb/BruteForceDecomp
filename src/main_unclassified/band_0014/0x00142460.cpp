@@ -23,7 +23,7 @@ int FUN_00142460(int param_1,int param_2)
   local_8 = 0xffffffff;
   puStack_c = &LAB_00308490;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   uVar2 = FUN_00061500(param_1);
   *(undefined4 *)(param_1 + 4) = uVar2;
   *(undefined4 *)(param_1 + 8) = 0;

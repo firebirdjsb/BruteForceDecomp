@@ -24,7 +24,7 @@ undefined4 * FUN_001421d0(undefined4 *param_1,undefined4 param_2)
   local_8 = 0xffffffff;
   puStack_c = &LAB_00308920;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   local_1c = *(undefined4 **)(in_ECX + 4);
   if (*(char *)((int)param_1 + 0x1d) == '\0') {
     puVar1 = (undefined4 *)

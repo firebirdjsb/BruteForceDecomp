@@ -20,9 +20,9 @@ void FUN_0027f5e0(undefined4 param_1)
   
   in_EAX[1] = 0;
   in_EAX[3] = 1;
-  in_EAX[4] = PTR_FUN_003931b0;
-  *in_EAX = PTR_DAT_00391ab0;
-  in_EAX[4] = PTR_DAT_00391a88;
+  in_EAX[4] = &PTR_FUN_003931b0;
+  *in_EAX = &PTR_DAT_00391ab0;
+  in_EAX[4] = &PTR_DAT_00391a88;
   in_EAX[9] = 0;
   in_EAX[10] = 0;
   in_EAX[0xb] = 0;

@@ -17,8 +17,8 @@ void FUN_0025b6b0(void)
   undefined4 *in_ECX;
   byte unaff_retaddr;
   
-  *in_ECX = PTR_FUN_00393438;
-  in_ECX[1] = PTR_FUN_003933d8;
+  *in_ECX = &PTR_FUN_00393438;
+  in_ECX[1] = &PTR_FUN_003933d8;
   (**(code **)(*DAT_00443300 + 0x34))();
   if ((unaff_retaddr & 1) != 0) {
                     /* WARNING: Subroutine does not return */

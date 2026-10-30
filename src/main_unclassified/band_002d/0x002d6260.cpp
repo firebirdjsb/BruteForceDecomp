@@ -17,8 +17,8 @@ void FUN_002d6260(void)
 {
   undefined4 *in_EAX;
   
-  *in_EAX = PTR_FUN_0038e4fc;
-  in_EAX[0x20] = PTR_FUN_0038e4f4;
+  *in_EAX = &PTR_FUN_0038e4fc;
+  in_EAX[0x20] = &PTR_FUN_0038e4f4;
   FUN_002d6170();
   if (*(short *)(in_EAX + 0x24) != 0) {
     if (in_EAX[0x23] != 0) {

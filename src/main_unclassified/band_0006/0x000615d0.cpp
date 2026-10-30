@@ -35,7 +35,7 @@ void FUN_000615d0(int param_1,int param_2,uint param_3,int *param_4)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x00307a20);
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = local_10;
+  *unaff_FS_OFFSET = &local_10;
   /* Original 0x000615ee saves guest ESP at [EBP-0x10].  This
    * decompiler-only local_14 has no later semantic use; do not
    * substitute a host pointer for synthetic stack0xffffff84. */

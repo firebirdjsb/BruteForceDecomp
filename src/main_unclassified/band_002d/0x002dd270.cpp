@@ -25,13 +25,13 @@ void FUN_002dd270(void)
   unaff_EDI[2] = in_EAX;
   unaff_EDI[4] = 0xffffffff;
   unaff_EDI[3] = 0xffffffff;
-  unaff_EDI[5] = PTR_FUN_0038e640;
+  unaff_EDI[5] = &PTR_FUN_0038e640;
   puVar1 = unaff_EDI + 6;
-  *unaff_EDI = PTR_LAB_0038e4e0;
-  unaff_EDI[5] = PTR_FUN_0038e4d8;
+  *unaff_EDI = &PTR_LAB_0038e4e0;
+  unaff_EDI[5] = &PTR_FUN_0038e4d8;
   iVar3 = 2;
   do {
-    *puVar1 = PTR_LAB_0038e4c4;
+    *puVar1 = &PTR_LAB_0038e4c4;
     puVar1 = puVar1 + 4;
     iVar3 = iVar3 + -1;
   } while (iVar3 != 0);

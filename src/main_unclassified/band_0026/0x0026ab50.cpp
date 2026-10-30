@@ -15,7 +15,7 @@ FUN_0026ab50(undefined4 *param_1,int param_2,undefined4 param_3,float param_4,un
 {
   undefined1 local_10 [16];
   
-  *param_1 = PTR_LAB_003927d8;
+  *param_1 = &PTR_LAB_003927d8;
   if ((param_2 != 0) && (param_2 != -1)) {
     param_1[1] = param_2;
     FUN_0001fc70(local_10,param_3,param_4 * 57.295776);

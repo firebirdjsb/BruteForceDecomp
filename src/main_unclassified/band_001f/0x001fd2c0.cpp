@@ -17,10 +17,10 @@ void FUN_001fd2c0(void)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_FUN_00395918;
-  in_ECX[2] = PTR_FUN_0039c24c;
-  in_ECX[3] = PTR_FUN_0039e7e8;
-  in_ECX[0x10] = PTR_LAB_00395904;
+  *in_ECX = &PTR_FUN_00395918;
+  in_ECX[2] = &PTR_FUN_0039c24c;
+  in_ECX[3] = &PTR_FUN_0039e7e8;
+  in_ECX[0x10] = &PTR_LAB_00395904;
   if (in_ECX[0x16] != 0) {
     FUN_0008f6e0();
   }

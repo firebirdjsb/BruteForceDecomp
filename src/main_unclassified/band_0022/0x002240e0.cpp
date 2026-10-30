@@ -14,7 +14,7 @@ void FUN_002240e0(void)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_FUN_00394858;
+  *in_ECX = &PTR_FUN_00394858;
   if ((undefined4 *)in_ECX[0x17] != (undefined4 *)0x0) {
     (*(code *)**(undefined4 **)in_ECX[0x17])(1);
     in_ECX[0x17] = 0;

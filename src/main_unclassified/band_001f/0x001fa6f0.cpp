@@ -19,12 +19,12 @@ void FUN_001fa6f0(byte param_1)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_FUN_003966b8;
-  in_ECX[2] = PTR_LAB_00396518;
-  in_ECX[3] = PTR_LAB_003966a8;
-  in_ECX[0x10] = PTR_LAB_00396500;
-  in_ECX[0x11] = PTR_LAB_00396698;
-  in_ECX[0x1f] = PTR_LAB_0039644c;
+  *in_ECX = &PTR_FUN_003966b8;
+  in_ECX[2] = &PTR_LAB_00396518;
+  in_ECX[3] = &PTR_LAB_003966a8;
+  in_ECX[0x10] = &PTR_LAB_00396500;
+  in_ECX[0x11] = &PTR_LAB_00396698;
+  in_ECX[0x1f] = &PTR_LAB_0039644c;
   FUN_001f8b30();
   if ((param_1 & 1) != 0) {
                     /* WARNING: Subroutine does not return */

@@ -18,7 +18,7 @@ void FUN_0027f510(byte param_1)
   undefined4 *in_ECX;
   
   piVar1 = (int *)in_ECX[4];
-  *in_ECX = PTR_LAB_00391b50;
+  *in_ECX = &PTR_LAB_00391b50;
   if (piVar1 != (int *)0x0) {
     iVar2 = in_ECX[5];
     in_ECX[4] = 0;
@@ -27,7 +27,7 @@ void FUN_0027f510(byte param_1)
       piVar1[8] = 0;
     }
   }
-  *in_ECX = PTR_LAB_00391b00;
+  *in_ECX = &PTR_LAB_00391b00;
   if ((param_1 & 1) != 0) {
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0();

@@ -21,7 +21,7 @@ void FUN_0013f3a0(void)
   in_EAX[6] = 0;
   *(undefined1 *)(in_EAX + 7) = 0;
   in_EAX[8] = in_EDX;
-  *in_EAX = PTR_FUN_0039c324;
+  *in_EAX = &PTR_FUN_0039c324;
   in_EAX[10] = 0;
   in_EAX[0xb] = 0;
   in_EAX[0xc] = 0;

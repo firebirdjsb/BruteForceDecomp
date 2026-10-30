@@ -18,7 +18,7 @@ void FUN_0014ad00(void)
   undefined4 *in_ECX;
   
   iVar1 = in_ECX[8];
-  *in_ECX = PTR_FUN_0039b390;
+  *in_ECX = &PTR_FUN_0039b390;
   if (iVar1 != 0) {
     FUN_0014ae30();
     FUN_0014ae80();

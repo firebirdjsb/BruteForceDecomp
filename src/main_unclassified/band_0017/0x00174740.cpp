@@ -28,12 +28,12 @@ void FUN_00174740(void)
   int iVar5;
   undefined4 *puVar6;
   
-  unaff_ESI[-1] = PTR_FUN_0039a0c0;
-  *unaff_ESI = PTR_FUN_0039a0a8;
-  unaff_ESI[0x16] = PTR_LAB_0039a090;
-  unaff_ESI[0x17] = PTR_LAB_0039a074;
-  unaff_ESI[0x18] = PTR_LAB_0039a060;
-  unaff_ESI[0x1a] = PTR_LAB_0039a05c;
+  unaff_ESI[-1] = &PTR_FUN_0039a0c0;
+  *unaff_ESI = &PTR_FUN_0039a0a8;
+  unaff_ESI[0x16] = &PTR_LAB_0039a090;
+  unaff_ESI[0x17] = &PTR_LAB_0039a074;
+  unaff_ESI[0x18] = &PTR_LAB_0039a060;
+  unaff_ESI[0x1a] = &PTR_LAB_0039a05c;
   iVar3 = (**(code **)(*(int *)unaff_ESI[0x1c] + 0x38))((int *)unaff_ESI[0x1c]);
   iVar5 = 0;
   if (0 < iVar3) {

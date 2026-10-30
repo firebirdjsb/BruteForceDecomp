@@ -19,7 +19,7 @@ void FUN_00219360(void)
   int *piVar1;
   
   piVar1 = (int *)in_ECX[2];
-  *in_ECX = PTR_FUN_00394da0;
+  *in_ECX = &PTR_FUN_00394da0;
   if (piVar1 != (int *)in_ECX[3]) {
     do {
       if ((undefined4 *)*piVar1 != (undefined4 *)0x0) {

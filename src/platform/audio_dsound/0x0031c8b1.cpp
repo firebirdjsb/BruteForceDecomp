@@ -21,23 +21,23 @@ void FUN_0031c8b1(int param_1,undefined4 *param_2,undefined4 *param_3)
     *param_3 = 0x2f2;
   }
   else if (param_1 == 1) {
-    *param_2 = DAT_004aa5e8;
+    *param_2 = &DAT_004aa5e8;
     *param_3 = 0x862;
   }
   else if (param_1 == 2) {
-    *param_2 = DAT_004ac770;
+    *param_2 = &DAT_004ac770;
     *param_3 = 0x652;
   }
   else if (param_1 == 3) {
-    *param_2 = DAT_004ae0b8;
+    *param_2 = &DAT_004ae0b8;
     *param_3 = 0x6d3;
   }
   else if (param_1 == 4) {
-    *param_2 = DAT_004afc08;
+    *param_2 = &DAT_004afc08;
     *param_3 = 0xbc;
   }
   else if (param_1 == 5) {
-    *param_2 = DAT_004afef8;
+    *param_2 = &DAT_004afef8;
     *param_3 = 0xc9;
   }
   else {

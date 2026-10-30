@@ -20,20 +20,20 @@ void FUN_0025bd50(void)
   undefined4 *in_EAX;
   int unaff_ESI;
   
-  in_EAX[1] = PTR_FUN_003931b0;
+  in_EAX[1] = &PTR_FUN_003931b0;
   in_EAX[3] = 0;
   in_EAX[4] = 0;
   in_EAX[2] = 0xffffffff;
-  *in_EAX = PTR_LAB_00393208;
-  in_EAX[1] = PTR_LAB_003931e4;
+  *in_EAX = &PTR_LAB_00393208;
+  in_EAX[1] = &PTR_LAB_003931e4;
   puVar1 = in_EAX + 6;
-  *puVar1 = PTR_LAB_003931a4;
+  *puVar1 = &PTR_LAB_003931a4;
   in_EAX[7] = 1;
-  in_EAX[8] = *in_EAX;
+  in_EAX[8] = in_EAX;
   iVar2 = *(int *)(unaff_ESI + 8);
   in_EAX[5] = iVar2;
   if (iVar2 == 0) {
-    in_EAX[5] = *puVar1;
+    in_EAX[5] = puVar1;
     return;
   }
   **(int **)(unaff_ESI + 0xc) = (int)puVar1;

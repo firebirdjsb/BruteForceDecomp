@@ -17,9 +17,9 @@ void FUN_00062050(void)
   int *piVar1;
   undefined4 *in_ECX;
   
-  *in_ECX = PTR_FUN_003a3898;
-  in_ECX[3] = PTR_FUN_003a35a8;
-  in_ECX[5] = PTR_FUN_003a35a4;
+  *in_ECX = &PTR_FUN_003a3898;
+  in_ECX[3] = &PTR_FUN_003a35a8;
+  in_ECX[5] = &PTR_FUN_003a35a4;
   if ((in_ECX[6] != 0) && (in_ECX[7] != 0)) {
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(in_ECX[7]);

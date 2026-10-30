@@ -18,9 +18,9 @@ void FUN_002e6a40(void)
   undefined4 *in_ECX;
   int iVar1;
   
-  *in_ECX = PTR_FUN_003868c0;
-  in_ECX[1] = PTR_LAB_003868b4;
-  in_ECX[2] = PTR_LAB_003868ac;
+  *in_ECX = &PTR_FUN_003868c0;
+  in_ECX[1] = &PTR_LAB_003868b4;
+  in_ECX[2] = &PTR_LAB_003868ac;
   FUN_002e5b10();
   DAT_0040e88c = 0;
   iVar1 = 0x1e;

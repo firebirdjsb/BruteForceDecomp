@@ -36,8 +36,8 @@ void XAPILIB__MU_Init(void)
     *puVar6 = 0;
     puVar6 = puVar6 + 1;
   }
-  DAT_0040f668 = DAT_0040f664;
-  DAT_0040f664 = DAT_0040f664;
+  DAT_0040f668 = &DAT_0040f664;
+  DAT_0040f664 = &DAT_0040f664;
   DAT_0041266c = (undefined4 *)FUN_00382086(0x60,0x5f5f554d);
   puVar6 = DAT_0041266c;
   for (iVar3 = 0x18; iVar3 != 0; iVar3 = iVar3 + -1) {

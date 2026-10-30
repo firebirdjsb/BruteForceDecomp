@@ -22,7 +22,7 @@ void FUN_000239d0(undefined4 param_1)
   *(undefined1 *)(in_EAX + 0x42) = 1;
   in_EAX[0x47] = 0xbf800000;
   in_EAX[0x48] = 0x4cbebc20;
-  *in_EAX = PTR_LAB_003a3fec;
+  *in_EAX = &PTR_LAB_003a3fec;
   in_EAX[0x49] = param_1;
   *(undefined1 *)(in_EAX + 0x4a) = 1;
   return;

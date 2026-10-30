@@ -21,7 +21,7 @@ void FUN_00090a60(byte param_1)
   undefined4 *in_ECX;
   
   iVar1 = in_ECX[2];
-  *in_ECX = PTR_FUN_003a1c18;
+  *in_ECX = &PTR_FUN_003a1c18;
   if (iVar1 != 0) {
     FUN_0001fe00(iVar1,0xc,*(undefined4 *)(iVar1 + -4),FUN_0008f670);
                     /* WARNING: Subroutine does not return */

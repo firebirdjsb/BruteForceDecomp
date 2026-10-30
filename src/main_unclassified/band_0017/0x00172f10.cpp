@@ -33,18 +33,18 @@ void FUN_00172f10(void)
   unaff_EDI[8] = 0;
   unaff_EDI[9] = 0;
   unaff_EDI[10] = 0;
-  unaff_EDI[6] = PTR_FUN_0039a348;
-  unaff_EDI[0x21] = PTR_FUN_00390e8c;
-  unaff_EDI[0x22] = PTR_FUN_0039a6e0;
-  unaff_EDI[0x20] = PTR_LAB_0039a41c;
-  unaff_EDI[0x21] = PTR_LAB_0039a3e8;
-  unaff_EDI[0x22] = PTR_LAB_0039a3d4;
+  unaff_EDI[6] = &PTR_FUN_0039a348;
+  unaff_EDI[0x21] = &PTR_FUN_00390e8c;
+  unaff_EDI[0x22] = &PTR_FUN_0039a6e0;
+  unaff_EDI[0x20] = &PTR_LAB_0039a41c;
+  unaff_EDI[0x21] = &PTR_LAB_0039a3e8;
+  unaff_EDI[0x22] = &PTR_LAB_0039a3d4;
   unaff_EDI[0x23] = 1;
-  *unaff_EDI = PTR_FUN_0039a4b4;
-  unaff_EDI[6] = PTR_LAB_0039a49c;
-  unaff_EDI[0x20] = PTR_LAB_0039a480;
-  unaff_EDI[0x21] = PTR_LAB_0039a44c;
-  unaff_EDI[0x22] = PTR_LAB_0039a438;
+  *unaff_EDI = &PTR_FUN_0039a4b4;
+  unaff_EDI[6] = &PTR_LAB_0039a49c;
+  unaff_EDI[0x20] = &PTR_LAB_0039a480;
+  unaff_EDI[0x21] = &PTR_LAB_0039a44c;
+  unaff_EDI[0x22] = &PTR_LAB_0039a438;
   if (unaff_EDI[4] != in_EAX) {
     FUN_0008f6a0();
   }

@@ -16,7 +16,7 @@ void FUN_002192e0(void)
   undefined4 uVar2;
   undefined4 *unaff_EBX;
   
-  *unaff_EBX = PTR_FUN_00394da0;
+  *unaff_EBX = &PTR_FUN_00394da0;
   unaff_EBX[2] = 0;
   unaff_EBX[3] = 0;
   unaff_EBX[4] = 0;

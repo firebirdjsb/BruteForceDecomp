@@ -14,7 +14,7 @@ void FUN_001d8180(int param_1,int param_2,undefined4 *param_3)
   undefined4 *puVar2;
   
   if (param_1 == param_2) {
-    *in_EAX = *param_3;
+    *in_EAX = param_3;
     return;
   }
   do {
@@ -28,6 +28,6 @@ void FUN_001d8180(int param_1,int param_2,undefined4 *param_3)
     param_2 = iVar1;
     param_3 = puVar2;
   } while (iVar1 != param_1);
-  *in_EAX = *puVar2;
+  *in_EAX = puVar2;
   return;
 }

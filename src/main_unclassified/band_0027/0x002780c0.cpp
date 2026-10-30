@@ -15,7 +15,7 @@ void FUN_002780c0(void)
   undefined4 *in_ECX;
   int local_4;
   
-  *in_ECX = PTR_FUN_00391de0;
+  *in_ECX = &PTR_FUN_00391de0;
   local_4 = *(int *)in_ECX[5];
   if ((int *)local_4 != (int *)in_ECX[5]) {
                     /* WARNING: Subroutine does not return */

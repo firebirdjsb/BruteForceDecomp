@@ -18,13 +18,13 @@ void FUN_002138f0(void)
   undefined4 *in_EAX;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = PTR_LAB_0039af90;
+  *unaff_ESI = &PTR_LAB_0039af90;
   unaff_ESI[2] = 0;
   unaff_ESI[1] = 0xffffffff;
   unaff_ESI[2] = *in_EAX;
   unaff_ESI[4] = 0;
   unaff_ESI[5] = 0;
-  *unaff_ESI = PTR_LAB_00394dac;
+  *unaff_ESI = &PTR_LAB_00394dac;
   *(byte *)(unaff_ESI + 3) = *(byte *)(unaff_ESI + 3) | 1;
   *(undefined1 *)(unaff_ESI + 8) = 1;
   *(undefined1 *)((int)unaff_ESI + 0x22) = 0xff;

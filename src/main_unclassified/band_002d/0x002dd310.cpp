@@ -26,8 +26,8 @@ void FUN_002dd310(void)
   int iVar6;
   
   uVar4 = (uint)*(ushort *)((int)in_ECX + 0x3a);
-  *in_ECX = PTR_LAB_0038e4e0;
-  in_ECX[5] = PTR_FUN_0038e4d8;
+  *in_ECX = &PTR_LAB_0038e4e0;
+  in_ECX[5] = &PTR_FUN_0038e4d8;
   while (uVar4 = uVar4 - 1, -1 < (int)uVar4) {
     piVar1 = *(int **)(in_ECX[0xf] + uVar4 * 4);
     if (piVar1 != (int *)0x0) {

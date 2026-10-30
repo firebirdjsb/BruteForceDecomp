@@ -24,8 +24,8 @@ void FUN_000bd8c0(void)
   undefined4 *in_ECX;
   
   piVar2 = (int *)in_ECX[0x38];
-  *in_ECX = PTR_FUN_0039f7f0;
-  in_ECX[0xb] = PTR_LAB_0039f7dc;
+  *in_ECX = &PTR_FUN_0039f7f0;
+  in_ECX[0xb] = &PTR_LAB_0039f7dc;
   if (piVar2 == (int *)0x0) {
     if (in_ECX[0x33] != 0) {
       FUN_0008f6e0();

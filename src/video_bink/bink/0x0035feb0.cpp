@@ -30,7 +30,7 @@ void FUN_0035feb0(int param_1)
     if (((uVar1 & 1) == 0) || (0x2000 < uVar1)) {
       DAT_00414b38 = UINT32_C(0x0035fe10);
       DAT_00414b10 = UINT32_C(0x0035fe60);
-      _DAT_00414b44 = *in_ECX;
+      _DAT_00414b44 = in_ECX;
       *in_ECX = 0x82;
       _DAT_00414b1c = UINT32_C(0x0035fa10);
       _DAT_00414b28 = UINT32_C(0x0035fae0);

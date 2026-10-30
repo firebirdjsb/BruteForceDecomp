@@ -17,7 +17,7 @@ void FUN_00179110(undefined4 param_1)
   undefined4 *unaff_ESI;
   undefined4 *puVar3;
   
-  *unaff_ESI = PTR_FUN_00399dac;
+  *unaff_ESI = &PTR_FUN_00399dac;
   puVar3 = unaff_ESI + 2;
   iVar2 = 2;
   do {
