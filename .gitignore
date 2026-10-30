@@ -48,3 +48,15 @@ id_ed25519
 credentials.json
 service-account.json
 service_account.json
+
+# Disposable campaign repair artifacts (keep local, do not track)
+repair_batch*.py
+repair_batch*_results.json
+repair_queue_batch*.json
+callee_sig_map.json
+build_sig_map.py
+# Generated audit dumps (do not track)
+cpp_compat_results/
+cpp_failures_classified*/
+# Machine-local REA/Kilo config
+.kilo/
