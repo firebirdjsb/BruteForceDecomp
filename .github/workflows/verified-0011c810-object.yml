@@ -1,11 +1,6 @@
 name: Verify 0x0011C810 original object argument
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_0011/0x0011c810.c'
-      - 'scripts/verify_0011c810_original_object.py'
-      - '.github/workflows/verified-0011c810-object.yml'
   workflow_dispatch:
 permissions:
   contents: read

@@ -1,0 +1,54 @@
+name: Focused original 0x0026A810 guest x87 matrix
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guest-matrix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Original x87 matrix and REP MOVSD at O0 and O2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -ffp-contract=off -I src/guest_cpu \
+              tests/test_0026a810_guest_matrix.c \
+              -o "$RUNNER_TEMP/test_guest_matrix_$opt"
+            "$RUNNER_TEMP/test_guest_matrix_$opt"
+          done
+      - name: Original three-argument caller to matrix callee integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -ffp-contract=off -I src/guest_cpu \
+              tests/test_00269600_combine_call.c \
+              -o "$RUNNER_TEMP/test_269600_combine_$opt"
+            "$RUNNER_TEMP/test_269600_combine_$opt"
+          done
+      - name: Address and undefined-behavior sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -ffp-contract=off \
+            -Wall -Wextra -Werror -pedantic-errors -I src/guest_cpu \
+            tests/test_0026a810_guest_matrix.c \
+            -o "$RUNNER_TEMP/test_guest_matrix_san"
+          "$RUNNER_TEMP/test_guest_matrix_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -ffp-contract=off \
+            -Wall -Wextra -Werror -pedantic-errors -I src/guest_cpu \
+            tests/test_00269600_combine_call.c \
+            -o "$RUNNER_TEMP/test_269600_combine_san"
+          "$RUNNER_TEMP/test_269600_combine_san"
+      - name: Scope
+        run: |
+          echo "Instruction-ordered guest matrix and raw REP copy, not full Xbox FPU/SEH equivalence."
+          echo "Original FUN_0026A810 remains a separate Ghidra C draft; no syntax pass credited."

@@ -1,12 +1,6 @@
 name: Verified 0x002B7C70 guest float3 callback arguments
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_002b/0x002b7c70.c'
-      - 'scripts/verify_002b7c70_float3_callback.py'
-      - '.github/workflows/verified-002b7c70-float3-callback.yml'
-      - 'include/bf_ghidra_types.h'
   workflow_dispatch:
 permissions:
   contents: read

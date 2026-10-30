@@ -1,0 +1,39 @@
+name: Focused original 0x001F3AA0 conditional x87 and cleanup tail
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-tail:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify original 0x002B8DE0 and 0x001F3AA0 tail at O0/O2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for test in test_002b8de0_guest_cleanup test_001f3aa0_guest_tail; do
+            for opt in 0 2; do
+              clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+                -ffp-contract=off -I src/guest_cpu "tests/$test.c" \
+                -o "$RUNNER_TEMP/$test-$opt"
+              "$RUNNER_TEMP/$test-$opt"
+            done
+          done
+      - name: Address and undefined-behavior sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          for test in test_002b8de0_guest_cleanup test_001f3aa0_guest_tail; do
+            clang -std=c11 -O1 -g -fsanitize=address,undefined \
+              -fno-omit-frame-pointer -Wall -Wextra -Werror \
+              -pedantic-errors -ffp-contract=off -I src/guest_cpu \
+              "tests/$test.c" -o "$RUNNER_TEMP/$test-san"
+            "$RUNNER_TEMP/$test-san"
+          done
+      - name: Verification boundary
+        run: |
+          echo "Guest operation sequence verified; concrete 1F35B0/2B8C60 and heap APIs are callbacks."
+          echo "Original FUN_001F3AA0 draft and native ABI remain unverified."

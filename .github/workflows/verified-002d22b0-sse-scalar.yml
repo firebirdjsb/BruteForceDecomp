@@ -1,12 +1,6 @@
 name: Verified 0x002D22B0 SSE scalar lifetime
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_002d/0x002d22b0.c'
-      - 'scripts/verify_002d22b0_sse_scalar_lifetime.py'
-      - '.github/workflows/verified-002d22b0-sse-scalar.yml'
-      - 'include/bf_ghidra_types.h'
   workflow_dispatch:
 permissions:
   contents: read

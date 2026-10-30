@@ -1,28 +1,7 @@
 name: Verified XBE stack-slot and exception-address and atexit C11 checks
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_0013/0x00136410.c'
-      - 'src/main_unclassified/band_0013/0x001364e0.c'
-      - 'src/main_unclassified/band_0013/0x001365b0.c'
-      - 'src/main_unclassified/band_0013/0x00136680.c'
-      - 'src/main_unclassified/band_002f/0x002f4c4a.c'
-      - 'src/main_unclassified/band_002e/0x002ea4bf.c'
-      - 'tools/verify_x86_stack_slot_and_exception_address.py'
-      - 'src/main_unclassified/band_0008/0x0008e590.c'
-      - 'src/main_unclassified/band_0010/0x00102300.c'
-      - 'scripts/verify_00102300_stack_argument.py'
-      - 'src/main_unclassified/band_000f/0x000f0480.c'
-      - 'scripts/verify_000f0480_guest_output_word.py'
-      - 'src/main_unclassified/band_0028/0x002825e0.c'
-      - 'scripts/verify_002825e0_interface_stack.py'
-      - 'src/main_unclassified/band_000d/0x000de780.c'
-      - 'scripts/verify_000de780_fallback_stack_word.py'
-      - 'tools/verify_stack_record_8e590.py'
-      - '.github/workflows/verified-stack-slot-words.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 

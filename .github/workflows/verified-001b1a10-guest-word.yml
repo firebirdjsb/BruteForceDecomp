@@ -1,12 +1,6 @@
 name: Verified 001B1A10 guest word C11
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_001b/0x001b1a10.c'
-      - 'scripts/verify_001b1a10_guest_word.py'
-      - '.github/workflows/verified-001b1a10-guest-word.yml'
-      - 'include/bf_ghidra_types.h'
   workflow_dispatch:
 jobs:
   guest-word:

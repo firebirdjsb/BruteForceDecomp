@@ -23,7 +23,7 @@
 static inline bool bf_00155840_known_matrix_virtual(void *ctx,
     uint32_t target_va, uint32_t receiver_ecx, uint32_t *eax_after_call)
 {
-    const bf_621c0_guest_words *const mem = ctx;
+    const bf_621c0_guest_words *const mem = (const bf_621c0_guest_words *)ctx;
     uint32_t table, next, primary;
     if (!mem || !mem->read_u32 || !eax_after_call ||
         target_va != BF_00155840_KNOWN_METHOD_ENTRY)

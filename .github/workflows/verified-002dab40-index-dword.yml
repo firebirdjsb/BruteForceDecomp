@@ -1,12 +1,6 @@
 name: Verified 0x002DAB40 guest index-table DWORD
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_002d/0x002dab40.c'
-      - 'scripts/verify_002dab40_guest_index_pointer.py'
-      - '.github/workflows/verified-002dab40-index-dword.yml'
-      - 'include/bf_ghidra_types.h'
   workflow_dispatch:
 permissions:
   contents: read

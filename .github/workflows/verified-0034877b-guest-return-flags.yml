@@ -1,15 +1,7 @@
 name: Verify 0x0034877B guest return flags
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/platform/network_xnet/0x0034877b.c'
-      - 'scripts/verify_0034877b_guest_return_flags.py'
-      - 'tests/test_0034877b_guest_flags.c'
-      - 'include/bf_ghidra_types.h'
-      - '.github/workflows/verified-0034877b-guest-return-flags.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 

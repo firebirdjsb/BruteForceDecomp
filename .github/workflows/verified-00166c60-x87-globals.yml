@@ -1,12 +1,6 @@
 name: Verified 0x00166C60 original x87 global float words
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_0016/0x00166c60.c'
-      - 'scripts/verify_00166c60_x87_globals.py'
-      - '.github/workflows/verified-00166c60-x87-globals.yml'
-      - 'include/bf_ghidra_types.h'
   workflow_dispatch:
 permissions:
   contents: read

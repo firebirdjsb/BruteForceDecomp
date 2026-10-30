@@ -1,15 +1,6 @@
 name: Verify four original guest pointer and float lifetimes
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_000b/0x000bf7a0.c'
-      - 'src/main_unclassified/band_000d/0x000df0a0.c'
-      - 'src/main_unclassified/band_0011/0x00116480.c'
-      - 'src/main_unclassified/band_0023/0x00234f90.c'
-      - 'scripts/verify_20261027_four_guest_lifetimes.py'
-      - '.github/workflows/verify-four-guest-lifetimes.yml'
-      - 'include/bf_ghidra_types.h'
   workflow_dispatch:
 permissions:
   contents: read

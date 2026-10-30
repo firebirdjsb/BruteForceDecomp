@@ -1,0 +1,29 @@
+name: Focused original 0x001FEB60 guest iterator
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+
+jobs:
+  guest-iterator:
+    name: Verified 001FEB60 register outputs and guest word ordering
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clang ISO C11 guest iterator tests at O0 and O2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -Iinclude tests/test_001feb60_guest_iterator.c \
+              -o "$RUNNER_TEMP/test_001feb60_$opt"
+            "$RUNNER_TEMP/test_001feb60_$opt"
+          done
+      - name: Verification boundary
+        run: |
+          echo "Only original 001FEB60 input/output guest-memory traversal is scoped."
+          echo "Original C draft callers 001FF0F0/002058C0 remain ABI_UNVERIFIED."
+          echo "Do not count extra syntax passes or claim Xbox guest fault parity."

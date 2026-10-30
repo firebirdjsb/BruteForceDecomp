@@ -2,6 +2,8 @@
 """Static evidence for 0x52120 -> vtable(+0x20) -> 0x52c90 -> 0x236670.
 
 Only TWO code-referenced constructor vtables have been established.
+After byte-preserving migration to .cpp, source checks intentionally parse
+in historic C11 mode (-x c). The full C++17 sweep is independent.
 The virtual receiver's full runtime type set, helper ECX provenance,
 32-bit guest memory and behavior are NOT proven by these checks.
 Never commit the original Xbox executable or its full decompiler output.
@@ -46,21 +48,21 @@ WINDOWS = (
     (0x23679d, "c20c00"),
 )
 SOURCES = {
-    "src/main_unclassified/band_0005/0x00052120.c": (
+    "src/main_unclassified/band_0005/0x00052120.cpp": (
         "A9BB04FF684DF913B8D6F81E92E4D06B88773586B58567CF41746BE7570BEA45",
         "undefined1 guest_frame[0x28];",
         "get_outputs(unaff_ESI, unaff_EBX, guest_frame + 0x00, guest_frame + 0x10);",
         "get_outputs(unaff_ESI, unaff_EDI, guest_frame + 0x04, guest_frame + 0x1c);",
         "STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED",
     ),
-    "src/main_unclassified/band_0005/0x00052c90.c": (
+    "src/main_unclassified/band_0005/0x00052c90.cpp": (
         "7C722A7C22D357E209576DAAA96229B3BA997347E8CF2F69338A39AE91F6858D",
         "case 2:", "case 0x1a:", "case 0x1f:", "case 3:",
         "FUN_00236670(1,param_2,param_3);",
         "*param_2 = 0x3f000000;", "param_3[1] = uVar2;",
         "param_3[2] = uVar1;", "STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED",
     ),
-    "src/main_unclassified/band_0023/0x00236670.c": (
+    "src/main_unclassified/band_0023/0x00236670.cpp": (
         "6C4E9FF97FAD7BC65B6785B0219EE5FFC14E999AC651A7AA2E9585D197E84496",
         "undefined4 FUN_00236670(char param_1,int *param_2,int *param_3)",
         "*param_2 = local_30;", "param_3[1] = local_20;",
@@ -157,13 +159,13 @@ def verify_sources(root):
         for marker in markers:
             if marker not in src:
                 raise ValueError(f"{relpath}: missing source invariant: {marker}")
-        if relpath.endswith("0x00052c90.c"):
+        if relpath.endswith("0x00052c90.cpp"):
             if src.count("FUN_00236670(1,param_2,param_3);") != 2:
                 raise ValueError("helper is missing the flag and output arguments on a path")
             if "FUN_00236670();" in src:
                 raise ValueError("argument-less helper tail call was restored")
         if clang:
-            command = [clang, "-std=c11", "-fsyntax-only", "-ferror-limit=3",
+            command = [clang, "-x", "c", "-std=c11", "-fsyntax-only", "-ferror-limit=3",
                        "-Wno-implicit-function-declaration", "-Wno-int-conversion",
                        "-Wno-incompatible-pointer-types", "-Wno-pointer-to-int-cast",
                        "-Wno-int-to-pointer-cast", "-Wno-return-type",

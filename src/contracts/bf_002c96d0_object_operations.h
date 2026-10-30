@@ -17,7 +17,7 @@ static inline uint32_t bf_002c9670_read_guest_u32(uint32_t address)
 
 static inline void bf_002c9670_produce(void *ecx_output, uint32_t edi_source)
 {
-  unsigned char *output = ecx_output;
+  unsigned char *output = (unsigned char *)ecx_output;
   uint32_t source_word, second_word, tag_address, value;
   int8_t tag;
   unsigned index;

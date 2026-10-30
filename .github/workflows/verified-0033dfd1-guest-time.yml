@@ -1,13 +1,7 @@
 name: Verify 0x0033DFD1 guest time record
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/platform/online_xonline/0x0033dfd1.c'
-      - 'scripts/verify_0033dfd1_guest_time.py'
-      - '.github/workflows/verified-0033dfd1-guest-time.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 

@@ -12,7 +12,7 @@
 _Static_assert(sizeof(float) == 4, "Original m32fp is four bytes");
 static inline void bf_0001fd40_normalize(void *eax_vector)
 {
-    unsigned char *p = eax_vector;
+    unsigned char *p = (unsigned char *)eax_vector;
     float x, y, z, result;
     long double sum, term, reciprocal;
     /* FLD +8,+4,+0 at 0x0001fd40..46, before any write. */

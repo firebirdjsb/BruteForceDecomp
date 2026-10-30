@@ -1,0 +1,27 @@
+name: Verify 0x00213FC0 C11 and original opcode contracts
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-c11:
+    name: Original DWORD float and partial-byte store contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Source contracts and Clang isolated C11
+        run: python3 scripts/verify_00213fc0_partial_store.py --root . --clang
+      - name: Check low-byte guest32 preservation at O0 and O2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              tests/test_00213fc0_partial_guest_word.c -o "$RUNNER_TEMP/guest_byte_$opt"
+            "$RUNNER_TEMP/guest_byte_$opt"
+          done
+      - name: Scope
+        run: |
+          echo "Clang syntax and source instruction contracts only; guest ABI, SSE, and linked runtime are unverified."

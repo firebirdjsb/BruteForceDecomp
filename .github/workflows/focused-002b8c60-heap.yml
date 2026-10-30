@@ -1,0 +1,104 @@
+name: Focused original 0x002B8C60 guest dispatch and heap evidence
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guest-dispatch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify original flag masks and dispatch at O0/O2
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_002b8c60_guest_dispatch.c \
+              -o "$RUNNER_TEMP/test_dispatch_$opt"
+            "$RUNNER_TEMP/test_dispatch_$opt"
+          done
+      - name: Verify original initialized heap wrapper at O0/O2
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_heap_wrapper_guest.c \
+              -o "$RUNNER_TEMP/test_heap_$opt"
+            "$RUNNER_TEMP/test_heap_$opt"
+          done
+      - name: Verify original 001F35B0 early-return paths
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_001f35b0_entry_gate.c \
+              -o "$RUNNER_TEMP/test_owner_gate_$opt"
+            "$RUNNER_TEMP/test_owner_gate_$opt"
+          done
+      - name: Verify original 001F35B0 first nested heap allocation
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_001f35b0_first_allocation.c \
+              -o "$RUNNER_TEMP/test_owner_first_alloc_$opt"
+            "$RUNNER_TEMP/test_owner_first_alloc_$opt"
+          done
+      - name: Verify 001F3AA0 tail with real branch/heap guest router
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_001f3aa0_concrete_router.c \
+              -o "$RUNNER_TEMP/test_concrete_router_$opt"
+            "$RUNNER_TEMP/test_concrete_router_$opt"
+          done
+      - name: Verify authentic 001F3AA0 EBP/ESP prologue at O0/O2
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_001f3aa0_guest_prologue.c \
+              -o "$RUNNER_TEMP/test_1f3aa0_prologue_$opt"
+            "$RUNNER_TEMP/test_1f3aa0_prologue_$opt"
+          done
+      - name: Verify memory and undefined behavior with sanitizers
+        run: |
+          set -euo pipefail
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_002b8c60_guest_dispatch.c \
+            -o "$RUNNER_TEMP/test_dispatch_san"
+          "$RUNNER_TEMP/test_dispatch_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_heap_wrapper_guest.c \
+            -o "$RUNNER_TEMP/test_heap_san"
+          "$RUNNER_TEMP/test_heap_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_001f35b0_entry_gate.c \
+            -o "$RUNNER_TEMP/test_owner_gate_san"
+          "$RUNNER_TEMP/test_owner_gate_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_001f35b0_first_allocation.c \
+            -o "$RUNNER_TEMP/test_owner_first_alloc_san"
+          "$RUNNER_TEMP/test_owner_first_alloc_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_001f3aa0_concrete_router.c \
+            -o "$RUNNER_TEMP/test_concrete_router_san"
+          "$RUNNER_TEMP/test_concrete_router_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_001f3aa0_guest_prologue.c \
+            -o "$RUNNER_TEMP/test_1f3aa0_prologue_san"
+          "$RUNNER_TEMP/test_1f3aa0_prologue_san"
+      - name: Scope of confirmation
+        run: |
+          echo "Conforms to bounded original 002B8C60 x86 gate/dispatch ordering."
+          echo "Type 3 enters 002B89F0; type 2 uses runtime vtable +0x18."
+          echo "Concrete heap hooks, original target callee behavior and guest SEH require separate verification."

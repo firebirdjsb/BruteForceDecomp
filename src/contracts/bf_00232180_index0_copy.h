@@ -12,9 +12,9 @@
 static inline void bf_00232180_index0_copy(void *esi_output, void *edi_output,
                                          const void *ebx_object)
 {
-    const unsigned char *source = ebx_object;
-    unsigned char *esi = esi_output;
-    unsigned char *edi = edi_output;
+    const unsigned char *source = (const unsigned char *)ebx_object;
+    unsigned char *esi = (unsigned char *)esi_output;
+    unsigned char *edi = (unsigned char *)edi_output;
     uint32_t first, second, third;
     /* 0x232199..0x2321bd: read +234,+230,+22c; write +0,+8,+4. */
     memcpy(&third, source + 0x234, 4);

@@ -21,9 +21,9 @@ static inline void bf_000a0c60_produce(void *eax_output,
                                      const void *ecx_matrix,
                                      const void *edx_input)
 {
-    const unsigned char *matrix = ecx_matrix;
-    const unsigned char *input = edx_input;
-    unsigned char *output = eax_output;
+    const unsigned char *matrix = (const unsigned char *)ecx_matrix;
+    const unsigned char *input = (const unsigned char *)edx_input;
+    unsigned char *output = (unsigned char *)eax_output;
     float input_word, matrix_word, dx, dy, z_spill, y_result, z_result;
     long double z_extended, x, y, z;
 

@@ -1,0 +1,97 @@
+name: Full C++17 source draft syntax inventory (not a native game build)
+concurrency:
+  group: full-cpp17-audit-${{ github.ref }}
+  cancel-in-progress: true
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'tools/source_layout.py'
+      - 'tools/sweep_cpp_compat.py'
+      - 'tools/classify_cpp_failures.py'
+      - 'tools/triage_cpp_undeclared_calls.py'
+      - 'tools/test_triage_cpp_undeclared_calls.py'
+      - 'tools/test_cpp_memory_helper_syntax.py'
+      - 'tools/identify_cpp_verified_call_edges.py'
+      - 'tools/test_identify_cpp_verified_call_edges.py'
+      - 'tools/test_cpp_virtual_bridge_syntax.py'
+      - 'include/bf_00155840_concrete_virtual.h'
+      - 'include/bf_0011c810_concrete_virtual.h'
+      - 'include/bf_0011c810_virtual_call_link.h'
+      - 'include/bf_00155840_virtual_621c0.h'
+      - 'metadata/x86_verified_call_edges.csv'
+      - 'tools/test_classify_cpp_failures.py'
+      - 'tools/test_sweep_cpp_compat.py'
+      - 'include/bf_ghidra_types.h'
+      - 'tools/test_cpp_ghidra_concat.py'
+      - 'tools/test_cpp_allocator_guest32.py'
+      - 'tools/test_cpp_00058d40_guest_handoff.py'
+      - 'include/bf_00058d40_guest_handoff.h'
+      - 'include/bf_002ea01d_allocator_guest32.h'
+      - 'tools/verify_cpp_hotspot_xbe.py'
+      - 'tools/verify_cpp_allocator_immediate_sites.py'
+      - 'metadata/cpp_allocator_verified_call_sites.csv'
+      - '.github/workflows/cpp-compatibility-audit.yml'
+  workflow_dispatch:
+    inputs:
+      source_limit:
+        description: "0 = all 13,694 drafts; otherwise sample first N"
+        type: choice
+        options: ["100", "0"]
+        default: "100"
+permissions:
+  contents: write
+jobs:
+  cpp-compat:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate compiler and C++ progress gates
+        run: |
+          python3 -m unittest discover -s tools -p 'test_sweep_cpp_compat.py' -v
+          python3 tools/test_publish_cpp_progress.py
+          python3 -m unittest discover -s tools -p 'test_classify_cpp_failures.py' -v
+          python3 -m unittest discover -s tools -p 'test_triage_cpp_undeclared_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_memory_helper_syntax.py' -v
+          python3 -m unittest discover -s tools -p 'test_identify_cpp_verified_call_edges.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_virtual_bridge_syntax.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_ghidra_concat.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_allocator_guest32.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_00058d40_guest_handoff.py' -v
+          python3 -m py_compile tools/verify_cpp_hotspot_xbe.py
+          python3 tools/verify_cpp_allocator_immediate_sites.py
+      - name: Inventory C++17 syntax separately from the historical C11 baseline
+        env:
+          LIMIT: ${{ github.event_name == 'push' && '0' || inputs.source_limit }}
+        run: python3 tools/sweep_cpp_compat.py --root . --out cpp_compat_results --jobs 8 --limit "$LIMIT"
+      - name: Classify C++ compiler diagnostics into repair queues
+        run: python3 tools/classify_cpp_failures.py --report cpp_compat_results/cpp_compat_report.json --out cpp_compat_results
+      - name: Rank unresolved cross-function identifiers without guessing call contracts
+        run: python3 tools/triage_cpp_undeclared_calls.py --report cpp_compat_results/cpp_compat_report.json --out cpp_compat_results
+      - name: Cross-reference compiler failures with recorded original x86 call edges
+        run: python3 tools/identify_cpp_verified_call_edges.py --report cpp_compat_results/cpp_compat_report.json --out cpp_compat_results
+      - name: Publish exact-commit full C++ syntax coverage
+        if: ${{ github.event_name == 'push' || inputs.source_limit == '0' }}
+        env:
+          AUDITED_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          python3 tools/publish_cpp_progress.py --report cpp_compat_results/cpp_compat_report.json --expected-sha "$AUDITED_SHA" --run-id "$RUN_ID" --root .
+          git fetch --no-tags origin main
+          if [[ "$(git rev-parse origin/main)" != "$AUDITED_SHA" ]]; then
+            echo "main advanced; skip stale C++ percentage publication"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md docs/progress/current.json docs/progress/cpp-syntax.svg docs/progress/overall.svg
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "docs(progress): publish exact C++17 syntax coverage"
+          git push origin HEAD:main
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cpp-compatibility-${{ github.sha }}
+          path: cpp_compat_results/

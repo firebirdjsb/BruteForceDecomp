@@ -15,8 +15,8 @@ _Static_assert(sizeof(float) == 4, "original m32fp is four bytes");
 
 static inline void bf_0001fd10_produce(void *eax_output, const void *ecx_source)
 {
-    const unsigned char *source = ecx_source;
-    unsigned char *output = eax_output;
+    const unsigned char *source = (const unsigned char *)ecx_source;
+    unsigned char *output = (unsigned char *)eax_output;
     float third_input, second_input, third_spill, second_spill;
     long double second_x87;
     uint32_t first_bits;
@@ -36,8 +36,8 @@ static inline void bf_0001fd10_produce(void *eax_output, const void *ecx_source)
 
 static inline void bf_0001fc40_produce(void *eax_output, const void *ecx_source)
 {
-    const unsigned char *source = ecx_source;
-    unsigned char *output = eax_output;
+    const unsigned char *source = (const unsigned char *)ecx_source;
+    unsigned char *output = (unsigned char *)eax_output;
     float third_input, second_input, first_input;
     float third_spill, second_spill, first_spill;
     /* 1fc43..1fc5c: m32fp reads +0x1c, +0x10, +4, in that order.
@@ -56,8 +56,8 @@ static inline void bf_0001fc40_produce(void *eax_output, const void *ecx_source)
 
 static inline void bf_0001fdd0_produce(void *eax_output, const void *ecx_source)
 {
-    const unsigned char *source = ecx_source;
-    unsigned char *output = eax_output;
+    const unsigned char *source = (const unsigned char *)ecx_source;
+    unsigned char *output = (unsigned char *)eax_output;
     float third_input, second_input, first_input;
     float third_spill, second_spill, first_spill;
     /* 1fdd3..1fdec: m32fp reads +0x20, +0x14, +8, in that order. */

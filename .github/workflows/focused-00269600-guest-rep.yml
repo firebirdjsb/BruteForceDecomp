@@ -1,0 +1,79 @@
+name: Focused original 0x00269600 guest REP loops
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  rep-operations:
+    name: Three original REP loops, DF, alias and fault prefix
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify guest word operations at O0 and O2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_00269600_guest_rep.c \
+              -o "$RUNNER_TEMP/test_00269600_rep_$opt"
+            "$RUNNER_TEMP/test_00269600_rep_$opt"
+          done
+      - name: Verify original CALL-to-REP caller prefix at O0 and O2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_00269600_guest_prefix.c \
+              -o "$RUNNER_TEMP/test_00269600_prefix_$opt"
+            "$RUNNER_TEMP/test_00269600_prefix_$opt"
+          done
+      - name: Verify x87 FCOMP parity and reciprocal guest effects
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -ffp-contract=off -I src/guest_cpu \
+              tests/test_00269600_x87_loop.c -lm \
+              -o "$RUNNER_TEMP/test_00269600_x87_$opt"
+            "$RUNNER_TEMP/test_00269600_x87_$opt"
+          done
+      - name: Verify all three original downstream callsite registers
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_00269600_downstream_calls.c \
+              -o "$RUNNER_TEMP/test_00269600_calls_$opt"
+            "$RUNNER_TEMP/test_00269600_calls_$opt"
+          done
+      - name: Address and undefined-behavior sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_00269600_guest_rep.c \
+            -o "$RUNNER_TEMP/test_00269600_rep_san"
+          "$RUNNER_TEMP/test_00269600_rep_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_00269600_guest_prefix.c \
+            -o "$RUNNER_TEMP/test_00269600_prefix_san"
+          "$RUNNER_TEMP/test_00269600_prefix_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -ffp-contract=off -I src/guest_cpu \
+            tests/test_00269600_x87_loop.c -lm \
+            -o "$RUNNER_TEMP/test_00269600_x87_san"
+          "$RUNNER_TEMP/test_00269600_x87_san"
+      - name: Verification boundaries
+        run: |
+          echo "Original Xbox guest memory order, ESI/EDI/ECX and direction flag are modeled."
+          echo "Original FUN_00269600 still needs guest receiver ECX, caller ESP, and downstream function behavior."
+          echo "No original source syntax pass or complete 1:1 runtime equivalence is claimed."

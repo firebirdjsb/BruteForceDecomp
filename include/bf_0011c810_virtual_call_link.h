@@ -69,7 +69,7 @@ static inline bf_0011c810_virtual_result bf_0011c810_dispatch_virtual(
     uint32_t guest_esp_s,bf_0011c810_virtual_kind kind,
     bf_0011c810_virtual_executor executor,void *executor_context)
 {
-    bf_0011c810_virtual_result r={0};
+    bf_0011c810_virtual_result r={BF_0011C810_VIRTUAL_OK};
     r.status=BF_0011C810_VIRTUAL_INVALID_ARGUMENT;
     r.producer.status=BF_0011C810_INVALID_IO;
     if (!io || !io->read || !io->write || !executor ||

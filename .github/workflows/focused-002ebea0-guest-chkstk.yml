@@ -1,0 +1,91 @@
+name: Focused original Xbox 0x002EBEA0 guest stack probe
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-guest-stack-probe:
+    name: 0x002EBEA0 original guest memory, flags and RET contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clang ISO C11 tests at O0 and O2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu \
+              tests/test_002ebea0_guest_chkstk.c \
+              -o "$RUNNER_TEMP/test_chkstk_$opt"
+            "$RUNNER_TEMP/test_chkstk_$opt"
+          done
+      - name: Reconstruct both original caller prologues and guest ESP
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_002ebea0_callers.c \
+              -o "$RUNNER_TEMP/test_chkstk_callers_$opt"
+            "$RUNNER_TEMP/test_chkstk_callers_$opt"
+          done
+      - name: Verify original 001F3AA0 sparse frame writes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_001f3aa0_sparse_frame.c \
+              -o "$RUNNER_TEMP/test_1f3aa0_sparse_$opt"
+            "$RUNNER_TEMP/test_1f3aa0_sparse_$opt"
+          done
+      - name: Verify sparse-frame original ESP at caller boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_001f3aa0_sparse_site.c \
+              -o "$RUNNER_TEMP/test_001f3aa0_sparse_site_$opt"
+            "$RUNNER_TEMP/test_001f3aa0_sparse_site_$opt"
+          done
+      - name: Verify original 001F3AA0 x87 producer at O0 and O2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -ffp-contract=off -I src/guest_cpu \
+              tests/test_001f3aa0_guest_producer.c \
+              -o "$RUNNER_TEMP/test_1f3aa0_producer_$opt"
+            "$RUNNER_TEMP/test_1f3aa0_producer_$opt"
+          done
+      - name: Address and undefined behavior sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_002ebea0_guest_chkstk.c \
+            -o "$RUNNER_TEMP/test_chkstk_san"
+          "$RUNNER_TEMP/test_chkstk_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_001f3aa0_sparse_site.c \
+            -o "$RUNNER_TEMP/test_001f3aa0_sparse_site_san"
+          "$RUNNER_TEMP/test_001f3aa0_sparse_site_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -ffp-contract=off -I src/guest_cpu \
+            tests/test_001f3aa0_guest_producer.c \
+            -o "$RUNNER_TEMP/test_001f3aa0_producer_san"
+          "$RUNNER_TEMP/test_001f3aa0_producer_san"
+      - name: State verification scope
+        run: |
+          echo "Exact guest touch and data-access order is tested for this isolated function."
+          echo "Bare-register entry and host ESP are not wired to FUN_002EBEA0."
+          echo "Guest exceptions, AF flag and complete native linkage remain unverified."
+          echo "Do not mark original caller sources syntax-passing from this helper alone."

@@ -1,12 +1,6 @@
 name: Verified XNet guest byte slots
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - src/platform/network_xnet/0x0034e109.c
-      - scripts/verify_0034e109_guest_slots.py
-      - .github/workflows/verified-0034e109-xnet-guest-slots.yml
-      - include/bf_ghidra_types.h
   workflow_dispatch:
 jobs:
   guest-byte-slots:

@@ -28,7 +28,7 @@ static inline bool bf_0011c810_concrete_virtual_executor(
     void *context, const bf_0011c810_virtual_request *req,
     bf_0011c810_virtual_response *response)
 {
-    const bf_0011c810_concrete_context *c=context;
+    const bf_0011c810_concrete_context *c=(const bf_0011c810_concrete_context *)context;
     if (!c || !c->io || !c->io->read || !c->io->write || !c->scalar ||
         !req || !response || req->method_guest_va!=BF_0011C810_CONCRETE_METHOD)
         return false;

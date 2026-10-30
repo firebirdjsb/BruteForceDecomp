@@ -1,12 +1,6 @@
 name: Verified 0x000D6B30 guest callback input DWORD
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_000d/0x000d6b30.c'
-      - 'scripts/verify_000d6b30_guest_callback_word.py'
-      - '.github/workflows/verified-000d6b30-callback-word.yml'
-      - 'include/bf_ghidra_types.h'
   workflow_dispatch:
 permissions:
   contents: read

@@ -1,12 +1,6 @@
 name: Verified 0x000718F0 x87 scalar lifetimes
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_0007/0x000718f0.c'
-      - 'scripts/verify_000718f0_x87_scalar_lifetimes.py'
-      - '.github/workflows/verified-000718f0-x87-scalars.yml'
-      - 'include/bf_ghidra_types.h'
   workflow_dispatch:
 permissions:
   contents: read

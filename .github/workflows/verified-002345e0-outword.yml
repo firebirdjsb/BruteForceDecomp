@@ -1,13 +1,7 @@
 name: Verify 0x002345e0 guest second-word out-slot
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_0023/0x002345e0.c'
-      - 'scripts/verify_002345e0_guest_second_outword.py'
-      - '.github/workflows/verified-002345e0-outword.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 

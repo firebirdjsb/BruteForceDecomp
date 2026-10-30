@@ -1,12 +1,6 @@
 name: Verified XNet 0x0034B6F0 guest low-WORD
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/platform/network_xnet/0x0034b6f0.c'
-      - 'scripts/verify_0034b6f0_xnet_lowword.py'
-      - '.github/workflows/verified-0034b6f0-xnet-lowword.yml'
-      - 'include/bf_ghidra_types.h'
   workflow_dispatch:
 permissions:
   contents: read

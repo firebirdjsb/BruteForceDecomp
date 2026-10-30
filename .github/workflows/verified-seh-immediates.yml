@@ -1,12 +1,7 @@
 name: Apply XBE-verified SEH immediate C11 repairs
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'tools/repair_verified_seh_immediates.py'
-      - 'metadata/verified_seh_immediates.csv'
-      - '.github/workflows/verified-seh-immediates.yml'
-
+  workflow_dispatch:
 permissions:
   contents: write
 

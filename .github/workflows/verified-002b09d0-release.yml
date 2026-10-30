@@ -1,12 +1,6 @@
 name: Verified 0x002B09D0 guest output release
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_002b/0x002b09d0.c'
-      - 'scripts/verify_002b09d0_guest_output_release.py'
-      - '.github/workflows/verified-002b09d0-release.yml'
-      - 'include/bf_ghidra_types.h'
   workflow_dispatch:
 permissions:
   contents: read

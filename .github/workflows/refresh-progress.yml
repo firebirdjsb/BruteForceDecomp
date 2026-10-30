@@ -1,9 +1,7 @@
 name: Refresh README progress after successful full audit
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  workflow_run:
-    workflows: ["Full C11 draft syntax inventory"]
-    types: [completed]
-
+  workflow_dispatch:
 permissions:
   contents: write
   actions: read
