@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Existing Ghidra constructor at 0x00059B60 has no explicit source
+ * arguments and uses incoming guest ESI. Host symbol is syntax-only;
+ * implicit registers and original Xbox calling ABI are UNVERIFIED. */
+extern void FUN_00059b60(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_FUN_0039e6f8;

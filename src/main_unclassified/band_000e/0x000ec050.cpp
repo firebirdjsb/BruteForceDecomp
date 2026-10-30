@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Matching source-draft void() constructor 0x00059B60.
+ * Guest ESI input and native C++ ABI remain unverified. */
+extern void FUN_00059b60(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_FUN_0039e748;
