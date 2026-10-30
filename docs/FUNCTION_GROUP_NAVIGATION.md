@@ -32,6 +32,6 @@ A readable label never by itself proves runtime equivalence. Do not rename a fun
 
 ## Review and build state
 
-The C files are **reconstructions**, not the original game source. Successful syntax checks do not establish a linked Xbox executable or byte-identical recompilation. The current fail/pass total must be taken from the most recent successful [full C11 inventory workflow](../../actions/workflows/full-c11-inventory.yml), not estimated by subtracting edited-file counts.
+The C++ drafts are **reconstructions**, not the original game source. Successful syntax checks do not establish a linked Xbox executable or byte-identical recompilation. The current fail/pass total must be taken from the most recent successful [full C++17 inventory workflow](../../actions/workflows/cpp-compatibility-audit.yml), not estimated by subtracting edited-file counts.
 
 Use the two CSVs to navigate. For each function, review the source file and original XBE instruction evidence; keep uncertainties documented in the corresponding file and in `docs/`.

@@ -1,4 +1,4 @@
-# C11 draft to evidence-driven C++ reconstruction
+# Original XBE to evidence-driven C++ reconstruction
 
 **Target-language decision (2026-10-30): C++ for the reconstructed game core.** Investigate the reported C++/Digital Anvil-derived engine and its virtual dispatch against original Xbox instructions and data. Do not infer a specific class, member, inheritance layout or compiler version from that characterization alone.
 

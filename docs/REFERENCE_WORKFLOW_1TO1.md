@@ -1,7 +1,7 @@
 # Reference-informed reconstruction workflow
 
 The user's three references are methodological inputs. The existing project,
-C11 source inventory, original XBE hash, main-branch policy and explicit user
+C++ source inventory, original XBE hash, main-branch policy and explicit user
 instructions remain authoritative. Do not regenerate this project or import
 another title's addresses, data structures, prototypes or game behavior.
 
