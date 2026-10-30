@@ -7,15 +7,15 @@
 
 [![C++ source audit](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml/badge.svg?branch=main)](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml)
 
-![C++17 syntax coverage: 17.15%](docs/progress/cpp-syntax.svg)
+![C++17 syntax coverage: 17.74%](docs/progress/cpp-syntax.svg)
 
-**Last confirmed full C++17 syntax audit: 17.15% — 2,348 / 13,694 passing; 11,346 failing.** [Audited source commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/1a062c5afe21eb8d75a57341dd74b9b70a54f32b) · [Full audit run](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/41047895328).
+**Last confirmed full C++17 syntax audit: 17.74% — 2,430 / 13,694 passing; 11,264 failing.** [Audited source commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/1d2113987ff9c8a1a7d70b88cdad6ed233ed6a98) · [Full audit run](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/41051666046).
 
 **Newer source repairs are awaiting their own full audit.** The bar reports the last complete, provenance-clean audit; it does **not** claim to measure the latest source revision. GitHub Actions publishes a refreshed exact-commit result only if the audited commit is still main.
 
-![Overall roadmap tracking: 2.45%](docs/progress/overall.svg)
+![Overall roadmap tracking: 2.53%](docs/progress/overall.svg)
 
-**Conservative roadmap proxy: 2.45%** — only the measured C++ syntax fraction of one of seven equally weighted planned gates is credited. This is **not actual game completion**; Xbox 32-bit calling conventions, original C++ classes/vtables, cross-function linking, runtime behavior, and a playable native PC build remain unverified.
+**Conservative roadmap proxy: 2.53%** — only the measured C++ syntax fraction of one of seven equally weighted planned gates is credited. This is **not actual game completion**; Xbox 32-bit calling conventions, original C++ classes/vtables, cross-function linking, runtime behavior, and a playable native PC build remain unverified.
 
 **Native PC game: NOT yet buildable or playable.** The historic 99.58% C11 parser result cannot be carried forward as C++ progress.
 
