@@ -115,9 +115,10 @@ def check(root: Path) -> None:
         # the publisher uses the exact fraction. Both represent these counts.
         syntax_width_ok = any(f'width="{width:.2f}"' in syntax
                               for width in (744 * passing / total, 744 * pct / 100))
-        roadmap_tokens = (f'roadmap tracking: {roadmap:.2f} percent',
-                          f'width="{744 * roadmap / 100:.2f}"', 'not verified game completion')
-        if not syntax_width_ok or any(token not in syntax for token in syntax_tokens) or any(token not in roadmap_svg for token in roadmap_tokens):
+        roadmap_width_ok = any(f'width="{width:.2f}"' in roadmap_svg
+                               for width in (744 * roadmap / 100, 744 * passing / (total * 7)))
+        roadmap_tokens = (f'roadmap tracking: {roadmap:.2f} percent', 'not verified game completion')
+        if not syntax_width_ok or not roadmap_width_ok or any(token not in syntax for token in syntax_tokens) or any(token not in roadmap_svg for token in roadmap_tokens):
             raise ValueError('Last-confirmed C++ SVG counts/identity/boundary are inconsistent')
         return
     with tempfile.TemporaryDirectory(prefix='bf_cpp_publication_') as directory:
