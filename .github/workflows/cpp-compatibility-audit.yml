@@ -1,0 +1,27 @@
+name: Optional C++17 compatibility baseline (not a native game build)
+on:
+  workflow_dispatch:
+    inputs:
+      source_limit:
+        description: "0 = all 13,694 drafts; otherwise sample first N"
+        type: choice
+        options: ["100", "0"]
+        default: "100"
+permissions:
+  contents: read
+jobs:
+  cpp-compat:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate the audit harness
+        run: python3 -m unittest discover -s tools -p 'test_sweep_cpp_compat.py' -v
+      - name: Inventory C++17 syntax separately from the historical C11 baseline
+        env:
+          LIMIT: ${{ inputs.source_limit }}
+        run: python3 tools/sweep_cpp_compat.py --root . --out cpp_compat_results --jobs 8 --limit "$LIMIT"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cpp-compatibility-${{ github.sha }}
+          path: cpp_compat_results/

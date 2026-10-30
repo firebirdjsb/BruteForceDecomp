@@ -1,6 +1,6 @@
 # BruteForce: Reloaded
 
-**An unofficial, evidence-driven reconstruction of Brute Force (2003) for native Windows PC.** BruteForceDecomp remains the original Xbox C11 reconstruction workspace; BruteForce: Reloaded is the planned native PC release with an optional enhanced mode. Neither the playable PC game nor enhancement features exist yet.
+**An unofficial, evidence-driven reconstruction of Brute Force (2003) for native Windows PC.** BruteForceDecomp retains historical Xbox C11 drafts while moving toward evidence-driven C++ reconstruction; BruteForce: Reloaded is the planned native PC release with an optional enhanced mode. Neither the playable PC game nor enhancement features exist yet.
 
 <!-- BF_PROGRESS_START -->
 ## Reconstruction progress
@@ -35,15 +35,19 @@
 
 Public, evidence-driven research workspace for the original Xbox 32-bit x86 `default.xbe`. This is a **source reconstruction**, not original source code or a proven byte-identical reimplementation.
 
+## C++ reconstruction transition (2026-10-30)
+
+**C++ is now the target language** for the reconstructed game core. Existing `.c` files and published C11 compiler percentages remain historical draft measurements, **not C++ progress**. See [the staged C++ migration and new compatibility audit](docs/CPP_MIGRATION.md). The full `.cpp` conversion and original object model are **not complete**; neither a C++ parser pass nor a filename change proves a verified game function.
+
 ## Baseline
 
 - Game: Brute Force (original Xbox), provided XBE SHA-256: `B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721`
 - Ghidra identified **13,694** functions; all 13,694 were exported to the user's local `FunctionExport` directory. These counts are Ghidra discoveries, **not** proof of complete code recovery.
-- Input migration archive contains **103 unverified legacy C++ drafts**. These must be reviewed and migrated to **C11**, not mechanically relabeled as `.c`.
+- The migration history includes **103 legacy C++ drafts** later represented as C11. Preserve those provenance records while reconstructing original C++ object interfaces from Xbox evidence.
 
 ## Rules
 
-1. All *new and active* reconstructed source lives in `src/` and uses **C11** (`.c`, `.h`), not C++.
+1. The reconstructed game-core target is **C++**. Existing `.c` function drafts are historical evidence; migrate them to `.cpp` only with updated path/tooling checks and unchanged provenance.
 2. Preserve provenance: x86 entry address, original function-body SHA-256, evidence limitations, and TODOs for unknown ABI/external calls.
 3. Keep uncertain code marked `DRAFT`, `ABI_UNVERIFIED`, or `REVIEW_REQUIRED`; compilability does not imply correctness or byte equivalence.
 4. Never commit the original executable, game assets, ISOs, Ghidra project databases, full decompiler dumps, private local paths, or authentication credentials. Git stores small metadata, scripts and carefully scoped reconstructions only.
@@ -51,7 +55,7 @@ Public, evidence-driven research workspace for the original Xbox 32-bit x86 `def
 
 ## One faithful game core, two planned modes
 
-**BruteForceDecomp** is the original Xbox 1:1 C11 reconstruction and provenance research. **BruteForce: Reloaded** is the name of the planned **native Windows PC game** built from that core, not an Xbox emulator.
+**BruteForceDecomp** is the original Xbox evidence-led reconstruction and provenance research, moving from historical C drafts toward verified C++. **BruteForce: Reloaded** is the name of the planned **native Windows PC game** built from that core, not an Xbox emulator.
 
 - **Original Mode (planned):** recreate the original Xbox gameplay, physics, timing, level flow, and original multiplayer rules as faithfully as verified evidence permits, using native PC replacements for Xbox hardware and platform services.
 - **Reloaded Mode (planned):** offer optional widescreen and ultrawide resolutions, high-refresh-rate-safe simulation and rendering, HD texture support, modern input, expanded multiplayer with a **64-player goal**, and modding support.
@@ -73,4 +77,4 @@ Clone `https://github.com/firebirdjsb/BruteForceDecomp.git` to Windows. Keep the
 **Never upload copyrighted Xbox game binaries, ISO files, assets, full Ghidra dumps, or credentials to this public repository.**
 ## Browsing recovered functions
 
-The C11 source tree is now organized by **observed XBE sections**, unclassified main-executable address bands, and the small list of [assembly-supported readable names](metadata/asm_supported_readable_names.csv). Start at [src/README.md](src/README.md). All **13,694** files keep their original x86 address filename and original function-body digest. `tools/source_layout.py` is the canonical path resolver used by C11 audits and provenance checks. Directory organization is **not** a native PC build or proof of 1:1 behavior.
+The historical C11 source tree is organized by **observed XBE sections**, unclassified main-executable address bands, and the small list of [assembly-supported readable names](metadata/asm_supported_readable_names.csv). Start at [src/README.md](src/README.md). All **13,694** files keep their original x86 address filename and original function-body digest. `tools/source_layout.py` is the canonical path resolver used by C11 audits and provenance checks. Directory organization is **not** a native PC build or proof of 1:1 behavior.

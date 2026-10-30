@@ -1,6 +1,6 @@
-# Brute Force C11 function sources — 13,694 discovered entries
+# Brute Force historical C11 drafts — 13,694 discovered entries
 
-**This is evidence-oriented organization, not reconstructed game architecture.** All original functions keep their original `0x????????.c` entry identities and embedded original x86 body SHA-256. Their Git blob content is unchanged by this reorganization.
+**C++ is now the reconstruction target; the `.c` files are historical drafts pending the staged [C++ migration](../docs/CPP_MIGRATION.md).** This is evidence-oriented organization, not reconstructed game architecture. All original functions keep their original `0x????????.c` entry identities and embedded original x86 body SHA-256. Their Git blob content is unchanged by this reorganization.
 
 - `main_unclassified/band_XXXX/` — the original XBE `.text` address band. This mixes gameplay, engine, runtime and static libraries; **do not assume a gameplay subsystem from the address band**.
 - `platform/graphics_d3d/` — functions in the original D3D section.

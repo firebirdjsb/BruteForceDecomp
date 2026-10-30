@@ -1,15 +1,15 @@
-# BruteForceDecomp — C11 Reconstruction Rules
+# BruteForceDecomp — Evidence-Driven C++ Transition Rules
 
-- All active reconstruction source belongs in `src/` and must be **ISO C11** (`.c` / `.h`). No C++ syntax or source extensions.
+- **C++ is the target game-core reconstruction language.** The existing 13,694 `.c` drafts remain historical evidence during a staged, audited transition to `.cpp`; do not claim the migration is complete. Follow `docs/CPP_MIGRATION.md`.
 - Every function must retain its original 32-bit x86 entry address and exact original function-body SHA-256, where available.
 - Keep an explicit distinction among Ghidra pseudocode, a C draft, syntax-checked code, reviewed semantics, and tested behavior. None implies a byte-identical rebuild.
 - Do **not** invent gameplay meaning, structure fields, calling conventions, register inputs, external prototypes, indirect call behavior, or missing data.
 - Record unresolved assumptions as `TODO` or `ABI_UNVERIFIED`. Preserve pointer/address-width assumptions and any apparent undefined behavior for investigation.
 - Use evidence from the user's original game build, not another Xbox game's addresses. Keep original XBE hash fixed at `B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721`.
 - Never commit the XBE, ISO, copyrighted assets, complete decompiler dump, Ghidra databases, local absolute paths, tokens, passwords or credentials.
-- Existing 103 C++ drafts are *legacy evidence* to migrate manually or through verified, explicit C conversions. Do not rename a `.cpp` to `.c` and claim it is converted.
+- Preserve all legacy C and C++ draft evidence. A source extension change is never proof of recovered original C++ classes, calling conventions, or behavior.
 - Prefer small batches and keep function identity, byte hashes, testing results and Git commit references current.
-- **Single-branch policy:** `main` is the canonical and only intended long-lived source branch. Commit reviewed, provenance-preserving C11 fixes directly to `main` in small atomic commits, with an exact-tree compile audit; allow short-lived contributor branches and PRs, but never retain them as alternate long-lived sources; merge reviewed PRs into `main` and delete temporary branches. Do not mark unverified changes 1:1 or runtime-tested merely because `main` compiled.
+- **Single-branch policy:** `main` is the canonical and only intended long-lived source branch. Commit reviewed, provenance-preserving source fixes and staged C++ migration changes directly to `main` in small atomic commits, with an exact-tree compile audit; allow short-lived contributor branches and PRs, but never retain them as alternate long-lived sources; merge reviewed PRs into `main` and delete temporary branches. Do not mark unverified changes 1:1 or runtime-tested merely because `main` compiled.
 - The 13,694 C files are deterministically filed by original XBE section/address band, or an explicitly assembly-reviewed readable alias. Route source paths through `tools/source_layout.py`; never assume flat `src/0x????????.c` paths, and never treat folder names as behavior/ABI proof.
 
 - **Third-party reference boundary:** `sp00nznet/xboxrecomp` is a useful *method/reference* for x86 register/stack state, guest memory, ABI analysis, indirect dispatch and conformance testing, **not** proof of Brute Force behavior. Follow [the 1:1 XboxRecomp reference policy](docs/XBOXRECOMP_REFERENCE_1TO1.md). Verify every extracted idea against this project's original, hash-pinned Brute Force XBE before modifying original-game logic. Never mechanically migrate all C drafts to a global-register ABI or transplant another game's identifiers, hard-coded offsets, or platform behavior.
