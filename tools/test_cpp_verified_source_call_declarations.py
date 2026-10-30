@@ -83,6 +83,38 @@ class OriginalAddressSourceDeclarations(unittest.TestCase):
                 s = raw(addr)
                 self.assertNotIn("reinterpret_cast<byte *>(param_3)", s)
 
+    def test_twelve_derived_constructor_calls(self):
+        self.assertIn("undefined4 * FUN_00277f50(undefined4 *param_1)", source("00277f50").read_text(encoding="utf-8"))
+        for addr in """00279fa0 0027a0a0 0027a0e0 0027a120 0027a190
+            0027a1f0 0027a260 0027a2e0 0027a360 0027a3e0
+            0027a460 0027a4e0""".split():
+            with self.subTest(addr=addr):
+                s = source(addr).read_text(encoding="utf-8")
+                self.assertIn("extern undefined4 * FUN_00277f50(undefined4 *guest_object);", s)
+                self.assertIn("FUN_00277f50(unaff_ESI);", s)
+                self.assertIn("ABI_UNVERIFIED", s)
+
+    @unittest.skipUnless(shutil.which("clang++"), "clang++ required")
+    def test_four_evidenced_guest_stack_callers_parse(self):
+        compiler = shutil.which("clang++")
+        self.assertIn(
+            "undefined4 FUN_000ff730(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 *param_4)",
+            source("000ff730").read_text(encoding="utf-8"))
+        self.assertIn("void FUN_000b2a50(void)", source("000b2a50").read_text(encoding="utf-8"))
+        for addr in "000e42f0 000e4350 00122900 002864f0".split():
+            with self.subTest(addr=addr):
+                s = source(addr).read_text(encoding="utf-8")
+                self.assertIn(
+                    "extern undefined4 FUN_000ff730(undefined4, undefined4, undefined4, undefined4 *);",
+                    s)
+                self.assertIn("extern void FUN_000b2a50(void);", s)
+                self.assertIn("ABI_UNVERIFIED", s)
+                result = subprocess.run(
+                    [compiler, "-std=c++17", "-fsyntax-only", "-I",
+                     str(ROOT / "include"), str(source(addr))],
+                    capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()
