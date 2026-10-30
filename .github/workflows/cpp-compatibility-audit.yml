@@ -21,6 +21,7 @@ on:
       - 'tools/test_classify_cpp_failures.py'
       - 'tools/test_sweep_cpp_compat.py'
       - 'include/bf_ghidra_types.h'
+      - 'tools/test_cpp_ghidra_concat.py'
       - '.github/workflows/cpp-compatibility-audit.yml'
   workflow_dispatch:
     inputs:
@@ -45,6 +46,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_cpp_memory_helper_syntax.py' -v
           python3 -m unittest discover -s tools -p 'test_identify_cpp_verified_call_edges.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_virtual_bridge_syntax.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_ghidra_concat.py' -v
       - name: Inventory C++17 syntax separately from the historical C11 baseline
         env:
           LIMIT: ${{ github.event_name == 'push' && '0' || inputs.source_limit }}
