@@ -10,6 +10,9 @@ on:
       - 'tools/triage_cpp_undeclared_calls.py'
       - 'tools/test_triage_cpp_undeclared_calls.py'
       - 'tools/test_cpp_memory_helper_syntax.py'
+      - 'tools/identify_cpp_verified_call_edges.py'
+      - 'tools/test_identify_cpp_verified_call_edges.py'
+      - 'metadata/x86_verified_call_edges.csv'
       - 'tools/test_classify_cpp_failures.py'
       - 'tools/test_sweep_cpp_compat.py'
       - 'include/bf_ghidra_types.h'
@@ -35,6 +38,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_classify_cpp_failures.py' -v
           python3 -m unittest discover -s tools -p 'test_triage_cpp_undeclared_calls.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_memory_helper_syntax.py' -v
+          python3 -m unittest discover -s tools -p 'test_identify_cpp_verified_call_edges.py' -v
       - name: Inventory C++17 syntax separately from the historical C11 baseline
         env:
           LIMIT: ${{ github.event_name == 'push' && '0' || inputs.source_limit }}
@@ -43,6 +47,8 @@ jobs:
         run: python3 tools/classify_cpp_failures.py --report cpp_compat_results/cpp_compat_report.json --out cpp_compat_results
       - name: Rank unresolved cross-function identifiers without guessing call contracts
         run: python3 tools/triage_cpp_undeclared_calls.py --report cpp_compat_results/cpp_compat_report.json --out cpp_compat_results
+      - name: Cross-reference compiler failures with recorded original x86 call edges
+        run: python3 tools/identify_cpp_verified_call_edges.py --report cpp_compat_results/cpp_compat_report.json --out cpp_compat_results
       - name: Publish exact-commit full C++ syntax coverage
         if: ${{ github.event_name == 'push' || inputs.source_limit == '0' }}
         env:

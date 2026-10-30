@@ -7,13 +7,13 @@
  */
 #include "bf_ghidra_types.h"
 #include "bf_xbox_xonline_context_bytes_x86.h"
-int __thiscall XONLINES__listen(XONLINES *this,int __fd,int __n)
+int __thiscall XONLINES__listen(XONLINES *guest_this,int __fd,int __n)
 
 {
   int iVar1;
   int iVar2;
   
-  if ((this == (XONLINES *)0x0) || (*(short *)(this + 0xbd2) == 0)) {
+  if ((guest_this == (XONLINES *)0x0) || (*(short *)(guest_this + 0xbd2) == 0)) {
     XAPILIB__SetLastError(0x276d);
   }
   else {

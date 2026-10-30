@@ -7,14 +7,14 @@
  */
 #include "bf_ghidra_types.h"
 #include "bf_xbox_xonline_context_bytes_x86.h"
-int __thiscall XONLINES__socket(XONLINES *this,int __domain,int __type,int __protocol)
+int __thiscall XONLINES__socket(XONLINES *guest_this,int __domain,int __type,int __protocol)
 
 {
   int *piVar1;
   undefined4 uVar2;
   int *piVar3;
   
-  if ((this == (XONLINES *)0x0) || (*(short *)(this + 0xbd2) == 0)) {
+  if ((guest_this == (XONLINES *)0x0) || (*(short *)(guest_this + 0xbd2) == 0)) {
     XAPILIB__SetLastError(0x276d);
     return -1;
   }
@@ -36,11 +36,11 @@ int __thiscall XONLINES__socket(XONLINES *this,int __domain,int __type,int __pro
             if (__protocol == 0xfe) {
               FUN_00345541(0xffffffff,4);
             }
-            piVar1 = *(int **)(this + 0xbdc);
+            piVar1 = *(int **)(guest_this + 0xbdc);
             piVar3[1] = (int)piVar1;
-            *piVar3 = (int)(this + 0xbd8);
+            *piVar3 = (int)(guest_this + 0xbd8);
             *piVar1 = (int)piVar3;
-            *(int **)(this + 0xbdc) = piVar3;
+            *(int **)(guest_this + 0xbdc) = piVar3;
             KfLowerIrql();
             return (int)piVar3;
           }
