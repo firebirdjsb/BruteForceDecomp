@@ -10,6 +10,9 @@
  * implicit incoming ECX object address. Existing draft interface only;
  * original guest-register ABI is UNVERIFIED. */
 extern undefined1 FUN_002e5880(void);
+/* 0x002E5BF0 draft: one explicit int, 32-bit EAX return; implicit
+ * incoming guest ECX and native 1:1 calling ABI remain UNVERIFIED. */
+extern undefined4 FUN_002e5bf0(int guest_index);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0046995c;
