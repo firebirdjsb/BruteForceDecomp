@@ -11,7 +11,7 @@
 typedef struct bf_002b7970_mem {
     void *ctx;
     bool (*read32)(void *,uint32_t,uint32_t *);
-    bool (*write32)(void *,uint32_t);
+    bool (*write32)(void *,uint32_t,uint32_t);
 } bf_002b7970_mem;
 typedef struct bf_002b7970_x87 {
     void *ctx;
