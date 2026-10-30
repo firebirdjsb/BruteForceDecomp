@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002ea01d_allocator_guest32.h"
 /* Xbox image VA 0x00306e70; address-only label. Link definition and role unverified. */
 extern unsigned char LAB_00306e70;
 

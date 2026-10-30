@@ -38,3 +38,19 @@ register-entry call through **undefined external interfaces**. Tests supply
 mock implementations and check order/values for both allocation branches,
 not game behavior. Neither guest address translation nor the full SEH,
 x87, object, allocator-import, or `0x001AAA90` runtime is implemented.
+
+## Additional verified size-only allocator caller edges
+
+The original XBE contains these **direct E8 callsites**, each immediately preceded by a `PUSH imm8` and followed by `ADD ESP,4`. Each listed C++ draft uses the same literal size. This establishes this one allocator argument at the listed site, **not** other incoming registers, the imported allocator implementation, or a complete caller ABI.
+
+| Caller entry | CALL VA | Guest size |
+| --- | --- | --- |
+| `0x000505A0` | `0x000505C3` | `0x24` |
+| `0x0005D9F0` | `0x0005DA13` | `0x20` |
+| `0x00061500` | `0x00061523` | `0x0C` |
+| `0x00063650` | `0x00063653` | `0x28` |
+| `0x00064100` | `0x00064103` | `0x28` |
+| `0x00076070` | `0x00076093` | `0x2C` |
+| `0x000765D0` | `0x000765F2` | `0x10` |
+
+The shared guest32 declaration is included only in these reviewed sources. Existing unrelated function identifiers and guest-pointer storage errors are left for independent evidence-driven repairs.

@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002ea01d_allocator_guest32.h"
 /* Address-only XBE labels; symbol definitions / roles pending. */
 extern unsigned char LAB_003085a0; /* VA 0x003085a0 */
 

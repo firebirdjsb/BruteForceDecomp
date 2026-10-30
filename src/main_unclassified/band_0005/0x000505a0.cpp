@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002ea01d_allocator_guest32.h"
 /* TODO: Original mapped address; ABI/relocations unverified. */
 int FUN_000505a0(void)
 

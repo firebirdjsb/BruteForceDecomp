@@ -37,6 +37,14 @@ SAMPLES = {
     0x0005B9E6: "6a 24 e8 30 e6 28 00 83 c4 04 3b c6",
     0x0005D222: "6a 44 8b f0 e8 f2 cd 28 00 83 c4 04",
     0x0005EE52: "6a 0c c7 44 24 08 00 00 00 00 e8 bc b1 28 00",
+    # Original single-size guest allocation callsites; immediately caller-cleaned.
+    0x000505C1: "6a 24 e8 55 9a 29 00 83 c4 04",
+    0x0005DA11: "6a 20 e8 05 c6 28 00 83 c4 04",
+    0x00061521: "6a 0c e8 f5 8a 28 00 83 c4 04",
+    0x00063651: "6a 28 e8 c5 69 28 00 83 c4 04",
+    0x00064101: "6a 28 e8 15 5f 28 00 83 c4 04",
+    0x00076091: "6a 2c e8 85 3f 27 00 83 c4 04",
+    0x000765F0: "6a 10 e8 26 3a 27 00 83 c4 04",
 
 }
 DIRECT_CALLS = {
@@ -50,6 +58,13 @@ DIRECT_CALLS = {
     0x0005B9E8: 0x002EA01D,
     0x0005D226: 0x002EA01D,
     0x0005EE5C: 0x002EA01D,
+    0x000505C3: 0x002EA01D,
+    0x0005DA13: 0x002EA01D,
+    0x00061523: 0x002EA01D,
+    0x00063653: 0x002EA01D,
+    0x00064103: 0x002EA01D,
+    0x00076093: 0x002EA01D,
+    0x000765F2: 0x002EA01D,
 
 }
 DIRECT_JUMPS = {0x002EA018: 0x00067BF0}
