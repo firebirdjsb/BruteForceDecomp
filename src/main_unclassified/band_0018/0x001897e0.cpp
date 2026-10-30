@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Callee Ghidra draft 0x001E0EF0 declares void() with incoming ESI.
+ * Explicit call arity is matched; guest-register ABI remains UNVERIFIED. */
+extern void FUN_001e0ef0(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_LAB_00397c70;
