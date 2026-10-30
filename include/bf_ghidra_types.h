@@ -4,6 +4,12 @@
 #ifndef BF_GHIDRA_TYPES_H
 #define BF_GHIDRA_TYPES_H
 #include <stdint.h>
+/* In C++17, <stdint.h> need not expose the std:: namespace aliases.
+ * Make historical draft use of std::uint32_t available explicitly.
+ * C11 remains unaffected; guest32 widths, ABI and behavior are unchanged. */
+#ifdef __cplusplus
+#include <cstdint>
+#endif
 #include <stddef.h>
 #include <stdbool.h>
 #include <string.h>
