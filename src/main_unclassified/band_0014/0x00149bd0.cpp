@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Allocator guest32 return/one-DWORD interface is recorded;
+ * this caller size and guest memory/stack ABI remain unverified. */
+#include "bf_002ea01d_allocator_guest32.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004a5c88;

@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Allocator guest32 return/one-DWORD interface is recorded;
+ * this caller size and guest memory/stack ABI remain unverified. */
+#include "bf_002ea01d_allocator_guest32.h"
 undefined4 * FUN_000e44b0(void)
 
 {
