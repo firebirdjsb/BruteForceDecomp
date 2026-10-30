@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Callee 0x001FEDB0 views this existing DWORD buffer bytewise.
+ * reinterpret_cast preserves the source buffer address and does not
+ * translate guest VAs to host memory. Original Xbox ABI_UNVERIFIED. */
+extern char FUN_001fedb0(undefined4 flag, int *key, byte *data);
 #include "bf_x86_word_lanes.h"
 char FUN_00202af0(undefined4 param_1,int *param_2,undefined4 *param_3)
 
@@ -20,7 +24,7 @@ char FUN_00202af0(undefined4 param_1,int *param_2,undefined4 *param_3)
   puVar3 = param_3;
   piVar2 = param_2;
   uVar1 = param_1;
-  cVar4 = FUN_001fedb0(param_1,param_2,param_3);
+  cVar4 = FUN_001fedb0(param_1,param_2,reinterpret_cast<byte *>(param_3));
   /* 0x00202b0c writes just AL to the reused third input slot;
    * 0x00202b35 reads that byte. Saved puVar3 is the original pointer. */
   bf_x86_word_store_byte(&param_3,0U,(uint8_t)cVar4);
