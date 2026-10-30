@@ -12,6 +12,9 @@ on:
       - 'tools/test_cpp_memory_helper_syntax.py'
       - 'tools/identify_cpp_verified_call_edges.py'
       - 'tools/test_identify_cpp_verified_call_edges.py'
+      - 'tools/test_cpp_virtual_bridge_syntax.py'
+      - 'include/bf_00155840_concrete_virtual.h'
+      - 'include/bf_0011c810_concrete_virtual.h'
       - 'metadata/x86_verified_call_edges.csv'
       - 'tools/test_classify_cpp_failures.py'
       - 'tools/test_sweep_cpp_compat.py'
@@ -39,6 +42,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_triage_cpp_undeclared_calls.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_memory_helper_syntax.py' -v
           python3 -m unittest discover -s tools -p 'test_identify_cpp_verified_call_edges.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_virtual_bridge_syntax.py' -v
       - name: Inventory C++17 syntax separately from the historical C11 baseline
         env:
           LIMIT: ${{ github.event_name == 'push' && '0' || inputs.source_limit }}
