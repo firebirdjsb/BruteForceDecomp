@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Ghidra callee 0x001D1AF0 has no explicit source parameters.
+ * Implicit guest registers and C++ object ABI remain ABI_UNVERIFIED. */
+extern void FUN_001d1af0(void);
 int FUN_001d6c40(int param_1,int param_2)
 
 {
