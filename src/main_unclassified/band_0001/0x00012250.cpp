@@ -67,7 +67,8 @@ void FUN_00012250(uint32_t in_EAX, int32_t in_ECX)
 
     if (*field_0c != in_ECX)
     {
-        FUN_0008f6a0();
+        /* XBE 0x00012250 ESI=EAX+8 and PUSH ECX; host guest-register model only, ABI_UNVERIFIED. */
+    FUN_0008f6a0(in_EAX + UINT32_C(8), static_cast<std::uint32_t>(in_ECX));
     }
 
     return;
