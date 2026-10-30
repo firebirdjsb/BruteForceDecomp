@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Free-thunk single guest DWORD is known; full original call ABI is not. */
+#include "bf_002ea018_heap_free_guest32.h"
 void FUN_00250660(int param_1)
 
 {
