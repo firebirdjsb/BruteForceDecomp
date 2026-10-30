@@ -1,0 +1,40 @@
+name: Focused original 0x002B7970 pre-SSE guest vector
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/guest_cpu/bf_002b7970_guest_base.h'
+      - 'tests/test_002b7970_guest_base.c'
+      - '.github/workflows/focused-002b7970-guest-base.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  original-guest-vector:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Original x87 and raw guest words at O0 and O2
+        shell: bash
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_002b7970_guest_base.c \
+              -o "$RUNNER_TEMP/test_guest_base_$opt"
+            "$RUNNER_TEMP/test_guest_base_$opt"
+          done
+      - name: Address and undefined-behavior sanitizers
+        shell: bash
+        run: |
+          set -euo pipefail
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_002b7970_guest_base.c \
+            -o "$RUNNER_TEMP/test_guest_base_san"
+          "$RUNNER_TEMP/test_guest_base_san"
+      - name: Scope
+        run: |
+          echo "Original 002B7970 only through 002B7A2D, before x87 FMUL/SSE MULPS/ADDPS."
+          echo "Do NOT count original FUN_002B7970 as fully reconstructed or proven 1:1."
