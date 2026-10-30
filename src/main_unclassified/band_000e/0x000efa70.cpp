@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Callee 0x002E5880 returns a guest byte through AL and reads an
+ * implicit incoming ECX object address. Existing draft interface only;
+ * original guest-register ABI is UNVERIFIED. */
+extern undefined1 FUN_002e5880(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0046995c;
