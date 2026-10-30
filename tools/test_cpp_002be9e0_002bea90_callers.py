@@ -81,6 +81,14 @@ class TestTwoDwordCallers(unittest.TestCase):
             source = (ROOT / "src/main_unclassified/band_002b" /
                       f"0x{target:08x}.cpp").read_text(encoding="utf-8")
             self.assertIn("Input x86 body SHA-256: " + sha, source)
+            signature = (f"void FUN_{target:08x}(uint param_1,uint param_2)"
+                         if target == 0x2BE9E0 else
+                         f"uint FUN_{target:08x}(undefined4 param_1,uint param_2)")
+            self.assertIn(signature, source)
+        ledger = (ROOT / "metadata/x86_verified_call_edges.csv").read_text(encoding="utf-8")
+        for _, call_va, target, _ in CASES:
+            self.assertIn(f"0x{call_va:08x}", ledger)
+            self.assertIn(f"0x{target:08x}", ledger)
 
     def test_isolated_clang_cpp17(self):
         compiler = shutil.which("clang++")
