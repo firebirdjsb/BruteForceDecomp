@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original-address 0x00294270 accepts one pointer to guest DWORDs.
+ * This is a source signature, not verified Xbox/host memory ABI. */
+extern undefined4 FUN_00294270(undefined4 *guest_word);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00469888;
