@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "meaning": "Compiler triage only; not original Xbox ABI, object, or behavior verification",
+  "audit_scope": "full_inventory",
+  "audited_commit": "local-checkout",
+  "checked": 13694,
+  "statuses": {
+    "fail": 10545,
+    "pass": 3149
+  },
+  "categories": {
+    "missing_declaration_or_type": 7946,
+    "call_signature": 1934,
+    "pointer_or_storage_type": 349,
+    "other_cpp_diagnostic": 314,
+    "member_or_object_layout": 2
+  },
+  "examples": {
+    "call_signature": [
+      {
+        "entry": "0x00016150",
+        "first_error": "no matching function for call to 'FUN_0001ba10'"
+      },
+      {
+        "entry": "0x00016190",
+        "first_error": "no matching function for call to 'FUN_00016030'"
+      },
+      {
+        "entry": "0x00016fd0",
+        "first_error": "no matching function for call to 'FUN_00017770'"
+      },
+      {
+        "entry": "0x00017f80",
+        "first_error": "no matching function for call to 'FUN_000120f0'"
+      },
+      {
+        "entry": "0x00018040",
+        "first_error": "no matching function for call to 'FUN_00018000'"
+      }
+    ],
+    "member_or_object_layout": [
+      {
+        "entry": "0x001f5600",
+        "first_error": "member reference base type 'float' is not a structure or union"
+      },
+      {
+        "entry": "0x002ceb10",
+        "first_error": "member reference base type 'undefined8' (aka 'unsigned long long') is not a structure or union"
+      }
+    ],
+    "missing_declaration_or_type": [
+      {
+        "entry": "0x00012140",
+        "first_error": "unknown type name 'undefined4'"
+      },
+      {
+        "entry": "0x00012680",
+        "first_error": "unknown type name 'undefined4'"
+      },
+      {
+        "entry": "0x00012b40",
+        "first_error": "unknown type name 'undefined4'"
+      },
+      {
+        "entry": "0x00015f30",
+        "first_error": "use of undeclared identifier 'thunk_FUN_00237ec0'"
+      },
+      {
+        "entry": "0x00015fe0",
+        "first_error": "use of undeclared identifier 'thunk_FUN_00237ec0'"
+      }
+    ],
+    "other_cpp_diagnostic": [
+      {
+        "entry": "0x000120f0",
+        "first_error": "no type named 'uint32_t' in namespace 'std'; did you mean simply 'uint32_t'?"
+      },
+      {
+        "entry": "0x00012180",
+        "first_error": "no type named 'uint32_t' in namespace 'std'; did you mean simply 'uint32_t'?"
+      },
+      {
+        "entry": "0x000121f0",
+        "first_error": "no type named 'uint32_t' in namespace 'std'; did you mean simply 'uint32_t'?"
+      },
+      {
+        "entry": "0x00012250",
+        "first_error": "no type named 'uint32_t' in namespace 'std'; did you mean simply 'uint32_t'?"
+      },
+      {
+        "entry": "0x00012320",
+        "first_error": "no type named 'uint32_t' in namespace 'std'; did you mean simply 'uint32_t'?"
+      }
+    ],
+    "pointer_or_storage_type": [
+      {
+        "entry": "0x00018c40",
+        "first_error": "incompatible pointer types assigning to 'void **' from 'unsigned char *'"
+      },
+      {
+        "entry": "0x0001cc20",
+        "first_error": "cannot cast from type 'void' to pointer type 'undefined4 *' (aka 'unsigned int *')"
+      },
+      {
+        "entry": "0x0001f730",
+        "first_error": "incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with *"
+      },
+      {
+        "entry": "0x0001f940",
+        "first_error": "incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'uint32_t *' (aka 'unsigned int *'); remove &"
+      },
+      {
+        "entry": "0x00022bc0",
+        "first_error": "cannot cast from type 'void' to pointer type 'int *'"
+      }
+    ]
+  }
+}

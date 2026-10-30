@@ -1,0 +1,19 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "mcp": {
+    "rea": {
+      "type": "local",
+      "command": [
+        "node",
+        "D:\\Downloads\\BruteForceDecomp\\.kilo\\rea-mcp-filter.mjs"
+      ],
+      "environment": {
+        "GHIDRA_INSTALL_DIR": "D:\\Downloads\\ghidra_12.1.4_PUBLIC",
+        "JAVA_HOME": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.10.7-hotspot",
+        "REA_ANALYSIS_PROVIDER": "ghidra"
+      },
+      "enabled": true,
+      "timeout": 360000
+    }
+  }
+}

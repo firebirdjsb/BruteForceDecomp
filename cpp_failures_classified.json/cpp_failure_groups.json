@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "meaning": "Compiler triage only; not original Xbox ABI, object, or behavior verification",
+  "audit_scope": "full_inventory",
+  "audited_commit": "local-checkout",
+  "checked": 13694,
+  "statuses": {
+    "fail": 10980,
+    "pass": 2714
+  },
+  "categories": {
+    "missing_declaration_or_type": 8170,
+    "pointer_or_storage_type": 1664,
+    "call_signature": 901,
+    "other_cpp_diagnostic": 243,
+    "member_or_object_layout": 2
+  },
+  "examples": {
+    "call_signature": [
+      {
+        "entry": "0x0001c460",
+        "first_error": "too many arguments to function call, expected 0, have 1"
+      },
+      {
+        "entry": "0x0001c480",
+        "first_error": "too many arguments to function call, expected 0, have 1"
+      },
+      {
+        "entry": "0x00020200",
+        "first_error": "too many arguments to function call, expected 0, have 1"
+      },
+      {
+        "entry": "0x00020260",
+        "first_error": "too many arguments to function call, expected 0, have 1"
+      },
+      {
+        "entry": "0x000216f0",
+        "first_error": "too many arguments to function call, expected 0, have 1"
+      }
+    ],
+    "member_or_object_layout": [
+      {
+        "entry": "0x001f5600",
+        "first_error": "member reference base type 'float' is not a structure or union"
+      },
+      {
+        "entry": "0x002ceb10",
+        "first_error": "member reference base type 'undefined8' (aka 'unsigned long long') is not a structure or union"
+      }
+    ],
+    "missing_declaration_or_type": [
+      {
+        "entry": "0x000120f0",
+        "first_error": "use of undeclared identifier 'FUN_0008f6e0'"
+      },
+      {
+        "entry": "0x00012140",
+        "first_error": "use of undeclared identifier 'FUN_000e1150'"
+      },
+      {
+        "entry": "0x00012180",
+        "first_error": "use of undeclared identifier 'FUN_0008f6e0'"
+      },
+      {
+        "entry": "0x000121f0",
+        "first_error": "use of undeclared identifier 'FUN_0008f6e0'"
+      },
+      {
+        "entry": "0x00012250",
+        "first_error": "use of undeclared identifier 'FUN_0008f6a0'"
+      }
+    ],
+    "other_cpp_diagnostic": [
+      {
+        "entry": "0x0001fed0",
+        "first_error": "assigning to 'int *' from 'undefined4 *' (aka 'unsigned int *') converts between pointers to integer types with different sign"
+      },
+      {
+        "entry": "0x0003efa0",
+        "first_error": "assigning to 'undefined4' (aka 'unsigned int') from incompatible type 'undefined1[12]' (aka 'unsigned char[12]')"
+      },
+      {
+        "entry": "0x0004e7f0",
+        "first_error": "assigning to 'undefined4 *' (aka 'unsigned int *') from 'int *' converts between pointers to integer types with different sign"
+      },
+      {
+        "entry": "0x00051570",
+        "first_error": "assigning to 'undefined4 *' (aka 'unsigned int *') from 'int *' converts between pointers to integer types with different sign"
+      },
+      {
+        "entry": "0x00062280",
+        "first_error": "incompatible integer to pointer conversion assigning to 'uint *' (aka 'unsigned int *') from 'uint32_t' (aka 'unsigned int'); take the address with &"
+      }
+    ],
+    "pointer_or_storage_type": [
+      {
+        "entry": "0x00018c40",
+        "first_error": "incompatible pointer types assigning to 'void **' from 'unsigned char *'"
+      },
+      {
+        "entry": "0x0001c630",
+        "first_error": "incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); remove &"
+      },
+      {
+        "entry": "0x0001c930",
+        "first_error": "incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); dereference with *"
+      },
+      {
+        "entry": "0x0001c980",
+        "first_error": "incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); remove &"
+      },
+      {
+        "entry": "0x0001cc80",
+        "first_error": "incompatible pointer to integer conversion assigning to 'undefined4' (aka 'unsigned int') from 'undefined4 *' (aka 'unsigned int *'); remove &"
+      }
+    ]
+  }
+}
