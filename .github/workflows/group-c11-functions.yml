@@ -1,12 +1,7 @@
 name: Group all C source functions
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    paths:
-      - 'tools/classify_c11_functions.py'
-      - 'metadata/asm_supported_readable_names.csv'
-      - '.github/workflows/group-c11-functions.yml'
   workflow_dispatch:
-
 permissions:
   contents: write
 

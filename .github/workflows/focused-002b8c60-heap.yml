@@ -1,22 +1,6 @@
 name: Focused original 0x002B8C60 guest dispatch and heap evidence
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/guest_cpu/bf_002b8c60_guest_dispatch.h'
-      - 'src/guest_cpu/bf_heap_wrapper_guest.h'
-      - 'tests/test_heap_wrapper_guest.c'
-      - 'src/guest_cpu/bf_001f35b0_entry_gate.h'
-      - 'tests/test_001f35b0_entry_gate.c'
-      - 'src/guest_cpu/bf_001f35b0_first_allocation.h'
-      - 'tests/test_001f35b0_first_allocation.c'
-      - 'src/guest_cpu/bf_001f3aa0_concrete_router.h'
-      - 'tests/test_001f3aa0_concrete_router.c'
-      - 'src/guest_cpu/bf_001f3aa0_guest_prologue.h'
-      - 'tests/test_001f3aa0_guest_prologue.c'
-      - 'tests/test_002b8c60_guest_dispatch.c'
-      - 'scripts/verify_002b8c60_heap_xbe.py'
-      - '.github/workflows/focused-002b8c60-heap.yml'
   workflow_dispatch:
 permissions:
   contents: read

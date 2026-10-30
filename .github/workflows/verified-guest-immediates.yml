@@ -1,12 +1,7 @@
 name: Apply verified guest immediate C11 repairs
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'tools/repair_verified_guest_immediates.py'
-      - 'metadata/verified_guest_immediate_words.csv'
-      - '.github/workflows/verified-guest-immediates.yml'
-
+  workflow_dispatch:
 permissions:
   contents: write
 

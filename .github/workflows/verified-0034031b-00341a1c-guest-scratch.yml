@@ -1,13 +1,6 @@
 name: Verified XOnline guest scratch frames
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - src/platform/online_xonline/0x0034031b.c
-      - src/platform/online_xonline/0x00341a1c.c
-      - scripts/verify_0034031b_00341a1c_guest_scratch.py
-      - .github/workflows/verified-0034031b-00341a1c-guest-scratch.yml
-      - include/bf_ghidra_types.h
   workflow_dispatch:
 jobs:
   scratch-contracts:

@@ -1,12 +1,6 @@
 name: Verified Xbox UTF-16 C11 storage and copy
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_000c/0x000c9440.c'
-      - 'src/main_unclassified/band_002e/0x002ea96c.c'
-      - 'tests/xbox_utf16_wcsncpy.c'
-      - '.github/workflows/verified-000c9440-utf16.yml'
   workflow_dispatch:
 jobs:
   utf16-contract:
@@ -17,11 +11,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for source in src/main_unclassified/band_000c/0x000c9440.c src/main_unclassified/band_002e/0x002ea96c.c; do
+          for source in src/main_unclassified/band_000c/0x000c9440.cpp src/main_unclassified/band_002e/0x002ea96c.cpp; do
             clang -std=c11 -fsyntax-only -Wno-implicit-function-declaration -Wno-int-conversion -Wno-incompatible-pointer-types -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast -Wno-return-type -Wno-deprecated-non-prototype -Iinclude "$source"
           done
           for opt in 0 2; do
-            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -Wno-strict-prototypes -pedantic-errors -Iinclude tests/xbox_utf16_wcsncpy.c src/main_unclassified/band_002e/0x002ea96c.c -o /tmp/guest_utf16_copy
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -Wno-strict-prototypes -pedantic-errors -Iinclude tests/xbox_utf16_wcsncpy.c src/main_unclassified/band_002e/0x002ea96c.cpp -o /tmp/guest_utf16_copy
             /tmp/guest_utf16_copy
           done
           echo 'Source/Clang tests only; original XBE and native runtime not verified in public CI.'

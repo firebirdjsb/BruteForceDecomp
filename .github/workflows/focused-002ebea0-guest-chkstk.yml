@@ -1,19 +1,6 @@
 name: Focused original Xbox 0x002EBEA0 guest stack probe
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/guest_cpu/bf_002ebea0_guest_chkstk.h'
-      - 'tests/test_002ebea0_guest_chkstk.c'
-      - 'src/guest_cpu/bf_002ebea0_callers.h'
-      - 'tests/test_002ebea0_callers.c'
-      - 'src/guest_cpu/bf_001f3aa0_sparse_frame.h'
-      - 'tests/test_001f3aa0_sparse_frame.c'
-      - 'src/guest_cpu/bf_001f3aa0_sparse_site.h'
-      - 'tests/test_001f3aa0_sparse_site.c'
-      - 'src/guest_cpu/bf_001f3aa0_guest_producer.h'
-      - 'tests/test_001f3aa0_guest_producer.c'
-      - '.github/workflows/focused-002ebea0-guest-chkstk.yml'
   workflow_dispatch:
 permissions:
   contents: read

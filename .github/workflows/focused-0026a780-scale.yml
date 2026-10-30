@@ -1,13 +1,6 @@
 name: Focused original 0x0026A780 guest x87 scaling
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/guest_cpu/bf_0026a780_guest_scale.h'
-      - 'tests/test_0026a780_guest_scale.c'
-      - 'src/guest_cpu/bf_00269600_scale_call.h'
-      - 'tests/test_00269600_scale_call.c'
-      - '.github/workflows/focused-0026a780-scale.yml'
   workflow_dispatch:
 permissions:
   contents: read

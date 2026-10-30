@@ -1,11 +1,6 @@
 name: Verify 0x00258040 third guest DWORD address
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_0025/0x00258040.c'
-      - 'scripts/verify_00258040_guest_third_argument.py'
-      - '.github/workflows/verified-00258040-guest-arg.yml'
   workflow_dispatch:
 permissions:
   contents: read

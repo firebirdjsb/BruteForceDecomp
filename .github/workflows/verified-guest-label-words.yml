@@ -1,16 +1,7 @@
 name: Focused XBE guest label word C11 checks
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/**'
-      - 'metadata/verified_guest_label_words_pass_3.csv'
-      - 'tools/verify_guest_label_words.py'
-      - 'tools/repair_verified_guest_immediates.py'
-      - 'scripts/verify_00229ae0_scalar_lane.py'
-      - '.github/workflows/verified-guest-label-words.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 

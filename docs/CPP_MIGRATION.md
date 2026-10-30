@@ -19,3 +19,8 @@
 7. **Separate ABI and runtime testing.** Use matching original Xbox 32-bit x86 and MSVC-compatible object/ABI rules where established. Linux `clang++` syntax is **not** an Xbox vtable or `thiscall` check. Cross-function linkage, guest-memory/SEH, x87/SSE, platform adapters and playable Windows builds remain separate verification gates.
 
 Status labels: `C_DRAFT` (historic) -> `CPP_DRAFT` -> `CPP_SYNTAX_OK` -> `X86_OBJECT_ABI_REVIEWED` -> `CROSS_FUNCTION_TESTED` -> `BEHAVIOR_TESTED`. Never automatically promote a function. Publish a separate C++ percentage only after a complete, provenance-clean, exact-commit 13,694-function audit.
+
+
+## Source migration staging completed
+
+All 13,694 original-address C drafts were moved to .cpp without changing their Git blob contents. The historic C11 99+% syntax baseline is archived; C++ compilation and virtual-function reconstruction are separate goals.

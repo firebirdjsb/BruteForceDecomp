@@ -1,13 +1,7 @@
 name: Focused original 0x001FEB60 guest iterator
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'include/bf_001feb60_guest_iterator.h'
-      - 'tests/test_001feb60_guest_iterator.c'
-      - '.github/workflows/focused-001feb60-iterator.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 

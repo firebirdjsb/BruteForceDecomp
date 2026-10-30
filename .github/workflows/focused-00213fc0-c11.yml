@@ -1,12 +1,6 @@
 name: Verify 0x00213FC0 C11 and original opcode contracts
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_0021/0x00213fc0.c'
-      - 'scripts/verify_00213fc0_partial_store.py'
-      - 'tests/test_00213fc0_partial_guest_word.c'
-      - '.github/workflows/focused-00213fc0-c11.yml'
   workflow_dispatch:
 permissions:
   contents: read

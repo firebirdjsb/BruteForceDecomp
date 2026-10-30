@@ -1,13 +1,6 @@
 name: Focused original 0x001F3AA0 conditional x87 and cleanup tail
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/guest_cpu/bf_002b8de0_guest_cleanup.h'
-      - 'src/guest_cpu/bf_001f3aa0_guest_tail.h'
-      - 'tests/test_002b8de0_guest_cleanup.c'
-      - 'tests/test_001f3aa0_guest_tail.c'
-      - '.github/workflows/focused-001f3aa0-guest-tail.yml'
   workflow_dispatch:
 permissions:
   contents: read

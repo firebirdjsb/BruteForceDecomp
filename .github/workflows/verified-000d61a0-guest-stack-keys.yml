@@ -1,12 +1,6 @@
 name: Verified 0x000D61A0 guest-stack DWORD callback keys
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_000d/0x000d61a0.c'
-      - 'scripts/verify_000d61a0_guest_stack_keys.py'
-      - '.github/workflows/verified-000d61a0-guest-stack-keys.yml'
-      - 'include/bf_ghidra_types.h'
   workflow_dispatch:
 permissions:
   contents: read

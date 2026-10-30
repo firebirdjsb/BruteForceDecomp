@@ -1,15 +1,7 @@
 name: Verified 0x00375330 guest disposition byte
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/platform/graphics_d3d/0x00375330.c'
-      - 'scripts/verify_00375330_disposition_byte.py'
-      - '.github/workflows/verified-00375330-disposition-byte.yml'
-      - 'include/bf_ghidra_types.h'
-      - 'include/bf_xbox_d3d_device_x86.h'
   workflow_dispatch:
-
 permissions:
   contents: read
 

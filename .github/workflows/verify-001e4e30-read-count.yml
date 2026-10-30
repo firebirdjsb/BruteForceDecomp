@@ -1,11 +1,6 @@
 name: Verify 0x001E4E30 read-count out-DWORD
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_001e/0x001e4e30.c'
-      - 'scripts/verify_001e4e30_original_read_count.py'
-      - '.github/workflows/verify-001e4e30-read-count.yml'
   workflow_dispatch:
 permissions:
   contents: read

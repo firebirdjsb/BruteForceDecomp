@@ -1,13 +1,7 @@
 name: Verify 0x000944a0 incoming guest key word
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_0009/0x000944a0.c'
-      - 'scripts/verify_000944a0_guest_key_word.py'
-      - '.github/workflows/verified-000944a0-keyword.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 

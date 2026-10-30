@@ -1,8 +1,10 @@
-name: Optional C++17 compatibility baseline (not a native game build)
+name: Full C++17 source draft syntax inventory (not a native game build)
 on:
   push:
     branches: [main]
     paths:
+      - 'src/**'
+      - 'tools/source_layout.py'
       - 'tools/sweep_cpp_compat.py'
       - 'tools/test_sweep_cpp_compat.py'
       - 'include/bf_ghidra_types.h'
@@ -15,18 +17,39 @@ on:
         options: ["100", "0"]
         default: "100"
 permissions:
-  contents: read
+  contents: write
 jobs:
   cpp-compat:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate the audit harness
-        run: python3 -m unittest discover -s tools -p 'test_sweep_cpp_compat.py' -v
+      - name: Validate compiler and C++ progress gates
+        run: |
+          python3 -m unittest discover -s tools -p 'test_sweep_cpp_compat.py' -v
+          python3 tools/test_publish_cpp_progress.py
       - name: Inventory C++17 syntax separately from the historical C11 baseline
         env:
-          LIMIT: ${{ github.event_name == 'push' && '100' || inputs.source_limit }}
+          LIMIT: ${{ github.event_name == 'push' && '0' || inputs.source_limit }}
         run: python3 tools/sweep_cpp_compat.py --root . --out cpp_compat_results --jobs 8 --limit "$LIMIT"
+      - name: Publish exact-commit full C++ syntax coverage
+        if: ${{ github.event_name == 'push' || inputs.source_limit == '0' }}
+        env:
+          AUDITED_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          python3 tools/publish_cpp_progress.py --report cpp_compat_results/cpp_compat_report.json --expected-sha "$AUDITED_SHA" --run-id "$RUN_ID" --root .
+          git fetch --no-tags origin main
+          if [[ "$(git rev-parse origin/main)" != "$AUDITED_SHA" ]]; then
+            echo "main advanced; skip stale C++ percentage publication"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md docs/progress/current.json docs/progress/cpp-syntax.svg docs/progress/overall.svg
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "docs(progress): publish exact C++17 syntax coverage"
+          git push origin HEAD:main
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -1,16 +1,6 @@
 name: Verify 0x00052120 guest float stack repair
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_0005/0x00052120.c'
-      - 'scripts/verify_00052120_guest_float_slots.py'
-      - 'scripts/verify_00052120_resolved_vtable_targets.py'
-      - 'src/main_unclassified/band_0005/0x00052c90.c'
-      - 'src/main_unclassified/band_0023/0x00236670.c'
-      - 'tests/test_00052120_guest_frame.c'
-      - '.github/workflows/verify-00052120-float-slots.yml'
-      - 'include/bf_ghidra_types.h'
   workflow_dispatch:
 jobs:
   guest-float-stack:

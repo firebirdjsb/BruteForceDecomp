@@ -5,31 +5,19 @@
 <!-- BF_PROGRESS_START -->
 ## Reconstruction progress
 
-[![C11 source audit](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/full-c11-inventory.yml/badge.svg?branch=main)](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/full-c11-inventory.yml)
+[![C++ source audit](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml/badge.svg?branch=main)](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml)
 
-![Overall roadmap tracking: 14.23%](docs/progress/overall.svg)
+![C++17 syntax coverage: pending first complete audit](docs/progress/cpp-syntax.svg)
 
-**Overall tracked roadmap: 14.23%** (conservative milestone indicator, **not verified game completion**). Seven equally weighted phases: the audited C11 syntax pass fraction contributes to one phase, while the other six are unverified and receive zero completion credit until evidence-based metrics exist. This is a planning proxy, not a verified 1:1 or playable-game percentage.
+**C++17 syntax coverage: pending complete 13,694-function audit.** The old C11 score is **not** C++ syntax coverage. The first 100-function C++ sample had 34 passes and 66 failures, and cannot be extrapolated to the whole project.
 
-![C11 source syntax coverage: 99.58%](docs/progress/c11-syntax.svg)
+![Overall roadmap tracking: pending C++ audit](docs/progress/overall.svg)
 
-**99.58% C11 syntax coverage** · **13,636 / 13,694** individually checked functions · **58** still fail. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/2871441fc2164c6e7ef8b898445b197cfef830bc) · [GitHub Actions report](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/41039507913).
+**Overall roadmap:** rebaselining on the audited C++ source. This roadmap indicator is a conservative planning proxy, not measured game completion; original Xbox class/vtable ABI, linking, and runtime remain unverified.
 
-**Native PC game: NOT buildable/playable yet.** A syntax pass is not Xbox ABI verification, cross-function linking, platform compatibility, or a 1:1 match. This percentage is **not** game-completion percentage.
+**Native PC game: NOT yet buildable or playable.** Syntax checking cannot establish 1:1 source reconstruction.
 
-**Fully verified instruction contracts / interfaces:** not yet comprehensively counted. Partial operand and storage evidence is recorded per entry; it is not credited as whole-function verification.
-
-| Roadmap phase | Credited progress |
-| --- | --- |
-| 1. Isolated host C11 syntax | 99.58% source drafts passing |
-| 2. Original Xbox ABI, types and structures | Unverified |
-| 3. Cross-function linking | Unverified |
-| 4. Original 1:1 behavioral testing | Unverified |
-| 5. Xbox-to-Windows platform services | Unverified |
-| 6. Playable native Windows baseline | Unverified |
-| 7. Optional Reloaded enhancements | Unverified |
-
-[Machine-readable progress](docs/progress/current.json) · [Detailed status](docs/STATUS.md) · [Native PC milestones](docs/NATIVE_PC_PORT_GOALS.md)
+[Machine-readable C++ progress](docs/progress/current.json) · [C++ migration details](docs/CPP_MIGRATION.md) · [Native PC milestones](docs/NATIVE_PC_PORT_GOALS.md)
 
 <!-- BF_PROGRESS_END -->
 

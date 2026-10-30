@@ -1,25 +1,7 @@
 name: Focused 0x00155840 guest x87 call bridge
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'include/bf_00155840_frame_contract.h'
-      - 'include/bf_00155840_x87_call_bridge.h'
-      - 'include/bf_00155840_virtual_621c0.h'
-      - 'include/bf_00155840_concrete_virtual.h'
-      - 'include/bf_00155840_frame_x87_increment.h'
-      - 'include/bf_00155840_scalar_sse.h'
-      - 'tests/test_00155840_scalar_sse.c'
-      - 'include/bf_00155840_frame_x87_scale.h'
-      - 'tests/test_00155840_x87_scale.c'
-      - 'tests/test_00155840_concrete_frame.c'
-      - 'include/bf_00155840_upload_bridge.h'
-      - 'tests/test_00155840_upload_bridge.c'
-      - 'tests/test_00155840_x87_rounding.c'
-      - 'tests/test_00155840_x87_call_bridge.c'
-      - '.github/workflows/focused-00155840-x87-bridge.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 

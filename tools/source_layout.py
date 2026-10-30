@@ -75,7 +75,7 @@ def relative_source_path(root: Path, entry: str) -> Path:
         folder = f"video_bink/{group}"
     else:
         folder = f"unmapped_unclassified/band_{int(entry, 16) >> 16:04x}"
-    return Path("src") / folder / (entry + ".c")
+    return Path("src") / folder / (entry + ".cpp")
 
 def source_path(root: Path, entry: str) -> Path:
     root = Path(root).resolve()
@@ -83,7 +83,7 @@ def source_path(root: Path, entry: str) -> Path:
 
 def discovered_sources(root: Path) -> list[Path]:
     root = Path(root).resolve()
-    paths = sorted((root / "src").rglob("0x????????.c"))
+    paths = sorted((root / "src").rglob("0x????????.cpp"))
     seen = set()
     for path in paths:
         entry = path.stem.lower()

@@ -1,19 +1,7 @@
 name: Verified node-copy entry DWORDs (source-only C11)
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_000b/0x000ba410.c'
-      - 'src/main_unclassified/band_000c/0x000cdae0.c'
-      - 'src/main_unclassified/band_000d/0x000dfb40.c'
-      - 'src/main_unclassified/band_000d/0x000dfb80.c'
-      - 'src/main_unclassified/band_000e/0x000e42f0.c'
-      - 'src/main_unclassified/band_000e/0x000e4350.c'
-      - 'src/main_unclassified/band_000f/0x000ff730.c'
-      - 'scripts/verify_000ff730_guest_word_callers.py'
-      - '.github/workflows/verified-node-copy-guest-words.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 

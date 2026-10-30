@@ -1,57 +1,7 @@
 name: Focused x86-supported C11 repairs
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/main_unclassified/band_0002/0x00024f80.c'
-      - 'src/main_unclassified/band_0003/0x000388b0.c'
-      - 'src/main_unclassified/band_0003/0x0003d970.c'
-      - 'src/main_unclassified/band_0004/0x00043470.c'
-      - 'src/main_unclassified/band_0004/0x000447b0.c'
-      - 'src/main_unclassified/band_0004/0x00048da0.c'
-      - 'src/main_unclassified/band_0004/0x0004e150.c'
-      - 'src/main_unclassified/band_0004/0x000435f0.c'
-      - 'src/main_unclassified/band_0005/0x0005c5e0.c'
-      - 'src/main_unclassified/band_0005/0x0005c730.c'
-      - 'src/main_unclassified/band_0006/0x0006c840.c'
-      - 'src/main_unclassified/band_0005/0x00050980.c'
-      - 'src/main_unclassified/band_0008/0x000874a0.c'
-      - 'src/main_unclassified/band_0008/0x00081d10.c'
-      - 'src/main_unclassified/band_0008/0x0008f5d0.c'
-      - 'src/main_unclassified/band_0008/0x0008a560.c'
-      - 'src/main_unclassified/band_000a/0x000aa3b0.c'
-      - 'src/main_unclassified/band_000b/0x000becf0.c'
-      - 'src/main_unclassified/band_000c/0x000c4bc0.c'
-      - 'src/main_unclassified/band_001e/0x001e8cd0.c'
-      - 'src/main_unclassified/band_0028/0x002876a0.c'
-      - 'src/main_unclassified/band_0029/0x0029d2a0.c'
-      - 'src/main_unclassified/band_0005/0x0005a6e0.c'
-      - 'src/main_unclassified/band_0006/0x0006eee0.c'
-      - 'src/main_unclassified/band_0015/0x001552a0.c'
-      - 'src/main_unclassified/band_002f/0x002f05f8.c'
-      - 'src/main_unclassified/band_002d/0x002df650.c'
-      - 'src/main_unclassified/band_0021/0x00214710.c'
-      - 'scripts/verify_00214710_maxss_lane.py'
-      - 'tests/test_00214710_maxss.c'
-      - 'src/main_unclassified/band_0029/0x0029b0a0.c'
-      - 'scripts/verify_0029b0a0_binary64_words.py'
-      - 'scripts/verify_002df650_packed_lanes.py'
-      - 'tools/verify_x87_st0_returns.py'
-      - 'include/**'
-      - 'tools/verify_x86_c11_lane_contracts.py'
-      - 'tools/verify_x86_callee_87630.py'
-      - 'tools/verify_x86_seh_immediates.py'
-      - 'src/main_unclassified/band_0025/0x00254390.c'
-      - 'scripts/verify_00254390_callback_release.py'
-      - 'scripts/verify_001eb850_guest_item_word.py'
-      - 'src/main_unclassified/band_001a/**'
-      - 'src/main_unclassified/band_001b/**'
-      - 'src/main_unclassified/band_001c/**'
-      - 'src/main_unclassified/band_001d/**'
-      - 'metadata/x86_callee_00087630_call_sites.csv'
-      - '.github/workflows/focused-x86-c11-repairs.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 
@@ -93,34 +43,34 @@ jobs:
             -I include
           )
           for name in \
-            src/main_unclassified/band_0002/0x00024f80.c \
-            src/main_unclassified/band_0003/0x000388b0.c \
-            src/main_unclassified/band_0003/0x0003d970.c \
-            src/main_unclassified/band_0004/0x00043470.c \
-            src/main_unclassified/band_0004/0x000447b0.c \
-            src/main_unclassified/band_0004/0x00048da0.c \
-            src/main_unclassified/band_0004/0x0004e150.c \
-            src/main_unclassified/band_0004/0x000435f0.c \
-            src/main_unclassified/band_0005/0x0005c5e0.c \
-            src/main_unclassified/band_0005/0x0005c730.c \
-            src/main_unclassified/band_0006/0x0006c840.c \
-            src/main_unclassified/band_0005/0x00050980.c \
-            src/main_unclassified/band_0008/0x000874a0.c \
-            src/main_unclassified/band_0008/0x00081d10.c \
-            src/main_unclassified/band_0008/0x0008f5d0.c \
-            src/main_unclassified/band_0008/0x0008a560.c \
-            src/main_unclassified/band_000a/0x000aa3b0.c \
-            src/main_unclassified/band_000b/0x000becf0.c \
-            src/main_unclassified/band_000c/0x000c4bc0.c \
-            src/main_unclassified/band_001e/0x001e8cd0.c \
-            src/main_unclassified/band_0028/0x002876a0.c \
-            src/main_unclassified/band_0029/0x0029d2a0.c \
-            src/main_unclassified/band_0005/0x0005a6e0.c \
-            src/main_unclassified/band_0006/0x0006eee0.c \
-            src/main_unclassified/band_0015/0x001552a0.c \
-            src/main_unclassified/band_002f/0x002f05f8.c \
-            src/main_unclassified/band_002d/0x002df650.c \
-            src/main_unclassified/band_0021/0x00214710.c
+            src/main_unclassified/band_0002/0x00024f80.cpp \
+            src/main_unclassified/band_0003/0x000388b0.cpp \
+            src/main_unclassified/band_0003/0x0003d970.cpp \
+            src/main_unclassified/band_0004/0x00043470.cpp \
+            src/main_unclassified/band_0004/0x000447b0.cpp \
+            src/main_unclassified/band_0004/0x00048da0.cpp \
+            src/main_unclassified/band_0004/0x0004e150.cpp \
+            src/main_unclassified/band_0004/0x000435f0.cpp \
+            src/main_unclassified/band_0005/0x0005c5e0.cpp \
+            src/main_unclassified/band_0005/0x0005c730.cpp \
+            src/main_unclassified/band_0006/0x0006c840.cpp \
+            src/main_unclassified/band_0005/0x00050980.cpp \
+            src/main_unclassified/band_0008/0x000874a0.cpp \
+            src/main_unclassified/band_0008/0x00081d10.cpp \
+            src/main_unclassified/band_0008/0x0008f5d0.cpp \
+            src/main_unclassified/band_0008/0x0008a560.cpp \
+            src/main_unclassified/band_000a/0x000aa3b0.cpp \
+            src/main_unclassified/band_000b/0x000becf0.cpp \
+            src/main_unclassified/band_000c/0x000c4bc0.cpp \
+            src/main_unclassified/band_001e/0x001e8cd0.cpp \
+            src/main_unclassified/band_0028/0x002876a0.cpp \
+            src/main_unclassified/band_0029/0x0029d2a0.cpp \
+            src/main_unclassified/band_0005/0x0005a6e0.cpp \
+            src/main_unclassified/band_0006/0x0006eee0.cpp \
+            src/main_unclassified/band_0015/0x001552a0.cpp \
+            src/main_unclassified/band_002f/0x002f05f8.cpp \
+            src/main_unclassified/band_002d/0x002df650.cpp \
+            src/main_unclassified/band_0021/0x00214710.cpp
           do
             echo "Checking ${name}"
             clang "${flags[@]}" "${name}"

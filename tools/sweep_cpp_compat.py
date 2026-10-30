@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Read-only C++17 compatibility audit of the 13,694 original-address drafts.
 
-Compiles existing .c files as C++ without renaming/modifying them.
+Compiles canonical .cpp source drafts without modifying their contents.
 A syntax pass is not Xbox ABI, object model, link or behavior verification.
 """
 from __future__ import annotations

@@ -1,23 +1,6 @@
 name: Focused original 0x002B7970 x87/SSE and 0x001F3AA0 guest chain
+# Legacy C11-triggered workflow: manual only until C++ repairs are validated.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/guest_cpu/bf_002b7970_guest_base.h'
-      - 'tests/test_002b7970_guest_base.c'
-      - 'src/guest_cpu/bf_002b7970_guest_tail.h'
-      - 'src/guest_cpu/bf_002b7970_guest_complete.h'
-      - 'src/guest_cpu/bf_001f3aa0_vector_call.h'
-      - 'tests/test_002b7970_guest_tail.c'
-      - 'tests/test_001f3aa0_vector_call.c'
-      - 'tests/test_001f3aa0_producer_to_vector.c'
-      - 'src/guest_cpu/bf_001f3aa0_vector_alloc_sparse.h'
-      - 'src/guest_cpu/bf_001f3aa0_complete_guest.h'
-      - 'src/guest_cpu/bf_001f3aa0_guest_tail.h'
-      - 'src/guest_cpu/bf_002b8de0_guest_cleanup.h'
-      - 'tests/test_001f3aa0_vector_alloc_sparse.c'
-      - 'src/guest_cpu/bf_001f3aa0_guest_producer.h'
-      - '.github/workflows/focused-002b7970-guest-base.yml'
   workflow_dispatch:
 permissions:
   contents: read
