@@ -64,7 +64,7 @@ def read_code(image: bytes, va: int, size: int) -> bytes:
 def verify_original_xbe(image: bytes, rows: list[dict[str, str]]) -> None:
     if hashlib.sha256(image).hexdigest() != PINNED_XBE_SHA256:
         raise ValueError("original retail XBE SHA-256 mismatch")
-    if read_code(image, RET_VA, 1) != b"\\xc3":
+    if read_code(image, RET_VA, 1) != bytes.fromhex("c3"):
         raise ValueError("original 0x00087668 must be a plain RET")
     for row in rows:
         address = int(row["call_va"], 16)
