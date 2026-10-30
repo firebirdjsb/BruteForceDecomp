@@ -9,6 +9,7 @@ on:
       - 'tools/classify_cpp_failures.py'
       - 'tools/triage_cpp_undeclared_calls.py'
       - 'tools/test_triage_cpp_undeclared_calls.py'
+      - 'tools/test_cpp_memory_helper_syntax.py'
       - 'tools/test_classify_cpp_failures.py'
       - 'tools/test_sweep_cpp_compat.py'
       - 'include/bf_ghidra_types.h'
@@ -33,6 +34,7 @@ jobs:
           python3 tools/test_publish_cpp_progress.py
           python3 -m unittest discover -s tools -p 'test_classify_cpp_failures.py' -v
           python3 -m unittest discover -s tools -p 'test_triage_cpp_undeclared_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_memory_helper_syntax.py' -v
       - name: Inventory C++17 syntax separately from the historical C11 baseline
         env:
           LIMIT: ${{ github.event_name == 'push' && '0' || inputs.source_limit }}

@@ -19,9 +19,9 @@ static inline void bf_002334b0_produce(void *eax_output,
                                       const void *ecx_matrix,
                                       const void *edx_matrix)
 {
-    unsigned char *output = eax_output;
-    const unsigned char *ecx = ecx_matrix;
-    const unsigned char *edx = edx_matrix;
+    unsigned char *output = (unsigned char *)eax_output;
+    const unsigned char *ecx = (const unsigned char *)ecx_matrix;
+    const unsigned char *edx = (const unsigned char *)edx_matrix;
     long double sum, term;
     float operand, result;
     /* FSTP m32fp at 0x002334c4, output +0x00. */
