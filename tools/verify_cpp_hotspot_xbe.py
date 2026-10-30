@@ -24,11 +24,33 @@ SAMPLES = {
     0x00023134: "5e b0 01 c3",
     0x00023138: "5e 32 c0 c3",
     0x000120F0: "83 ec 08 33 c9 89 4c 24 00 8b 50 08",
+    # Complete original x86 allocator caller 0x00058D40.
+    0x00058D40: "6a 10 e8 d6 12 29 00 33 c9 83 c4 04",
+    0x00058D4C: "3b c1 74 1d 89 48 04 89 48 08 89 48 0c",
+    0x00058D59: "8b 4c 24 04 89 01 8b 4c 24 08 8b d0",
+    0x00058D6A: "c2 08 00",
+    0x00058D6D: "8b 4c 24 04 33 c0 89 01 8b 4c 24 08 8b d0",
+    0x00058D80: "c2 08 00",
+    0x001AAAB1: "8b f9 8b f2",
+    # Four further size-specific callers, all original return EAX consumers.
+    0x00059D5F: "6a 38 e8 b7 02 29 00 83 c4 04 85 c0",
+    0x0005B9E6: "6a 24 e8 30 e6 28 00 83 c4 04 3b c6",
+    0x0005D222: "6a 44 8b f0 e8 f2 cd 28 00 83 c4 04",
+    0x0005EE52: "6a 0c c7 44 24 08 00 00 00 00 e8 bc b1 28 00",
+
 }
 DIRECT_CALLS = {
     0x00017027: 0x002EA01D,
     0x0001B6B6: 0x002EA01D,
     0x00015F41: 0x002EA018,
+    0x00058D42: 0x002EA01D,
+    0x00058D65: 0x001AAA90,
+    0x00058D7B: 0x001AAA90,
+    0x00059D61: 0x002EA01D,
+    0x0005B9E8: 0x002EA01D,
+    0x0005D226: 0x002EA01D,
+    0x0005EE5C: 0x002EA01D,
+
 }
 DIRECT_JUMPS = {0x002EA018: 0x00067BF0}
 

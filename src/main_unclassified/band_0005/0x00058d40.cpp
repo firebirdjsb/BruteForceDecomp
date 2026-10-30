@@ -7,21 +7,26 @@
  */
 #include "bf_ghidra_types.h"
 #include "bf_002ea01d_allocator_guest32.h"
-void FUN_00058d40(int *param_1)
+#include "bf_00058d40_guest_handoff.h"
 
+/* XBE 0x00058D40..0x00058D80, body hash retained above:
+ * [ESP+4] and [ESP+8] are two incoming guest DWORDs, RET 8.
+ * PUSH 0x10/CALL 0x002EA01D/ADD ESP,4 yields 32-bit guest EAX.
+ * On nonzero EAX: store guest DWORD zero at +4,+8,+0xC, in that order.
+ * In both paths: store guest EAX at first stack argument's pointed-to DWORD;
+ * pass second stack DWORD in ECX and allocation EAX in EDX to 0x001AAA90.
+ * This is an original-address source contract, not a Windows heap or
+ * generic native pointer adapter. Guest memory and call dispatch remain
+ * ABI_UNVERIFIED, intentionally undefined until a guest32 backend exists. */
+void FUN_00058d40(uint32_t guest_output_word_va,
+                  uint32_t guest_second_stack_word)
 {
-  int iVar1;
-  
-  iVar1 = FUN_002ea01d(0x10);
-  if (iVar1 != 0) {
-    *(undefined4 *)(iVar1 + 4) = 0;
-    *(undefined4 *)(iVar1 + 8) = 0;
-    *(undefined4 *)(iVar1 + 0xc) = 0;
-    *param_1 = iVar1;
-    FUN_001aaa90();
-    return;
+  const uint32_t allocation_eax = FUN_002ea01d(UINT32_C(0x10));
+  if (allocation_eax != 0) {
+    bf_00058d40_guest_write_u32(allocation_eax + 4u, 0);
+    bf_00058d40_guest_write_u32(allocation_eax + 8u, 0);
+    bf_00058d40_guest_write_u32(allocation_eax + 0xcu, 0);
   }
-  *param_1 = 0;
-  FUN_001aaa90();
-  return;
+  bf_00058d40_guest_write_u32(guest_output_word_va, allocation_eax);
+  bf_00058d40_call_001aaa90(guest_second_stack_word, allocation_eax);
 }

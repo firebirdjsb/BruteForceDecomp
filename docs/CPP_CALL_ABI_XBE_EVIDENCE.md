@@ -17,3 +17,24 @@ Original evidence: SHA-256 `B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE
 Ghidra's `CONCATxy` syntax helper is a pure integer bit splice for integral operands. It does not infer original program semantics or guest pointer storage. The new C++ helper intentionally fails when the operand is a host pointer or floating value so that those cases can be reconstructed from 32-bit guest address/IEEE754 evidence, not truncated by the host compiler.
 
 No recovered class layout, virtual dispatch signature, or native PC gameplay is claimed.
+
+## Caller memory and register contract — 0x00058D40 (2026-10-30)
+
+The user-supplied original XBE was checked against its exact SHA-256. At
+`0x00058D40` the original `PUSH 0x10` / `CALL 0x002EA01D` /
+`ADD ESP,4` supplies the allocator size and preserves returned EAX.
+`0x00058D4C` tests EAX against zero; only its nonzero branch stores
+zero DWORDs at EAX+4, EAX+8 and EAX+0xC, in order. Both branches write the
+original EAX bits through the **first** caller-pushed guest address.
+`0x00058D5F/0x00058D75` load the **second** caller-pushed guest DWORD
+into ECX and `0x00058D63/0x00058D79` copy allocation EAX to EDX;
+`0x00058D65/0x00058D7B` call `0x001AAA90`.
+`0x001AAAB1 MOV EDI,ECX; 0x001AAAB3 MOV ESI,EDX` independently
+confirm consumption of the two incoming register words; original
+`RET 8` consumes the two caller stack arguments.
+
+The source deliberately delegates guest32 byte-address writes and the
+register-entry call through **undefined external interfaces**. Tests supply
+mock implementations and check order/values for both allocation branches,
+not game behavior. Neither guest address translation nor the full SEH,
+x87, object, allocator-import, or `0x001AAA90` runtime is implemented.
