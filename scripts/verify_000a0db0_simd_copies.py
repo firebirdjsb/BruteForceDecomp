@@ -2,7 +2,7 @@
 """Pin FUN_000a0db0's 16-byte guest copies to matching-XBE instructions.
 
 No XBE is stored in Git. Run locally with the original user's XBE:
-  python scripts/verify_000a0db0_simd_copies.py default.xbe --source src/main_unclassified/band_000a/0x000a0db0.c
+  python scripts/verify_000a0db0_simd_copies.py default.xbe --source src/main_unclassified/band_000a/0x000a0db0.cpp
 
 This proves instruction bytes and source-label consistency, NOT 1:1 C behavior.
 """

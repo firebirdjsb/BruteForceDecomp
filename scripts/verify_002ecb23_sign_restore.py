@@ -5,7 +5,7 @@ from pathlib import Path
 SHA="b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 CHECKS=[[3066727,"f6c405"],[3066732,"33c0"],[3066734,"40"],[3066768,"3bc1"],[3066772,"804d0f80"]]
 TOKENS=["if (bVar1)","param_2 |= UINT32_C(0x80000000);"]
-SOURCE="src/main_unclassified/band_002e/0x002ecb23.c"
+SOURCE="src/main_unclassified/band_002e/0x002ecb23.cpp"
 def main():
  p=argparse.ArgumentParser();p.add_argument("xbe",type=Path);p.add_argument("repo",type=Path);a=p.parse_args()
  d=a.xbe.read_bytes()

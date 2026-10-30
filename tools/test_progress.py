@@ -41,10 +41,11 @@ for bad in (
     else:
         raise AssertionError(f"Unsafe report accepted: {bad}")
 with tempfile.TemporaryDirectory() as directory:
-    root = Path(directory)
+    root = Path(directory) / 'archive'
+    root.mkdir()
     original = f'# Test project\n\n{START}\nold\n{END}\n\nfooter\n'
     (root / "README.md").write_text(original, encoding="utf-8")
-    update(root, state)
+    update(root, state, historical_archive=True)
     assert (root / "README.md").read_text(encoding="utf-8").count(START) == 1
     assert (root / "README.md").read_text(encoding="utf-8").endswith("\n\nfooter\n")
     assert (root / "docs/progress/current.json").exists()

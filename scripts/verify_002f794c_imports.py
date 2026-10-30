@@ -12,7 +12,7 @@ def main():
  for va,h in CHECKS:
   b=bytes.fromhex(h)
   if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"XBE mismatch {va:#x}")
- s=(a.repo/"src/main_unclassified/band_002f/0x002f794c.c").read_text()
+ s=(a.repo/"src/main_unclassified/band_002f/0x002f794c.cpp").read_text()
  for token in ("UINT32_C(0x00386564)","UINT32_C(0x00386560)", "UINT32_C(0x37)"):
   if token not in s:raise SystemExit("source mismatch "+token)
  print("PASS: five original CancelIo import and offset instructions")

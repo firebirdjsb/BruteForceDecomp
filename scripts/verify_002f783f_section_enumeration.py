@@ -16,7 +16,7 @@ def main():
  for va,h in CHECKS:
   b=bytes.fromhex(h)
   if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"x86 mismatch at {va:#x}")
- s=(a.repo/"src/main_unclassified/band_002f/0x002f783f.c").read_text()
+ s=(a.repo/"src/main_unclassified/band_002f/0x002f783f.cpp").read_text()
  for token in ("sizeof(BF_XBE_SectionHeader) == 0x38",
                "offsetof(BF_XBE_SectionHeader, SectionName) == 0x14",
                "UINT32_C(0x0001011c)","UINT32_C(0x00010120)",

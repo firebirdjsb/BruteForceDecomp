@@ -16,7 +16,7 @@ def main():
  for va,h in CHECKS:
   b=bytes.fromhex(h)
   if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"x86 mismatch at {va:#x}")
- s=(a.repo/"src/main_unclassified/band_002f/0x002f65dc.c").read_text()
+ s=(a.repo/"src/main_unclassified/band_002f/0x002f65dc.cpp").read_text()
  for token in ("(uint8_t)(param_2 >> 24)","*(uint8_t *)&local_10",
                "(param_2 & UINT32_C(0x00ffffff)) | ((uint32_t)bVar1 << 24)"):
   if token not in s:raise SystemExit("source mismatch: "+token)

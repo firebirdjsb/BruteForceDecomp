@@ -133,7 +133,15 @@ def readme_section(s: dict) -> str:
 {END}'''
 
 
-def update(root: Path, state: dict) -> None:
+def update(root: Path, state: dict, *, historical_archive: bool = False) -> None:
+    """Historical renderer: explicit opt-in and an archive destination only."""
+    root = Path(root).resolve()
+    repository = Path(__file__).resolve().parents[1]
+    archive = repository / 'docs/archive'
+    if (not historical_archive or root == repository or
+            not any(part.lower() in {'archive', 'archives'} for part in root.parts) or
+            (repository in root.parents and archive not in (root, *root.parents))):
+        raise ValueError('Historical C11 rendering requires an explicit archive destination; active progress is C++ only')
     readme = root / "README.md"
     current = readme.read_text(encoding="utf-8")
     if current.count(START) != 1 or current.count(END) != 1:
@@ -150,17 +158,9 @@ def update(root: Path, state: dict) -> None:
 
 
 def main() -> None:
-    p = argparse.ArgumentParser()
-    p.add_argument("--report", type=Path, required=True)
-    p.add_argument("--run-id", type=int, required=True)
-    p.add_argument("--expected-sha", required=True)
-    p.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
-    opts = p.parse_args()
-    state = snapshot(json.loads(opts.report.read_text(encoding="utf-8")),
-                     opts.run_id, opts.expected_sha)
-    update(opts.root, state)
-    print(f'Updated C11 syntax coverage: {state["percentage"]:.2f}% '
-          f'({state["passing"]}/{state["total"]}) from {state["audited_commit"]}')
+    """The old command name now publishes only the exact C++ audit schema."""
+    from publish_cpp_progress import main as publish_cpp_main
+    publish_cpp_main()
 
 
 if __name__ == "__main__":

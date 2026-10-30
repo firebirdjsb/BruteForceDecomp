@@ -38,14 +38,14 @@ def main():
     header = (args.root/"include/bf_xbox_crt_stream.h").read_text()
     for field in ("word_00", "word_04", "word_08", "flags_0c", "handle_10"):
         assert field in header, field
-    getc = (args.root/"src/main_unclassified/band_002e/0x002eb8f1.c").read_text()
+    getc = (args.root/"src/main_unclassified/band_002e/0x002eb8f1.cpp").read_text()
     assert '#include "bf_xbox_crt_stream.h"' in getc
     assert 'word_04 - UINT32_C(1)' in getc
     assert '(int32_t)count >= 0' in getc
     assert 'word_00 = guest_cursor + UINT32_C(1)' in getc
     assert 'return __filbuf(__stream);' in getc
     assert '_IO_' not in getc
-    ungetc = (args.root/"src/main_unclassified/band_002e/0x002eb885.c").read_text()
+    ungetc = (args.root/"src/main_unclassified/band_002e/0x002eb885.cpp").read_text()
     assert '#include "bf_xbox_crt_stream.h"' in ungetc
     assert 'cursor -= UINT32_C(1)' in ungetc
     assert '__stream->word_00 = cursor' in ungetc
@@ -53,12 +53,12 @@ def main():
     assert '__stream->flags_0c = (flags & ~UINT32_C(0x10)) | UINT32_C(1)' in ungetc
     assert '__getbuf(__stream)' in ungetc
     assert '_IO_' not in ungetc
-    seek = (args.root/"src/main_unclassified/band_002e/0x002eb5a6.c").read_text()
+    seek = (args.root/"src/main_unclassified/band_002e/0x002eb5a6.cpp").read_text()
     assert 'stream->unknown_18 = UINT32_C(0x200)' in seek
     assert 'stream->handle_10, offset, origin' in seek
     assert 'stream->flags_0c = flags & ~UINT32_C(0x10)' in seek
     assert '_IO_' not in seek
-    ftell = (args.root/"src/main_unclassified/band_002e/0x002eb634.c").read_text()
+    ftell = (args.root/"src/main_unclassified/band_002e/0x002eb634.cpp").read_text()
     single_lf = chr(39) + chr(92) + "n" + chr(39)
     doubled_lf = chr(39) + chr(92) + chr(92) + "n" + chr(39)
     assert ftell.count(single_lf) == 2, "expected two LF comparison constants"

@@ -10,7 +10,7 @@ import re
 from pathlib import Path
 
 SHA="b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SRC="src/main_unclassified/band_002e/0x002ebfe0.c"
+SRC="src/main_unclassified/band_002e/0x002ebfe0.cpp"
 SITES=(
  (0x002ebfe0,"8bc8","preserve entry EAX in ECX"),
  (0x002ebfe2,"50","push whole EAX 32-bit word"),

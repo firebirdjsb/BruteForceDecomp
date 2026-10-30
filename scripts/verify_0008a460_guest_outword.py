@@ -9,7 +9,7 @@ import hashlib
 from pathlib import Path
 
 ORIGINAL_XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SOURCE = Path("src/main_unclassified/band_0008/0x0008a460.c")
+SOURCE = Path("src/main_unclassified/band_0008/0x0008a460.cpp")
 REQUIRED = (
     "guest_first_call_result = iVar1;",
     "guest_out_word = *(uint32_t *)(uintptr_t)((uint32_t)guest_first_call_result + UINT32_C(0x0c));",

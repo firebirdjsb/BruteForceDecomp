@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Original-XBE instruction evidence for 0x002edbde.c."""
+"""Original-XBE instruction evidence for 0x002edbde.cpp."""
 import argparse,hashlib
 from pathlib import Path
 SHA="b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
@@ -12,7 +12,7 @@ def main():
  for va,h in CHECKS:
   b=bytes.fromhex(h)
   if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"Mismatch at {va:#x}")
- s=(a.repo/"src/main_unclassified/band_002e/0x002edbde.c").read_text()
+ s=(a.repo/"src/main_unclassified/band_002e/0x002edbde.cpp").read_text()
  for token in TOKENS:
   if token not in s:raise SystemExit("Source mismatch: "+token)
  print("PASS: original x86 instruction signatures and source expressions")

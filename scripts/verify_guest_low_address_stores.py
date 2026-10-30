@@ -9,9 +9,9 @@ from pathlib import Path
 
 XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 CASES = (
-    (0x001E78E8, "33c9884904", "src/main_unclassified/band_001e/0x001e7880.c", "*(volatile undefined1 *)(uintptr_t)UINT32_C(0x00000004) = 0;"),
-    (0x001E7937, "33c0885804", "src/main_unclassified/band_001e/0x001e7880.c", "*(volatile undefined1 *)(uintptr_t)UINT32_C(0x00000004) = 1;"),
-    (0x002856DF, "33c0894004", "src/main_unclassified/band_0028/0x002856b0.c", "*(volatile undefined4 *)(uintptr_t)UINT32_C(0x00000004) = 0;"),
+    (0x001E78E8, "33c9884904", "src/main_unclassified/band_001e/0x001e7880.cpp", "*(volatile undefined1 *)(uintptr_t)UINT32_C(0x00000004) = 0;"),
+    (0x001E7937, "33c0885804", "src/main_unclassified/band_001e/0x001e7880.cpp", "*(volatile undefined1 *)(uintptr_t)UINT32_C(0x00000004) = 1;"),
+    (0x002856DF, "33c0894004", "src/main_unclassified/band_0028/0x002856b0.cpp", "*(volatile undefined4 *)(uintptr_t)UINT32_C(0x00000004) = 0;"),
 )
 
 def main():

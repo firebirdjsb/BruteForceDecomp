@@ -42,14 +42,14 @@ WINDOWS = {
     0x002D22A0: "89484c",      # write guest flags
 }
 SOURCE_MARKERS = {
-    "src/main_unclassified/band_002e/0x002ec6bb.c": (
+    "src/main_unclassified/band_002e/0x002ec6bb.cpp": (
         "uint64_t guest_mantissa_bits;",
         "memcpy(&guest_mantissa_bits,&guest_double_value,sizeof(guest_mantissa_bits));",
         "low_word = (low_word >> 1) | ((high_word & 1u) << 31);",
         "high_word >>= 1;",
         "memcpy(&guest_shifted_double,&guest_mantissa_bits,sizeof(guest_shifted_double));",
     ),
-    "src/main_unclassified/band_002d/0x002d1fa0.c": (
+    "src/main_unclassified/band_002d/0x002d1fa0.cpp": (
         "#include <xmmintrin.h>",
         "memcpy(&first_y,&local_1c,sizeof first_y);",
         "memcpy(&second_y,&local_c,sizeof second_y);",

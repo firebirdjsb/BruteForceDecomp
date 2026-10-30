@@ -22,17 +22,17 @@ class AuditRootTests(unittest.TestCase):
             metadata.mkdir()
             (metadata / "asm_supported_readable_names.csv").write_text(
                 "entry,readable_alias\n", encoding="utf-8")
-            (sources / "0x00012000.c").write_text(
+            (sources / "0x00012000.cpp").write_text(
                 "void FUN_00012000(void) {}\n", encoding="utf-8")
-            (sources / "0x00012050.c").write_text(
+            (sources / "0x00012050.cpp").write_text(
                 "void uncertain_name(void) {}\n", encoding="utf-8")
             expected = [
                 {"entry": "0x00012000",
-                 "source_file": "src/main_unclassified/band_0001/0x00012000.c",
+                 "source_file": "src/main_unclassified/band_0001/0x00012000.cpp",
                  "lexical_symbol_status": "direct_name_candidate",
                  "definition_candidate": "FUN_00012000"},
                 {"entry": "0x00012050",
-                 "source_file": "src/main_unclassified/band_0001/0x00012050.c",
+                 "source_file": "src/main_unclassified/band_0001/0x00012050.cpp",
                  "lexical_symbol_status": "requires_identity_review",
                  "definition_candidate": "uncertain_name"},
             ]

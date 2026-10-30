@@ -9,7 +9,7 @@ import argparse
 import hashlib
 from pathlib import Path
 
-SOURCE = "src/main_unclassified/band_000b/0x000bca40.c"
+SOURCE = "src/main_unclassified/band_000b/0x000bca40.cpp"
 XBE_SHA256 = "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721"
 TOKENS = (
     "uint32_t guest_scissor_words[4];",

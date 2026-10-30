@@ -31,7 +31,7 @@ OPCODES = (
     (0x0021FF65, "b001"),
     (0x0021FF6B, "c20c00"),      # RET 12: three original DWORD arguments
 )
-SOURCE = "src/main_unclassified/band_0021/0x0021fd80.c"
+SOURCE = "src/main_unclassified/band_0021/0x0021fd80.cpp"
 
 def main():
     ap = argparse.ArgumentParser()

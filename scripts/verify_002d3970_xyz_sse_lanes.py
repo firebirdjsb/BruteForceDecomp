@@ -35,7 +35,7 @@ def main():
     p.add_argument("--repo", type=Path, default=Path("."))
     p.add_argument("--xbe", type=Path)
     a = p.parse_args()
-    rel = "src/main_unclassified/band_002d/0x002d3970.c"
+    rel = "src/main_unclassified/band_002d/0x002d3970.cpp"
     src = (a.repo / rel).read_text(encoding="utf-8")
     for expression in (
         "(local_10[0] - local_20[0])",

@@ -19,7 +19,7 @@ CHECKS = (
     (0x221E47, "e8b4050000"),
     (0x221E7D, "83feff"),
 )
-SOURCE = "src/main_unclassified/band_0022/0x00221de0.c"
+SOURCE = "src/main_unclassified/band_0022/0x00221de0.cpp"
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("xbe", nargs="?", type=Path)

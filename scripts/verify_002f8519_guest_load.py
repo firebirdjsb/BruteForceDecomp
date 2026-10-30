@@ -17,7 +17,7 @@ def main():
         ap.error("unexpected XBE")
     if data[VA-0x10000:VA-0x10000+len(BYTES)] != BYTES:
         raise SystemExit("original instruction bytes mismatch")
-    if EXPECTED not in (a.repo/"src/main_unclassified/band_002f/0x002f8519.c").read_text():
+    if EXPECTED not in (a.repo/"src/main_unclassified/band_002f/0x002f8519.cpp").read_text():
         raise SystemExit("source load contract mismatch")
     print("PASS: mov eax,[0x386570]; mov eax,[eax]; ret")
     print("Guest-address dereference requires an Xbox memory map for native PC execution.")

@@ -25,7 +25,7 @@ CHECKS = (
     (0x220E14, "8b442408"),
     (0x220E1D, "c3"),
 )
-SOURCE = "src/main_unclassified/band_0022/0x00220dd0.c"
+SOURCE = "src/main_unclassified/band_0022/0x00220dd0.cpp"
 MARKERS = (
     "uint32_t guest_first_output_word;",
     "FUN_00373f00(iVar2,0,0,&guest_first_output_word,auStack_8,auStack_c,auStack_10,auStack_14);",

@@ -20,8 +20,8 @@ OPCODES = (
     (0x0024D55A, "e8e1c60200"),
 )
 SOURCES = (
-    "src/main_unclassified/band_0024/0x0024d3c0.c",
-    "src/main_unclassified/band_0024/0x0024d520.c",
+    "src/main_unclassified/band_0024/0x0024d3c0.cpp",
+    "src/main_unclassified/band_0024/0x0024d520.cpp",
 )
 def main():
     ap = argparse.ArgumentParser()

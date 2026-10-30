@@ -24,7 +24,7 @@ INSTRUCTIONS = (
     (0x002C0808, "0f59c0"),    # Square lane-wise (MULPS)
     (0x002C0816, "f30f58c8"),  # ADDSS accumulated lane
 )
-SOURCE = "src/main_unclassified/band_002c/0x002c06b0.c"
+SOURCE = "src/main_unclassified/band_002c/0x002c06b0.cpp"
 NEEDED = (
     "(local_18[0] - local_28[0])",
     "(local_18[2] - local_28[2])",

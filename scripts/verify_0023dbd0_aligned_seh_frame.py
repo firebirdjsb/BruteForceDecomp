@@ -11,7 +11,7 @@ import re
 from pathlib import Path
 
 EXPECTED_XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SOURCE = "src/main_unclassified/band_0023/0x0023dbd0.c"
+SOURCE = "src/main_unclassified/band_0023/0x0023dbd0.cpp"
 SITES = (
     (0x0023dbd0,"538bdc", "save original x86 entry stack pointer in EBX"),
     (0x0023dbd3,"83ec08", "allocate original prologue scratch"),

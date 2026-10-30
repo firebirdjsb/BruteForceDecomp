@@ -10,7 +10,7 @@ from pathlib import Path
 import struct
 
 XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SOURCE = Path("src/main_unclassified/band_0007/0x0007b4d0.c")
+SOURCE = Path("src/main_unclassified/band_0007/0x0007b4d0.cpp")
 # Addresses below are Xbox virtual addresses; the pinned XBE's main .text
 # section has file offset VA - 0x10000. Do not apply to other sections.
 INSTRUCTIONS = (

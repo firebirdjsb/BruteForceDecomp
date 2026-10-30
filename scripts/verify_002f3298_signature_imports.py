@@ -13,7 +13,7 @@ XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 BODY_SHA256 = "f27d90811575d102a3473c35db2dbdd3e80c00e8fc4c25c735b7115b3d33e263"
 START = 0x002F3298
 END = 0x002F3315
-SOURCE = "src/main_unclassified/band_002f/0x002f3298.c"
+SOURCE = "src/main_unclassified/band_002f/0x002f3298.cpp"
 HEADER = "include/bf_xbe_certificate_layout.h"
 
 # Original x86: load certificate pointer through XBE header slot; TitleID

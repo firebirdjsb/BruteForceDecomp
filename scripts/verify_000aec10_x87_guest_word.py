@@ -16,7 +16,7 @@ def main():
     p.add_argument("--root", type=Path, default=Path("."))
     p.add_argument("--xbe", type=Path)
     args = p.parse_args()
-    c = (args.root / "src/main_unclassified/band_000a/0x000aec10.c").read_text()
+    c = (args.root / "src/main_unclassified/band_000a/0x000aec10.cpp").read_text()
     assert "float guest_scaled_word =" in c
     assert "uint32_t guest_scaled_bits;" in c
     assert "memcpy(&guest_scaled_bits, &guest_scaled_word, sizeof guest_scaled_bits);" in c

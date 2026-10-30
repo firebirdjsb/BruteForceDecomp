@@ -20,7 +20,7 @@ OPCODES = (
     (0x001F3EE1, "8b5018"),         # MOV EDX,[EAX+0x18]
     (0x001F3EEF, "8b4220"),         # MOV EAX,[EDX+0x20]: related texture entry
 )
-SOURCE = "src/main_unclassified/band_001f/0x001f3d30.c"
+SOURCE = "src/main_unclassified/band_001f/0x001f3d30.cpp"
 REQUIRED = (
     "uint32_t guest_texture_address;",
     "memcpy(&guest_texture_address, &param_1[6], sizeof guest_texture_address);",

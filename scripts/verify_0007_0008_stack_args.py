@@ -5,6 +5,15 @@ Requires the original executable locally; never upload it to GitHub. Exact
 instruction and body hashes establish operand evidence, NOT Xbox ABI, native
 pointer identity, external API behavior, or complete 1:1 equivalence.
 """
+
+# Archived C-only evidence: active game-core validation uses strict C++17.
+if __name__ == "__main__":
+    import sys as _archive_sys
+    from pathlib import Path as _ArchivePath
+    _archive_sys.path.insert(0, str(_ArchivePath(__file__).resolve().parents[1] / "tools"))
+    from historical_c11 import require_historical_c11_opt_in
+    require_historical_c11_opt_in()
+
 import argparse
 import hashlib
 from pathlib import Path

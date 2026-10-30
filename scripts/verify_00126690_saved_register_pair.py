@@ -27,7 +27,7 @@ CHECKS = (
     (0x00126729, "5f"),           # POP original saved EDI
     (0x0012672D, "c20800"),       # RET 8
 )
-SOURCE = "src/main_unclassified/band_0012/0x00126690.c"
+SOURCE = "src/main_unclassified/band_0012/0x00126690.cpp"
 REQUIRED = (
     "int unaff_EDI;",
     "int32_t saved_edi;",

@@ -87,7 +87,7 @@ def main() -> None:
     p.add_argument("--xbox-only", action="store_true")
     args = p.parse_args()
     if not args.xbox_only:
-        path = args.root / "src/main_unclassified/band_0011/0x0011c810.c"
+        path = args.root / "src/main_unclassified/band_0011/0x0011c810.cpp"
         verify_source(path.read_text(encoding="utf-8"))
         print("Original-object source alias invariants verified")
     if args.xbe is not None:

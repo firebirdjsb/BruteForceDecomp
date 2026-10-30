@@ -30,8 +30,8 @@ SITES=(
     (0x002060b5,"c20800","callee pops two guest pointer args"),
 )
 def check_source(root):
-    caller=(root/"src/main_unclassified/band_0020/0x002060c0.c").read_text()
-    callee=(root/"src/main_unclassified/band_0020/0x00205fb0.c").read_text()
+    caller=(root/"src/main_unclassified/band_0020/0x002060c0.cpp").read_text()
+    callee=(root/"src/main_unclassified/band_0020/0x00205fb0.cpp").read_text()
     assert "Entry: 0x002060c0," in caller
     assert "Entry: 0x00205fb0," in callee
     assert "ABI_UNVERIFIED" in caller and "ABI_UNVERIFIED" in callee

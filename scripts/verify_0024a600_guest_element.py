@@ -10,7 +10,7 @@ from pathlib import Path
 import struct
 
 XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SOURCE = Path("src/main_unclassified/band_0024/0x0024a600.c")
+SOURCE = Path("src/main_unclassified/band_0024/0x0024a600.cpp")
 OPCODES = (
     (0x0024A600, "56"),          # push esi
     (0x0024A608, "57"),          # push edi

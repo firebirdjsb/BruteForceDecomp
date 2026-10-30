@@ -20,14 +20,14 @@ OPCODES = {
     0x5b0c8:"8b4c243c", 0x5b0cc:"894d0c", 0x5b0cf:"d95d08",
 }
 SOURCES = {
-    "src/main_unclassified/band_0029/0x0029f440.c": (
+    "src/main_unclassified/band_0029/0x0029f440.cpp": (
         ["int *guest_queried_interface = (int *)0x0;",
          "&guest_queried_interface",
          "(*guest_queried_interface + 0x30))(guest_queried_interface,0,piVar4)",
          "(*guest_queried_interface + 8))(guest_queried_interface)"],
         ["pcRam00000030", "stack0xfffffff8", "in_stack_ffffffd0"],
     ),
-    "src/main_unclassified/band_0005/0x0005af30.c": (
+    "src/main_unclassified/band_0005/0x0005af30.cpp": (
         ["guest_accumulated_length = -param_3;",
          "_mm_sqrt_ss(_mm_set_ss(guest_squared_length))",
          "_mm_rsqrt_ss(_mm_set_ss(guest_squared_length))",

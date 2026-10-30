@@ -13,7 +13,7 @@ def main():
  for va,h in CHECKS:
   b=bytes.fromhex(h)
   if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"FAIL {va:#x}")
- s=(a.repo/"src/main_unclassified/band_002e/0x002e8e80.c").read_text()
+ s=(a.repo/"src/main_unclassified/band_002e/0x002e8e80.cpp").read_text()
  for token in ("UINT32_C(0xffffff00)","UINT8_C(0x7f)"):
   if token not in s:raise SystemExit("source mismatch: "+token)
  print("PASS: five varint bit packing, byte write and right shift instructions")

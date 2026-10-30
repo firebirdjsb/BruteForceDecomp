@@ -37,7 +37,7 @@ OPCODES = (
     (0x002C5BA7, "0f174804"),
     (0x002C5BAE, "c20800"),        # two caller stack DWORDs
 )
-SOURCE = "src/main_unclassified/band_002c/0x002c5a40.c"
+SOURCE = "src/main_unclassified/band_002c/0x002c5a40.cpp"
 REQUIRED = (
     "static uint32_t bf_002c5a40_guest_pointer_word(const float *slot)",
     "memcpy(&word, slot, sizeof word);",

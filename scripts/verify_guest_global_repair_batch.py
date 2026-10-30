@@ -6,9 +6,9 @@ from pathlib import Path
 
 SHA = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 CASES = (
-    (0x0012E2DB, "c705d899460002000000", "src/main_unclassified/band_0012/0x0012dfa0.c", "extern uint32_t uRam004699d8;"),
-    (0x001EDD6D, "393d645b4a00", "src/main_unclassified/band_001e/0x001edd40.c", "extern uint32_t iRam004a5b64;"),
-    (0x001EDD82, "893d645b4a00", "src/main_unclassified/band_001e/0x001edd40.c", "extern uint32_t iRam004a5b64;"),
+    (0x0012E2DB, "c705d899460002000000", "src/main_unclassified/band_0012/0x0012dfa0.cpp", "extern uint32_t uRam004699d8;"),
+    (0x001EDD6D, "393d645b4a00", "src/main_unclassified/band_001e/0x001edd40.cpp", "extern uint32_t iRam004a5b64;"),
+    (0x001EDD82, "893d645b4a00", "src/main_unclassified/band_001e/0x001edd40.cpp", "extern uint32_t iRam004a5b64;"),
 )
 
 def main():

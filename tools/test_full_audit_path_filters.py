@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""Check that every local input executed by the full C11 audit triggers that workflow.
+"""Check that every local input executed by the full C++17 audit triggers that workflow.
 
 Source-only CI safeguard; this does not verify original Xbox instructions.
 """
 import re
 from pathlib import Path
 
-WORKFLOW = Path(".github/workflows/full-c11-inventory.yml")
+WORKFLOW = Path(".github/workflows/cpp-compatibility-audit.yml")
 LOCAL_SOURCE = re.compile(
     r"(?<![\w./-])(?:tools|scripts|tests)/[A-Za-z0-9_.-]+"
-    r"(?:/[A-Za-z0-9_.-]+)*\.(?:py|c|S)\b"
+    r"(?:/[A-Za-z0-9_.-]+)*\.(?:py|cpp|S)\b"
 )
 PATH_ITEM = re.compile(r"^\s+- ['\"]([^'\"]+)['\"]\s*$", re.MULTILINE)
 
@@ -37,14 +37,16 @@ def main():
     missing = uncovered_inputs(workflow_text)
     if missing:
         raise SystemExit("Full-audit push filters omit local inputs: " + ", ".join(missing))
-    for target in ("tools/test_x86_float_lanes.c", "tools/test_full_audit_path_filters.py"):
-        original = f"      - '{target}'\n"
-        if original not in workflow_text:
-            raise SystemExit("Missing expected push path: " + target)
-        damaged = workflow_text.replace(original, "", 1)
-        if target not in uncovered_inputs(damaged):
-            raise SystemExit("Path-filter regression test failed for " + target)
-    print("Full C11 audit: every referenced local source/test input triggers on push")
+    # The canonical workflow uses directory globs. Keep the omission negative
+    # control independent of its spelling rather than requiring obsolete C inputs.
+    synthetic = "    paths:\n      - 'tools/example.py'\n  workflow_dispatch:\n        run: python tools/example.py\n"
+    if uncovered_inputs(synthetic):
+        raise SystemExit("Complete synthetic filter was rejected")
+    damaged = synthetic.replace("      - 'tools/example.py'\n", "      - 'tools/other.py'\n")
+    if uncovered_inputs(damaged) != ["tools/example.py"]:
+        raise SystemExit("Path-filter omission negative control failed")
+    print("Full C++17 audit: every referenced local source/test input triggers on push")
+
 
 
 if __name__ == "__main__":

@@ -95,7 +95,7 @@ def main() -> int:
     if not clang:
         raise SystemExit("clang is required")
     for entry, (body_digest, evidence_token) in FUNCTIONS.items():
-        path = ROOT / "src" / "main_unclassified" / f"band_{int(entry, 16) >> 16:04x}" / f"{entry}.c"
+        path = ROOT / "src" / "main_unclassified" / f"band_{int(entry, 16) >> 16:04x}" / f"{entry}.cpp"
         source = path.read_text(encoding="utf-8")
         if f"Input x86 body SHA-256: {body_digest}" not in source:
             raise SystemExit(f"{entry}: original body digest annotation changed")
@@ -182,9 +182,9 @@ def main() -> int:
         )
         if result.returncode:
             raise SystemExit(
-                f"{entry}: Clang C11 syntax regression:\n{result.stderr[-4000:]}"
+                f"{entry}: Clang C++17 syntax regression:\n{result.stderr[-4000:]}"
             )
-        print(f"{entry}: PASS host Clang C11 syntax only; Xbox ABI unverified")
+        print(f"{entry}: PASS host Clang C++17 syntax only; Xbox ABI unverified")
     return 0
 
 

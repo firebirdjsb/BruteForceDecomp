@@ -34,7 +34,7 @@ OPCODES = (
     (0x0020381E, "8a44241c"),    # AL returned from same guest slot
     (0x00203826, "c20c00"),      # RET 12 for three guest DWORD arguments
 )
-SOURCE = "src/main_unclassified/band_0020/0x00203550.c"
+SOURCE = "src/main_unclassified/band_0020/0x00203550.cpp"
 
 def main():
     ap = argparse.ArgumentParser()

@@ -37,8 +37,8 @@ ORIGINAL_INSTRUCTIONS = (
     (0x2A838B, "ff5214"),
 )
 CONTRACTS = (
-    ("src/main_unclassified/band_002a/0x002a82a0.c", "0x34", 4, "uint32_t guest_payload_b;"),
-    ("src/main_unclassified/band_002a/0x002a8320.c", "0x38", 12, "uint32_t guest_payload_b[3];"),
+    ("src/main_unclassified/band_002a/0x002a82a0.cpp", "0x34", 4, "uint32_t guest_payload_b;"),
+    ("src/main_unclassified/band_002a/0x002a8320.cpp", "0x38", 12, "uint32_t guest_payload_b[3];"),
 )
 
 def main():

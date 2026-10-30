@@ -21,18 +21,18 @@ CHECKS = (
     (0x0023B328, "897308"),   # clear object field at +12
 )
 SOURCES = (
-    ("src/main_unclassified/band_001e/0x001e1d00.c", (
+    ("src/main_unclassified/band_001e/0x001e1d00.cpp", (
         "+ 0x3c))(&local_4)",
         "+ 0x1c))(&local_4)",
         "+ 0x50))(&local_4)",
     )),
-    ("src/main_unclassified/band_0022/0x00222d30.c", (
+    ("src/main_unclassified/band_0022/0x00222d30.cpp", (
         "uint32_t guest_aux_word = 0;",
         "(&guest_aux_word);",
         "if (param_1 != DAT_0046d064)",
         "if ((guest_aux_word != 0)",
     )),
-    ("src/main_unclassified/band_0023/0x0023b2e0.c", (
+    ("src/main_unclassified/band_0023/0x0023b2e0.cpp", (
         "thunk_FUN_00237ec0(in_ECX[2]);",
         "in_ECX[2] = 0;",
         "in_ECX[3] = 0;",

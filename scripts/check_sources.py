@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""C11-only, XBE-body-label and exact inventory hygiene; not behavioral verification."""
+"""Canonical C++ source, XBE-body-label and exact inventory hygiene; not behavioral verification."""
 import csv
 import pathlib
 import re

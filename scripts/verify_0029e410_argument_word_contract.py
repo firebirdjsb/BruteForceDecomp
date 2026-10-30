@@ -25,7 +25,7 @@ OPCODES = (
     (0x0029E465, "ff5114"),         # destination consumes both
     (0x0029E473, "c20800"),         # return cleans two 32-bit args
 )
-SOURCE = "src/main_unclassified/band_0029/0x0029e410.c"
+SOURCE = "src/main_unclassified/band_0029/0x0029e410.cpp"
 CONTRACT = (
     "FUN_0029e410(int *param_1,int *param_2)",
     "uint32_t guest_first_arg_word = (uint32_t)(uintptr_t)param_1;",

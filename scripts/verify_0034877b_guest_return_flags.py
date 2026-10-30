@@ -5,6 +5,15 @@ With --xbe, also check the exact retail XBE, original function-body hash
 and fourteen instruction windows. Public CI has no copyrighted executable.
 """
 from __future__ import annotations
+
+# Archived C-only evidence: active game-core validation uses strict C++17.
+if __name__ == "__main__":
+    import sys as _archive_sys
+    from pathlib import Path as _ArchivePath
+    _archive_sys.path.insert(0, str(_ArchivePath(__file__).resolve().parents[1] / "tools"))
+    from historical_c11 import require_historical_c11_opt_in
+    require_historical_c11_opt_in()
+
 import argparse
 import hashlib
 import re

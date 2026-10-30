@@ -171,30 +171,30 @@ DIRECT_CALLS = {
 }
 
 SOURCE_EXPECTATIONS = {
-    "src/main_unclassified/band_0008/0x0008f5d0.c": (
+    "src/main_unclassified/band_0008/0x0008f5d0.cpp": (
         ["((uint8_t *)&piStack_20)[0] = 1;",
          "(void (*)(void))(uintptr_t)0x000a3f80U"],
         ["piStack_20._1_3_", "&LAB_000a3f80"],
     ),
-    "src/main_unclassified/band_0004/0x000447b0.c": (
+    "src/main_unclassified/band_0004/0x000447b0.cpp": (
         ["((uint8_t *)&uStack_118)[0] =",
          "(uint8_t)((*(uint *)(local_120 + 0x80) >> 4) & 1U);"],
         ["uStack_118._1_3_", "CONCAT31(uStack_118"],
     ),
-    "src/main_unclassified/band_0005/0x0005c730.c": (
+    "src/main_unclassified/band_0005/0x0005c730.cpp": (
         ["((uint8_t *)&local_10)[0] = (uint8_t)(param_3 == iVar3);"],
         ["local_10._1_3_", "CONCAT31(local_10"],
     ),
-    "src/main_unclassified/band_0006/0x0006c840.c": (
+    "src/main_unclassified/band_0006/0x0006c840.cpp": (
         ["- -(-fVar1) * *(float *)(param_1 + 0x88)",
          "= -(-(float)fVar3);"],
         ["--fVar1", "--(float)fVar3"],
     ),
-    "src/main_unclassified/band_000a/0x000aa3b0.c": (
+    "src/main_unclassified/band_000a/0x000aa3b0.cpp": (
         ["local_18 &= UINT32_C(0xffff0000);"],
         ["local_18._2_2_", "CONCAT12((char)"],
     ),
-    "src/main_unclassified/band_000c/0x000c4bc0.c": (
+    "src/main_unclassified/band_000c/0x000c4bc0.cpp": (
         ["uint32_t packed_color_word;",
          "packed_color_word = UINT32_C(0xff000000)",
          "((uVar4 & UINT32_C(0xff)) << 16)",
@@ -202,82 +202,82 @@ SOURCE_EXPECTATIONS = {
          "(&packed_color_word,"],
         ["param_1._0_3_", "CONCAT12((char)uVar4", "CONCAT13(0xff"],
     ),
-    "src/main_unclassified/band_000b/0x000becf0.c": (
+    "src/main_unclassified/band_000b/0x000becf0.cpp": (
         ["fStack_3c = *(float *)(iVar2 + 0x20);",
          "fStack_40 = *(float *)(iVar2 + 0x14);"],
         ["_fStack_40 = CONCAT44"],
     ),
-    "src/main_unclassified/band_0004/0x00048da0.c": (
+    "src/main_unclassified/band_0004/0x00048da0.cpp": (
         ["uint8_t source_flag_bit3;",
          "source_flag_bit3 = (uint8_t)(*(byte *)(param_1 + 0x374) >> 3 & 1);",
          "*(byte *)(param_2 + 0x3cc) = source_flag_bit3"],
         ["param_1._0_1_"],
     ),
-    "src/main_unclassified/band_0008/0x0008a560.c": (
+    "src/main_unclassified/band_0008/0x0008a560.cpp": (
         ["uint8_t status_low_byte;", "status_low_byte = 0;",
          "status_low_byte = 1;", "return status_low_byte;"],
         ["param_1._0_1_"],
     ),
-    "src/main_unclassified/band_001e/0x001e8cd0.c": (
+    "src/main_unclassified/band_001e/0x001e8cd0.cpp": (
         ["uint16_t secondary_max_low16;", "secondary_max_low16 = 0;",
          "secondary_max_low16 = uVar4;", "secondary_max_low16 < uVar4"],
         ["param_1._0_2_"],
     ),
-    "src/main_unclassified/band_0008/0x00081d10.c": (
+    "src/main_unclassified/band_0008/0x00081d10.cpp": (
         ["((uint8_t *)&param_1)[0] = 0;",
          "((uint8_t *)&param_1)[0] = uVar4;",
          "((uint8_t *)&param_1)[0] = 1;"],
         ["param_1._0_1_"],
     ),
-    "src/main_unclassified/band_0008/0x000874a0.c": (
+    "src/main_unclassified/band_0008/0x000874a0.cpp": (
         ["((unsigned char *)&local_4)[0] = uVar2;"],
         ["local_4._1_3_", "CONCAT31(local_4"],
     ),
-    "src/main_unclassified/band_0004/0x0004e150.c": (
+    "src/main_unclassified/band_0004/0x0004e150.cpp": (
         ["int partition_bounds[2];", "FUN_0004e260((undefined4 *)partition_bounds",
          "FUN_0004e4d0(param_1,param_2);",
          "FUN_0004e470((undefined4 *)(uintptr_t)param_1,param_2);"],
         ["FUN_0004e260(&local_8)", "FUN_0004e4d0();", "FUN_0004e470();"],
     ),
-    "src/main_unclassified/band_0005/0x00050980.c": (
+    "src/main_unclassified/band_0005/0x00050980.cpp": (
         ["int partition_bounds[2];", "FUN_00050e90((undefined4 *)partition_bounds",
          "FUN_00051040((undefined4 *)(uintptr_t)param_1,(undefined4 *)(uintptr_t)param_2);",
          "FUN_00050ff0((undefined4 *)(uintptr_t)param_1,param_2);"],
         ["FUN_00050e90(&local_8)", "FUN_00051040();", "FUN_00050ff0();"],
     ),
-    "src/main_unclassified/band_0003/0x000388b0.c": (
+    "src/main_unclassified/band_0003/0x000388b0.cpp": (
         ["_atexit((void (*)(void))(uintptr_t)0x0030de90U);"],
         ["(__func *)&LAB_0030de90"],
     ),
-    "src/main_unclassified/band_0003/0x0003d970.c": (
+    "src/main_unclassified/band_0003/0x0003d970.cpp": (
         ["((unsigned char *)&local_4)[0] = (unsigned char)in_ECX[5];"],
         ["local_4._1_3_", "CONCAT31(local_4"],
     ),
-    "src/main_unclassified/band_0004/0x00043470.c": (
+    "src/main_unclassified/band_0004/0x00043470.cpp": (
         ["local_3c &= UINT32_C(0xffff0000);"],
         ["local_3c._2_2_"],
     ),
-    "src/main_unclassified/band_0002/0x00024f80.c": (
+    "src/main_unclassified/band_0002/0x00024f80.cpp": (
         ["resolved_object_address = FUN_000388b0",
          "((unsigned char *)&param_3)[0] = 1;",
          "((unsigned char *)&param_3)[0] = 0;",
          "((const unsigned char *)&param_3)[0]"],
         ["param_3._0_1_", "param_3._1_3_", "(float)FUN_000388b0"],
     ),
-    "src/main_unclassified/band_0004/0x000435f0.c": (
+    "src/main_unclassified/band_0004/0x000435f0.cpp": (
         ["((const unsigned char *)&fStack_8c)[0]", "uStack_74 &= 0xffff0000U;"],
         ["fStack_8c._0_1_", "uStack_74._2_2_"],
     ),
-    "src/main_unclassified/band_0005/0x0005c5e0.c": (
+    "src/main_unclassified/band_0005/0x0005c5e0.cpp": (
         ["((unsigned char *)&local_4)[0] = (unsigned char)param_3;",
          "memcpy((unsigned char *)pfVar8 + 8, &local_4, sizeof local_4);"],
         ["local_4._1_3_", "(float)CONCAT31"],
     ),
-    "src/main_unclassified/band_0029/0x0029d2a0.c": (
+    "src/main_unclassified/band_0029/0x0029d2a0.cpp": (
         ["((const unsigned char *)&param_7)[0] == 0"],
         ["param_7._0_1_"],
     ),
-    "src/main_unclassified/band_0028/0x002876a0.c": (
+    "src/main_unclassified/band_0028/0x002876a0.cpp": (
         ["int partition_bounds[2];", "FUN_00287930((undefined4 *)partition_bounds",
          "FUN_002876a0(param_1,partition_bounds[0],param_3);",
          "FUN_002876a0(partition_bounds[1],param_2,param_3);"],

@@ -2,7 +2,7 @@
 """Source invariant check only; not an x86-equivalence or runtime ABI test."""
 import argparse
 from pathlib import Path
-SOURCE="src/main_unclassified/band_002f/0x002f1bfa.c"
+SOURCE="src/main_unclassified/band_002f/0x002f1bfa.cpp"
 REQUIRED=["Keep the guest write count separate from the FILE pointer.","guest_write_word = (uint16_t)param_1;","guest_written_count = guest_write_result;","if (guest_written_count == iVar4)"]
 FORBIDDEN=["param_2._2_2_"]
 def main():

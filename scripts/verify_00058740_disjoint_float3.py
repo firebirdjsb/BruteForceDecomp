@@ -10,7 +10,7 @@ import hashlib
 from pathlib import Path
 
 XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SOURCE = "src/main_unclassified/band_0005/0x00058740.c"
+SOURCE = "src/main_unclassified/band_0005/0x00058740.cpp"
 SITES = (
     (0x58743, "83ec2453", "allocate 0x24 and push EBX"),
     (0x5874f, "8d54241c", "first 12-byte virtual output at entry ESP-0x0c"),

@@ -10,7 +10,7 @@
 
 ## Migration gates
 
-1. **Measure before renaming.** Run `python3 tools/sweep_cpp_compat.py --root . --out cpp_compat_results --jobs 8 --limit 100` for a sample, then omit `--limit` for all 13,694. This compiles current `.c` files **as C++17** using Clang, without source edits, and verifies original body hash labels. C++17 is only a host-parsing baseline, **not evidence of the original Xbox compiler or C++ dialect**. Do not hide strict C++ type errors with permissive flags or guessed declarations.
+1. **Measure before renaming.** Run `python3 tools/sweep_cpp_compat.py --root . --out cpp_compat_results --jobs 8 --limit 100` for a sample, then omit `--limit` for all 13,694. This compiles canonical `.cpp` files **as C++17** using Clang, without source edits, and verifies original body hash labels. C++17 is only a host-parsing baseline, **not evidence of the original Xbox compiler or C++ dialect**. Do not hide strict C++ type errors with permissive flags or guessed declarations.
 2. **Host type-alias separation.** The Xbox 32-bit `ulong` draft alias conflicts with the LP64 Linux C++ system `ulong`; `include/bf_ghidra_types.h` now preserves a 32-bit guest alias in C++ without changing its C11 definition. This is a parsing compatibility measure, not a verified native object layout.
 3. **Adapt dependent tooling.** Update `tools/source_layout.py`, `scripts/check_sources.py`, inventory and source-group path metadata, provenance tests, audit/report tooling, existing workflow path references and README progress-generation code before declaring canonical `.cpp` files. The original 13,694 identities must remain complete, unique and correctly filed.
 4. **Move files with content preserved.** The initial `.c` to `.cpp` move must be byte-for-byte (except later separately reviewed repairs). Check source SHA-256 and original XBE body SHA-256; migrate in small reviewed batches on `main`. A renamed file remains `CPP_DRAFT, ABI_UNVERIFIED`, not reconstructed C++.
@@ -24,3 +24,17 @@ Status labels: `C_DRAFT` (historic) -> `CPP_DRAFT` -> `CPP_SYNTAX_OK` -> `X86_OB
 ## Source migration staging completed
 
 All 13,694 original-address C drafts were moved to .cpp without changing their Git blob contents. The historic C11 99+% syntax baseline is archived; C++ compilation and virtual-function reconstruction are separate goals.
+
+## Active tooling policy
+
+Only strict C++17 source audits certify current syntax. Historical C11 Actions definitions are archived outside `.github/workflows`; their fixture results cannot update C++ progress. File extensions do not establish recovered original C++ classes or 1:1 behavior.
+
+## C++-only active tools and GitHub gates (2026-10-30)
+
+The canonical source tree has 13,694 `.cpp` entries and zero original-address `.c` files. GitHub exposes the strict C++17 audit and contributor hygiene workflows. Sixty-two historical C11 workflow definitions are retained under `docs/archive/c11-workflows` outside Actions discovery.
+
+Old C-only fixture CLI runners require `--historical-c11`; their original evidence is preserved. They do not certify C++ reconstruction. Legacy audit/publication command names route to the strict C++ auditor/publisher by default. The viewer and batch generator read/write `.cpp` and request evidence-backed C++17 without invented types or stubs.
+
+`tools/check_cpp_only_policy.py` rejects active C compiler routes and verifies source completeness. Original XBE identities/body hashes remain unchanged. Every active C++ workflow dependency directory triggers the canonical audit; publication still requires a complete exact-commit report with zero provenance/audit errors.
+
+Validation: all modified Python modules compile, canonical C++ preflight and corruption controls pass, and source layout/body provenance checks cover all 13,694 entries. A local full preflight found 2,713 passes and 10,981 C++ syntax failures with zero provenance or audit errors. That working-tree preflight is not used to replace the last confirmed published audit. Native linkage, original ABI, recovered class layout and 1:1 runtime behavior remain unverified.

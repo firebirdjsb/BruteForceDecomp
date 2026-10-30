@@ -6,11 +6,11 @@ from pathlib import Path
 
 SHA = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 CASES = (
-    (0x002F3941, "66817d0efffe", "src/main_unclassified/band_002f/0x002f390d.c",
+    (0x002F3941, "66817d0efffe", "src/main_unclassified/band_002f/0x002f390d.cpp",
      "(int16_t)((uint32_t)param_2 >> 16) != (int16_t)0xfeff"),
-    (0x002F852C, "c645f801", "src/main_unclassified/band_002f/0x002f8521.c",
+    (0x002F852C, "c645f801", "src/main_unclassified/band_002f/0x002f8521.cpp",
      "((local_c & UINT32_C(0xffffff00)) | UINT32_C(1))"),
-    (0x002FEFD9, "c645e401", "src/main_unclassified/band_002f/0x002fef6f.c",
+    (0x002FEFD9, "c645e401", "src/main_unclassified/band_002f/0x002fef6f.cpp",
      "((local_20 & UINT32_C(0xffffff00)) | UINT32_C(1))"),
 )
 

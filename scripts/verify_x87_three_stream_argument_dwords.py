@@ -41,7 +41,7 @@ def main():
     parser.add_argument("--xbe", type=Path)
     a = parser.parse_args()
     for entry, callee, alloc_size in SOURCES:
-        rel = f"src/main_unclassified/band_002a/{entry}.c"
+        rel = f"src/main_unclassified/band_002a/{entry}.cpp"
         source = (a.repo / rel).read_text(encoding="utf-8")
         tokens = (
             f"void FUN_{entry[2:]}(int *param_1,float guest_stack_scalar)",

@@ -8,7 +8,7 @@ Call with --xbe for original opcode verification; the GitHub CI has no XBE.
 import argparse
 from pathlib import Path
 
-SOURCE = "src/main_unclassified/band_0012/0x0012f440.c"
+SOURCE = "src/main_unclassified/band_0012/0x0012f440.cpp"
 EXPECTED = (
     (0x0012F5B1, "c644240f00"),       # MOV BYTE PTR [ESP+0x0F],0
     (0x0012F63A, "c644240f01"),       # MOV BYTE PTR [ESP+0x0F],1

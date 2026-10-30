@@ -18,7 +18,7 @@ CHECKS = (
     (0x0017F054, "50"),            # PUSH iterator's address
     (0x0017F05C, "e8efb3faff"),    # CALL 0x0012A450
 )
-SOURCE = "src/main_unclassified/band_0017/0x0017eff0.c"
+SOURCE = "src/main_unclassified/band_0017/0x0017eff0.cpp"
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("xbe", type=Path)

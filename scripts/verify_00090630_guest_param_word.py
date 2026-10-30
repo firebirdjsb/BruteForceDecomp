@@ -5,7 +5,7 @@ import hashlib
 from pathlib import Path
 
 XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SOURCE = Path("src/main_unclassified/band_0009/0x00090630.c")
+SOURCE = Path("src/main_unclassified/band_0009/0x00090630.cpp")
 REQUIRED = (
     "uint32_t guest_constant_word; /* Reused original guest caller-argument slot. */",
     "guest_constant_word = UINT32_C(0x1d3e389e);",

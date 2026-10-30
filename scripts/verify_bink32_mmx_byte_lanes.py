@@ -57,7 +57,7 @@ def main():
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--xbe", type=Path)
     args = parser.parse_args()
-    c = (args.root / "src/video_bink/bink32/0x003650e0.c").read_text()
+    c = (args.root / "src/video_bink/bink32/0x003650e0.cpp").read_text()
     assert '#include "bf_x86_mmx_byte_lanes.h"' in c
     token = "bf_x86_unpack_u32_bytes_to_u16_lanes((uint32_t)uVar5)"
     assert c.count(token) == 2
@@ -67,15 +67,15 @@ def main():
     assert re.search(r"\buint7\b", code) is None
     assert "uint7" not in re.sub(r"/\*.*?\*/", "", "/* uint7 */")
     assert re.search(r"\buint7\b", "uint7 bad_type;") is not None
-    bink4444 = (args.root / "src/video_bink/bink4444/0x00368f20.c").read_text()
+    bink4444 = (args.root / "src/video_bink/bink4444/0x00368f20.cpp").read_text()
     assert bink4444.count("bf_x86_unpack_u32_bytes_to_u16_lanes((uint32_t)uVar5)") == 2
     assert bink4444.count("bf_x86_mmx_top_nibble_to_u16_lanes((uint32_t)uVar5)") == 2
     assert not any(token in bink4444 for token in ("uint5", "uint7", "int5"))
     extra_formats = (
-        "bink16/0x00367990.c",
-        "bink16x2/0x0036b800.c",
-        "bink32a/0x003665d0.c",
-        "bink5551/0x0036a050.c",
+        "bink16/0x00367990.cpp",
+        "bink16x2/0x0036b800.cpp",
+        "bink32a/0x003665d0.cpp",
+        "bink5551/0x0036a050.cpp",
     )
     for name in extra_formats:
         source = (args.root / "src/video_bink" / name).read_text()

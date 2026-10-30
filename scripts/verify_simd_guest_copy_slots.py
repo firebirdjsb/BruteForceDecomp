@@ -26,9 +26,9 @@ INSTRUCTIONS = (
     (0x000D2EF1, "0f114a10"),
 )
 SLOTS = (
-    ("src/main_unclassified/band_0006/0x0006c0d0.c", 0x004A589C, 0x004A58D4),
-    ("src/main_unclassified/band_0006/0x0006c2c0.c", 0x004A585C, 0x004A5894),
-    ("src/main_unclassified/band_000d/0x000d2e20.c", 0x0046D008, 0x0046D020),
+    ("src/main_unclassified/band_0006/0x0006c0d0.cpp", 0x004A589C, 0x004A58D4),
+    ("src/main_unclassified/band_0006/0x0006c2c0.cpp", 0x004A585C, 0x004A5894),
+    ("src/main_unclassified/band_000d/0x000d2e20.cpp", 0x0046D008, 0x0046D020),
 )
 
 def main():

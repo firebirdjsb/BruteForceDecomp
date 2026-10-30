@@ -27,7 +27,7 @@ CHECKS = (
     (0x264AC0, "8b4618"),
     (0x264B15, "682cb24600"),
 )
-SOURCE = "src/main_unclassified/band_0026/0x00264a50.c"
+SOURCE = "src/main_unclassified/band_0026/0x00264a50.cpp"
 TOKENS = (
     "uint32_t guest_io_result[2] = {0, 0};",
     "piVar1,guest_io_result);",

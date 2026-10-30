@@ -12,7 +12,7 @@ def main():
  for va,h in CHECKS:
   b=bytes.fromhex(h)
   if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"mismatch at {va:#x}")
- s=(a.repo/"src/main_unclassified/band_002e/0x002ecb23.c").read_text()
+ s=(a.repo/"src/main_unclassified/band_002e/0x002ecb23.cpp").read_text()
  for token in REQUIRED:
   if token not in s:raise SystemExit("missing "+token)
  if "extraout_EDX" in s:raise SystemExit("unresolved EDX remains")

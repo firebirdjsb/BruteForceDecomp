@@ -92,7 +92,7 @@ def main() -> int:
         result["source"] = path.relative_to(root).as_posix()
     counts = Counter(result["status"] for result in results)
     report = {
-        "metric": "isolated host Clang C++17 compatibility of existing C drafts",
+        "metric": "isolated host Clang C++17 syntax of canonical C++ drafts",
         "scope": "sample" if args.limit else "full_inventory",
         "checked_commit_sha": os.environ.get("GITHUB_SHA", "local-checkout"),
         "original_function_count": EXPECTED,

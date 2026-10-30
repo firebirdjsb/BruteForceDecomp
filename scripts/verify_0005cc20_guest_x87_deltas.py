@@ -24,7 +24,7 @@ OPCODES = {
     0x0005CCC6: "d9442434",   # FLD DWORD [ESP+34]
     0x0005CCCA: "d84c2434",   # FMUL DWORD [ESP+34]
 }
-SOURCE = "src/main_unclassified/band_0005/0x0005cc20.c"
+SOURCE = "src/main_unclassified/band_0005/0x0005cc20.cpp"
 TOKENS = (
     "float guest_delta_z;",
     "float guest_delta_x;",

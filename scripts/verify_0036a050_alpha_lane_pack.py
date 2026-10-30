@@ -12,7 +12,7 @@ import re
 from pathlib import Path
 
 SHA="b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SOURCE="src/video_bink/bink5551/0x0036a050.c"
+SOURCE="src/video_bink/bink5551/0x0036a050.cpp"
 SITES=(
  (0x0036adf0,"53","original MMX decoder prologue"),
  (0x0036ae30,"0f6e22","MOVD input 32 bits into MMX register"),

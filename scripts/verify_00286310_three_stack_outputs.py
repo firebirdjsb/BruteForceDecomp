@@ -31,7 +31,7 @@ CHECKS = (
     (0x002863E4, "8901"),        # write second caller out pointer
     (0x002863E9, "ff5104"),      # AddRef received interface
 )
-SOURCE = "src/main_unclassified/band_0028/0x00286310.c"
+SOURCE = "src/main_unclassified/band_0028/0x00286310.cpp"
 TOKENS = (
     "FUN_00286310(undefined4 param_1,undefined4 *param_2,undefined4 *param_3)",
     "int32_t guest_count;",

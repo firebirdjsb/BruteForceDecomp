@@ -17,7 +17,7 @@ INSTRUCTIONS = (
     (0x0011C29F, "d9442424"),    # FLD Z delta (separate word)
     (0x0011C2A3, "d84c2424"),    # FMUL Z delta (squared)
 )
-SOURCE_PATH = "src/main_unclassified/band_0011/0x0011c170.c"
+SOURCE_PATH = "src/main_unclassified/band_0011/0x0011c170.cpp"
 REQUIRED = (
     "float guest_delta_x;",
     "guest_delta_x = *(float *)(iVar2 + 0x24) - *(float *)(iVar4 + 0x24);",

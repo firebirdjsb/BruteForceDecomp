@@ -28,7 +28,7 @@ CHECKS = (
     (0x0029DFD6, "83c414"),           # release 0x14 stack bytes
     (0x0029DFD9, "c3"),               # plain RET
 )
-SOURCE = "src/main_unclassified/band_0029/0x0029df00.c"
+SOURCE = "src/main_unclassified/band_0029/0x0029df00.cpp"
 REQUIRED = (
     "uint32_t guest_interface_word = 0;",
     "uint32_t guest_secondary_word = 0;",

@@ -29,21 +29,21 @@ def main():
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--xbe", type=Path)
     args = parser.parse_args()
-    c = (args.root / "src/platform/graphics_d3d/0x00374a49.c").read_text()
+    c = (args.root / "src/platform/graphics_d3d/0x00374a49.cpp").read_text()
     for token in ["UINT32_C(0x00100300)", "UINT32_C(0x00400980)",
                   "UINT32_C(0x00100324)"]:
         assert c.count(token) == 2, (token, c.count(token))
     assert "FUN_00100300" not in c
     assert "LAB_00400980" not in c
     assert "LAB_00100324" not in c
-    second = (args.root / "src/platform/graphics_d3d/0x00374c34.c").read_text()
+    second = (args.root / "src/platform/graphics_d3d/0x00374c34.cpp").read_text()
     for token in ["UINT32_C(0x00100300)", "UINT32_C(0x00400980)",
                   "UINT32_C(0x00100324)"]:
         assert second.count(token) == 1, (token, second.count(token))
     assert "FUN_00100300" not in second
     assert "LAB_00400980" not in second
     assert "LAB_00100324" not in second
-    gpu = (args.root / "src/platform/graphics_d3d/0x00378e93.c").read_text()
+    gpu = (args.root / "src/platform/graphics_d3d/0x00378e93.cpp").read_text()
     assert "uint32_t guest_gpu_control =" in gpu
     assert "(uint32_t)iVar1 + UINT32_C(0x00100214)" in gpu
     assert "*(uint32_t *)(uintptr_t)guest_gpu_control =" in gpu

@@ -11,7 +11,7 @@ def main():
  for va,h in CHECKS:
   b=bytes.fromhex(h)
   if d[va-65536:va-65536+len(b)]!=b:raise SystemExit(f"opcode mismatch {va:#x}")
- s=(a.repo/"src/main_unclassified/band_002f/0x002f1bfa.c").read_text()
+ s=(a.repo/"src/main_unclassified/band_002f/0x002f1bfa.cpp").read_text()
  for t in ("uint16_t guest_write_word;","guest_write_word = (uint16_t)param_1;","FUN_002ef4a5(uVar2,&guest_write_word,2)"):
   if t not in s:raise SystemExit("missing source token "+t)
  print("PASS: x86 two-byte write and C buffer invariant (host ABI still unverified)")

@@ -31,7 +31,7 @@ def main():
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--xbe", type=Path)
     args = parser.parse_args()
-    matrix = (args.root / "src/main_unclassified/band_0026/0x00266bf0.c").read_text()
+    matrix = (args.root / "src/main_unclassified/band_0026/0x00266bf0.cpp").read_text()
     for word in ("uRam0046b0c4", "uRam0046b0c8", "uRam0046b0cc",
                  "uRam0046b0d4", "uRam0046b0d8", "uRam0046b0dc"):
         assert "extern uint32_t " + word + ";" in matrix
@@ -40,7 +40,7 @@ def main():
     assert "DAT_0046b18c = uRam0046b0d4;" in matrix
     assert "DAT_0046b190 = uRam0046b0d8;" in matrix
     assert "DAT_0046b194 = uRam0046b0dc;" in matrix
-    parser_source = (args.root / "src/main_unclassified/band_0017/0x001753f0.c").read_text()
+    parser_source = (args.root / "src/main_unclassified/band_0017/0x001753f0.cpp").read_text()
     for address in GUEST_FORMAT_WORDS:
         exact = "(char *)(uintptr_t)UINT32_C(0x" + address.upper() + ")"
         assert exact in parser_source, exact

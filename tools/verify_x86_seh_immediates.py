@@ -26,7 +26,7 @@ MIN_INITIAL_VERIFIED = 48
 
 def source_pairs(root: Path) -> list[tuple[int, int]]:
     pairs = []
-    for path in sorted((root / "src").rglob("0x????????.c")):
+    for path in sorted((root / "src").rglob("0x????????.cpp")):
         text = path.read_text(encoding="utf-8")
         matches = ASSIGN.findall(text)
         if not matches:

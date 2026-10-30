@@ -2,7 +2,7 @@
 """Source invariant check only; not an x86-equivalence or runtime ABI test."""
 import argparse
 from pathlib import Path
-SOURCE="src/main_unclassified/band_002e/0x002e8f50.c"
+SOURCE="src/main_unclassified/band_002e/0x002e8f50.cpp"
 REQUIRED=["UINT32_C(0xffffff00)","UINT32_C(0x7f)","UINT32_C(0x80)"]
 FORBIDDEN=["param_1._1_3_","CONCAT31("]
 def main():

@@ -25,7 +25,7 @@ ORIGINAL = (
     (0x0015AB76, "f30f5d442424"),   # MINSS upper bound
     (0x0015AB7C, "f30f11442418"),   # MOVSS clamped value
 )
-SOURCE = "src/main_unclassified/band_0015/0x0015a7e0.c"
+SOURCE = "src/main_unclassified/band_0015/0x0015a7e0.cpp"
 REQUIRED = (
     "extern float DAT_0040c864;",
     "extern float DAT_0040c868;",

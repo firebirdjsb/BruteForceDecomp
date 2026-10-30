@@ -61,7 +61,7 @@ if (-not $cli) {
     Write-Host '    $env:PATH = "$(npm prefix -g);$env:PATH"'
     Write-Host '    codex --version'
     Write-Host '    codex login'
-    Write-Host 'Your existing Ghidra exports, viewer and C11 drafts are unchanged.'
+    Write-Host 'Your existing Ghidra exports, viewer and C++17 drafts are unchanged.'
     throw 'Codex CLI unavailable'
 }
 
@@ -81,7 +81,7 @@ $argsForScript = @(
     '--codex', $cli
 )
 if ($HighWarningsFirst) { $argsForScript += '--high-warnings-first' }
-Write-Host "Submitting at most $Count function pseudocodes to Codex; results will be unverified C11 drafts." -ForegroundColor Cyan
+Write-Host "Submitting at most $Count function pseudocodes to Codex; results will be unverified C++17 drafts." -ForegroundColor Cyan
 if ($python -eq 'py') { & py -3 "$PSScriptRoot\codex_batch.py" @argsForScript }
 else { & python "$PSScriptRoot\codex_batch.py" @argsForScript }
 if ($LASTEXITCODE -ne 0) { throw "Codex batch failed with exit code $LASTEXITCODE" }

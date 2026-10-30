@@ -6,6 +6,15 @@ starts as a guest object pointer, then is overwritten in caller-owned x86 stack
 storage and its highest byte is separately passed to a virtual method. C11
 syntax does NOT verify guest pointer translation or a native stack ABI.
 """
+
+# Archived C-only evidence: active game-core validation uses strict C++17.
+if __name__ == "__main__":
+    import sys as _archive_sys
+    from pathlib import Path as _ArchivePath
+    _archive_sys.path.insert(0, str(_ArchivePath(__file__).resolve().parents[1] / "tools"))
+    from historical_c11 import require_historical_c11_opt_in
+    require_historical_c11_opt_in()
+
 import argparse
 import hashlib
 import re

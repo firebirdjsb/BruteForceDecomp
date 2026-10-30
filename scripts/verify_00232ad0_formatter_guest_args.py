@@ -13,7 +13,7 @@ import re
 from pathlib import Path
 
 XBE_HASH = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SOURCE = "src/main_unclassified/band_0023/0x00232ad0.c"
+SOURCE = "src/main_unclassified/band_0023/0x00232ad0.cpp"
 SITES = (
     (0x00232ad4, "81ec00080000", "allocate 2048-byte local buffer"),
     (0x00232ada, "535657", "save EBX, ESI, EDI"),

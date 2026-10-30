@@ -56,7 +56,7 @@ def main():
     parser.add_argument("--xbe", type=Path, help="Private original XBE; never commit it")
     args = parser.parse_args()
     check_frame()
-    check_source(args.root / "src/main_unclassified/band_002a/0x002ac100.c")
+    check_source(args.root / "src/main_unclassified/band_002a/0x002ac100.cpp")
     if args.xbe:
         check_xbe(args.xbe)
     else:

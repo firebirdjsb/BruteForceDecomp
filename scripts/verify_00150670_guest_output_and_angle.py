@@ -21,7 +21,7 @@ OPCODES = (
     (0x00150877, "50"),               # PUSH output address
     (0x00150885, "e8b6c90e00"),       # CALL FUN_0023D240
 )
-SOURCE = "src/main_unclassified/band_0015/0x00150670.c"
+SOURCE = "src/main_unclassified/band_0015/0x00150670.cpp"
 REQUIRED = (
     "float guest_angle;",
     "uint32_t guest_out_word = 0;",

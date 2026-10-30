@@ -38,8 +38,8 @@ def main():
         if actual != expected:
             raise SystemExit(f"FAIL {va:#x} {purpose}: {actual.hex()}")
     for path in (
-        "src/main_unclassified/band_001f/0x001ff0f0.c",
-        "src/main_unclassified/band_0020/0x002058c0.c",
+        "src/main_unclassified/band_001f/0x001ff0f0.cpp",
+        "src/main_unclassified/band_0020/0x002058c0.cpp",
     ):
         source = (args.repo / path).read_text(encoding="utf-8")
         if "switch(uRam00000008)" in source:

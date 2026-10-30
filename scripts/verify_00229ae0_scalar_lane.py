@@ -32,7 +32,7 @@ ANCHORS = {
 
 
 def verify(repo: Path, xbe_path: Path | None) -> None:
-    source_path = repo / "src/main_unclassified/band_0022/0x00229ae0.c"
+    source_path = repo / "src/main_unclassified/band_0022/0x00229ae0.cpp"
     source = source_path.read_text(encoding="utf-8")
     for token in (
         f"Input x86 body SHA-256: {BODY_SHA256}",
@@ -59,8 +59,8 @@ def verify(repo: Path, xbe_path: Path | None) -> None:
         capture_output=True, text=True, timeout=60, check=False,
     )
     if result.returncode:
-        raise ValueError(f"Focused Clang C11 failed:\n{result.stderr[-4000:]}")
-    print("PASS: FUN_00229AE0 source identity, scalar-lane proxy, Clang C11")
+        raise ValueError(f"Focused Clang C++17 failed:\n{result.stderr[-4000:]}")
+    print("PASS: FUN_00229AE0 source identity, scalar-lane proxy, Clang C++17")
 
     if xbe_path is not None:
         xbe = xbe_path.read_bytes()

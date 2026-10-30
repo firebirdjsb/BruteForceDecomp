@@ -9,10 +9,10 @@ from pathlib import Path
 import re
 
 CASES = (
-    ("src/main_unclassified/band_0001/0x0001c630.c",
+    ("src/main_unclassified/band_0001/0x0001c630.cpp",
      "0x0001c630", "E184BE2C9E9EFB13C45DDB09CC2DF4046DBB43C4149269FAF390F473E548F64A",
      "stack0xffffff94", "EBP-0x68"),
-    ("src/main_unclassified/band_0001/0x0001c980.c",
+    ("src/main_unclassified/band_0001/0x0001c980.cpp",
      "0x0001c980", "E710F94CC4E230DD1324C747FDD89B0B7A0C65F4B6DB7A12F2074D82EE1AF463",
      "stack0xffffff68", "EBP-0x94"),
 )

@@ -56,7 +56,7 @@ def verify(xbe: Path, root: Path) -> None:
             raise ValueError(f"Call destination differs: 0x{actual_target:08X}")
         print(f"PASS 0x{call_va:08X} -> 0x{target:08X}: EBX=start, EDI=end")
 
-    source = (root / "src/main_unclassified/band_0028/0x002876a0.c").read_text(
+    source = (root / "src/main_unclassified/band_0028/0x002876a0.cpp").read_text(
         encoding="utf-8"
     )
     for expression in ("FUN_00287e30(param_1,param_2)", "FUN_00287dc0(param_1,param_2)"):

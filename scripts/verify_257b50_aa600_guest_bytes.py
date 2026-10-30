@@ -25,11 +25,11 @@ def main():
     ap.add_argument("--root", type=Path, default=Path("."))
     ap.add_argument("--xbe", type=Path)
     args = ap.parse_args()
-    header = (args.root / "src/main_unclassified/band_0025/0x00257b50.c").read_text()
+    header = (args.root / "src/main_unclassified/band_0025/0x00257b50.cpp").read_text()
     assert "local_118 = UINT16_C(0x0101);" in header
     assert "*(uint8_t *)&uStack_116 = *(const uint8_t *)(unaff_EDI + 7);" in header
     assert "_local_118 =" not in header
-    fmt = (args.root / "src/main_unclassified/band_000a/0x000aa600.c").read_text()
+    fmt = (args.root / "src/main_unclassified/band_000a/0x000aa600.cpp").read_text()
     assert "pwVar10 = (wchar_t *)(uintptr_t)UINT32_C(0x0040D750);" in fmt
     assert "pwVar10 = u__s__d__0040d750;" not in fmt
     assert "guest_word_at_0c + UINT32_C(0x120)" in fmt

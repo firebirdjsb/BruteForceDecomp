@@ -33,8 +33,8 @@ OPCODES = (
     (0x00140302, "8b0c85a04d4100"), # second function indexed word
 )
 SOURCES = (
-    "src/main_unclassified/band_0014/0x001401e0.c",
-    "src/main_unclassified/band_0014/0x001403c0.c",
+    "src/main_unclassified/band_0014/0x001401e0.cpp",
+    "src/main_unclassified/band_0014/0x001403c0.cpp",
 )
 REQUIRED = (
     "#include <xmmintrin.h>",

@@ -1,6 +1,6 @@
 # BruteForce: Reloaded
 
-**An unofficial, evidence-driven reconstruction of Brute Force (2003) for native Windows PC.** BruteForceDecomp retains historical Xbox C11 drafts while moving toward evidence-driven C++ reconstruction; BruteForce: Reloaded is the planned native PC release with an optional enhanced mode. Neither the playable PC game nor enhancement features exist yet.
+**An unofficial, evidence-driven reconstruction of Brute Force (2003) for native Windows PC.** BruteForceDecomp reconstructs the hash-pinned original Xbox XBE as C++ with a 1:1 semantic-fidelity goal; BruteForce: Reloaded is the planned native PC release with an optional enhanced mode. Neither the playable PC game nor enhancement features exist yet.
 
 <!-- BF_PROGRESS_START -->
 ## Reconstruction progress
@@ -27,7 +27,7 @@ Public, evidence-driven research workspace for the original Xbox 32-bit x86 `def
 
 ## C++ reconstruction transition (2026-10-30)
 
-**C++ is now the target language** for the reconstructed game core. Existing `.c` files and published C11 compiler percentages remain historical draft measurements, **not C++ progress**. See [the staged C++ migration and new compatibility audit](docs/CPP_MIGRATION.md). The original-address `.cpp` filename conversion is complete, but the original object model is **not reconstructed**; neither a C++ parser pass nor a filename change proves a verified game function.
+**C++ is now the target language** for the reconstructed game core. All 13,694 canonical source drafts use `.cpp`; prior C11 compiler percentages remain historical measurements, **not C++ progress**. See [the staged C++ migration and new compatibility audit](docs/CPP_MIGRATION.md). The original-address `.cpp` filename conversion is complete, but the original object model is **not reconstructed**; neither a C++ parser pass nor a filename change proves a verified game function.
 
 ## Baseline
 
@@ -37,11 +37,11 @@ Public, evidence-driven research workspace for the original Xbox 32-bit x86 `def
 
 ## Rules
 
-1. The reconstructed game-core target is **C++**. Existing `.c` function drafts are historical evidence; migrate them to `.cpp` only with updated path/tooling checks and unchanged provenance.
+1. The reconstructed game-core target is **C++**. All active function drafts use `.cpp` and strict C++17 checkers, with unchanged original XBE provenance.
 2. Preserve provenance: x86 entry address, original function-body SHA-256, evidence limitations, and TODOs for unknown ABI/external calls.
 3. Keep uncertain code marked `DRAFT`, `ABI_UNVERIFIED`, or `REVIEW_REQUIRED`; compilability does not imply correctness or byte equivalence.
 4. Never commit the original executable, game assets, ISOs, Ghidra project databases, full decompiler dumps, private local paths, or authentication credentials. Git stores small metadata, scripts and carefully scoped reconstructions only.
-5. Review every generated change. Keep a function-by-function audit trail and test C syntax before marking any draft buildable.
+5. Review every generated change. Keep a function-by-function audit trail and test strict C++17 syntax before marking any draft buildable.
 
 ## One faithful game core, two planned modes
 
@@ -62,9 +62,9 @@ This public repository accepts [issues](https://github.com/firebirdjsb/BruteForc
 
 ## Getting started
 
-Clone `https://github.com/firebirdjsb/BruteForceDecomp.git` to Windows. Keep the existing `D:\Downloads\BruteForce-Decompilation` directory as the *local evidence store*, outside this Git checkout. See `AGENTS.md` and `docs/STATUS.md` for workflow, and the companion C-only local viewer/runner package for continued work.
+Clone `https://github.com/firebirdjsb/BruteForceDecomp.git` to Windows. Keep the existing `D:\Downloads\BruteForce-Decompilation` directory as the *local evidence store*, outside this Git checkout. See `AGENTS.md` and `docs/STATUS.md` for workflow, and the companion local viewer/runner package for continued work.
 
 **Never upload copyrighted Xbox game binaries, ISO files, assets, full Ghidra dumps, or credentials to this public repository.**
 ## Browsing recovered functions
 
-The historical C11 source tree is organized by **observed XBE sections**, unclassified main-executable address bands, and the small list of [assembly-supported readable names](metadata/asm_supported_readable_names.csv). Start at [src/README.md](src/README.md). All **13,694** files keep their original x86 address filename and original function-body digest. `tools/source_layout.py` is the canonical path resolver used by C11 audits and provenance checks. Directory organization is **not** a native PC build or proof of 1:1 behavior.
+The canonical C++ source tree is organized by **observed XBE sections**, unclassified main-executable address bands, and the small list of [assembly-supported readable names](metadata/asm_supported_readable_names.csv). Start at [src/README.md](src/README.md). All **13,694** files keep their original x86 address filename and original function-body digest. `tools/source_layout.py` is the canonical path resolver used by C++ audits and provenance checks. Directory organization is **not** a native PC build or proof of 1:1 behavior.

@@ -9,7 +9,7 @@ for filename in [".env", ".env.production", "secret.pem", "config.p12",
                  "game/default.xbe", "FunctionExport/output.txt",
                  "private/id_rsa", "configs/.npmrc", "backups/source.zip"]:
     assert bad_path(filename), filename
-for filename in ["src/main_unclassified/band_0006/0x0006a610.c",
+for filename in ["src/main_unclassified/band_0006/0x0006a610.cpp",
                  "README.md", ".env.example", "docs/progress/c11-syntax.svg",
                  "tools/check_repository_safety.py"]:
     assert not bad_path(filename), filename

@@ -31,13 +31,13 @@ OPCODES = {
     0x000C54C6: "894808",           # MOV z at destination +0xb4
 }
 CONTRACTS = {
-    "src/main_unclassified/band_0005/0x0005acb0.c": (
+    "src/main_unclassified/band_0005/0x0005acb0.cpp": (
         "float guest_dot_product;",
         "guest_dot_product = local_28 * fVar3 + local_10 * local_24 + fVar12 * fStack_20;",
         "guest_dot_product * guest_dot_product",
         "*(float *)(param_1 + 0xc) = guest_dot_product;",
     ),
-    "src/main_unclassified/band_000c/0x000c5330.c": (
+    "src/main_unclassified/band_000c/0x000c5330.cpp": (
         "float guest_scale = 256.0f;",
         "guest_scale = (float)fVar10;",
         "memcpy(guest_direction_xyz, auStack_18, sizeof guest_direction_xyz);",
@@ -56,9 +56,9 @@ def main():
         for needle in needles:
             if needle not in code:
                 raise SystemExit(f"source contract missing in {relpath}: {needle}")
-        if relpath.endswith("0x0005acb0.c") and "(float)local_c" in code:
+        if relpath.endswith("0x0005acb0.cpp") and "(float)local_c" in code:
             raise SystemExit("dot product still encoded as a pointer")
-        if relpath.endswith("0x000c5330.c") and "auStack_18._0_8_" in code:
+        if relpath.endswith("0x000c5330.cpp") and "auStack_18._0_8_" in code:
             raise SystemExit("invalid decompiler packed-lane member remains")
     if args.xbe:
         binary = args.xbe.read_bytes()

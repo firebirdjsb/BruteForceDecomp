@@ -10,11 +10,11 @@ from pathlib import Path
 import struct
 
 SOURCES = (
-    ("src/main_unclassified/band_0023/0x00233f80.c", (
+    ("src/main_unclassified/band_0023/0x00233f80.cpp", (
         "piVar2 = (int *)(uintptr_t)*(const uint32_t *)(uintptr_t)",
         "(uint32_t)*param_1 + UINT32_C(0x0c)",
     )),
-    ("src/main_unclassified/band_0023/0x0023c1d0.c", (
+    ("src/main_unclassified/band_0023/0x0023c1d0.cpp", (
         "uint32_t guest_item_word;",
         "memcpy(&guest_item_word, pfVar7 - 1, sizeof guest_item_word);",
         "piVar8 = (int *)(uintptr_t)guest_item_word;",

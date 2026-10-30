@@ -14,7 +14,7 @@ def main():
  for va,h in checks:
   b=bytes.fromhex(h)
   if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"x87 bytes differ at {va:#x}")
- source=(a.repo/"src/main_unclassified/band_002f/0x002f032e.c").read_text()
+ source=(a.repo/"src/main_unclassified/band_002f/0x002f032e.cpp").read_text()
  if "extern long double _DAT_003b7232;" not in source:raise SystemExit("C operand type mismatch")
  print("PASS: x87 FLD TBYTE, FCOMPP, FSTSW and C extended-precision declaration")
  print("Guest-memory relocation and platform long-double representation still require verification.")

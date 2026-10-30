@@ -4,7 +4,7 @@ import argparse
 import hashlib
 from pathlib import Path
 SHA="b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SOURCE="src/main_unclassified/band_0022/0x0022de10.c"
+SOURCE="src/main_unclassified/band_0022/0x0022de10.cpp"
 OPCODES=(
  (0x0022DE10,"83ec74"),
  (0x0022DE1B,"53"),

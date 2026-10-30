@@ -5,6 +5,15 @@ Runs source and isolated C11 checks in CI. --xbe checks the private pinned
 original executable, without publishing copyrighted binary data. Native
 COM ABI and 32-bit guest address relocation remain NOT verified.
 """
+
+# Archived C-only evidence: active game-core validation uses strict C++17.
+if __name__ == "__main__":
+    import sys as _archive_sys
+    from pathlib import Path as _ArchivePath
+    _archive_sys.path.insert(0, str(_ArchivePath(__file__).resolve().parents[1] / "tools"))
+    from historical_c11 import require_historical_c11_opt_in
+    require_historical_c11_opt_in()
+
 import argparse
 import hashlib
 import re

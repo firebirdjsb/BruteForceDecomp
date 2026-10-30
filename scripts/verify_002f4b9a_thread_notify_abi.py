@@ -15,7 +15,7 @@ def main():
  for va,encoded in CHECKS:
   b=bytes.fromhex(encoded)
   if data[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"FAIL at {va:#x}")
- source=(a.repo/"src/main_unclassified/band_002f/0x002f4b9a.c").read_text()
+ source=(a.repo/"src/main_unclassified/band_002f/0x002f4b9a.cpp").read_text()
  for token in ("XAPILIB__XapiCallThreadNotifyRoutines(undefined4 param_1)",
                "UINT32_C(0x003b76ec)","ppuVar2[2])(param_1)"):
   if token not in source:raise SystemExit("FAIL source: "+token)

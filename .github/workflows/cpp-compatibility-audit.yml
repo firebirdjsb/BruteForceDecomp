@@ -7,7 +7,14 @@ on:
     branches: [main]
     paths:
       - 'src/**'
+      - 'include/**'
+      - 'tools/**'
+      - 'scripts/**'
+      - 'metadata/**'
+      - 'tests/**'
+      - 'viewer/**'
       - 'tools/source_layout.py'
+      - 'tools/check_cpp_only_policy.py'
       - 'tools/sweep_cpp_compat.py'
       - 'tools/classify_cpp_failures.py'
       - 'tools/triage_cpp_undeclared_calls.py'
@@ -50,6 +57,7 @@ jobs:
       - name: Validate compiler and C++ progress gates
         run: |
           python3 -m unittest discover -s tools -p 'test_sweep_cpp_compat.py' -v
+          python3 tools/check_cpp_only_policy.py
           python3 tools/test_publish_cpp_progress.py
           python3 -m unittest discover -s tools -p 'test_classify_cpp_failures.py' -v
           python3 -m unittest discover -s tools -p 'test_triage_cpp_undeclared_calls.py' -v

@@ -35,14 +35,14 @@ OPCODES = (
     (0x002DDABC, "dd442458"),   # FLD QWORD PTR [ESP+0x58]
 )
 SOURCES = (
-    ("src/main_unclassified/band_0025/0x0025f3b0.c", (
+    ("src/main_unclassified/band_0025/0x0025f3b0.cpp", (
         "local_c[0] = (uint8_t)(uint32_t)(uintptr_t)param_1;",
     ), ("param_1._0_1_",)),
-    ("src/main_unclassified/band_002b/0x002b89f0.c", (
+    ("src/main_unclassified/band_002b/0x002b89f0.cpp", (
         "local_40 = local_14[1] - local_50;",
         "fStack_3c = local_14[2] - fStack_4c;",
     ), ("local_14._4_8_", "SUB84(local_14.")),
-    ("src/main_unclassified/band_002d/0x002dd8d0.c", (
+    ("src/main_unclassified/band_002d/0x002dd8d0.cpp", (
         "static double bf_002dd8d0_guest_binary64(uint32_t low, uint32_t high)",
         "memcpy(&result, &guest_bits, sizeof result);",
         "memcpy(&guest_sample_bits, &uStack_10, sizeof guest_sample_bits);",

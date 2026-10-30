@@ -21,17 +21,17 @@ CHECKS = (
     (0x0023B314, "e8a7060000"),       # CALL 0x0023B9C0
 )
 SOURCES = (
-    ("src/main_unclassified/band_002e/0x002e8d30.c", (
+    ("src/main_unclassified/band_002e/0x002e8d30.cpp", (
         "uint32_t guest_read_word;",
         "guest_read_word = 0;",
         "FUN_002e8b40(param_1,&guest_read_word,1)",
         "uVar1 * 4) = guest_read_word;",
     )),
-    ("src/main_unclassified/band_0027/0x0027bed0.c", (
+    ("src/main_unclassified/band_0027/0x0027bed0.cpp", (
         "local_4 = 0x0b5e3e81;",
         "FUN_00237ff0(&local_4);",
     )),
-    ("src/main_unclassified/band_0023/0x0023b2e0.c", (
+    ("src/main_unclassified/band_0023/0x0023b2e0.cpp", (
         "uint32_t guest_constructor_context = (uint32_t)(uintptr_t)in_ECX;",
         "FUN_0023b9c0(&guest_constructor_context,uVar2,puVar1);",
     )),

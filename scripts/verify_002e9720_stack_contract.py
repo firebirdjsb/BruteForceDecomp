@@ -24,7 +24,7 @@ def main():
         want = bytes.fromhex(hexcode)
         if data[addr-0x10000:addr-0x10000+len(want)] != want:
             raise SystemExit(f"XBE instruction mismatch at 0x{addr:08x}")
-    src = (args.repo / "src/main_unclassified/band_002e/0x002e9720.c").read_text()
+    src = (args.repo / "src/main_unclassified/band_002e/0x002e9720.cpp").read_text()
     for token in ("uint32_t guest_input_word = (uint32_t)*param_2;", "guest_value_word = *(const uint32_t *)param_2;", "*param_1 = (uint16_t)local_4;", "*(uint32_t *)param_2 = (uint32_t)iVar1;"):
         if token not in src:
             raise SystemExit("missing verified storage source: " + token)

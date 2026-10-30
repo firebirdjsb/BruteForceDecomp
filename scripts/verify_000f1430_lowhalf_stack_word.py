@@ -19,7 +19,7 @@ X86 = (
     (0x000F14F5, "8d4c2438"),      # pass local storage address
     (0x000F1501, "837c244c08"),    # compare guest string length against 8
 )
-SOURCE = "src/main_unclassified/band_000f/0x000f1430.c"
+SOURCE = "src/main_unclassified/band_000f/0x000f1430.cpp"
 TOKENS = (
     '#include "bf_x86_word_lanes.h"',
     "bf_x86_word_store_byte(&uStack_18,0U,UINT8_C(0));",

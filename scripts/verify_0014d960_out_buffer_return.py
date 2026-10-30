@@ -19,7 +19,7 @@ def main():
     p.add_argument("--root", type=Path, default=Path("."))
     p.add_argument("--xbe", type=Path)
     args = p.parse_args()
-    source = (args.root / "src/main_unclassified/band_0014/0x0014d960.c").read_text()
+    source = (args.root / "src/main_unclassified/band_0014/0x0014d960.cpp").read_text()
     assert "undefined4 * FUN_0014d960(undefined4 *param_1,int *param_2,char param_3)" in source
     assert "return param_1;" in source
     assert "(undefined4 *)FUN_0014d960(local_1c,&local_14,0)" in source

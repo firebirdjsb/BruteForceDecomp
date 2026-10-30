@@ -11,7 +11,7 @@ CHECKS = (
     (0x002E430B, "8944241c"),        # mov [esp+0x1c],eax (same slot after two pushes)
     (0x002E430F, "e80c540000"),      # call 0x002e9720
 )
-SOURCE = "src/main_unclassified/band_002e/0x002e4250.c"
+SOURCE = "src/main_unclassified/band_002e/0x002e4250.cpp"
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("xbe", type=Path)

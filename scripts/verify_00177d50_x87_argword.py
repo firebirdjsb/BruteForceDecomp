@@ -9,7 +9,7 @@ import argparse
 from pathlib import Path
 import struct
 
-SOURCE = "src/main_unclassified/band_0017/0x00177d50.c"
+SOURCE = "src/main_unclassified/band_0017/0x00177d50.cpp"
 OPCODES = (
     (0x00177D87, "d95df4"),       # FSTP DWORD PTR [EBP-0xC]
     (0x00177D96, "ff5228"),       # CALL DWORD PTR [EDX+0x28], x87 result in ST(0)

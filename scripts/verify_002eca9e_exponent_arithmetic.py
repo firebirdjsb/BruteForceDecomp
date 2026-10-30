@@ -15,7 +15,7 @@ def main():
    x86=((((exponent+0x3fe)&0xffffffff)<<4)|((high>>16)&0x800f))&0xffff
    c11=((((exponent+0x3fe)&0xffffffff)<<4)|((high>>16)&0x800f))&0xffff
    if x86!=c11:raise SystemExit(f"exponent mismatch {exponent} {high:#x}")
- s=(a.repo/"src/main_unclassified/band_002e/0x002eca9e.c").read_text()
+ s=(a.repo/"src/main_unclassified/band_002e/0x002eca9e.cpp").read_text()
  if "UINT16_C(0x800f)" not in s:raise SystemExit("missing mask")
  print("PASS: x86 exponent instructions and arithmetic samples")
 if __name__=="__main__":main()

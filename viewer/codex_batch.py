@@ -27,17 +27,17 @@ def clean_output(text):
 def make_prompt(f, legacy_cpp=None):
     code = f['pseudocode']
     return '''You are reviewing evidence from a user-supplied original Xbox x86 game binary for private interoperability and preservation analysis.
-Write a SINGLE conservative, readable ISO C11 function draft based strictly on the Ghidra pseudocode provided below. This is an unverified source reconstruction, NOT recovered original code.
+Write a SINGLE conservative, readable C++17 function draft based strictly on the Ghidra pseudocode provided below. This is an unverified source reconstruction, NOT recovered original code.
 
 Rules:
 - Keep the control flow, integer widths, signedness, pointer offsets, constants, and side effects from evidence. If unknown, keep a neutral name/type or comment TODO; do not invent gameplay semantics.
 - Never claim to have compiled, tested, or achieved byte-for-byte equivalence.
-- Do not modify files, use tools, search other content, or execute the game. Return only the C11 source text, no markdown fences.
+- Do not modify files, use tools, search other content, or execute the game. Return only the C++17 source text, no markdown fences.
 - Function may depend on missing types, members, globals, or ABI; put clear TODO comments for missing information. Do not fabricate implementations of external functions.
-- Use only C11 and headers <stdint.h>, <stddef.h>, <stdbool.h>, <string.h> when needed. Never use C++ constructs: classes, namespaces, std::, auto, reinterpret_cast, static_cast, templates, using aliases, or nullptr.
+- Use strict C++17. Preserve guest32 addresses, original register/stack contracts, partial writes and x87/SSE semantics. Recover classes, layouts and virtual interfaces only from original XBE evidence.
 - Preserve 32-bit pointer/ABI assumptions. Do not simplify signed/unsigned arithmetic without proof.
 - Externals and unresolved globals must be explicit declarations or TODOs and must not be invented as working implementations.
-- If faithful C source is not determinable, output a C11 placeholder with a TODO rather than inventing behavior.
+- If faithful C++ source is not determinable, report the missing evidence and unresolved contract; do not emit a stub or claim a completed conversion.
 - At beginning add // DRAFT: not validated against the original executable.
 - When pseudocode has decompiler warnings or visibly invalid flow, preserve that uncertainty in TODOs rather than presenting recovered logic as certain.
 
@@ -48,11 +48,11 @@ Recorded body SHA256: {hash}
 
 Ghidra pseudocode:
 {pseudocode}
-'''.format(index=f['idx'],entry=f['entry'],name=f['name'],hash=f['hash'],pseudocode=code) + (('\nAdditional unverified legacy C++ draft, for comparison only. Reconcile every line against the Ghidra pseudocode; do not assume that the legacy draft is correct or ABI-accurate. Convert to ISO C11 rather than simply renaming the file:\n' + legacy_cpp) if legacy_cpp else '')
+'''.format(index=f['idx'],entry=f['entry'],name=f['name'],hash=f['hash'],pseudocode=code) + (('\nAdditional unverified legacy C++ draft, for comparison only. Reconcile every line against the Ghidra pseudocode; do not assume that the legacy draft is correct or ABI-accurate. Convert to C++17 rather than simply renaming the file:\n' + legacy_cpp) if legacy_cpp else '')
 
 
 def main():
-    p = argparse.ArgumentParser(description='Generate a few review-required C11 drafts with installed Codex CLI')
+    p = argparse.ArgumentParser(description='Generate a few review-required C++17 drafts with installed Codex CLI')
     p.add_argument('--source', required=True, type=Path, help='FunctionExport ZIP or directory')
     p.add_argument('--workspace', required=True, type=Path)
     p.add_argument('--start', type=int, default=0)
@@ -75,7 +75,7 @@ def main():
         entries=[dict(row) for row in con.execute(f'SELECT * FROM functions WHERE idx>=? {order}',(a.start,))]
     targets=[]
     for entry in entries:
-        if (draftdir / (entry['entry']+'.c')).exists(): continue
+        if (draftdir / (entry['entry']+'.cpp')).exists(): continue
         targets.append(entry)
         if len(targets)==a.count:break
     if not targets:
@@ -109,7 +109,7 @@ def main():
                 raise RuntimeError('Codex returned C++ syntax in C-only mode: ' + ', '.join(sorted(set(cpp_tokens))))
             if len(code)<25:
                 raise RuntimeError('Codex returned empty or implausibly short C')
-            draft = draftdir/(fn['entry']+'.c')
+            draft = draftdir/(fn['entry']+'.cpp')
             if draft.exists():
                 print('Skipping because another process created:', draft)
                 continue
@@ -122,7 +122,7 @@ def main():
             print('ERROR:',msg,flush=True)
             write_status(a.workspace,state='error',idx=fn['idx'],entry=fn['entry'],completed=step-1,target=len(targets),message=msg)
             if step==1:break
-    total = len(list(draftdir.glob('0x????????.c')))
+    total = len(list(draftdir.glob('0x????????.cpp')))
     write_status(a.workspace,state='complete' if not errors else 'error',completed=len(targets)-len(errors),target=len(targets),drafts_total=total,errors=errors,message=('Done, inspect drafts' if not errors else 'Some functions could not be reconstructed. See terminal.'))
     print('Codex run finished:',len(targets)-len(errors),'drafts generated,',len(errors),'errors. Total drafts:',total)
     if errors:sys.exit(1)

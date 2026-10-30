@@ -47,7 +47,7 @@ def uncomment(source):
 
 def verify_source(root):
     for address, legacy, signature, call, site in CASES:
-        path = root / f"src/main_unclassified/band_{address[:4]}/0x{address}.c"
+        path = root / f"src/main_unclassified/band_{address[:4]}/0x{address}.cpp"
         source = path.read_text(encoding="utf-8")
         active = uncomment(source)
         assert f"Entry: 0x{address}," in source, address
@@ -59,7 +59,7 @@ def verify_source(root):
         assert legacy not in active, address
         print(f"PASS 0x{address}: original incoming DWORD address recovered")
     jump_source = uncomment(
-        (root / "src/main_unclassified/band_0029/0x00295370.c").read_text(encoding="utf-8"))
+        (root / "src/main_unclassified/band_0029/0x00295370.cpp").read_text(encoding="utf-8"))
     assert "__jmp_buf_tag" not in jump_source
     assert "uint32_t guest_jump_context" in jump_source
     assert "*(uint32_t *)(uintptr_t)(DAT_00469888 + UINT32_C(0x18))" in jump_source

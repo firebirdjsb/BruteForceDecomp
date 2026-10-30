@@ -12,7 +12,7 @@ def main():
  for va,h in CHECKS:
   b=bytes.fromhex(h)
   if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"XBE mismatch at {va:#x}")
- s=(a.repo/"src/main_unclassified/band_002e/0x002e97b0.c").read_text()
+ s=(a.repo/"src/main_unclassified/band_002e/0x002e97b0.cpp").read_text()
  if "((uint32_t)(uintptr_t)param_1 & UINT32_C(0xffffff00)) | bVar3" not in s:raise SystemExit("source mismatch")
  print("PASS: 4 decoder stack-byte instructions and guest32 mask")
  print("Host-pointer/guest32 adaptation remains unresolved.")

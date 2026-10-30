@@ -24,13 +24,13 @@ INSTRUCTIONS = (
 )
 
 SOURCES = (
-    ("src/main_unclassified/band_002e/0x002ece36.c", (
+    ("src/main_unclassified/band_002e/0x002ece36.cpp", (
         "uint32_t guest_stream;",
         "(guest_stream + 0x0c) & 0x83",
         "thunk_FUN_00237ec0",
         "DAT_004a8fb0 + iVar2 * 4) = 0",
     )),
-    ("src/main_unclassified/band_002e/0x002ecf26.c", (
+    ("src/main_unclassified/band_002e/0x002ecf26.cpp", (
         "uint32_t guest_stream;",
         "(guest_stream + 0x0c) & 0x83",
         "(guest_stream + 0x0c) & 2",

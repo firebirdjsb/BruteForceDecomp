@@ -13,7 +13,7 @@ def main():
  for va,h in CHECKS:
   b=bytes.fromhex(h)
   if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"Mismatch at {va:#x}")
- s=(a.repo/"src/main_unclassified/band_002e/0x002e7b70.c").read_text()
+ s=(a.repo/"src/main_unclassified/band_002e/0x002e7b70.cpp").read_text()
  for token in ("UINT32_C(0xffffff00)","UINT32_C(0xffff0000)","((uint32_t)bVar2 << 8)"):
   if token not in s:raise SystemExit("source mismatch: "+token)
  print("PASS: 5 transfer flag stack-byte instruction signatures")

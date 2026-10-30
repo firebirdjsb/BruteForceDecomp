@@ -8,7 +8,7 @@ import argparse
 import hashlib
 from pathlib import Path
 
-SOURCE = "src/main_unclassified/band_001f/0x001feb60.c"
+SOURCE = "src/main_unclassified/band_001f/0x001feb60.cpp"
 SHA = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 OPCODES = (
     (0x001FEB60, "c70300000000"), # output word *EBX = 0
@@ -59,8 +59,8 @@ def main():
         if token not in source:
             raise SystemExit(f"missing original iterator contract: {token}")
     callers = (
-        ("src/main_unclassified/band_001f/0x001ff0f0.c", "FUN_001feb60()"),
-        ("src/main_unclassified/band_0020/0x002058c0.c", "FUN_001feb60()"),
+        ("src/main_unclassified/band_001f/0x001ff0f0.cpp", "FUN_001feb60()"),
+        ("src/main_unclassified/band_0020/0x002058c0.cpp", "FUN_001feb60()"),
     )
     for path, call in callers:
         if call not in (args.root / path).read_text(encoding="utf-8"):

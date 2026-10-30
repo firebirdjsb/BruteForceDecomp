@@ -14,7 +14,7 @@ def main():
  for va,h in CHECKS:
   b=bytes.fromhex(h)
   if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"XBE mismatch at {va:#x}")
- s=(a.repo/"src/main_unclassified/band_002f/0x002f01a2.c").read_text()
+ s=(a.repo/"src/main_unclassified/band_002f/0x002f01a2.cpp").read_text()
  for token in ("LDBL_MANT_DIG == 64","high_word | UINT16_C(0x7fff)",
                "memcpy(extended + 8, &exponent","return (float10)value"):
   if token not in s:raise SystemExit("source mismatch: "+token)

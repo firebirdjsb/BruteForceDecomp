@@ -28,7 +28,7 @@ OPCODES = (
     (0x002A80EA, "8a44240a"),
 )
 SOURCES = (
-    ("src/main_unclassified/band_002a/0x002a7fe0.c", (
+    ("src/main_unclassified/band_002a/0x002a7fe0.cpp", (
         "uint8_t guest_header_byte_a",
         "uint8_t guest_header_byte_b",
         "uint32_t guest_payload_a;",
@@ -38,7 +38,7 @@ SOURCES = (
         "(*unaff_EDI + 0x14))(unaff_EDI,&guest_payload_a,4,0)",
         "(*unaff_EDI + 0x14))(unaff_EDI,&guest_payload_b,4,0)",
     )),
-    ("src/main_unclassified/band_002a/0x002a8070.c", (
+    ("src/main_unclassified/band_002a/0x002a8070.cpp", (
         "uint8_t guest_header_byte_a",
         "uint8_t guest_header_byte_b",
         "uint32_t guest_payload_a;",

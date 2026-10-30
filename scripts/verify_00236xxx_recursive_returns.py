@@ -25,8 +25,8 @@ def main():
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--xbe", type=Path)
     args = parser.parse_args()
-    boolean = (args.root / "src/main_unclassified/band_0023/0x00236940.c").read_text()
-    match = (args.root / "src/main_unclassified/band_0023/0x00236e30.c").read_text()
+    boolean = (args.root / "src/main_unclassified/band_0023/0x00236940.cpp").read_text()
+    match = (args.root / "src/main_unclassified/band_0023/0x00236e30.cpp").read_text()
     assert "uint8_t FUN_00236940(void)" in boolean
     assert "cVar2 = FUN_00236940()" in boolean
     assert "return (uint8_t)cVar2;" in boolean

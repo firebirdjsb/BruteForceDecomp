@@ -6,6 +6,15 @@ checks. CI performs source/isolated Clang C11 tests. Missing implicit ECX
 input for 0x0023A790, guest pointer translation and interface releases
 are explicitly NOT verified by this repair; syntax does not prove runtime.
 """
+
+# Archived C-only evidence: active game-core validation uses strict C++17.
+if __name__ == "__main__":
+    import sys as _archive_sys
+    from pathlib import Path as _ArchivePath
+    _archive_sys.path.insert(0, str(_ArchivePath(__file__).resolve().parents[1] / "tools"))
+    from historical_c11 import require_historical_c11_opt_in
+    require_historical_c11_opt_in()
+
 import argparse
 import hashlib
 import re

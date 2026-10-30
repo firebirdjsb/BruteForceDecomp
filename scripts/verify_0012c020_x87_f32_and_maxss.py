@@ -27,7 +27,7 @@ ORIGINAL = (
     (0x0012C4CB, "d8257c053c00"),    # FSUB F32 0x3C057C
     (0x0012C4E1, "d80dfcd24600"),    # FMUL F32 0x46D2FC
 )
-PATH = "src/main_unclassified/band_0012/0x0012c020.c"
+PATH = "src/main_unclassified/band_0012/0x0012c020.cpp"
 REQUIRED = (
     "extern float _DAT_003c0568;",
     "extern float _DAT_003c056c;",

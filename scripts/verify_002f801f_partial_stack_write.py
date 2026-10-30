@@ -13,7 +13,7 @@ def main():
  va=0x002F80B8
  b=bytes.fromhex("66c745c82c00")
  if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit("original 16-bit store mismatch")
- src=(a.repo/"src/main_unclassified/band_002f/0x002f801f.c").read_text()
+ src=(a.repo/"src/main_unclassified/band_002f/0x002f801f.cpp").read_text()
  if "*(uint16_t *)&local_3c[0] = UINT16_C(0x002c);" not in src:raise SystemExit("source mismatch")
  print("PASS: original MOV WORD PTR [EBP-0x38],0x2c and 16-bit C store")
  print("Complete native stack layout remains unverified.")

@@ -25,7 +25,7 @@ X86 = (
     (0x000ECFCC, "8a442414"),         # final low-byte return
     (0x000ECFD3, "c20c00"),           # three incoming guest DWORD arguments
 )
-SOURCE = "src/main_unclassified/band_000e/0x000ecdc0.c"
+SOURCE = "src/main_unclassified/band_000e/0x000ecdc0.cpp"
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("xbe", type=Path, nargs="?", help="original, private Brute Force Xbox executable")

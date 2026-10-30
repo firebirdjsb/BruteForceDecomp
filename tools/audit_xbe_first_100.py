@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""100 distinct x86-body provenance and Clang C11 function passes.
+"""100 distinct x86-body provenance and Clang C++17 function passes.
 
 An original-XBE m32fp/ret/body match verifies bytes, NOT linkability or runtime.
 Some Ghidra body hashes may cover non-contiguous basic blocks. A failed
@@ -100,7 +100,7 @@ def audit(root: Path, xbe: Path | None, output: Path):
     sections = xbe_sections(original) if original is not None else None
     clang = shutil.which("clang")
     if not clang:
-        raise RuntimeError("Clang required for 100 actual C11 syntax passes")
+        raise RuntimeError("Clang required for 100 actual C++17 syntax passes")
     results=[]
     for i, path in enumerate(ordered[:100]):
         entry=path.stem
@@ -144,11 +144,11 @@ def audit(root: Path, xbe: Path | None, output: Path):
         writer=csv.DictWriter(f,fieldnames=results[0].keys())
         writer.writeheader()
         writer.writerows(results)
-    print("100 function passes: C11 pass",counts["pass"],"fail",counts["fail"],
+    print("100 function passes: C++17 pass",counts["pass"],"fail",counts["fail"],
           "original-XBE evidence",dict(xbe_counts))
     for item in results:
         if item["c11_syntax"]=="fail":
-            print("C11_FAIL",item["entry"],item["first_error"][:150])
+            print("C++17_FAIL",item["entry"],item["first_error"][:150])
     if original is None:
         print("Original XBE not supplied: byte-level equivalence NOT tested on CI.")
     elif (xbe_counts["verified_contiguous_xbe_body"]!=83 or

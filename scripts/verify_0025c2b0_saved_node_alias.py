@@ -13,7 +13,7 @@ OPCODES = (
     (0x0025C2ED, "8b00"),      # read selected DWORD
     (0x0025C2EF, "3b430c"),    # compare against end node
 )
-SOURCE = "src/main_unclassified/band_0025/0x0025c2b0.c"
+SOURCE = "src/main_unclassified/band_0025/0x0025c2b0.cpp"
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("xbe", type=Path, nargs="?")

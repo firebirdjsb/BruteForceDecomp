@@ -35,9 +35,9 @@ INSTRUCTIONS = {
     0x00376FDB: "f3ab",            # rep stosd, four-byte stores
 }
 FILES = (
-    "src/platform/graphics_d3d/0x0036d200.c",
-    "src/platform/graphics_d3d/0x0036d390.c",
-    "src/platform/graphics_d3d/0x0036d4d0.c",
+    "src/platform/graphics_d3d/0x0036d200.cpp",
+    "src/platform/graphics_d3d/0x0036d390.cpp",
+    "src/platform/graphics_d3d/0x0036d4d0.cpp",
 )
 DECLARATION = "extern uint32_t D3D8__D3D_g_RenderState;"
 ADDITIONAL_DECLARATIONS = (

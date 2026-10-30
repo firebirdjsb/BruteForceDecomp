@@ -24,7 +24,7 @@ INSTRUCTIONS = (
     (0x0016F1BD, "83f803"),          # CMP EAX,3
     (0x0016F1C6, "ff2485f0f91600"),  # JMP [EAX*4+0x16F9F0]
 )
-SOURCE_PATH = "src/main_unclassified/band_0016/0x0016f080.c"
+SOURCE_PATH = "src/main_unclassified/band_0016/0x0016f080.cpp"
 REQUIRED = (
     "int32_t guest_key_count;",
     "guest_key_count = 0;",

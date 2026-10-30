@@ -10,7 +10,7 @@ import hashlib
 from pathlib import Path
 
 SHA = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SRC = "src/main_unclassified/band_000a/0x000af1a0.c"
+SRC = "src/main_unclassified/band_000a/0x000af1a0.cpp"
 SITES = (
  (0x000af5b7,"8b1588dd3700","read original guest device cursor pointer"),
  (0x000af5f6,"8902","store updated cursor through EDX"),

@@ -31,7 +31,9 @@ jobs:
       - name: Audit every tracked source and file name without exposing token values
         run: python3 tools/check_repository_safety.py --root .
       - name: Test GitHub progress percentage and report validation
-        run: python3 tools/test_progress.py
+        run: |
+          python3 tools/test_publish_cpp_progress.py
+          python3 tools/check_cpp_only_policy.py
       - name: Preserve all function locations and body SHA-256 labels
         run: |
           python3 tools/test_source_layout.py

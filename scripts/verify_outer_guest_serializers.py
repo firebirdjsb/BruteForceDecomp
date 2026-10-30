@@ -70,7 +70,7 @@ def main():
     ap.add_argument("--root", type=Path, default=Path("."))
     a = ap.parse_args()
     for identifier, getter_a, getter_b, slot_a, slot_b, helper in SERIALIZERS:
-        path = a.root / "src/main_unclassified/band_002a" / f"0x{identifier}.c"
+        path = a.root / "src/main_unclassified/band_002a" / f"0x{identifier}.cpp"
         src = path.read_text(encoding="utf-8")
         normalized = "".join(src.split())
         required = (

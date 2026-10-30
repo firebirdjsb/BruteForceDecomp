@@ -13,7 +13,7 @@ INSTRUCTIONS = (
     (0x0022CE7E, "8b542418"),   # mov edx,[esp+0x18]
     (0x0022CE82, "3b1564d04600"), # cmp edx,[0x46d064]
 )
-SOURCE = "src/main_unclassified/band_0022/0x0022cd80.c"
+SOURCE = "src/main_unclassified/band_0022/0x0022cd80.cpp"
 REQUIRED = (
     "int _param_2;",
     "_param_2 = *(int *)(iVar4 + 0x18);",

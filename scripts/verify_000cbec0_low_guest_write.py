@@ -22,7 +22,7 @@ OPCODES = (
     (0x000CBF39, "d95874"),  # FSTP DWORD [EAX+0x74]
     (0x000CBF3C, "895744"),  # MOV [EDI+0x44],EDX: store state
 )
-SOURCE = "src/main_unclassified/band_000c/0x000cbec0.c"
+SOURCE = "src/main_unclassified/band_000c/0x000cbec0.cpp"
 TOKENS = (
     "if ((in_EAX[0x11] == 0) && (in_EDX == 2)) {",
     "if (in_EAX[10] != 0) {",

@@ -7,10 +7,10 @@ from pathlib import Path
 EXPECTED_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 CASES = (
     (0x001EC31B, "c70568e8400018a02e00",
-     "src/main_unclassified/band_001e/0x001ec170.c",
+     "src/main_unclassified/band_001e/0x001ec170.cpp",
      "DAT_0040e868 = UINT32_C(0x002ea018);"),
     (0x0021CF18, "68e0cf2100",
-     "src/main_unclassified/band_0021/0x0021cd00.c",
+     "src/main_unclassified/band_0021/0x0021cd00.cpp",
      "(piVar6,UINT32_C(0x0021cfe0),param_1)"),
 )
 

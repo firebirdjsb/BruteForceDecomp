@@ -29,10 +29,10 @@ WINDOWS = {
 # None of these return a C integer/pointer value. Preserve the draft x87 math
 # body; only resolve the missing 80-bit return-storage alias.
 SRCS = {
-    0x0005A6E0: "src/main_unclassified/band_0005/0x0005a6e0.c",
-    0x0006EEE0: "src/main_unclassified/band_0006/0x0006eee0.c",
-    0x001552A0: "src/main_unclassified/band_0015/0x001552a0.c",
-    0x002F05F8: "src/main_unclassified/band_002f/0x002f05f8.c",
+    0x0005A6E0: "src/main_unclassified/band_0005/0x0005a6e0.cpp",
+    0x0006EEE0: "src/main_unclassified/band_0006/0x0006eee0.cpp",
+    0x001552A0: "src/main_unclassified/band_0015/0x001552a0.cpp",
+    0x002F05F8: "src/main_unclassified/band_002f/0x002f05f8.cpp",
 }
 
 def source_check(root: Path) -> None:

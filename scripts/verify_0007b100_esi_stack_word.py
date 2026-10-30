@@ -5,7 +5,7 @@ import hashlib
 from pathlib import Path
 
 XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SOURCE = "src/main_unclassified/band_0007/0x0007b100.c"
+SOURCE = "src/main_unclassified/band_0007/0x0007b100.cpp"
 # Original bytes: 0x10C-byte frame, second allocation return in ESI,
 # ESI pushed for callback, then stored as DWORD at ESP+0x18.
 OPCODES = {

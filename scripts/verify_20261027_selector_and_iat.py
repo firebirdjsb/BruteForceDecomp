@@ -31,8 +31,8 @@ def stripped(source):
     return re.sub(r"/\*.*?\*/|//[^\n]*", "", source, flags=re.S)
 
 def check_source(root):
-    a = (root/"src/main_unclassified/band_0015/0x00155840.c").read_text()
-    b = (root/"src/main_unclassified/band_002f/0x002fe4a6.c").read_text()
+    a = (root/"src/main_unclassified/band_0015/0x00155840.cpp").read_text()
+    b = (root/"src/main_unclassified/band_002f/0x002fe4a6.cpp").read_text()
     for addr,s in (("00155840",a),("002fe4a6",b)):
         assert f"Entry: 0x{addr}," in s
         assert "Input x86 body SHA-256:" in s

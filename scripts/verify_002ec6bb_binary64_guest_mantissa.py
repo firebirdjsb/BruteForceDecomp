@@ -32,7 +32,7 @@ REQUIRED = (
     "guest_mantissa_bits = ((uint64_t)high_word << 32) | low_word;",
     "memcpy(&guest_shifted_double,&guest_mantissa_bits,sizeof(guest_shifted_double));",
 )
-SOURCE = "src/main_unclassified/band_002e/0x002ec6bb.c"
+SOURCE = "src/main_unclassified/band_002e/0x002ec6bb.cpp"
 
 def verify_lanes():
     samples = (0, 1, 0xffffffff, 0x100000000, 0x1ffffffff,

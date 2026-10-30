@@ -5,11 +5,11 @@ import hashlib
 from pathlib import Path
 SHA = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 CASES = (
-    (0x002F4BD9, "ff3524653800", "src/main_unclassified/band_002f/0x002f4bd2.c",
+    (0x002F4BD9, "ff3524653800", "src/main_unclassified/band_002f/0x002f4bd2.cpp",
      "*(uint32_t *)(uintptr_t)UINT32_C(0x00386524)"),
-    (0x002F7FF7, "ff3580643800", "src/main_unclassified/band_002f/0x002f7f68.c",
+    (0x002F7FF7, "ff3580643800", "src/main_unclassified/band_002f/0x002f7f68.cpp",
      "*(uint32_t *)(uintptr_t)UINT32_C(0x00386480)"),
-    (0x002F5D5F, "8b0dac7a3800", "src/main_unclassified/band_002f/0x002f5d1f.c",
+    (0x002F5D5F, "8b0dac7a3800", "src/main_unclassified/band_002f/0x002f5d1f.cpp",
      "*(uint32_t *)(uintptr_t)*(uint32_t *)(uintptr_t)UINT32_C(0x00387aac) = UINT32_C(0xfffffffb)"),
 )
 def main():

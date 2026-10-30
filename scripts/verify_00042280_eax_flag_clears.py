@@ -5,7 +5,7 @@ import hashlib
 from pathlib import Path
 
 SHA = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SOURCE = "src/main_unclassified/band_0004/0x00042280.c"
+SOURCE = "src/main_unclassified/band_0004/0x00042280.cpp"
 OPS = (
     (0x00042324, "e8a7ee1100"),
     (0x00042330, "836028fb"),

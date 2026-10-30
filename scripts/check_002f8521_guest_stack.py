@@ -2,7 +2,7 @@
 """Source invariant check only; not an x86-equivalence or runtime ABI test."""
 import argparse
 from pathlib import Path
-SOURCE="src/main_unclassified/band_002f/0x002f8521.c"
+SOURCE="src/main_unclassified/band_002f/0x002f8521.cpp"
 REQUIRED=["Only the low byte is initialized by the guest","UINT32_C(0x01000000)"]
 FORBIDDEN=["param_2 = CONCAT13("]
 def main():

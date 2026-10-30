@@ -24,7 +24,7 @@ OPCODES = (
     (0x258500, "e83b960200"),
     (0x258508, "c20400"),
 )
-SOURCE = "src/main_unclassified/band_0025/0x00258480.c"
+SOURCE = "src/main_unclassified/band_0025/0x00258480.cpp"
 INVARIANTS = (
     "FUN_00258480(uint32_t guest_argument_word)",
     "uint32_t guest_key_word;",

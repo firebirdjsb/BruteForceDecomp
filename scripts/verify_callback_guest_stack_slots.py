@@ -24,18 +24,18 @@ CHECKS = (
 )
 
 SOURCES = (
-    ("src/main_unclassified/band_0025/0x00253f50.c", (
+    ("src/main_unclassified/band_0025/0x00253f50.cpp", (
         "uint32_t guest_received_object = 0;",
         "&guest_received_object",
         "if (guest_received_object != 0)",
         "(int *)(uintptr_t)guest_received_object",
     )),
-    ("src/main_unclassified/band_002a/0x002a5320.c", (
+    ("src/main_unclassified/band_002a/0x002a5320.cpp", (
         "uint32_t guest_matrix_result = (uint32_t)(uintptr_t)param_3;",
         "&guest_matrix_result",
         "FUN_0003d730(&DAT_0046af4c,guest_matrix_result)",
     )),
-    ("src/main_unclassified/band_002a/0x002a5400.c", (
+    ("src/main_unclassified/band_002a/0x002a5400.cpp", (
         "uint32_t guest_callback_flags = (uint32_t)(uintptr_t)param_2;",
         "&guest_callback_flags",
         "if ((guest_callback_flags & 1) == 0)",

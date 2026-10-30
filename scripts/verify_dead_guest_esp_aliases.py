@@ -38,7 +38,7 @@ def strip_comments(source):
 def check_source(root):
     assert len(CASES) == 14
     for entry, suffix, instruction in CASES:
-        path = root / f"src/main_unclassified/band_{entry[:4]}/0x{entry}.c"
+        path = root / f"src/main_unclassified/band_{entry[:4]}/0x{entry}.cpp"
         source = path.read_text(encoding="utf-8")
         active = strip_comments(source)
         assert f"Entry: 0x{entry}," in source, entry

@@ -7,7 +7,7 @@ from pathlib import Path
 XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 VA = 0x0009C315
 INSN = bytes.fromhex("c744241c0b800000")
-SOURCE = "src/main_unclassified/band_0009/0x0009bb40.c"
+SOURCE = "src/main_unclassified/band_0009/0x0009bb40.cpp"
 REPAIRED = "local_d8 = (byte *)UINT32_C(0x800b);"
 BROKEN = "XBE_FILE_HEADER_00010000.Signature + 0xfd"
 

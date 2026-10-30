@@ -24,7 +24,7 @@ OPCODES = (
     (0x0012CA8A, "d905b8053c00"),  # FLD DWORD 0x3c05b8
 )
 
-SOURCE = "src/main_unclassified/band_0012/0x0012c6c0.c"
+SOURCE = "src/main_unclassified/band_0012/0x0012c6c0.cpp"
 REQUIRED = (
     "#include <xmmintrin.h>",
     "extern float DAT_003c05cc;",

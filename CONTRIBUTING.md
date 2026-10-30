@@ -1,14 +1,14 @@
 # Contributing to BruteForceDecomp
 
-This **public** evidence-led project aims to reconstruct the original Xbox *Brute Force* game as a **native PC application**, then modernize it. Contributions are welcome, but **none of the C11 syntax work alone makes the game playable**.
+This **public** evidence-led project aims to reconstruct the original Xbox *Brute Force* game as a **native PC application**, then modernize it. Contributions are welcome, but **none of the C++17 syntax work alone makes the game playable**.
 
 ## Collaborating on main
 
 1. Pick a scope and open a [GitHub issue](https://github.com/firebirdjsb/BruteForceDecomp/issues) to coordinate function ranges, ABI dependencies or Xbox-to-PC platform adapters.
 2. Fork the repository or make a **temporary branch**, then open a [pull request to `main`](https://github.com/firebirdjsb/BruteForceDecomp/pulls). `main` is the sole long-lived canonical branch. Delete merged temporary branches.
-3. Preserve original entry identities and body SHA-256 labels through staged `.c` to `.cpp` moves; respect the deterministic [source layout](tools/source_layout.py). Do **not** assign speculative gameplay subsystem names.
+3. Preserve original entry identities and body SHA-256 labels in canonical `.cpp` source; respect the deterministic [source layout](tools/source_layout.py). Do **not** assign speculative gameplay subsystem names.
 4. Ground any behavior, types, offsets and calling conventions in the original x86 bytes/caller evidence. Clearly mark unresolved details `ABI_UNVERIFIED`/`TODO`.
-5. Identify the precise verification level: historical host C11 or new C++ syntax; Windows i386 target; x86 evidence; cross-function linking; tested game behavior. Never call unlinked, untested code a 1:1 port.
+5. Identify the precise verification level: strict host C++17 syntax; Windows i386 target; x86 evidence; cross-function linking; tested game behavior. Never call unlinked, untested code a 1:1 port.
 
 ## Checks
 
@@ -22,13 +22,13 @@ python3 tools/check_repository_safety.py
 python3 tools/test_progress.py
 ```
 
-For the historical C11 per-function syntax inventory:
+For the canonical C++17 per-function syntax inventory:
 
 ```sh
-python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8
+python3 tools/sweep_cpp_compat.py --root . --out cpp_compat_results --jobs 8
 ```
 
-For the new read-only C++ parser baseline, run `python3 tools/sweep_cpp_compat.py --root . --out cpp_compat_results --jobs 8` after installing Clang++. See [migration gates](docs/CPP_MIGRATION.md).
+See [migration and fidelity gates](docs/CPP_MIGRATION.md).
 
 Expected syntax failures are reported, not silently repaired. PR checks are intentionally read-only and do not have the user's Xbox executable.
 

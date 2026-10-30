@@ -20,7 +20,7 @@ OPCODES = (
     (0x00264CCD, "8d542408"),    # &same guest DWORD for vtable +0x14
     (0x00264CD3, "ff5114"),      # second virtual callback
 )
-SOURCE = "src/main_unclassified/band_0026/0x00264c50.c"
+SOURCE = "src/main_unclassified/band_0026/0x00264c50.cpp"
 CONTRACT = (
     "uint32_t guest_transfer_word;",
     "guest_transfer_word = *(uint32_t *)(uintptr_t)(in_EDX + 0x34);",

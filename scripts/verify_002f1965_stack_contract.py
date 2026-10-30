@@ -14,7 +14,7 @@ def main():
  for va,h in SIGNATURES:
   b=bytes.fromhex(h)
   if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"FAIL x86 at {va:#x}")
- src=(a.repo/"src/main_unclassified/band_002f/0x002f1965.c").read_text()
+ src=(a.repo/"src/main_unclassified/band_002f/0x002f1965.cpp").read_text()
  for token in ("FUN_002f1965(undefined4 param_1)","___dtold(&local_10,&param_1);"):
   if token not in src:raise SystemExit("FAIL source "+token)
  print("PASS: EBP+8 input address, EBP-12 output address, call, and ret")

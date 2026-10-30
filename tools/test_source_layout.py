@@ -23,7 +23,7 @@ if len(inventory) != 13694 or len(set(inventory)) != 13694 or entries != set(inv
 actual_set = set(actual)
 extras = [p for p in (ROOT / "src").rglob("*.cpp") if p not in actual_set]
 if extras:
-    raise SystemExit(f"Untracked C functions under src: {extras[:3]}")
+    raise SystemExit(f"Untracked C++ functions under src: {extras[:3]}")
 with (ROOT / "metadata/function_groups/all_13694_functions.csv").open(encoding="utf-8", newline="") as stream:
     groups = list(csv.DictReader(stream))
 if len(groups) != len(actual) or {row["entry"] for row in groups} != entries:
@@ -38,6 +38,6 @@ for workflow in (ROOT / ".github/workflows").glob("*.yml"):
         if match.group(0) != expected or ROOT / expected not in actual_set:
             raise SystemExit(f"Stale workflow source path in {workflow.name}: {match.group(0)}")
 print(f"Sorted layout OK: 13694 unique source entries, {len(names)} reviewed readable identities.")
-print("Directory names are section/location evidence, NOT proof of C11, ABI, or runtime behavior.")
+print("Directory names are section/location evidence, NOT proof of C++ correctness, ABI, or runtime behavior.")
 
 assert not list((ROOT / 'src').rglob('0x????????.c')), 'Old C function files remain'

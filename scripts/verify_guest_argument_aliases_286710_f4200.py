@@ -32,7 +32,7 @@ INSTRUCTIONS = (
     (0xF42CD, "c20400"),
 )
 CONTRACTS = (
-    ("src/main_unclassified/band_0028/0x00286710.c", (
+    ("src/main_unclassified/band_0028/0x00286710.cpp", (
         "uint32_t guest_event_id = (uint32_t)(uintptr_t)param_2;",
         "int *guest_state = (int *)(uintptr_t)param_1;",
         "uint32_t guest_interface_word = 0;",
@@ -42,7 +42,7 @@ CONTRACTS = (
         "if (guest_interface != (int *)0x0)",
         "(*guest_interface + 8))(guest_interface)",
     )),
-    ("src/main_unclassified/band_000f/0x000f4200.c", (
+    ("src/main_unclassified/band_000f/0x000f4200.cpp", (
         "bool FUN_000f4200(uint32_t guest_argument_word)",
         "FUN_000f4c00(guest_argument_word,iVar2 + 8,unaff_ESI,(uint8_t *)&guest_argument_word);",
     )),

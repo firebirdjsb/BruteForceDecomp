@@ -5,6 +5,15 @@ The pinned XBE verifies two 32-bit guest key stores and the adjacent
 address-taking, argument pushes and indirect calls. These are not verified
 native callback prototypes or a complete x86 stack ABI reconstruction.
 """
+
+# Archived C-only evidence: active game-core validation uses strict C++17.
+if __name__ == "__main__":
+    import sys as _archive_sys
+    from pathlib import Path as _ArchivePath
+    _archive_sys.path.insert(0, str(_ArchivePath(__file__).resolve().parents[1] / "tools"))
+    from historical_c11 import require_historical_c11_opt_in
+    require_historical_c11_opt_in()
+
 import argparse
 import hashlib
 from pathlib import Path

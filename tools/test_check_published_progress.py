@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Synthetic, no-XBE publication consistency regression checks."""
+"""Historical C11 publication consistency regression checks; not active C++ coverage."""
 from __future__ import annotations
 
 import json
@@ -8,7 +8,7 @@ import sys
 import tempfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from check_published_progress import check
+from check_published_progress import check_historical_c11 as check
 
 
 def fixture(root: Path) -> dict:

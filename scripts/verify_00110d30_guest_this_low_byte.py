@@ -19,7 +19,7 @@ X86 = (
     (0x00110FF6, "81c6f4070000"),    # ADD ESI,0x7f4
     (0x00110FFD, "880e"),            # MOV BYTE [ESI],CL
 )
-SOURCE = "src/main_unclassified/band_0011/0x00110d30.c"
+SOURCE = "src/main_unclassified/band_0011/0x00110d30.cpp"
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("xbe", type=Path, nargs="?")

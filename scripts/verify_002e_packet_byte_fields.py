@@ -13,10 +13,10 @@ def main():
  for va,h in CHECKS:
   b=bytes.fromhex(h)
   if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"FAIL {va:#x}")
- for f in ("0x002e13a0.c","0x002e1800.c"):
+ for f in ("0x002e13a0.cpp","0x002e1800.cpp"):
   s=(a.repo/"src/main_unclassified/band_002e"/f).read_text()
   if "((uint8_t *)&local_18)[3]" not in s:raise SystemExit("source mismatch: "+f)
- s2=(a.repo/"src/main_unclassified/band_002e/0x002e13a0.c").read_text()
+ s2=(a.repo/"src/main_unclassified/band_002e/0x002e13a0.cpp").read_text()
  if "(uint32_t)(uint8_t)param_1 << 4" not in s2:raise SystemExit("Source mismatch: (uint32_t)(uint8_t)param_1 << 4")
  print("PASS: six packet byte field instructions and both source expressions")
 if __name__=="__main__":main()

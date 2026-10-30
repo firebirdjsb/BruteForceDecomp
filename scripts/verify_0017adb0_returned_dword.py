@@ -5,7 +5,7 @@ import hashlib
 from pathlib import Path
 
 XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SOURCE = "src/main_unclassified/band_0017/0x0017adb0.c"
+SOURCE = "src/main_unclassified/band_0017/0x0017adb0.cpp"
 OPCODES = {
     0x0017ADB0: "81ecc0060000",    # 0x6C0-byte local frame
     0x0017AE7D: "e82ed50b00",      # call FUN_002383B0, EAX output

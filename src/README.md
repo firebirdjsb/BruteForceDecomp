@@ -1,4 +1,4 @@
-# Brute Force historical C11 drafts — 13,694 discovered entries
+# Brute Force C++ reconstruction drafts — 13,694 discovered entries
 
 **C++ is now the reconstruction target; the .cpp files are byte-preserved historical drafts from the [C++ migration](../docs/CPP_MIGRATION.md).** This is evidence-oriented organization, not reconstructed game architecture. All original functions keep their original `0x????????.cpp` entry identities and embedded original x86 body SHA-256. Their Git blob content is unchanged by this reorganization.
 
@@ -14,8 +14,8 @@
 
 Find a particular function with `python3 -c "import sys;sys.path.insert(0,'tools');from source_layout import source_path;print(source_path('.', '0x000b4f20'))"`.
 
-Use `python3 tools/test_source_layout.py` to verify 13,694 unique entries and the canonical inventory, `python3 scripts/check_sources.py` to verify identity/hash labels, and `python3 tools/sweep_c11.py --root . --out c11_sweep_results --jobs 8` for individual **host syntax** checks. `python3 tools/classify_c11_functions.py` regenerates the metadata function group snapshots with their current paths.
+Use `python3 tools/test_source_layout.py` to verify 13,694 unique entries and the canonical inventory, `python3 scripts/check_sources.py` to verify identity/hash labels, and `python3 tools/sweep_cpp_compat.py --root . --out cpp_compat_results --jobs 8` for individual **host syntax** checks. `python3 tools/classify_c11_functions.py` regenerates the metadata function group snapshots with their current paths.
 
 ## Native-PC completion criteria
 
-C11 syntax is merely the first gate. The future native game requires verified 32-bit x86 register/stack and object contracts, a linked C11 core, explicit Xbox-to-PC platform adapters, asset and save/load support, actual playable runtime tests, and then isolated optional widescreen, high-refresh, HD textures, 64-player multiplayer and modding. **None is implied by file grouping.**
+C++17 syntax is merely the first gate. The future native game requires verified 32-bit x86 register/stack and object contracts, a linked C++17 core, explicit Xbox-to-PC platform adapters, asset and save/load support, actual playable runtime tests, and then isolated optional widescreen, high-refresh, HD textures, 64-player multiplayer and modding. **None is implied by file grouping.**

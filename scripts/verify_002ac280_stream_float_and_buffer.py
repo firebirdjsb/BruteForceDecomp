@@ -31,7 +31,7 @@ def check(root: Path):
     assert 0x24 - 8 == 0x1c and 0x20 - 8 == 0x18
     assert 0x60 - 8 == 0x58 and 0x6c - 8 == 0x64
     assert 0x68 - 24 == 0x50
-    text = (root / "src/main_unclassified/band_002a/0x002ac280.c").read_text()
+    text = (root / "src/main_unclassified/band_002a/0x002ac280.cpp").read_text()
     required = (
         "(param_2,local_154,4,0);",
         "(param_2,&auStack_178[0],4,0);",

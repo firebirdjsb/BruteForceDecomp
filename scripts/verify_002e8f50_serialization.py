@@ -23,7 +23,7 @@ CHECKS = (
     (0x002E8FCA, "660fb654240c"),   # MOVZX DX,BYTE [ESP+0xc]
     (0x002E8FD0, "660917"),         # OR WORD [EDI],DX
 )
-SOURCE = "src/main_unclassified/band_002e/0x002e8f50.c"
+SOURCE = "src/main_unclassified/band_002e/0x002e8f50.cpp"
 TOKENS = (
     "uint32_t guest_io_word;",
     "guest_io_word = (uint32_t)(uintptr_t)param_1;",

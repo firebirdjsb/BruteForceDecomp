@@ -29,7 +29,7 @@ def main():
     parser.add_argument("--root", type=Path, default=Path("."))
     parser.add_argument("--xbe", type=Path)
     args = parser.parse_args()
-    source = (args.root / "src/main_unclassified/band_002e/0x002ebe35.c").read_text()
+    source = (args.root / "src/main_unclassified/band_002e/0x002ebe35.cpp").read_text()
     pairs = [
         ("003b7190", "002EFE2D"),
         ("003b7194", "002EFAF0"),
@@ -42,7 +42,7 @@ def main():
         expected = "PTR_FUN_" + target + " = UINT32_C(0x" + address + ");"
         if expected not in source:
             raise AssertionError(expected)
-    patch = (args.root / "src/main_unclassified/band_0023/0x00237670.c").read_text()
+    patch = (args.root / "src/main_unclassified/band_0023/0x00237670.cpp").read_text()
     for expected in [
         "UINT32_C(0x002EA43D)",
         "UINT8_C(0xC3)",

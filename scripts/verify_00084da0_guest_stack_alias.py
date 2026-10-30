@@ -8,7 +8,7 @@ import argparse
 import hashlib
 from pathlib import Path
 
-SOURCE = 'src/main_unclassified/band_0008/0x00084da0.c'
+SOURCE = 'src/main_unclassified/band_0008/0x00084da0.cpp'
 XBE_HASH = 'b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721'
 BODY_HASH = '2064015e6961bbfeca8aaefbe2ebdbb2681f02ab670e4e7a5f22af8fb0872237'
 BODY_ENTRY = 0x00084DA0

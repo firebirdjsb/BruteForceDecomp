@@ -12,7 +12,7 @@ def main():
  for va,h in CHECKS:
   b=bytes.fromhex(h)
   if d[va-0x10000:va-0x10000+len(b)]!=b:raise SystemExit(f"x86 mismatch at {va:#x}")
- s=(a.repo/"src/main_unclassified/band_002f/0x002f1bfa.c").read_text()
+ s=(a.repo/"src/main_unclassified/band_002f/0x002f1bfa.cpp").read_text()
  for token in TOKENS:
   if token not in s:raise SystemExit("missing C11 source invariant: "+token)
  print("PASS: XBE signatures and C11 source invariants; runtime ABI unverified")

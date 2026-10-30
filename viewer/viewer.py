@@ -101,7 +101,7 @@ def dbconnect(db_path):
 def api_status(db, workspace):
     with dbconnect(db) as con:
         total, high = con.execute('SELECT count(*),sum(has_hard_warning) FROM functions').fetchone()
-    drafts = len(list((workspace / 'drafts').glob('0x????????.c')))
+    drafts = len(list((workspace / 'drafts').glob('0x????????.cpp')))
     reviews = load_json(workspace / 'reviews.json', {})
     active = load_json(workspace / 'active.json', {})
     return {'total': total, 'drafts': drafts, 'reviewed': sum(1 for value in reviews.values() if value.get('reviewed')), 'remaining': max(0, total - drafts), 'high_warning': high or 0, 'active': active, 'source': load_json(workspace / 'source.json', {})['source']}
@@ -129,7 +129,7 @@ def api_listing(db, workspace, args):
         if only == 'draft':
             # Filtering against all 13,694 metadata rows is intentionally bounded.
             rows = con.execute('SELECT idx,entry,name,body_size,warning_count,has_hard_warning FROM functions'+sql_where+' ORDER BY idx', vals).fetchall()
-            rows = [dict(r) for r in rows if (workspace/'drafts'/(r['entry']+'.c')).is_file()]
+            rows = [dict(r) for r in rows if (workspace/'drafts'/(r['entry']+'.cpp')).is_file()]
             count = len(rows)
             rows = rows[offset:offset+limit]
         else:
@@ -137,7 +137,7 @@ def api_listing(db, workspace, args):
             rows = [dict(r) for r in con.execute('SELECT idx,entry,name,body_size,warning_count,has_hard_warning FROM functions'+sql_where+' ORDER BY idx LIMIT ? OFFSET ?', vals+[limit,offset]).fetchall()]
     reviews = load_json(workspace/'reviews.json', {})
     for row in rows:
-        row['has_draft'] = (workspace / 'drafts' / (row['entry']+'.c')).is_file()
+        row['has_draft'] = (workspace / 'drafts' / (row['entry']+'.cpp')).is_file()
         row['reviewed'] = bool(reviews.get(row['entry'], {}).get('reviewed'))
     return {'total':count,'rows':rows,'offset':offset,'limit':limit}
 
@@ -149,7 +149,7 @@ def get_function(db, workspace, idx):
     if row is None:
         return None
     row = dict(row)
-    candidate = workspace / 'drafts' / (row['entry']+'.c')
+    candidate = workspace / 'drafts' / (row['entry']+'.cpp')
     row['c'] = candidate.read_text(encoding='utf-8') if candidate.exists() else ''
     row['has_draft'] = candidate.exists()
     row['review'] = load_json(workspace / 'reviews.json', {}).get(row['entry'], {})
@@ -214,7 +214,7 @@ class Handler(BaseHTTPRequestHandler):
                 code = data.get('c')
                 if not isinstance(code,str) or len(code) > 200000:
                     return self.json({'error':'Expected C text'},400)
-                draft = self.server.workspace/'drafts'/(key+'.c')
+                draft = self.server.workspace/'drafts'/(key+'.cpp')
                 atomic_write(draft,code)
                 return self.json({'ok':True,'path':str(draft)})
             elif op == 'review':

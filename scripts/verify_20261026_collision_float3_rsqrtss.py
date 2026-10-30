@@ -32,14 +32,14 @@ OPERANDS = {
     0x002D7FD9: "f30f1144241c",  # MOVSS store result
 }
 SOURCES = {
-    "src/main_unclassified/band_002d/0x002d6910.c": (
+    "src/main_unclassified/band_002d/0x002d6910.cpp": (
         "#include <xmmintrin.h>",
         "memcpy(&guest_basis_y,&local_4c,sizeof guest_basis_y);",
         "memcpy(&guest_basis_z,(const uint8_t *)&local_4c+4,sizeof guest_basis_z);",
         "guest_inverse_length = _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(guest_length_sq)));",
         "guest_length_sq = (fVar16 * fVar16 + fVar17 * fVar17) + fVar15 * fVar15;",
     ),
-    "src/main_unclassified/band_002d/0x002d7d60.c": (
+    "src/main_unclassified/band_002d/0x002d7d60.cpp": (
         "#include <xmmintrin.h>",
         "fVar13 = local_30[1] - pfVar6[1];",
         "fVar14 = local_30[2] - pfVar6[2];",

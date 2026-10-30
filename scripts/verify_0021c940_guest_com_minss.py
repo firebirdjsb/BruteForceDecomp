@@ -42,7 +42,7 @@ INSTRUCTIONS = {
     0x0021CA19: "ff5270",              # device fallback
     0x0021CA27: "ff5108",              # release primary
 }
-SOURCE = "src/main_unclassified/band_0021/0x0021c940.c"
+SOURCE = "src/main_unclassified/band_0021/0x0021c940.cpp"
 NEEDED = (
     "uint32_t guest_primary_word = 0;",
     "uint32_t guest_secondary_word = 0;",

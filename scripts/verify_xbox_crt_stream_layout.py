@@ -13,7 +13,7 @@ def main():
  h=(a.root/"include/bf_xbox_crt_stream.h").read_text()
  for field in ("flags_0c","handle_10","buffer_1c"):
   assert field in h
- for name in ("0x002ea5e9.c","0x002eb16e.c"):
+ for name in ("0x002ea5e9.cpp","0x002eb16e.cpp"):
   src=(a.root/"src/main_unclassified/band_002e"/name).read_text()
   assert '#include "bf_xbox_crt_stream.h"' in src
   assert "_IO_" not in src

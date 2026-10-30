@@ -9,7 +9,7 @@ import hashlib
 from pathlib import Path
 
 EXPECTED_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SOURCE = "src/main_unclassified/band_000f/0x000f5510.c"
+SOURCE = "src/main_unclassified/band_000f/0x000f5510.cpp"
 OPCODES = (
     (0x000F5510, "51"),                 # local DWORD for flag
     (0x000F5519, "8b442408"),           # first incoming DWORD, entry ESP+4

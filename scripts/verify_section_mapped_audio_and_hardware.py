@@ -65,29 +65,29 @@ def main():
     p.add_argument("--root", type=Path, default=Path("."))
     p.add_argument("--xbe", type=Path)
     args = p.parse_args()
-    audio = (args.root / "src/platform/audio_dsound/0x003119b1.c").read_text()
+    audio = (args.root / "src/platform/audio_dsound/0x003119b1.cpp").read_text()
     assert "DAT_0032f7a0 = UINT32_C(0x00315331);" in audio
     assert "CFullHrtfSource_GetHrtfFilterPair;" not in audio
-    hardware = (args.root / "src/platform/xpp_role_unverified/0x0037f6d0.c").read_text()
+    hardware = (args.root / "src/platform/xpp_role_unverified/0x0037f6d0.cpp").read_text()
     assert "UINT32_C(0x00386380)" in hardware
     assert "(guest_hardware_info + 5u)" in hardware
     assert "UINT8_C(0xA1)" in hardware
     assert "(code)0xa1" not in hardware
-    bink = (args.root / "src/video_bink/bink/0x0035a8c0.c").read_text()
+    bink = (args.root / "src/video_bink/bink/0x0035a8c0.cpp").read_text()
     assert "DAT_004b50dc = UINT32_C(0x00314714);" in bink
     assert "return (undefined1 *)(uintptr_t)UINT32_C(0x0035A650);" in bink
-    mu = (args.root / "src/platform/xpp_role_unverified/0x0037ee7c.c").read_text()
+    mu = (args.root / "src/platform/xpp_role_unverified/0x0037ee7c.cpp").read_text()
     assert "(const void *)(uintptr_t)UINT32_C(0x0037EDA0)" in mu
-    public_key = (args.root / "src/platform/network_xnet/0x003498be.c").read_text()
+    public_key = (args.root / "src/platform/network_xnet/0x003498be.cpp").read_text()
     assert "uint32_t guest_public_key =" in public_key
     assert "UINT32_C(0x00386480)" in public_key
-    image_name = (args.root / "src/platform/online_xonline/0x003309e9.c").read_text()
+    image_name = (args.root / "src/platform/online_xonline/0x003309e9.cpp").read_text()
     assert image_name.count("UINT32_C(0x00386450)") == 3
     assert "guest_name_buffer + (uint32_t)iVar5" in image_name
-    lan = (args.root / "src/platform/network_xnet/0x00347d34.c").read_text()
+    lan = (args.root / "src/platform/network_xnet/0x00347d34.cpp").read_text()
     assert lan.count("UINT32_C(0x00386488)") == 3
     assert "XboxLANKey_exref," not in lan
-    disk = (args.root / "src/platform/network_xnet/0x00352eeb.c").read_text()
+    disk = (args.root / "src/platform/network_xnet/0x00352eeb.cpp").read_text()
     assert "UINT32_C(0x003864AC)" in disk
     assert "UINT32_C(0x003864A8)" in disk
     assert "guest_model_descriptor + UINT32_C(4)" in disk

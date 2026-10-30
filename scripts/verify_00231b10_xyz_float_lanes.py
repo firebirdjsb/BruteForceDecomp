@@ -40,7 +40,7 @@ OPCODES = {
     0x00231DC1: "f30f1100",     # MOVSS output X
     0x00231DC5: "0f174004",     # MOVHPS output Y/Z
 }
-SOURCE = "src/main_unclassified/band_0023/0x00231b10.c"
+SOURCE = "src/main_unclassified/band_0023/0x00231b10.cpp"
 MARKERS = (
     "float guest_negative_y;",
     "float guest_negative_z;",

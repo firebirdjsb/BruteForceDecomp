@@ -35,7 +35,7 @@ XBE_OPCODES = (
     (0x001E4C40, "ff5108"),            # release via vtable +0x08
     (0x001E4C43, "32c0"),              # set result AL=0
 )
-SOURCE = "src/main_unclassified/band_001e/0x001e4bb0.c"
+SOURCE = "src/main_unclassified/band_001e/0x001e4bb0.cpp"
 REQUIRED = (
     "undefined1 FUN_001e4bb0(void)",
     "uint32_t guest_acquired_interface = 0;",

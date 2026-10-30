@@ -27,7 +27,7 @@ ORIGINAL_XBE = (
     (0x00282357, "ff5108"),           # release acquired object
 )
 SOURCES = (
-    ("src/main_unclassified/band_0028/0x00280a40.c", (
+    ("src/main_unclassified/band_0028/0x00280a40.cpp", (
         "uint32_t guest_received_interface = 0;",
         "(*piVar2 + 0x18))(piVar2,param_2)",
         "&guest_received_interface",
@@ -35,7 +35,7 @@ SOURCES = (
         "if (guest_received_interface != 0)",
         "(int *)(uintptr_t)guest_received_interface",
     )),
-    ("src/main_unclassified/band_0028/0x00282310.c", (
+    ("src/main_unclassified/band_0028/0x00282310.cpp", (
         "uint32_t guest_acquired_object = 0;",
         "uint32_t guest_selector_word = (uint32_t)(uintptr_t)param_2;",
         "&guest_acquired_object",

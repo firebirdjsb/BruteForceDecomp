@@ -5,6 +5,15 @@ Strictly a C11 draft + verified machine-code storage contract. The original
 four-byte guest address is NOT translated to a native host address here.
 CI runs source and host-lane checks; provide --xbe locally for machine bytes.
 """
+
+# Archived C-only evidence: active game-core validation uses strict C++17.
+if __name__ == "__main__":
+    import sys as _archive_sys
+    from pathlib import Path as _ArchivePath
+    _archive_sys.path.insert(0, str(_ArchivePath(__file__).resolve().parents[1] / "tools"))
+    from historical_c11 import require_historical_c11_opt_in
+    require_historical_c11_opt_in()
+
 from pathlib import Path
 import argparse
 import hashlib

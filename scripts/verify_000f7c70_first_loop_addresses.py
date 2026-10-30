@@ -8,7 +8,7 @@ import argparse
 import hashlib
 from pathlib import Path
 SHA="b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
-SRC="src/main_unclassified/band_000f/0x000f7c70.c"
+SRC="src/main_unclassified/band_000f/0x000f7c70.cpp"
 SITES=(
  (0x000f7c70,"83ec50"),
  (0x000f7c73,"53"),
