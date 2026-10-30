@@ -72,6 +72,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_cpp_00058d40_guest_handoff.py' -v
           python3 -m py_compile tools/verify_cpp_hotspot_xbe.py
           python3 tools/verify_cpp_allocator_immediate_sites.py
+          python3 scripts/verify_00087630_guest_calls_xbe.py
       - name: Inventory C++17 syntax separately from the historical C11 baseline
         env:
           LIMIT: ${{ github.event_name == 'push' && '0' || inputs.source_limit }}
