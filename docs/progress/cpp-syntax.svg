@@ -1,10 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="160" viewBox="0 0 800 160" role="img" aria-labelledby="title desc">
-<title id="title">C++17 syntax coverage: pending full audit</title>
-<desc id="desc">13,694 original Xbox drafts have moved to C++; full C++ syntax audit pending. C11 percentage is historical.</desc>
+<title id="title">C++17 syntax coverage (last confirmed audit): 17.10 percent</title>
+<desc id="desc">2342 of 13694 C++ drafts parsed at audited commit 50517d1; later source edits pending full audit.</desc>
 <rect width="800" height="160" rx="14" fill="#0f172a"/>
 <text x="28" y="42" fill="#e2e8f0" font-family="system-ui,Segoe UI,sans-serif" font-size="21" font-weight="700">C++17 syntax coverage</text>
-<text x="772" y="42" fill="#7dd3fc" font-family="system-ui,Segoe UI,sans-serif" font-weight="700" font-size="27" text-anchor="end">Pending</text>
+<text x="772" y="42" fill="#7dd3fc" font-family="system-ui,Segoe UI,sans-serif" font-weight="700" font-size="29" text-anchor="end">17.10%</text>
 <rect x="28" y="69" width="744" height="22" rx="11" fill="#334155"/>
-<text x="28" y="119" fill="#cbd5e1" font-family="system-ui,Segoe UI,sans-serif" font-size="16">13,694 drafts · awaiting full C++17 audit</text>
-<text x="28" y="144" fill="#94a3b8" font-family="system-ui,Segoe UI,sans-serif" font-size="12">C++ syntax is not original object ABI or playable game</text>
+<rect x="28" y="69" width="127.22" height="22" rx="11" fill="#38bdf8"/>
+<text x="28" y="119" fill="#cbd5e1" font-family="system-ui,Segoe UI,sans-serif" font-size="16">2,342 / 13,694 at audited 50517d1</text>
+<text x="28" y="144" fill="#94a3b8" font-family="system-ui,Segoe UI,sans-serif" font-size="12">Last completed audit · newer source fixes require fresh measurement</text>
 </svg>

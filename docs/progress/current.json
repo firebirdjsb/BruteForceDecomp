@@ -1,16 +1,18 @@
 {
   "schema_version": 2,
   "metric": "isolated Clang C++17 syntax of 13,694 source drafts",
-  "status": "pending_full_cpp_audit",
+  "status": "last_confirmed_full_cpp_audit_newer_source_reaudit_required",
   "total": 13694,
-  "passing": null,
-  "failing": null,
-  "percentage": null,
-  "audited_commit": null,
-  "workflow_run_id": null,
-  "roadmap_percentage": null,
-  "body_hash_mismatches": null,
+  "passing": 2342,
+  "failing": 11352,
+  "percentage": 17.1,
+  "audited_commit": "50517d1900198f1d66589db350408aaad03d3d15",
+  "workflow_run_id": 41043502499,
+  "roadmap_percentage": 2.44,
+  "roadmap_method": "seven_equal_phases_cpp_syntax_fraction_six_unverified_zero_credited",
+  "body_hash_mismatches": 0,
   "verified_instruction_contracts": null,
   "verified_interfaces": null,
-  "native_pc_build": "not_yet_buildable_or_playable"
+  "native_pc_build": "not_yet_buildable_or_playable",
+  "notes": "Metrics describe exact audited commit only. Newer main source repairs are not included until GitHub Actions publishes a complete exact-commit audit."
 }

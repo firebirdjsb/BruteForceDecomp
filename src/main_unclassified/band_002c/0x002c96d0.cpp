@@ -13,7 +13,7 @@
  * At least 0x5a8 output bytes are required. No whole-object initialization. */
 void *FUN_002c96d0(void *param_1, uint32_t param_2)
 {
-  unsigned char *output = param_1;
+  unsigned char *output = (unsigned char *)param_1;
   uint32_t zero = 0;
   unsigned block;
   for (block = 0; block != 21; ++block) {

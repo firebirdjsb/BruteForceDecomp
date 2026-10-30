@@ -10,7 +10,7 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0040f5b4;
-void FUN_003450b4(int param_1,sockaddr *param_2,socklen_t param_3)
+void FUN_003450b4(int param_1,sockaddr *param_2,bf_guest_socklen32 param_3)
 
 {
   XONLINES__bind(DAT_0040f5b4,param_1,param_2,param_3);

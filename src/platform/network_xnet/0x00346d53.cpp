@@ -8,7 +8,7 @@
 #include "bf_ghidra_types.h"
 #include "bf_xbox_socket_abi_draft.h"
 #include "bf_xbox_xonline_context_bytes_x86.h"
-ssize_t __thiscall XONLINES__recv(XONLINES *this,int __fd,void *__buf,size_t __n,int __flags)
+bf_guest_ssize32 __thiscall XONLINES__recv(XONLINES *guest_this,int __fd,void *__buf,size_t __n,int __flags)
 
 {
   int iVar1;
@@ -21,7 +21,7 @@ ssize_t __thiscall XONLINES__recv(XONLINES *this,int __fd,void *__buf,size_t __n
   size_t local_c;
   undefined4 local_8;
   
-  if ((this == (XONLINES *)0x0) || (*(short *)(this + 0xbd2) == 0)) {
+  if ((guest_this == (XONLINES *)0x0) || (*(short *)(guest_this + 0xbd2) == 0)) {
     XAPILIB__SetLastError(0x276d);
   }
   else {

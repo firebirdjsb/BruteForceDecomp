@@ -7,17 +7,19 @@
 
 [![C++ source audit](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml/badge.svg?branch=main)](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml)
 
-![C++17 syntax coverage: pending first complete audit](docs/progress/cpp-syntax.svg)
+![C++17 syntax coverage: 17.10%](docs/progress/cpp-syntax.svg)
 
-**C++17 syntax coverage: pending complete 13,694-function audit.** The old C11 score is **not** C++ syntax coverage. The first 100-function C++ sample had 34 passes and 66 failures, and cannot be extrapolated to the whole project.
+**Last confirmed full C++17 syntax audit: 17.10% — 2,342 / 13,694 passing; 11,352 failing.** [Audited source commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/50517d1900198f1d66589db350408aaad03d3d15) · [Full audit run](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/41043502499).
 
-![Overall roadmap tracking: pending C++ audit](docs/progress/overall.svg)
+**A newer full C++ audit is required to measure subsequent source repairs.** This bar explicitly describes the last completed audit, *not necessarily current HEAD*; the GitHub Actions workflow publishes fresh exact-commit figures only when its complete inventory is valid and main has not advanced.
 
-**Overall roadmap:** rebaselining on the audited C++ source. This roadmap indicator is a conservative planning proxy, not measured game completion; original Xbox class/vtable ABI, linking, and runtime remain unverified.
+![Overall roadmap tracking: 2.44%](docs/progress/overall.svg)
 
-**Native PC game: NOT yet buildable or playable.** Syntax checking cannot establish 1:1 source reconstruction.
+**Conservative roadmap proxy: 2.44%** — only the C++ syntax fraction of one of seven equally weighted planned gates is credited. This is **not actual game completion**; Xbox 32-bit ABI, original C++ classes/vtables, linking, runtime behavior, and native PC gameplay remain unverified.
 
-[Machine-readable C++ progress](docs/progress/current.json) · [C++ migration details](docs/CPP_MIGRATION.md) · [Native PC milestones](docs/NATIVE_PC_PORT_GOALS.md)
+**Native PC game: NOT yet buildable or playable.** The earlier 99.58% C11 score is historical and is not C++ coverage.
+
+[Machine-readable C++ progress](docs/progress/current.json) · [C++ migration](docs/CPP_MIGRATION.md) · [Native PC milestones](docs/NATIVE_PC_PORT_GOALS.md)
 
 <!-- BF_PROGRESS_END -->
 
@@ -25,7 +27,7 @@ Public, evidence-driven research workspace for the original Xbox 32-bit x86 `def
 
 ## C++ reconstruction transition (2026-10-30)
 
-**C++ is now the target language** for the reconstructed game core. Existing `.c` files and published C11 compiler percentages remain historical draft measurements, **not C++ progress**. See [the staged C++ migration and new compatibility audit](docs/CPP_MIGRATION.md). The full `.cpp` conversion and original object model are **not complete**; neither a C++ parser pass nor a filename change proves a verified game function.
+**C++ is now the target language** for the reconstructed game core. Existing `.c` files and published C11 compiler percentages remain historical draft measurements, **not C++ progress**. See [the staged C++ migration and new compatibility audit](docs/CPP_MIGRATION.md). The original-address `.cpp` filename conversion is complete, but the original object model is **not reconstructed**; neither a C++ parser pass nor a filename change proves a verified game function.
 
 ## Baseline
 

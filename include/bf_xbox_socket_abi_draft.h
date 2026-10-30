@@ -1,10 +1,10 @@
-/* Opaque Xbox XONLINE socket ABI parameter names — C11 drafts only.
+/* Opaque Xbox XONLINE socket ABI parameter types — historical C11 and C++ drafts.
  *
- * src/0x003450b4.c and src/0x003450bf.c merely forward a sockaddr*
+ * 0x003450b4.cpp and 0x003450bf.cpp merely forward a sockaddr*
  * and a 32-bit stack length. Their recovered C does NOT establish the
  * socket-address structure or Windows/Xbox sockaddr binary layout.
  *
- * src/0x00346d53.c and src/0x00346f3f.c return signed socket counts.
+ * 0x00346d53.cpp and 0x00346f3f.cpp return signed socket counts.
  * The Xbox native x86 width is 32 bits; host size_t/ssize_t widths
  * must never be taken as evidence of x86 parameter ABI or network behavior.
  *
@@ -15,8 +15,8 @@
 #define BF_XBOX_SOCKET_ABI_DRAFT_H
 #include <stdint.h>
 typedef struct BF_XBOX_SOCKADDR_LAYOUT_UNKNOWN sockaddr;
-typedef uint32_t socklen_t; /* x86 stack word; signedness unverified */
-typedef int32_t ssize_t;    /* signed x86 return word; ABI unverified */
+typedef uint32_t bf_guest_socklen32; /* x86 stack word; signedness unverified */
+typedef int32_t bf_guest_ssize32;    /* signed x86 return word; ABI unverified */
 /* XBE 0x346240/0x3462DE read guest DWORD +4; 0x34624E/0x3462E1
  * read guest WORD +2. No sockaddr layout or native ABI is inferred.
  * Little-endian byte loads avoid host alignment/endianness assumptions. */

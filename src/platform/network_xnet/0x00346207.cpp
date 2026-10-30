@@ -9,13 +9,13 @@
 #include "bf_xbox_xonline_context_bytes_x86.h"
 #include "bf_xbox_socket_abi_draft.h"
 /* XBE: opaque guest sockaddr DWORD at +4, WORD at +2. ABI_UNVERIFIED. */
-int __thiscall XONLINES__bind(XONLINES *this,int __fd,sockaddr *__addr,socklen_t __len)
+int __thiscall XONLINES__bind(XONLINES *guest_this,int __fd,sockaddr *__addr,bf_guest_socklen32 __len)
 
 {
   int iVar1;
   int iVar2;
   
-  if ((this == (XONLINES *)0x0) || (*(short *)(this + 0xbd2) == 0)) {
+  if ((guest_this == (XONLINES *)0x0) || (*(short *)(guest_this + 0xbd2) == 0)) {
     iVar2 = 0x276d;
   }
   else {
