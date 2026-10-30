@@ -9,7 +9,8 @@
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern int FUN_00073510(void);
-extern void FUN_00160da0(void);
+/* XBE: two guest DWORDs, EAX result, RET 8; implicit ECX/EDX remain unresolved. */
+extern uint32_t FUN_00160da0(uint32_t guest_word0, uint32_t guest_word1);
 extern int FUN_000da840(int *param_1);
 extern void FUN_0006ff00(void);
 extern undefined4 FUN_002eaa86(undefined1 *param_1,undefined4 param_2,undefined4 param_3);
