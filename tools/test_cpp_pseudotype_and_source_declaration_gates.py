@@ -78,6 +78,42 @@ class ConservativeSourceDeclarationTests(unittest.TestCase):
                 self.assertIn("FUN_00059b60()", s)
                 self.assertIn("ABI_UNVERIFIED", s)
 
+    def test_exact_second_stage_query_source_signatures(self):
+        callee = source("002e5bf0")
+        self.assertIn("undefined4 FUN_002e5bf0(int param_1)", callee)
+        for addr in """000efa70 000f2010 000f2330 000f42d0
+            000f6e80 000f6ed0 000f8080 000f9470 000f94c0
+            00106eb0 001ec340""".split():
+            with self.subTest(addr=addr):
+                s = source(addr)
+                self.assertIn("extern undefined4 FUN_002e5bf0(int guest_index);", s)
+                self.assertIn("FUN_002e5bf0(0)", s)
+                self.assertIn("ABI_UNVERIFIED", s)
+        self.assertIn("uint FUN_00106600(void)", source("00106600"))
+        for addr in "000f9470 000f94c0 00106eb0".split():
+            with self.subTest(addr=addr):
+                s = source(addr)
+                self.assertIn("extern uint FUN_00106600(void);", s)
+                self.assertIn("FUN_00106600()", s)
+
+    def test_focused_clang_cpp17_after_two_source_declarations(self):
+        # These minimal functions had only the two or three undeclared
+        # symbols shown in the prior exact-tree audit; other unrelated
+        # sources must not be claimed as passing.
+        import shutil
+        import subprocess
+        compiler = shutil.which("clang++")
+        if compiler is None:
+            self.skipTest("clang++ not installed")
+        for addr in "000efa70 000f6e80 001ec340 00106eb0".split():
+            with self.subTest(addr=addr):
+                file = ROOT / "src/main_unclassified" / f"band_{addr[:4]}" / f"0x{addr}.cpp"
+                result = subprocess.run(
+                    [compiler, "-std=c++17", "-fsyntax-only",
+                     "-I", str(ROOT / "include"), str(file)],
+                    capture_output=True, text=True, check=False)
+                self.assertEqual(result.returncode, 0, result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()
