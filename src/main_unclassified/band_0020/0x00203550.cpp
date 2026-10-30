@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* 0x001FEDB0 byte-buffer callee draft matches this source pointer;
+ * host pointer address is preserved, while Xbox guest ABI is UNVERIFIED. */
+extern char FUN_001fedb0(undefined4 flag, int *key, byte *data);
 #include "bf_x86_word_lanes.h"
 /* Original XBE uses the low byte of the third incoming guest stack DWORD;
  * the input data pointer is independently preserved in EBP. Distinguish

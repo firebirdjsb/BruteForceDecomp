@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* 0x001FEDB0 byte-buffer callee draft matches this source pointer;
+ * host pointer address is preserved, while Xbox guest ABI is UNVERIFIED. */
+extern char FUN_001fedb0(undefined4 flag, int *key, byte *data);
 #include "bf_x86_word_lanes.h"
 char FUN_00208a70(undefined4 param_1,int *param_2,undefined4 *param_3)
 
@@ -21,7 +24,7 @@ char FUN_00208a70(undefined4 param_1,int *param_2,undefined4 *param_3)
   puVar4 = param_3;
   piVar3 = param_2;
   uVar2 = param_1;
-  cVar5 = FUN_001fedb0(param_1,param_2,param_3);
+  cVar5 = FUN_001fedb0(param_1,param_2,reinterpret_cast<byte *>(param_3));
   return_byte = (uint8_t)cVar5;
   bf_x86_word_store_byte(&param_3,0U,(uint8_t)cVar5);
   if (cVar5 == '\0') {
