@@ -21,7 +21,7 @@ void FUN_002c7820(void)
   undefined4 *unaff_EBX;
   char *pcVar5;
   
-  *unaff_EBX = &PTR_FUN_0038e694;
+  *unaff_EBX = PTR_FUN_0038e694;
   if (in_EAX != (char *)0x0) {
     pcVar2 = in_EAX;
     do {

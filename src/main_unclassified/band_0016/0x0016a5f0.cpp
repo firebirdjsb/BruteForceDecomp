@@ -27,11 +27,11 @@ void FUN_0016a5f0(void)
   int iVar6;
   undefined4 *unaff_ESI;
   
-  unaff_ESI[-4] = &PTR_LAB_0039a818;
-  unaff_ESI[-3] = &PTR_FUN_0039a808;
-  unaff_ESI[-2] = &PTR_LAB_0039a7f8;
-  *unaff_ESI = &PTR_LAB_0039a7ec;
-  unaff_ESI[1] = &PTR_LAB_0039a7d0;
+  unaff_ESI[-4] = PTR_LAB_0039a818;
+  unaff_ESI[-3] = PTR_FUN_0039a808;
+  unaff_ESI[-2] = PTR_LAB_0039a7f8;
+  *unaff_ESI = PTR_LAB_0039a7ec;
+  unaff_ESI[1] = PTR_LAB_0039a7d0;
   if ((*(byte *)(unaff_ESI + 4) & 1) != 0) {
     iVar6 = unaff_ESI[0x34];
     *(byte *)(unaff_ESI + 4) = *(byte *)(unaff_ESI + 4) & 0xfe;

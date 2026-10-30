@@ -25,7 +25,7 @@ void FUN_0008ea90(void)
   local_8 = 0xffffffff;
   puStack_c = &LAB_00307e30;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   if (in_ECX < 0x6666667) {
     iVar3 = 0;
     if (*(int *)(in_EDX + 4) == 0) {

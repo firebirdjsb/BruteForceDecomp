@@ -16,7 +16,7 @@ void FUN_00104280(void)
   int *piVar1;
   int iVar2;
   
-  *in_ECX = &PTR_FUN_0039e204;
+  *in_ECX = PTR_FUN_0039e204;
   piVar1 = in_ECX + 0x21;
   iVar2 = 0x20;
   do {

@@ -36,7 +36,7 @@ undefined4 * FUN_0023dbd0(int param_1,int param_2,uint param_3,int param_4)
   
   local_14 = 0xffffffff;
   local_1c = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_1c;
+  *unaff_FS_OFFSET = local_1c;
   local_40 = *(undefined4 *)(param_4 + 0x38);
   uStack_3c = *(undefined4 *)(param_4 + 0x3c);
   uStack_38 = *(undefined4 *)(param_4 + 0x40);

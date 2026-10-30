@@ -17,7 +17,7 @@ void FUN_001ebf60(void)
   undefined4 *puVar2;
   undefined8 uVar3;
   
-  *unaff_ESI = &DAT_00396a5c;
+  *unaff_ESI = DAT_00396a5c;
   unaff_ESI[1] = 0;
   unaff_ESI[0x15c4] = 0;
   unaff_ESI[0x15c5] = 0;

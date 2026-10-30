@@ -11,7 +11,7 @@ FUN_00050d40(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3,undefin
 
 {
   if (param_2 == param_3) {
-    *param_1 = param_4;
+    *param_1 = *param_4;
     return param_1;
   }
   do {

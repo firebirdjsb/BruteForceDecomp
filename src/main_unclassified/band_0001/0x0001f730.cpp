@@ -23,7 +23,7 @@ void FUN_0001f730(uint param_1,uint param_2)
   
   puStack_c = ((unsigned char *)(uintptr_t)0x00307620u);
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   uVar3 = param_1 | 0xf;
   if ((param_1 | 0xf) == 0xffffffff) {
     uVar3 = param_1;

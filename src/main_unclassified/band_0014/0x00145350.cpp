@@ -17,8 +17,8 @@ void FUN_00145350(void)
   undefined4 *in_ECX;
   
   iVar1 = in_ECX[0x62];
-  *in_ECX = &PTR_FUN_0039c0b0;
-  in_ECX[6] = &PTR_LAB_0039c0ac;
+  *in_ECX = PTR_FUN_0039c0b0;
+  in_ECX[6] = PTR_LAB_0039c0ac;
   if (iVar1 != 0) {
     FUN_00142d80();
                     /* WARNING: Subroutine does not return */

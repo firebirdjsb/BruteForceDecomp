@@ -20,11 +20,11 @@ void FUN_002e5ab0(void)
   undefined4 *in_ECX;
   int iVar1;
   
-  in_ECX[1] = &PTR_FUN_003a1a68;
-  in_ECX[2] = &PTR_FUN_0039f74c;
-  *in_ECX = &PTR_FUN_003868c0;
-  in_ECX[1] = &PTR_LAB_003868b4;
-  in_ECX[2] = &PTR_LAB_003868ac;
+  in_ECX[1] = PTR_FUN_003a1a68;
+  in_ECX[2] = PTR_FUN_0039f74c;
+  *in_ECX = PTR_FUN_003868c0;
+  in_ECX[1] = PTR_LAB_003868b4;
+  in_ECX[2] = PTR_LAB_003868ac;
   in_ECX[3] = 0;
   iVar1 = 0x1e;
   do {

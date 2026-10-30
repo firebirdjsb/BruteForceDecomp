@@ -22,7 +22,7 @@ void FUN_000c7da0(void)
   int *piVar5;
   int iVar6;
   
-  *in_ECX = &PTR_FUN_0039f264;
+  *in_ECX = PTR_FUN_0039f264;
   iVar6 = 5;
   piVar5 = in_ECX + 0x16;
   do {

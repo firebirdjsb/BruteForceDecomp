@@ -20,7 +20,7 @@ void FUN_0023ba50(void)
   int unaff_EBX;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = &PTR_FUN_00394088;
+  *unaff_ESI = PTR_FUN_00394088;
   uVar3 = FUN_0023bce0(unaff_ESI + 1);
   unaff_ESI[2] = uVar3;
   unaff_ESI[3] = 0;

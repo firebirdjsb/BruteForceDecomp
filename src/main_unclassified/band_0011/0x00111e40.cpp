@@ -30,11 +30,11 @@ void FUN_00111e40(void)
   int iVar8;
   undefined4 uStack_4;
   
-  *in_ECX = &PTR_FUN_0039ddd8;
-  in_ECX[0x12] = &PTR_LAB_0039ddcc;
-  in_ECX[0x1a] = &PTR_LAB_0039a8c0;
-  in_ECX[0x6c] = &PTR_FUN_0039ddc8;
-  in_ECX[0x6d] = &PTR_LAB_0039dce8;
+  *in_ECX = PTR_FUN_0039ddd8;
+  in_ECX[0x12] = PTR_LAB_0039ddcc;
+  in_ECX[0x1a] = PTR_LAB_0039a8c0;
+  in_ECX[0x6c] = PTR_FUN_0039ddc8;
+  in_ECX[0x6d] = PTR_LAB_0039dce8;
   *(undefined ***)(*(int *)(in_ECX[0x13] + 4) + 0x4c + (int)in_ECX) = &PTR_LAB_0039dcdc;
   *(undefined ***)(*(int *)(in_ECX[0x13] + 4) + 0x50 + (int)in_ECX) = &PTR_LAB_0039dcd0;
   *(int *)(*(int *)(in_ECX[0x13] + 4) + 0x48 + (int)in_ECX) = *(int *)(in_ECX[0x13] + 4) + -0x80c;

@@ -24,10 +24,10 @@ void FUN_002264e0(void)
   undefined4 *unaff_ESI;
   
   if (in_EAX != 0) {
-    unaff_ESI[0x13] = &DAT_003946a8;
-    unaff_ESI[0x90] = &PTR_FUN_0039efec;
-    unaff_ESI[0x8f] = &PTR_LAB_0039efdc;
-    unaff_ESI[0x90] = &PTR_FUN_0039efd0;
+    unaff_ESI[0x13] = DAT_003946a8;
+    unaff_ESI[0x90] = PTR_FUN_0039efec;
+    unaff_ESI[0x8f] = PTR_LAB_0039efdc;
+    unaff_ESI[0x90] = PTR_FUN_0039efd0;
   }
   FUN_00156930();
   *unaff_ESI = &PTR_FUN_003946c8;

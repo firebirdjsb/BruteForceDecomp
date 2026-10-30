@@ -32,7 +32,7 @@ void FUN_001ba180(int param_1,uint param_2)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x003081f0); /* original x86 push imm32 at 0x001ba185 */
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   puVar6 = local_414;
   for (iVar3 = 0x100; iVar3 != 0; iVar3 = iVar3 + -1) {
     *puVar6 = *in_EDX;

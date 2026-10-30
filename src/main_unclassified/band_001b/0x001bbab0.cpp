@@ -21,7 +21,7 @@ int FUN_001bbab0(int param_1)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x00308ea0); /* XBE push imm32 at 0x001bbab5 */
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   if (*(int *)(in_ECX + 4) == 0) {
     uVar3 = 0;
   }

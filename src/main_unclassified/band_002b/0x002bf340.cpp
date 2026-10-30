@@ -20,7 +20,7 @@ void FUN_002bf340(void)
   undefined4 *in_ECX;
   int iVar3;
   
-  *in_ECX = &PTR_FUN_0038e6d4;
+  *in_ECX = PTR_FUN_0038e6d4;
   iVar3 = *(int *)(in_ECX[10] + 0x14);
   *(int *)(iVar3 + 0x74) = *(int *)(iVar3 + 0x74) + -1;
   *(int *)(iVar3 + 0x7c) = *(int *)(iVar3 + 0x7c) + 1;

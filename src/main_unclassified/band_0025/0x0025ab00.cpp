@@ -23,8 +23,8 @@ void FUN_0025ab00(void)
   undefined1 local_1;
   
   local_1 = (undefined1)((uint)in_ECX >> 0x18);
-  *unaff_EDI = &PTR_FUN_003935b8;
-  unaff_EDI[1] = &PTR_FUN_003934bc;
+  *unaff_EDI = PTR_FUN_003935b8;
+  unaff_EDI[1] = PTR_FUN_003934bc;
   *(undefined1 *)(unaff_EDI + 2) = local_1;
   iVar2 = FUN_0025af60(unaff_EDI + 2);
   unaff_EDI[3] = iVar2;

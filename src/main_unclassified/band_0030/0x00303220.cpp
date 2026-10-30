@@ -34,7 +34,7 @@ void FUN_00303220(void)
   undefined4 *in_ECX;
   
   sVar1 = *(short *)((int)in_ECX + 0x1e);
-  *in_ECX = &PTR_FUN_0038e438;
+  *in_ECX = PTR_FUN_0038e438;
   while (sVar1 != 0) {
     piVar2 = *(int **)(in_ECX[8] + -4 + (uint)*(ushort *)((int)in_ECX + 0x1e) * 4);
     if (piVar2 != (int *)0x0) {

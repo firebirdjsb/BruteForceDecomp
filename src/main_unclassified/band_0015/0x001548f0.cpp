@@ -21,14 +21,14 @@ void FUN_001548f0(void)
   int iVar3;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = &PTR_LAB_0039af90;
+  *unaff_ESI = PTR_LAB_0039af90;
   unaff_ESI[2] = 0;
   unaff_ESI[1] = 0xffffffff;
   unaff_ESI[2] = *in_EAX;
   unaff_ESI[4] = 0;
   unaff_ESI[5] = 0;
   *(byte *)(unaff_ESI + 3) = *(byte *)(unaff_ESI + 3) | 1;
-  unaff_ESI[6] = &PTR_FUN_00394858;
+  unaff_ESI[6] = PTR_FUN_00394858;
   unaff_ESI[0xc] = 0;
   unaff_ESI[0xd] = 0;
   unaff_ESI[0xe] = 0;
@@ -41,8 +41,8 @@ void FUN_001548f0(void)
   unaff_ESI[0x1b] = 0;
   unaff_ESI[0x1c] = 0;
   unaff_ESI[0x1d] = 0;
-  *unaff_ESI = &PTR_FUN_0039afb4;
-  unaff_ESI[6] = &PTR_LAB_0039afb0;
+  *unaff_ESI = PTR_FUN_0039afb4;
+  unaff_ESI[6] = PTR_LAB_0039afb0;
   unaff_ESI[0x2c] = 0;
   unaff_ESI[0x2e] = 0;
   unaff_ESI[0x2f] = 0;

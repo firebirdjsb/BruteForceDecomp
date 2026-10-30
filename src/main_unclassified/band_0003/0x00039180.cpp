@@ -23,11 +23,11 @@ void FUN_00039180(undefined4 *param_1,int param_2)
   
   puStack_c = ((unsigned char *)(uintptr_t)0x00307ee0u);
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   local_8 = 0;
   for (; param_2 != 0; param_2 = param_2 + -1) {
     if (param_1 != (undefined4 *)0x0) {
-      *param_1 = &PTR_FUN_003a4f68;
+      *param_1 = PTR_FUN_003a4f68;
       param_1[5] = 0;
       uVar1 = *(undefined4 *)(in_ECX + 0xc);
       uVar2 = *(undefined4 *)(in_ECX + 8);

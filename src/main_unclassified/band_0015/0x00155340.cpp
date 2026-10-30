@@ -23,7 +23,7 @@ void FUN_00155340(void)
   iVar1 = DAT_004699a4;
   unaff_ESI[1] = 0;
   DAT_004699a4 = DAT_004699a4 + 1;
-  *unaff_ESI = &PTR_FUN_0039acb8;
+  *unaff_ESI = PTR_FUN_0039acb8;
   unaff_ESI[5] = 0;
   unaff_ESI[0xf] = 0;
   unaff_ESI[3] = 0;

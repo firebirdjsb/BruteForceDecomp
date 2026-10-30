@@ -15,8 +15,8 @@ void FUN_0006f2b0(void)
 {
   undefined4 *unaff_EDI;
   
-  *unaff_EDI = &PTR_LAB_003a2640;
-  unaff_EDI[0x12] = &PTR_LAB_003a2810;
+  *unaff_EDI = PTR_LAB_003a2640;
+  unaff_EDI[0x12] = PTR_LAB_003a2810;
   if (unaff_EDI[0x83] != 0) {
     FUN_0016ad50();
     if ((undefined4 *)unaff_EDI[0x83] != (undefined4 *)0x0) {

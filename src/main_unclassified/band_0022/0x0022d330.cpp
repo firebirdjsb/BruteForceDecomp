@@ -31,10 +31,10 @@ void FUN_0022d330(void)
   int local_4;
   
   if (in_EAX != 0) {
-    unaff_ESI[0x13] = &DAT_00394320;
-    unaff_ESI[0xe0] = &PTR_FUN_0039efec;
-    unaff_ESI[0xdf] = &PTR_LAB_0039efdc;
-    unaff_ESI[0xe0] = &PTR_FUN_0039efd0;
+    unaff_ESI[0x13] = DAT_00394320;
+    unaff_ESI[0xe0] = PTR_FUN_0039efec;
+    unaff_ESI[0xdf] = PTR_LAB_0039efdc;
+    unaff_ESI[0xe0] = PTR_FUN_0039efd0;
   }
   FUN_00149f10();
   unaff_ESI[0x74] = &PTR_LAB_003948e8;

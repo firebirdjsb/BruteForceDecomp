@@ -17,11 +17,11 @@ void FUN_00039920(void)
   undefined4 unaff_EBX;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = &PTR_FUN_003a479c;
+  *unaff_ESI = PTR_FUN_003a479c;
   unaff_ESI[4] = 0;
   unaff_ESI[9] = 0;
   unaff_ESI[2] = 0;
-  unaff_ESI[1] = &PTR_FUN_003a4f64;
+  unaff_ESI[1] = PTR_FUN_003a4f64;
   unaff_ESI[7] = 0;
   unaff_ESI[6] = 0;
   unaff_ESI[5] = 0;

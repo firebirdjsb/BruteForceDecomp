@@ -23,9 +23,9 @@ void FUN_00094290(void)
   int *piVar2;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = &PTR_FUN_003a1620;
-  unaff_ESI[3] = &PTR_FUN_003a15f0;
-  unaff_ESI[4] = &PTR_FUN_003a15e0;
+  *unaff_ESI = PTR_FUN_003a1620;
+  unaff_ESI[3] = PTR_FUN_003a15f0;
+  unaff_ESI[4] = PTR_FUN_003a15e0;
   (**(code **)(*DAT_00443308 + 0x48))(DAT_00443308);
   iVar1 = unaff_ESI[2];
   if (iVar1 != 0) {

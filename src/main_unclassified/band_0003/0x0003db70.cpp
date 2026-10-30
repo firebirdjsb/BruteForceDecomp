@@ -19,7 +19,7 @@ void FUN_0003db70(undefined4 param_1)
   in_EAX[0x41] = 0;
   in_EAX[0x45] = 0;
   *(undefined1 *)(in_EAX + 0x42) = 1;
-  *in_EAX = &PTR_LAB_003a3fa8;
+  *in_EAX = PTR_LAB_003a3fa8;
   in_EAX[0x46] = param_1;
   return;
 }

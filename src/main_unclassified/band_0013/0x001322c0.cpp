@@ -26,7 +26,7 @@ uint FUN_001322c0(int param_1,uint param_2,int param_3)
   local_8 = 0xffffffff;
   puStack_c = &LAB_00307d70;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   uVar1 = (uint)*(byte *)(param_3 + 0x10);
   iVar4 = *(int *)(in_ECX + 4);
   if (iVar4 == 0) {

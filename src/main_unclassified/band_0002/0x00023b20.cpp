@@ -16,11 +16,11 @@ void FUN_00023b20(undefined4 param_1)
   int in_ECX;
   undefined4 *unaff_EDI;
   
-  *unaff_EDI = &PTR_FUN_003a479c;
+  *unaff_EDI = PTR_FUN_003a479c;
   unaff_EDI[4] = 0;
   unaff_EDI[9] = 0;
   unaff_EDI[2] = 0;
-  unaff_EDI[1] = &PTR_FUN_003a4f64;
+  unaff_EDI[1] = PTR_FUN_003a4f64;
   unaff_EDI[7] = 0;
   unaff_EDI[6] = 0;
   unaff_EDI[5] = 0;

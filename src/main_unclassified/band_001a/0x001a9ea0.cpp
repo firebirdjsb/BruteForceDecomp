@@ -22,7 +22,7 @@ void FUN_001a9ea0(void)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x00308450); /* original x86 push imm32 at 0x001a9ea5 */
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   if (in_ECX < 0x924924a) {
     iVar3 = 0;
     if (*(int *)(in_EDX + 4) == 0) {

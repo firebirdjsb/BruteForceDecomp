@@ -22,7 +22,7 @@ void FUN_0035332d(int param_1,int param_2,uint *param_3)
     puVar3 = *(undefined4 **)(param_1 + 0x28);
     *param_3 = (uint)puVar1;
     param_3[1] = (uint)puVar3;
-    *puVar3 = param_3;
+    *puVar3 = *param_3;
     *(uint **)(param_1 + 0x28) = param_3;
   }
   else {

@@ -14,7 +14,7 @@ void FUN_001328e0(int param_1,int param_2,undefined4 *param_3)
   undefined4 *unaff_EDI;
   
   if (param_1 == param_2) {
-    *unaff_EDI = param_3;
+    *unaff_EDI = *param_3;
     return;
   }
   do {
@@ -28,6 +28,6 @@ void FUN_001328e0(int param_1,int param_2,undefined4 *param_3)
     param_2 = iVar1;
     param_3 = puVar2;
   } while (iVar1 != param_1);
-  *unaff_EDI = puVar2;
+  *unaff_EDI = *puVar2;
   return;
 }

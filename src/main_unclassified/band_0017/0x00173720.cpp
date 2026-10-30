@@ -17,7 +17,7 @@ void FUN_00173720(void)
   undefined4 *in_EAX;
   
   in_EAX[2] = 1;
-  *in_EAX = &PTR_LAB_0039a3d0;
+  *in_EAX = PTR_LAB_0039a3d0;
   *(undefined2 *)(in_EAX + 3) = DAT_0040c804;
   *(undefined1 *)((int)in_EAX + 0xe) = DAT_0040c806;
   in_EAX[0x23] = 0x41efc28f;

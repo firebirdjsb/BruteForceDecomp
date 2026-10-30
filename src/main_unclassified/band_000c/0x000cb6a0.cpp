@@ -19,7 +19,7 @@ void FUN_000cb6a0(void)
   undefined4 *in_ECX;
   
   puVar1 = (undefined4 *)in_ECX[0xe];
-  *in_ECX = &PTR_FUN_0039f038;
+  *in_ECX = PTR_FUN_0039f038;
   if (puVar1 != (undefined4 *)0x0) {
     if (puVar1[10] == 0) {
       (**(code **)*puVar1)(1);

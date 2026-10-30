@@ -55,18 +55,18 @@ undefined4 * FUN_0016a250(undefined4 *param_1,int param_2,undefined4 param_3)
   undefined4 *local_1c;
   undefined4 *local_14;
   
-  *param_1 = &PTR_FUN_0039a838;
-  param_1[1] = &PTR_FUN_0039a828;
-  param_1[2] = &PTR_FUN_0039a808;
+  *param_1 = PTR_FUN_0039a838;
+  param_1[1] = PTR_FUN_0039a828;
+  param_1[2] = PTR_FUN_0039a808;
   param_1[3] = 7;
-  param_1[4] = &PTR_FUN_0039a7c4;
-  param_1[5] = &PTR_LAB_0038e7a8;
+  param_1[4] = PTR_FUN_0039a7c4;
+  param_1[5] = PTR_LAB_0038e7a8;
   param_1[6] = 1;
-  *param_1 = &PTR_LAB_0039a818;
-  param_1[1] = &PTR_FUN_0039a808;
-  param_1[2] = &PTR_LAB_0039a7f8;
-  param_1[4] = &PTR_LAB_0039a7ec;
-  param_1[5] = &PTR_LAB_0039a7d0;
+  *param_1 = PTR_LAB_0039a818;
+  param_1[1] = PTR_FUN_0039a808;
+  param_1[2] = PTR_LAB_0039a7f8;
+  param_1[4] = PTR_LAB_0039a7ec;
+  param_1[5] = PTR_LAB_0039a7d0;
   param_1[0xb] = 0;
   param_1[0xc] = 0;
   param_1[0xd] = 0;

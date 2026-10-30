@@ -14,7 +14,7 @@ void FUN_0008dc50(void)
 {
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = &PTR_FUN_003a2068;
+  *unaff_ESI = PTR_FUN_003a2068;
   unaff_ESI[0xb] = 0;
   unaff_ESI[0xc] = 0;
   unaff_ESI[0xd] = 0;

@@ -22,9 +22,9 @@ undefined4 FUN_00087cc0(undefined1 *param_1)
 {
   undefined4 uVar1;
   
-  PTR_FUN_003bc650 = &UNK_002379a0;
-  PTR_FUN_003bc654 = &UNK_002379d0;
-  PTR_FUN_003bc658 = &UNK_00237a00;
+  PTR_FUN_003bc650 = UNK_002379a0;
+  PTR_FUN_003bc654 = UNK_002379d0;
+  PTR_FUN_003bc658 = UNK_00237a00;
   uVar1 = FUN_00087d20();
   *(undefined4 *)(param_1 + 4) = uVar1;
   *param_1 = 1;

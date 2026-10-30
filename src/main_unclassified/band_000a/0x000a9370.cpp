@@ -15,8 +15,8 @@ void FUN_000a9370(byte param_1)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_003a0338;
-  in_ECX[0xb] = &PTR_LAB_003a0324;
+  *in_ECX = PTR_FUN_003a0338;
+  in_ECX[0xb] = PTR_LAB_003a0324;
   if (in_ECX[0x34] != 0) {
     FUN_0008f6e0();
   }

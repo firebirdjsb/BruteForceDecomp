@@ -20,11 +20,11 @@ void FUN_00173cf0(void)
 {
   undefined4 *in_EAX;
   
-  *in_EAX = &PTR_FUN_0039a228;
-  in_EAX[6] = &PTR_LAB_0039a210;
-  in_EAX[0x26] = &PTR_LAB_0039a1f4;
-  in_EAX[0x27] = &PTR_LAB_0039a1b8;
-  in_EAX[0x28] = &PTR_LAB_0039a1a4;
+  *in_EAX = PTR_FUN_0039a228;
+  in_EAX[6] = PTR_LAB_0039a210;
+  in_EAX[0x26] = PTR_LAB_0039a1f4;
+  in_EAX[0x27] = PTR_LAB_0039a1b8;
+  in_EAX[0x28] = PTR_LAB_0039a1a4;
   if (in_EAX[0x19] != 0) {
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(in_EAX[0x19]);

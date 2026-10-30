@@ -20,10 +20,10 @@ void FUN_000620a0(void)
   undefined4 uVar3;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = &PTR_FUN_003a3898;
+  *unaff_ESI = PTR_FUN_003a3898;
   unaff_ESI[2] = 0;
-  unaff_ESI[3] = &PTR_FUN_003a35a8;
-  unaff_ESI[5] = &PTR_FUN_003a35a4;
+  unaff_ESI[3] = PTR_FUN_003a35a8;
+  unaff_ESI[5] = PTR_FUN_003a35a4;
   unaff_ESI[7] = 0;
   unaff_ESI[8] = 0;
   unaff_ESI[9] = 0;

@@ -17,10 +17,10 @@ void FUN_00201bd0(void)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_00395f68;
-  in_ECX[2] = &PTR_FUN_0039c24c;
-  in_ECX[3] = &PTR_FUN_0039e7e8;
-  in_ECX[0x10] = &PTR_FUN_00395f54;
+  *in_ECX = PTR_FUN_00395f68;
+  in_ECX[2] = PTR_FUN_0039c24c;
+  in_ECX[3] = PTR_FUN_0039e7e8;
+  in_ECX[0x10] = PTR_FUN_00395f54;
   if (in_ECX[0x2a] != 0) {
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(in_ECX[0x2a]);

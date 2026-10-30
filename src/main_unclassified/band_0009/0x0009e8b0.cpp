@@ -37,17 +37,17 @@ undefined4 FUN_0009e8b0(void)
   
   if ((DAT_004a748c & 1) == 0) {
     DAT_004a748c = DAT_004a748c | 1;
-    _DAT_004a7470 = &UNK_0038df04;
-    _DAT_004a746c = &UNK_0038df04;
+    _DAT_004a7470 = UNK_0038df04;
+    _DAT_004a746c = UNK_0038df04;
     _DAT_004a745c = 0xedca4b16;
     _DAT_004a7460 = 0xeee373be;
-    _DAT_004a7468 = &UNK_0038def4;
+    _DAT_004a7468 = UNK_0038def4;
     _DAT_004a7464 = 0x10;
     _DAT_004a7474 = 0xe59d69a0;
     _DAT_004a7478 = 0xeee373be;
-    _DAT_004a7488 = &UNK_0038def0;
-    _DAT_004a7480 = &UNK_0038def4;
-    _DAT_004a7484 = &UNK_0038def0;
+    _DAT_004a7488 = UNK_0038def0;
+    _DAT_004a7480 = UNK_0038def4;
+    _DAT_004a7484 = UNK_0038def0;
     _DAT_004a747c = 0;
     _atexit(FUN_00310440);
   }

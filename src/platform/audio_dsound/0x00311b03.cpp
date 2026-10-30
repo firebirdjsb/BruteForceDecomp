@@ -18,9 +18,9 @@ void FUN_00311b03(void)
   
   puVar1 = in_ECX + 4;
   in_ECX[1] = 2;
-  *in_ECX = &PTR_FUN_00386988;
-  DAT_0032fe68 = in_ECX;
-  in_ECX[5] = puVar1;
-  *puVar1 = puVar1;
+  *in_ECX = PTR_FUN_00386988;
+  DAT_0032fe68 = *in_ECX;
+  in_ECX[5] = *puVar1;
+  *puVar1 = *puVar1;
   return;
 }

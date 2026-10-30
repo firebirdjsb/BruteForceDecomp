@@ -15,7 +15,7 @@ void FUN_000e4670(void)
   undefined4 uVar1;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = &PTR_FUN_0039efb0;
+  *unaff_ESI = PTR_FUN_0039efb0;
   unaff_ESI[0x39] = 0;
   unaff_ESI[0x3a] = 0;
   unaff_ESI[0x3b] = 0;

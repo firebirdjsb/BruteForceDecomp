@@ -15,7 +15,7 @@ void FUN_000a22e0(void)
   undefined4 *in_EAX;
   undefined1 local_4 [4];
   
-  *in_EAX = &PTR_LAB_003a0bb0;
+  *in_EAX = PTR_LAB_003a0bb0;
   FUN_000a1ff0();
   FUN_000a27c0(local_4,*(undefined4 *)in_EAX[0x43],(undefined4 *)in_EAX[0x43]);
                     /* WARNING: Subroutine does not return */

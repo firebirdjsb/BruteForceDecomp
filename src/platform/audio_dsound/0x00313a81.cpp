@@ -22,7 +22,7 @@ void FUN_00313a81(void)
   undefined4 *puVar4;
   
   in_ECX[1] = 1;
-  *in_ECX = &PTR_LAB_003869e0;
+  *in_ECX = PTR_LAB_003869e0;
   puVar3 = &DAT_0032f4c0;
   puVar4 = in_ECX + 0xd;
   for (iVar2 = 0x10; iVar2 != 0; iVar2 = iVar2 + -1) {

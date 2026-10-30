@@ -16,7 +16,7 @@ void FUN_00259e20(void)
   undefined4 *in_ECX;
   undefined1 local_4 [4];
   
-  *in_ECX = &PTR_FUN_003934bc;
+  *in_ECX = PTR_FUN_003934bc;
   do {
     if (*(int **)in_ECX[2] == (int *)in_ECX[2]) break;
     iVar1 = FUN_002599a0();

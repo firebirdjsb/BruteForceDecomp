@@ -19,8 +19,8 @@ void FUN_0027f650(void)
   undefined4 *unaff_ESI;
   
   piVar1 = (int *)unaff_ESI[1];
-  *unaff_ESI = &PTR_DAT_00391ab0;
-  unaff_ESI[4] = &PTR_DAT_00391a88;
+  *unaff_ESI = PTR_DAT_00391ab0;
+  unaff_ESI[4] = PTR_DAT_00391a88;
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 0x40))(piVar1);
   }

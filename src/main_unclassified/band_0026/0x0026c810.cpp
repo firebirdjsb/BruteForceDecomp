@@ -25,7 +25,7 @@ void FUN_0026c810(void)
   unaff_EDI[1] = 0;
   unaff_EDI[2] = 0;
   unaff_EDI[3] = 0;
-  *unaff_EDI = &PTR_FUN_00392720;
+  *unaff_EDI = PTR_FUN_00392720;
   DAT_00469888 = 0;
   FUN_0028a210();
   DAT_00469898 = DAT_00469888;

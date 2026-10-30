@@ -17,7 +17,7 @@ void FUN_0013f480(void)
   undefined4 uVar2;
   undefined1 local_4 [4];
   
-  *in_ECX = &PTR_FUN_0039c358;
+  *in_ECX = PTR_FUN_0039c358;
   FUN_0013f8d0(in_ECX);
   FUN_0013f660();
   puVar1 = (undefined4 *)in_ECX[3];

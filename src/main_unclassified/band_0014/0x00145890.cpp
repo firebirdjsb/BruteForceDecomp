@@ -20,10 +20,10 @@ void FUN_00145890(void)
   int iVar1;
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_0039c0f0;
-  in_ECX[0x12] = &PTR_FUN_0039adec;
-  in_ECX[0x1a] = &PTR_LAB_0039a8c0;
-  in_ECX[0x6c] = &PTR_LAB_0039c0ec;
+  *in_ECX = PTR_FUN_0039c0f0;
+  in_ECX[0x12] = PTR_FUN_0039adec;
+  in_ECX[0x1a] = PTR_LAB_0039a8c0;
+  in_ECX[0x6c] = PTR_LAB_0039c0ec;
   *(undefined ***)(*(int *)(in_ECX[0x13] + 4) + 0x4c + (int)in_ECX) = &PTR_LAB_0039c0e4;
   *(undefined ***)(*(int *)(in_ECX[0x13] + 4) + 0x50 + (int)in_ECX) = &PTR_LAB_0039c0d8;
   *(int *)(*(int *)(in_ECX[0x13] + 4) + 0x48 + (int)in_ECX) = *(int *)(in_ECX[0x13] + 4) + -0x178;

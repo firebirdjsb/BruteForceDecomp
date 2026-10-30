@@ -20,7 +20,7 @@ void FUN_001489f0(void)
   
   local_1 = (undefined1)((uint)in_ECX >> 0x18);
   unaff_EDI[1] = 0;
-  *unaff_EDI = &PTR_DAT_0039b80c;
+  *unaff_EDI = PTR_DAT_0039b80c;
   *(undefined1 *)(unaff_EDI + 5) = local_1;
   iVar1 = FUN_00148fb0(unaff_EDI + 5);
   unaff_EDI[6] = iVar1;

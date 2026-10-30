@@ -22,11 +22,11 @@ void FUN_0024c950(void)
   undefined1 local_1;
   
   local_1 = (undefined1)((uint)in_ECX >> 0x18);
-  unaff_ESI[1] = &PTR_FUN_0039af70;
-  unaff_ESI[2] = &PTR_FUN_0039af70;
-  *unaff_ESI = &PTR_FUN_00393be0;
-  unaff_ESI[1] = &PTR_FUN_00393bc0;
-  unaff_ESI[2] = &PTR_FUN_00393ba4;
+  unaff_ESI[1] = PTR_FUN_0039af70;
+  unaff_ESI[2] = PTR_FUN_0039af70;
+  *unaff_ESI = PTR_FUN_00393be0;
+  unaff_ESI[1] = PTR_FUN_00393bc0;
+  unaff_ESI[2] = PTR_FUN_00393ba4;
   unaff_ESI[3] = 0;
   unaff_ESI[4] = 0;
   unaff_ESI[5] = 0;

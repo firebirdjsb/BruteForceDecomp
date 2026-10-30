@@ -18,7 +18,7 @@ void FUN_0017b540(void)
   
   piVar2 = (int *)in_ECX[2];
   piVar1 = (int *)in_ECX[3];
-  *in_ECX = &PTR_LAB_00399d70;
+  *in_ECX = PTR_LAB_00399d70;
   for (; piVar2 != piVar1; piVar2 = piVar2 + 1) {
     if ((int *)*piVar2 != (int *)0x0) {
       (**(code **)(*(int *)*piVar2 + 0x14))(1);

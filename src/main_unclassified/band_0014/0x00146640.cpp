@@ -18,7 +18,7 @@ void FUN_00146640(undefined4 param_1)
   undefined4 local_10;
   undefined4 local_c;
   
-  *unaff_ESI = &PTR_LAB_0039bec0;
+  *unaff_ESI = PTR_LAB_0039bec0;
   local_10 = param_1;
   local_c = 0;
   piVar1 = (int *)FUN_00279c40(&local_10);

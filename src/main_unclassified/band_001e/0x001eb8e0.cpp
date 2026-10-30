@@ -14,7 +14,7 @@ void FUN_001eb8e0(byte param_1)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_00396bec;
+  *in_ECX = PTR_FUN_00396bec;
   if (in_ECX[8] != 0) {
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(in_ECX[8]);

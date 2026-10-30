@@ -19,15 +19,15 @@ void FUN_00261fb0(void)
   int unaff_ESI;
   
   in_EAX[1] = 0;
-  *in_EAX = &PTR_LAB_00392c68;
+  *in_EAX = PTR_LAB_00392c68;
   puVar1 = in_EAX + 8;
-  *puVar1 = &PTR_LAB_00392cc4;
+  *puVar1 = PTR_LAB_00392cc4;
   in_EAX[9] = 1;
-  in_EAX[10] = in_EAX;
+  in_EAX[10] = *in_EAX;
   iVar2 = *(int *)(unaff_ESI + 8);
   in_EAX[7] = iVar2;
   if (iVar2 == 0) {
-    in_EAX[7] = puVar1;
+    in_EAX[7] = *puVar1;
     return;
   }
   **(int **)(unaff_ESI + 0xc) = (int)puVar1;

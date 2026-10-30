@@ -22,8 +22,8 @@ void FUN_000c00d0(void)
   int iVar3;
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_0039f708;
-  in_ECX[0xb] = &PTR_LAB_0039f6f4;
+  *in_ECX = PTR_FUN_0039f708;
+  in_ECX[0xb] = PTR_LAB_0039f6f4;
   if (in_ECX[0x1a] != 0) {
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(in_ECX[0x1a]);

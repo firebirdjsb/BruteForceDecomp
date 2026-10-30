@@ -23,7 +23,7 @@ void FUN_003026e0(void)
   *(undefined2 *)((int)unaff_ESI + 10) = 0;
   unaff_ESI[3] = 0;
   unaff_ESI[1] = in_EAX;
-  *unaff_ESI = &PTR_FUN_0038e438;
+  *unaff_ESI = PTR_FUN_0038e438;
   *(undefined2 *)((int)unaff_ESI + 0x1e) = 0;
   *(ushort *)(unaff_ESI + 7) = 0;
   unaff_ESI[8] = 0;

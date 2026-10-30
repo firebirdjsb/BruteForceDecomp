@@ -25,8 +25,8 @@ void FUN_0012e330(void)
   undefined1 local_4 [4];
   
   iVar2 = DAT_004699dc;
-  *in_ECX = &PTR_FUN_0039db9c;
-  in_ECX[6] = &PTR_LAB_0039db98;
+  *in_ECX = PTR_FUN_0039db9c;
+  in_ECX[6] = PTR_LAB_0039db98;
   if (0 < iVar2) {
     DAT_004699dc = iVar2 + -1;
   }

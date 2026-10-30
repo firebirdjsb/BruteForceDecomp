@@ -28,7 +28,7 @@ void FUN_0001c630(int param_1,uint param_2)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x00307a10);
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   /* x86: mov [ebp-0x10], esp; original ESP = EBP-0x68 after
    * the SEH setup, local allocation and EBX/ESI/EDI saves.
    * Ghidra's stack0xffffff94 is a synthetic stack reference, not a

@@ -18,7 +18,7 @@ void FUN_001791b0(void)
   undefined4 uVar2;
   undefined1 auStack_4 [4];
   
-  *in_ECX = &PTR_FUN_00399dac;
+  *in_ECX = PTR_FUN_00399dac;
   if (in_ECX[0xd] != 0) {
     (**(code **)(*DAT_00469940 + 0x20))(in_ECX[0xd],1);
     in_ECX[0xd] = 0;

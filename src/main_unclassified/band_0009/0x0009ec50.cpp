@@ -21,8 +21,8 @@ void FUN_0009ec50(undefined4 *param_1)
   if (iVar1 + -1 == 0) {
     param_1[3] = 2;
     piVar2 = (int *)param_1[4];
-    *param_1 = &PTR_FUN_003a0dc8;
-    param_1[1] = &PTR_LAB_003a0db0;
+    *param_1 = PTR_FUN_003a0dc8;
+    param_1[1] = PTR_LAB_003a0db0;
     if (piVar2 != (int *)0x0) {
       (**(code **)(*piVar2 + 8))(piVar2);
       param_1[4] = 0;

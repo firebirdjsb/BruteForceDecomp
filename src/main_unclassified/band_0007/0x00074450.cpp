@@ -17,7 +17,7 @@ void FUN_00074450(undefined4 param_1)
   int iVar2;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = &PTR_FUN_003a25e0;
+  *unaff_ESI = PTR_FUN_003a25e0;
   *(undefined1 *)(unaff_ESI + 4) = (undefined1)param_1;
   iVar2 = FUN_0025af60(unaff_ESI + 4);
   unaff_ESI[5] = iVar2;

@@ -19,7 +19,7 @@ void FUN_002608a0(void)
   undefined4 *unaff_ESI;
   int *local_4;
   
-  *unaff_ESI = &PTR_FUN_00392d70;
+  *unaff_ESI = PTR_FUN_00392d70;
   if ((undefined4 *)unaff_ESI[3] == (undefined4 *)0x0) {
     piVar4 = (int *)0x0;
   }

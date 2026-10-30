@@ -23,11 +23,11 @@ undefined4 * FUN_00058430(int param_1,int param_2,undefined4 *param_3)
   
   puStack_c = &LAB_003089a0;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   local_8 = 0;
   for (; param_1 != param_2; param_1 = param_1 + 0x1c) {
     if (param_3 != (undefined4 *)0x0) {
-      *param_3 = &PTR_FUN_003a3f80;
+      *param_3 = PTR_FUN_003a3f80;
       param_3[2] = 0;
       param_3[4] = 0;
       bVar1 = *(byte *)(param_3 + 5);

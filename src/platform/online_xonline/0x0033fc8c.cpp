@@ -28,7 +28,7 @@ FUN_0033fc8c(int param_1,undefined4 *param_2,undefined4 param_3,undefined4 param
   else {
     puVar2[1] = param_4;
     *puVar2 = 0;
-    param_2[1] = puVar2;
+    param_2[1] = *puVar2;
     if (param_5 != 0) {
       puVar3 = *(undefined4 **)(param_1 + 8);
       *(undefined4 **)(param_1 + 8) = puVar3 + 2;
@@ -42,7 +42,7 @@ FUN_0033fc8c(int param_1,undefined4 *param_2,undefined4 param_3,undefined4 param
       else {
         *puVar3 = 0;
         puVar3[1] = param_5;
-        *puVar2 = puVar3;
+        *puVar2 = *puVar3;
       }
     }
   }

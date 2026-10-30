@@ -14,7 +14,7 @@ void FUN_0020e210(byte param_1)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_00394f00;
+  *in_ECX = PTR_FUN_00394f00;
   FUN_001553f0();
   if ((param_1 & 1) != 0) {
                     /* WARNING: Subroutine does not return */

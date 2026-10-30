@@ -19,7 +19,7 @@ void FUN_002e4f30(void)
   int iVar1;
   undefined4 *puVar2;
   
-  *in_ECX = &PTR_FUN_003866f0;
+  *in_ECX = PTR_FUN_003866f0;
   *(undefined1 *)(in_ECX + 0x92) = 0;
   puVar2 = in_ECX + 0x12;
   for (iVar1 = 0x80; iVar1 != 0; iVar1 = iVar1 + -1) {

@@ -15,7 +15,7 @@ void FUN_00173650(void)
   undefined4 *in_EAX;
   
   in_EAX[2] = 1;
-  *in_EAX = &PTR_LAB_0039a3d0;
+  *in_EAX = PTR_LAB_0039a3d0;
   in_EAX[3] = 0;
   *(undefined1 *)(in_EAX + 4) = 0;
   in_EAX[5] = 0;

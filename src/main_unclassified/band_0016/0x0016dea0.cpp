@@ -17,7 +17,7 @@ void FUN_0016dea0(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3)
   undefined4 *puVar5;
   
   if (param_1 == param_2) {
-    *in_EAX = param_3;
+    *in_EAX = *param_3;
     return;
   }
   do {
@@ -34,6 +34,6 @@ void FUN_0016dea0(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3)
     param_2 = puVar4;
     param_3 = puVar5;
   } while (puVar4 != param_1);
-  *in_EAX = puVar5;
+  *in_EAX = *puVar5;
   return;
 }

@@ -14,7 +14,7 @@ void FUN_002e9c30(void)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_LAB_0038697c;
+  *in_ECX = PTR_LAB_0038697c;
                     /* WARNING: Subroutine does not return */
   thunk_FUN_00237ec0(in_ECX[3]);
 }

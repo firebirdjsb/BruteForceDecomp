@@ -18,11 +18,11 @@ void FUN_001658c0(void)
   int iVar2;
   
   in_EAX[1] = 0;
-  *in_EAX = &PTR_LAB_0039a864;
+  *in_EAX = PTR_LAB_0039a864;
   puVar1 = in_EAX + 3;
   iVar2 = 0x1b;
   do {
-    *puVar1 = &PTR_LAB_0039a87c;
+    *puVar1 = PTR_LAB_0039a87c;
     puVar1[3] = 0;
     puVar1[1] = 0;
     puVar1[2] = 0;

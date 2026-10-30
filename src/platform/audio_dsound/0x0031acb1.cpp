@@ -18,12 +18,12 @@ void FUN_0031acb1(void)
   
   puVar1 = in_ECX + 2;
   in_ECX[1] = 1;
-  *in_ECX = &PTR_FUN_00386ad8;
-  DAT_0032fdec = in_ECX;
-  in_ECX[3] = puVar1;
-  *puVar1 = puVar1;
+  *in_ECX = PTR_FUN_00386ad8;
+  DAT_0032fdec = *in_ECX;
+  in_ECX[3] = *puVar1;
+  *puVar1 = *puVar1;
   puVar1 = in_ECX + 4;
-  in_ECX[5] = puVar1;
-  *puVar1 = puVar1;
+  in_ECX[5] = *puVar1;
+  *puVar1 = *puVar1;
   return;
 }

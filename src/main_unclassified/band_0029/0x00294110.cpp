@@ -20,7 +20,7 @@ void FUN_00294110(void)
     puVar2 = (undefined4 *)*puVar1;
     while ((in_EDX = puVar2, in_EDX != (undefined4 *)0x0 && (in_EDX[1] == 0))) {
       *puVar1 = *in_EDX;
-      *in_EDX = puVar3;
+      *in_EDX = *puVar3;
       puVar3 = in_EDX;
       puVar2 = (undefined4 *)*puVar1;
     }

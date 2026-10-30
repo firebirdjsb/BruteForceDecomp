@@ -18,7 +18,7 @@ void FUN_00136980(void)
   undefined1 local_1;
   
   local_1 = (undefined1)((uint)in_ECX >> 0x18);
-  *unaff_ESI = &PTR_FUN_0039db68;
+  *unaff_ESI = PTR_FUN_0039db68;
   unaff_ESI[4] = 0;
   unaff_ESI[5] = 0;
   unaff_ESI[6] = 0;

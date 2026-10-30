@@ -15,7 +15,7 @@ void FUN_000a3c70(void)
   int *piVar1;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = &PTR_FUN_003a0840;
+  *unaff_ESI = PTR_FUN_003a0840;
   unaff_ESI[2] = 0;
   unaff_ESI[3] = 0;
   unaff_ESI[4] = 0;

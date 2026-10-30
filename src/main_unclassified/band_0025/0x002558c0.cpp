@@ -24,7 +24,7 @@ void FUN_002558c0(void)
   in_EAX[9] = 0;
   in_EAX[10] = 0;
   in_EAX[0xb] = 0;
-  *in_EAX = &PTR_LAB_00393900;
+  *in_EAX = PTR_LAB_00393900;
   in_EAX[0xa22] = 1;
   return;
 }

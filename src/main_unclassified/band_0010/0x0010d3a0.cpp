@@ -19,7 +19,7 @@ void FUN_0010d3a0(void)
   int *piVar2;
   
   piVar2 = (int *)in_ECX[0x2f];
-  *in_ECX = &PTR_FUN_0039dfc8;
+  *in_ECX = PTR_FUN_0039dfc8;
   for (; piVar2 != (int *)in_ECX[0x30]; piVar2 = piVar2 + 1) {
     iVar1 = *piVar2;
     if (iVar1 != 0) {

@@ -19,7 +19,7 @@ void __1exception__UAE_XZ(void)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_00386ae8;
+  *in_ECX = PTR_FUN_00386ae8;
   if (in_ECX[2] != 0) {
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(in_ECX[1]);

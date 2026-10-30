@@ -18,15 +18,15 @@ void FUN_00255b70(void)
   undefined4 *in_EAX;
   int unaff_ESI;
   
-  *in_EAX = &PTR_LAB_003938d0;
+  *in_EAX = PTR_LAB_003938d0;
   puVar1 = in_EAX + 2;
-  *puVar1 = &PTR_LAB_003938e4;
+  *puVar1 = PTR_LAB_003938e4;
   in_EAX[3] = 1;
-  in_EAX[4] = in_EAX;
+  in_EAX[4] = *in_EAX;
   iVar2 = *(int *)(unaff_ESI + 8);
   in_EAX[1] = iVar2;
   if (iVar2 == 0) {
-    in_EAX[1] = puVar1;
+    in_EAX[1] = *puVar1;
     return;
   }
   **(int **)(unaff_ESI + 0xc) = (int)puVar1;

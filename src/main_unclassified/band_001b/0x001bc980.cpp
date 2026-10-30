@@ -23,7 +23,7 @@ void FUN_001bc980(int param_1,int param_2,uint param_3)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x00308e50); /* XBE push imm32 at 0x001bc985 */
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   FUN_001cba30();
   iVar3 = *(int *)(param_1 + 4);
   if (iVar3 == 0) {

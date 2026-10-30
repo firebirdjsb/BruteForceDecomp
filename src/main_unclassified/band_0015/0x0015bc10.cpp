@@ -21,8 +21,8 @@ void FUN_0015bc10(void)
   unaff_ESI[3] = 0;
   unaff_ESI[4] = 0;
   unaff_ESI[5] = 1;
-  *unaff_ESI = &PTR_LAB_0039ac50;
-  unaff_ESI[6] = &PTR_LAB_0039ac30;
+  *unaff_ESI = PTR_LAB_0039ac50;
+  unaff_ESI[6] = PTR_LAB_0039ac30;
   unaff_ESI[10] = 0;
   unaff_ESI[0xe] = 0;
   unaff_ESI[0xf] = 0;

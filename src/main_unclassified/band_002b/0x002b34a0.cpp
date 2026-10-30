@@ -17,7 +17,7 @@ void FUN_002b34a0(void)
   undefined4 *unaff_ESI;
   
   iVar1 = unaff_ESI[6];
-  *unaff_ESI = &PTR_FUN_0038e848;
+  *unaff_ESI = PTR_FUN_0038e848;
   while (iVar1 != 0) {
     if ((undefined4 *)unaff_ESI[6] != (undefined4 *)0x0) {
       (*(code *)**(undefined4 **)unaff_ESI[6])(1);

@@ -17,7 +17,7 @@ void FUN_00022d70(void)
   undefined4 *in_EAX;
   undefined4 *unaff_EDI;
   
-  *unaff_EDI = &PTR_FUN_003a4f68;
+  *unaff_EDI = PTR_FUN_003a4f68;
   unaff_EDI[5] = 0;
   uVar1 = in_EAX[2];
   uVar2 = in_EAX[1];

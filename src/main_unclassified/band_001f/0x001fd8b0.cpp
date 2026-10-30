@@ -20,11 +20,11 @@ void FUN_001fd8b0(void)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_00396238;
-  in_ECX[2] = &PTR_LAB_0039621c;
-  in_ECX[3] = &PTR_LAB_0039620c;
-  in_ECX[0x10] = &PTR_LAB_003961f4;
-  in_ECX[0x11] = &PTR_LAB_003961e4;
+  *in_ECX = PTR_FUN_00396238;
+  in_ECX[2] = PTR_LAB_0039621c;
+  in_ECX[3] = PTR_LAB_0039620c;
+  in_ECX[0x10] = PTR_LAB_003961f4;
+  in_ECX[0x11] = PTR_LAB_003961e4;
   if (in_ECX[0x2d] != 0) {
     FUN_0001d590(in_ECX + 0x2c);
                     /* WARNING: Subroutine does not return */

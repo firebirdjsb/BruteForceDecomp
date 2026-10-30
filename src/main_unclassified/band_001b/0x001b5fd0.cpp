@@ -30,7 +30,7 @@ int FUN_001b5fd0(int param_1,int param_2,uint param_3)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x003082e0); /* x86 push imm32 at 0x001b5fd5 */
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   local_18 = 7;
   local_1c = 0;
   local_2c = local_2c & 0xffff0000;

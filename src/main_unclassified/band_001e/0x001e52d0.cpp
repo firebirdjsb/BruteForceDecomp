@@ -16,7 +16,7 @@ void FUN_001e52d0(void)
   undefined4 *puVar1;
   int iVar2;
   
-  *in_EAX = &PTR_LAB_00396cd8;
+  *in_EAX = PTR_LAB_00396cd8;
   puVar1 = in_EAX + 0x20;
   iVar2 = 0x21;
   do {

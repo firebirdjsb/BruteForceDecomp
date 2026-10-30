@@ -20,7 +20,7 @@ void FUN_00132fd0(void)
   undefined4 *unaff_EDI;
   
   piVar2 = (int *)unaff_EDI[0x29];
-  *unaff_EDI = &PTR_LAB_0039db74;
+  *unaff_EDI = PTR_LAB_0039db74;
   if (piVar2 != (int *)0x0) {
     iVar3 = *piVar2;
     if ((0 < iVar3) && (iVar3 < 9)) {

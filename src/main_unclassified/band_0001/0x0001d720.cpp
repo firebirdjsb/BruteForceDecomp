@@ -18,7 +18,7 @@ int FUN_0001d720(int param_1,int param_2,int param_3)
   
   puStack_c = ((unsigned char *)(uintptr_t)0x00307220u);
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   local_8 = 0;
   for (; param_1 != param_2; param_1 = param_1 + 0x40) {
     FUN_0001d6e0(in_ECX);

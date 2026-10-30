@@ -18,7 +18,7 @@ void FUN_0023b2e0(void)
   undefined4 uVar2;
   uint32_t guest_constructor_context = (uint32_t)(uintptr_t)in_ECX;
   
-  *in_ECX = &PTR_FUN_00394088;
+  *in_ECX = PTR_FUN_00394088;
   (**(code **)(*DAT_00443318 + 0x10))(DAT_00443318);
   FUN_00264430();
   puVar1 = (undefined4 *)in_ECX[2];

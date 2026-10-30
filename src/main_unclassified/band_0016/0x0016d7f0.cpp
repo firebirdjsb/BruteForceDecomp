@@ -34,7 +34,7 @@ void FUN_0016d7f0(int param_1)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x003080f0);
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   FUN_0003d6c0(local_44);
   iVar3 = *(int *)(in_EDX + 4);
   if (iVar3 == 0) {

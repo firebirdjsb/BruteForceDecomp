@@ -20,7 +20,7 @@ void FUN_00315ad6(int param_1)
   undefined4 *in_ECX;
   int iVar2;
   
-  *in_ECX = &PTR_LAB_003869e0;
+  *in_ECX = PTR_LAB_003869e0;
   in_ECX[1] = 1;
   FUN_0031bb7e(param_1);
   FUN_00314d62(param_1 + 0x34);

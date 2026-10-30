@@ -17,16 +17,16 @@ void FUN_002a4100(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3,un
     puVar1 = (undefined4 *)param_3[1];
     puVar2 = (undefined4 *)*param_3;
     if (puVar1 == (undefined4 *)0x0) {
-      *param_1 = puVar2;
+      *param_1 = *puVar2;
     }
     else {
-      *puVar1 = puVar2;
+      *puVar1 = *puVar2;
     }
     if (puVar2 == (undefined4 *)0x0) {
-      param_1[1] = puVar1;
+      param_1[1] = *puVar1;
     }
     else {
-      puVar2[1] = puVar1;
+      puVar2[1] = *puVar1;
     }
     param_3[1] = 0;
     *param_3 = 0;

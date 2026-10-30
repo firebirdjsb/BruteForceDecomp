@@ -18,7 +18,7 @@ void FUN_001553f0(void)
   uint uVar2;
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_0039acb8;
+  *in_ECX = PTR_FUN_0039acb8;
   uVar2 = (uint)(*(ushort *)((int)in_ECX + 0x22) >> 5);
   *(uint *)(PTR_DAT_00400864 + uVar2 * 4) =
        *(uint *)(PTR_DAT_00400864 + uVar2 * 4) &

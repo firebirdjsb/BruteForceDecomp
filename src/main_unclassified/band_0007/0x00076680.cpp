@@ -20,7 +20,7 @@ void FUN_00076680(void)
   unaff_ESI[3] = 0;
   unaff_ESI[4] = 0;
   unaff_ESI[5] = 1;
-  *unaff_ESI = &PTR_LAB_003a2530;
+  *unaff_ESI = PTR_LAB_003a2530;
   unaff_ESI[8] = 0;
   unaff_ESI[9] = 0;
   unaff_ESI[10] = 0;

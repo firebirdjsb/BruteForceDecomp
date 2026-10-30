@@ -23,7 +23,7 @@ void FUN_00025a00(undefined2 param_1)
   unaff_ESI[0x42] = 0;
   unaff_ESI[0x43] = 0;
   *(undefined2 *)(unaff_ESI + 0x45) = param_1;
-  *unaff_ESI = &PTR_FUN_003a3fe0;
+  *unaff_ESI = PTR_FUN_003a3fe0;
   piVar3 = (int *)FUN_000120f0();
   iVar4 = (**(code **)(*piVar3 + 0x40))();
   uVar1 = *(undefined4 *)(iVar4 + 0x2c);

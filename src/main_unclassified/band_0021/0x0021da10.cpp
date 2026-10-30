@@ -16,7 +16,7 @@ void FUN_0021da10(byte param_1)
   int *piVar1;
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_00394a98;
+  *in_ECX = PTR_FUN_00394a98;
   piVar1 = (int *)in_ECX[7];
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 8))(piVar1);

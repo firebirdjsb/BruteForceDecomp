@@ -22,8 +22,8 @@ uint FUN_00381379(int param_1)
   bVar1 = *(byte *)(param_1 + 1);
   local_5 = '\0';
   if (((bVar1 & 0x40) != 0) && (*(int *)(param_1 + 8) == 0)) {
-    local_c = &local_10;
-    local_10 = &local_10;
+    local_c = local_10;
+    local_10 = local_10;
     local_5 = '\x01';
     local_18[0] = 0;
     local_16 = 4;

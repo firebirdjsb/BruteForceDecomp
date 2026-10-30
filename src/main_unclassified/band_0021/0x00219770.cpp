@@ -18,14 +18,14 @@ void FUN_00219770(void)
   undefined4 *puVar1;
   int iVar2;
   
-  *in_EAX = &PTR_LAB_0039af90;
+  *in_EAX = PTR_LAB_0039af90;
   in_EAX[2] = 0;
   in_EAX[1] = 0xffffffff;
   in_EAX[2] = *in_EDX;
   *(byte *)(in_EAX + 3) = *(byte *)(in_EAX + 3) | 1;
   in_EAX[4] = 0;
   in_EAX[5] = 0;
-  *in_EAX = &PTR_FUN_00394d80;
+  *in_EAX = PTR_FUN_00394d80;
   puVar1 = in_EAX + 10;
   iVar2 = 8;
   do {

@@ -31,7 +31,7 @@ void FUN_002949b0(void)
       do {
         puVar1 = *(undefined4 **)(piVar4[2] + iVar5 * 4);
         if ((puVar1 != (undefined4 *)0x0) && (puVar1 != (undefined4 *)&DAT_003b9768)) {
-          *puVar1 = puVar3;
+          *puVar1 = *puVar3;
           *(undefined **)(piVar4[2] + iVar5 * 4) = &DAT_003b9768;
           puVar3 = puVar1;
         }

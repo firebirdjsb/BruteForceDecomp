@@ -18,7 +18,7 @@ void FUN_000e3cf0(void)
   int iVar3;
   undefined1 local_4 [4];
   
-  *in_ECX = &PTR_FUN_0039efb4;
+  *in_ECX = PTR_FUN_0039efb4;
   if ((int *)in_ECX[2] == (int *)0x0) {
     iVar3 = 0;
   }

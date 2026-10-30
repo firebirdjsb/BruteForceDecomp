@@ -23,8 +23,8 @@ void FUN_000ab970(void)
   undefined4 *in_ECX;
   
   piVar2 = (int *)in_ECX[0x26];
-  *in_ECX = &PTR_FUN_003a019c;
-  in_ECX[0xb] = &PTR_LAB_003a0188;
+  *in_ECX = PTR_FUN_003a019c;
+  in_ECX[0xb] = PTR_LAB_003a0188;
   if (piVar2 != (int *)0x0) {
     iVar3 = *piVar2;
     if ((0 < iVar3) && (iVar3 < 9)) {

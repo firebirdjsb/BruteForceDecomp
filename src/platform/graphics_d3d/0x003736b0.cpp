@@ -17,7 +17,7 @@ void FUN_003736b0(void)
   uint uVar2;
   
   uVar2 = DAT_0037dd90;
-  uVar1 = D3D8__D3D_g_pDevice;
+  uVar1 = *D3D8__D3D_g_pDevice;
   if ((DAT_0037dd90 & 0x100) != 0) {
     FUN_00372270();
   }

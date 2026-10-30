@@ -21,7 +21,7 @@ undefined4 * FUN_00277f50(undefined4 *param_1)
   int local_10 [4];
   
   puVar1 = param_1 + 1;
-  *param_1 = &PTR_FUN_00391de0;
+  *param_1 = PTR_FUN_00391de0;
   uVar2 = FUN_00279bb0(puVar1);
   param_1[2] = uVar2;
   param_1[3] = 0;

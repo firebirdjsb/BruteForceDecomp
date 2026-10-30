@@ -22,7 +22,7 @@ void FUN_00280180(undefined4 param_1,int *param_2,undefined4 param_3)
   unaff_ESI[2] = 0;
   unaff_ESI[3] = 0;
   unaff_ESI[4] = 1;
-  *unaff_ESI = &PTR_LAB_00391940;
+  *unaff_ESI = PTR_LAB_00391940;
   piVar1 = (int *)unaff_ESI[2];
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 4))(piVar1);

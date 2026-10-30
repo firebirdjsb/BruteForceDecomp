@@ -20,7 +20,7 @@ int FUN_0003c530(void)
   local_8 = 0xffffffff;
   puStack_c = ((unsigned char *)(uintptr_t)0x003089f0u);
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   iVar1 = FUN_002ea01d(0xac);
   local_8 = 0;
   if (iVar1 != 0) {

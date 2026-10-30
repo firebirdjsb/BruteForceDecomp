@@ -30,7 +30,7 @@ void FUN_00077420(int param_1,int param_2,uint param_3)
   local_8 = 0xffffffff;
   puStack_c = &LAB_00308580;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   FUN_000765d0();
   iVar2 = *(int *)(param_1 + 4);
   if (iVar2 == 0) {

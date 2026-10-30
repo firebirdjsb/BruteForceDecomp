@@ -20,7 +20,7 @@ void FUN_0008fb40(void)
   int iVar1;
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_003a1d58;
+  *in_ECX = PTR_FUN_003a1d58;
   (**(code **)(*DAT_00443308 + 0x48))(DAT_00443308);
   iVar1 = in_ECX[2];
   if (iVar1 != 0) {

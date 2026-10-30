@@ -23,9 +23,9 @@ void FUN_00091a90(void)
   undefined4 *unaff_ESI;
   
   iVar1 = unaff_ESI[2];
-  *unaff_ESI = &PTR_FUN_003a1a78;
-  unaff_ESI[3] = &PTR_FUN_003a1a68;
-  unaff_ESI[4] = &PTR_FUN_003a15e0;
+  *unaff_ESI = PTR_FUN_003a1a78;
+  unaff_ESI[3] = PTR_FUN_003a1a68;
+  unaff_ESI[4] = PTR_FUN_003a15e0;
   if (iVar1 != 0) {
     FUN_0001fe00(iVar1,0xc,*(undefined4 *)(iVar1 + -4),FUN_0008f670);
                     /* WARNING: Subroutine does not return */

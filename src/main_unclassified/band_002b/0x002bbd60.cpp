@@ -21,7 +21,7 @@ void FUN_002bbd60(short param_1)
   if (in_EAX != (undefined4 *)0x0) {
     *(short *)((int)unaff_ESI + 0x12) = param_1 + -0x20;
     *in_EAX = unaff_ESI[1];
-    unaff_ESI[1] = in_EAX;
+    unaff_ESI[1] = *in_EAX;
     uVar1 = (int)in_EAX + 0x23U & 0xffffffe0;
     unaff_ESI[2] = uVar1;
     unaff_ESI[3] = *(ushort *)((int)unaff_ESI + 0x12) + uVar1;

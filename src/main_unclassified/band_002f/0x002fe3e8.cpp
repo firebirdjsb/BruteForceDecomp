@@ -19,6 +19,6 @@ void __CreateFrameInfo__YAPAUFrameInfo__PAU1_PAX_Z(undefined4 *param_1,undefined
 {
   *param_1 = param_2;
   param_1[1] = DAT_00414b48;
-  DAT_00414b48 = param_1;
+  DAT_00414b48 = *param_1;
   return;
 }

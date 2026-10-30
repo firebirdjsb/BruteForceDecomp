@@ -17,7 +17,7 @@ void FUN_002e7580(void)
   *(undefined1 *)((int)in_ECX + 7) = 0;
   *(undefined1 *)(in_ECX + 2) = 0;
   *(undefined1 *)((int)in_ECX + 5) = 0;
-  *in_ECX = &PTR_LAB_003868c8;
+  *in_ECX = PTR_LAB_003868c8;
   *(undefined1 *)((int)in_ECX + 6) = 0xff;
   in_ECX[5] = 0;
   in_ECX[6] = 0;

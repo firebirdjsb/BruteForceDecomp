@@ -22,8 +22,8 @@ void FUN_000be3a0(void)
   bool bVar2;
   
   bVar2 = DAT_00469aac != 0;
-  *in_ECX = &PTR_FUN_0039f7a0;
-  in_ECX[0xb] = &PTR_LAB_0039f78c;
+  *in_ECX = PTR_FUN_0039f7a0;
+  in_ECX[0xb] = PTR_LAB_0039f78c;
   if (bVar2) {
     if (in_ECX[0x21] != 0) {
       FUN_000db3e0(in_ECX[0x21]);

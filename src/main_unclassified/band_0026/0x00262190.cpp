@@ -17,7 +17,7 @@ void FUN_00262190(void)
   undefined4 *in_ECX;
   byte unaff_retaddr;
   
-  *in_ECX = &PTR_FUN_00392b80;
+  *in_ECX = PTR_FUN_00392b80;
   (**(code **)(*DAT_00443300 + 0x34))();
   piVar1 = (int *)in_ECX[1];
   if (piVar1 != (int *)0x0) {

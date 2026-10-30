@@ -16,7 +16,7 @@ void FUN_00179b40(void)
   undefined4 *unaff_ESI;
   int unaff_EDI;
   
-  *unaff_ESI = &PTR_LAB_00399db0;
+  *unaff_ESI = PTR_LAB_00399db0;
   unaff_ESI[1] = *(undefined4 *)(unaff_EDI + 4);
   FUN_00179c00();
   unaff_ESI[0x1d] = *(undefined4 *)(unaff_EDI + 0x74);

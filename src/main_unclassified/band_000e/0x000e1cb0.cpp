@@ -22,7 +22,7 @@ void FUN_000e1cb0(undefined4 param_1,undefined4 param_2,undefined4 param_3)
   local_8 = 0xffffffff;
   puStack_c = &LAB_00307340;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   puVar1 = (undefined4 *)FUN_002ea01d(0x14);
   if (puVar1 != (undefined4 *)0x0) {
     *puVar1 = param_2;

@@ -20,8 +20,8 @@ void FUN_003161ec(void)
   int *piVar3;
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_00386a14;
-  in_ECX[2] = &PTR_LAB_00386a10;
+  *in_ECX = PTR_FUN_00386a14;
+  in_ECX[2] = PTR_LAB_00386a10;
   FUN_00315b98();
   if (DAT_0032fe98 != 0) {
     KeDisconnectInterrupt(&DAT_0032fe98);

@@ -14,7 +14,7 @@ void FUN_002e2f80(void)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_LAB_00386618;
+  *in_ECX = PTR_LAB_00386618;
   FUN_002e3ff0(1);
   FUN_002e2bb0();
   return;

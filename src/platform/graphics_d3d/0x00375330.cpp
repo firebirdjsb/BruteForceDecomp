@@ -79,8 +79,8 @@ void FUN_00375330(void)
   undefined4 local_8;
   undefined4 local_4;
   
-  uVar10 = D3D8__D3D_g_pDevice;
-  local_5c = D3D8__D3D_g_pDevice;
+  uVar10 = *D3D8__D3D_g_pDevice;
+  local_5c = *D3D8__D3D_g_pDevice;
   if ((DAT_0037ec50 != -1) && ((*(byte *)(D3D8__D3D_g_pDevice + 0x49c) & 0x10) != 0)) {
     DAT_0037df94 = DAT_0037ec50;
     DAT_0037ec50 = -1;

@@ -21,7 +21,7 @@ void FUN_000a3700(void)
   undefined4 *unaff_ESI;
   
   iVar1 = unaff_ESI[2];
-  *unaff_ESI = &PTR_FUN_003a0858;
+  *unaff_ESI = PTR_FUN_003a0858;
   if (iVar1 != 0) {
     FUN_0001fe00(iVar1,0xc,*(undefined4 *)(iVar1 + -4),FUN_0008f670);
                     /* WARNING: Subroutine does not return */

@@ -16,7 +16,7 @@ void FUN_00263af0(void)
   undefined4 *puVar1;
   int iVar2;
   
-  *in_EAX = &PTR_FUN_00392a00;
+  *in_EAX = PTR_FUN_00392a00;
   in_EAX[1] = 0;
   in_EAX[3] = 0;
   in_EAX[4] = 0;

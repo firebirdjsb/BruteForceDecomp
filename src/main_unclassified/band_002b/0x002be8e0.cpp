@@ -20,7 +20,7 @@ void FUN_002be8e0(void)
   undefined4 *puVar3;
   
   unaff_ESI[2] = unaff_ESI[2] & 0xff000000;
-  *unaff_ESI = &PTR_FUN_0038e734;
+  *unaff_ESI = PTR_FUN_0038e734;
   unaff_ESI[1] = in_EAX - 1;
   *(undefined1 *)((int)unaff_ESI + 0xb) = 0;
   puVar1 = (undefined4 *)(*(code *)PTR_FUN_003bc650)(in_EAX * 8);

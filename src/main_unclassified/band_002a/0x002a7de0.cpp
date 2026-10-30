@@ -17,7 +17,7 @@ void FUN_002a7de0(void)
   undefined1 local_4 [4];
   
   puVar1 = (undefined4 *)(-(uint)(in_EAX != 4) & in_EAX);
-  *puVar1 = &PTR_LAB_00390ddc;
+  *puVar1 = PTR_LAB_00390ddc;
   FUN_002a0340();
   FUN_0029ff80(local_4,*(undefined4 *)puVar1[3],(undefined4 *)puVar1[3]);
                     /* WARNING: Subroutine does not return */

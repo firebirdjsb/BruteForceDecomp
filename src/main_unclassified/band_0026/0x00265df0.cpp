@@ -17,7 +17,7 @@ void FUN_00265df0(undefined4 *param_1)
   }
   if (param_1[0x4f] == 0) {
     param_1[0x4f] = 1;
-    *param_1 = &PTR_FUN_003927e0;
+    *param_1 = PTR_FUN_003927e0;
     if (param_1[0x43] != -1) {
       XAPILIB__CloseHandle(param_1[0x43]);
       param_1[0x43] = 0xffffffff;

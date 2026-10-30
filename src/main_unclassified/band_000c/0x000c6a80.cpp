@@ -18,7 +18,7 @@ void FUN_000c6a80(void)
   uint uVar2;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = &PTR_FUN_0039f2f8;
+  *unaff_ESI = PTR_FUN_0039f2f8;
   uVar2 = (uint)(*(ushort *)(unaff_ESI + 0x1d) >> 5);
   *(uint *)(PTR_DAT_00400864 + uVar2 * 4) =
        *(uint *)(PTR_DAT_00400864 + uVar2 * 4) &

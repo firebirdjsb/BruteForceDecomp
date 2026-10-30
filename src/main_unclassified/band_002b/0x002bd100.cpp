@@ -16,9 +16,9 @@ void FUN_002bd100(undefined4 param_1)
 {
   undefined4 *in_EAX;
   
-  *in_EAX = &PTR_FUN_0038e774;
-  in_EAX[2] = &PTR_LAB_0038e73c;
-  in_EAX[4] = &PTR_FUN_0038e758;
+  *in_EAX = PTR_FUN_0038e774;
+  in_EAX[2] = PTR_LAB_0038e73c;
+  in_EAX[4] = PTR_FUN_0038e758;
   *(undefined2 *)(in_EAX + 9) = 0;
   *(undefined2 *)((int)in_EAX + 0x26) = 0;
   in_EAX[10] = 0;
@@ -36,7 +36,7 @@ void FUN_002bd100(undefined4 param_1)
   in_EAX[8] = 0;
   *(undefined2 *)(in_EAX + 0x12) = 0;
   *(undefined2 *)((int)in_EAX + 0x4a) = 0;
-  in_EAX[3] = in_EAX;
-  in_EAX[5] = in_EAX;
+  in_EAX[3] = *in_EAX;
+  in_EAX[5] = *in_EAX;
   return;
 }

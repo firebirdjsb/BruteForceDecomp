@@ -19,8 +19,8 @@ void FUN_000aa070(void)
   int *piVar1;
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_003a02b4;
-  in_ECX[0xb] = &PTR_LAB_003a02a0;
+  *in_ECX = PTR_FUN_003a02b4;
+  in_ECX[0xb] = PTR_LAB_003a02a0;
   if (in_ECX[0x1e] != 0) {
     FUN_0008f6e0();
   }

@@ -18,7 +18,7 @@ void FUN_002cce10(void)
   undefined4 *unaff_ESI;
   undefined4 *puVar3;
   
-  *unaff_ESI = &PTR_LAB_0038e588;
+  *unaff_ESI = PTR_LAB_0038e588;
   puVar1 = (undefined4 *)(*(code *)PTR_FUN_003bc650)(0x38);
   *puVar1 = 0x65981234;
   puVar3 = (undefined4 *)((int)puVar1 + 0x17U & 0xfffffff0);

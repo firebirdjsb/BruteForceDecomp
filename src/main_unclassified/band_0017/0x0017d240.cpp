@@ -20,7 +20,7 @@ void FUN_0017d240(void)
   local_8 = 0xffffffff;
   puStack_c = &LAB_003070c0;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   puVar1 = (undefined4 *)FUN_002ea01d(0x84);
   if (puVar1 != (undefined4 *)0x0) {
     *puVar1 = 0;

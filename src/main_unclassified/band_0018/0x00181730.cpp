@@ -15,7 +15,7 @@ void FUN_00181730(byte param_1)
 {
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_00399bf0;
+  *in_ECX = PTR_FUN_00399bf0;
   if (in_ECX[0x1a] != 0) {
     DSOUND__IDirectSoundBuffer_Release(in_ECX[0x1a]);
   }

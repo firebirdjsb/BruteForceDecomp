@@ -29,8 +29,8 @@ void FUN_00023b80(void)
   in_EAX[1] = 0;
   in_EAX[2] = 0;
   in_EAX[3] = 0;
-  in_EAX[1] = puVar2;
-  in_EAX[3] = puVar1;
+  in_EAX[1] = *puVar2;
+  in_EAX[3] = *puVar1;
   *in_EAX = uVar3;
   in_EAX[2] = uVar4;
   return;

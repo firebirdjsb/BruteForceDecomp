@@ -26,15 +26,15 @@ void FUN_0009a690(void)
     *puVar2 = 0;
     puVar2 = puVar2 + 1;
   }
-  *in_EDX = &PTR_LAB_003a1130;
+  *in_EDX = PTR_LAB_003a1130;
   puVar2 = in_EDX + 0x28;
-  *puVar2 = &PTR_LAB_003a0f0c;
+  *puVar2 = PTR_LAB_003a0f0c;
   in_EDX[0x29] = 1;
-  in_EDX[0x2a] = in_EDX;
+  in_EDX[0x2a] = *in_EDX;
   iVar1 = *(int *)(unaff_ESI + 8);
   in_EDX[0x27] = iVar1;
   if (iVar1 == 0) {
-    in_EDX[0x27] = puVar2;
+    in_EDX[0x27] = *puVar2;
     return;
   }
   **(int **)(unaff_ESI + 0xc) = (int)puVar2;

@@ -22,7 +22,7 @@ void FUN_0031bba1(void)
   uint uVar3;
   
   iVar1 = in_ECX[3];
-  *in_ECX = &PTR_FUN_00386ae4;
+  *in_ECX = PTR_FUN_00386ae4;
   if (iVar1 != 0) {
     FUN_003158ef();
     FUN_00314937(iVar1);

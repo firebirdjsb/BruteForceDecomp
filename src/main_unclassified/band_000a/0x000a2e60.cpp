@@ -20,7 +20,7 @@ void FUN_000a2e60(void)
   int iVar2;
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = &PTR_FUN_003a0a40;
+  *unaff_ESI = PTR_FUN_003a0a40;
   piVar1 = (int *)unaff_ESI[4];
   if (piVar1 != (int *)0x0) {
     (**(code **)(*piVar1 + 8))(piVar1);

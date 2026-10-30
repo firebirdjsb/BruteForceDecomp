@@ -45,7 +45,7 @@ undefined4 * FUN_00370f90(void)
       fVar2 = fVar2 - 0.5;
       fVar3 = fVar3 - 0.5;
     }
-    *in_EAX = &DAT_00100a20;
+    *in_EAX = DAT_00100a20;
     in_EAX[1] = fVar2;
     in_EAX[3] = 0;
     in_EAX[4] = 0;
@@ -66,7 +66,7 @@ undefined4 * FUN_00370f90(void)
     }
     uVar1 = *(undefined4 *)(unaff_ESI + 0x17ac);
     in_EAX[6] = *(undefined4 *)(unaff_ESI + 0x17a8);
-    in_EAX[5] = &DAT_00080394;
+    in_EAX[5] = DAT_00080394;
     in_EAX[7] = uVar1;
     return in_EAX + 8;
   }

@@ -19,7 +19,7 @@ void FUN_0031acd6(void)
   undefined4 *puVar1;
   undefined4 *in_ECX;
   
-  *in_ECX = &PTR_FUN_00386ad8;
+  *in_ECX = PTR_FUN_00386ad8;
   FUN_003118f0();
   DAT_0032fdec = 0;
   while( true ) {

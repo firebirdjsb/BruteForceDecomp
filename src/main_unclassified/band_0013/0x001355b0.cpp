@@ -16,7 +16,7 @@ void FUN_001355b0(byte param_1)
   undefined4 *in_ECX;
   int iVar2;
   
-  *in_ECX = &PTR_FUN_0039db60;
+  *in_ECX = PTR_FUN_0039db60;
   iVar2 = in_ECX[8];
   if (iVar2 != 0) {
     iVar1 = in_ECX[9];

@@ -35,10 +35,10 @@ void FUN_00156938(void)
   bool in_ZF;
   
   if (!in_ZF) {
-    in_ECX[0x13] = &DAT_0039add0;
-    in_ECX[0x70] = &PTR_FUN_0039efec;
-    in_ECX[0x6f] = &PTR_LAB_0039efdc;
-    in_ECX[0x70] = &PTR_FUN_0039efd0;
+    in_ECX[0x13] = DAT_0039add0;
+    in_ECX[0x70] = PTR_FUN_0039efec;
+    in_ECX[0x6f] = PTR_LAB_0039efdc;
+    in_ECX[0x70] = PTR_FUN_0039efd0;
   }
   FUN_00155340();
   in_ECX[0x12] = &PTR_FUN_00394874;

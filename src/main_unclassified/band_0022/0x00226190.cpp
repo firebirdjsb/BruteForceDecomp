@@ -20,7 +20,7 @@ undefined1 * FUN_00226190(undefined1 *param_1)
   /* Original entry+5: push 0x003086a0; guest SEH handler VA, not a host symbol. */
   puStack_c = (undefined1 *)(uintptr_t)0x003086a0U;
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   *param_1 = *in_ECX;
   iVar1 = FUN_0025ae60(param_1);
   *(int *)(param_1 + 4) = iVar1;

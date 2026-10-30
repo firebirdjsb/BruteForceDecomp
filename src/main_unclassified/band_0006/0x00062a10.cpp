@@ -29,7 +29,7 @@ void FUN_00062a10(int param_1,int param_2,uint param_3,undefined4 *param_4)
   local_8 = 0xffffffff;
   puStack_c = UINT32_C(0x00307e60);
   local_10 = *unaff_FS_OFFSET;
-  *unaff_FS_OFFSET = &local_10;
+  *unaff_FS_OFFSET = local_10;
   /* x86 0x00062a2e: mov [ebp-0x10],esp, after the SEH setup.
    * Ghidra's stack0xffffff80 denotes guest stack state; local_14
    * is unused outside this synthetic assignment chain. */

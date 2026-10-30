@@ -18,9 +18,9 @@ void FUN_00312e3a(undefined4 param_1)
   
   puVar1 = in_ECX + 5;
   in_ECX[1] = 1;
-  *in_ECX = &PTR_FUN_003869a0;
-  in_ECX[6] = puVar1;
-  *puVar1 = puVar1;
+  *in_ECX = PTR_FUN_003869a0;
+  in_ECX[6] = *puVar1;
+  *puVar1 = *puVar1;
   uVar2 = FUN_00316bf2(param_1);
   in_ECX[2] = uVar2;
   return;

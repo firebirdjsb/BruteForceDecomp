@@ -16,13 +16,13 @@ void FUN_00089a50(void)
   undefined4 *in_EAX;
   int in_ECX;
   
-  *in_EAX = &PTR_LAB_003a21bc;
+  *in_EAX = PTR_LAB_003a21bc;
   in_EAX[3] = 0;
   in_EAX[4] = 0;
   in_EAX[5] = 0;
   in_EAX[1] = in_ECX;
   in_EAX[2] = *(undefined4 *)(in_ECX + 0xbec);
-  *in_EAX = &PTR_FUN_003a21fc;
+  *in_EAX = PTR_FUN_003a21fc;
   in_EAX[7] = 0;
   in_EAX[5] = 0x159bec67;
   in_EAX[3] = 0xe8e14fcf;
