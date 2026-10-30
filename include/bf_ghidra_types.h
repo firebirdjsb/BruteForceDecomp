@@ -11,7 +11,16 @@
 typedef uint8_t undefined, undefined1, byte, uchar;
 typedef int8_t sbyte;
 typedef uint16_t undefined2, ushort, word;
+/* In C++ on LP64 hosts, <sys/types.h> already defines ::ulong as a
+ * 64-bit unsigned long. The Xbox guest draft's ulong must remain 32 bits.
+ * This temporary source-compatibility alias does NOT establish an Xbox ABI. */
+#ifdef __cplusplus
+typedef uint32_t bf_guest_ulong32;
+#define ulong bf_guest_ulong32
+typedef uint32_t undefined4, uint, dword, _UNKNOWN;
+#else
 typedef uint32_t undefined4, uint, dword, ulong, _UNKNOWN;
+#endif
 typedef uint64_t undefined8, ulonglong, qword;
 typedef int64_t longlong;
 typedef long double float10;

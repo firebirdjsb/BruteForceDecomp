@@ -1,5 +1,12 @@
 name: Optional C++17 compatibility baseline (not a native game build)
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/sweep_cpp_compat.py'
+      - 'tools/test_sweep_cpp_compat.py'
+      - 'include/bf_ghidra_types.h'
+      - '.github/workflows/cpp-compatibility-audit.yml'
   workflow_dispatch:
     inputs:
       source_limit:
@@ -18,7 +25,7 @@ jobs:
         run: python3 -m unittest discover -s tools -p 'test_sweep_cpp_compat.py' -v
       - name: Inventory C++17 syntax separately from the historical C11 baseline
         env:
-          LIMIT: ${{ inputs.source_limit }}
+          LIMIT: ${{ github.event_name == 'push' && '100' || inputs.source_limit }}
         run: python3 tools/sweep_cpp_compat.py --root . --out cpp_compat_results --jobs 8 --limit "$LIMIT"
       - uses: actions/upload-artifact@v4
         if: always()
