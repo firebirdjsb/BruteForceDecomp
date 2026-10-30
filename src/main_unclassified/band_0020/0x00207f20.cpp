@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Callee draft at 0x001FEDB0 reads a first guest DWORD, an int-key
+ * pointer and a byte-addressed data buffer. This declaration matches
+ * those draft storage types; the full Xbox calling ABI is UNVERIFIED. */
+extern char FUN_001fedb0(undefined4 mode, int *key, byte *value);
 char FUN_00207f20(undefined4 param_1,int *param_2,undefined1 *param_3)
 
 {
