@@ -12,6 +12,8 @@ on:
       - 'tests/test_001f35b0_first_allocation.c'
       - 'src/guest_cpu/bf_001f3aa0_concrete_router.h'
       - 'tests/test_001f3aa0_concrete_router.c'
+      - 'src/guest_cpu/bf_001f3aa0_guest_prologue.h'
+      - 'tests/test_001f3aa0_guest_prologue.c'
       - 'tests/test_002b8c60_guest_dispatch.c'
       - 'scripts/verify_002b8c60_heap_xbe.py'
       - '.github/workflows/focused-002b8c60-heap.yml'
@@ -69,6 +71,15 @@ jobs:
               -o "$RUNNER_TEMP/test_concrete_router_$opt"
             "$RUNNER_TEMP/test_concrete_router_$opt"
           done
+      - name: Verify authentic 001F3AA0 EBP/ESP prologue at O0/O2
+        run: |
+          set -euo pipefail
+          for opt in 0 2; do
+            clang -std=c11 -O"$opt" -Wall -Wextra -Werror -pedantic-errors \
+              -I src/guest_cpu tests/test_001f3aa0_guest_prologue.c \
+              -o "$RUNNER_TEMP/test_1f3aa0_prologue_$opt"
+            "$RUNNER_TEMP/test_1f3aa0_prologue_$opt"
+          done
       - name: Verify memory and undefined behavior with sanitizers
         run: |
           set -euo pipefail
@@ -97,6 +108,11 @@ jobs:
             -I src/guest_cpu tests/test_001f3aa0_concrete_router.c \
             -o "$RUNNER_TEMP/test_concrete_router_san"
           "$RUNNER_TEMP/test_concrete_router_san"
+          clang -std=c11 -O1 -g -fsanitize=address,undefined \
+            -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic-errors \
+            -I src/guest_cpu tests/test_001f3aa0_guest_prologue.c \
+            -o "$RUNNER_TEMP/test_1f3aa0_prologue_san"
+          "$RUNNER_TEMP/test_1f3aa0_prologue_san"
       - name: Scope of confirmation
         run: |
           echo "Conforms to bounded original 002B8C60 x86 gate/dispatch ordering."
