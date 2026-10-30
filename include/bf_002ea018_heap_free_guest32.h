@@ -21,7 +21,13 @@
 #define BF_002EA018_HEAP_FREE_GUEST32_H
 #include <stdint.h>
 #define BF_XBOX_HEAP_FREE_INDIRECT_SLOT UINT32_C(0x003bc654)
-void bf_xbox_guest_tailjump1_u32(uint32_t guest_target_slot_va,
-                                 uint32_t guest_stack_word_0);
-void thunk_FUN_00237ec0(uint32_t guest_allocation_va);
+/* Indirect jump preserves the target's EAX result, including the
+ * zero-extended HeapFree status at the initial 0x00237EC0 target.
+ * A dynamically replaced target is still ABI_UNVERIFIED. */
+uint32_t bf_xbox_guest_tailjump1_u32(uint32_t guest_target_slot_va,
+                                     uint32_t guest_stack_word_0);
+/* Distinct guest address entrypoints. Ghidra assigned both the same
+ * thunk_FUN_00237ec0 label; C++ symbols must not collapse them. */
+uint32_t thunk_FUN_00067bf0(uint32_t guest_allocation_va);
+uint32_t thunk_FUN_00237ec0(uint32_t guest_allocation_va);
 #endif

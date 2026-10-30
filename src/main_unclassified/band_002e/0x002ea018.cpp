@@ -17,8 +17,9 @@
  * and dynamically mapped target before allowing native execution. The
  * adapter has NO definition, deliberately preventing a fake game link.
  * Recorded XBE evidence: scripts/verify_002b8c60_heap_xbe.py. */
-void thunk_FUN_00237ec0(uint32_t guest_allocation_va)
+uint32_t thunk_FUN_00237ec0(uint32_t guest_allocation_va)
 {
-  bf_xbox_guest_tailjump1_u32(BF_XBOX_HEAP_FREE_INDIRECT_SLOT,
-                              guest_allocation_va);
+  /* Original JMP rel32 to 0x00067BF0: same guest stack, same EAX
+   * result as the eventual imported target (not a host call ABI). */
+  return thunk_FUN_00067bf0(guest_allocation_va);
 }
