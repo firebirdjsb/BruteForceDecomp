@@ -6,6 +6,12 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* The source declarations match existing in-tree callee definitions.
+ * The 0x001A6843 -> 0x001B1810 direct x86 edge pushes one zero DWORD;
+ * 0x001B1810 RET 4 is recorded in metadata/x86_verified_call_edges.csv.
+ * The separate 0x001A9FD0 guest register/SEH ABI remains unverified. */
+extern void FUN_001a9fd0(uint param_1);
+extern void FUN_001b1810(undefined4 fill_word);
 int FUN_001a6810(void)
 
 {

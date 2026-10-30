@@ -9,6 +9,11 @@
 extern void FUN_00051040(undefined4 *param_1,undefined4 *param_2);
 extern void FUN_00051430(int param_1,int param_2);
 extern void FUN_00050ff0(undefined4 *param_1,int param_2);
+/* 0x000509BA directly calls 0x00050E90 with an output pair and two
+ * range endpoints (metadata/x86_verified_call_edges.csv). This declaration
+ * matches the in-tree callee draft only. Guest32 pointer representation and
+ * complete original register/stack ABI remain unverified. */
+extern undefined4 * FUN_00050e90(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3);
 
 void FUN_00050980(int param_1,int param_2,int param_3)
 
