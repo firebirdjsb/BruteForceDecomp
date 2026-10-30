@@ -79,6 +79,25 @@ class ConservativeCallerDeclarations(unittest.TestCase):
                     checked += 1
         self.assertEqual(checked, 43)
 
+    def test_byte_alias_to_existing_four_byte_buffer(self):
+        # A pointer-to-byte alias may inspect the same buffer as a DWORD.
+        # This is NOT a conversion of a 32-bit Xbox address to host memory.
+        for entry in "00200760 00206fe0 002071a0 00207410 002075e0 00208140 00208f50 0020b020 0020b1f0 0020b350 0020b680".split():
+            with self.subTest(entry=entry):
+                source = source_for(entry).read_text(encoding="utf-8")
+                self.assertIn(
+                    "extern char FUN_001fedb0(undefined4 mode, int *key, byte *value);",
+                    source)
+                self.assertIn(
+                    "FUN_001fedb0(param_1,param_2,reinterpret_cast<byte *>(param_3))",
+                    source)
+                self.assertIn("ABI_UNVERIFIED", source)
+                result = subprocess.run(
+                    [CLANGXX, "-std=c++17", "-fsyntax-only", "-I",
+                     str(ROOT / "include"), str(source_for(entry))],
+                    capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()

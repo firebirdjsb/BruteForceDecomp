@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* 0x001FEDB0's source draft expects byte-addressed storage. The
+ * original caller supplies the SAME buffer as undefined4*: the byte
+ * view below preserves the pointer, not a host/guest address cast.
+ * Xbox register and object ABI are still UNVERIFIED. */
+extern char FUN_001fedb0(undefined4 mode, int *key, byte *value);
 char FUN_00208140(undefined4 param_1,int *param_2,undefined4 *param_3)
 
 {
@@ -13,7 +18,7 @@ char FUN_00208140(undefined4 param_1,int *param_2,undefined4 *param_3)
   int in_ECX;
   char cVar2;
   
-  cVar1 = FUN_001fedb0(param_1,param_2,param_3);
+  cVar1 = FUN_001fedb0(param_1,param_2,reinterpret_cast<byte *>(param_3));
   if (cVar1 == '\0') {
     cVar2 = (char)param_1;
     if (*param_2 == 0x19e7668f) {
