@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CLANG = shutil.which("clang++")
 SOURCES = [
     ROOT / "src/main_unclassified/band_0023/0x00237ec0.cpp",
+    ROOT / "src/main_unclassified/band_0023/0x00237ee0.cpp",
     ROOT / "src/main_unclassified/band_002f/0x002f77dc.cpp",
     ROOT / "src/main_unclassified/band_002f/0x002f77f3.cpp",
 ]
@@ -25,6 +26,7 @@ PROBE = r"""
 #include <cstdint>
 uint32_t DAT_004a90d4 = UINT32_C(0xf123abcd);
 static uint32_t heap_seen, flags_seen, ptr_seen, calls;
+static uint32_t size_heap, size_flags, size_ptr, size_calls;
 uint8_t FUN_002f75e8(int heap, uint32_t flags, int allocation)
 {
     ++calls;
@@ -33,6 +35,15 @@ uint8_t FUN_002f75e8(int heap, uint32_t flags, int allocation)
     ptr_seen = (uint32_t)allocation;
     return calls == 1 ? UINT8_C(0x80) : UINT8_C(0xff);
 }
+int FUN_002f648f(uint32_t heap, uint32_t flags, int pointer)
+{
+    ++size_calls;
+    size_heap = heap;
+    size_flags = flags;
+    size_ptr = (uint32_t)pointer;
+    return -17;
+}
+int FUN_00237ee0(uint32_t pointer);
 uint32_t FUN_00237ec0(uint32_t allocation);
 int main()
 {
@@ -41,6 +52,9 @@ int main()
     assert(flags_seen == 0 && ptr_seen == UINT32_C(0xdeadbeef));
     assert(FUN_00237ec0(0) == UINT32_C(0xff));
     assert(calls == 2 && ptr_seen == 0);
+    assert(FUN_00237ee0(UINT32_C(0xdeadbeef)) == -17);
+    assert(size_calls == 1 && size_heap == DAT_004a90d4);
+    assert(size_flags == 0 && size_ptr == UINT32_C(0xdeadbeef));
     return 0;
 }
 """
