@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-observed 0x001D5450 has no explicit stack parameters;
+ * incoming guest registers and object layout remain ABI_UNVERIFIED. */
+extern void FUN_001d5450(void);
 int FUN_001dcb60(int param_1,int param_2)
 
 {
