@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Ghidra source-level 0x00277F50 object input pointer matches caller.
+ * Exact virtual dispatch and guest Xbox ABI are UNVERIFIED. */
+extern undefined4 * FUN_00277f50(undefined4 *guest_object);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_FUN_00391da0;
