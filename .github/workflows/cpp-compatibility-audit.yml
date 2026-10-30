@@ -25,6 +25,8 @@ on:
       - 'tools/test_sweep_cpp_compat.py'
       - 'include/bf_ghidra_types.h'
       - 'tools/test_cpp_ghidra_concat.py'
+      - 'tools/test_cpp_allocator_guest32.py'
+      - 'include/bf_002ea01d_allocator_guest32.h'
       - 'tools/verify_cpp_hotspot_xbe.py'
       - '.github/workflows/cpp-compatibility-audit.yml'
   workflow_dispatch:
@@ -51,6 +53,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_identify_cpp_verified_call_edges.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_virtual_bridge_syntax.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_ghidra_concat.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_allocator_guest32.py' -v
           python3 -m py_compile tools/verify_cpp_hotspot_xbe.py
       - name: Inventory C++17 syntax separately from the historical C11 baseline
         env:

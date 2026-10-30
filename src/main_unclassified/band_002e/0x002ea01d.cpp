@@ -6,9 +6,13 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_002ea01d(undefined4 param_1)
+#include "bf_002ea01d_allocator_guest32.h"
 
+/* Original XBE: one incoming stack DWORD forwarded to 0x00067CD0;
+ * PUSH 1 becomes a dead second word to that callee; POP/POP restores
+ * guest ESP, and its EAX allocation result is preserved through RET.
+ * This is a guest32 value, NOT a host pointer and NOT a complete allocator. */
+uint32_t FUN_002ea01d(uint32_t guest_size)
 {
-  FUN_00067cd0(param_1,1);
-  return;
+  return FUN_00067cd0(guest_size);
 }

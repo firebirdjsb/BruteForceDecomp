@@ -6,12 +6,14 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t PTR_FUN_003bc650;
-void FUN_00067cd0(undefined4 param_1)
+#include "bf_002ea01d_allocator_guest32.h"
 
+/* XBE 0x00067CD0..0x00067CDE: one guest DWORD passed to indirect
+ * CALL [0x003BC650]; return EAX is unchanged by ADD ESP,4/RET.
+ * Original imported target unresolved; platform dispatch remains undefined.
+ * ABI_UNVERIFIED: not a host address cast or callable native allocator. */
+uint32_t FUN_00067cd0(uint32_t guest_size)
 {
-  (*(code *)PTR_FUN_003bc650)(param_1);
-  return;
+  return bf_xbox_guest_import_call1_u32(
+      BF_XBOX_ALLOCATOR_IMPORT_SLOT, guest_size);
 }

@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002ea01d_allocator_guest32.h"
 void FUN_0005b9a0(uint *param_1,int param_2)
 
 {
