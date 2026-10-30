@@ -118,10 +118,131 @@ static void chain_faults(fixture*f){
     CHECK(early.status==BF_001F3AA0_CHAIN_VECTOR_FAILED);
     CHECK(allocations==0u);
 }
+/* Complete after-producer execution, including both conditional
+ * callees, x87 result, cleanup and original final RET 8.
+ * Branch and free callbacks are SYNTHETIC guest implementations. */
+#include "bf_001f3aa0_complete_guest.h"
+#define FAKE_BRANCH_OBJECT (BASE+UINT32_C(0x2e000))
+#define FAKE_RESULT_NODE (BASE+UINT32_C(0x2f000))
+#define FAKE_RESULT_VALUE (BASE+UINT32_C(0x2f100))
+#define HEAP_FREE_TARGET UINT32_C(0x00334567)
+static bool branch_sets_object,branch_sets_result,branch_fails;
+static unsigned branches_taken,heap_frees;
+
+static bool full_branch(void *ctx,uint32_t target,uint32_t guest_esp,
+                        uint32_t esi,uint32_t eax,
+                        uint32_t *next_eip,uint32_t *next_esp)
+{
+    fixture*f=ctx;++branches_taken;
+    if(target==UINT32_C(0x001f35b0)){
+        CHECK(guest_esp==LIVE-8u&&esi==OWNER&&eax==0u);
+        CHECK(get(f,guest_esp)==UINT32_C(0x001f3b75));
+        CHECK(get(f,guest_esp+4u)==bits(1.f));
+        if(branch_sets_object)put(f,OWNER+8u,FAKE_BRANCH_OBJECT);
+        *next_eip=UINT32_C(0x001f3b75);*next_esp=LIVE;
+    }else{
+        CHECK(target==UINT32_C(0x002b8c60));
+        CHECK(guest_esp==LIVE-4u&&esi==LIVE+0x40u);
+        CHECK(eax==FAKE_BRANCH_OBJECT);
+        CHECK(get(f,guest_esp)==UINT32_C(0x001f3b85));
+        if(branch_sets_result){
+            put(f,ALLOC_SECOND+4u,FAKE_RESULT_NODE);
+            put(f,FAKE_RESULT_NODE+12u,FAKE_RESULT_VALUE);
+            put(f,FAKE_RESULT_VALUE+0x1cu,bits(0.75f));
+        }
+        *next_eip=UINT32_C(0x001f3b85);*next_esp=LIVE;
+    }
+    return !branch_fails;
+}
+static bool full_heap_free(void *ctx,uint32_t target,uint32_t ptr,
+                           uint32_t guest_esp,uint32_t *next_eip,
+                           uint32_t *next_esp)
+{
+    fixture*f=ctx;++heap_frees;
+    CHECK(target==HEAP_FREE_TARGET);
+    CHECK(ptr==(heap_frees==1u?ALLOC_FIRST:ALLOC_SECOND));
+    CHECK(get(f,guest_esp+4u)==ptr);
+    CHECK(get(f,guest_esp)==(heap_frees==1u?
+        UINT32_C(0x002b8e28):UINT32_C(0x002b8e40)));
+    *next_eip=get(f,guest_esp);*next_esp=guest_esp+4u;
+    return true;
+}
+static void full_execution_case(fixture*f,unsigned value,
+                                bool set_object,bool set_result)
+{
+    prepare(f,value);
+    branch_sets_object=set_object;branch_sets_result=set_result;
+    branch_fails=false;branches_taken=heap_frees=0u;
+    put(f,OWNER+8u,set_object?0u:FAKE_BRANCH_OBJECT);
+    put(f,UINT32_C(0x003bc654),HEAP_FREE_TARGET);
+    put(f,LIVE,UINT32_C(0x0badf00d));
+    put(f,LIVE+4u,UINT32_C(0x0ddba11a));
+    put(f,EBP,UINT32_C(0x12121212));
+    put(f,EBP+4u,UINT32_C(0x00123456));
+    const bf_001f3aa0_producer_result prod=produce(f);
+    CHECK(prod.status==BF_001F3AA0_PRODUCER_OK);
+    const bf_002b7970_tail_io mem={{f,rd32,wr32},rd64,wr64};
+    const bf_002b7970_x87 base={f,fld,exch_x87,fstp};
+    const bf_002b7970_tail_ops vt={f,fld,fmul,fstp,mulps,addps};
+    const bf_001f3aa0_tail_x87 fp={f,fld,add_x87,sub_x87,fstp};
+    bf_002b7970_xmm xmm=start_xmm();
+    const bf_001f3aa0_complete_result r=
+        bf_001f3aa0_execute_after_producer(
+            &mem,&base,&vt,&fp,&prod,&xmm,EBP,
+            UINT32_C(0x11223344),false,
+            allocator,full_branch,full_heap_free,9u,16u);
+    CHECK(r.status==BF_001F3AA0_COMPLETE_OK);
+    CHECK(r.pc==UINT32_C(0x001f3bca));
+    CHECK(r.next_eip==UINT32_C(0x00123456));
+    CHECK(r.final_esp==EBP+16u);
+    CHECK(r.prefix.sparse.storage.written==256u);
+    CHECK(r.tail.cleanup.nodes_freed==0u&&r.tail.cleanup.arrays_freed==2u);
+    CHECK(r.tail.cleanup.buckets_visited==8u&&heap_frees==2u);
+    CHECK(r.tail.final_esi==UINT32_C(0x0ddba11a));
+    CHECK(r.tail.final_edi==UINT32_C(0x0badf00d));
+    CHECK(r.tail.final_ebp==UINT32_C(0x12121212));
+    CHECK(r.tail.branch_1f35b0_calls==(set_object?1u:0u));
+    CHECK(r.tail.branch_2b8c60_calls==1u);
+    CHECK(branches_taken==(set_object?2u:1u));
+    CHECK(f->depth==1u);
+    const uint32_t expected=set_result?
+        bits((1.f+(float)(value%16u)*0.25f)+1.f-0.75f):
+        UINT32_C(0xff7fffff);
+    CHECK(r.x87_final_bits==expected);
+    CHECK(bits((float)f->st[0])==expected);
+    CHECK(get(f,LIVE+0x94u)==0u&&get(f,LIVE+0x9cu)==0u);
+    CHECK(get(f,LIVE+0x40u)==UINT32_C(0x0039efc8));
+}
+static void full_execution_failures(fixture*f){
+    prepare(f,1u);branches_taken=heap_frees=0u;
+    branch_sets_object=false;branch_sets_result=false;branch_fails=true;
+    put(f,OWNER+8u,0u);put(f,UINT32_C(0x003bc654),HEAP_FREE_TARGET);
+    const bf_001f3aa0_producer_result prod=produce(f);
+    const bf_002b7970_tail_io mem={{f,rd32,wr32},rd64,wr64};
+    const bf_002b7970_x87 base={f,fld,exch_x87,fstp};
+    const bf_002b7970_tail_ops vt={f,fld,fmul,fstp,mulps,addps};
+    const bf_001f3aa0_tail_x87 fp={f,fld,add_x87,sub_x87,fstp};
+    bf_002b7970_xmm xmm=start_xmm();
+    const bf_001f3aa0_complete_result r=
+        bf_001f3aa0_execute_after_producer(
+            &mem,&base,&vt,&fp,&prod,&xmm,EBP,
+            UINT32_C(0x11223344),false,
+            allocator,full_branch,full_heap_free,9u,16u);
+    CHECK(r.status==BF_001F3AA0_COMPLETE_TAIL_FAILED);
+    CHECK(r.tail.status==BF_001F3AA0_TAIL_BRANCH_UNRESOLVED);
+    CHECK(r.prefix.status==BF_001F3AA0_CHAIN_OK);
+    CHECK(heap_frees==0u);
+}
 int main(void){
     fixture*f=calloc(1,sizeof *f);CHECK(f);f->data=malloc(SIZE);CHECK(f->data);
     for(unsigned i=0;i<128u;i++)success(f,i);
     chain_faults(f);
+    for(unsigned i=0;i<32u;i++){
+        full_execution_case(f,i,true,true);
+        full_execution_case(f,i,true,false);
+        full_execution_case(f,i,false,true);
+    }
+    full_execution_failures(f);
     printf("PASS original 001F3AA0 vector/allocator/sparse chain %u assertions\n",checks);
     free(f->data);free(f);return 0;
 }
