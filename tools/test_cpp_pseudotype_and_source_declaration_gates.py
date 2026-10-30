@@ -44,7 +44,7 @@ class ConservativeSourceDeclarationTests(unittest.TestCase):
         for addr in entries:
             with self.subTest(addr=addr):
                 s = source(addr)
-                self.assertRegex(s, r"(?i)\\b" + addr + r"\\b")
+                self.assertRegex(s, r"(?i)\b" + addr + r"\b")
                 self.assertRegex(
                     s, r"(?:Input x86 body SHA-256|Ghidra function-body SHA-256): [0-9A-F]{64}")
 
