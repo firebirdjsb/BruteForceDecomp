@@ -15,7 +15,8 @@ void FUN_00022e50(void)
   int unaff_EDI;
   
   if (*(int *)(unaff_EDI + 0x58) != unaff_EBX) {
-    FUN_0008f6a0();
+    /* XBE 0x00022E50 ESI=EDI+0x54 and PUSH EBX; host guest-register model only, ABI_UNVERIFIED. */
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x54), static_cast<std::uint32_t>(unaff_EBX));
   }
   *(uint *)(unaff_EDI + 0x88) =
        *(uint *)(unaff_EDI + 0x88) ^
