@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original 0x002EA018 free tail-jump forwards a guest32 stack
+ * word; complete per-caller x86 ABI remains unverified. */
+#include "bf_002ea018_heap_free_guest32.h"
 void FUN_000a84a0(int param_1)
 
 {

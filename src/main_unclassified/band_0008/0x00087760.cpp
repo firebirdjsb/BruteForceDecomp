@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original guest32 heap-free dispatch at 0x002EA018; direct caller
+ * stack/register preservation and guest-memory ABI unverified. */
+#include "bf_002ea018_heap_free_guest32.h"
 extern void FUN_002f258a(void);
 extern void FUN_00087810(int param_1,uint param_2,uint param_3);
 

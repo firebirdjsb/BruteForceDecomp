@@ -1,6 +1,12 @@
 #ifndef BF_EXTERNAL_SYMBOLS_H
 #define BF_EXTERNAL_SYMBOLS_H
 #include <stdint.h>
+/* C++17 drafts using std::uint32_t require <cstdint>, whereas the
+ * historical C11 view continues to use <stdint.h>. This is a source
+ * declaration fix only; it does not modify guest32 storage or Xbox ABI. */
+#ifdef __cplusplus
+#include <cstdint>
+#endif
 /* Each symbol is an unresolved address only. Its real size, type, value and relocation are UNKNOWN.
    Definitions must come from verified Xbox image mapping before any linking or execution. */
 extern unsigned char DAT_0001dc50; /* TODO: address-only placeholder; no definition */

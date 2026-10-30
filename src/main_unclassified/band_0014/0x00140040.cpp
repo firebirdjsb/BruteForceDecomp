@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* The original free thunk forwards a guest32 word; full ABI unverified. */
+#include "bf_002ea018_heap_free_guest32.h"
 void FUN_00140040(void)
 
 {

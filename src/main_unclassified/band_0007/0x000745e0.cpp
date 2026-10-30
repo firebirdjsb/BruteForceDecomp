@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* 0x002EA018 free thunk: the initial imported target reads a guest
+ * DWORD stack argument. Caller machine-code ABI remains unverified. */
+#include "bf_002ea018_heap_free_guest32.h"
 extern void FUN_00074580(void);
 
 undefined1 FUN_000745e0(int param_1)

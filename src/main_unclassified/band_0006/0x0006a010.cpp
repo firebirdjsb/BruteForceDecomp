@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original free-dispatch jumps through guest DWORD [0x003BC654];
+ * this draft passes one 32-bit word. Caller ABI remains unverified. */
+#include "bf_002ea018_heap_free_guest32.h"
 extern void FUN_0006a3d0(void);
 
 void FUN_0006a010(void)

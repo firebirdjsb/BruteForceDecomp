@@ -1,6 +1,9 @@
 /* The original 32-bit x86 ABI is not established by this C11 translation. */
 #include <stdint.h>
 #include "bf_external_symbols.h"
+/* Restore Ghidra 32-bit pseudotypes for this historical C++ draft.
+ * Syntax alias only: no Xbox ABI, address, or class layout is inferred. */
+#include "bf_ghidra_types.h"
 #include <limits.h>
 #include <stddef.h>
 #include <stdbool.h>

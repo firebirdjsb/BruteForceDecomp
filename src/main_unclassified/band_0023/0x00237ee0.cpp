@@ -6,14 +6,18 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_00237ee0(undefined4 param_1)
-
+/* Recorded 0x00237EE0: MOV EAX,[ESP+4]; PUSH EAX; PUSH 0;
+ * CALL 0x002F77F3 (loads the heap handle, consumes no stack words);
+ * PUSH EAX; CALL 0x002F648F; RET. The helper's EAX survives RET.
+ * Stack words are prepared for 0x002F648F, not for 0x002F77F3.
+ * The original full guest register/ESP ABI remains ABI_UNVERIFIED.
+ * Recorded opcode window: scripts/verify_002b8c60_heap_xbe.py.
+ */
+extern undefined4 FUN_002f77f3(void);
+extern int FUN_002f648f(undefined4 heap, undefined4 flags,
+                        int guest_pointer_va);
+int FUN_00237ee0(uint32_t guest_pointer_va)
 {
-  undefined4 uVar1;
-  undefined4 uVar2;
-  
-  uVar2 = 0;
-  uVar1 = FUN_002f77f3(0,param_1);
-  FUN_002f648f(uVar1,uVar2,param_1);
-  return;
+  const uint32_t guest_heap = FUN_002f77f3();
+  return FUN_002f648f(guest_heap, 0, (int32_t)guest_pointer_va);
 }

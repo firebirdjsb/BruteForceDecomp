@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Guest32 free-thunk symbol and single word are modeled; ABI unverified. */
+#include "bf_002ea018_heap_free_guest32.h"
 void FUN_0027ca60(int param_1)
 
 {

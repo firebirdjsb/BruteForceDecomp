@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Single 32-bit guest free operand; caller x86 ABI still unverified. */
+#include "bf_002ea018_heap_free_guest32.h"
 extern int FUN_000c8700(int param_1);
 
 void FUN_000c1240(void)

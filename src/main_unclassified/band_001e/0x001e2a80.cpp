@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* This is the existing Ghidra callee's C++ draft signature, not a verified
+ * Xbox guest-register ABI. The original call operands remain unchanged. */
+extern void FUN_0001f4f0(int guest_string, uint start, uint count);
 int FUN_001e2a80(int param_1,int param_2)
 
 {

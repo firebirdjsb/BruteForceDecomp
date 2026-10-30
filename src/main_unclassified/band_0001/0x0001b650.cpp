@@ -1,6 +1,9 @@
 /* The original 32-bit x86 ABI is not established by this C11 translation. */
 #include <stdint.h>
 #include "bf_external_symbols.h"
+/* Historical Ghidra scalar and guest32 aliases (syntax only).
+ * Guest storage, x86 calling conventions and native linkage unverified. */
+#include "bf_ghidra_types.h"
 #include <limits.h>
 #include <stddef.h>
 #include <stdbool.h>

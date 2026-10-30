@@ -6,11 +6,15 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-undefined1 XAPILIB__HeapFree(undefined4 param_1,undefined4 param_2,undefined4 param_3)
-
+/* Recorded 0x002F77DC: three incoming 32-bit words, forwarded to
+ * 0x002F75E8; MOVZX EAX,AL; RET 0x0C. The return type retains
+ * precisely the low byte in this host C++ draft; its uint32_t caller
+ * zero-extends that value. Guest heap semantics remain ABI_UNVERIFIED.
+ * Opcode ledger: scripts/verify_002b8c60_heap_xbe.py. */
+extern undefined1 FUN_002f75e8(int heap, uint32_t flags, int allocation);
+undefined1 XAPILIB__HeapFree(undefined4 heap,
+                             undefined4 flags,
+                             undefined4 allocation)
 {
-  undefined1 uVar1;
-  
-  uVar1 = FUN_002f75e8(param_1,param_2,param_3);
-  return uVar1;
+  return FUN_002f75e8((int32_t)heap, flags, (int32_t)allocation);
 }
