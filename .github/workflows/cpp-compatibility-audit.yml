@@ -6,6 +6,8 @@ on:
       - 'src/**'
       - 'tools/source_layout.py'
       - 'tools/sweep_cpp_compat.py'
+      - 'tools/classify_cpp_failures.py'
+      - 'tools/test_classify_cpp_failures.py'
       - 'tools/test_sweep_cpp_compat.py'
       - 'include/bf_ghidra_types.h'
       - '.github/workflows/cpp-compatibility-audit.yml'
@@ -27,10 +29,13 @@ jobs:
         run: |
           python3 -m unittest discover -s tools -p 'test_sweep_cpp_compat.py' -v
           python3 tools/test_publish_cpp_progress.py
+          python3 -m unittest discover -s tools -p 'test_classify_cpp_failures.py' -v
       - name: Inventory C++17 syntax separately from the historical C11 baseline
         env:
           LIMIT: ${{ github.event_name == 'push' && '0' || inputs.source_limit }}
         run: python3 tools/sweep_cpp_compat.py --root . --out cpp_compat_results --jobs 8 --limit "$LIMIT"
+      - name: Classify C++ compiler diagnostics into repair queues
+        run: python3 tools/classify_cpp_failures.py --report cpp_compat_results/cpp_compat_report.json --out cpp_compat_results
       - name: Publish exact-commit full C++ syntax coverage
         if: ${{ github.event_name == 'push' || inputs.source_limit == '0' }}
         env:
