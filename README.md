@@ -1,4 +1,4 @@
-# BruteForce: Reloaded
+﻿# BruteForce: Reloaded
 
 **An unofficial, evidence-driven reconstruction of Brute Force (2003) for native Windows PC.** BruteForceDecomp reconstructs the hash-pinned original Xbox XBE as C++ with a 1:1 semantic-fidelity goal; BruteForce: Reloaded is the planned native PC release with an optional enhanced mode. Neither the playable PC game nor enhancement features exist yet.
 
@@ -7,13 +7,13 @@
 
 [![C++ source audit](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml/badge.svg?branch=main)](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml)
 
-![C++17 syntax coverage: 20.40%](docs/progress/cpp-syntax.svg)
+![C++17 syntax coverage: 21.58%](docs/progress/cpp-syntax.svg)
 
-**20.40% C++17 syntax coverage** · **2,793 / 13,694** function drafts passing · **10,901** failing. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/dee79d3ffe0b055b6403a1b4b502a786786f06ce) · [Audit run](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/41086871605).
+**21.58% C++17 syntax coverage** · **2,955 / 13,694** function drafts passing · **10,739** failing. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/8c71426d) · [Audit run](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/pending-ci-publication).
 
-![Overall roadmap tracking: 2.91%](docs/progress/overall.svg)
+![Overall roadmap tracking: 3.08%](docs/progress/overall.svg)
 
-**Overall tracked roadmap: 2.91%**. This is a seven-stage planning indicator crediting *only* the C++ syntax fraction of stage one; the other six stages are not verified. **It is not verified game completion.**
+**Overall tracked roadmap: 3.08%**. This is a seven-stage planning indicator crediting *only* the C++ syntax fraction of stage one; the other six stages are not verified. **It is not verified game completion.**
 
 **Native PC game: NOT buildable/playable yet.** Original Xbox C++ object layouts, virtual dispatch, guest ABI, cross-function linkage, platform services and 1:1 behavior still require evidence.
 
