@@ -67,6 +67,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_position_check_source_call.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_two_source_matched_calls.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_six_scalar_source_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_two_float4_source_calls.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_two_x87_source_calls.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_five_dsound_declarations.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_bink_scalar_call.py' -v
