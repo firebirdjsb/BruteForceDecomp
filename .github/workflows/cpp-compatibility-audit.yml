@@ -11,6 +11,7 @@ on:
       - 'tools/**'
       - 'scripts/**'
       - 'metadata/**'
+      - 'docs/audits/**'
       - 'tests/**'
       - 'viewer/**'
       - 'tools/source_layout.py'
