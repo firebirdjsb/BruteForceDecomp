@@ -27,12 +27,12 @@ void FUN_0005bd20(int param_1)
           }
           else if (*(int *)(iVar1 + 0xc) != unaff_EBX) {
 LAB_0005bd75:
-            FUN_0008f6a0();
+            FUN_0008f6a0(static_cast<std::uint32_t>(iVar1) + 8U, static_cast<std::uint32_t>(unaff_EBX == 0 ? *(int *)(iVar1 + 4) : unaff_EBX));
           }
           *(byte *)(iVar1 + 0x20) = *(byte *)(iVar1 + 0x20) & 0xfe;
         }
         else if (*(int *)(iVar1 + 0xc) != *(int *)(iVar1 + 4)) {
-          FUN_0008f6a0(*(int *)(iVar1 + 4));
+          FUN_0008f6a0(static_cast<std::uint32_t>(iVar1) + 8U, static_cast<std::uint32_t>(*(int *)(iVar1 + 4)));
         }
       }
 LAB_0005bd81:
