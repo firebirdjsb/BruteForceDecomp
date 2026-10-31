@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gate 23 source-matched declarations. This does NOT verify Xbox guest ABI."""
+"""Gate 30 source-matched declarations. This does NOT verify Xbox guest ABI."""
 from __future__ import annotations
 
 import re
@@ -35,6 +35,13 @@ CASES = (
     ("00251060", "00251280", "void FUN_00251280(int param_1,int param_2,undefined4 param_3,undefined4 param_4)"),
     ("002511b0", "00251370", "void FUN_00251370(int param_1,int param_2,undefined4 param_3,undefined4 param_4)"),
     ("00259570", "0012aba0", "void FUN_0012aba0(void)"),
+    ("0018ae30", "001a97d0", "void FUN_001a97d0(byte param_1)"),
+    ("0018b350", "001a9940", "void FUN_001a9940(byte param_1)"),
+    ("0018b8c0", "001a99c0", "void FUN_001a99c0(byte param_1)"),
+    ("0018c140", "001a9a20", "void FUN_001a9a20(byte param_1)"),
+    ("0018cde0", "001a9a80", "void FUN_001a9a80(byte param_1)"),
+    ("0018d5a0", "00087240", "void FUN_00087240(byte param_1)"),
+    ("00199580", "001a9ae0", "void FUN_001a9ae0(byte param_1)"),
 )
 
 
@@ -42,9 +49,9 @@ def source(addr: str) -> Path:
     return ROOT / "src" / "main_unclassified" / f"band_{addr[:4]}" / f"0x{addr}.cpp"
 
 
-class SourceMatchedBatch26(unittest.TestCase):
+class SourceMatchedBatch30(unittest.TestCase):
     def test_declarations_match_existing_callee_drafts_without_body_rewrite(self):
-        self.assertEqual(len(CASES), 23)
+        self.assertEqual(len(CASES), 30)
         self.assertEqual(len({a for a, _, _ in CASES}), 26)
         for caller, callee, signature in CASES:
             with self.subTest(caller=caller, callee=callee):
@@ -61,7 +68,7 @@ class SourceMatchedBatch26(unittest.TestCase):
                 self.assertIn(f"FUN_{callee}(", text.replace(original, "", 1))
 
     @unittest.skipUnless(CLANGXX, "Requires installed clang++")
-    def test_all_23_callers_strict_cpp17_syntax(self):
+    def test_all_30_callers_strict_cpp17_syntax(self):
         for caller, _, _ in CASES:
             with self.subTest(caller=caller):
                 cmd = [CLANGXX, "-std=c++17", "-x", "c++", "-fsyntax-only",
