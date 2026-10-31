@@ -17,7 +17,7 @@ void FUN_0003d810(void)
   int unaff_EBX;
   
   if (*(int *)(unaff_EBX + 0xc) != *(int *)(in_EAX + 0xc)) {
-    FUN_0008f6a0(*(int *)(in_EAX + 0xc));
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + UINT32_C(8), static_cast<std::uint32_t>(*(int *)(in_EAX + 0xc)));
   }
   *(undefined4 *)(unaff_EBX + 4) = *(undefined4 *)(in_EAX + 4);
   uVar1 = *(undefined4 *)(in_EAX + 0x18);
@@ -30,7 +30,7 @@ void FUN_0003d810(void)
   *(undefined4 *)(unaff_EBX + 0x30) = *(undefined4 *)(in_EAX + 0x30);
   *(undefined4 *)(unaff_EBX + 0x24) = *(undefined4 *)(in_EAX + 0x24);
   if (*(int *)(unaff_EBX + 0x20) != *(int *)(in_EAX + 0x20)) {
-    FUN_0008f6a0(*(int *)(in_EAX + 0x20));
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + UINT32_C(0x1c), static_cast<std::uint32_t>(*(int *)(in_EAX + 0x20)));
   }
   return;
 }
