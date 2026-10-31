@@ -69,7 +69,7 @@ def verify_xbe(path):
         if op not in (b"\x50", b"\x55", b"\x6a"):
             raise ValueError(entry + ": PUSH opcode mismatch")
         push_length = 2 if op == b"\x6a" else 1
-        if push_length == 2 and read(push, 2) != b"\x6a\\x00":
+        if push_length == 2 and read(push, 2) != b"\x6a\x00":
             raise ValueError(entry + ": PUSH immediate mismatch")
         if push + push_length > call or call - push > 6:
             raise ValueError(entry + ": unexpected PUSH/CALL spacing")
