@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE: direct CALL 0x00343377 with two pushed guest DWORDs;
+ * callee RET 8. Node layout and complete Xbox ABI remain ABI_UNVERIFIED. */
+extern void FUN_00343377(int guest_node_va, undefined4 guest_status_word);
 bool FUN_003439cc(int param_1,int param_2)
 
 {
