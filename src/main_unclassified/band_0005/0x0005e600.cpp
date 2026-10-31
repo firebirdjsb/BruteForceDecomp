@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE 0x0005E62A and 0x0005E65A CALL 0x0005EB60 (RET 8).
+ * The first pushed word points to a four-byte local output slot.
+ * Declaration follows the existing callee draft only; guest ESI and
+ * native linkage remain ABI_UNVERIFIED. */
+extern int *FUN_0005eb60(int *guest_output_word, int guest_element_address);
 void FUN_0005e600(void)
 
 {
@@ -13,7 +18,7 @@ void FUN_0005e600(void)
   int in_EAX;
   int iVar2;
   int unaff_EDI;
-  undefined1 local_4 [4];
+  int local_4; /* original four-byte guest stack output slot */
   
   iVar1 = *(int *)(in_EAX + 8);
   iVar2 = *(int *)(in_EAX + 4);
@@ -23,7 +28,7 @@ void FUN_0005e600(void)
       iVar2 = iVar2 + 8;
     } while (iVar2 != iVar1);
     if (iVar2 != iVar1) {
-      FUN_0005eb60(local_4,iVar2);
+      FUN_0005eb60(&local_4,iVar2);
     }
   }
   iVar1 = *(int *)(in_EAX + 0x18);
@@ -34,7 +39,7 @@ void FUN_0005e600(void)
       iVar2 = iVar2 + 8;
     } while (iVar2 != iVar1);
     if (iVar2 != iVar1) {
-      FUN_0005eb60(local_4,iVar2);
+      FUN_0005eb60(&local_4,iVar2);
     }
   }
   return;
