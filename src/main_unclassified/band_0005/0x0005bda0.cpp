@@ -35,11 +35,11 @@ LAB_0005bdb7:
        (iVar3 = *(int *)(*(int *)(in_ECX + 8) + uVar2 * 4), iVar3 != 0)) {
       if (unaff_EBX == 0) {
         if (*(int *)(iVar3 + 0xc) != *(int *)(iVar3 + 4)) {
-          FUN_0008f6a0(*(int *)(iVar3 + 4));
+          FUN_0008f6a0(static_cast<std::uint32_t>(iVar3) + 8U, static_cast<std::uint32_t>(*(int *)(iVar3 + 4)));
         }
       }
       else if (*(int *)(iVar3 + 0xc) != unaff_EBX) {
-        FUN_0008f6a0();
+        FUN_0008f6a0(static_cast<std::uint32_t>(iVar3) + 8U, static_cast<std::uint32_t>(unaff_EBX));
         *(byte *)(iVar3 + 0x20) = *(byte *)(iVar3 + 0x20) & 0xfe;
         return;
       }
