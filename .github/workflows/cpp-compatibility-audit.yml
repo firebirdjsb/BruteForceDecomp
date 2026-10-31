@@ -59,6 +59,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_sweep_cpp_compat.py' -v
           python3 tools/check_cpp_only_policy.py
           python3 tools/test_publish_cpp_progress.py
+          python3 -m unittest discover -s tools -p 'test_verify_cpp_audit_tree.py' -v
           python3 -m unittest discover -s tools -p 'test_classify_cpp_failures.py' -v
           python3 -m unittest discover -s tools -p 'test_triage_cpp_undeclared_calls.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_memory_helper_syntax.py' -v
@@ -88,6 +89,11 @@ jobs:
         env:
           LIMIT: ${{ github.event_name == 'push' && '0' || inputs.source_limit }}
         run: python3 tools/sweep_cpp_compat.py --root . --out cpp_compat_results --jobs 8 --limit "$LIMIT"
+      - name: Verify full C++17 audit against exact source bytes and original inventory
+        if: ${{ github.event_name == 'push' || inputs.source_limit == '0' }}
+        env:
+          AUDITED_SHA: ${{ github.sha }}
+        run: python3 tools/verify_cpp_audit_tree.py --root . --report cpp_compat_results/cpp_compat_report.json --expected-sha "$AUDITED_SHA"
       - name: Classify C++ compiler diagnostics into repair queues
         run: python3 tools/classify_cpp_failures.py --report cpp_compat_results/cpp_compat_report.json --out cpp_compat_results
       - name: Rank unresolved cross-function identifiers without guessing call contracts
