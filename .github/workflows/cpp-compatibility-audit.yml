@@ -81,6 +81,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_followup27.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_source_only_25.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_platform_27.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_main_17.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_source_matched_00238110.py' -v
           python3 tools/verify_cpp_20261030_source_only_calls_xbe.py --self-test
           python3 -m unittest discover -s tools -p 'test_cpp_00160da0_return_contract.py' -v
