@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-aligned draft declaration only: guest Xbox ABI_UNVERIFIED. */
+extern void FUN_002ee3a6(uint param_1,int param_2);
 /* Library Function - Single Match
     __itoa
    

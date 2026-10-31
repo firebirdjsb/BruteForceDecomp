@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-aligned draft declaration only: guest Xbox ABI_UNVERIFIED. */
+extern bool FUN_002f2cca(int param_1,undefined4 param_2,code *param_3,undefined4 param_4,undefined4 param_5,uint param_6);
 void FUN_002f2fac(undefined4 param_1,undefined4 param_2,int param_3)
 
 {
