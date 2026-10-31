@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-only callee-draft declaration; x87/guest ABI_UNVERIFIED. */
+extern float10 FUN_003758d0(float param_1);
 void FUN_00375980(void)
 
 {
