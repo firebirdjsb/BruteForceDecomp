@@ -52,7 +52,7 @@ def source(addr: str) -> Path:
 class SourceMatchedBatch30(unittest.TestCase):
     def test_declarations_match_existing_callee_drafts_without_body_rewrite(self):
         self.assertEqual(len(CASES), 30)
-        self.assertEqual(len({a for a, _, _ in CASES}), 26)
+        self.assertEqual(len({a for a, _, _ in CASES}), 30)
         for caller, callee, signature in CASES:
             with self.subTest(caller=caller, callee=callee):
                 text = source(caller).read_text(encoding="utf-8")
