@@ -31,7 +31,9 @@ void FUN_00058b60(void)
   }
   *(undefined4 *)(unaff_EDI + 4) = uVar2;
   if (*(int *)(unaff_EDI + 0x14) != unaff_EBX) {
-    FUN_0008f6a0();
+    /* Original XBE: 0x00058B97 LEA ESI,[EDI+0x10]; 0x00058BA2 PUSH EBX; CALL 0x0008F6A0.
+       Host-only guest32 register/stack model; original C++ ABI_UNVERIFIED. */
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x10), static_cast<std::uint32_t>(unaff_EBX));
   }
   return;
 }
