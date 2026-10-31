@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Ghidra source-matched call only; original guest ABI_UNVERIFIED. */
+extern void FUN_003183ea(int param_1,int param_2);
 void FUN_00318408(ushort param_1)
 
 {
