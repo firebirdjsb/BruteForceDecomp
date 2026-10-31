@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* C++17 source-matched declaration only: FUN_0005c0a0.cpp draft is uint(void).
+ * Original Xbox register/stack inputs and runtime ABI remain ABI_UNVERIFIED. */
+extern uint FUN_0005c0a0(void);
 void FUN_00125210(int param_1,float param_2)
 
 {
