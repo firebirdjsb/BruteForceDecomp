@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "milestones": [
+    {
+      "id": "cpp17_syntax",
+      "goal": "All 13694 original-address drafts compile individually under strict Clang++17",
+      "measurement": "docs/progress/current.json",
+      "completion_rule": "Complete exact-tree audit, 13694 passing, zero failing, zero provenance or audit errors"
+    },
+    {
+      "id": "xbox_1_to_1",
+      "goal": "Recovered functions preserve original observable behavior and calling conventions",
+      "status": "not_comprehensively_verified",
+      "verified_function_count": null,
+      "completion_rule": "Original-XBE-backed behavior and interface evidence; syntax alone gives no credit"
+    },
+    {
+      "id": "native_pc_linkage",
+      "goal": "Reconstructed functions link and execute together with verified platform adaptations",
+      "status": "not_buildable_or_playable",
+      "completion_rule": "Cross-function linkage, platform integration and runtime tests"
+    }
+  ],
+  "independent_milestones": true,
+  "syntax_pass_implies_behavior_or_linkage": false
+}

@@ -1,0 +1,1648 @@
+{
+  "schema_version": 1,
+  "base_commit": "da16d7829f876c8db13a5251fc1dcc537f75babd",
+  "baseline_audit_commit": "b71c2c6e087f073ec946b0c5551fbaf72420a4c0",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "scope": "Source-matched C++17 declarations and original direct CALL identity only; ABI, behavior and native linkage remain unverified.",
+  "cases": [
+    {
+      "entry": "0x002eb634",
+      "source": "src/main_unclassified/band_002e/0x002eb634.cpp",
+      "source_sha256": "b9dbebe6aee3d5226b0f550b1e692aa4456fdc73226d101fa55d27e2cbda6cc4",
+      "body_sha256": "23A82B0A52E6ACB59EC49FADCBA1FD5471B12F40561238A032D51F05A833ED7B",
+      "caller_git_blob": "57859f4785e58e523d46e7c33cae825c9159b61a",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x002EB634",
+          "end_inclusive": "0x002EB78C",
+          "length": 345
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern int FUN_002ef651(uint param_1,undefined4 param_2,undefined4 param_3);\n",
+      "result_source_sha256": "9123c342ec79513854000611da30fc582d59f5cf95ec54b93d2fb245190860e2",
+      "dependencies": [
+        {
+          "entry": "0x002ef651",
+          "source": "src/main_unclassified/band_002e/0x002ef651.cpp",
+          "signature": "int FUN_002ef651(uint param_1,undefined4 param_2,undefined4 param_3)",
+          "source_sha256": "a8d8507baa9dbc049e70d24764b4982bdc06994f898b5835caf3508c965109ca",
+          "body_sha256": "280DE2C289F6EB6DF0CC37C7880D03EABA1BABF41333F0EAFE0EE128D60E5254",
+          "body_ranges": [
+            {
+              "start": "0x002EF651",
+              "end_inclusive": "0x002EF6DA",
+              "length": 138
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x002eb654",
+              "bytes": "e8f83f0000"
+            },
+            {
+              "site": "0x002eb717",
+              "bytes": "e8353f0000"
+            },
+            {
+              "site": "0x002eb749",
+              "bytes": "e8033f0000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x002fe601",
+      "source": "src/main_unclassified/band_002f/0x002fe601.cpp",
+      "source_sha256": "127756aecf46c4f7e7f3f417bdede3e4c894ced152bdbb8effeb746262043fc1",
+      "body_sha256": "EBDBA2A30740BA3E965E80D66CB752F4F2577881FBB1FE1DC5BDF2C304B24034",
+      "caller_git_blob": "6409c1377fda6445dcdc005b587cc839b166062f",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x002FE601",
+          "end_inclusive": "0x002FE69E",
+          "length": 158
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern uint FUN_002ff361(uint param_1);\n",
+      "result_source_sha256": "d5fde007523c1128bfe30701c7766e4d077f7429be122ca891ad328afd8f308b",
+      "dependencies": [
+        {
+          "entry": "0x002ff361",
+          "source": "src/main_unclassified/band_002f/0x002ff361.cpp",
+          "signature": "uint FUN_002ff361(uint param_1)",
+          "source_sha256": "2e02dad00ec9b3991631ab4cdbc1e4a421e75a35a2828c78431d72d686ac3403",
+          "body_sha256": "4E84096A80820B76E387767A677630B2799074BB6457E3FE44CD42068A243552",
+          "body_ranges": [
+            {
+              "start": "0x002FF361",
+              "end_inclusive": "0x002FF3A7",
+              "length": 71
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x002fe66b",
+              "bytes": "e8f10c0000"
+            },
+            {
+              "site": "0x002fe67a",
+              "bytes": "e8e20c0000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x002fe888",
+      "source": "src/main_unclassified/band_002f/0x002fe888.cpp",
+      "source_sha256": "aef48c75ea5a9cd4af7011317e7c48fa705f41309cfb0aadc429e3b33ee8b6e4",
+      "body_sha256": "7FDA402B460531526912F18A9D248578399B922C1812F75237D38D64A3BB768C",
+      "caller_git_blob": "ad07a76c9556f14979fa990c416ab9272e23dd2a",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x002FE888",
+          "end_inclusive": "0x002FE90F",
+          "length": 136
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern uint FUN_002ff361(uint param_1);\n",
+      "result_source_sha256": "cf45a345bd08f6819ee1c28250e97f8d7426766c52c7499d45441603378ecce5",
+      "dependencies": [
+        {
+          "entry": "0x002ff361",
+          "source": "src/main_unclassified/band_002f/0x002ff361.cpp",
+          "signature": "uint FUN_002ff361(uint param_1)",
+          "source_sha256": "2e02dad00ec9b3991631ab4cdbc1e4a421e75a35a2828c78431d72d686ac3403",
+          "body_sha256": "4E84096A80820B76E387767A677630B2799074BB6457E3FE44CD42068A243552",
+          "body_ranges": [
+            {
+              "start": "0x002FF361",
+              "end_inclusive": "0x002FF3A7",
+              "length": 71
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x002fe8e2",
+              "bytes": "e87a0a0000"
+            },
+            {
+              "site": "0x002fe8f1",
+              "bytes": "e86b0a0000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x002ff361",
+      "source": "src/main_unclassified/band_002f/0x002ff361.cpp",
+      "source_sha256": "2e02dad00ec9b3991631ab4cdbc1e4a421e75a35a2828c78431d72d686ac3403",
+      "body_sha256": "4E84096A80820B76E387767A677630B2799074BB6457E3FE44CD42068A243552",
+      "caller_git_blob": "9dc73c51accc90d06e3c9be926b807d6c644a19e",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x002FF361",
+          "end_inclusive": "0x002FF3A7",
+          "length": 71
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern ushort FUN_002ee46d(ushort param_1,ushort param_2);\n",
+      "result_source_sha256": "3588a88c69f74ae9d47f5d3dfe477f0ad951e4174e516592c07e63e033ef958d",
+      "dependencies": [
+        {
+          "entry": "0x002ee46d",
+          "source": "src/main_unclassified/band_002e/0x002ee46d.cpp",
+          "signature": "ushort FUN_002ee46d(ushort param_1,ushort param_2)",
+          "source_sha256": "b54fdf49fb983eebc1b92e10b275aa262033c1cdb0212551546225502323121d",
+          "body_sha256": "2592DA34CAD8BB9B70BB1F31576C5BAD6E5D7EC8DEB7B328C77E2A8E74EE1F15",
+          "body_ranges": [
+            {
+              "start": "0x002EE46D",
+              "end_inclusive": "0x002EE49C",
+              "length": 48
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x002ff39c",
+              "bytes": "e8ccf0feff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x0031636b",
+      "source": "src/platform/audio_dsound/0x0031636b.cpp",
+      "source_sha256": "7e88a54586710e5d75064eb2ee5523b0efad3a85f57a8018c1b489d05eae6c88",
+      "body_sha256": "57CD54B2D3BCA842A71416FA8103AA40782F631FAEFE1E5FBF1AADE854ECC472",
+      "caller_git_blob": "ec244b47a38d67029c9ed22729ee0c9d4db0205e",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x0031636B",
+          "end_inclusive": "0x003163B1",
+          "length": 71
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void FUN_003162ea(int param_1,undefined4 param_2);\nextern void FUN_0031b938(int param_1);\n",
+      "result_source_sha256": "ba7f9c154438444b0667b3296555d24429924ef76d517bd4fb538ad933fc14c0",
+      "dependencies": [
+        {
+          "entry": "0x003162ea",
+          "source": "src/platform/audio_dsound/0x003162ea.cpp",
+          "signature": "void FUN_003162ea(int param_1,undefined4 param_2)",
+          "source_sha256": "884c3cad4a55f80132782d7f69f3548b9aa18f37725abf43fba99eb65a7faab7",
+          "body_sha256": "4F3CA0C77CFCDF62D3F71465F14F9FDB19E9E42A8BB2941BE2B28A8DD273DEA4",
+          "body_ranges": [
+            {
+              "start": "0x003162EA",
+              "end_inclusive": "0x003162FF",
+              "length": 22
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00316395",
+              "bytes": "e850ffffff"
+            }
+          ]
+        },
+        {
+          "entry": "0x0031b938",
+          "source": "src/platform/audio_dsound/0x0031b938.cpp",
+          "signature": "void FUN_0031b938(int param_1)",
+          "source_sha256": "f422592f0d2b2ffae3de61808f80baf68075a3363845845c1b5946d70ec0cdc1",
+          "body_sha256": "B45BDB8C65504B510CAECA226EBEEFF87455063E29E0C8FC7789554BEF72B8B9",
+          "body_ranges": [
+            {
+              "start": "0x0031B938",
+              "end_inclusive": "0x0031B992",
+              "length": 91
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x003163a1",
+              "bytes": "e892550000"
+            },
+            {
+              "site": "0x003163aa",
+              "bytes": "e889550000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x0034d671",
+      "source": "src/platform/network_xnet/0x0034d671.cpp",
+      "source_sha256": "0a678b5789ff6849d59c60aff7894e124dde7fa20c84c7d412d635715c8d9cef",
+      "body_sha256": "5477376BF5FD5EA46E76AA18B51441162C87E1DB08FC573E189E7484A7DAC494",
+      "caller_git_blob": "0570d0471e1b72e5616650d9ac4d29b8429da2d6",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x0034D671",
+          "end_inclusive": "0x0034D6B2",
+          "length": 66
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void FUN_003561dd(undefined4 *param_1,int param_2);\n",
+      "result_source_sha256": "32e70b24c263fd580129b4e0d6def9f1d115b5dfcee634636b7e21d19b96a84c",
+      "dependencies": [
+        {
+          "entry": "0x003561dd",
+          "source": "src/platform/network_xnet/0x003561dd.cpp",
+          "signature": "void FUN_003561dd(undefined4 *param_1,int param_2)",
+          "source_sha256": "f3a03dc25f476a34c2e15fadb3647ff904c3bf0094651c177b93a998164ba983",
+          "body_sha256": "50B25EB835BCBCEAC471158548EA39F65B47AACF66373A45D6F9946D9A854C79",
+          "body_ranges": [
+            {
+              "start": "0x003561DD",
+              "end_inclusive": "0x00356278",
+              "length": 156
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x0034d6aa",
+              "bytes": "e82e8b0000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x0035434a",
+      "source": "src/platform/network_xnet/0x0035434a.cpp",
+      "source_sha256": "efb50ed8132367a26d1b3084e4ca6c4fe476aaf8598fd2c4c2ab20eddb514f6d",
+      "body_sha256": "D34A17FBE26DE60213453DAEE791824C12CAB99F4B159435643C30AA558CE8FE",
+      "caller_git_blob": "6890f9ce2441aa4f2ec3769ce6e1c592e0e29786",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x0035434A",
+          "end_inclusive": "0x00354392",
+          "length": 73
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern int FUN_0035359e(int param_1,int param_2,undefined4 param_3,undefined4 param_4,uint param_5, undefined4 param_6,undefined4 param_7,undefined4 param_8);\nextern void FUN_003540f2(int param_1,int param_2,byte param_3,int param_4);\n",
+      "result_source_sha256": "67b533ac4702a96e034c72428914d677ec3d0f8d34c507aceca93294cbfdbcc2",
+      "dependencies": [
+        {
+          "entry": "0x0035359e",
+          "source": "src/platform/network_xnet/0x0035359e.cpp",
+          "signature": "int FUN_0035359e(int param_1,int param_2,undefined4 param_3,undefined4 param_4,uint param_5, undefined4 param_6,undefined4 param_7,undefined4 param_8)",
+          "source_sha256": "c0dd28064d419f678198071cbf706dfe8046da1e1dd7975ab3579a275d418f37",
+          "body_sha256": "D0758214A321FD48B22DDE44D17DFA7ECFB99D339228457EDC5AABB1B83F710C",
+          "body_ranges": [
+            {
+              "start": "0x0035359E",
+              "end_inclusive": "0x0035360E",
+              "length": 113
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x0035436f",
+              "bytes": "e82af2ffff"
+            }
+          ]
+        },
+        {
+          "entry": "0x003540f2",
+          "source": "src/platform/network_xnet/0x003540f2.cpp",
+          "signature": "void FUN_003540f2(int param_1,int param_2,byte param_3,int param_4)",
+          "source_sha256": "b0fe3c918c0323dc715cd91e382d85e4895ff710c22533a3c8f391d8f1ef22e6",
+          "body_sha256": "D7B6EACC59C7CE487DB5AE2B5461D4AA970354505460EA4A2A889B35BFB3E3F4",
+          "body_ranges": [
+            {
+              "start": "0x003540F2",
+              "end_inclusive": "0x00354189",
+              "length": 152
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00354387",
+              "bytes": "e866fdffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x00335c99",
+      "source": "src/platform/online_xonline/0x00335c99.cpp",
+      "source_sha256": "8cc7206b9101c3fe2dac7e35e874ab7f15a7ce1007ebe42ccf67f5218a430894",
+      "body_sha256": "57F435B64A59C70C1881F82AEBDD56E69298A8A854FCF523C86B594BFA074B66",
+      "caller_git_blob": "939ab07ae9feccc5304dd6285af93e6cc3a276fd",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x00335C99",
+          "end_inclusive": "0x00335CBC",
+          "length": 36
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern int FUN_003355e1(int param_1);\n",
+      "result_source_sha256": "205282df099b0ae8dd18cd4ae3b2dab7343e20283e9d7dbe778029a58f9937b0",
+      "dependencies": [
+        {
+          "entry": "0x003355e1",
+          "source": "src/platform/online_xonline/0x003355e1.cpp",
+          "signature": "int FUN_003355e1(int param_1)",
+          "source_sha256": "650538a6ca8383788f055f246a8dc7245f4428c94a494f20e44e1f4eaec1d523",
+          "body_sha256": "47EFB0ED57EDB3C0B4C284AF48EF56237D2B49E7F6A403B827C4088252B8A9C2",
+          "body_ranges": [
+            {
+              "start": "0x003355E1",
+              "end_inclusive": "0x003356C7",
+              "length": 231
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00335c9f",
+              "bytes": "e83df9ffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x00335cbd",
+      "source": "src/platform/online_xonline/0x00335cbd.cpp",
+      "source_sha256": "86d43c33de53d26985e32b0b5ef185c4fe6a171c0715cf498f333a716f82f0fe",
+      "body_sha256": "30ECAF04CB88A209B7E1959D7505E521295B589F4C64445693E1EBC9ECA61B45",
+      "caller_git_blob": "029dccf78bb2357b99831b3322083d8bfee30ae2",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x00335CBD",
+          "end_inclusive": "0x00335CE0",
+          "length": 36
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern int FUN_003355e1(int param_1);\n",
+      "result_source_sha256": "9ca061ce0ac468561aafd8663440bbf27a75a403ae98c79cf2d08deb9c6ba21d",
+      "dependencies": [
+        {
+          "entry": "0x003355e1",
+          "source": "src/platform/online_xonline/0x003355e1.cpp",
+          "signature": "int FUN_003355e1(int param_1)",
+          "source_sha256": "650538a6ca8383788f055f246a8dc7245f4428c94a494f20e44e1f4eaec1d523",
+          "body_sha256": "47EFB0ED57EDB3C0B4C284AF48EF56237D2B49E7F6A403B827C4088252B8A9C2",
+          "body_ranges": [
+            {
+              "start": "0x003355E1",
+              "end_inclusive": "0x003356C7",
+              "length": 231
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00335cc3",
+              "bytes": "e819f9ffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x0033699b",
+      "source": "src/platform/online_xonline/0x0033699b.cpp",
+      "source_sha256": "e7c892f2acd07a4a583729e18b15a5a4daef687521e670b944ac7880cdc78f61",
+      "body_sha256": "A8A08116E700AF135B1C5D4B92E5A8345A86C39D4014F9742687FC15F233BBFC",
+      "caller_git_blob": "e75dd516d1d165499f4920483834d1c7fcb57387",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x0033699B",
+          "end_inclusive": "0x003369C6",
+          "length": 44
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern undefined4 FUN_0033621e(uint param_1);\n",
+      "result_source_sha256": "0427ecd71c6579cdc949e63208903c8ed705f72beb288be48b2542fc02dbff40",
+      "dependencies": [
+        {
+          "entry": "0x0033621e",
+          "source": "src/platform/online_xonline/0x0033621e.cpp",
+          "signature": "undefined4 FUN_0033621e(uint param_1)",
+          "source_sha256": "2b18196efc16fdc78b498e6f114cf4f38d1004966c9563c5693ce3e46166bb76",
+          "body_sha256": "8F3C5D6E319159A13D19B3B077DF1DD2FEDD9A266AA1C082A49885499C79173B",
+          "body_ranges": [
+            {
+              "start": "0x0033621E",
+              "end_inclusive": "0x00336339",
+              "length": 284
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x003369be",
+              "bytes": "e85bf8ffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x0033e9ea",
+      "source": "src/platform/online_xonline/0x0033e9ea.cpp",
+      "source_sha256": "1015a8f0c9a47a9fe2082e7482d3fe187af018f043d9b046e56718abb0c2ffbd",
+      "body_sha256": "BC47A418CDAC3D25C9FC8FE1ED005C733A29C6726F5AB7998C986092E4E58940",
+      "caller_git_blob": "9d1b5b155a249eb36208f6b30ff7ed47a798d1bb",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x0033E9EA",
+          "end_inclusive": "0x0033E9F7",
+          "length": 14
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void FUN_0033e986(int param_1,uint param_2);\n",
+      "result_source_sha256": "15a0dad1dc276484e7e82911dc83b8ce42abb6f01e859afac94e2ba866fc22f9",
+      "dependencies": [
+        {
+          "entry": "0x0033e986",
+          "source": "src/platform/online_xonline/0x0033e986.cpp",
+          "signature": "void FUN_0033e986(int param_1,uint param_2)",
+          "source_sha256": "f99aff9f4839f28a943630ab0402c0773e9ea359ce104159039f15e2fe2e8d62",
+          "body_sha256": "10AD1A7C5BE12027D1444F9C3FDEF1A83802311A473E0FAD71EBE9FAA65DFC1C",
+          "body_ranges": [
+            {
+              "start": "0x0033E986",
+              "end_inclusive": "0x0033E9AD",
+              "length": 40
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x0033e9f0",
+              "bytes": "e891ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x0033f31d",
+      "source": "src/platform/online_xonline/0x0033f31d.cpp",
+      "source_sha256": "0ca5d4946517486572c12a4fffbdf6043e7878e78f292e82f68aa3f3b9b20bc2",
+      "body_sha256": "A2AC32D1C4DDC6433DEC56A64106D101DC9DDEDDF9073DB75F3AFCB26B9840F2",
+      "caller_git_blob": "477a5c247288cf121e215704f8571116bcc5818c",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x0033F31D",
+          "end_inclusive": "0x0033F341",
+          "length": 37
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void FUN_0034307c(int param_1);\nextern void FUN_003430a1(int param_1);\n",
+      "result_source_sha256": "af69023bbd51beb55734814b27d181e4ad4018d54f785d377b8d790b53c2e001",
+      "dependencies": [
+        {
+          "entry": "0x0034307c",
+          "source": "src/platform/online_xonline/0x0034307c.cpp",
+          "signature": "void FUN_0034307c(int param_1)",
+          "source_sha256": "20c10e6dfaa2b0f98574f23ce52bf334b36da6f124f90ffdef6c85de014d2fff",
+          "body_sha256": "137E7409A6B4DE1095A70714FC26075594D7B9BA8F67A8C7BE4D20ADC5D1154B",
+          "body_ranges": [
+            {
+              "start": "0x0034307C",
+              "end_inclusive": "0x00343091",
+              "length": 22
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x0033f328",
+              "bytes": "e84f3d0000"
+            }
+          ]
+        },
+        {
+          "entry": "0x003430a1",
+          "source": "src/platform/online_xonline/0x003430a1.cpp",
+          "signature": "void FUN_003430a1(int param_1)",
+          "source_sha256": "940fbe97996622c65a2bd1dc85bfddd309a930260ce1a7ae9437a9dbae506494",
+          "body_sha256": "EDB908773ECDE8D4597CDFF77600D55483D0176D3BE0D37E6904CA75EA7DF2C3",
+          "body_ranges": [
+            {
+              "start": "0x003430A1",
+              "end_inclusive": "0x003430B6",
+              "length": 22
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x0033f33a",
+              "bytes": "e8623d0000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x00343759",
+      "source": "src/platform/online_xonline/0x00343759.cpp",
+      "source_sha256": "62446a659137baea8bdcc4606f7901505936a1a7f1f5827d4db09bd3dfca2825",
+      "body_sha256": "1469AB7A8727F61D34EF582ED6BEA7784D9643CD3395B3B433D88A97DE178880",
+      "caller_git_blob": "f05fe4fdfa9f4e6badd3c7f8d24ec9915e501505",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x00343759",
+          "end_inclusive": "0x003437B2",
+          "length": 90
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void FUN_00343054(int param_1);\nextern void FUN_00343377(int param_1,undefined4 param_2);\nextern bool FUN_00343726(int param_1,int param_2);\n",
+      "result_source_sha256": "ed7560581b53d4b55410d23e5b1898708b97a4c157fbf53f16684f5eae859adf",
+      "dependencies": [
+        {
+          "entry": "0x00343054",
+          "source": "src/platform/online_xonline/0x00343054.cpp",
+          "signature": "void FUN_00343054(int param_1)",
+          "source_sha256": "0068763c5d8026448d13549bbde0908f99209e241c9e54eae2e97f6d725b7182",
+          "body_sha256": "36327E5ABF57F86D6C2A34EED69050EACF38023B7194DD2139D251FC46EEAE5B",
+          "body_ranges": [
+            {
+              "start": "0x00343054",
+              "end_inclusive": "0x00343067",
+              "length": 20
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x0034375f",
+              "bytes": "e8f0f8ffff"
+            }
+          ]
+        },
+        {
+          "entry": "0x00343377",
+          "source": "src/platform/online_xonline/0x00343377.cpp",
+          "signature": "void FUN_00343377(int param_1,undefined4 param_2)",
+          "source_sha256": "247e58f246b94388a53e75f97eb1843e484a3b039458a1ed1abe934bb6516700",
+          "body_sha256": "4F68555CB99C4754450BAD9937D70001033641F85F0C3044C25B8F539BECD2AD",
+          "body_ranges": [
+            {
+              "start": "0x00343377",
+              "end_inclusive": "0x00343393",
+              "length": 29
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00343798",
+              "bytes": "e8dafbffff"
+            },
+            {
+              "site": "0x003437aa",
+              "bytes": "e8c8fbffff"
+            }
+          ]
+        },
+        {
+          "entry": "0x00343726",
+          "source": "src/platform/online_xonline/0x00343726.cpp",
+          "signature": "bool FUN_00343726(int param_1,int param_2)",
+          "source_sha256": "e6a052a04d2f65d7d6c7024a9976f28dd9adbafc83cdb328d504827987c2b26c",
+          "body_sha256": "D57B02939AAC6847ED064D3264607EC3BDCD72099BCB9092D134CEBA9385EC2B",
+          "body_ranges": [
+            {
+              "start": "0x00343726",
+              "end_inclusive": "0x00343758",
+              "length": 51
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x0034376f",
+              "bytes": "e8b2ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x00343a65",
+      "source": "src/platform/online_xonline/0x00343a65.cpp",
+      "source_sha256": "a945cf85e06ea8e13a083579623280fb6c51afc365da8261998f423c58ee2fc5",
+      "body_sha256": "BFD8CBFD117C276D44024DC1742A8DE53E7B76AD1337A6F3CB58BF3456E3B11E",
+      "caller_git_blob": "be09bfbdde0fd4b863a3798ed59794a6e5015d8e",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x00343A65",
+          "end_inclusive": "0x00343AF6",
+          "length": 146
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void FUN_00343377(int param_1,undefined4 param_2);\nextern bool FUN_003439cc(int param_1,int param_2);\n",
+      "result_source_sha256": "8f6eb62dd52e25f0460a5e5f695886ff5cd98e9bfc3dae47cbb84a3b319a3993",
+      "dependencies": [
+        {
+          "entry": "0x00343377",
+          "source": "src/platform/online_xonline/0x00343377.cpp",
+          "signature": "void FUN_00343377(int param_1,undefined4 param_2)",
+          "source_sha256": "247e58f246b94388a53e75f97eb1843e484a3b039458a1ed1abe934bb6516700",
+          "body_sha256": "4F68555CB99C4754450BAD9937D70001033641F85F0C3044C25B8F539BECD2AD",
+          "body_ranges": [
+            {
+              "start": "0x00343377",
+              "end_inclusive": "0x00343393",
+              "length": 29
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00343aea",
+              "bytes": "e888f8ffff"
+            }
+          ]
+        },
+        {
+          "entry": "0x003439cc",
+          "source": "src/platform/online_xonline/0x003439cc.cpp",
+          "signature": "bool FUN_003439cc(int param_1,int param_2)",
+          "source_sha256": "0cd9ac0ac718642f1e852df70916d18d0f6a19990dbc2bfebc4788a26000b59b",
+          "body_sha256": "8E9C7C7B303ECEDA8AABF0870E8E539C7C32BFFC3D615514CC2745BFC65ED37E",
+          "body_ranges": [
+            {
+              "start": "0x003439CC",
+              "end_inclusive": "0x003439F5",
+              "length": 42
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00343a6f",
+              "bytes": "e858ffffff"
+            },
+            {
+              "site": "0x00343a99",
+              "bytes": "e82effffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x00343af7",
+      "source": "src/platform/online_xonline/0x00343af7.cpp",
+      "source_sha256": "aed5182961ea9f8b4df762b42585fa4da7b13834f400eb80d0306a930912d717",
+      "body_sha256": "7E271CA18AF6EEEFFC4CF5B78140339898598BC23D6A0F701B55055720289BDE",
+      "caller_git_blob": "42b0a202fcfe663708406caf8690a734475ea6da",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x00343AF7",
+          "end_inclusive": "0x00343BCF",
+          "length": 217
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void FUN_00343377(int param_1,undefined4 param_2);\nextern bool FUN_003439cc(int param_1,int param_2);\n",
+      "result_source_sha256": "ce6251fd4fabaa7d9e0c0703d0b147f4246c320c11c25034e659303c4b6e5866",
+      "dependencies": [
+        {
+          "entry": "0x00343377",
+          "source": "src/platform/online_xonline/0x00343377.cpp",
+          "signature": "void FUN_00343377(int param_1,undefined4 param_2)",
+          "source_sha256": "247e58f246b94388a53e75f97eb1843e484a3b039458a1ed1abe934bb6516700",
+          "body_sha256": "4F68555CB99C4754450BAD9937D70001033641F85F0C3044C25B8F539BECD2AD",
+          "body_ranges": [
+            {
+              "start": "0x00343377",
+              "end_inclusive": "0x00343393",
+              "length": 29
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00343bc2",
+              "bytes": "e8b0f7ffff"
+            }
+          ]
+        },
+        {
+          "entry": "0x003439cc",
+          "source": "src/platform/online_xonline/0x003439cc.cpp",
+          "signature": "bool FUN_003439cc(int param_1,int param_2)",
+          "source_sha256": "0cd9ac0ac718642f1e852df70916d18d0f6a19990dbc2bfebc4788a26000b59b",
+          "body_sha256": "8E9C7C7B303ECEDA8AABF0870E8E539C7C32BFFC3D615514CC2745BFC65ED37E",
+          "body_ranges": [
+            {
+              "start": "0x003439CC",
+              "end_inclusive": "0x003439F5",
+              "length": 42
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00343b0f",
+              "bytes": "e8b8feffff"
+            },
+            {
+              "site": "0x00343b53",
+              "bytes": "e874feffff"
+            },
+            {
+              "site": "0x00343bb5",
+              "bytes": "e812feffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x00343dcb",
+      "source": "src/platform/online_xonline/0x00343dcb.cpp",
+      "source_sha256": "c0d162ba63f5cbe96b5e5c5f38b497da79a84537293ba559bd16d25c473fb192",
+      "body_sha256": "BFBA8F561A7BD66D1CCCF775D4DFE4E71CFEE3A7C5C4F2BA805C7FB377137E3B",
+      "caller_git_blob": "68dfd8fe1c33adffa4a76afd94e1cda6894455dc",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x00343DCB",
+          "end_inclusive": "0x00343E45",
+          "length": 123
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void FUN_003430a1(int param_1);\nextern void FUN_00343377(int param_1,undefined4 param_2);\nextern bool FUN_003439cc(int param_1,int param_2);\n",
+      "result_source_sha256": "4a47421eb408d74c10f15364d9b68cb5a671ae048da44e47c47c9b26f58947ba",
+      "dependencies": [
+        {
+          "entry": "0x003430a1",
+          "source": "src/platform/online_xonline/0x003430a1.cpp",
+          "signature": "void FUN_003430a1(int param_1)",
+          "source_sha256": "940fbe97996622c65a2bd1dc85bfddd309a930260ce1a7ae9437a9dbae506494",
+          "body_sha256": "EDB908773ECDE8D4597CDFF77600D55483D0176D3BE0D37E6904CA75EA7DF2C3",
+          "body_ranges": [
+            {
+              "start": "0x003430A1",
+              "end_inclusive": "0x003430B6",
+              "length": 22
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00343e29",
+              "bytes": "e873f2ffff"
+            }
+          ]
+        },
+        {
+          "entry": "0x00343377",
+          "source": "src/platform/online_xonline/0x00343377.cpp",
+          "signature": "void FUN_00343377(int param_1,undefined4 param_2)",
+          "source_sha256": "247e58f246b94388a53e75f97eb1843e484a3b039458a1ed1abe934bb6516700",
+          "body_sha256": "4F68555CB99C4754450BAD9937D70001033641F85F0C3044C25B8F539BECD2AD",
+          "body_ranges": [
+            {
+              "start": "0x00343377",
+              "end_inclusive": "0x00343393",
+              "length": 29
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00343e39",
+              "bytes": "e839f5ffff"
+            }
+          ]
+        },
+        {
+          "entry": "0x003439cc",
+          "source": "src/platform/online_xonline/0x003439cc.cpp",
+          "signature": "bool FUN_003439cc(int param_1,int param_2)",
+          "source_sha256": "0cd9ac0ac718642f1e852df70916d18d0f6a19990dbc2bfebc4788a26000b59b",
+          "body_sha256": "8E9C7C7B303ECEDA8AABF0870E8E539C7C32BFFC3D615514CC2745BFC65ED37E",
+          "body_ranges": [
+            {
+              "start": "0x003439CC",
+              "end_inclusive": "0x003439F5",
+              "length": 42
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00343df8",
+              "bytes": "e8cffbffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x00343e46",
+      "source": "src/platform/online_xonline/0x00343e46.cpp",
+      "source_sha256": "93426da7b41396494ed8e08309beeabff00ad5a6f84e8eb710d93fd6a5a75392",
+      "body_sha256": "B42322D197EA5577B61E4B1BC436D4A8845628E6B7519E13EA0BE60B9CAD98D3",
+      "caller_git_blob": "68947fc96c528c7b37af35df809aa7b091e48516",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x00343E46",
+          "end_inclusive": "0x00343E84",
+          "length": 63
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern bool FUN_003439cc(int param_1,int param_2);\n",
+      "result_source_sha256": "5d0bfcca65126c80c6e343248585d16fd537a78fd0ee642838beedaedd47883a",
+      "dependencies": [
+        {
+          "entry": "0x003439cc",
+          "source": "src/platform/online_xonline/0x003439cc.cpp",
+          "signature": "bool FUN_003439cc(int param_1,int param_2)",
+          "source_sha256": "0cd9ac0ac718642f1e852df70916d18d0f6a19990dbc2bfebc4788a26000b59b",
+          "body_sha256": "8E9C7C7B303ECEDA8AABF0870E8E539C7C32BFFC3D615514CC2745BFC65ED37E",
+          "body_ranges": [
+            {
+              "start": "0x003439CC",
+              "end_inclusive": "0x003439F5",
+              "length": 42
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00343e63",
+              "bytes": "e864fbffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x00344812",
+      "source": "src/platform/online_xonline/0x00344812.cpp",
+      "source_sha256": "291259590d04d787282e75dab77a15e77e7442a85733d3fb9e4ca6f5963fa207",
+      "body_sha256": "ED96B0EA864B6BEA668EF3B0111A28DFC7CAF3C2DEE5B8422E44AF5EAB055B1F",
+      "caller_git_blob": "a6e75270ed4c410a36b7f7ac06ac16b148d4e1e4",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x00344812",
+          "end_inclusive": "0x00344852",
+          "length": 65
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern undefined4 FUN_0034470a(int param_1,uint param_2);\nextern bool FUN_003447d5(undefined4 param_1,int param_2);\n",
+      "result_source_sha256": "5418f8f0687529c4370da65e0db32ca599128ad848a25c2ab750ef5fba8e3c6e",
+      "dependencies": [
+        {
+          "entry": "0x0034470a",
+          "source": "src/platform/online_xonline/0x0034470a.cpp",
+          "signature": "undefined4 FUN_0034470a(int param_1,uint param_2)",
+          "source_sha256": "bb35b4a29fa19aef1536ec163bcc151599c42ebb412f71f7639ae7380bd8d0ea",
+          "body_sha256": "951CCE4EA554F7D83FA00DE7C1DC342D53E4458C98D7D522F5E3095ED2986AAC",
+          "body_ranges": [
+            {
+              "start": "0x0034470A",
+              "end_inclusive": "0x003447D4",
+              "length": 203
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x0034481c",
+              "bytes": "e8e9feffff"
+            }
+          ]
+        },
+        {
+          "entry": "0x003447d5",
+          "source": "src/platform/online_xonline/0x003447d5.cpp",
+          "signature": "bool FUN_003447d5(undefined4 param_1,int param_2)",
+          "source_sha256": "6018a6b8f9517b58c38ac174ab663b7013a0203cda5bcd85bda2fd8bb5ca63d8",
+          "body_sha256": "FF070E143A8C157F2D8865B7DDFCE112494AF5E3A2A25128C41770031DE5A92F",
+          "body_ranges": [
+            {
+              "start": "0x003447D5",
+              "end_inclusive": "0x00344811",
+              "length": 61
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00344828",
+              "bytes": "e8a8ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x00344e30",
+      "source": "src/platform/online_xonline/0x00344e30.cpp",
+      "source_sha256": "c09a267eba40e2fbab2bca3c5fc0bbd33599298ca445abc8e18e493dddb377bd",
+      "body_sha256": "3F3E0690B00E2BFA565C7AA7958633264D2F149B8B15C613780307B82FDD8234",
+      "caller_git_blob": "0f4129e3ab4da70160a7b562ba32298eba042dce",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x00344E30",
+          "end_inclusive": "0x00344F08",
+          "length": 217
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern undefined4 FUN_0034470a(int param_1,uint param_2);\nextern bool FUN_003447d5(undefined4 param_1,int param_2);\n",
+      "result_source_sha256": "57e99021f31585e8d9b2068b9bc01044beb458acfe3778dc76e95e8409e06c33",
+      "dependencies": [
+        {
+          "entry": "0x0034470a",
+          "source": "src/platform/online_xonline/0x0034470a.cpp",
+          "signature": "undefined4 FUN_0034470a(int param_1,uint param_2)",
+          "source_sha256": "bb35b4a29fa19aef1536ec163bcc151599c42ebb412f71f7639ae7380bd8d0ea",
+          "body_sha256": "951CCE4EA554F7D83FA00DE7C1DC342D53E4458C98D7D522F5E3095ED2986AAC",
+          "body_ranges": [
+            {
+              "start": "0x0034470A",
+              "end_inclusive": "0x003447D4",
+              "length": 203
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00344e3b",
+              "bytes": "e8caf8ffff"
+            }
+          ]
+        },
+        {
+          "entry": "0x003447d5",
+          "source": "src/platform/online_xonline/0x003447d5.cpp",
+          "signature": "bool FUN_003447d5(undefined4 param_1,int param_2)",
+          "source_sha256": "6018a6b8f9517b58c38ac174ab663b7013a0203cda5bcd85bda2fd8bb5ca63d8",
+          "body_sha256": "FF070E143A8C157F2D8865B7DDFCE112494AF5E3A2A25128C41770031DE5A92F",
+          "body_ranges": [
+            {
+              "start": "0x003447D5",
+              "end_inclusive": "0x00344811",
+              "length": 61
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00344e68",
+              "bytes": "e868f9ffff"
+            },
+            {
+              "site": "0x00344e7f",
+              "bytes": "e851f9ffff"
+            },
+            {
+              "site": "0x00344eb1",
+              "bytes": "e81ff9ffff"
+            },
+            {
+              "site": "0x00344ec9",
+              "bytes": "e807f9ffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x00383c3a",
+      "source": "src/platform/xpp_role_unverified/0x00383c3a.cpp",
+      "source_sha256": "fbb33a31b12eb9351123e71edd0a6755dac543888ec51994a63e08eaa38d48ad",
+      "body_sha256": "C406637B5C9CD2D7CDDB77208347EDBB32E846D7091DA1DF0F4C8C15768564FF",
+      "caller_git_blob": "c9733a174c00bbba768a3c9875ed3f31f7169583",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x00383C3A",
+          "end_inclusive": "0x00383C6F",
+          "length": 54
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void FUN_003822f9(void);\nextern void FUN_00382300(void);\n",
+      "result_source_sha256": "c5a8e813e95f560757d5e80cbc56d802089cea32733a2bd62062b75f42497e55",
+      "dependencies": [
+        {
+          "entry": "0x003822f9",
+          "source": "src/platform/xpp_role_unverified/0x003822f9.cpp",
+          "signature": "void FUN_003822f9(void)",
+          "source_sha256": "d32912cafb8092cc39435f6a8871ff77dc75cfa2089b489553413087e0a50ed2",
+          "body_sha256": "948C0B79853D23A3CAA862966A7B225F71A38FC056B3E495C85418D52ABE41B1",
+          "body_ranges": [
+            {
+              "start": "0x003822F9",
+              "end_inclusive": "0x003822FF",
+              "length": 7
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00383c64",
+              "bytes": "e890e6ffff"
+            }
+          ]
+        },
+        {
+          "entry": "0x00382300",
+          "source": "src/platform/xpp_role_unverified/0x00382300.cpp",
+          "signature": "void FUN_00382300(void)",
+          "source_sha256": "8bc3f93e0451edc20ca1cd9ee497c8b0a1fd7e4cc8083b145ab909dd2826aed6",
+          "body_sha256": "8A693C8839CD4DADF98B45BFB430711940B37F8F0BD6E4586BAA6FF028400EA0",
+          "body_ranges": [
+            {
+              "start": "0x00382300",
+              "end_inclusive": "0x00382306",
+              "length": 7
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00383c4f",
+              "bytes": "e8ace6ffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x0035f9e0",
+      "source": "src/video_bink/bink/0x0035f9e0.cpp",
+      "source_sha256": "615609d5e203c2668bb394b1f4d7cbcfb3eb7046953c215e22d30eb51adba838",
+      "body_sha256": "3F745962EDE52473446D175E98F5ABA0C6C60558796B34512B0241375034513B",
+      "caller_git_blob": "c1a70a0185631f24e6370fd7c7ac8f707d58a37e",
+      "group": "address_helpers",
+      "body_ranges": [
+        {
+          "start": "0x0035F9E0",
+          "end_inclusive": "0x0035FA03",
+          "length": 36
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void FUN_002f8e70(int param_1);\n",
+      "result_source_sha256": "bd8950053ef0f954fa86ca9592db06469755a893d280c1637451224e1ec8f904",
+      "dependencies": [
+        {
+          "entry": "0x002f8e70",
+          "source": "src/main_unclassified/band_002f/0x002f8e70.cpp",
+          "signature": "void FUN_002f8e70(int param_1)",
+          "source_sha256": "4a9c3ce5b23864362f93d3319b0588f10c02a1b18502a7c791691d9d1fbc82ed",
+          "body_sha256": "D68972FAFFD63DBDE5EB3300DC299F6FB7D590B579FBF41C99EE3939E3E3CBE6",
+          "body_ranges": [
+            {
+              "start": "0x002F8E70",
+              "end_inclusive": "0x002F8E94",
+              "length": 37
+            },
+            {
+              "start": "0x002F8E96",
+              "end_inclusive": "0x002F8E98",
+              "length": 3
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x0035f9ea",
+              "bytes": "e88194f9ff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x002e7aa0",
+      "source": "src/main_unclassified/band_002e/0x002e7aa0.cpp",
+      "source_sha256": "cc0fc63cd008b4667e0a95eeba5dcfdf13acee43b67933ebe536420e6f55874f",
+      "body_sha256": "FCDFA822CA60847DF692F6808ED0116CE1B64574F548ABF17908B160A05E372B",
+      "caller_git_blob": "b9ecd380f838b651aa4a86bb537b0ed99fb23f4a",
+      "group": "named_helpers",
+      "body_ranges": [
+        {
+          "start": "0x002E7AA0",
+          "end_inclusive": "0x002E7AF0",
+          "length": 81
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void * __cdecl _memmove(void *__dest,void *__src,size_t __n);\n",
+      "result_source_sha256": "82d9f2790bb1bb8ce8d5e91a652de685d26be70df437d03c9b22118995cf3ba2",
+      "dependencies": [
+        {
+          "entry": "0x002ea100",
+          "source": "src/main_unclassified/band_002e/0x002ea100.cpp",
+          "signature": "void * __cdecl _memmove(void *__dest,void *__src,size_t __n)",
+          "source_sha256": "185d1625b116ea12a877c62f1975a6683b399c28ae7a5c93e422a5f308be4c05",
+          "body_sha256": "E5FC1828550E279344BBF0F85779E8D9677DB7B614DC28E4ECABD2D0C12646E0",
+          "body_ranges": [
+            {
+              "start": "0x002EA100",
+              "end_inclusive": "0x002EA15A",
+              "length": 91
+            },
+            {
+              "start": "0x002EA15C",
+              "end_inclusive": "0x002EA162",
+              "length": 7
+            },
+            {
+              "start": "0x002EA170",
+              "end_inclusive": "0x002EA198",
+              "length": 41
+            },
+            {
+              "start": "0x002EA19C",
+              "end_inclusive": "0x002EA1BE",
+              "length": 35
+            },
+            {
+              "start": "0x002EA1C0",
+              "end_inclusive": "0x002EA1DC",
+              "length": 29
+            },
+            {
+              "start": "0x002EA200",
+              "end_inclusive": "0x002EA249",
+              "length": 74
+            },
+            {
+              "start": "0x002EA25C",
+              "end_inclusive": "0x002EA262",
+              "length": 7
+            },
+            {
+              "start": "0x002EA264",
+              "end_inclusive": "0x002EA26E",
+              "length": 11
+            },
+            {
+              "start": "0x002EA270",
+              "end_inclusive": "0x002EA280",
+              "length": 17
+            },
+            {
+              "start": "0x002EA284",
+              "end_inclusive": "0x002EA29A",
+              "length": 23
+            },
+            {
+              "start": "0x002EA29C",
+              "end_inclusive": "0x002EA2C1",
+              "length": 38
+            },
+            {
+              "start": "0x002EA2C4",
+              "end_inclusive": "0x002EA2CC",
+              "length": 9
+            },
+            {
+              "start": "0x002EA2D0",
+              "end_inclusive": "0x002EA2EE",
+              "length": 31
+            },
+            {
+              "start": "0x002EA2FC",
+              "end_inclusive": "0x002EA31C",
+              "length": 33
+            },
+            {
+              "start": "0x002EA320",
+              "end_inclusive": "0x002EA346",
+              "length": 39
+            },
+            {
+              "start": "0x002EA348",
+              "end_inclusive": "0x002EA378",
+              "length": 49
+            },
+            {
+              "start": "0x002EA39C",
+              "end_inclusive": "0x002EA3E5",
+              "length": 74
+            },
+            {
+              "start": "0x002EA3F8",
+              "end_inclusive": "0x002EA3FE",
+              "length": 7
+            },
+            {
+              "start": "0x002EA400",
+              "end_inclusive": "0x002EA40C",
+              "length": 13
+            },
+            {
+              "start": "0x002EA410",
+              "end_inclusive": "0x002EA422",
+              "length": 19
+            },
+            {
+              "start": "0x002EA424",
+              "end_inclusive": "0x002EA43C",
+              "length": 25
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x002e7ad7",
+              "bytes": "e824260000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x002eb08c",
+      "source": "src/main_unclassified/band_002e/0x002eb08c.cpp",
+      "source_sha256": "b9643358bd77cad1239288d0045e7b28ca62575e7a2fae182847fbee3d1c22c0",
+      "body_sha256": "59A6D5AEA187F6380B8EC6973A953CEDEBCDB91DF180920BCF4FF3C5F3DEBA11",
+      "caller_git_blob": "12ab9b528c25d234ac4cac68206ac2459d06989a",
+      "group": "named_helpers",
+      "body_ranges": [
+        {
+          "start": "0x002EB08C",
+          "end_inclusive": "0x002EB09E",
+          "length": 19
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void __fsopen(undefined4 param_1,undefined4 param_2,undefined4 param_3);\n",
+      "result_source_sha256": "a0f6e40a93a947ecfbdce2cd087ccce44d03b165f763cc5c5f92cc78fcdd428c",
+      "dependencies": [
+        {
+          "entry": "0x002eb062",
+          "source": "src/main_unclassified/band_002e/0x002eb062.cpp",
+          "signature": "void __fsopen(undefined4 param_1,undefined4 param_2,undefined4 param_3)",
+          "source_sha256": "c847e2c68ed2a07e6e358f7c5422e42cef9f6fc4c5803069cf6802bad8220cb2",
+          "body_sha256": "9DEB61D18E75E22937295693753E8F0B08A5011EED201E9FB651441509D65D50",
+          "body_ranges": [
+            {
+              "start": "0x002EB062",
+              "end_inclusive": "0x002EB08B",
+              "length": 42
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x002eb096",
+              "bytes": "e8c7ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x002ecf93",
+      "source": "src/main_unclassified/band_002e/0x002ecf93.cpp",
+      "source_sha256": "7baddf3762da78e8e24751c5ee51b209cedaf5dc9c8d86031e253959156dbe93",
+      "body_sha256": "D0C724A4FEBC5D6E015DD5209449ADE09FD11223FBD11C8611886AE1234D043A",
+      "caller_git_blob": "53329d7e8ae6f88a8f4a0183ef59e899c80b2b59",
+      "group": "named_helpers",
+      "body_ranges": [
+        {
+          "start": "0x002ECF93",
+          "end_inclusive": "0x002ECF9B",
+          "length": 9
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern int _flsall(int param_1);\n",
+      "result_source_sha256": "26407db08d09af8e74e85a3a1bb00d8a167da7ea7abafab4d5efae0e0e5930f9",
+      "dependencies": [
+        {
+          "entry": "0x002ecf26",
+          "source": "src/main_unclassified/band_002e/0x002ecf26.cpp",
+          "signature": "int _flsall(int param_1)",
+          "source_sha256": "e97b19dc99c69e036c5145ea05bcd1b56dd891e60d1cf7059488d8833d83518c",
+          "body_sha256": "BCA0CF4032E5E864FCEB2C4A04EED9F05EAB7157232C03E7C4975017C3489B12",
+          "body_ranges": [
+            {
+              "start": "0x002ECF26",
+              "end_inclusive": "0x002ECF92",
+              "length": 109
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x002ecf95",
+              "bytes": "e88cffffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x002f0fcc",
+      "source": "src/main_unclassified/band_002f/0x002f0fcc.cpp",
+      "source_sha256": "03f4a9eb65cf29fe4c3492beea78d88bcf391a7b450044c7132ca3d16039d154",
+      "body_sha256": "28F9D1CC372B6E8FD2BBBE2695195B265AC3363EA952B46E178D07DE6FE6312E",
+      "caller_git_blob": "f8856d1a96593e2327b8c91199beb2d4e0f6d45a",
+      "group": "named_helpers",
+      "body_ranges": [
+        {
+          "start": "0x002F0FCC",
+          "end_inclusive": "0x002F1018",
+          "length": 77
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern undefined4 ___addl(uint param_1,uint param_2,uint *param_3);\n",
+      "result_source_sha256": "4d2e902636cba7357a55365a06c14f7560aafe8624984e477245531908a25172",
+      "dependencies": [
+        {
+          "entry": "0x002f1e00",
+          "source": "src/main_unclassified/band_002f/0x002f1e00.cpp",
+          "signature": "undefined4 ___addl(uint param_1,uint param_2,uint *param_3)",
+          "source_sha256": "26093b431f78afd9c080ec571028f3110571b0186f04a1b56e0a6fcc4f310b74",
+          "body_sha256": "9AD9CC8DF8EBF35EBBE943DD8B812D655BE7135AAACD923B81222838FC1C2EE2",
+          "body_ranges": [
+            {
+              "start": "0x002F1E00",
+              "end_inclusive": "0x002F1E20",
+              "length": 33
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x002f0fef",
+              "bytes": "e80c0e0000"
+            },
+            {
+              "site": "0x002f1006",
+              "bytes": "e8f50d0000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x002f1e21",
+      "source": "src/main_unclassified/band_002f/0x002f1e21.cpp",
+      "source_sha256": "d1ca6f11c360d1cea0cf64b5821760e0f3b20013249f145a20b21550786fc350",
+      "body_sha256": "030DB63175797538237224CC3E40C4F096609DAD22B499B67E3BCE650F5B8789",
+      "caller_git_blob": "cdd596028ee0f0086939ad86e57818fcc3e8504f",
+      "group": "named_helpers",
+      "body_ranges": [
+        {
+          "start": "0x002F1E21",
+          "end_inclusive": "0x002F1E7E",
+          "length": 94
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern undefined4 ___addl(uint param_1,uint param_2,uint *param_3);\n",
+      "result_source_sha256": "9bf517a74f8088de4d36e4c72ff974df46eb3f7026fbf96681d1ec86f6101bf8",
+      "dependencies": [
+        {
+          "entry": "0x002f1e00",
+          "source": "src/main_unclassified/band_002f/0x002f1e00.cpp",
+          "signature": "undefined4 ___addl(uint param_1,uint param_2,uint *param_3)",
+          "source_sha256": "26093b431f78afd9c080ec571028f3110571b0186f04a1b56e0a6fcc4f310b74",
+          "body_sha256": "9AD9CC8DF8EBF35EBBE943DD8B812D655BE7135AAACD923B81222838FC1C2EE2",
+          "body_ranges": [
+            {
+              "start": "0x002F1E00",
+              "end_inclusive": "0x002F1E20",
+              "length": 33
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x002f1e30",
+              "bytes": "e8cbffffff"
+            },
+            {
+              "site": "0x002f1e44",
+              "bytes": "e8b7ffffff"
+            },
+            {
+              "site": "0x002f1e5c",
+              "bytes": "e89fffffff"
+            },
+            {
+              "site": "0x002f1e74",
+              "bytes": "e887ffffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x002f1eda",
+      "source": "src/main_unclassified/band_002f/0x002f1eda.cpp",
+      "source_sha256": "4b493a8d98d2134d4794fc8cb05643935955015a31b6062dea26f5f66f7ab823",
+      "body_sha256": "12FC2953DC031CF32087B709FB7B0A2689A3563A6D74225D98C9F614C4EE74E4",
+      "caller_git_blob": "489f481a7a330ef2233aaf73b0d61cbf242c37e7",
+      "group": "named_helpers",
+      "body_ranges": [
+        {
+          "start": "0x002F1EDA",
+          "end_inclusive": "0x002F1FA7",
+          "length": 206
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void ___add_12(undefined4 *param_1,undefined4 *param_2);\nextern void ___shl_12(uint *param_1);\n",
+      "result_source_sha256": "07c5f387becc9cdd6bd08930d7ea20fdae7f7c71f95863f66129cc514cdf7677",
+      "dependencies": [
+        {
+          "entry": "0x002f1e21",
+          "source": "src/main_unclassified/band_002f/0x002f1e21.cpp",
+          "signature": "void ___add_12(undefined4 *param_1,undefined4 *param_2)",
+          "source_sha256": "d1ca6f11c360d1cea0cf64b5821760e0f3b20013249f145a20b21550786fc350",
+          "body_sha256": "030DB63175797538237224CC3E40C4F096609DAD22B499B67E3BCE650F5B8789",
+          "body_ranges": [
+            {
+              "start": "0x002F1E21",
+              "end_inclusive": "0x002F1E7E",
+              "length": 94
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x002f1f1a",
+              "bytes": "e802ffffff"
+            },
+            {
+              "site": "0x002f1f3b",
+              "bytes": "e8e1feffff"
+            }
+          ]
+        },
+        {
+          "entry": "0x002f1e7f",
+          "source": "src/main_unclassified/band_002f/0x002f1e7f.cpp",
+          "signature": "void ___shl_12(uint *param_1)",
+          "source_sha256": "82bfb55bebd72160dba5ddd80280419448ee704cea224e94fd37590074ae9329",
+          "body_sha256": "055C5C3F3720CFF24D44A0BD7AB41F42689D7D25B857C5D38790D785029B022B",
+          "body_ranges": [
+            {
+              "start": "0x002F1E7F",
+              "end_inclusive": "0x002F1EAC",
+              "length": 46
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x002f1f0a",
+              "bytes": "e870ffffff"
+            },
+            {
+              "site": "0x002f1f10",
+              "bytes": "e86affffff"
+            },
+            {
+              "site": "0x002f1f20",
+              "bytes": "e85affffff"
+            },
+            {
+              "site": "0x002f1f89",
+              "bytes": "e8f1feffff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x00347cda",
+      "source": "src/platform/network_xnet/0x00347cda.cpp",
+      "source_sha256": "88ea07000d8b1cef2299fdebce84f012feaccf5799fd08bdf6c8a107755a5056",
+      "body_sha256": "F1C10157E0107E27F2AE9F2BDE0C435E3D141B248F416024D78632735775537C",
+      "caller_git_blob": "fc4e27006b6dd5979299d661f24b8a30bc17caaa",
+      "group": "named_helpers",
+      "body_ranges": [
+        {
+          "start": "0x00347CDA",
+          "end_inclusive": "0x00347D19",
+          "length": 64
+        }
+      ],
+      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern longlong __allmul(uint param_1,int param_2,uint param_3,int param_4);\n",
+      "result_source_sha256": "48b361ae855b1c1257e5b0aab584b6d0bce9ddfa94c7ab6ffa0a54686cf8a921",
+      "dependencies": [
+        {
+          "entry": "0x002ebe00",
+          "source": "src/main_unclassified/band_002e/0x002ebe00.cpp",
+          "signature": "longlong __allmul(uint param_1,int param_2,uint param_3,int param_4)",
+          "source_sha256": "afed87d34216a05334df484d6aa1a4739a1f3394e2bf9ce7af57978bd0216c8a",
+          "body_sha256": "3D0898D998ACC8AF3EA17032FF56FD1B963C685B072F669C52D4B8267F9D0A78",
+          "body_ranges": [
+            {
+              "start": "0x002EBE00",
+              "end_inclusive": "0x002EBE33",
+              "length": 52
+            }
+          ],
+          "call_sites": [
+            {
+              "site": "0x00347cef",
+              "bytes": "e80c41faff"
+            },
+            {
+              "site": "0x00347d00",
+              "bytes": "e8fb40faff"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "quarantine": [
+    {
+      "entry": "0x001eb220",
+      "reason": "At least one source-named dependency lacks an E8 direct CALL in caller body (tail/alias unresolved)."
+    },
+    {
+      "entry": "0x0025b420",
+      "reason": "At least one immediate callee contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x002eae7c",
+      "reason": "At least one source-named dependency lacks an E8 direct CALL in caller body (tail/alias unresolved)."
+    },
+    {
+      "entry": "0x002ebe6d",
+      "reason": "Caller contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x002ec3f5",
+      "reason": "Caller contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x002f81e8",
+      "reason": "At least one immediate callee contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x0031c0fd",
+      "reason": "At least one immediate callee contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x00337ba4",
+      "reason": "At least one immediate callee contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x0033824b",
+      "reason": "At least one immediate callee contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x00357470",
+      "reason": "At least one immediate callee contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x00359280",
+      "reason": "At least one immediate callee contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x00264430",
+      "reason": "At least one immediate callee contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x00265aa0",
+      "reason": "At least one immediate callee contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x002ea6c3",
+      "reason": "At least one source-named dependency lacks an E8 direct CALL in caller body (tail/alias unresolved)."
+    },
+    {
+      "entry": "0x002eb4ca",
+      "reason": "At least one immediate callee contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x002f7834",
+      "reason": "At least one source-named dependency lacks an E8 direct CALL in caller body (tail/alias unresolved)."
+    },
+    {
+      "entry": "0x00306c66",
+      "reason": "At least one source-named dependency lacks an E8 direct CALL in caller body (tail/alias unresolved)."
+    },
+    {
+      "entry": "0x0033e9ae",
+      "reason": "At least one source-named dependency lacks an E8 direct CALL in caller body (tail/alias unresolved)."
+    },
+    {
+      "entry": "0x0033e9e5",
+      "reason": "At least one source-named dependency lacks an E8 direct CALL in caller body (tail/alias unresolved)."
+    },
+    {
+      "entry": "0x0035aba0",
+      "reason": "At least one immediate callee contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x0035ae30",
+      "reason": "At least one immediate callee contains FPU/SIMD/SEH, indirect dispatch or dynamic stack instructions."
+    },
+    {
+      "entry": "0x002ecc6d",
+      "reason": "Verbatim byte formal newly truncates source constant420 to164; original low-byte contract not established."
+    },
+    {
+      "entry": "0x002ef63f",
+      "reason": "Floating control-word chain excluded despite immediate body filter passing."
+    },
+    {
+      "entry": "0x002ff2f4",
+      "reason": "Unhandled exception-filter path excluded from easy declaration batch."
+    }
+  ]
+}

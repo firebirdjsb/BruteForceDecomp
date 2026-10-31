@@ -23,6 +23,14 @@
 
 Public, evidence-driven research workspace for the original Xbox 32-bit x86 `default.xbe`. This is a **source reconstruction**, not original source code or a proven byte-identical reimplementation.
 
+## Three independent milestones
+
+1. **C++17 syntax coverage:** all 13,694 original-address drafts compile individually under strict Clang++17.
+2. **1:1 Xbox reconstruction:** recovered functions preserve the original instructions' observable behavior and calling conventions.
+3. **Native PC linkage:** reconstructed functions work together with the necessary platform adaptations.
+
+Syntax passes do not establish the other two milestones. See [current milestone status](docs/STATUS.md#three-independently-tracked-milestones) and the [machine-readable ledger](docs/progress/milestones.json).
+
 ## C++ reconstruction transition (2026-10-30)
 
 **C++ is now the target language** for the reconstructed game core. All 13,694 canonical source drafts use `.cpp`; prior C11 compiler percentages remain historical measurements, **not C++ progress**. See [the staged C++ migration and new compatibility audit](docs/CPP_MIGRATION.md). The original-address `.cpp` filename conversion is complete, but the original object model is **not reconstructed**; neither a C++ parser pass nor a filename change proves a verified game function.
