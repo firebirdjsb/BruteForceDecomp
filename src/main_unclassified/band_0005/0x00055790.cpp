@@ -34,7 +34,9 @@ void FUN_00055790(int param_1)
   *(undefined4 *)(unaff_EBX + 0x6c) = uVar2;
   *(undefined4 *)(unaff_EBX + 0x70) = uVar1;
   if (*(int *)(unaff_EBX + 0x58) != *(int *)(param_1 + 0x58)) {
-    FUN_0008f6a0(*(int *)(param_1 + 0x58));
+    /* Original XBE: 0x00055817 LEA ESI,[EBX+0x54]; 0x0005581C PUSH EAX; CALL 0x0008F6A0.
+       Host-only guest32 register/stack model; original C++ ABI_UNVERIFIED. */
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + UINT32_C(0x54), static_cast<std::uint32_t>(*(int *)(param_1 + 0x58)));
   }
   uVar1 = *(undefined4 *)(param_1 + 0x7c);
   uVar2 = *(undefined4 *)(param_1 + 0x78);
