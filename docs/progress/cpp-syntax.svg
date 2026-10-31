@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="160" viewBox="0 0 800 160" role="img" aria-labelledby="title desc">
-<title id="title">C++17 syntax coverage: 22.50 percent</title>
-<desc id="desc">3081 of 13694 source drafts pass isolated Clang C++17 syntax; 10613 fail. No ABI or gameplay verification.</desc>
+<title id="title">C++17 syntax coverage: 22.54 percent</title>
+<desc id="desc">3086 of 13694 source drafts pass isolated Clang C++17 syntax; 10608 fail. No ABI or gameplay verification.</desc>
 <rect width="800" height="160" rx="14" fill="#0f172a"/>
 <text x="28" y="42" fill="#e2e8f0" font-family="system-ui,Segoe UI,sans-serif" font-size="21" font-weight="700">C++17 syntax coverage</text>
-<text x="772" y="42" fill="#7dd3fc" font-family="system-ui,Segoe UI,sans-serif" font-weight="700" font-size="29" text-anchor="end">22.50%</text>
+<text x="772" y="42" fill="#7dd3fc" font-family="system-ui,Segoe UI,sans-serif" font-weight="700" font-size="29" text-anchor="end">22.54%</text>
 <rect x="28" y="69" width="744" height="22" rx="11" fill="#334155"/>
-<rect x="28" y="69" width="167.39" height="22" rx="11" fill="#38bdf8"/>
-<text x="28" y="119" fill="#cbd5e1" font-family="system-ui,Segoe UI,sans-serif" font-size="16">3,081 / 13,694 C++ syntax passing · 10,613 failing</text>
+<rect x="28" y="69" width="167.66" height="22" rx="11" fill="#38bdf8"/>
+<text x="28" y="119" fill="#cbd5e1" font-family="system-ui,Segoe UI,sans-serif" font-size="16">3,086 / 13,694 C++ syntax passing · 10,608 failing</text>
 <text x="28" y="144" fill="#94a3b8" font-family="system-ui,Segoe UI,sans-serif" font-size="12">Syntax only · no proven Xbox object ABI or playable native PC game</text>
 </svg>
