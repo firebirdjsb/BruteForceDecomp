@@ -55,6 +55,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Verify 63 original Xbox guest address literal repairs
+        run: python3 tools/verify_cpp_guest_address_literals.py --root .
       - name: Verify 27 original-address source declaration repairs
         run: python3 tools/verify_cpp_direct_declaration_batch.py --root .
       - name: Validate compiler and C++ progress gates

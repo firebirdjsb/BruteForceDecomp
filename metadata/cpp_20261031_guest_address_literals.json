@@ -1,0 +1,2357 @@
+{
+  "schema_version": 1,
+  "base_commit": "41eb6491b56548b9fc00c5aee5aa9ce0f23d1caa",
+  "baseline_audit_commit": "41eb6491b56548b9fc00c5aee5aa9ce0f23d1caa",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "scope": "Known original MOV r/m32,imm32 address values only. Host pointer conversion is removed; draft pseudo-register destinations, original guest-register ABI, memory translation and complete behavior remain unverified.",
+  "cases": [
+    {
+      "entry": "0x0001d700",
+      "source": "src/main_unclassified/band_0001/0x0001d700.cpp",
+      "body_sha256": "527809433AD54B08180605CEB3D08A965CCAFE5BB2044129F3B9872738BABB42",
+      "body_ranges": [
+        {
+          "start": "0x0001D700",
+          "end_inclusive": "0x0001D718",
+          "length": 25
+        }
+      ],
+      "source_sha256": "7ed9c8ff365ef8bdcceccbadda75ff740bf58f4f6eb148a76c3b4638eed3e022",
+      "source_git_blob": "96d1e91507e05d6410e77c099b1aaa7b8ff4ec03",
+      "added_comment": "    /* XBE 0x0001d704: MOV m32,0x003a4028 stores a 32-bit guest VA.\n     * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "de8843161da3541b8575579e7e8df5eaaeade68491f0134747c323be940c7c10",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a4028",
+          "after": "UINT32_C(0x003a4028)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0001d704",
+              "bytes": "c70028403a00",
+              "operands": "dword ptr [eax], 0x3a4028"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "7ed9c8ff365ef8bdcceccbadda75ff740bf58f4f6eb148a76c3b4638eed3e022"
+    },
+    {
+      "entry": "0x0001f940",
+      "source": "src/main_unclassified/band_0001/0x0001f940.cpp",
+      "body_sha256": "36AF2A18005D3FE846A3B926A27B738B06923AD7064DE2ABF3C4C2307BB001B9",
+      "body_ranges": [
+        {
+          "start": "0x0001F940",
+          "end_inclusive": "0x0001F972",
+          "length": 51
+        }
+      ],
+      "source_sha256": "4a6b58e6a3f2d2cc9d0f0893cd749896bab7146cb384973f4e1db0536d3384a6",
+      "source_git_blob": "c1809308269c97c9fa4dadcc7d30e704db2aa35c",
+      "added_comment": "  /* XBE 0x0001f94d: MOV m32,0x003a401c stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "3ff5191bb1e937e4ce943dd65414d4a481988b4d3fc0b5a55f659d7cd50cb5da",
+      "edits": [
+        {
+          "before": "&PTR_FUN_003a401c",
+          "after": "UINT32_C(0x003a401c)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0001f94d",
+              "bytes": "c7061c403a00",
+              "operands": "dword ptr [esi], 0x3a401c"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "8de0c9f2174c2d11f98cf795bca0253fdc69d7385cb4270bfff08a585684e4fa"
+    },
+    {
+      "entry": "0x00020100",
+      "source": "src/main_unclassified/band_0002/0x00020100.cpp",
+      "body_sha256": "4D64BB8345AAC4B4D0DB548AE0C435360AC2BA49C66A3A7E5B5B62319321B4F5",
+      "body_ranges": [
+        {
+          "start": "0x00020100",
+          "end_inclusive": "0x00020164",
+          "length": 101
+        }
+      ],
+      "source_sha256": "64bdabc81694bf2e878892389e2287243ce775452f6d6aa00484293400be1d62",
+      "source_git_blob": "860f615eb8087590953782efbde7f00fc836e9ac",
+      "added_comment": "  /* XBE 0x00020115: MOV m32,0x003a4004 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "bb18134f09c93c9dce2e3293d3f6d928affde8579ddc59175660de507d9a2abe",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a4004",
+          "after": "UINT32_C(0x003a4004)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00020115",
+              "bytes": "c70004403a00",
+              "operands": "dword ptr [eax], 0x3a4004"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "64bdabc81694bf2e878892389e2287243ce775452f6d6aa00484293400be1d62"
+    },
+    {
+      "entry": "0x00020170",
+      "source": "src/main_unclassified/band_0002/0x00020170.cpp",
+      "body_sha256": "6DBC292259DD740CB861ED209AABD68661D03634052AF56CBE35E1904CB54094",
+      "body_ranges": [
+        {
+          "start": "0x00020170",
+          "end_inclusive": "0x000201F1",
+          "length": 130
+        }
+      ],
+      "source_sha256": "3fccfb8abd5693131cc129cffaa73d386d5b77b6710b1ade3e6e9dba3d5fd45d",
+      "source_git_blob": "1b03f5e0817b792a51cc011355a521e02f3abd66",
+      "added_comment": "  /* XBE 0x0002019e: MOV m32,0x003a4014 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "52fd88ca871ec21dca4dfb5a1355b20bc807b5b5f979bc9737947bb8ebf12762",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a4014",
+          "after": "UINT32_C(0x003a4014)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0002019e",
+              "bytes": "c70614403a00",
+              "operands": "dword ptr [esi], 0x3a4014"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "c1dba865c208defb1927a61e2efbb6d78dc6ea5e12200bcd75e15732095bbedf"
+    },
+    {
+      "entry": "0x000204e0",
+      "source": "src/main_unclassified/band_0002/0x000204e0.cpp",
+      "body_sha256": "888C6BF339F00A10959BCBB7030394B137A54B61C940215C54CABF26B3070A0B",
+      "body_ranges": [
+        {
+          "start": "0x000204E0",
+          "end_inclusive": "0x00020524",
+          "length": 69
+        }
+      ],
+      "source_sha256": "eae29cada997604c11bf2db12dd66de7b31e6a73319ce105805b0d64443f9ec6",
+      "source_git_blob": "d87497a1c00bbb045d56bd721e9c81bd8dddcdb6",
+      "added_comment": "  /* XBE 0x000204f4: MOV m32,0x003a4000 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "c120c16a611f3d13b762cfdc716295be1073fd4b44a9e877e296991fe4994406",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a4000",
+          "after": "UINT32_C(0x003a4000)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000204f4",
+              "bytes": "c70000403a00",
+              "operands": "dword ptr [eax], 0x3a4000"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "eae29cada997604c11bf2db12dd66de7b31e6a73319ce105805b0d64443f9ec6"
+    },
+    {
+      "entry": "0x00023940",
+      "source": "src/main_unclassified/band_0002/0x00023940.cpp",
+      "body_sha256": "D715E29BA8670C53B97A45BA14770471F6E784367255C8111768346E1AA431C4",
+      "body_ranges": [
+        {
+          "start": "0x00023940",
+          "end_inclusive": "0x0002396F",
+          "length": 48
+        }
+      ],
+      "source_sha256": "11a88ee7605cf647239dc61afe1febcddb3015ebb73ad7ae40e92461d864c4b7",
+      "source_git_blob": "feb50971469449162e51624bddcc6d2599e6e883",
+      "added_comment": "  /* XBE 0x00023955: MOV m32,0x0039cc18 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "d8c1c6ac2dbb511b5de8785234242bf262de88ae3e3c0b3878fb3ec3b9741351",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039cc18",
+          "after": "UINT32_C(0x0039cc18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00023955",
+              "bytes": "c70018cc3900",
+              "operands": "dword ptr [eax], 0x39cc18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "11a88ee7605cf647239dc61afe1febcddb3015ebb73ad7ae40e92461d864c4b7"
+    },
+    {
+      "entry": "0x00023990",
+      "source": "src/main_unclassified/band_0002/0x00023990.cpp",
+      "body_sha256": "BA7BECA74EC0D92C6D24B10635B9A456955057CA7C6C0CF268F89E9845937AA1",
+      "body_ranges": [
+        {
+          "start": "0x00023990",
+          "end_inclusive": "0x000239CD",
+          "length": 62
+        }
+      ],
+      "source_sha256": "4a3b20d4226b14564fa3702abcdb848dbc5d486526351b56ccab504f69a9e206",
+      "source_git_blob": "fa9d6c34b81c3803d702f0bc14033ad1d79a6424",
+      "added_comment": "  /* XBE 0x000239b9: MOV m32,0x003a3fcc stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "5c35a86994bd7210a6bed1bd175c0274ca5769862de99fcbcff20b6296c7ec0e",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a3fcc",
+          "after": "UINT32_C(0x003a3fcc)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000239b9",
+              "bytes": "c700cc3f3a00",
+              "operands": "dword ptr [eax], 0x3a3fcc"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "4a3b20d4226b14564fa3702abcdb848dbc5d486526351b56ccab504f69a9e206"
+    },
+    {
+      "entry": "0x000239d0",
+      "source": "src/main_unclassified/band_0002/0x000239d0.cpp",
+      "body_sha256": "6117DCC106A348F42520874D735780AB2F01A2077921EE7F9026B8D916A42414",
+      "body_ranges": [
+        {
+          "start": "0x000239D0",
+          "end_inclusive": "0x00023A24",
+          "length": 85
+        }
+      ],
+      "source_sha256": "00283a520874a110fa895b94ae2fc6cb065eb7f3593fbf1ea4962d74989a47a7",
+      "source_git_blob": "0c83a767201b5eb22b93dd694f2d9488e738543f",
+      "added_comment": "  /* XBE 0x00023a10: MOV m32,0x003a3fec stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "a38f9c25d1230e9d6135e73fd3a0e68615f9e82c6f8f13350e5fab794e081c08",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a3fec",
+          "after": "UINT32_C(0x003a3fec)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00023a10",
+              "bytes": "c700ec3f3a00",
+              "operands": "dword ptr [eax], 0x3a3fec"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "00283a520874a110fa895b94ae2fc6cb065eb7f3593fbf1ea4962d74989a47a7"
+    },
+    {
+      "entry": "0x00023a30",
+      "source": "src/main_unclassified/band_0002/0x00023a30.cpp",
+      "body_sha256": "06FF3F6190A19F003D8DD501363AE98EC5F4DC30D62A6896778E32B131CC35A6",
+      "body_ranges": [
+        {
+          "start": "0x00023A30",
+          "end_inclusive": "0x00023A71",
+          "length": 66
+        }
+      ],
+      "source_sha256": "7d71e18d68cc273e72391b97d567c0ca87183c3ff43f7dca5e61e4055c1a40c9",
+      "source_git_blob": "59d7c149ead71a2e825f8ce92936d34f64d88b22",
+      "added_comment": "  /* XBE 0x00023a6b: MOV m32,0x003a3fd4 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "dfc9925724316a1bb02ea0a978c3090b06163c34550756addb682af5de2187f5",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a3fd4",
+          "after": "UINT32_C(0x003a3fd4)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00023a6b",
+              "bytes": "c700d43f3a00",
+              "operands": "dword ptr [eax], 0x3a3fd4"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "7d71e18d68cc273e72391b97d567c0ca87183c3ff43f7dca5e61e4055c1a40c9"
+    },
+    {
+      "entry": "0x0002f140",
+      "source": "src/main_unclassified/band_0002/0x0002f140.cpp",
+      "body_sha256": "1FFFAF8C07F1782167ACB982FA9EE721D0CA2C9CDD7604524E0DC1190E139451",
+      "body_ranges": [
+        {
+          "start": "0x0002F140",
+          "end_inclusive": "0x0002F173",
+          "length": 52
+        }
+      ],
+      "source_sha256": "d371e63c9515e6501216f22ef9ef24784063cc677e2a428ad846d047e6e46e31",
+      "source_git_blob": "4a59b27202887906bfd9ea5c5e39682b4d4f48ac",
+      "added_comment": "  /* XBE 0x0002f161: MOV m32,0x003a3ff8 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "d130e876f86c5b48b82f4bdc418decaa444f9b9cc611c134c5262d71db70f81e",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a3ff8",
+          "after": "UINT32_C(0x003a3ff8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0002f161",
+              "bytes": "c700f83f3a00",
+              "operands": "dword ptr [eax], 0x3a3ff8"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "d371e63c9515e6501216f22ef9ef24784063cc677e2a428ad846d047e6e46e31"
+    },
+    {
+      "entry": "0x0003db70",
+      "source": "src/main_unclassified/band_0003/0x0003db70.cpp",
+      "body_sha256": "CC26901D26F4082DF7D421AA963B4AD8D0F4CBAEC6A5AB61733EC63C8D2C11BB",
+      "body_ranges": [
+        {
+          "start": "0x0003DB70",
+          "end_inclusive": "0x0003DBA3",
+          "length": 52
+        }
+      ],
+      "source_sha256": "27ffb598892a8dc493370c8def3086258260fa910f076a968f1ecfc8b0349ba8",
+      "source_git_blob": "0377195f0c97b37e64384097306fc85bdad10c5c",
+      "added_comment": "  /* XBE 0x0003db95: MOV m32,0x003a3fa8 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "a4dae15c54455ba8c8c1bfe909a7044b78914322f61208932a921693d23f4df1",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a3fa8",
+          "after": "UINT32_C(0x003a3fa8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0003db95",
+              "bytes": "c700a83f3a00",
+              "operands": "dword ptr [eax], 0x3a3fa8"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "27ffb598892a8dc493370c8def3086258260fa910f076a968f1ecfc8b0349ba8"
+    },
+    {
+      "entry": "0x00049920",
+      "source": "src/main_unclassified/band_0004/0x00049920.cpp",
+      "body_sha256": "0DE852846BC4145EAFE3C4C00C964A8CC44526FF5B42198503DA375C3DDD71A5",
+      "body_ranges": [
+        {
+          "start": "0x00049920",
+          "end_inclusive": "0x00049961",
+          "length": 66
+        }
+      ],
+      "source_sha256": "3c645eb82786548c987ae0ffc153a0e9a851725b6c665590f50aa1a699b32482",
+      "source_git_blob": "45a96c7d1b137525c08811ef72e034adb51236d4",
+      "added_comment": "  /* XBE 0x0004995b: MOV m32,0x003a3f94 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "b48dcd173b6df38e7b1888635f690447d81b106095abeace028a830c0d2276a4",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a3f94",
+          "after": "UINT32_C(0x003a3f94)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0004995b",
+              "bytes": "c700943f3a00",
+              "operands": "dword ptr [eax], 0x3a3f94"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "3c645eb82786548c987ae0ffc153a0e9a851725b6c665590f50aa1a699b32482"
+    },
+    {
+      "entry": "0x00049970",
+      "source": "src/main_unclassified/band_0004/0x00049970.cpp",
+      "body_sha256": "7AC8C322D90367381D25D4CA6A0EC5885F83BF505FEF2059DAB2B4DD58C92F5E",
+      "body_ranges": [
+        {
+          "start": "0x00049970",
+          "end_inclusive": "0x000499B1",
+          "length": 66
+        }
+      ],
+      "source_sha256": "e67ffde654b01319ff619a71ce263ebee4ef09f22f59134640a66a685456e168",
+      "source_git_blob": "322326a96cbccdb4f176d2b86f6dde2768237a2c",
+      "added_comment": "  /* XBE 0x000499ab: MOV m32,0x003a3f88 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "7e5b7f7a7b0ec771cf40fa1f5d88458c0ac49fe3b2aebc3b5e4d207ef238a906",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a3f88",
+          "after": "UINT32_C(0x003a3f88)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000499ab",
+              "bytes": "c700883f3a00",
+              "operands": "dword ptr [eax], 0x3a3f88"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "e67ffde654b01319ff619a71ce263ebee4ef09f22f59134640a66a685456e168"
+    },
+    {
+      "entry": "0x00056d20",
+      "source": "src/main_unclassified/band_0005/0x00056d20.cpp",
+      "body_sha256": "A9D78DA7E69151D3C06EF21D1E48DFF80013AD27E2CB7DEA429D8691543BE128",
+      "body_ranges": [
+        {
+          "start": "0x00056D20",
+          "end_inclusive": "0x00056D4F",
+          "length": 48
+        }
+      ],
+      "source_sha256": "2622ecd9498c92670bb6c5681917f35972afc4c25706ea0e2f120dafa9e67b90",
+      "source_git_blob": "ccb8b2bc20dda434004e2609f0e732bbb7933c16",
+      "added_comment": "  /* XBE 0x00056d35: MOV m32,0x0039cc18 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "2650772e3701a27d3da6d238d3007ad041390667af8d967524689f7402fe1769",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039cc18",
+          "after": "UINT32_C(0x0039cc18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00056d35",
+              "bytes": "c70018cc3900",
+              "operands": "dword ptr [eax], 0x39cc18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "2622ecd9498c92670bb6c5681917f35972afc4c25706ea0e2f120dafa9e67b90"
+    },
+    {
+      "entry": "0x00058530",
+      "source": "src/main_unclassified/band_0005/0x00058530.cpp",
+      "body_sha256": "BD43B4DB29657BBA208C6A04875ACE27187116986644CFC04BBD0AAC28FC4610",
+      "body_ranges": [
+        {
+          "start": "0x00058530",
+          "end_inclusive": "0x0005858E",
+          "length": 95
+        }
+      ],
+      "source_sha256": "145d424100a4b1ef18c5ec2e0fd861068ecc6d295aa2adb166f50cd746781d75",
+      "source_git_blob": "f84a635e5546be8f0d8f6e2aaa80da99c15c613c",
+      "added_comment": "  /* XBE 0x00058533: MOV m32,0x003a4024 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "776cc761fc9ed50201fb9a1a666168ce419cbf8ea64177398d927aa1d020d0b1",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a4024",
+          "after": "UINT32_C(0x003a4024)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00058533",
+              "bytes": "c7402824403a00",
+              "operands": "dword ptr [eax + 0x28], 0x3a4024"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "145d424100a4b1ef18c5ec2e0fd861068ecc6d295aa2adb166f50cd746781d75"
+    },
+    {
+      "entry": "0x0005df00",
+      "source": "src/main_unclassified/band_0005/0x0005df00.cpp",
+      "body_sha256": "F75F49FAE25EC171703910BDB3F79BC9D6A81170B4473331C33C5554064C139B",
+      "body_ranges": [
+        {
+          "start": "0x0005DF00",
+          "end_inclusive": "0x0005DF65",
+          "length": 102
+        }
+      ],
+      "source_sha256": "617b7b87a608207c4df74737ec65c55ea398cfc1e825b6a2379de192e5ec67a2",
+      "source_git_blob": "0f6ffa23f9017d528d35c694408f85638186a091",
+      "added_comment": "  /* XBE 0x0005df2c: MOV m32,0x003a3f10 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "2356a57e7c0f7bc07b948f7505a410dede6c195d19fd225a40adaaa955c895b6",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a3f10",
+          "after": "UINT32_C(0x003a3f10)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0005df2c",
+              "bytes": "c700103f3a00",
+              "operands": "dword ptr [eax], 0x3a3f10"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "617b7b87a608207c4df74737ec65c55ea398cfc1e825b6a2379de192e5ec67a2"
+    },
+    {
+      "entry": "0x00060d40",
+      "source": "src/main_unclassified/band_0006/0x00060d40.cpp",
+      "body_sha256": "383292C937C22EDD6B8F7297C09C975BAD52E60CA2CFDCE79205693946A34C89",
+      "body_ranges": [
+        {
+          "start": "0x00060D40",
+          "end_inclusive": "0x00060DB2",
+          "length": 115
+        }
+      ],
+      "source_sha256": "f3a26a55dcd238d65e32341a129e68970998d3fdc17eaab16e4701611ba5117c",
+      "source_git_blob": "0e5ff30c52065d19bdf9c5fb2720e2818135bfe0",
+      "added_comment": "  /* XBE 0x00060d7b: MOV m32,0x003a3b90 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "8838ee78977bb5d976963a2592036f49bb8a5334e035d0b2002945bff445ab2e",
+      "edits": [
+        {
+          "before": "&PTR_FUN_003a3b90",
+          "after": "UINT32_C(0x003a3b90)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00060d7b",
+              "bytes": "c700903b3a00",
+              "operands": "dword ptr [eax], 0x3a3b90"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "f3a26a55dcd238d65e32341a129e68970998d3fdc17eaab16e4701611ba5117c"
+    },
+    {
+      "entry": "0x00065640",
+      "source": "src/main_unclassified/band_0006/0x00065640.cpp",
+      "body_sha256": "31A450BF68861E9DA76D4AC3C9BAC5F13C790A5854A6D0B3CC695751702A85AE",
+      "body_ranges": [
+        {
+          "start": "0x00065640",
+          "end_inclusive": "0x000656D3",
+          "length": 148
+        }
+      ],
+      "source_sha256": "ca304663008d9132a1a9364f6961d75d034d6e33e234358440c5ea987254b971",
+      "source_git_blob": "870cd7929e545aead5aa6dde9b8afe6797328ac5",
+      "added_comment": "  /* XBE 0x00065686: MOV m32,0x003a3318 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "7c5ecb5498be7e1d84b3e895a7e4c03f76544afc0bc4bef96918d358a1a701a2",
+      "edits": [
+        {
+          "before": "&PTR_FUN_003a3318",
+          "after": "UINT32_C(0x003a3318)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00065686",
+              "bytes": "c70018333a00",
+              "operands": "dword ptr [eax], 0x3a3318"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "ca304663008d9132a1a9364f6961d75d034d6e33e234358440c5ea987254b971"
+    },
+    {
+      "entry": "0x00066920",
+      "source": "src/main_unclassified/band_0006/0x00066920.cpp",
+      "body_sha256": "A93F04EAA98EAA37069145C133D48C99CD389EAE8A69E611C9CF34ADE8C8640B",
+      "body_ranges": [
+        {
+          "start": "0x00066920",
+          "end_inclusive": "0x0006696C",
+          "length": 77
+        }
+      ],
+      "source_sha256": "c77d2a55a2892b844c6cc6f3e83d53bcc86bbd76c7eb4b1a219955c042e174e0",
+      "source_git_blob": "5848303e5467ede3976decae0641801baaf086bf",
+      "added_comment": "  /* XBE 0x00066960: MOV m32,0x003a3010 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "a8c258934c11545e1a006d794011ea6fa885006795eb5ad49959783aa510d477",
+      "edits": [
+        {
+          "before": "&PTR_FUN_003a3010",
+          "after": "UINT32_C(0x003a3010)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00066960",
+              "bytes": "c70010303a00",
+              "operands": "dword ptr [eax], 0x3a3010"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "c77d2a55a2892b844c6cc6f3e83d53bcc86bbd76c7eb4b1a219955c042e174e0"
+    },
+    {
+      "entry": "0x0006ef40",
+      "source": "src/main_unclassified/band_0006/0x0006ef40.cpp",
+      "body_sha256": "CA98F3A1723486CFBE1D4AA92FCF6BF3D853CA762B25998F0F422C937CBE11EB",
+      "body_ranges": [
+        {
+          "start": "0x0006EF40",
+          "end_inclusive": "0x0006EFA6",
+          "length": 103
+        }
+      ],
+      "source_sha256": "72d7a2cf34d0e148cd1cdac82d82173cb248516b93ca387c1f8e91b08f76564d",
+      "source_git_blob": "6b602b102d33b2a6b8aaa1e2d5bde50a32873427",
+      "added_comment": "  /* XBE 0x0006ef5d: MOV m32,0x003a2614 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "6529e76603ff77bcd679771fb4eb64f4383abea4ae657572dad4c049be3334f6",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a2614",
+          "after": "UINT32_C(0x003a2614)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0006ef5d",
+              "bytes": "c70014263a00",
+              "operands": "dword ptr [eax], 0x3a2614"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "72d7a2cf34d0e148cd1cdac82d82173cb248516b93ca387c1f8e91b08f76564d"
+    },
+    {
+      "entry": "0x0008dc50",
+      "source": "src/main_unclassified/band_0008/0x0008dc50.cpp",
+      "body_sha256": "10BA1AA0CFDD455852068FC536991D6BC8E08F1265846CBED916B9C2F16B323B",
+      "body_ranges": [
+        {
+          "start": "0x0008DC50",
+          "end_inclusive": "0x0008DC91",
+          "length": 66
+        }
+      ],
+      "source_sha256": "8da427f474c5d2e717b5d8c38e747fe0e25490ddb015f171e5ae5f6be2d7c591",
+      "source_git_blob": "60b98e62a8cae5317eaffc5e37be5fde2a37ee16",
+      "added_comment": "  /* XBE 0x0008dc55: MOV m32,0x003a2068 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "cdf70f0a9976afc42259c4595e21f6f1867e99e1230b06d99b48002320a6b1bc",
+      "edits": [
+        {
+          "before": "&PTR_FUN_003a2068",
+          "after": "UINT32_C(0x003a2068)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0008dc55",
+              "bytes": "c70668203a00",
+              "operands": "dword ptr [esi], 0x3a2068"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "fa89191df965e09d0b8289725dd1e81c0f1b170b22f1f37e4b44bcaa2eeb0565"
+    },
+    {
+      "entry": "0x000b8710",
+      "source": "src/main_unclassified/band_000b/0x000b8710.cpp",
+      "body_sha256": "33F4030AA56C7197F5D3E956935640B8E5390F828458A6939CF5F8FB27B6D5E5",
+      "body_ranges": [
+        {
+          "start": "0x000B8710",
+          "end_inclusive": "0x000B874D",
+          "length": 62
+        }
+      ],
+      "source_sha256": "0fccc9d53741a8fc679dbcc9fafb79e85cb745bdfff9c12a943f631d849e5588",
+      "source_git_blob": "7f591b8e8a809faa97eddf4a4d3aeba5d685886d",
+      "added_comment": "  /* XBE 0x000b871a: MOV m32,0x0039fbc0 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "d2a3442ae01cba83cd3bba230b39a7ea3885ef1ad0389781df736e1a53ba6ef0",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039fbc0",
+          "after": "UINT32_C(0x0039fbc0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000b871a",
+              "bytes": "c706c0fb3900",
+              "operands": "dword ptr [esi], 0x39fbc0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "0652b7e35fdbb86cf2c363724562b4774411c1d9ede4360c592fdf7460befaab"
+    },
+    {
+      "entry": "0x000b9e40",
+      "source": "src/main_unclassified/band_000b/0x000b9e40.cpp",
+      "body_sha256": "9CE5D39F39FC15A4A8D8B5BF9803A923C1165D85A057C60C5CA2550B08B0C0F2",
+      "body_ranges": [
+        {
+          "start": "0x000B9E40",
+          "end_inclusive": "0x000B9E51",
+          "length": 18
+        }
+      ],
+      "source_sha256": "6dcb8d86020327449899fca1ece79e9cd74ca24a4cdc7b94ba00e269edc94220",
+      "source_git_blob": "e9df317eff343f27634caf531138ea23f6ff0a5f",
+      "added_comment": "  /* XBE 0x000b9e48: MOV m32,0x0039fb28 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "d6df55b49c90a424c4cd955da4ea26dcc53995c0099f5cabe0a8fb62b83e9611",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039fb28",
+          "after": "UINT32_C(0x0039fb28)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000b9e48",
+              "bytes": "c70628fb3900",
+              "operands": "dword ptr [esi], 0x39fb28"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "c896a5944e87c70e3136304b82328214d593bfa641ca43b293b2be372306dce0"
+    },
+    {
+      "entry": "0x000b9e60",
+      "source": "src/main_unclassified/band_000b/0x000b9e60.cpp",
+      "body_sha256": "1BEB35EDB16BD6C2AE6E664BFB93DEEBE8D4E528D834DFFFA2C810419AB8C40D",
+      "body_ranges": [
+        {
+          "start": "0x000B9E60",
+          "end_inclusive": "0x000B9E71",
+          "length": 18
+        }
+      ],
+      "source_sha256": "644414226ea911627024d0a6855cf8a888335d53d640408f7351ea978aea29cc",
+      "source_git_blob": "1c7fa5c69ffe31dc027ddd6d4177828e67917e20",
+      "added_comment": "  /* XBE 0x000b9e68: MOV m32,0x0039fab0 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "c64947ba92420e3f0d8a38c99d27a002d519bc4d64c8d0c898178e48dfeea825",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039fab0",
+          "after": "UINT32_C(0x0039fab0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000b9e68",
+              "bytes": "c706b0fa3900",
+              "operands": "dword ptr [esi], 0x39fab0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "88c3730ad2d84e258aa3cc865238d25509beea2e76de843983d2c73b09605d6d"
+    },
+    {
+      "entry": "0x000b9ee0",
+      "source": "src/main_unclassified/band_000b/0x000b9ee0.cpp",
+      "body_sha256": "38767954605C51BF726FE9AE1DFCFF1D8A88D6CEFFC395AD4795A619BC3116DD",
+      "body_ranges": [
+        {
+          "start": "0x000B9EE0",
+          "end_inclusive": "0x000B9EF1",
+          "length": 18
+        }
+      ],
+      "source_sha256": "8b97c1537949c0c4739156b855ff29a0b3d681da263a15f6a73d5a3c4d710ade",
+      "source_git_blob": "d69aaf36e8c489c3240541422cbc3ec24297535e",
+      "added_comment": "  /* XBE 0x000b9ee8: MOV m32,0x0039fb64 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "7fd95f1c5f21829c391b610774e47be12d61b2d2ccdc16baaadb7ea1e54eebc7",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039fb64",
+          "after": "UINT32_C(0x0039fb64)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000b9ee8",
+              "bytes": "c70664fb3900",
+              "operands": "dword ptr [esi], 0x39fb64"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "cd001f72e0c0c7634701301f85b12611032ce3c6046bdabb71d5572c8ecfd127"
+    },
+    {
+      "entry": "0x000b9f00",
+      "source": "src/main_unclassified/band_000b/0x000b9f00.cpp",
+      "body_sha256": "EF7FE074D1B84D075FC7CC76E3FACEE0EBC9CACEEFDC3622C3334E096231441F",
+      "body_ranges": [
+        {
+          "start": "0x000B9F00",
+          "end_inclusive": "0x000B9F11",
+          "length": 18
+        }
+      ],
+      "source_sha256": "75dd2813cf2e6a71c03ce7f2d063fbb017dc0395acf365247e40a5008b3b72cb",
+      "source_git_blob": "c8985c7946f42cfde8023b192b61fc9e9a2bc6d6",
+      "added_comment": "  /* XBE 0x000b9f08: MOV m32,0x0039faf0 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "16949ea1435a45e328d274c73bacb8f2ccb22d4b437c49e2f07bf5e0be4a6538",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039faf0",
+          "after": "UINT32_C(0x0039faf0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000b9f08",
+              "bytes": "c706f0fa3900",
+              "operands": "dword ptr [esi], 0x39faf0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "2239b5c56439ed5172f71793b1606d5cd5ad72572a0a2a312c6d41d8ee00b84c"
+    },
+    {
+      "entry": "0x000b9f20",
+      "source": "src/main_unclassified/band_000b/0x000b9f20.cpp",
+      "body_sha256": "62F98E699C4125F915029B68F0D2D37432F7BA7E4FD2D0606CE7ED26606466C3",
+      "body_ranges": [
+        {
+          "start": "0x000B9F20",
+          "end_inclusive": "0x000B9F31",
+          "length": 18
+        }
+      ],
+      "source_sha256": "f761ae4baf99206e8098fcf5c22e608fdfb7006fa8449598ff04843205728cb4",
+      "source_git_blob": "5411fe815b33f59c633b1b5a2837f1a82ff3254b",
+      "added_comment": "  /* XBE 0x000b9f28: MOV m32,0x0039fa78 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "3ffac8680e3f8eb3e63ca5c8374302ef8ec5853d6d889dc972d0da5a0e5711f4",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039fa78",
+          "after": "UINT32_C(0x0039fa78)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000b9f28",
+              "bytes": "c70678fa3900",
+              "operands": "dword ptr [esi], 0x39fa78"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "220a5f8b71e4e0a7d65a2b9814d67a9ad9d518b4f928e4ea1c0a1bbf9f1ab5e2"
+    },
+    {
+      "entry": "0x000be930",
+      "source": "src/main_unclassified/band_000b/0x000be930.cpp",
+      "body_sha256": "6C46F4E2CFCD8DCAA14F505686A80A774A7DA69899FD072E6D1228CE0533C8DD",
+      "body_ranges": [
+        {
+          "start": "0x000BE930",
+          "end_inclusive": "0x000BE95F",
+          "length": 48
+        }
+      ],
+      "source_sha256": "7cd1b4c4618f7e3ce0b9ea8d8d8e07a2bfc8d3e3bd397ca1320fc28900e87a50",
+      "source_git_blob": "cda34a023e9c1212363212f2ddcddddd7cdabda3",
+      "added_comment": "  /* XBE 0x000be945: MOV m32,0x0039f73c stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "01bacb8a4d740860ee5264cc90b72862e59c7cd5a1d0a3fe97b88b921a21b775",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039f73c",
+          "after": "UINT32_C(0x0039f73c)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000be945",
+              "bytes": "c7003cf73900",
+              "operands": "dword ptr [eax], 0x39f73c"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "7cd1b4c4618f7e3ce0b9ea8d8d8e07a2bfc8d3e3bd397ca1320fc28900e87a50"
+    },
+    {
+      "entry": "0x000bea80",
+      "source": "src/main_unclassified/band_000b/0x000bea80.cpp",
+      "body_sha256": "DD4BD71A79DA9AEF1BE968E76439ADA3E2F266274F8E22350D24F7276F4A43B2",
+      "body_ranges": [
+        {
+          "start": "0x000BEA80",
+          "end_inclusive": "0x000BEADD",
+          "length": 94
+        }
+      ],
+      "source_sha256": "333b42fbf05eeb0324f6246a93bd216e6c04ce7e0b472d351dd4c8aecf328f92",
+      "source_git_blob": "1da9daa838b73400b1ffbc655ae00d0540502805",
+      "added_comment": "  /* XBE 0x000bea85: MOV m32,0x0039f74c stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "01a29ee60828ffaf3e6d5408cd81409cb5dd1f6b10becc23c25fcb07818de70c",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039f74c",
+          "after": "UINT32_C(0x0039f74c)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000bea85",
+              "bytes": "c7074cf73900",
+              "operands": "dword ptr [edi], 0x39f74c"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "bc8d5ef15f31f52aee0466788f736417fc7507cdee06a54c8854e58dd9cfad1b"
+    },
+    {
+      "entry": "0x000c1b30",
+      "source": "src/main_unclassified/band_000c/0x000c1b30.cpp",
+      "body_sha256": "26D61CDFE962B99BEC9440A5DB6F3BC9CD7195B8828EFA72FA1EF64A0A7D05C0",
+      "body_ranges": [
+        {
+          "start": "0x000C1B30",
+          "end_inclusive": "0x000C1B7B",
+          "length": 76
+        }
+      ],
+      "source_sha256": "c5900f790453aaac6a18b76a7b186a0202700aec50e8ac2f95dba7c225dcefd4",
+      "source_git_blob": "b3bbff20d8fc98d528adcd1eed2eb59443e1e81a",
+      "added_comment": "  /* XBE 0x000c1b3d: MOV m32,0x0039f694 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "e7aef64c316a33065130d2236d3c798dedea4cc1254bae042e6434be587e6205",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039f694",
+          "after": "UINT32_C(0x0039f694)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000c1b3d",
+              "bytes": "c70694f63900",
+              "operands": "dword ptr [esi], 0x39f694"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "a107fa649b17a88e12e377da4eeae33f00936fafa5df42910036000d37b7a056"
+    },
+    {
+      "entry": "0x000cda00",
+      "source": "src/main_unclassified/band_000c/0x000cda00.cpp",
+      "body_sha256": "0F1CEB5AE693CA4BD7CBF1C422A1EA2D3A4D7AF29E6A13CD37498B26109F9CEA",
+      "body_ranges": [
+        {
+          "start": "0x000CDA00",
+          "end_inclusive": "0x000CDA29",
+          "length": 42
+        }
+      ],
+      "source_sha256": "5081278f497598e8760b2ad19086cbb837729e467427c8a432d9f89fab70a412",
+      "source_git_blob": "f4b37693b41dac967d83937281c338fb9eab3f38",
+      "added_comment": "    /* XBE 0x000cda10: MOV m32,0x0039c0ec stores a 32-bit guest VA.\n     * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "816018f08c8ecd153af0a252b2f9a2699cc86d651a5317c5ccf9d24d09966228",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039c0ec",
+          "after": "UINT32_C(0x0039c0ec)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000cda10",
+              "bytes": "c700ecc03900",
+              "operands": "dword ptr [eax], 0x39c0ec"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "11e70836977d30c8e7b2d167754e3a99a71b1479b694e6b601c362d62acfef5f"
+    },
+    {
+      "entry": "0x00124a30",
+      "source": "src/main_unclassified/band_0012/0x00124a30.cpp",
+      "body_sha256": "78ADF6646AC15EF158DE8F6888B5B51D34EB7C877D69DE265F5F59224E76E536",
+      "body_ranges": [
+        {
+          "start": "0x00124A30",
+          "end_inclusive": "0x00124A61",
+          "length": 50
+        }
+      ],
+      "source_sha256": "0be8bdc82ebbabf908019dbbca30810a3e19e4d7c579a78412986f50df9302c7",
+      "source_git_blob": "cada19f71f2156cfb9b3f97602b774813df5a1e6",
+      "added_comment": "  /* XBE 0x00124a4b: MOV m32,0x0039dbdc stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "8f6424b922fbfd52f8eb556ccdecb4c4906fc97b9fe29de44e573cc3a37ca367",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039dbdc",
+          "after": "UINT32_C(0x0039dbdc)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00124a4b",
+              "bytes": "c700dcdb3900",
+              "operands": "dword ptr [eax], 0x39dbdc"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "0be8bdc82ebbabf908019dbbca30810a3e19e4d7c579a78412986f50df9302c7"
+    },
+    {
+      "entry": "0x00139d10",
+      "source": "src/main_unclassified/band_0013/0x00139d10.cpp",
+      "body_sha256": "9B0C5D3262B46CBA139ED7B5BD1BC640152067A0B3BDACEFFCE010B2543C2B60",
+      "body_ranges": [
+        {
+          "start": "0x00139D10",
+          "end_inclusive": "0x00139D2B",
+          "length": 28
+        }
+      ],
+      "source_sha256": "61b7ebd48bb60dc6dace7680136c790bbfb3fed418a8ac16beb7ab63d5a4d967",
+      "source_git_blob": "015808e3c968b88725bd69bcee40e0f6c94c4d56",
+      "added_comment": "    /* XBE 0x00139d14: MOV m32,0x0039db6c stores a 32-bit guest VA.\n     * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "09efb861ced18ad0a5f5df7d0bb37f0800be58957b979576fec0c653a35ad0c3",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039db6c",
+          "after": "UINT32_C(0x0039db6c)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00139d14",
+              "bytes": "c7016cdb3900",
+              "operands": "dword ptr [ecx], 0x39db6c"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "61b7ebd48bb60dc6dace7680136c790bbfb3fed418a8ac16beb7ab63d5a4d967"
+    },
+    {
+      "entry": "0x0013b8d0",
+      "source": "src/main_unclassified/band_0013/0x0013b8d0.cpp",
+      "body_sha256": "16EEBC2AD6B51CA83874E296E2C88D6090EDEEE33C253D85DF367C10684DCEE8",
+      "body_ranges": [
+        {
+          "start": "0x0013B8D0",
+          "end_inclusive": "0x0013B8F2",
+          "length": 35
+        }
+      ],
+      "source_sha256": "37f2ff886b21efb52e033ac994ebffd847b2cd9d98c9cc405138ca4ecd9e0869",
+      "source_git_blob": "ee8620d3ec9752116581974a590f017282245fe3",
+      "added_comment": "  /* XBE 0x0013b8ec: MOV m32,0x0039d8f0 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "fc868984083ae3845ab0c2ff08e2ae46c0e31f20d40d565ebc97f830b5b59fe1",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039d8f0",
+          "after": "UINT32_C(0x0039d8f0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0013b8ec",
+              "bytes": "c700f0d83900",
+              "operands": "dword ptr [eax], 0x39d8f0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "37f2ff886b21efb52e033ac994ebffd847b2cd9d98c9cc405138ca4ecd9e0869"
+    },
+    {
+      "entry": "0x0013c800",
+      "source": "src/main_unclassified/band_0013/0x0013c800.cpp",
+      "body_sha256": "321851FD5AD1AB09811D4A561501437A88755D36FF3C16FF3EAA6DC826B2B287",
+      "body_ranges": [
+        {
+          "start": "0x0013C800",
+          "end_inclusive": "0x0013C822",
+          "length": 35
+        }
+      ],
+      "source_sha256": "57af065848e491b2afc4014b2e541da4a78d21c00b31969b0929cde323debfbc",
+      "source_git_blob": "74b0849c862bf4bc5bbe0fcd9e8d557746e595b1",
+      "added_comment": "  /* XBE 0x0013c81c: MOV m32,0x0039d408 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "8bb6a1e2e6aace59087a857950d24d08487c54eba55f6f0352a7192eb46f5423",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039d408",
+          "after": "UINT32_C(0x0039d408)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0013c81c",
+              "bytes": "c70008d43900",
+              "operands": "dword ptr [eax], 0x39d408"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "57af065848e491b2afc4014b2e541da4a78d21c00b31969b0929cde323debfbc"
+    },
+    {
+      "entry": "0x0013da10",
+      "source": "src/main_unclassified/band_0013/0x0013da10.cpp",
+      "body_sha256": "5A726C13C6C2E7F8B4EC19DE98B883AF47C200B6344878181DF4E4B1AEDA211A",
+      "body_ranges": [
+        {
+          "start": "0x0013DA10",
+          "end_inclusive": "0x0013DA32",
+          "length": 35
+        }
+      ],
+      "source_sha256": "7dea9d8db784c1d9f3cfffdf4946b403ed87572f1379fc755715de62e85387c1",
+      "source_git_blob": "f25568d8e7a11221dd986191a3265f18ea3f6907",
+      "added_comment": "  /* XBE 0x0013da2c: MOV m32,0x0039cea8 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "c97829ae4ca1dbbca593f0124f4ec293667d25177d983d53d0272f3fba190c11",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039cea8",
+          "after": "UINT32_C(0x0039cea8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0013da2c",
+              "bytes": "c700a8ce3900",
+              "operands": "dword ptr [eax], 0x39cea8"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "7dea9d8db784c1d9f3cfffdf4946b403ed87572f1379fc755715de62e85387c1"
+    },
+    {
+      "entry": "0x0013dec0",
+      "source": "src/main_unclassified/band_0013/0x0013dec0.cpp",
+      "body_sha256": "0D2E4708AC568C8A9D2ACF93EF3D5E02DA4A4A5EB716980CBE803EDB11360854",
+      "body_ranges": [
+        {
+          "start": "0x0013DEC0",
+          "end_inclusive": "0x0013DEEF",
+          "length": 48
+        }
+      ],
+      "source_sha256": "fcb056bfb83b7128b9a18502b51a330b68cf3e9a8d61b19988b2d772ddeabc1f",
+      "source_git_blob": "5256596bd0b9bc45046ee88bfda60e97888791ca",
+      "added_comment": "  /* XBE 0x0013ded5: MOV m32,0x0039cc20 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "a9dcbf6767513b574065c3d2ebc2c11cc9c94548a422b487c48ad826a0dcb566",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039cc20",
+          "after": "UINT32_C(0x0039cc20)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0013ded5",
+              "bytes": "c70020cc3900",
+              "operands": "dword ptr [eax], 0x39cc20"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "fcb056bfb83b7128b9a18502b51a330b68cf3e9a8d61b19988b2d772ddeabc1f"
+    },
+    {
+      "entry": "0x0013df40",
+      "source": "src/main_unclassified/band_0013/0x0013df40.cpp",
+      "body_sha256": "39D02EAF1AC30844A831B0E8DDBE41F0BAF8829FE5B62D11543DED3DF498A49E",
+      "body_ranges": [
+        {
+          "start": "0x0013DF40",
+          "end_inclusive": "0x0013DF6F",
+          "length": 48
+        }
+      ],
+      "source_sha256": "d05e364e6fca9d862a1741096107654c2bf924c4c89e762e7bab76b37e7a6ddc",
+      "source_git_blob": "6b688014df8c1a95cfe1a05865252b5f64356d81",
+      "added_comment": "  /* XBE 0x0013df55: MOV m32,0x0039cc18 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "674d11c485dd7c14104a8bd220586ac8f07f4f8ee859dc9fda76818ffcea87e0",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039cc18",
+          "after": "UINT32_C(0x0039cc18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0013df55",
+              "bytes": "c70018cc3900",
+              "operands": "dword ptr [eax], 0x39cc18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "d05e364e6fca9d862a1741096107654c2bf924c4c89e762e7bab76b37e7a6ddc"
+    },
+    {
+      "entry": "0x0013ef20",
+      "source": "src/main_unclassified/band_0013/0x0013ef20.cpp",
+      "body_sha256": "04A8DD102EBEBF54E61F04FB21D682DB24A7BA4E57BCC8DD53F90FDFD81AA8C8",
+      "body_ranges": [
+        {
+          "start": "0x0013EF20",
+          "end_inclusive": "0x0013EF42",
+          "length": 35
+        }
+      ],
+      "source_sha256": "1efa67d8b1c1ec7fdcf8d3586a7bd94907428b48f58c1e0c658cc300f859c56e",
+      "source_git_blob": "7b18f443bd717fcc986251be492cfc34e08c121b",
+      "added_comment": "  /* XBE 0x0013ef3c: MOV m32,0x0039c870 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "25dd65c80f21d6e84b09b01f270309c5407ce66417da1874faab4765d89705db",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039c870",
+          "after": "UINT32_C(0x0039c870)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0013ef3c",
+              "bytes": "c70070c83900",
+              "operands": "dword ptr [eax], 0x39c870"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "1efa67d8b1c1ec7fdcf8d3586a7bd94907428b48f58c1e0c658cc300f859c56e"
+    },
+    {
+      "entry": "0x0013f3a0",
+      "source": "src/main_unclassified/band_0013/0x0013f3a0.cpp",
+      "body_sha256": "7742F6021EA09F076B82924B17436AE4781E7D5CBF756A0E49F6D247DB1F605D",
+      "body_ranges": [
+        {
+          "start": "0x0013F3A0",
+          "end_inclusive": "0x0013F3DF",
+          "length": 64
+        }
+      ],
+      "source_sha256": "faee8540d5b5146eed83eacb8a184b8a06afeaa7fb730ed72fa05ad28ea39f96",
+      "source_git_blob": "d62b99d40afc05f4286be3a36e56d3de2dfd0dd5",
+      "added_comment": "  /* XBE 0x0013f3b7: MOV m32,0x0039c324 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "11f23dc545a757ff250498d6d15486a3c6110c107eb94840cc3120759461c8c9",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039c324",
+          "after": "UINT32_C(0x0039c324)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0013f3b7",
+              "bytes": "c70024c33900",
+              "operands": "dword ptr [eax], 0x39c324"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "faee8540d5b5146eed83eacb8a184b8a06afeaa7fb730ed72fa05ad28ea39f96"
+    },
+    {
+      "entry": "0x0014bb20",
+      "source": "src/main_unclassified/band_0014/0x0014bb20.cpp",
+      "body_sha256": "872B884360737B6C104A9CF3EC6AA5C542CB5C1FEEFEA7AE72332AF325E46128",
+      "body_ranges": [
+        {
+          "start": "0x0014BB20",
+          "end_inclusive": "0x0014BB68",
+          "length": 73
+        }
+      ],
+      "source_sha256": "59ffc04b11922d9ab01bdbdca6a9563cebd48bda801eef3dd07cc505ae80f5a0",
+      "source_git_blob": "90698d5af504f7219c697c6709484f2925f4ce28",
+      "added_comment": "  /* XBE 0x0014bb26: MOV m32,0x0039b290 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "c11fad58b38a975697ff38c0eb9f865de46033cd6796653d24239efb779ccf71",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039b290",
+          "after": "UINT32_C(0x0039b290)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0014bb26",
+              "bytes": "c70090b23900",
+              "operands": "dword ptr [eax], 0x39b290"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "59ffc04b11922d9ab01bdbdca6a9563cebd48bda801eef3dd07cc505ae80f5a0"
+    },
+    {
+      "entry": "0x00173630",
+      "source": "src/main_unclassified/band_0017/0x00173630.cpp",
+      "body_sha256": "5ED27D5817CAACC0736D32EFD2EF90F074B27371493080FB21437D0CFF64A98B",
+      "body_ranges": [
+        {
+          "start": "0x00173630",
+          "end_inclusive": "0x0017364B",
+          "length": 28
+        }
+      ],
+      "source_sha256": "2a4c7b7d6e6c10c6fa637576720fad298cc7922b4d7cea102b47a5b3e94fc9b1",
+      "source_git_blob": "1d0c9925f9559e831123788c43dec54b31880917",
+      "added_comment": "  /* XBE 0x00173630: MOV m32,0x0039a3d0 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "53bd4a8df457db73527e601ed3dd3fc34e5c98b2b009250667d40d3e755c539c",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039a3d0",
+          "after": "UINT32_C(0x0039a3d0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00173630",
+              "bytes": "c700d0a33900",
+              "operands": "dword ptr [eax], 0x39a3d0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "2a4c7b7d6e6c10c6fa637576720fad298cc7922b4d7cea102b47a5b3e94fc9b1"
+    },
+    {
+      "entry": "0x00173650",
+      "source": "src/main_unclassified/band_0017/0x00173650.cpp",
+      "body_sha256": "605DBDE1A228928B7144975E441B932E7C60901258DD72CBDA5CE7704E6358FD",
+      "body_ranges": [
+        {
+          "start": "0x00173650",
+          "end_inclusive": "0x0017366E",
+          "length": 31
+        }
+      ],
+      "source_sha256": "f430b0722c148f32a65d96fc73bf514f31c935d280bdfce6a890b014b7697be1",
+      "source_git_blob": "0a884c1e9f3be8c006c6d4a9e285a528c1b072f6",
+      "added_comment": "  /* XBE 0x00173659: MOV m32,0x0039a3d0 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "8a820735b365f4f3de024862b484dd3efe9de85e7451ede0a1f55d615101ea25",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039a3d0",
+          "after": "UINT32_C(0x0039a3d0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00173659",
+              "bytes": "c700d0a33900",
+              "operands": "dword ptr [eax], 0x39a3d0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "f430b0722c148f32a65d96fc73bf514f31c935d280bdfce6a890b014b7697be1"
+    },
+    {
+      "entry": "0x00174580",
+      "source": "src/main_unclassified/band_0017/0x00174580.cpp",
+      "body_sha256": "304BA89637BDC9EC7667DB067B2B27C4942618B3A3450352CD74ABBA51D71A43",
+      "body_ranges": [
+        {
+          "start": "0x00174580",
+          "end_inclusive": "0x0017459C",
+          "length": 29
+        }
+      ],
+      "source_sha256": "3b3ff8e465f636078e099846cef7df1e8d378aeac486845b097317ecd725844c",
+      "source_git_blob": "2b6d460b4c4f8a87fd6b6af02c86638d3f6e508e",
+      "added_comment": "  /* XBE 0x00174582: MOV m32,0x0039a3d0 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "30869738e635241621b41751df348fecacf329b28198fcc34274e0c2c34392ac",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039a3d0",
+          "after": "UINT32_C(0x0039a3d0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00174582",
+              "bytes": "c700d0a33900",
+              "operands": "dword ptr [eax], 0x39a3d0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "3b3ff8e465f636078e099846cef7df1e8d378aeac486845b097317ecd725844c"
+    },
+    {
+      "entry": "0x001745a0",
+      "source": "src/main_unclassified/band_0017/0x001745a0.cpp",
+      "body_sha256": "FF42427F2EEAB2B6091F4DD5AEC522455DB1160A5289424747B6F3BE72DEC729",
+      "body_ranges": [
+        {
+          "start": "0x001745A0",
+          "end_inclusive": "0x001745BF",
+          "length": 32
+        }
+      ],
+      "source_sha256": "5e812e109892aadbb7594acbdd2a7369d5218a51df3fd7244daf3f5d3617301a",
+      "source_git_blob": "897749ee004a2f8a528dae1b5d005f2f50f228fe",
+      "added_comment": "  /* XBE 0x001745a5: MOV m32,0x0039a3d0 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "1df41cd93ecb6fa7288ddfec0b36f4dd559674241d0a409f1c63a99d659861ff",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039a3d0",
+          "after": "UINT32_C(0x0039a3d0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x001745a5",
+              "bytes": "c700d0a33900",
+              "operands": "dword ptr [eax], 0x39a3d0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "5e812e109892aadbb7594acbdd2a7369d5218a51df3fd7244daf3f5d3617301a"
+    },
+    {
+      "entry": "0x001e52d0",
+      "source": "src/main_unclassified/band_001e/0x001e52d0.cpp",
+      "body_sha256": "5CF2F3648C5AC580C5148FD9C833A621EE76FB0C948B14D8556E7EA019D2DB4B",
+      "body_ranges": [
+        {
+          "start": "0x001E52D0",
+          "end_inclusive": "0x001E5312",
+          "length": 67
+        }
+      ],
+      "source_sha256": "da745ef9ddd9622208c7ff64c18583868d9029db5d41bade82b6ad493d82a783",
+      "source_git_blob": "79f4077d173b8ead7acf92e33398c629bc28fdad",
+      "added_comment": "  /* XBE 0x001e52d1: MOV m32,0x00396cd8 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "456c9b87174d30160e7f7135ddcf7bb1086dc79387997b330f8f297543b747e5",
+      "edits": [
+        {
+          "before": "&PTR_LAB_00396cd8",
+          "after": "UINT32_C(0x00396cd8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x001e52d1",
+              "bytes": "c700d86c3900",
+              "operands": "dword ptr [eax], 0x396cd8"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "da745ef9ddd9622208c7ff64c18583868d9029db5d41bade82b6ad493d82a783"
+    },
+    {
+      "entry": "0x001fb280",
+      "source": "src/main_unclassified/band_001f/0x001fb280.cpp",
+      "body_sha256": "465DCC133E9A72F9D79D5D35F238D1EBBC9ED3B38A9671C5E2D81AD406EAF4E9",
+      "body_ranges": [
+        {
+          "start": "0x001FB280",
+          "end_inclusive": "0x001FB2BF",
+          "length": 64
+        }
+      ],
+      "source_sha256": "eed7f3a264792a7c5209d99c750907365a6864bfb81682491b2510be7d8568af",
+      "source_git_blob": "57c48b005c100cac9cfd169a6236670423ad7054",
+      "added_comment": "  /* XBE 0x001fb29f: MOV m32,0x00396404 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "94b65ffac064e18c6516535c07c8f1b73984c111f4c17ee8c3f2b35ff622848d",
+      "edits": [
+        {
+          "before": "&PTR_LAB_00396404",
+          "after": "UINT32_C(0x00396404)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x001fb29f",
+              "bytes": "c70004643900",
+              "operands": "dword ptr [eax], 0x396404"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "eed7f3a264792a7c5209d99c750907365a6864bfb81682491b2510be7d8568af"
+    },
+    {
+      "entry": "0x001fb430",
+      "source": "src/main_unclassified/band_001f/0x001fb430.cpp",
+      "body_sha256": "897F99F48EF7A6A37336D5BCBE99A58178222C61C6A286A430646030DCBD33CF",
+      "body_ranges": [
+        {
+          "start": "0x001FB430",
+          "end_inclusive": "0x001FB460",
+          "length": 49
+        }
+      ],
+      "source_sha256": "ba5815e9477f54c026b9ca7155374ab69edefce05c58bb49e0ef0a6bcd920255",
+      "source_git_blob": "8cd8181079b5ee6d87c88fa1988b4c2434cec6a8",
+      "added_comment": "  /* XBE 0x001fb450: MOV m32,0x003963ec stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "56c9e7a72e61157731283ebf5d849ebee8ff7c0b51a31247ef7c93ae4b7818a9",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003963ec",
+          "after": "UINT32_C(0x003963ec)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x001fb450",
+              "bytes": "c700ec633900",
+              "operands": "dword ptr [eax], 0x3963ec"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "ba5815e9477f54c026b9ca7155374ab69edefce05c58bb49e0ef0a6bcd920255"
+    },
+    {
+      "entry": "0x001fdee0",
+      "source": "src/main_unclassified/band_001f/0x001fdee0.cpp",
+      "body_sha256": "154CA03E777935925C6A85040181E5BF924463B11EEFB87803E1FB7646C3F955",
+      "body_ranges": [
+        {
+          "start": "0x001FDEE0",
+          "end_inclusive": "0x001FDF17",
+          "length": 56
+        }
+      ],
+      "source_sha256": "8ee029fa38ddf4969a3e61bb4735ae11b075100a4b21b9c7e3399e5407ad6d26",
+      "source_git_blob": "d35f2051d1c153ff5164e0ff37079a42a58b2364",
+      "added_comment": "  /* XBE 0x001fdef0: MOV m32,0x003a3fb4 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "67eb7eec77302516e7befd2365f84a3fd8a914240c6a86176bece667c0662448",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a3fb4",
+          "after": "UINT32_C(0x003a3fb4)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x001fdef0",
+              "bytes": "c700b43f3a00",
+              "operands": "dword ptr [eax], 0x3a3fb4"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "8ee029fa38ddf4969a3e61bb4735ae11b075100a4b21b9c7e3399e5407ad6d26"
+    },
+    {
+      "entry": "0x001fdf20",
+      "source": "src/main_unclassified/band_001f/0x001fdf20.cpp",
+      "body_sha256": "6A03494CB7435FA5ECA3C2399E6C8649AD12CEBC5C26DC5C23B400388CD2B9CE",
+      "body_ranges": [
+        {
+          "start": "0x001FDF20",
+          "end_inclusive": "0x001FDF5E",
+          "length": 63
+        }
+      ],
+      "source_sha256": "56c4c5e1a9422f405f6264fc6f0bc6ee032eae42301e13724d4bbba2bc16a901",
+      "source_git_blob": "ab0d5941b2d81598b65bde0785d428f3e418a0a1",
+      "added_comment": "  /* XBE 0x001fdf30: MOV m32,0x003a3fb4 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "f9b0f2a10724baa24442ff4cc7545db8274b6fb79e8feb0324662e78da9b11ab",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003a3fb4",
+          "after": "UINT32_C(0x003a3fb4)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x001fdf30",
+              "bytes": "c700b43f3a00",
+              "operands": "dword ptr [eax], 0x3a3fb4"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "56c4c5e1a9422f405f6264fc6f0bc6ee032eae42301e13724d4bbba2bc16a901"
+    },
+    {
+      "entry": "0x00222f60",
+      "source": "src/main_unclassified/band_0022/0x00222f60.cpp",
+      "body_sha256": "17B3F6055FC7C08CD03E1175B16F758173A3597A3C9016E6E39D02961F200B18",
+      "body_ranges": [
+        {
+          "start": "0x00222F60",
+          "end_inclusive": "0x00222FB0",
+          "length": 81
+        }
+      ],
+      "source_sha256": "b52c76fc06a90f4a5cf626326a4e398fbf26647d652a561923701cef1d493da4",
+      "source_git_blob": "40c3b74191360f047d64840a1f4f5a24889fdd47",
+      "added_comment": "  /* XBE 0x00222f62: MOV m32,0x003948b8 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "a56043eb52c8d1d76d451aa2a2f9c433a2d531cad90032aa89049a8e437577a6",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003948b8",
+          "after": "UINT32_C(0x003948b8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00222f62",
+              "bytes": "c700b8483900",
+              "operands": "dword ptr [eax], 0x3948b8"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "b52c76fc06a90f4a5cf626326a4e398fbf26647d652a561923701cef1d493da4"
+    },
+    {
+      "entry": "0x002241d0",
+      "source": "src/main_unclassified/band_0022/0x002241d0.cpp",
+      "body_sha256": "44C975F70AF17C75043C545ED473137ABA2D5AD5AAF6A8A3D4B3A546C4506114",
+      "body_ranges": [
+        {
+          "start": "0x002241D0",
+          "end_inclusive": "0x0022420B",
+          "length": 60
+        }
+      ],
+      "source_sha256": "c75a9a70750800d1de12b5f6f47ccb6ede4b933cd4f6cc6ed66a4cdd530239fa",
+      "source_git_blob": "552c648a56231350d567d9f2b99e83e7bb2fd7a5",
+      "added_comment": "  /* XBE 0x002241d4: MOV m32,0x0039485c stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "91a4182c730277dba03310a2fa352d17a900f1a12f792ae1b0f17d96f2dea658",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039485c",
+          "after": "UINT32_C(0x0039485c)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002241d4",
+              "bytes": "c7025c483900",
+              "operands": "dword ptr [edx], 0x39485c"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "c75a9a70750800d1de12b5f6f47ccb6ede4b933cd4f6cc6ed66a4cdd530239fa"
+    },
+    {
+      "entry": "0x002249d0",
+      "source": "src/main_unclassified/band_0022/0x002249d0.cpp",
+      "body_sha256": "9E1354BD8407C0101FEE5C77C761B1326C2C20A378349B484B078E96E95B2A3D",
+      "body_ranges": [
+        {
+          "start": "0x002249D0",
+          "end_inclusive": "0x00224A0B",
+          "length": 60
+        }
+      ],
+      "source_sha256": "8693d70083bc87e86195c82e4acf9ff5802d64ba00b742bbb32f181980c895a0",
+      "source_git_blob": "fe5a8f848889d3fb9b54f5872ce2ba79d96e14f5",
+      "added_comment": "  /* XBE 0x002249e9: MOV m32,0x00394850 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "7f67edc958520d159505ec1591cddd335635877b5fe7a17736a276270b1c49f9",
+      "edits": [
+        {
+          "before": "&PTR_LAB_00394850",
+          "after": "UINT32_C(0x00394850)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002249e9",
+              "bytes": "c70050483900",
+              "operands": "dword ptr [eax], 0x394850"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "8693d70083bc87e86195c82e4acf9ff5802d64ba00b742bbb32f181980c895a0"
+    },
+    {
+      "entry": "0x0022a710",
+      "source": "src/main_unclassified/band_0022/0x0022a710.cpp",
+      "body_sha256": "950082DB4BDD771EBAEB9F9E3928D79E2A28F3F168A53FE0BF737DB85511D8B7",
+      "body_ranges": [
+        {
+          "start": "0x0022A710",
+          "end_inclusive": "0x0022A76A",
+          "length": 91
+        }
+      ],
+      "source_sha256": "7ceed1a5650b02e607773b5947a7de5fdc1f855e0d5a219fad7ad363f74b3141",
+      "source_git_blob": "006a41346de5bb85082c1e92b40964e392fe5d19",
+      "added_comment": "  /* XBE 0x0022a746: MOV m32,0x003944f4 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "5e5bed9e99c80f04e3c55d631364f62a9b770d333a97c5ed8813177a62b0130d",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003944f4",
+          "after": "UINT32_C(0x003944f4)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0022a746",
+              "bytes": "c700f4443900",
+              "operands": "dword ptr [eax], 0x3944f4"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "7ceed1a5650b02e607773b5947a7de5fdc1f855e0d5a219fad7ad363f74b3141"
+    },
+    {
+      "entry": "0x002373b0",
+      "source": "src/main_unclassified/band_0023/0x002373b0.cpp",
+      "body_sha256": "49AE5A5798AB2996EADB861304F05B41E9867FF65D83BE27D41D9A7994E0E319",
+      "body_ranges": [
+        {
+          "start": "0x002373B0",
+          "end_inclusive": "0x002373D7",
+          "length": 40
+        }
+      ],
+      "source_sha256": "9d7ba1a587b82d1038cdb867c51a6c44e0e655c5401a0106744ab222ea50bf51",
+      "source_git_blob": "26585a47c9a3d95b2e3656b1a751999f3ac6f715",
+      "added_comment": "  /* XBE 0x002373ca: MOV m32,0x00394160 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "bb9656dd2e581b56a1f145da6fd7e167fa0fb5905ebc4f5fe548ededa27f7f1c",
+      "edits": [
+        {
+          "before": "&PTR_LAB_00394160",
+          "after": "UINT32_C(0x00394160)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002373ca",
+              "bytes": "c70060413900",
+              "operands": "dword ptr [eax], 0x394160"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "9d7ba1a587b82d1038cdb867c51a6c44e0e655c5401a0106744ab222ea50bf51"
+    },
+    {
+      "entry": "0x002558c0",
+      "source": "src/main_unclassified/band_0025/0x002558c0.cpp",
+      "body_sha256": "AFA60747CBDBB6354D92BA132F08DFFE6B397CBD7BCAA63ACE60D51A2EC06B0B",
+      "body_ranges": [
+        {
+          "start": "0x002558C0",
+          "end_inclusive": "0x002558F4",
+          "length": 53
+        }
+      ],
+      "source_sha256": "d7104dd899ec6a92f3eb44913e72a71fc121a23c643aca201743dde2d1a6c74f",
+      "source_git_blob": "713e4fc2c0fed07ca3f6c320b05733a354b66eb1",
+      "added_comment": "  /* XBE 0x002558e4: MOV m32,0x00393900 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "392caf018da54ae0d075374a7940be509257365725c0a61dafa97829a3f83e56",
+      "edits": [
+        {
+          "before": "&PTR_LAB_00393900",
+          "after": "UINT32_C(0x00393900)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002558e4",
+              "bytes": "c70000393900",
+              "operands": "dword ptr [eax], 0x393900"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "d7104dd899ec6a92f3eb44913e72a71fc121a23c643aca201743dde2d1a6c74f"
+    },
+    {
+      "entry": "0x002561e0",
+      "source": "src/main_unclassified/band_0025/0x002561e0.cpp",
+      "body_sha256": "A565AD05D075C9A0ADFCE988446D9716324442AD8FD80EDDD974DD36323297A4",
+      "body_ranges": [
+        {
+          "start": "0x002561E0",
+          "end_inclusive": "0x0025621F",
+          "length": 64
+        }
+      ],
+      "source_sha256": "45cc20b92e9017921747d1fd507d7c2780bb8065b82776ee8e271ff29c74ce0f",
+      "source_git_blob": "30ff725b99bba6d66d11654e7ed4af6f0783812e",
+      "added_comment": "  /* XBE 0x00256216: MOV m32,0x00393850 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "75c28d920be0d7ba7920643d6bb0d369c8ae3b2c55c1eaa05e05363ca2f25952",
+      "edits": [
+        {
+          "before": "&PTR_LAB_00393850",
+          "after": "UINT32_C(0x00393850)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00256216",
+              "bytes": "c70050383900",
+              "operands": "dword ptr [eax], 0x393850"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "45cc20b92e9017921747d1fd507d7c2780bb8065b82776ee8e271ff29c74ce0f"
+    },
+    {
+      "entry": "0x00263af0",
+      "source": "src/main_unclassified/band_0026/0x00263af0.cpp",
+      "body_sha256": "3CBE67AC0EEFC3A2878AC328E638652A53466430961B4DA090FC0C3099642826",
+      "body_ranges": [
+        {
+          "start": "0x00263AF0",
+          "end_inclusive": "0x00263B40",
+          "length": 81
+        }
+      ],
+      "source_sha256": "c2a312b5776cddd99ffec65c2741494241c1341d5c95c803993597b2699780d4",
+      "source_git_blob": "f1a3855a07edcf57b845c42b0d8b34de31310fa2",
+      "added_comment": "  /* XBE 0x00263af2: MOV m32,0x00392a00 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "8094ec2dbc218f3dddb013cd84b26d07ac3001d9f9198873f87395aa73ad7d49",
+      "edits": [
+        {
+          "before": "&PTR_FUN_00392a00",
+          "after": "UINT32_C(0x00392a00)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00263af2",
+              "bytes": "c700002a3900",
+              "operands": "dword ptr [eax], 0x392a00"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "c2a312b5776cddd99ffec65c2741494241c1341d5c95c803993597b2699780d4"
+    },
+    {
+      "entry": "0x002a59a0",
+      "source": "src/main_unclassified/band_002a/0x002a59a0.cpp",
+      "body_sha256": "4E6867D17A9776A160C65758BFE38BA76FFB1AC36D708DC439C4D67FE166FB64",
+      "body_ranges": [
+        {
+          "start": "0x002A59A0",
+          "end_inclusive": "0x002A59F3",
+          "length": 84
+        }
+      ],
+      "source_sha256": "35128fdd1b877cb656ef8bb41ae74d600a9c949f9f8062e45d440f42831d0e76",
+      "source_git_blob": "4eb57b2669f54531216243536dc139d7c2039855",
+      "added_comment": "  /* XBE 0x002a59e3: MOV m32,0x003903e0 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "080d6f8defe0c9e4a7db0e7aeaf13a1dc5a7ff117192d6e6a9ebbc402207e1fe",
+      "edits": [
+        {
+          "before": "&PTR_LAB_003903e0",
+          "after": "UINT32_C(0x003903e0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002a59e3",
+              "bytes": "c700e0033900",
+              "operands": "dword ptr [eax], 0x3903e0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "35128fdd1b877cb656ef8bb41ae74d600a9c949f9f8062e45d440f42831d0e76"
+    },
+    {
+      "entry": "0x002c9320",
+      "source": "src/main_unclassified/band_002c/0x002c9320.cpp",
+      "body_sha256": "061BE8FCC5A4F7B4398F845FF88FDE8C3E79D6C7FCADBA39936028D0F3C00BAA",
+      "body_ranges": [
+        {
+          "start": "0x002C9320",
+          "end_inclusive": "0x002C936C",
+          "length": 77
+        }
+      ],
+      "source_sha256": "db10932cec6f106e21f5e86d4c7facc2df476a0e965af5979d7db7e61f088e59",
+      "source_git_blob": "b487766d43737c28c90efdda8cfd708f9127a437",
+      "added_comment": "  /* XBE 0x002c9330: MOV m32,0x0038e614 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "82ebce66889d0a9079f9d2f72aa293fa70d6ec5cfd9a212e46527f5635f03354",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0038e614",
+          "after": "UINT32_C(0x0038e614)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002c9330",
+              "bytes": "c70014e63800",
+              "operands": "dword ptr [eax], 0x38e614"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "db10932cec6f106e21f5e86d4c7facc2df476a0e965af5979d7db7e61f088e59"
+    },
+    {
+      "entry": "0x002e8b80",
+      "source": "src/main_unclassified/band_002e/0x002e8b80.cpp",
+      "body_sha256": "51E4800DAF363FD1A1AFD2436CBE5AF3E72765EBD41E1327EDD7E15515C7863F",
+      "body_ranges": [
+        {
+          "start": "0x002E8B80",
+          "end_inclusive": "0x002E8B86",
+          "length": 7
+        }
+      ],
+      "source_sha256": "52003fd396b24e57d1e4dd541fec2da474bedeee8c119e43b090b1b878705591",
+      "source_git_blob": "62ffd19529edd7e4eab18af898817516ff055f46",
+      "added_comment": "  /* XBE 0x002e8b80: MOV m32,0x00386908 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "90e902f4bd5966f4ff7b7cf502ec088dfcf54d30d6e25676397621de9e0dce65",
+      "edits": [
+        {
+          "before": "&PTR_FUN_00386908",
+          "after": "UINT32_C(0x00386908)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002e8b80",
+              "bytes": "c70108693800",
+              "operands": "dword ptr [ecx], 0x386908"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "52003fd396b24e57d1e4dd541fec2da474bedeee8c119e43b090b1b878705591"
+    },
+    {
+      "entry": "0x002e8c40",
+      "source": "src/main_unclassified/band_002e/0x002e8c40.cpp",
+      "body_sha256": "DE01435E40977C696722D2DC0DCB1A78A5401D5DC2BC267CA55287895FCD7984",
+      "body_ranges": [
+        {
+          "start": "0x002E8C40",
+          "end_inclusive": "0x002E8C59",
+          "length": 26
+        }
+      ],
+      "source_sha256": "b52ad9c9c11d62992f64936f5c8d15555978a596ae33dd11722dac20b4111dc6",
+      "source_git_blob": "4811bff194bb4b1e48f6367f74cca5289a05b30e",
+      "added_comment": "  /* XBE 0x002e8c44: MOV m32,0x00386908 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "ab2cc8d523554596a203ef94536b42424c71b9264eab03f5f335221326cd949a",
+      "edits": [
+        {
+          "before": "&PTR_FUN_00386908",
+          "after": "UINT32_C(0x00386908)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002e8c44",
+              "bytes": "c70008693800",
+              "operands": "dword ptr [eax], 0x386908"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "b52ad9c9c11d62992f64936f5c8d15555978a596ae33dd11722dac20b4111dc6"
+    },
+    {
+      "entry": "0x002ea02b",
+      "source": "src/main_unclassified/band_002e/0x002ea02b.cpp",
+      "body_sha256": "EF53E7640EDE176797F7E3C7615B0590951C6C038D47B24F37FD3E369552A585",
+      "body_ranges": [
+        {
+          "start": "0x002EA02B",
+          "end_inclusive": "0x002EA03B",
+          "length": 17
+        }
+      ],
+      "source_sha256": "bcb12a721a1a80ac813bfc1287ff25659c405a1ba79690e9058ac530ee2ec111",
+      "source_git_blob": "e581794b2aca136bef73ce51d43bec23c15b2a59",
+      "added_comment": "  /* XBE 0x002ea035: MOV m32,0x00386ae8 stores a 32-bit guest VA.\n   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "7d1353cf7c01087169dc4a971c80586443286a9edd9ba3b06232e1ed99af6445",
+      "edits": [
+        {
+          "before": "&PTR_FUN_00386ae8",
+          "after": "UINT32_C(0x00386ae8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002ea035",
+              "bytes": "c700e86a3800",
+              "operands": "dword ptr [eax], 0x386ae8"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "bcb12a721a1a80ac813bfc1287ff25659c405a1ba79690e9058ac530ee2ec111"
+    }
+  ],
+  "quarantine": [
+    {
+      "entry": "0x0005d9f0",
+      "source": "src/main_unclassified/band_0005/0x0005d9f0.cpp",
+      "source_sha256": "476cfc91a80c6b899bf6bee4bb75fa9926990d693978216f287caa8ad5c38c2d",
+      "body_sha256": "D56FD5CB778006799F0170E0772CF24A5D1E2D945D7F0DEBF1BA9786E5FD43E0",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "fs_seh",
+          "va": "0x0005d9fa",
+          "bytes": "64a100000000",
+          "instruction": "mov eax, dword ptr fs:[0]"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x0005da01",
+          "bytes": "64892500000000",
+          "instruction": "mov dword ptr fs:[0], esp"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x0005da53",
+          "bytes": "64890d00000000",
+          "instruction": "mov dword ptr fs:[0], ecx"
+        }
+      ]
+    },
+    {
+      "entry": "0x00061500",
+      "source": "src/main_unclassified/band_0006/0x00061500.cpp",
+      "source_sha256": "4a28a14324967f85329498063e3b0ce0315526214be5b2bd239952fae25f2e3d",
+      "body_sha256": "59D5EC4711F8C9B740079C9195B876342F551E3335F3F88CE0224D7F65A6637E",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "fs_seh",
+          "va": "0x0006150a",
+          "bytes": "64a100000000",
+          "instruction": "mov eax, dword ptr fs:[0]"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x00061511",
+          "bytes": "64892500000000",
+          "instruction": "mov dword ptr fs:[0], esp"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x00061561",
+          "bytes": "64890d00000000",
+          "instruction": "mov dword ptr fs:[0], ecx"
+        }
+      ]
+    },
+    {
+      "entry": "0x00075f30",
+      "source": "src/main_unclassified/band_0007/0x00075f30.cpp",
+      "source_sha256": "68467e7fa919129adbf53c056c85926ee328fd4dfafc5cb7cdc7c89d1069f3d2",
+      "body_sha256": "4102D1C8BD3040EFB1D64A7141A176858B423753D1E37ECB924E3127DBF628A3",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "fs_seh",
+          "va": "0x00075f3a",
+          "bytes": "64a100000000",
+          "instruction": "mov eax, dword ptr fs:[0]"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x00075f41",
+          "bytes": "64892500000000",
+          "instruction": "mov dword ptr fs:[0], esp"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x00075f93",
+          "bytes": "64890d00000000",
+          "instruction": "mov dword ptr fs:[0], ecx"
+        }
+      ]
+    },
+    {
+      "entry": "0x00076070",
+      "source": "src/main_unclassified/band_0007/0x00076070.cpp",
+      "source_sha256": "0ce92880d5bce7644b8d505dd5eb9caedee74351a1391b0f61128c8379054118",
+      "body_sha256": "287F498E4F760DB1ED64C051D88489FF720BB32E901A428F7015A8E5DC14FBC5",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "fs_seh",
+          "va": "0x0007607a",
+          "bytes": "64a100000000",
+          "instruction": "mov eax, dword ptr fs:[0]"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x00076081",
+          "bytes": "64892500000000",
+          "instruction": "mov dword ptr fs:[0], esp"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x000760d0",
+          "bytes": "64890d00000000",
+          "instruction": "mov dword ptr fs:[0], ecx"
+        }
+      ]
+    },
+    {
+      "entry": "0x000763a0",
+      "source": "src/main_unclassified/band_0007/0x000763a0.cpp",
+      "source_sha256": "69dbefb71976c43cb4fdac0b482e6f2b1c43834f913fcc70608bc556f68f1e97",
+      "body_sha256": "5C2575052BC1BDB3DF857449AF449FD5DA78BAA7318B5575BCB442608006C7E0",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "fs_seh",
+          "va": "0x000763aa",
+          "bytes": "64a100000000",
+          "instruction": "mov eax, dword ptr fs:[0]"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x000763b1",
+          "bytes": "64892500000000",
+          "instruction": "mov dword ptr fs:[0], esp"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x000763fc",
+          "bytes": "64890d00000000",
+          "instruction": "mov dword ptr fs:[0], ecx"
+        }
+      ]
+    },
+    {
+      "entry": "0x00077860",
+      "source": "src/main_unclassified/band_0007/0x00077860.cpp",
+      "source_sha256": "0cff046ca09b060fbf2ba26727791e36d455d2648a3f2777f56e463eb97de761",
+      "body_sha256": "03C58A192AE5E7E88CA204E8F32A108087820B85579E97429A0483FF67ADF588",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "fs_seh",
+          "va": "0x0007786a",
+          "bytes": "64a100000000",
+          "instruction": "mov eax, dword ptr fs:[0]"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x00077871",
+          "bytes": "64892500000000",
+          "instruction": "mov dword ptr fs:[0], esp"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x000778ba",
+          "bytes": "64890d00000000",
+          "instruction": "mov dword ptr fs:[0], ecx"
+        }
+      ]
+    },
+    {
+      "entry": "0x000779a0",
+      "source": "src/main_unclassified/band_0007/0x000779a0.cpp",
+      "source_sha256": "e88cc918ff2cecddfaef90401d278874b2e71b0b2c70eb54b6d9c566ca62bd45",
+      "body_sha256": "97293FDA2D7A1AF3A018FBCDC873889D9B5121C6D6D5CB71DAEC5DC46EA9C5B5",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "fs_seh",
+          "va": "0x000779aa",
+          "bytes": "64a100000000",
+          "instruction": "mov eax, dword ptr fs:[0]"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x000779b1",
+          "bytes": "64892500000000",
+          "instruction": "mov dword ptr fs:[0], esp"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x000779fc",
+          "bytes": "64890d00000000",
+          "instruction": "mov dword ptr fs:[0], ecx"
+        }
+      ]
+    },
+    {
+      "entry": "0x00085710",
+      "source": "src/main_unclassified/band_0008/0x00085710.cpp",
+      "source_sha256": "0978707ba81c705bd64d4f102f3f3efd0b6cf5fee0e94977b96c3ca2a7486db2",
+      "body_sha256": "9D904FE1429B72D8A7ABEC24C922E5C062CE6805B0BB565723EE04D9407F8754",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "fs_seh",
+          "va": "0x0008571a",
+          "bytes": "64a100000000",
+          "instruction": "mov eax, dword ptr fs:[0]"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x00085721",
+          "bytes": "64892500000000",
+          "instruction": "mov dword ptr fs:[0], esp"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x00085771",
+          "bytes": "64890d00000000",
+          "instruction": "mov dword ptr fs:[0], ecx"
+        }
+      ]
+    },
+    {
+      "entry": "0x00086050",
+      "source": "src/main_unclassified/band_0008/0x00086050.cpp",
+      "source_sha256": "7319eeaed0e9e0d8de6042a617d11481ce94ee8a72c8939ef8c139bdfe1d95c5",
+      "body_sha256": "9CCA7D5E04C72805C5F8D000E14C0175A7B417BD660FD6A94FE97907CC21B522",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "fs_seh",
+          "va": "0x0008605a",
+          "bytes": "64a100000000",
+          "instruction": "mov eax, dword ptr fs:[0]"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x00086061",
+          "bytes": "64892500000000",
+          "instruction": "mov dword ptr fs:[0], esp"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x000860b0",
+          "bytes": "64890d00000000",
+          "instruction": "mov dword ptr fs:[0], ecx"
+        }
+      ]
+    },
+    {
+      "entry": "0x00086a60",
+      "source": "src/main_unclassified/band_0008/0x00086a60.cpp",
+      "source_sha256": "77401ea614ef735d73cafaa3cab5279b61bfab9b03cc32c8dcb879652cc075b2",
+      "body_sha256": "00A870C497B61F8763B65E218C3765440F5FC77C9290E5FE46C2E11D0F987736",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "fs_seh",
+          "va": "0x00086a6a",
+          "bytes": "64a100000000",
+          "instruction": "mov eax, dword ptr fs:[0]"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x00086a71",
+          "bytes": "64892500000000",
+          "instruction": "mov dword ptr fs:[0], esp"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x00086ab9",
+          "bytes": "64890d00000000",
+          "instruction": "mov dword ptr fs:[0], ecx"
+        }
+      ]
+    },
+    {
+      "entry": "0x00086da0",
+      "source": "src/main_unclassified/band_0008/0x00086da0.cpp",
+      "source_sha256": "6dad8ea5c0964b44ab1a8bf01f996c46a2d24175a3b50f6f64d0526927b11bc3",
+      "body_sha256": "978D550D6259F34AA9903BBA5B54A6C3A98E5141183EA8C31B007152FF2F24C3",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "fs_seh",
+          "va": "0x00086daa",
+          "bytes": "64a100000000",
+          "instruction": "mov eax, dword ptr fs:[0]"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x00086db1",
+          "bytes": "64892500000000",
+          "instruction": "mov dword ptr fs:[0], esp"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x00086e01",
+          "bytes": "64890d00000000",
+          "instruction": "mov dword ptr fs:[0], ecx"
+        }
+      ]
+    },
+    {
+      "entry": "0x0008f720",
+      "source": "src/main_unclassified/band_0008/0x0008f720.cpp",
+      "source_sha256": "5023182b49d9e8dafd00fc297e07f0ddef63ff6814737eac9e80ef65ed679327",
+      "body_sha256": "E31A7180ECFCF09F86AFD80B3FFD6246B372E11FB4EEE5A2D6B244F67C2C6167",
+      "reason": "source_occurrence_to_mov_immediate_count_mismatch",
+      "risk_instructions": []
+    },
+    {
+      "entry": "0x000b1050",
+      "source": "src/main_unclassified/band_000b/0x000b1050.cpp",
+      "source_sha256": "25c4ad14be9ae66f8b17a2afd82b50cf06d539198b6061e63b3d152a9c5c34c0",
+      "body_sha256": "52796BF6164541AAED71BC10D367E318C79882382FC0D5BE28C9EC3E20477CBB",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "fs_seh",
+          "va": "0x000b105a",
+          "bytes": "64a100000000",
+          "instruction": "mov eax, dword ptr fs:[0]"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x000b1061",
+          "bytes": "64892500000000",
+          "instruction": "mov dword ptr fs:[0], esp"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x000b10b1",
+          "bytes": "64890d00000000",
+          "instruction": "mov dword ptr fs:[0], ecx"
+        }
+      ]
+    },
+    {
+      "entry": "0x000b1240",
+      "source": "src/main_unclassified/band_000b/0x000b1240.cpp",
+      "source_sha256": "2b07c49320119c88da23b90d4189c7ebe21ca89dcd28e8e6cf72b580a254468c",
+      "body_sha256": "9B8B33129872716E43F8D091327763942C31C53898DBDCF4190E8446B395678B",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "fs_seh",
+          "va": "0x000b124a",
+          "bytes": "64a100000000",
+          "instruction": "mov eax, dword ptr fs:[0]"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x000b1251",
+          "bytes": "64892500000000",
+          "instruction": "mov dword ptr fs:[0], esp"
+        },
+        {
+          "kind": "fs_seh",
+          "va": "0x000b129e",
+          "bytes": "64890d00000000",
+          "instruction": "mov dword ptr fs:[0], ecx"
+        }
+      ]
+    },
+    {
+      "entry": "0x001815b0",
+      "source": "src/main_unclassified/band_0018/0x001815b0.cpp",
+      "source_sha256": "f34e0eb7348c211116236ba7098dbe74ccee1df65bbae6c1f19d7db7a27b3553",
+      "body_sha256": "362C2D2E4BE0D812F55A1615F740FFBC64B829202D3A53B410090F433293F553",
+      "reason": "instruction_risk_exclusion",
+      "risk_instructions": [
+        {
+          "kind": "x87",
+          "va": "0x001815b3",
+          "bytes": "d905884f3a00",
+          "instruction": "fld dword ptr [0x3a4f88]"
+        },
+        {
+          "kind": "x87",
+          "va": "0x001815d1",
+          "bytes": "d95c2400",
+          "instruction": "fstp dword ptr [esp]"
+        },
+        {
+          "kind": "x87",
+          "va": "0x001815d5",
+          "bytes": "d905884f3a00",
+          "instruction": "fld dword ptr [0x3a4f88]"
+        },
+        {
+          "kind": "x87",
+          "va": "0x001815fc",
+          "bytes": "d95c2404",
+          "instruction": "fstp dword ptr [esp + 4]"
+        }
+      ]
+    }
+  ],
+  "baseline_audit_run_id": 41203948583
+}
