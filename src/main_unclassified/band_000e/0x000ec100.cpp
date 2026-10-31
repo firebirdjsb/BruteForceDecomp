@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE E8 0x000EC109 -> 0x000EB560, guest PUSH one DWORD, callee RET 4.
+ * Implicit guest ECX and linked host ABI remain ABI_UNVERIFIED. */
+extern void FUN_000eb560(int guest_stack_word_0);
 void FUN_000ec100(int param_1)
 
 {
