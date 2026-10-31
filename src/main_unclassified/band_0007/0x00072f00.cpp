@@ -15,7 +15,7 @@ void FUN_00072f00(void)
   
   if (*(int *)(unaff_EDI + 0x8c) != 0) {
     if (*(int *)(unaff_EDI + 0x8c) != 0) {
-      FUN_0008f6a0(0);
+      FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x88), UINT32_C(0));
     }
     *(undefined1 *)(unaff_EDI + 200) = 1;
   }
