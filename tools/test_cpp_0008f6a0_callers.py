@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gate nine original-XBE ESI + stack-word callers of 0x0008F6A0.
+"""Gate sixteen original-XBE ESI + stack-word callers of 0x0008F6A0.
 
 Source/Clang checks run in public CI; --xbe additionally authenticates
 the user's private executable and checks the original x86 opcode windows.
@@ -43,6 +43,27 @@ CASES = [
     ("000e1ff0", "6A4E703412865174EA133C500FFE39E0E29F36CD81DCFD400E71DF603BFC4FCE",
      0xe1ff4, "8bf0", 0xe2004, "50", 0xe2005,
      "FUN_0008f6a0(static_cast<std::uint32_t>(in_EAX), static_cast<std::uint32_t>(*(int *)(unaff_EDI + 4)));"),
+    ("000555f0", "796029F0C4D20B160C1C71A09A40AAB958B55CC54D0D9E736BFCD36F0E0C3113",
+     0x555f6, "83c61c", 0x555fd, "50", 0x555fe,
+     "FUN_0008f6a0(static_cast<std::uint32_t>(in_ECX) + UINT32_C(0x1c), static_cast<std::uint32_t>(in_EAX));"),
+    ("000556e0", "8DE870BA74B876E5E781F1DC678CC912AB73ACBFD96EF0113688181BC56356E2",
+     0x5570e, "8d7710", 0x5571f, "53", 0x55720,
+     "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x10), UINT32_C(0));"),
+    ("00055790", "37808A096C0182242B8842131AD4D0F74D58B6EC3922B5B5B264F0A92A3AB92C",
+     0x55817, "8d7354", 0x5581c, "50", 0x5581d,
+     "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + UINT32_C(0x54), static_cast<std::uint32_t>(*(int *)(param_1 + 0x58)));"),
+    ("00058b60", "C1F5DA4B97C738B09259A0270094F8447CBD8D6B387066E346E4DB32441CA575",
+     0x58b97, "8d7710", 0x58ba2, "53", 0x58ba3,
+     "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x10), static_cast<std::uint32_t>(unaff_EBX));"),
+    ("0005be20", "065967D57EEF8A4E31F84D835575A1990A0724C25314AD814F9537DD11B29460",
+     0x5be59, "8d7010", 0x5be61, "53", 0x5be62,
+     "FUN_0008f6a0(static_cast<std::uint32_t>(iVar3) + UINT32_C(0x10), static_cast<std::uint32_t>(unaff_EBX));"),
+    ("0005cb60", "CC6331864563D711DBF8990A7C8A7D4E3659181CD9306843DB48EBE9EFBD1325",
+     0x5cb97, "8d7008", 0x5cba1, "50", 0x5cba2,
+     "FUN_0008f6a0(static_cast<std::uint32_t>(iVar1) + UINT32_C(8), static_cast<std::uint32_t>(*(int *)(iVar1 + 4)));"),
+    ("0005cbc0", "AFBD07EDD6C4B7EA84BBD585E6DDFD921E742F89F8F842786A3754EDBFFD5806",
+     0x5cbf6, "8d7708", 0x5cc02, "50", 0x5cc03,
+     "FUN_0008f6a0(static_cast<std::uint32_t>(iVar1) + UINT32_C(8), static_cast<std::uint32_t>(iVar2));"),
 ]
 
 
@@ -81,6 +102,9 @@ def check_xbe(data):
     if xbe_read(data, 0x8f6df, 1) != b"\xc3":
         raise ValueError("callee plain RET mismatch")
     for entry, digest, esi_va, esi_hex, push_va, push_hex, call_va, call in CASES:
+        if entry in {"000555f0", "000556e0", "00055790", "00058b60", "0005be20", "0005cb60", "0005cbc0"}:
+            if xbe_read(data, call_va + 5, 3) != bytes.fromhex("83c404"):
+                raise ValueError(entry + ": caller ADD ESP,4 mismatch")
         if xbe_read(data, esi_va, len(bytes.fromhex(esi_hex))) != bytes.fromhex(esi_hex):
             raise ValueError(entry + ": guest ESI producer mismatch")
         if xbe_read(data, push_va, len(bytes.fromhex(push_hex))) != bytes.fromhex(push_hex):
@@ -100,7 +124,7 @@ def main():
     args = parser.parse_args()
     if args.xbe:
         check_xbe(args.xbe.read_bytes())
-        print("Original SHA-pinned XBE: nine CALL edges, ESI, stack and RET PASS")
+        print("Original SHA-pinned XBE: sixteen CALL edges, ESI, stack and RET PASS")
     elif args.xbe_only:
         parser.error("--xbe-only requires --xbe")
     if args.xbe_only:
