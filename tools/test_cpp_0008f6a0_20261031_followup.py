@@ -17,6 +17,16 @@ XBE_SHA = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 CALLEE_SHA = "339dc70ade9da431a03d8964268e2b983bf89df209448a87b645006c63d4420d"
 CASES = json.loads("[[\"0005bd20\",\"462ca057b536b25a633fe7f01946f9e4b51a1f9f8c9deb5b32e0b513129d8502\",115,[376150,376181],[[376136,\"8d7708\"],[376149,\"57\"],[376169,\"53\"],[376180,\"50\"]],[\"FUN_0008f6a0(static_cast<std::uint32_t>(iVar1) + 8U, static_cast<std::uint32_t>(unaff_EBX == 0 ? *(int *)(iVar1 + 4) : unaff_EBX));\",\"FUN_0008f6a0(static_cast<std::uint32_t>(iVar1) + 8U, static_cast<std::uint32_t>(*(int *)(iVar1 + 4)));\"]],[\"0005bda0\",\"9dd823447d5d1a8b4b9afd89213355c9402a8fcd14847669d53ae156abf20ac0\",117,[376298,376326],[[376287,\"8d7708\"],[376297,\"53\"],[376325,\"50\"]],[\"FUN_0008f6a0(static_cast<std::uint32_t>(iVar3) + 8U, static_cast<std::uint32_t>(*(int *)(iVar3 + 4)));\",\"FUN_0008f6a0(static_cast<std::uint32_t>(iVar3) + 8U, static_cast<std::uint32_t>(unaff_EBX));\"]],[\"0006ff00\",\"d39871ef59e3ace768a706ba3c5cd461b6cfee65bad9423f62049c57247ef177\",181,[458531,458556,458667],[[458516,\"8db0e0050000\"],[458529,\"6a00\"],[458547,\"8db744010000\"],[458555,\"53\"],[458658,\"8db3e0050000\"],[458666,\"57\"]],[\"FUN_0008f6a0(static_cast<std::uint32_t>(iVar2) + 0x5e0U, 0U);\",\"FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + 0x144U, static_cast<std::uint32_t>(unaff_EBX));\",\"FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + 0x5e0U, static_cast<std::uint32_t>(unaff_EDI));\"]],[\"000c4e70\",\"2017fccb50819e3f413a0ca66f601adc3c3c279e67fcdf953c30cc98b27f91ca\",79,[806530,806556,806581],[[806521,\"8db334060000\"],[806529,\"57\"],[806546,\"8db33c060000\"],[806554,\"6a00\"],[806572,\"8db32c060000\"],[806580,\"57\"]],[\"FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + 0x634U, static_cast<std::uint32_t>(unaff_EDI));\",\"FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + 0x63cU, 0U);\",\"FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + 0x62cU, static_cast<std::uint32_t>(unaff_EDI));\"]],[\"000c4ec0\",\"56d847e3168e9868e37be3334deb5b8ae977bf50e642b9e3903700f9d8403e8f\",79,[806610,806636,806661],[[806601,\"8db334060000\"],[806609,\"57\"],[806626,\"8db32c060000\"],[806634,\"6a00\"],[806652,\"8db33c060000\"],[806660,\"57\"]],[\"FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + 0x634U, static_cast<std::uint32_t>(unaff_EDI));\",\"FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + 0x62cU, 0U);\",\"FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + 0x63cU, static_cast<std::uint32_t>(unaff_EDI));\"]]]")
 
+# Exact original caller-owned ADD ESP,4 locations (the 0x5BDEA path
+# performs intervening byte operations before cleaning its pushed DWORD).
+CLEANUP_BY_CALL = {
+    0x5bd56: 0x5bd5b, 0x5bd75: 0x5bd7a,
+    0x5bdea: 0x5bdf2, 0x5be06: 0x5be0b,
+    0x6ff23: 0x6ff28, 0x6ff3c: 0x6ff41, 0x6ffab: 0x6ffb0,
+    0xc4e82: 0xc4e87, 0xc4e9c: 0xc4ea1, 0xc4eb5: 0xc4eba,
+    0xc4ed2: 0xc4ed7, 0xc4eec: 0xc4ef1, 0xc4f05: 0xc4f0a,
+}
+
 def check_source(data, entry, digest, expected):
     if "Entry: 0x" + entry not in data:
         raise ValueError(entry + ": entry identity missing")
@@ -62,6 +72,8 @@ def check_xbe(data):
                 raise ValueError(entry + ": ESI producer/PUSH mismatch at " + hex(va))
         for va in calls:
             check_call(read(va, 5), va)
+            if read(CLEANUP_BY_CALL[va], 3) != bytes.fromhex("83c404"):
+                raise ValueError(entry + ": original caller stack cleanup mismatch")
     print("Original SHA-pinned XBE: five bodies, callee body, 13 ESI/PUSH/CALL edges PASS")
 
 def self_test():
