@@ -18,7 +18,9 @@ void FUN_000c1b30(void)
   undefined4 *in_EAX;
   
   FUN_000bb360();
-  *in_EAX = &PTR_FUN_0039f694;
+  /* XBE 0x000c1b3d: MOV m32,0x0039f694 stores a 32-bit guest VA.
+   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */
+  *in_EAX = UINT32_C(0x0039f694);
   in_EAX[0x11] = 0;
   in_EAX[0x12] = 0;
   in_EAX[0x13] = 0xffffffff;
