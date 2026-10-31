@@ -76,6 +76,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_cpp_verified_source_call_declarations.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_evidenced_declaration_batches.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261030_source_matched_batch.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261030_source_only_callers.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_00160da0_return_contract.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_0008a0b0_eax_return.py' -v
           python3 tools/test_cpp_0008f6a0_callers.py --root .
