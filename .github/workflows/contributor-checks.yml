@@ -8,6 +8,9 @@ on:
       - 'CONTRIBUTING.md'
       - 'README.md'
       - 'docs/progress/**'
+      - 'tools/audit_cpp_draft_coverage.py'
+      - 'tools/test_cpp_draft_coverage.py'
+      - 'docs/CPP_DRAFT_FIDELITY_GATES.md'
       - 'tools/check_repository_safety.py'
       - 'tools/test_repository_safety.py'
       - 'tools/test_progress.py'
@@ -39,3 +42,5 @@ jobs:
           python3 tools/test_source_layout.py
           python3 tools/test_body_hash_labels.py
           python3 scripts/check_sources.py
+          python3 -m unittest discover -s tools -p 'test_cpp_draft_coverage.py' -v
+          python3 tools/audit_cpp_draft_coverage.py --root . --out /tmp/cpp_draft_coverage.json

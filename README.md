@@ -17,6 +17,8 @@
 
 **Native PC game: NOT buildable/playable yet.** Original Xbox C++ object layouts, virtual dispatch, guest ABI, cross-function linkage, platform services and 1:1 behavior still require evidence.
 
+**Function inventory is not 1:1 reconstruction.** All 13,694 indexed functions have canonical C++ draft files; source structure, Ghidra-export equivalence, original Xbox ABI and observed behavior have independent verification gates. See [C++ draft fidelity requirements](docs/CPP_DRAFT_FIDELITY_GATES.md).
+
 [Machine-readable C++ progress](docs/progress/current.json) · [C++ migration](docs/CPP_MIGRATION.md) · [Native PC milestones](docs/NATIVE_PC_PORT_GOALS.md)
 
 <!-- BF_PROGRESS_END -->
