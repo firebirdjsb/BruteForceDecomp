@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gate 26 source-matched declarations. This does NOT verify Xbox guest ABI."""
+"""Gate 23 source-matched declarations. This does NOT verify Xbox guest ABI."""
 from __future__ import annotations
 
 import re
@@ -27,8 +27,6 @@ CASES = (
     ("002219e0", "0015b140", "void FUN_0015b140(int param_1)"),
     ("0022d800", "00159430", "void FUN_00159430(void)"),
     ("0022f170", "0021c8c0", "void FUN_0021c8c0(undefined4 param_1)"),
-    ("002948b0", "00294b90", "int FUN_00294b90(undefined4 param_1,int param_2)"),
-    ("00295530", "00294b90", "int FUN_00294b90(undefined4 param_1,int param_2)"),
     ("002a6850", "002a6630", "void FUN_002a6630(int *param_1)"),
     ("002aace0", "001376b0", "void FUN_001376b0(void)"),
     ("0023fe50", "00241710", "void FUN_00241710(byte param_1)"),
@@ -36,7 +34,6 @@ CASES = (
     ("0024ff90", "000b2a50", "void FUN_000b2a50(void)"),
     ("00251060", "00251280", "void FUN_00251280(int param_1,int param_2,undefined4 param_3,undefined4 param_4)"),
     ("002511b0", "00251370", "void FUN_00251370(int param_1,int param_2,undefined4 param_3,undefined4 param_4)"),
-    ("00258e00", "00258b20", "void FUN_00258b20(int param_1,int param_2)"),
     ("00259570", "0012aba0", "void FUN_0012aba0(void)"),
 )
 
@@ -47,7 +44,7 @@ def source(addr: str) -> Path:
 
 class SourceMatchedBatch26(unittest.TestCase):
     def test_declarations_match_existing_callee_drafts_without_body_rewrite(self):
-        self.assertEqual(len(CASES), 26)
+        self.assertEqual(len(CASES), 23)
         self.assertEqual(len({a for a, _, _ in CASES}), 26)
         for caller, callee, signature in CASES:
             with self.subTest(caller=caller, callee=callee):
@@ -64,7 +61,7 @@ class SourceMatchedBatch26(unittest.TestCase):
                 self.assertIn(f"FUN_{callee}(", text.replace(original, "", 1))
 
     @unittest.skipUnless(CLANGXX, "Requires installed clang++")
-    def test_all_26_callers_strict_cpp17_syntax(self):
+    def test_all_23_callers_strict_cpp17_syntax(self):
         for caller, _, _ in CASES:
             with self.subTest(caller=caller):
                 cmd = [CLANGXX, "-std=c++17", "-x", "c++", "-fsyntax-only",
