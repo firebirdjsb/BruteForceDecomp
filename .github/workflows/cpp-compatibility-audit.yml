@@ -67,6 +67,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_position_check_source_call.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_two_source_matched_calls.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_two_x87_source_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_five_dsound_declarations.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_27_source_matched_calls.py' -v
           python3 tools/triage_cpp_fidelity_flags.py --root . --report cpp_compat_results/cpp_draft_coverage.json --out cpp_compat_results
           python3 -m unittest discover -s tools -p 'test_sweep_cpp_compat.py' -v
