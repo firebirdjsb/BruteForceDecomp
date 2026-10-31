@@ -24,7 +24,8 @@ int FUN_000c85d0(int param_1)
     iVar1 = *piVar4;
     if (iVar1 != 0) {
       if (*(int *)(*(int *)(param_1 + 4) + 4 + iVar2 * 8) != iVar1) {
-        FUN_0008f6a0(iVar1);
+        // XBE 0x000C85F9: ESI=EDX+EBX*8 (EDX from [stack arg+4]), PUSH EAX, caller ADD ESP,4; ABI_UNVERIFIED.
+        FUN_0008f6a0(static_cast<std::uint32_t>(*(int *)(param_1 + 4)) + static_cast<std::uint32_t>(iVar2) * UINT32_C(8), static_cast<std::uint32_t>(iVar1));
       }
       iVar2 = iVar2 + 1;
     }
