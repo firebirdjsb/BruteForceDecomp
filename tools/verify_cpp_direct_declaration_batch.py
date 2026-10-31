@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""28 bounded source declarations; no recovered Xbox ABI or runtime claim."""
+"""27 bounded source declarations; no recovered Xbox ABI or runtime claim."""
 from __future__ import annotations
 import argparse
 import csv
@@ -17,7 +17,7 @@ from body_hash_labels import read_body_digest
 from source_layout import source_path
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST = "metadata/cpp_20261031_direct_declarations_28.json"
+MANIFEST = "metadata/cpp_20261031_direct_declarations_27.json"
 XBE_SHA = "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721"
 
 
@@ -103,8 +103,8 @@ def check_xbe(data, manifest):
 
 def verify(root, manifest, compiler):
     cases = manifest["cases"]
-    if len(cases) != 28 or len({c["entry"] for c in cases}) != 28:
-        raise ValueError("Expected 28 unique original-address callers")
+    if len(cases) != 27 or len({c["entry"] for c in cases}) != 27:
+        raise ValueError("Expected 27 unique original-address callers")
     if {c["entry"] for c in cases} & {c["entry"] for c in manifest["quarantine"]}:
         raise ValueError("A quarantined function was included in the repair batch")
     if manifest["original_xbe_sha256"] != XBE_SHA or not manifest["quarantine"]:
@@ -112,7 +112,7 @@ def verify(root, manifest, compiler):
     index = {r["entry"]:r["original_body_sha256"] for r in csv.DictReader(
         (root/"metadata/bulk_13694_inventory.csv").open(encoding="utf-8", newline=""))}
     by_entry = {c["entry"]:c for c in cases}
-    with tempfile.TemporaryDirectory(prefix="bf_decl28_") as temp:
+    with tempfile.TemporaryDirectory(prefix="bf_decl27_") as temp:
         for case in cases:
             path = source_path(root,case["entry"])
             if path.relative_to(root).as_posix() != case["source"]:
@@ -136,7 +136,7 @@ def verify(root, manifest, compiler):
                     raise ValueError("Callee changed since source review")
                 if "extern " + dep["signature"] + ";\n" not in case["added_block"]:
                     raise ValueError("Declaration does not match exact source signature")
-            flags = [compiler,"-std=c++17","-fsyntax-only","-ferror-limit=0",
+            flags = [compiler,"-std=c++17","-fsyntax-only","-ferror-limit=0","-Werror=pointer-to-int-cast",
                      "-I",str(root/"include"),"-iquote",str(path.parent)]
             for opt in ("-O0","-O2"):
                 result = subprocess.run([*flags,opt,str(path)],capture_output=True,text=True)
@@ -161,7 +161,7 @@ def verify(root, manifest, compiler):
         milestone["milestones"][1]["status"] != "not_comprehensively_verified" or
         milestone["milestones"][2]["status"] != "not_buildable_or_playable"):
         raise ValueError("Independent verification milestones were conflated")
-    print("PASS 28 declaration-only repairs; strict C++17 O0/O2; 56 negative controls; three distinct milestones")
+    print("PASS 27 declaration-only repairs; strict C++17 O0/O2; 54 negative controls; three distinct milestones")
 
 
 def main():

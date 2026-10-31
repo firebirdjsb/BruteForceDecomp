@@ -1429,81 +1429,6 @@
       ]
     },
     {
-      "entry": "0x002f1eda",
-      "source": "src/main_unclassified/band_002f/0x002f1eda.cpp",
-      "source_sha256": "4b493a8d98d2134d4794fc8cb05643935955015a31b6062dea26f5f66f7ab823",
-      "body_sha256": "12FC2953DC031CF32087B709FB7B0A2689A3563A6D74225D98C9F614C4EE74E4",
-      "caller_git_blob": "489f481a7a330ef2233aaf73b0d61cbf242c37e7",
-      "group": "named_helpers",
-      "body_ranges": [
-        {
-          "start": "0x002F1EDA",
-          "end_inclusive": "0x002F1FA7",
-          "length": 206
-        }
-      ],
-      "added_block": "/* Source-matched declarations; direct CALL targets checked against the pinned XBE.\n * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.\n */\nextern void ___add_12(undefined4 *param_1,undefined4 *param_2);\nextern void ___shl_12(uint *param_1);\n",
-      "result_source_sha256": "07c5f387becc9cdd6bd08930d7ea20fdae7f7c71f95863f66129cc514cdf7677",
-      "dependencies": [
-        {
-          "entry": "0x002f1e21",
-          "source": "src/main_unclassified/band_002f/0x002f1e21.cpp",
-          "signature": "void ___add_12(undefined4 *param_1,undefined4 *param_2)",
-          "source_sha256": "d1ca6f11c360d1cea0cf64b5821760e0f3b20013249f145a20b21550786fc350",
-          "body_sha256": "030DB63175797538237224CC3E40C4F096609DAD22B499B67E3BCE650F5B8789",
-          "body_ranges": [
-            {
-              "start": "0x002F1E21",
-              "end_inclusive": "0x002F1E7E",
-              "length": 94
-            }
-          ],
-          "call_sites": [
-            {
-              "site": "0x002f1f1a",
-              "bytes": "e802ffffff"
-            },
-            {
-              "site": "0x002f1f3b",
-              "bytes": "e8e1feffff"
-            }
-          ]
-        },
-        {
-          "entry": "0x002f1e7f",
-          "source": "src/main_unclassified/band_002f/0x002f1e7f.cpp",
-          "signature": "void ___shl_12(uint *param_1)",
-          "source_sha256": "82bfb55bebd72160dba5ddd80280419448ee704cea224e94fd37590074ae9329",
-          "body_sha256": "055C5C3F3720CFF24D44A0BD7AB41F42689D7D25B857C5D38790D785029B022B",
-          "body_ranges": [
-            {
-              "start": "0x002F1E7F",
-              "end_inclusive": "0x002F1EAC",
-              "length": 46
-            }
-          ],
-          "call_sites": [
-            {
-              "site": "0x002f1f0a",
-              "bytes": "e870ffffff"
-            },
-            {
-              "site": "0x002f1f10",
-              "bytes": "e86affffff"
-            },
-            {
-              "site": "0x002f1f20",
-              "bytes": "e85affffff"
-            },
-            {
-              "site": "0x002f1f89",
-              "bytes": "e8f1feffff"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "entry": "0x00347cda",
       "source": "src/platform/network_xnet/0x00347cda.cpp",
       "source_sha256": "88ea07000d8b1cef2299fdebce84f012feaccf5799fd08bdf6c8a107755a5056",
@@ -1643,6 +1568,10 @@
     {
       "entry": "0x002ff2f4",
       "reason": "Unhandled exception-filter path excluded from easy declaration batch."
+    },
+    {
+      "entry": "0x002f1eda",
+      "reason": "Linux Clang++17 exposes guest32 pointer-to-int truncation after declarations; Windows MSVC mode accepted it as a warning. No casts altered; caller remains quarantined."
     }
   ]
 }
