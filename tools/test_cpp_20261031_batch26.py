@@ -59,7 +59,7 @@ class SourceMatchedBatch26(unittest.TestCase):
                 self.assertIn("ABI_UNVERIFIED", text)
                 draft = source(callee).read_text(encoding="utf-8")
                 self.assertIn(f"Entry: 0x{callee}", draft)
-                norm = lambda s: re.sub(r"\\s+", "", s)
+                norm = lambda s: re.sub(r"\s+", "", s)
                 self.assertIn(norm(signature), norm(draft))
                 self.assertIn(f"FUN_{callee}(", text.replace(original, "", 1))
 
