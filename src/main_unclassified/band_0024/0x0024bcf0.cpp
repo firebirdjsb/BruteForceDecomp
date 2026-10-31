@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched three-stack-word draft declaration; original Xbox ECX is ABI_UNVERIFIED. */
+extern void FUN_0001f4f0(int param_1, uint param_2, uint param_3);
 void FUN_0024bcf0(void)
 
 {
