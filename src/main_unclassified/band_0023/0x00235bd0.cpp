@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched C++17 declaration only; original Xbox register/stack ABI_UNVERIFIED. */
+extern undefined4 FUN_00253570(void);
 /* WARNING: Removing unreachable block (ram,0x00235be1) */
 
 undefined4 FUN_00235bd0(void)
