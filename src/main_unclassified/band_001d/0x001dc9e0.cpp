@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE: direct CALL 0x001D1DC0 takes one guest DWORD and RET 4;
+ * callee also uses implicit EBX as destination. Guest-memory translation,
+ * host pointer contract and complete ABI remain ABI_UNVERIFIED. */
+extern void FUN_001d1dc0(std::uint32_t guest_source_va);
 int FUN_001dc9e0(int param_1,int param_2)
 
 {
