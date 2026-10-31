@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-only C++17 declaration; Xbox register/stack ABI_UNVERIFIED. */
+extern undefined4 FUN_000f93c0(void);
 /* Callee 0x002E5880 returns a guest byte through AL and reads an
  * implicit incoming ECX object address. Existing draft interface only;
  * original guest-register ABI is UNVERIFIED. */
