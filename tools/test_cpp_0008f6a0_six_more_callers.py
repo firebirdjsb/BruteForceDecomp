@@ -13,6 +13,7 @@ import struct
 import subprocess
 
 XBE_SHA = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
+CALLEE_SHA = "339DC70ADE9DA431A03D8964268E2B983BF89DF209448A87B645006C63D4420D"
 DECL = "extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);"
 # Entry, original body SHA-256, original byte length,
 # (ESI producer VA/bytes, stack PUSH VA/bytes, direct CALL VA, C++ expression).
@@ -185,6 +186,8 @@ def verify_xbe(path):
     if hashlib.sha256(data).hexdigest() != XBE_SHA:
         raise ValueError("original Xbox executable SHA-256 mismatch")
     read = xbe_reader(data)
+    if hashlib.sha256(read(0x0008F6A0, 64)).hexdigest().upper() != CALLEE_SHA:
+        raise ValueError("original callee whole-body SHA-256 mismatch")
     for va, hexbytes in WINDOWS.items():
         if read(va, len(hexbytes) // 2) != bytes.fromhex(hexbytes):
             raise ValueError("original opcode mismatch at " + hex(va))
@@ -199,7 +202,7 @@ def verify_xbe(path):
             check_call(read(call_va, 5), call_va)
             if read(call_va + 5, 3) != bytes.fromhex("83c404"):
                 raise ValueError(entry + ": original caller stack cleanup mismatch")
-    print("SHA-pinned XBE: six whole bodies, nine CALL edges, ESI/PUSH/ADD ESP,4 and callee windows PASS")
+    print("SHA-pinned XBE: six caller bodies, callee body, nine CALL edges, ESI/PUSH/ADD ESP,4 PASS")
 
 def self_test():
     entry, digest, _, edges = CASES[0]
