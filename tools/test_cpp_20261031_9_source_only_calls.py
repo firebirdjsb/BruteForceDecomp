@@ -118,7 +118,7 @@ def clang(path, opt="-O0", output=None):
 class SourceProven9(unittest.TestCase):
     def test_source_preimages_and_callee_drafts(self):
         self.assertEqual(len(CASES), 9)
-        self.assertEqual(len({case[0] for case in CASES}), 17)
+        self.assertEqual(len({case[0] for case in CASES}), 9)
         for case in CASES:
             with self.subTest(caller=case[0]):
                 verify(case, source(case[0]).read_text(), source(case[1]).read_text())
