@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched prototype only; Xbox guest ABI_UNVERIFIED. */
+extern ushort FUN_002e40d0(void);
 undefined4 FUN_002e0840(undefined1 *param_1)
 
 {
