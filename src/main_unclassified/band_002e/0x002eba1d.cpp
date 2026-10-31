@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Callee-draft-matched declaration for C++17 name lookup only; Xbox ABI_UNVERIFIED. */
+extern void FUN_002eb985(undefined4 param_1,int param_2);
 void FUN_002eba1d(undefined4 param_1)
 
 {
