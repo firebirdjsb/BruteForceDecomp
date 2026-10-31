@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched forward declaration only; original x86 ABI_UNVERIFIED. */
+extern void FUN_0010ce80(int *param_1);
 void FUN_00101c30(void)
 
 {

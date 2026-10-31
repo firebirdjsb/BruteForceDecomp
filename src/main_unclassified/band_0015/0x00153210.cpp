@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched forward declaration only; original x86 ABI_UNVERIFIED. */
+extern void FUN_00150a10(char param_1);
 #include <xmmintrin.h>
 /* Ghidra RSQRTSS scalar opcode model; original XMM upper lanes not recovered.
  * ABI/behavior remain unverified, despite C11 syntax repair. */
