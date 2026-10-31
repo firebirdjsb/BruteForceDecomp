@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-only 32-bit scalar declaration; Xbox ABI_UNVERIFIED. */
+extern void FUN_00356f00(uint param_1);
 void FUN_00357470(int param_1,undefined4 param_2)
 
 {
