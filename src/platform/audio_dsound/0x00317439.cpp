@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched declarations; original E8 destinations verified.
+ * ABI_UNVERIFIED: Ghidra signatures are not Xbox calling-convention proof.
+ */
+extern void FUN_00317146(void);
+extern void FUN_00314937(int param_1);
 void FUN_00317439(byte param_1)
 
 {
