@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE direct E8 at 0x001CF18B -> 0x001D3E30, callee plain RET.
+ * Implicit guest register inputs and native linkage remain ABI_UNVERIFIED. */
+extern void FUN_001d3e30(void);
 void FUN_001cf170(undefined4 *param_1,undefined4 *param_2)
 
 {
