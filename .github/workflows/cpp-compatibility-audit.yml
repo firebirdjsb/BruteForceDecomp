@@ -1,7 +1,7 @@
 name: Full C++17 source draft syntax inventory (not a native game build)
 concurrency:
   group: full-cpp17-audit-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 on:
   push:
     branches: [main]
