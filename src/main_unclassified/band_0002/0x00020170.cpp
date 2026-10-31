@@ -19,7 +19,9 @@ void FUN_00020170(undefined4 param_1,undefined4 param_2,undefined4 param_3,undef
   unaff_ESI[0x41] = 0;
   unaff_ESI[0x42] = 0;
   unaff_ESI[0x43] = 0;
-  *unaff_ESI = &PTR_LAB_003a4014;
+  /* XBE 0x0002019e: MOV m32,0x003a4014 stores a 32-bit guest VA.
+   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */
+  *unaff_ESI = UINT32_C(0x003a4014);
   FUN_00020100(param_3,param_4,0x7f7fffff);
   unaff_ESI[0x90] = param_1;
   unaff_ESI[0x43] = param_3;

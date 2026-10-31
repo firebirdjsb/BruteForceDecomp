@@ -16,7 +16,9 @@ void FUN_0008dc50(void)
 {
   undefined4 *unaff_ESI;
   
-  *unaff_ESI = &PTR_FUN_003a2068;
+  /* XBE 0x0008dc55: MOV m32,0x003a2068 stores a 32-bit guest VA.
+   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */
+  *unaff_ESI = UINT32_C(0x003a2068);
   unaff_ESI[0xb] = 0;
   unaff_ESI[0xc] = 0;
   unaff_ESI[0xd] = 0;
