@@ -67,6 +67,19 @@ CASES = [
 ]
 
 
+# Original whole-body lengths recovered by matching the SHA-256 labels to the
+# authenticated retail XBE. Only these seven new entries are covered here.
+NEW_BODY_LENGTHS = {
+    "000555f0": 24,
+    "000556e0": 165,
+    "00055790": 614,
+    "00058b60": 82,
+    "0005be20": 76,
+    "0005cb60": 89,
+    "0005cbc0": 93,
+}
+
+
 def source_path(root, entry):
     return root / "src/main_unclassified" / ("band_" + entry[:4]) / ("0x" + entry + ".cpp")
 
@@ -102,6 +115,10 @@ def check_xbe(data):
     if xbe_read(data, 0x8f6df, 1) != b"\xc3":
         raise ValueError("callee plain RET mismatch")
     for entry, digest, esi_va, esi_hex, push_va, push_hex, call_va, call in CASES:
+        if entry in NEW_BODY_LENGTHS:
+            original_body = xbe_read(data, int(entry, 16), NEW_BODY_LENGTHS[entry])
+            if hashlib.sha256(original_body).hexdigest().upper() != digest:
+                raise ValueError(entry + ": original function-body SHA-256 mismatch")
         if entry in {"000555f0", "000556e0", "00055790", "00058b60", "0005be20", "0005cb60", "0005cbc0"}:
             if xbe_read(data, call_va + 5, 3) != bytes.fromhex("83c404"):
                 raise ValueError(entry + ": caller ADD ESP,4 mismatch")
