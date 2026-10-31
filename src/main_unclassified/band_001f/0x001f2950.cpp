@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Existing callee-draft interface only; original Xbox ABI_UNVERIFIED. */
+extern int FUN_001e8df0(float param_1);
 void FUN_001f2950(undefined4 param_1,undefined4 param_2)
 
 {
