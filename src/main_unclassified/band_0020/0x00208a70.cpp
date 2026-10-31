@@ -6,6 +6,15 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE: direct E8 to 0x000EE560; five guest stack DWORDs and
+ * caller ADD ESP,0x14. Callee consumes the low byte of word 1.
+ * This caller-source declaration is syntax-only: implicit ECX/EDX/ESI,
+ * guest pointer translation and return high bits remain ABI_UNVERIFIED. */
+extern undefined4 FUN_000ee560(undefined4 guest_word_0,
+                                undefined4 guest_word_1,
+                                undefined4 *guest_word_2,
+                                int *guest_word_3,
+                                undefined4 guest_word_4);
 /* 0x001FEDB0 byte-buffer callee draft matches this source pointer;
  * host pointer address is preserved, while Xbox guest ABI is UNVERIFIED. */
 extern char FUN_001fedb0(undefined4 flag, int *key, byte *data);
