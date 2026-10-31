@@ -28,7 +28,9 @@ void FUN_000556e0(void)
   *(undefined4 *)(unaff_EDI + 8) = 0;
   *(undefined4 *)(unaff_EDI + 4) = 0;
   if (*(int *)(unaff_EDI + 0x14) != 0) {
-    FUN_0008f6a0(0);
+    /* Original XBE: 0x0005570E LEA ESI,[EDI+0x10]; 0x0005571F PUSH EBX (zero); CALL 0x0008F6A0.
+       Host-only guest32 register/stack model; original C++ ABI_UNVERIFIED. */
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x10), UINT32_C(0));
   }
   *(uint *)(unaff_EDI + 0x88) = *(uint *)(unaff_EDI + 0x88) & 0xffffdffe | 0x1000;
   *(undefined4 *)(unaff_EDI + 0x84) = 0xbf800000;
