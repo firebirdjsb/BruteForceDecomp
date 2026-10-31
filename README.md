@@ -7,17 +7,15 @@
 
 [![C++ source audit](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml/badge.svg?branch=main)](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml)
 
-![C++17 syntax coverage: 24.40%](docs/progress/cpp-syntax.svg)
+![C++17 syntax coverage: 24.51%](docs/progress/cpp-syntax.svg)
 
-**24.40% C++17 syntax coverage** · **3,342 / 13,694** function drafts passing · **10,352** failing. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/1f8f8ccc238a4507b76411c02cde709ba157c7df) · [Audit run](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/41186295926).
+**24.51% C++17 syntax coverage** · **3,357 / 13,694** function drafts passing · **10,337** failing. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/4916e806e243bf39229f7edfab702b0727d216a2) · [Audit run](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/41189904413).
 
-![Overall roadmap tracking: 3.49%](docs/progress/overall.svg)
+![Overall roadmap tracking: 3.50%](docs/progress/overall.svg)
 
-**Overall tracked roadmap: 3.49%**. This is a seven-stage planning indicator crediting *only* the C++ syntax fraction of stage one; the other six stages are not verified. **It is not verified game completion.**
+**Overall tracked roadmap: 3.50%**. This is a seven-stage planning indicator crediting *only* the C++ syntax fraction of stage one; the other six stages are not verified. **It is not verified game completion.**
 
 **Native PC game: NOT buildable/playable yet.** Original Xbox C++ object layouts, virtual dispatch, guest ABI, cross-function linkage, platform services and 1:1 behavior still require evidence.
-
-**Function inventory is not 1:1 reconstruction.** All 13,694 indexed functions have canonical C++ draft files; source structure, Ghidra-export equivalence, original Xbox ABI and observed behavior have independent verification gates. See [C++ draft fidelity requirements](docs/CPP_DRAFT_FIDELITY_GATES.md).
 
 [Machine-readable C++ progress](docs/progress/current.json) · [C++ migration](docs/CPP_MIGRATION.md) · [Native PC milestones](docs/NATIVE_PC_PORT_GOALS.md)
 
