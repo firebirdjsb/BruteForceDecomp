@@ -16,7 +16,8 @@ void FUN_000c4f10(void)
   int in_EAX;
   
   if (*(int *)(in_EAX + 0x638) != 0) {
-    FUN_0008f6a0(0);
+    // XBE 0x000C4F27: ESI=EAX+0x634, PUSH 0, caller ADD ESP,4; ABI_UNVERIFIED.
+    FUN_0008f6a0(static_cast<std::uint32_t>(in_EAX) + UINT32_C(0x634), UINT32_C(0));
   }
   FUN_000c4e70();
   FUN_000c4ec0();
