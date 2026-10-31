@@ -87,6 +87,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_main_19.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_source_matched_00238110.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_eleven_verified_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_dsound_scalar_draft.py' -v
           python3 tools/verify_cpp_20261030_source_only_calls_xbe.py --self-test
           python3 -m unittest discover -s tools -p 'test_cpp_00160da0_return_contract.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_0008a0b0_eax_return.py' -v
