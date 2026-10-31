@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original XBE 0x001E7843: direct CALL 0x001E7880; ESI is loaded from
+ * guest [0x00469948] and the callee reads [ESI+4], returning with RET.
+ * Source-matched declaration only: guest register ABI_UNVERIFIED. */
+extern void FUN_001e7880(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_00469948;
