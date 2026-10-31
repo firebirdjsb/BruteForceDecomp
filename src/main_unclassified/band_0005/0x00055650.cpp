@@ -18,7 +18,7 @@ void FUN_00055650(void)
   
   *(undefined4 *)(unaff_EDI + 4) = *(undefined4 *)(in_EAX + 4);
   if (*(int *)(unaff_EDI + 0xc) != *(int *)(in_EAX + 0xc)) {
-    FUN_0008f6a0(*(int *)(in_EAX + 0xc));
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(8), static_cast<std::uint32_t>(*(int *)(in_EAX + 0xc)));
   }
   uVar1 = *(undefined4 *)(in_EAX + 0x18);
   uVar2 = *(undefined4 *)(in_EAX + 0x14);
@@ -30,7 +30,7 @@ void FUN_00055650(void)
   *(undefined4 *)(unaff_EDI + 0x30) = *(undefined4 *)(in_EAX + 0x30);
   *(undefined4 *)(unaff_EDI + 0x24) = *(undefined4 *)(in_EAX + 0x24);
   if (*(int *)(unaff_EDI + 0x20) != *(int *)(in_EAX + 0x20)) {
-    FUN_0008f6a0(*(int *)(in_EAX + 0x20));
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x1c), static_cast<std::uint32_t>(*(int *)(in_EAX + 0x20)));
   }
   *(byte *)(unaff_EDI + 0x34) =
        *(byte *)(unaff_EDI + 0x34) ^ (*(byte *)(in_EAX + 0x34) ^ *(byte *)(unaff_EDI + 0x34)) & 1;
