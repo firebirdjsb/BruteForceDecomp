@@ -10,6 +10,12 @@
  * its low byte is cleared, passed by address, and retested. The hidden
  * pointer/register operations are not yet modelled: ABI_UNVERIFIED. */
 extern void FUN_00057730(undefined4 param_1);
+/* XBE CALLs 0x00057801 and 0x0005781E reach 0x00057610 (RET 16).
+ * Source declaration models four pushed guest DWORDs, NOT a host ABI.
+ * The first output pointer targets only the low byte of the third
+ * caller stack word; unsigned-byte aliasing preserves its upper bytes.
+ * ABI_UNVERIFIED: hidden EBX/ESI and original guest-stack identity. */
+extern undefined4 FUN_00057610(undefined4, undefined1 *, undefined1 *, undefined1 *);
 
 void FUN_000577c0(undefined4 param_1, undefined4 param_2,
                   uint32_t caller_stack_word_3)
@@ -18,11 +24,11 @@ void FUN_000577c0(undefined4 param_1, undefined4 param_2,
   bool bVar1;
   bool bVar2;
   bool bVar3;
-  char local_5;
-  char local_4;
-  char local_3;
-  char local_2;
-  char local_1;
+  undefined1 local_5;
+  undefined1 local_4;
+  undefined1 local_3;
+  undefined1 local_2;
+  undefined1 local_1;
   
   local_2 = '\0';
   local_1 = '\0';
@@ -30,7 +36,7 @@ void FUN_000577c0(undefined4 param_1, undefined4 param_2,
   local_3 = '\0';
   caller_stack_word_3 &= UINT32_C(0xffffff00);
   local_5 = '\0';
-  FUN_00057610(param_1,&caller_stack_word_3,&local_4,&local_2);
+  FUN_00057610(param_1,reinterpret_cast<undefined1 *>(&caller_stack_word_3),&local_4,&local_2);
   FUN_00057610(param_1,&local_5,&local_3,&local_1);
   if (((caller_stack_word_3 & UINT32_C(0xff)) == 0) && (local_5 == '\0')) {
     bVar1 = false;
