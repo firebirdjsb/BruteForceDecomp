@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-draft declaration only; original Xbox guest ABI remains ABI_UNVERIFIED. */
+extern void FUN_002a6630(int *param_1);
 /* WARNING: Removing unreachable block (ram,0x002a68eb) */
 
 void FUN_002a6850(void)
