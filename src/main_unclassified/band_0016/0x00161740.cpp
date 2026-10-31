@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE E8 0x00161747 -> 0x00160320, no caller-pushed guest stack words.
+ * Implicit guest-register inputs and host linkage remain ABI_UNVERIFIED. */
+extern void FUN_00160320(void);
 void FUN_00161740(void)
 
 {

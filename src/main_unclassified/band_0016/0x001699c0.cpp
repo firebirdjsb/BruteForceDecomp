@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE E8 0x001699EC -> 0x001FB980, callee plain RET and EAX used.
+ * Return-byte behavior and native host linkage remain ABI_UNVERIFIED. */
+extern undefined4 FUN_001fb980(void);
 undefined4 FUN_001699c0(void)
 
 {
