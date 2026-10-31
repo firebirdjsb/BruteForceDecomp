@@ -13,7 +13,8 @@ void FUN_0010f940(void)
   int in_ECX;
   
   if (*(int *)(in_ECX + 0xe4) != in_EAX) {
-    FUN_0008f6a0();
+    // XBE 0x0010F954: ESI=ECX+0xE0, PUSH EAX, caller ADD ESP,4; ABI_UNVERIFIED.
+    FUN_0008f6a0(static_cast<std::uint32_t>(in_ECX) + UINT32_C(0xe0), static_cast<std::uint32_t>(in_EAX));
   }
   return;
 }
