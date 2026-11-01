@@ -1,0 +1,115 @@
+{
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "base_reviewed_head": "2b1dc67d1a70351a8cde8976faf840c4b1908076",
+  "description": "Twelve independently reviewed byte/word offset repairs composed after the 250-case literal batch. Hash gates allow only these exact overlays; historical literal preimages remain unchanged.",
+  "overlays": [
+    {
+      "entry": "0x000ab410",
+      "before": "((int)in_EAX + 0x75)",
+      "after": "((byte *)in_EAX + 0x75)",
+      "prior_sha256": "b082cd4349b9a463caf2003b6bdb0d676b2916390ab8b25586042b621555a586",
+      "current_sha256": "3db44ac06fd48e3100b145f71cf59a5ad5c1220cdcaddf8d2b701410ede8fcb7",
+      "site": "0x000ab450",
+      "bytes": "884e75"
+    },
+    {
+      "entry": "0x000acd90",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((byte *)in_EAX + 0xe)",
+      "prior_sha256": "b25b2750302929b254cd048d0e2911ea6f3d866cd1647608a3c312c61e900f37",
+      "current_sha256": "09807e812ee58976c0dbb8805c4923d88b6532bb1222475cbbda158a66d38d45",
+      "site": "0x000acdb4",
+      "bytes": "6689460e"
+    },
+    {
+      "entry": "0x000b79a0",
+      "before": "((int)in_EAX + 6)",
+      "after": "((byte *)in_EAX + 6)",
+      "prior_sha256": "71103badde9a7c943bed875c8dc59b30e68993daa15703a4469de7b7806106e5",
+      "current_sha256": "9b048116f2b09644db6ed7c9c2f7850a48782be0d9acfd41eceb7bcb98572036",
+      "site": "0x000b79ae",
+      "bytes": "66894606"
+    },
+    {
+      "entry": "0x000b8210",
+      "before": "((int)in_EAX + 10)",
+      "after": "((byte *)in_EAX + 10)",
+      "prior_sha256": "61df275ccbebd3c994c151b46ea5dad2fa288fbf62f76ee8e0fe900180e55b5a",
+      "current_sha256": "a32e12549cd69614ebb4b1a4e1e95a044382440bdf325096ce27b05d22118d99",
+      "site": "0x000b8231",
+      "bytes": "6689460a"
+    },
+    {
+      "entry": "0x000be330",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((byte *)in_EAX + 0xe)",
+      "prior_sha256": "5e2c0cf6898dd74c2c547e958d8d904df124ac3d29735a405d702cc58d4fbd4e",
+      "current_sha256": "c0c3f74c3e6e94d1438c8a57b494358cf0d86222d74567444307c5d3f73a16ce",
+      "site": "0x000be34a",
+      "bytes": "6689460e"
+    },
+    {
+      "entry": "0x000c24f0",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((byte *)in_EAX + 0xe)",
+      "prior_sha256": "b4b91971225d4ea2ad747a942f0f427c975c4232419bdb36736eb0cfff939658",
+      "current_sha256": "b90530d79d23b304d5c98e804bad36d3c58ca8a8b0f988ee2cc545ffcfc8c471",
+      "site": "0x000c2513",
+      "bytes": "6689460e"
+    },
+    {
+      "entry": "0x000c2900",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((byte *)in_EAX + 0xe)",
+      "prior_sha256": "55606eaf3516359d9a07496d76224f7a5a3031451a28744a47589faa7def4c03",
+      "current_sha256": "b8d92e3dc0f93962f73497299442726b449134f0a1b8218c2e9a1c335bc1f5df",
+      "site": "0x000c291f",
+      "bytes": "66894e0e"
+    },
+    {
+      "entry": "0x000c5f60",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((byte *)in_EAX + 0xe)",
+      "prior_sha256": "7a569a9ae0fcc9ca17df8146a7b48bbc977695ae5fcc9aca691f90cb339902dc",
+      "current_sha256": "7349440beeb464b47e4db0993d3195346bde6c2e04e749d6de5f7c65e63e99bb",
+      "site": "0x000c5f79",
+      "bytes": "6689460e"
+    },
+    {
+      "entry": "0x000c8760",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((byte *)in_EAX + 0xe)",
+      "prior_sha256": "25a6b7090c846a834a5a042d46e331ddfc4001228471922c644ea17bb5bf69d2",
+      "current_sha256": "36def055833e939b2d0ac8625ad74e881989e088c7a6c3c416492497b1d3aef7",
+      "site": "0x000c8798",
+      "bytes": "6689460e"
+    },
+    {
+      "entry": "0x000cc020",
+      "before": "((int)unaff_ESI + 6)",
+      "after": "((byte *)unaff_ESI + 6)",
+      "prior_sha256": "2146086ac4fbd457703e7b1a8a0b67c94e5e35cb089dee70c1e32e43a2b20127",
+      "current_sha256": "87033092143d874964f68a4a12db135e640e4d4fbf1c70b27771ae070a618e7a",
+      "site": "0x000cc042",
+      "bytes": "66c74606f1ff"
+    },
+    {
+      "entry": "0x000cc140",
+      "before": "((int)unaff_ESI + 6)",
+      "after": "((byte *)unaff_ESI + 6)",
+      "prior_sha256": "8276ac7b8a19ade6b4a208efaf53cb9a0a128b98e39ac9878263a256ff91005e",
+      "current_sha256": "74e50deedc6941b598e6227e2f5acebe3509c210f02a4b748789650b8e4eb085",
+      "site": "0x000cc162",
+      "bytes": "66c746062600"
+    },
+    {
+      "entry": "0x00173670",
+      "before": "((int)in_EAX + 0x19)",
+      "after": "((byte *)in_EAX + 0x19)",
+      "prior_sha256": "34625381bf10db31df16c7554824fa80baa80beaf69cbbc65f7b0343896a664d",
+      "current_sha256": "2a0c7d030a2a93836b117acc23bac99749bb4ef16e03470123a91bfa5efd973a",
+      "site": "0x0017368d",
+      "bytes": "884819"
+    }
+  ]
+}
