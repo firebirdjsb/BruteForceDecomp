@@ -18,8 +18,10 @@ void FUN_000a9330(void)
   undefined4 *unaff_ESI;
   
   FUN_000c4f60();
-  *unaff_ESI = &PTR_FUN_003a0338;
-  unaff_ESI[0xb] = &PTR_LAB_003a0324;
+  /* XBE MOV m32,imm32 sites: 0x000a9339, 0x000a933f.
+   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */
+  *unaff_ESI = UINT32_C(0x003a0338);
+  unaff_ESI[0xb] = UINT32_C(0x003a0324);
   unaff_ESI[0x32] = 0;
   unaff_ESI[0x34] = 0;
   *(undefined1 *)(unaff_ESI + 0x35) = 0;
