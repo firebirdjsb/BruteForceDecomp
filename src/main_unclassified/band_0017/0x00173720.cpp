@@ -21,7 +21,8 @@ void FUN_00173720(void)
   in_EAX[2] = 1;
   *in_EAX = UINT32_C(0x0039a3d0);
   *(undefined2 *)(in_EAX + 3) = DAT_0040c804;
-  *(undefined1 *)((int)in_EAX + 0xe) = DAT_0040c806;
+  /* XBE 0x00173734 LEA ECX,[EAX+0x0C]; 0x00173740 MOV [ECX+2],DL. ABI_UNVERIFIED. */
+  *(undefined1 *)((unsigned char *)in_EAX + 0xe) = DAT_0040c806;
   in_EAX[0x23] = 0x41efc28f;
   in_EAX[0x24] = 0;
   return;
