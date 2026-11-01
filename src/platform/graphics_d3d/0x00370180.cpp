@@ -1,3 +1,5 @@
+/* Partial original DWORD address values; other C++ errors remain.
+ * Complete register/memory contracts and behavior are ABI_UNVERIFIED. */
 /* Brute Force original Xbox - independent, unverified C11 draft.
  * Input x86 body SHA-256: 789BD635FCA7EF46933370D196E8A27B60179F677798CD758701C86CB5AD3307
  * Entry: 0x00370180, Ghidra index: 13338, label: D3DDevice_SetRenderState_EdgeAntiAlias
@@ -23,7 +25,7 @@ void D3D8LTCG__D3DDevice_SetRenderState_EdgeAntiAlias(undefined4 param_1)
   if ((undefined4 *)D3D8__D3D_g_pDevice[1] <= puVar2) {
     puVar2 = (undefined4 *)D3D_MakeRequestedSpace_8(DAT_0037ec88 >> 1,DAT_0037ec88);
   }
-  *puVar2 = &DAT_00080320;
+  *puVar2 = UINT32_C(0x00080320);
   puVar2[1] = param_1;
   puVar2[2] = param_1;
   *puVar1 = puVar2 + 3;

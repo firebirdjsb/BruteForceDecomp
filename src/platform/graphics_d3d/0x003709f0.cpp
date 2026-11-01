@@ -1,3 +1,5 @@
+/* Partial original DWORD address values; other C++ errors remain.
+ * Complete register/memory contracts and behavior are ABI_UNVERIFIED. */
 /* Brute Force original Xbox - independent, unverified C11 draft.
  * Input x86 body SHA-256: 035C4F602A7B049B15094C6E41F140E8BC30D8BD36ACCC30E5AC3483227B4B99
  * Entry: 0x003709f0, Ghidra index: 13363, label: D3DDevice_SetRenderState_FillMode
@@ -28,7 +30,7 @@ void D3D8LTCG__D3DDevice_SetRenderState_FillMode(undefined4 param_1)
   if (D3D8__D3DRS_TwoSidedLighting == 0) {
     uVar3 = param_1;
   }
-  *puVar2 = &DAT_0008038c;
+  *puVar2 = UINT32_C(0x0008038c);
   puVar2[1] = param_1;
   puVar2[2] = uVar3;
   *puVar1 = puVar2 + 3;
