@@ -71,6 +71,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_9_source_only_calls.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_two_exact_single_errors.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_000e0350_dword_callers.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_four_zero_arg_edges.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_nine_zero_arg_source_edges.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_four_mapped_source_calls.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_20261031_two_new_source_calls.py' -v
