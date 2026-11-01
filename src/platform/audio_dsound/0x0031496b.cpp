@@ -11,7 +11,7 @@ void FUN_0031496b(undefined2 *param_1,int param_2)
 {
   *param_1 = 1;
   *(undefined1 *)(param_1 + 1) = *(undefined1 *)(param_2 + 2);
-  *(undefined1 *)((int)param_1 + 3) = *(undefined1 *)(param_2 + 0xe);
+  *(undefined1 *)((unsigned char *)param_1 + 3) = *(undefined1 *)(param_2 + 0xe);
   *(undefined4 *)(param_1 + 2) = *(undefined4 *)(param_2 + 4);
   *(uint *)(param_1 + 4) = (uint)*(byte *)(param_2 + 0xc);
   return;
