@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched declarations; original direct calls checked. Xbox ABI_UNVERIFIED. */
+extern undefined4 FUN_00252770(int param_1);
+extern uint FUN_00252870(void);
 /* WARNING: Removing unreachable block (ram,0x001ebf35) */
 /* WARNING: Removing unreachable block (ram,0x001ebf3c) */
 /* WARNING: Removing unreachable block (ram,0x001ebf49) */
