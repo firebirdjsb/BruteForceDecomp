@@ -1,3 +1,5 @@
+/* Partial original DWORD address-value repair; other C++ errors remain.
+ * ABI_UNVERIFIED: register/memory mapping and complete behavior remain unresolved. */
 /* Brute Force original Xbox - independent, unverified C11 draft.
  * Input x86 body SHA-256: ACE5EF3FDB013787BA6F7CEA0611332BE6F8C3A88FFF641F4AB07BFFE4D77F29
  * Entry: 0x00177020, Ghidra index: 4947, label: FUN_00177020
@@ -19,16 +21,16 @@ void FUN_00177020(void)
 {
   undefined4 *in_EAX;
   
-  *in_EAX = &PTR_FUN_00399ed8;
-  in_EAX[6] = &PTR_LAB_00399ec0;
-  in_EAX[0x1c] = &PTR_FUN_00399ea4;
-  in_EAX[0x1d] = &PTR_LAB_00399e90;
+  *in_EAX = UINT32_C(0x00399ed8);
+  in_EAX[6] = UINT32_C(0x00399ec0);
+  in_EAX[0x1c] = UINT32_C(0x00399ea4);
+  in_EAX[0x1d] = UINT32_C(0x00399e90);
   if (in_EAX[0x19] != 0) {
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(in_EAX[0x19]);
   }
   in_EAX[0x19] = 0;
-  in_EAX[6] = &PTR_FUN_0039a5e4;
+  in_EAX[6] = UINT32_C(0x0039a5e4);
   if (in_EAX[8] != 0) {
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(in_EAX[8]);
@@ -36,7 +38,7 @@ void FUN_00177020(void)
   in_EAX[8] = 0;
   in_EAX[9] = 0;
   in_EAX[10] = 0;
-  *in_EAX = &PTR_FUN_003a402c;
+  *in_EAX = UINT32_C(0x003a402c);
   if (in_EAX[4] != 0) {
     FUN_0008f6e0();
     if (in_EAX[4] != 0) {
