@@ -11,6 +11,6 @@ undefined4 FUN_003747d7(void)
 {
   undefined4 *in_EAX;
   
-  FUN_00379965(*in_EAX,*(undefined2 *)((int)in_EAX + 6));
+  FUN_00379965(*in_EAX,*(undefined2 *)((unsigned char *)in_EAX + 6));
   return 1;
 }

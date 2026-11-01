@@ -18,7 +18,7 @@ void FUN_00374e25(void)
   
   iVar3 = *in_ECX;
   if (((byte)XboxHardwareInfo_exref[1] & 2) == 0) {
-    cVar2 = *(char *)((int)in_ECX + 10);
+    cVar2 = *(char *)((unsigned char *)in_ECX + 10);
     if (cVar2 == '\x0f') {
       uVar4 = 0xdaebc;
     }

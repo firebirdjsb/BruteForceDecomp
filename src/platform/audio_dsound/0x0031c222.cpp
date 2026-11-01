@@ -15,7 +15,7 @@ void FUN_0031c222(uint param_1)
   int *in_ECX;
   
   *(short *)((&DAT_0032f784)[*in_ECX] + -0x13ffef8) =
-       *(short *)(in_ECX[6] + 4 + (uint)*(byte *)((int)in_ECX + 0x25) * 8) - (short)(param_1 >> 1);
+       *(short *)(in_ECX[6] + 4 + (uint)*(byte *)((unsigned char *)in_ECX + 0x25) * 8) - (short)(param_1 >> 1);
   in_ECX[0xb] = 0;
   return;
 }
