@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched C++17 declarations only; original implicit EAX/EDX/ESI
+ * register contracts and indirect virtual dispatch remain ABI_UNVERIFIED. */
+extern void FUN_0010c7d0(void);
+extern undefined4 FUN_000f6850(void);
 undefined4 FUN_000f6890(void)
 
 {
