@@ -13,7 +13,8 @@ void FUN_000fbd90(void)
   int *in_ECX;
   
   if (in_ECX != (int *)0x0) {
-    *(undefined4 *)((int)in_ECX + 0x2d) = *in_EAX;
+    /* XBE 0x000FBDB6: MOV DWORD PTR [ECX+0x2D],EDX; ABI_UNVERIFIED. */
+    *(undefined4 *)((unsigned char *)in_ECX + 0x2d) = *in_EAX;
                     /* WARNING: Could not recover jumptable at 0x000fbdbc. Too many branches */
                     /* WARNING: Treating indirect jump as call */
     (**(code **)(*in_ECX + 0x34))();

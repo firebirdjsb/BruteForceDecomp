@@ -25,7 +25,8 @@ void FUN_000a9b90(void)
   in_EAX[0x1b] = 0;
   in_EAX[0x1e] = 0;
   in_EAX[0x1d] = 0;
-  *(undefined2 *)((int)in_EAX + 0xe) = 0;
+  /* XBE 0x000A9BAA: MOV WORD PTR [ESI+0x0E],AX; ABI_UNVERIFIED. */
+  *(undefined2 *)((unsigned char *)in_EAX + 0xe) = 0;
   *(undefined2 *)(in_EAX + 3) = 0;
   in_EAX[0x22] = 0;
   in_EAX[0x23] = 0;
