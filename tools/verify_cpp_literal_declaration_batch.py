@@ -17,6 +17,7 @@ from verify_cpp_guest_address_literals import mov_memory_imm32
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = 'metadata/cpp_20261101_literal_declarations.json'
+OVERLAY_MANIFEST = 'metadata/cpp_20261101_literal_overlay_12.json'
 XBE_SHA = 'B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721'
 
 
@@ -24,7 +25,19 @@ def sha(text):
     return hashlib.sha256(text.encode()).hexdigest()
 
 
-def restore(case, text):
+def restore(case, text, overlays=None):
+    # Compose only independently SHA-pinned later repairs; the original
+    # literal-batch preimage and Git blob must still match exactly.
+    overlay = (overlays or {}).get(case['entry'])
+    if overlay is not None:
+        if (case['status'] != 'partial'
+                or sha(text) != overlay['current_sha256']
+                or text.count(overlay['after']) != 1
+                or overlay['before'] in text):
+            raise ValueError('Changed independently reviewed overlay: ' + case['entry'])
+        text = text.replace(overlay['after'], overlay['before'], 1)
+        if sha(text) != overlay['prior_sha256'] or overlay['prior_sha256'] != case['result_source_sha256']:
+            raise ValueError('Overlay is not an exact single-operand repair: ' + case['entry'])
     if sha(text) != case['result_source_sha256'] or text.count(case['added_block']) != 1:
         raise ValueError('Changed reviewed source: ' + case['entry'])
     before = text.replace(case['added_block'], '', 1)
@@ -36,6 +49,10 @@ def restore(case, text):
     blob = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
     if sha(before) != case['source_sha256'] or blob != case['source_git_blob']:
         raise ValueError('Changes exceed reviewed operands/declarations')
+    if overlay is not None:
+        if before.count(overlay['before']) != 1 or overlay['after'] in before:
+            raise ValueError('Original preimage overlay position differs: ' + case['entry'])
+        before = before.replace(overlay['before'], overlay['after'], 1)
     return before
 
 
@@ -51,9 +68,14 @@ def compile_text(compiler, root, source, opt):
     return result.returncode, errors, warnings, locations
 
 
-def verify(root, manifest, compiler, image=None, approved_counts=None):
+def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=None):
     cases = manifest['cases']
     expected = manifest['expected_counts']
+    overlays = overlays or {}
+    if (len(overlays) != 12
+            or any(c['entry'] in overlays and c['status'] != 'partial' for c in cases)
+            or set(overlays) - {c['entry'] for c in cases}):
+        raise ValueError('Reviewed 12-case overlay identity/status differs')
     if expected != (approved_counts if approved_counts is not None else {'total':250,'complete':29,'partial':221,'values':483}):
         raise ValueError('Reviewed batch totals changed')
     if len(cases) != expected['total'] or len({c['entry'] for c in cases}) != len(cases):
@@ -62,7 +84,7 @@ def verify(root, manifest, compiler, image=None, approved_counts=None):
         raise ValueError('Original image identity changed')
     inventory = {r['entry']:r for r in csv.DictReader((root/'metadata/bulk_13694_inventory.csv').open(encoding='utf-8'))}
     texts = {c['entry']:source_path(root,c['entry']).read_text(encoding='utf-8') for c in cases}
-    preimages = {c['entry']:restore(c,texts[c['entry']]) for c in cases}
+    preimages = {c['entry']:restore(c,texts[c['entry']],overlays) for c in cases}
     full = partial = values = 0
     for case in cases:
         text = texts[case['entry']]
@@ -72,7 +94,8 @@ def verify(root, manifest, compiler, image=None, approved_counts=None):
         if read_body_digest(text) != (case['body_sha256'],False):
             raise ValueError('Original body label changed')
         row = inventory[case['entry']]
-        if row['original_body_sha256'] != case['body_sha256'] or row['c_sha256'] != sha(text):
+        inventory_sha = overlays[case['entry']]['prior_sha256'] if case['entry'] in overlays else sha(text)
+        if row['original_body_sha256'] != case['body_sha256'] or row['c_sha256'] != inventory_sha:
             raise ValueError('Inventory fingerprint differs')
         if 'ABI_UNVERIFIED' not in text:
             raise ValueError('Verification boundary lost')
@@ -96,17 +119,18 @@ def verify(root, manifest, compiler, image=None, approved_counts=None):
                 raise ValueError('Signature differs from real source definition')
             if 'extern '+dep['signature']+';\n' not in case['added_block']:
                 raise ValueError('Declaration not source matched')
+        effective_status = 'complete' if case['entry'] in overlays else case['status']
         for opt in ('-O0','-O2'):
             old_rc, old, old_warnings, old_locations = compile_text(compiler,root,preimages[case['entry']],opt)
-            rc, errors, warnings, locations = compile_text(compiler,root,text.replace(case['added_block'],'',1) if case['status']=='partial' else text,opt)
-            if case['status'] == 'partial' and warnings-old_warnings:
+            rc, errors, warnings, locations = compile_text(compiler,root,text.replace(case['added_block'],'',1) if effective_status=='partial' else text,opt)
+            if effective_status == 'partial' and warnings-old_warnings:
                 raise ValueError('Repair introduced a warning: '+case['entry']+str(warnings-old_warnings))
             if not old_rc:
                 raise ValueError('Preimage was not a failure')
-            if case['status'] == 'complete':
+            if effective_status == 'complete':
                 if rc:
                     raise ValueError('Whole-file syntax failed: '+case['entry']+str(errors))
-            elif case['status'] == 'partial':
+            elif effective_status == 'partial':
                 removed = old-errors
                 original = preimages[case['entry']]
                 address_lines = {original.count('\n',0,m.start())+1 for e in case['edits'] for m in re.finditer(re.escape(e['before']),original)}
@@ -122,25 +146,33 @@ def verify(root, manifest, compiler, image=None, approved_counts=None):
                     raise ValueError('Removed error is outside address-value scope')
             else:
                 raise ValueError('Unknown repair status')
-        if case['status'] == 'complete': full += 1
+        if effective_status == 'complete': full += 1
         else: partial += 1
         try:
-            restore(case,text.replace(case['edits'][0]['after'],'UINT32_C(0)',1))
+            restore(case,text.replace(case['edits'][0]['after'],'UINT32_C(0)',1),overlays)
         except ValueError:
             pass
         else:
             raise ValueError('Changed-literal negative control escaped')
-    if (full,partial,values) != (expected['complete'],expected['partial'],expected['values']):
+        if case['entry'] in overlays:
+            changed = text.replace(overlays[case['entry']]['after'], overlays[case['entry']]['before'], 1)
+            try:
+                restore(case,changed,overlays)
+            except ValueError:
+                pass
+            else:
+                raise ValueError('Changed-overlay negative control escaped')
+    if (full,partial,values) != (expected['complete']+len(overlays),expected['partial']-len(overlays),expected['values']):
         raise ValueError('Verification totals differ')
     print(f'PASS {full} complete C++17 repairs; {partial} partial repairs; {values} DWORD values; O0/O2 and preimage/corruption controls')
     if image is not None:
-        verify_image(image, cases)
+        verify_image(image, cases, overlays)
     else:
         print('Private XBE absent: instruction authenticity not rechecked')
     print('Syntax/operand facts only; original ABI, whole-function behavior and native linkage remain unverified')
 
 
-def verify_image(data, cases):
+def verify_image(data, cases, overlays=None):
     from audit_xbe_first_100 import mapped_span, xbe_sections
     from capstone import Cs, CS_ARCH_X86, CS_MODE_32
     if hashlib.sha256(data).hexdigest().upper() != XBE_SHA:
@@ -179,6 +211,11 @@ def verify_image(data, cases):
                 ins = instructions[int(site['site'],16)]
                 if bytes(ins.bytes).hex()!=site['bytes'] or ins.bytes[0]!=0xe8 or int(ins.op_str,16)!=int(dep['entry'],16):
                     raise ValueError('Original direct CALL differs')
+        overlay = (overlays or {}).get(case['entry'])
+        if overlay is not None:
+            ins = instructions.get(int(overlay['site'], 16))
+            if ins is None or bytes(ins.bytes).hex() != overlay['bytes']:
+                raise ValueError('Independently reviewed byte/word operand differs')
     print(f'PASS pinned XBE; {len(decoded)} complete original bodies and all recorded store/CALL boundaries')
 
 
@@ -187,7 +224,13 @@ def main():
     if a.tooldeps: sys.path.insert(0,str(a.tooldeps))
     compiler=shutil.which('clang++')
     if not compiler:p.error('clang++ is required')
-    verify(ROOT,json.loads((ROOT/MANIFEST).read_text(encoding='utf-8')),compiler,a.xbe.read_bytes() if a.xbe else None)
+    overlay_doc = json.loads((ROOT/OVERLAY_MANIFEST).read_text(encoding='utf-8'))
+    if (overlay_doc['original_xbe_sha256'] != XBE_SHA
+            or len(overlay_doc['overlays']) != 12
+            or len({c['entry'] for c in overlay_doc['overlays']}) != 12):
+        raise ValueError('Independent 12-case overlay manifest identity differs')
+    overlays = {c['entry']:c for c in overlay_doc['overlays']}
+    verify(ROOT,json.loads((ROOT/MANIFEST).read_text(encoding='utf-8')),compiler,a.xbe.read_bytes() if a.xbe else None,overlays=overlays)
 
 
 if __name__=='__main__':main()
