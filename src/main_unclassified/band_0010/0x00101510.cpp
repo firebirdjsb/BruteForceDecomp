@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Signed DWORD output inferred from two XBE callers; implicit EAX ABI_UNVERIFIED. */
+extern void FUN_001013d0(int *param_1);
 float * FUN_00101510(undefined4 param_1,float *param_2)
 
 {
