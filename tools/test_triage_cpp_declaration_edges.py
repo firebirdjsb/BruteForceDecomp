@@ -33,7 +33,8 @@ class DeclarationTriageTests(unittest.TestCase):
             (root / "metadata/asm_supported_readable_names.csv").write_text("entry,readable_alias\n")
             source = ("/* Entry: 0x00012340\n * Input x86 body SHA-256: " + "A" * 64 + "\n */\n"
                       "void FUN_00012340() { FUN_00012400(1, helper(2, 3)); }\n")
-            caller.write_text(source)
+            # Audit rows fingerprint exact file bytes on both Windows and Linux.
+            caller.write_bytes(source.encode("utf-8"))
             callee.write_text("int FUN_00012400(int x, int y) { return x+y; }\n")
             row = {"entry": "0x00012340", "source": str(caller.relative_to(root)),
                    "status": "fail", "errors": ["use of undeclared identifier 'FUN_00012400'"],

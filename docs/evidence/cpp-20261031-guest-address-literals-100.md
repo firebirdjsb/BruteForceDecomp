@@ -9,13 +9,20 @@ The original XBE SHA-256 remains
 `B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721`.
 All 100 complete ordered original bodies and all 159 `MOV r/m32,imm32` store
 instructions were authenticated locally against that image. Each source
-`&PTR_LAB_â€¦` / `&PTR_FUN_â€¦` / `&LAB_â€¦` replacement corresponds one-to-one with
+`&PTR_LAB_ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦` / `&PTR_FUN_ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦` / `&LAB_ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦` replacement corresponds one-to-one with
 the same exact immediate address stored by the original instruction.
 No host-pointer cast or truncation is used.
 
-The 52 repository preflight commands also passed for the combined local batch.
-Upstream changes pulled after that run require the current expanded gates to be
-rerun on the integrated tree before publication.
+The 52 pre-integration repository preflight commands passed. Of the expanded
+82 current commands, 78 pass locally on Windows after correcting an exact-byte
+test fixture. Four existing ELF/GNU partial-symbol-link checks require the
+Linux CI toolchain; they are retained without skips or weakened assertions.
+The triage fixture now writes the exact bytes used by its SHA-256 audit row;
+the production triage hash/provenance policy is unchanged.
+The refreshed complete audit at `2bf14b8db4431b8f1e7efd95df994adc9d9766c8`
+(run `41271763466`) measured **3,637 pass / 10,057 fail (26.56%)**. All 13,694
+source fingerprints match canonical Git bytes. It confirms the first 63 cases
+pass and the additional 37 retain their exact failing preimages.
 
 The original statements, store widths, ordering, guards, calls and unresolved
 register variables are otherwise unchanged. The source preimages are preserved
