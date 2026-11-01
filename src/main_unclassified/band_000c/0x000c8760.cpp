@@ -29,7 +29,7 @@ void FUN_000c8760(void)
   in_EAX[0x25] = 0;
   in_EAX[0x1e] = 0;
   in_EAX[0x21] = 0;
-  *(undefined2 *)((int)in_EAX + 0xe) = 0;
+  *(undefined2 *)((byte *)in_EAX + 0xe) = 0;
   *(undefined2 *)(in_EAX + 3) = 0;
   in_EAX[0x20] = 0;
   in_EAX[0x1f] = 0x3f000000;

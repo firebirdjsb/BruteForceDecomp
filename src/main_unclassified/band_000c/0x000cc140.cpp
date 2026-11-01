@@ -22,7 +22,7 @@ void FUN_000cc140(void)
   *(undefined2 *)(unaff_ESI + 1) = 0;
   unaff_ESI[0x23] = 0;
   *unaff_ESI = UINT32_C(0x0039f078);
-  *(undefined2 *)((int)unaff_ESI + 6) = 0x26;
+  *(undefined2 *)((byte *)unaff_ESI + 6) = 0x26;
   unaff_ESI[0x12] = 0xc1700000;
   unaff_ESI[0x13] = 0x42000000;
   *(byte *)(unaff_ESI + 0x24) = *(byte *)(unaff_ESI + 0x24) | 1;

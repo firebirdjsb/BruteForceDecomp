@@ -27,7 +27,7 @@ void FUN_000acd90(void)
   in_EAX[0x11] = 0;
   in_EAX[0x13] = 0;
   in_EAX[0x12] = 0;
-  *(undefined2 *)((int)in_EAX + 0xe) = 0x40;
+  *(undefined2 *)((byte *)in_EAX + 0xe) = 0x40;
   *(undefined2 *)(in_EAX + 3) = 0x40;
   *(byte *)(in_EAX + 0xe) = *(byte *)(in_EAX + 0xe) & 0xfe | 2;
   if ((uVar1 & 1) == 0) {
