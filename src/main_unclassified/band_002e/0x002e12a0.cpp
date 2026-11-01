@@ -7,6 +7,10 @@
  */
 #include "bf_ghidra_types.h"
 #include "bf_x86_word_lanes.h"
+/* Source-matched draft declaration only. XBE confirms two stack DWORDs,
+ * direct CALL 0x002e0960 and callee RET 8; implicit ECX and guest
+ * stack-local aliasing remain ABI_UNVERIFIED. */
+extern int FUN_002e0960(undefined2 *guest_scratch, uint guest_word);
 int FUN_002e12a0(int param_1)
 
 {
@@ -28,7 +32,7 @@ int FUN_002e12a0(int param_1)
   }
   local_4 = *(undefined4 *)(param_1 + 0x2c0);
   bf_x86_word_store_byte(&local_18,3U,UINT8_C(0x31));
-  iVar1 = FUN_002e0960(&local_18,param_1);
+  iVar1 = FUN_002e0960(reinterpret_cast<undefined2 *>(&local_18), static_cast<uint>(param_1));
   if (-1 < iVar1) {
     *(undefined4 *)(param_1 + 700) = 0;
   }
