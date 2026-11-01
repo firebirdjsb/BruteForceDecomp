@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_dword_operations.h"
+/* Bounded DWORD storage/flag primitive only; whole-function ABI_UNVERIFIED. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 /* XBE confirms two guest DWORDs and RET 8, but guest ECX/EDX remain unresolved. */
@@ -61,7 +63,7 @@ void FUN_000815b0(undefined4 *param_1,int *param_2,undefined4 *param_3)
     }
     iVar1 = FUN_0014d330();
     if (iVar1 == 0) {
-      piVar3 = &DAT_0046d064;
+      piVar3 = bf_x86_signed_dword_view(&DAT_0046d064);
     }
     else {
       piVar3 = (int *)(*(int *)(iVar1 + 0xc) + 8);
@@ -76,7 +78,7 @@ void FUN_000815b0(undefined4 *param_1,int *param_2,undefined4 *param_3)
     *param_1 = uVar2;
     iVar1 = FUN_0014d3b0();
     if (iVar1 == 0) {
-      piVar3 = &DAT_0046d064;
+      piVar3 = bf_x86_signed_dword_view(&DAT_0046d064);
     }
     else {
       piVar3 = (int *)(*(int *)(iVar1 + 0xc) + 8);

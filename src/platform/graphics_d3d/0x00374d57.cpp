@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_dword_operations.h"
+/* Bounded DWORD storage/flag primitive only; whole-function ABI_UNVERIFIED. */
 void FUN_00374d57(uint param_1,int param_2,int param_3)
 
 {

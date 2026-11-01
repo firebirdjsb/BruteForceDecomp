@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "base_commit": "6d64f604649184fe619862871819ab0c0c18cdf4",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "header": "include/bf_x86_dword_operations.h",
+  "header_sha256": "79e008296733510aa28210da8c8bcd1b5b243f6b00ec00465c3a4d7ac7775cf0",
+  "cases": [
+    {
+      "entry": "0x000815b0",
+      "source": "src/main_unclassified/band_0008/0x000815b0.cpp",
+      "source_sha256": "6cc38e0de97d71f4aa7ea7e172b35c69f9c5ebf807d2d30700289ded7f8c424f",
+      "source_git_blob": "e31b87835cb31665dfba3c2cf3fef48535fad469",
+      "result_source_sha256": "e6405d1c61eedbcfab975b81350b63fd6fa892465c931fad2f3818141778e5a7",
+      "body_sha256": "A3314835E10AACAD2183207424BF57F27A41D296FB3AB382B23293D7CD427AB7",
+      "body_ranges": [
+        {
+          "start": "0x000815B0",
+          "end_inclusive": "0x000816E3",
+          "length": 308
+        }
+      ],
+      "added_block": "#include \"bf_x86_dword_operations.h\"\n/* Bounded DWORD storage/flag primitive only; whole-function ABI_UNVERIFIED. */\n",
+      "edits": [
+        {
+          "before": "piVar3 = &DAT_0046d064;",
+          "after": "piVar3 = bf_x86_signed_dword_view(&DAT_0046d064);",
+          "count": 2
+        }
+      ],
+      "instruction_windows": [
+        {
+          "site": "0x00081611",
+          "bytes": "b964d04600",
+          "mnemonic": "mov",
+          "operands": "ecx, 0x46d064"
+        },
+        {
+          "site": "0x00081616",
+          "bytes": "85c0",
+          "mnemonic": "test",
+          "operands": "eax, eax"
+        },
+        {
+          "site": "0x00081642",
+          "bytes": "b964d04600",
+          "mnemonic": "mov",
+          "operands": "ecx, 0x46d064"
+        },
+        {
+          "site": "0x00081647",
+          "bytes": "85c0",
+          "mnemonic": "test",
+          "operands": "eax, eax"
+        }
+      ]
+    },
+    {
+      "entry": "0x00235d50",
+      "source": "src/main_unclassified/band_0023/0x00235d50.cpp",
+      "source_sha256": "3e2bd2753f79fd1520063ed31a24c8fbe2d521981849800bb8fb95957a01a29e",
+      "source_git_blob": "fcd44e14bea368ac723abb9dcfaefa6e5c875036",
+      "result_source_sha256": "e2cc62f7caeb76a9326a73c08152d27f6f86c3411ac0df410b2b3eeb37d02249",
+      "body_sha256": "C5D5D55FD5481DCAA669580C974BA009E99380AC5270F3FD007C58D894D8B042",
+      "body_ranges": [
+        {
+          "start": "0x00235D50",
+          "end_inclusive": "0x00235D98",
+          "length": 73
+        }
+      ],
+      "added_block": "#include \"bf_x86_dword_operations.h\"\n/* Bounded DWORD storage/flag primitive only; whole-function ABI_UNVERIFIED. */\n",
+      "edits": [
+        {
+          "before": "piVar3 = &DAT_0046d064;",
+          "after": "piVar3 = bf_x86_signed_dword_view(&DAT_0046d064);",
+          "count": 1
+        }
+      ],
+      "instruction_windows": [
+        {
+          "site": "0x00235d59",
+          "bytes": "ba64d04600",
+          "mnemonic": "mov",
+          "operands": "edx, 0x46d064"
+        },
+        {
+          "site": "0x00235d5e",
+          "bytes": "8b12",
+          "mnemonic": "mov",
+          "operands": "edx, dword ptr [edx]"
+        }
+      ]
+    },
+    {
+      "entry": "0x0027cdb0",
+      "source": "src/main_unclassified/band_0027/0x0027cdb0.cpp",
+      "source_sha256": "a8a546c29d68e3e93365a9cf524a2b1d6163e8896be2bfe012e5c50327b078dd",
+      "source_git_blob": "4996053f202705cfe822ba050705ead5fc75742f",
+      "result_source_sha256": "7900c3268dce07b210bbdd49c585e5614b199166b041554782916aef46f8ffa7",
+      "body_sha256": "4A5B6944981597FC8FC4D39644596EE4C21031582D1909F2E5F196E699E897FD",
+      "body_ranges": [
+        {
+          "start": "0x0027CDB0",
+          "end_inclusive": "0x0027CE74",
+          "length": 197
+        }
+      ],
+      "added_block": "#include \"bf_x86_dword_operations.h\"\n/* Bounded DWORD storage/flag primitive only; whole-function ABI_UNVERIFIED. */\n",
+      "edits": [],
+      "instruction_windows": [
+        {
+          "site": "0x0027cdc8",
+          "bytes": "3bca",
+          "mnemonic": "cmp",
+          "operands": "ecx, edx"
+        },
+        {
+          "site": "0x0027cdca",
+          "bytes": "896c240c",
+          "mnemonic": "mov",
+          "operands": "dword ptr [esp + 0xc], ebp"
+        },
+        {
+          "site": "0x0027ce45",
+          "bytes": "3bca",
+          "mnemonic": "cmp",
+          "operands": "ecx, edx"
+        },
+        {
+          "site": "0x0027ce47",
+          "bytes": "7e8b",
+          "mnemonic": "jle",
+          "operands": "0x27cdd4"
+        }
+      ]
+    },
+    {
+      "entry": "0x003476f1",
+      "source": "src/platform/network_xnet/0x003476f1.cpp",
+      "source_sha256": "bda18fc417401c83e4d5297329cc3a2252909a67322f2fa529e9117e08c99c73",
+      "source_git_blob": "662acfc6e7f5639306d01557f590e203ef693610",
+      "result_source_sha256": "58ff4f79b5c3197728bf4f85f552730d169925a41a7a3394b2cd878fbb881430",
+      "body_sha256": "16937BF18421D353E204915080852D28CCB19608A455CA3E864C846179D26852",
+      "body_ranges": [
+        {
+          "start": "0x003476F1",
+          "end_inclusive": "0x0034771A",
+          "length": 42
+        }
+      ],
+      "added_block": "#include \"bf_x86_dword_operations.h\"\n/* Bounded DWORD storage/flag primitive only; whole-function ABI_UNVERIFIED. */\n",
+      "edits": [],
+      "instruction_windows": [
+        {
+          "site": "0x00347706",
+          "bytes": "0301",
+          "mnemonic": "add",
+          "operands": "eax, dword ptr [ecx]"
+        },
+        {
+          "site": "0x00347708",
+          "bytes": "83d300",
+          "mnemonic": "adc",
+          "operands": "ebx, 0"
+        },
+        {
+          "site": "0x00347711",
+          "bytes": "03c3",
+          "mnemonic": "add",
+          "operands": "eax, ebx"
+        },
+        {
+          "site": "0x00347713",
+          "bytes": "83d000",
+          "mnemonic": "adc",
+          "operands": "eax, 0"
+        }
+      ]
+    },
+    {
+      "entry": "0x00374d57",
+      "source": "src/platform/graphics_d3d/0x00374d57.cpp",
+      "source_sha256": "a65e89addf2db62aa20201905374d92b8ab3b249c85eb56f0575238134c57f61",
+      "source_git_blob": "ee33d6fb14c54ca33cc83b0bfcc820418de1c06e",
+      "result_source_sha256": "38cd268167ab077081acdced7c21d41325153ee32993a2eb58911afaf7f2ab5f",
+      "body_sha256": "A8913004D3D3C1C0C7EC7E5FC8191955AF03FAD06D69A3FD25D299BB766D8B29",
+      "body_ranges": [
+        {
+          "start": "0x00374D57",
+          "end_inclusive": "0x00374E24",
+          "length": 206
+        }
+      ],
+      "added_block": "#include \"bf_x86_dword_operations.h\"\n/* Bounded DWORD storage/flag primitive only; whole-function ABI_UNVERIFIED. */\n",
+      "edits": [],
+      "instruction_windows": [
+        {
+          "site": "0x00374d94",
+          "bytes": "034d08",
+          "mnemonic": "add",
+          "operands": "ecx, dword ptr [ebp + 8]"
+        },
+        {
+          "site": "0x00374d97",
+          "bytes": "8b12",
+          "mnemonic": "mov",
+          "operands": "edx, dword ptr [edx]"
+        }
+      ]
+    }
+  ]
+}
