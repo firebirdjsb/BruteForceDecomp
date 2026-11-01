@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Callee-draft zero-argument edge only; original Xbox ABI_UNVERIFIED. */
+extern void FUN_001fe320(void);
 /* WARNING: Removing unreachable block (ram,0x001fe3a6) */
 /* WARNING: Removing unreachable block (ram,0x001fe3bd) */
 /* WARNING: Removing unreachable block (ram,0x001fe3b1) */
