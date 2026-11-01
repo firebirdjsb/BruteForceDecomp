@@ -6,12 +6,15 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched callee: original 0x0033EE99 writes a full DWORD to the
+ * caller-owned stack output. The host prototype is not an Xbox ABI claim. */
+extern undefined4 FUN_0033ee8d(int param_1,undefined4 *param_2,undefined4 *param_3);
 int FUN_0033bcae(int param_1)
 
 {
   int iVar1;
   int in_ECX;
-  int local_8;
+  undefined4 local_8;
   
   local_8 = 0;
   iVar1 = FUN_0033ee8d(*(undefined4 *)(in_ECX + 0x18),&local_8,0);
