@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_sqrtss.h"
 #include <xmmintrin.h>
 /* Ghidra SSE scalar low lane only; no verified ABI or Xbox runtime equivalence.
  * High-lane vector contents remain unmodeled. */
