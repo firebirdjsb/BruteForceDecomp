@@ -21,6 +21,6 @@ void FUN_0003c620(undefined1 param_1)
   unaff_EDI[2] = in_EDX;
   FUN_00039680();
   *(undefined1 *)(unaff_EDI + 0x2a) = param_1;
-  *(undefined1 *)((int)unaff_EDI + 0xa9) = 0;
+  *(undefined1 *)((byte *)unaff_EDI + 0xa9) = 0;
   return;
 }

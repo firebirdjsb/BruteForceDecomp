@@ -26,7 +26,7 @@ undefined4 FUN_00020a10(void)
     *puVar1 = *puVar1 & 0xfffffffe;
   }
   in_ECX[0x1a0] = 0;
-  *(undefined1 *)((int)in_ECX + 0x85d) = 0;
+  *(undefined1 *)((byte *)in_ECX + 0x85d) = 0;
   in_ECX[0x218] = 0x3f800000;
   return 1;
 }

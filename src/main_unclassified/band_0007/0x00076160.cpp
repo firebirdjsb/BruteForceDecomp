@@ -20,6 +20,6 @@ void FUN_00076160(undefined4 param_1,undefined4 param_2,undefined1 param_3)
   in_EAX[4] = in_ECX[1];
   in_EAX[5] = in_ECX[2];
   *(undefined1 *)(in_EAX + 6) = param_3;
-  *(undefined1 *)((int)in_EAX + 0x19) = 0;
+  *(undefined1 *)((byte *)in_EAX + 0x19) = 0;
   return;
 }
