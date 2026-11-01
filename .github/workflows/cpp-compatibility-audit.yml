@@ -139,6 +139,10 @@ jobs:
           python3 tools/test_cpp_20261101_sqrtss_20.py --root . --self-test
           python3 tools/test_cpp_20261101_seven_source_calls.py
           python3 scripts/verify_cpp_20261101_seven_source_calls_xbe.py --self-test
+          python3 tools/test_cpp_20261101_89_direct_declarations.py -v
+          python3 scripts/verify_cpp_20261101_89_direct_declarations_xbe.py --self-test
+          python3 scripts/verify_cpp_36_first_error_e8_xbe.py --self-test
+          python3 scripts/verify_cpp_return_only_fidelity_xbe.py --self-test
       - name: Inventory C++17 syntax separately from the historical C11 baseline
         env:
           LIMIT: ${{ github.event_name == 'push' && '0' || inputs.source_limit }}
