@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_sqrtss.h"
 int FUN_00046c70(int *param_1,float *param_2,float param_3)
 
 {
