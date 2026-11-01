@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_sqrtss.h"
 #include <xmmintrin.h>
 /* Ghidra scalar SSE low-lane opcode model; unknown high lanes not represented.
  * No assembly/ABI or behavior equivalence has been established. */
