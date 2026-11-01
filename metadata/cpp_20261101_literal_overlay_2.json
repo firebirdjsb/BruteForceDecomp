@@ -1,0 +1,25 @@
+{
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "base_reviewed_head": "c3ede66094daac6507a24cd6456ff7a8308e246d",
+  "description": "Two independently XBE-checked partial-width store repairs composed after the 250-case literal batch. Exact full-line comment/operand replacements and source SHA-256 gates retain the original literal preimages; ABI_UNVERIFIED.",
+  "overlays": [
+    {
+      "entry": "0x000a9b90",
+      "before": "  *(undefined2 *)((int)in_EAX + 0xe) = 0;",
+      "after": "  /* XBE 0x000A9BAA: MOV WORD PTR [ESI+0x0E],AX; ABI_UNVERIFIED. */\n  *(undefined2 *)((unsigned char *)in_EAX + 0xe) = 0;",
+      "prior_sha256": "9d4942a12af36835878370de4f3c72266f6fb4d06f28d88532da04ecdddc3e02",
+      "current_sha256": "c98765adb763707946420cd50ac9e2ec4e86a627a1ed995dde787b3a252e90bb",
+      "site": "0x000a9baa",
+      "bytes": "6689460e"
+    },
+    {
+      "entry": "0x00173720",
+      "before": "  *(undefined1 *)((int)in_EAX + 0xe) = DAT_0040c806;",
+      "after": "  /* XBE 0x00173734 LEA ECX,[EAX+0x0C]; 0x00173740 MOV [ECX+2],DL. ABI_UNVERIFIED. */\n  *(undefined1 *)((unsigned char *)in_EAX + 0xe) = DAT_0040c806;",
+      "prior_sha256": "11bd2e3b3015eeaea9c3a2fe018c47d3a8fa9e1e749f7848cb64e609c414729f",
+      "current_sha256": "7b7a12c2a57a96c5899ca228987b0958fd5e6e20446ce1d8d46ef5654850fde6",
+      "site": "0x00173740",
+      "bytes": "885102"
+    }
+  ]
+}
