@@ -16,15 +16,15 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 CLANGXX = shutil.which("clang++")
 CALLEE = ROOT / "src/main_unclassified/band_000e/0x000e0350.cpp"
-CALLEE_SHA256 = "6f92de717ad61cf189ede05c373e7908372e359e99354dce4456efd937f30f9f"
+CALLEE_BLOB_SHA1 = "181a27c9accb4bd78b9f121250952499af703512"
 NOTE = "/* Source-matched four-byte output interface; original Xbox guest ABI remains ABI_UNVERIFIED. */\n"
 DECL = "extern undefined4 *FUN_000e0350(int param_1,undefined4 *param_2,undefined4 guest_stack_word_3);\n"
 SLOT = "undefined4 local_4; /* One guest DWORD; callee writes all four bytes. */"
 CALL = "FUN_000e0350(*(int *)(unaff_ESI + 8),&local_4,unaff_ESI)"
 CASES = (
-    ("0014a170", "0814fdcf46cd27c74ff871c6c4a1941a4ca9aa29a425c4871090dfee701e0326",
+    ("0014a170", "cbeba26f05a8f8f7dcccea1a9193af2dae1b6e24",
      "D1BB50219D8E51B1B21BADD057A89E2C03DFB96C0617CD32FCA146B4E41574F9"),
-    ("001562d0", "53a1cae6c2862b0a32e6f9a2dda94dac0af1ce196f2c5ddb512a20d5ab665a9b",
+    ("001562d0", "c3970bb15e942c177bba296c3df4c60518e1a83e",
      "2E7FF950076DB49DB1D8DFA1EEDEBBE9354BE5285BD992249F4F6DF3C6E97442"),
 )
 
@@ -33,8 +33,9 @@ def source_path(entry: str) -> Path:
     return ROOT / "src/main_unclassified" / ("band_" + entry[:4]) / ("0x" + entry + ".cpp")
 
 
-def sha256(text: str) -> str:
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+def git_blob_sha1(text: str) -> str:
+    data = text.encode("utf-8")
+    return hashlib.sha1(b"blob " + str(len(data)).encode("ascii") + b"\0" + data).hexdigest()
 
 
 def restore_preimage(text: str) -> str:
@@ -48,7 +49,7 @@ def restore_preimage(text: str) -> str:
 class CallerDwordSourceGates(unittest.TestCase):
     def test_original_identity_and_callee_draft(self):
         callee = CALLEE.read_text(encoding="utf-8")
-        self.assertEqual(sha256(callee), CALLEE_SHA256)
+        self.assertEqual(git_blob_sha1(callee), CALLEE_BLOB_SHA1)
         self.assertIn("undefined4 * FUN_000e0350(int param_1,undefined4 *param_2,undefined4 guest_stack_word_3)", callee)
         self.assertIn("*param_2 = *(undefined4 *)", callee)
         self.assertIn("return param_2;", callee)
@@ -58,7 +59,7 @@ class CallerDwordSourceGates(unittest.TestCase):
                 self.assertIn("Entry: 0x" + entry, src)
                 self.assertIn("Input x86 body SHA-256: " + xbe_body, src)
                 self.assertIn("ABI_UNVERIFIED", src)
-                self.assertEqual(sha256(restore_preimage(src)), original_source)
+                self.assertEqual(git_blob_sha1(restore_preimage(src)), original_source)
 
     def test_source_mutation_controls(self):
         """A declaration-only pass cannot hide changes to original source or provenance."""
@@ -72,7 +73,7 @@ class CallerDwordSourceGates(unittest.TestCase):
             ):
                 with self.subTest(entry=entry, mutation=label):
                     self.assertNotEqual(changed, src)
-                    self.assertNotEqual(sha256(restore_preimage(changed)), expected_preimage)
+                    self.assertNotEqual(git_blob_sha1(restore_preimage(changed)), expected_preimage)
 
     @unittest.skipUnless(CLANGXX, "clang++ required")
     def test_cpp17_o0_o2_and_mutation_negatives(self):
