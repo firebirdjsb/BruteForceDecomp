@@ -131,6 +131,7 @@ jobs:
           python3 scripts/verify_00087630_guest_calls_xbe.py
           python3 scripts/verify_cpp17_triage_40_xbe.py --self-test
           python3 tools/test_cpp_20261031_two_dword_links.py --root . --self-test
+          python3 tools/test_cpp_20261101_sqrtss_20.py --root . --self-test
       - name: Inventory C++17 syntax separately from the historical C11 baseline
         env:
           LIMIT: ${{ github.event_name == 'push' && '0' || inputs.source_limit }}
