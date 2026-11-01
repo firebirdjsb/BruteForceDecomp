@@ -1,3 +1,5 @@
+/* Partial original DWORD address values; other C++ errors remain.
+ * Complete register/memory contracts and behavior are ABI_UNVERIFIED. */
 /* Brute Force original Xbox - independent, unverified C11 draft.
  * Input x86 body SHA-256: 251830337DB1851D6DE041A75FBA1FD11C67CA504E225DE4E1CB21E46E70307C
  * Entry: 0x00316c07, Ghidra index: 12159, label: FUN_00316c07
@@ -19,7 +21,7 @@ void FUN_00316c07(undefined4 param_1,undefined4 param_2)
   uint uVar4;
   
   FUN_003187e9(param_1,param_2);
-  *in_ECX = &PTR_FUN_00386a20;
+  *in_ECX = UINT32_C(0x00386a20);
   uVar1 = FUN_00316bf2(param_2);
   in_ECX[0x22] = uVar1;
   puVar2 = in_ECX + 0x2e;
