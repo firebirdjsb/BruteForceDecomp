@@ -30,6 +30,6 @@ void FUN_000ab410(void)
   in_EAX[0x1c] = 0;
   in_EAX[0x1e] = 0;
   *(byte *)(in_EAX + 0x1d) = *(byte *)(in_EAX + 0x1d) & 0xfe | 2;
-  *(undefined1 *)((int)in_EAX + 0x75) = 0xff;
+  *(undefined1 *)((byte *)in_EAX + 0x75) = 0xff;
   return;
 }
