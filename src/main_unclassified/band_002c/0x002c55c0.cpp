@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_sqrtss.h"
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 void FUN_002c55c0(void)
