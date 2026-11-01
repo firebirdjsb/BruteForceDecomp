@@ -45,7 +45,7 @@ uint32_t FUN_00160da0(uint32_t guest_stack_word0, uint32_t guest_stack_word1)
         }
         local_8 = puVar7;
         puVar7 = puVar4;
-        cVar1 = *(char *)((int)puVar4 + 0x19);
+        cVar1 = *(char *)((unsigned char *)puVar4 + 0x19);
       }
       if ((local_8 == local_4) || (uVar2 < (uint)local_8[3])) {
         ppuVar5 = &local_4;

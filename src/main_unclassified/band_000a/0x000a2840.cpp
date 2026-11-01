@@ -28,7 +28,7 @@ undefined4 * FUN_000a2840(uint *param_1)
         puVar3 = (undefined4 *)*puVar2;
       }
       puVar1 = puVar2;
-    } while (*(char *)((int)puVar3 + 0x15) == '\0');
+    } while (*(char *)((unsigned char *)puVar3 + 0x15) == '\0');
   }
   return puVar2;
 }
