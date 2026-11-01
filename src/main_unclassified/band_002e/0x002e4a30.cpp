@@ -6,11 +6,14 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original E8 at 0x002E4A40 passes two writable four-byte output slots.
+ * Draft-only C++ interface; original Xbox ABI remains ABI_UNVERIFIED. */
+extern uint FUN_002e49c0(undefined4 param_1,undefined4 *param_2,undefined4 *param_3);
 undefined4 FUN_002e4a30(undefined4 param_1)
 
 {
-  undefined1 local_4 [4];
+  undefined4 local_4;
   
-  FUN_002e49c0(param_1,&param_1,local_4);
+  FUN_002e49c0(param_1,&param_1,&local_4);
   return param_1;
 }
