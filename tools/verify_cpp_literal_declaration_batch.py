@@ -51,10 +51,10 @@ def compile_text(compiler, root, source, opt):
     return result.returncode, errors, warnings, locations
 
 
-def verify(root, manifest, compiler, image=None):
+def verify(root, manifest, compiler, image=None, approved_counts=None):
     cases = manifest['cases']
     expected = manifest['expected_counts']
-    if expected != {'total':250,'complete':29,'partial':221,'values':483}:
+    if expected != (approved_counts if approved_counts is not None else {'total':250,'complete':29,'partial':221,'values':483}):
         raise ValueError('Reviewed batch totals changed')
     if len(cases) != expected['total'] or len({c['entry'] for c in cases}) != len(cases):
         raise ValueError('Batch size/identity differs')
