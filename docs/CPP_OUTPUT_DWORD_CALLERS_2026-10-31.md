@@ -20,8 +20,8 @@ Its draft writes exactly one four-byte value through `*param_2` and returns that
 
 Two callers previously contained a four-byte `undefined1 local_4[4]` and directly passed it to the undeclared callee. The only compiler error for each was the undeclared callee. Each now has the source-matched declaration and a single `undefined4 local_4` passed by address:
 
-- `0x0014A170`: original source SHA-256 `0814fdcf46cd27c74ff871c6c4a1941a4ca9aa29a425c4871090dfee701e0326`, original x86 body label `D1BB50219D8E51B1B21BADD057A89E2C03DFB96C0617CD32FCA146B4E41574F9`; repair commit `bb01890d346a825fc1947e506077f64382699bc0`.
-- `0x001562D0`: original source SHA-256 `53a1cae6c2862b0a32e6f9a2dda94dac0af1ce196f2c5ddb512a20d5ab665a9b`, original x86 body label `2E7FF950076DB49DB1D8DFA1EEDEBBE9354BE5285BD992249F4F6DF3C6E97442`; repair commit `ec3bf7f1f6bc089c69b87014779d3b1697c2caf3`.
+- `0x0014A170`: original Git blob SHA-1 `cbeba26f05a8f8f7dcccea1a9193af2dae1b6e24`, original x86 body label `D1BB50219D8E51B1B21BADD057A89E2C03DFB96C0617CD32FCA146B4E41574F9`; repair commit `bb01890d346a825fc1947e506077f64382699bc0`.
+- `0x001562D0`: original Git blob SHA-1 `c3970bb15e942c177bba296c3df4c60518e1a83e`, original x86 body label `2E7FF950076DB49DB1D8DFA1EEDEBBE9354BE5285BD992249F4F6DF3C6E97442`; repair commit `ec3bf7f1f6bc089c69b87014779d3b1697c2caf3`.
 
 No original entry, x86 body digest label, external symbol name, function body algorithm, guest pointer arithmetic, or implicit guest register input was altered. The local remains one four-byte output word. The caller's retained `unaff_ESI` pseudo-register and the complete Xbox ABI remain unresolved.
 
