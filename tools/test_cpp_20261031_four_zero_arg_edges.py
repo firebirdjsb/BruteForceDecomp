@@ -61,6 +61,23 @@ class FourDraftOnlyCallEdges(unittest.TestCase):
                 self.assertIn("Input x86 body SHA-256: " + body_digest, src)
                 self.assertIn("ABI_UNVERIFIED", src)
 
+    def test_provenance_mutations_are_rejected(self):
+        for caller, callee, signature, caller_blob, *_ in CASES:
+            src = path(caller).read_text(encoding="utf-8")
+            inserted = NOTE + "extern " + signature + ";\n"
+            original = src.replace(inserted, "", 1)
+            self.assertEqual(git_blob_sha(original), caller_blob)
+            for label, changed in (
+                ("body", original.replace("FUN_" + callee + "(",
+                                          "FUN_deadbeef(", 1)),
+                ("digest", original.replace("Input x86 body SHA-256:",
+                                            "Input x86 body SHA-255:", 1)),
+                ("abi", original.replace("ABI_UNVERIFIED", "ABI_VERIFIED", 1)),
+            ):
+                with self.subTest(caller=caller, mutation=label):
+                    self.assertNotEqual(original, changed)
+                    self.assertNotEqual(git_blob_sha(changed), caller_blob)
+
     @unittest.skipUnless(CLANGXX, "clang++ required for strict checks")
     def test_cpp17_o0_o2_and_missing_declaration_controls(self):
         for caller, callee, signature, *_ in CASES:
