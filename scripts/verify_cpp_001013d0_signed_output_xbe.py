@@ -22,7 +22,10 @@ WINDOWS = {
     0x001014EB: "8b4424288b5424188bc889395f8951048b54241c5e8969085d89510c5b83c414",
     0x0010150B: "c20400",  # callee RET 4
     0x00101582: "83c420c20800",  # first caller RET 8
-    0x001015A1: "8b4c2404b824000000894424143bc8",  # second caller signed compare
+    0x001015A1: "8b4c2404b824000000894424143bc8",  # second caller compare
+    0x001015B0: "8d4424047f04",  # JG signed branch
+    0x001015D0: "8d4424107c04",  # JL signed branch
+    0x001015F3: "7f048d442418",  # another JG signed branch
 }
 
 
