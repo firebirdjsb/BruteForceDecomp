@@ -23,7 +23,11 @@ undefined4 FUN_00094e90(int param_1,int *param_2,int *param_3)
     *param_3 = 0;
     return 0x8007000e;
   }
-  iVar1 = FUN_00094f20();
+  /* Original XBE 0x00094ebb: CALL 0x00094f20; both callee RET paths preserve
+   * incoming EAX, and the caller immediately MOVs ECX,EAX. Retain the
+   * allocator's guest32 EAX value; the callee's draft returns void.
+   * Original guest-register inputs and native linkage remain ABI_UNVERIFIED. */
+  FUN_00094f20();
   if (iVar1 == 0) {
     *param_3 = 0;
     return 0x8007000e;
