@@ -1957,6 +1957,1861 @@
         }
       ],
       "previous_inventory_source_sha256": "bcb12a721a1a80ac813bfc1287ff25659c405a1ba79690e9058ac530ee2ec111"
+    },
+    {
+      "entry": "0x00022dc0",
+      "source": "src/main_unclassified/band_0002/0x00022dc0.cpp",
+      "body_sha256": "CD5DFF5E1BD1B25ED1A4109A46834860D7A5715F0006B08CEB6D8AD41FE1299B",
+      "body_ranges": [
+        {
+          "start": "0x00022DC0",
+          "end_inclusive": "0x00022E16",
+          "length": 87
+        }
+      ],
+      "source_sha256": "3a505940a3d72101273e26424d1a7462b353037bf31fcd8307872b44b73bc3f4",
+      "source_git_blob": "ed07727dd667ab48814fc84b9bc547fbd0423e8c",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x00022ddd, 0x00022dc3.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "0f52e4ef5e21a6c1c8ca1557ddec14693a6279faf2d4c39745f107abc1e06a45",
+      "edits": [
+        {
+          "before": "&PTR_FUN_003a4f64",
+          "after": "UINT32_C(0x003a4f64)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00022ddd",
+              "bytes": "c7471c644f3a00",
+              "operands": "dword ptr [edi + 0x1c], 0x3a4f64"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_003a4f68",
+          "after": "UINT32_C(0x003a4f68)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00022dc3",
+              "bytes": "c707684f3a00",
+              "operands": "dword ptr [edi], 0x3a4f68"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "a0308054c7864f4a8b1a268edab3326f8034b1c175e673644707e2c7f5e3a1b5"
+    },
+    {
+      "entry": "0x00039920",
+      "source": "src/main_unclassified/band_0003/0x00039920.cpp",
+      "body_sha256": "A02308E6A8E868E488ACFDCFF8F4CDAEE9778E695DECD47CBC8204C3140AC5EF",
+      "body_ranges": [
+        {
+          "start": "0x00039920",
+          "end_inclusive": "0x00039971",
+          "length": 82
+        }
+      ],
+      "source_sha256": "36e1e6dc9dcfc66afbc81a491fe9a5e6d4cf1c8e6f52dbc2c77e6c1daebdef93",
+      "source_git_blob": "7a4ecb54804f382506fbc77909b054a70590f4fd",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x00039920, 0x00039935.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "58526769adc45dd13f9cc814b9135124037469f4c1dfc735f3f4c8c3bb7eb70a",
+      "edits": [
+        {
+          "before": "&PTR_FUN_003a479c",
+          "after": "UINT32_C(0x003a479c)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00039920",
+              "bytes": "c7069c473a00",
+              "operands": "dword ptr [esi], 0x3a479c"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_003a4f64",
+          "after": "UINT32_C(0x003a4f64)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00039935",
+              "bytes": "c707644f3a00",
+              "operands": "dword ptr [edi], 0x3a4f64"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "79d24d83fcdd85ee06b84dab06d1fee3ba4939458340c3efbf551525b267aa3c"
+    },
+    {
+      "entry": "0x00055a00",
+      "source": "src/main_unclassified/band_0005/0x00055a00.cpp",
+      "body_sha256": "958D53A209ED4B420BE17033C9FA05D3A5CDFC209914FA905F01C639B9415E04",
+      "body_ranges": [
+        {
+          "start": "0x00055A00",
+          "end_inclusive": "0x00055A5D",
+          "length": 94
+        }
+      ],
+      "source_sha256": "16081db5b3923d7c8f3a7c239aff8e2f663e46a59916ffe1e0ce2fbfddc04a57",
+      "source_git_blob": "12dfce08fcafb829d0d86226a48e8f018cb86857",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x00055a20, 0x00055a03.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "c655204a30d96b252cb22e20c96614bdab286abe9648fd86be4dc312f400798f",
+      "edits": [
+        {
+          "before": "&PTR_FUN_003a4f64",
+          "after": "UINT32_C(0x003a4f64)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00055a20",
+              "bytes": "c7431c644f3a00",
+              "operands": "dword ptr [ebx + 0x1c], 0x3a4f64"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_003a4f68",
+          "after": "UINT32_C(0x003a4f68)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00055a03",
+              "bytes": "c703684f3a00",
+              "operands": "dword ptr [ebx], 0x3a4f68"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "3ce1cce8a69cf2f134b11f30c9a5d36d60ce8a9785e4bbc0c37d1f99a9f09a57"
+    },
+    {
+      "entry": "0x00089a50",
+      "source": "src/main_unclassified/band_0008/0x00089a50.cpp",
+      "body_sha256": "7B3018EB5C6348FAA5F4BEBBCA402E7CB71A2184A470ECA5C5219D9714C2514A",
+      "body_ranges": [
+        {
+          "start": "0x00089A50",
+          "end_inclusive": "0x00089A9E",
+          "length": 79
+        }
+      ],
+      "source_sha256": "e6747628e216774aa0b8a2327dc44ddfecab3ebe9092aa57a2bef66063bda2b8",
+      "source_git_blob": "acac0d43f8eb3aa5759e6ae5b76b4849544a3a3b",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x00089a6d, 0x00089a50.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "0a39ed5a303e296430a0770aaa27e4e0cf835b39e1f58bb5fd584e5c2190e8f2",
+      "edits": [
+        {
+          "before": "&PTR_FUN_003a21fc",
+          "after": "UINT32_C(0x003a21fc)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00089a6d",
+              "bytes": "c700fc213a00",
+              "operands": "dword ptr [eax], 0x3a21fc"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a21bc",
+          "after": "UINT32_C(0x003a21bc)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00089a50",
+              "bytes": "c700bc213a00",
+              "operands": "dword ptr [eax], 0x3a21bc"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "e6747628e216774aa0b8a2327dc44ddfecab3ebe9092aa57a2bef66063bda2b8"
+    },
+    {
+      "entry": "0x000a9330",
+      "source": "src/main_unclassified/band_000a/0x000a9330.cpp",
+      "body_sha256": "41DCD1B428CBE5AF9DA6C45112D219C8228830DC3C4348C3A724CB4E9F5CC980",
+      "body_ranges": [
+        {
+          "start": "0x000A9330",
+          "end_inclusive": "0x000A9369",
+          "length": 58
+        }
+      ],
+      "source_sha256": "2e7de13f44dd9ab84d108abf7e43877353cf79b16647553a057f0fae0d4071a1",
+      "source_git_blob": "0c0ac104ab3ec3e89d8ca93b802812593464f56a",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000a9339, 0x000a933f.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "844fd3b3bb9d7e3d80c7155970a3cabf9447d09350eb809a93ebe1d8c6882156",
+      "edits": [
+        {
+          "before": "&PTR_FUN_003a0338",
+          "after": "UINT32_C(0x003a0338)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000a9339",
+              "bytes": "c70638033a00",
+              "operands": "dword ptr [esi], 0x3a0338"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a0324",
+          "after": "UINT32_C(0x003a0324)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000a933f",
+              "bytes": "c7462c24033a00",
+              "operands": "dword ptr [esi + 0x2c], 0x3a0324"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "ce95ca473fa3b9d7268b9f27640170cbb3ca9301ab4dcef10ed010f38381f8dc"
+    },
+    {
+      "entry": "0x000ad2d0",
+      "source": "src/main_unclassified/band_000a/0x000ad2d0.cpp",
+      "body_sha256": "0AF5645C11EF3DFAB52FE941377473B26994515CD4B21FF5E888D571C0F7F921",
+      "body_ranges": [
+        {
+          "start": "0x000AD2D0",
+          "end_inclusive": "0x000AD2F9",
+          "length": 42
+        }
+      ],
+      "source_sha256": "2af1e7dbdf164918e6e08c2ca97166ce2eef2f5114e6e481fa9f5c346c055f50",
+      "source_git_blob": "228b9c5a7dc596f9a053d42df24c77def4da054f",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000ad2d8, 0x000ad2de.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "c21f1a4811cca6426a006d94b7999c8e7d474cbe1f5f5d365046797ffa3874f7",
+      "edits": [
+        {
+          "before": "&PTR_FUN_003a00c4",
+          "after": "UINT32_C(0x003a00c4)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ad2d8",
+              "bytes": "c706c4003a00",
+              "operands": "dword ptr [esi], 0x3a00c4"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039fff0",
+          "after": "UINT32_C(0x0039fff0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ad2de",
+              "bytes": "c7462cf0ff3900",
+              "operands": "dword ptr [esi + 0x2c], 0x39fff0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "3f4e6aaa2644fe04a6e6865ce63bc0cb35cf5df0984f878419540091344b1373"
+    },
+    {
+      "entry": "0x000b1a00",
+      "source": "src/main_unclassified/band_000b/0x000b1a00.cpp",
+      "body_sha256": "BDD6A3CBD490B7EB868BFC02049BB5D1E5DD71D800D38368022696FCCA9AE3FD",
+      "body_ranges": [
+        {
+          "start": "0x000B1A00",
+          "end_inclusive": "0x000B1A3C",
+          "length": 61
+        }
+      ],
+      "source_sha256": "70f24158ded7dd2ad19315f327e184fe98ef43723bdf12ade84224ea68cd5015",
+      "source_git_blob": "aab508325510914ed2efd7943a03730ea1b27060",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000b1a0e, 0x000b1a14.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "6db2aceea309d329a1c86bbe9c2384a406e520603cfa1fec3dcbf7bc8a76cffa",
+      "edits": [
+        {
+          "before": "&PTR_FUN_003a0004",
+          "after": "UINT32_C(0x003a0004)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000b1a0e",
+              "bytes": "c70604003a00",
+              "operands": "dword ptr [esi], 0x3a0004"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039fff0",
+          "after": "UINT32_C(0x0039fff0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000b1a14",
+              "bytes": "c7462cf0ff3900",
+              "operands": "dword ptr [esi + 0x2c], 0x39fff0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "bae6b1216ab0c8620fb0d1ed48e21ee129d6b3df466914ada07c78f5b70fa36a"
+    },
+    {
+      "entry": "0x000b2c70",
+      "source": "src/main_unclassified/band_000b/0x000b2c70.cpp",
+      "body_sha256": "F381AEB55380CDD61645D925A7DA3AFAE464502CB6E6DB3A3A5BCDFDC1463081",
+      "body_ranges": [
+        {
+          "start": "0x000B2C70",
+          "end_inclusive": "0x000B2C9A",
+          "length": 43
+        }
+      ],
+      "source_sha256": "598b91e9bd2f3ec1aa8acc4a10c494807877a833bcce5e1e2b8323cc2f55f65d",
+      "source_git_blob": "763c50c59097e36f2e698f7adcddf5dc4aa01cd7",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000b2c8a, 0x000b2c90.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "77032b389126f46a0d8719f7f3c3a5b7f50fd8626aa9cf8fb70889312cc8b07f",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039ff7c",
+          "after": "UINT32_C(0x0039ff7c)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000b2c8a",
+              "bytes": "c7067cff3900",
+              "operands": "dword ptr [esi], 0x39ff7c"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039fff0",
+          "after": "UINT32_C(0x0039fff0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000b2c90",
+              "bytes": "c7462cf0ff3900",
+              "operands": "dword ptr [esi + 0x2c], 0x39fff0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "cd20dbccbe97c37a1b56f55be4d4cf3dc0ec23966ab6c144627e56042064dc13"
+    },
+    {
+      "entry": "0x000b7f10",
+      "source": "src/main_unclassified/band_000b/0x000b7f10.cpp",
+      "body_sha256": "FEBBD39B810E1E7A6BA0972B3EE1CA5043C0BB204AE35A13A038F91CA833BEF7",
+      "body_ranges": [
+        {
+          "start": "0x000B7F10",
+          "end_inclusive": "0x000B7F3A",
+          "length": 43
+        }
+      ],
+      "source_sha256": "8c0f9b0cb4fbc4551cd564be307d4bbe952fbe99abe15a5b631c5522382e445b",
+      "source_git_blob": "9bed2390653824ad0b0c7247f27231d682f2d3f5",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000b7f1a, 0x000b7f20.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "8c9bed0966ba8348b1046aaa2122b9079eaa7d7c973e4674f49f8dc63fa5af86",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039fcc8",
+          "after": "UINT32_C(0x0039fcc8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000b7f1a",
+              "bytes": "c706c8fc3900",
+              "operands": "dword ptr [esi], 0x39fcc8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039fcb4",
+          "after": "UINT32_C(0x0039fcb4)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000b7f20",
+              "bytes": "c7462cb4fc3900",
+              "operands": "dword ptr [esi + 0x2c], 0x39fcb4"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "b6da065667667632aca5484cd596ad5709120a9728084f38bc7374b5394987d1"
+    },
+    {
+      "entry": "0x000bcb90",
+      "source": "src/main_unclassified/band_000b/0x000bcb90.cpp",
+      "body_sha256": "6A1AB3B6D88C34DD1F9B150187BDB5B7EB0CF9FCCE32F232F8C7B716A0051AD1",
+      "body_ranges": [
+        {
+          "start": "0x000BCB90",
+          "end_inclusive": "0x000BCC5B",
+          "length": 204
+        }
+      ],
+      "source_sha256": "c477518e051ffee160665490d7efc60104e51c1385d68e7a4b094895eee6116b",
+      "source_git_blob": "7d3af262e4a3ec932e63309273ac729734dff0e6",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000bcb9f, 0x000bcbb5, 0x000bcbe5.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "455affafa832d7ac3100bfc931ed1eea6e1503198b878f5cfab709e5c1cf8380",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039f878",
+          "after": "UINT32_C(0x0039f878)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000bcb9f",
+              "bytes": "c70678f83900",
+              "operands": "dword ptr [esi], 0x39f878"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039f744",
+          "after": "UINT32_C(0x0039f744)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000bcbb5",
+              "bytes": "c70744f73900",
+              "operands": "dword ptr [edi], 0x39f744"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039f754",
+          "after": "UINT32_C(0x0039f754)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000bcbe5",
+              "bytes": "c70354f73900",
+              "operands": "dword ptr [ebx], 0x39f754"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "8b8cf457d8e538dc0a4939072479e2dc60d5361bda786c1fdcc4bde5b72da116"
+    },
+    {
+      "entry": "0x000c1810",
+      "source": "src/main_unclassified/band_000c/0x000c1810.cpp",
+      "body_sha256": "CC6B807E592FD05F84FC7E9DD54A67E00A380148CB1228BAE6AE5216C36AF8B6",
+      "body_ranges": [
+        {
+          "start": "0x000C1810",
+          "end_inclusive": "0x000C183B",
+          "length": 44
+        }
+      ],
+      "source_sha256": "844540d2aea1db98a1f01c327a06633f52efc28857ef8f0e5db618ad7e3c6cb8",
+      "source_git_blob": "e07872c7482261eb7e56416dc7b8c8627a887c52",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000c1824, 0x000c182a.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "75637d6901379561f4dba7e9832d079653a9b9ddb4acd0f9b63e36e46d566845",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039f6c4",
+          "after": "UINT32_C(0x0039f6c4)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000c1824",
+              "bytes": "c706c4f63900",
+              "operands": "dword ptr [esi], 0x39f6c4"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039fff0",
+          "after": "UINT32_C(0x0039fff0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000c182a",
+              "bytes": "c7462cf0ff3900",
+              "operands": "dword ptr [esi + 0x2c], 0x39fff0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "1acc162d88a5b177c4bd2f6107f617726f9d7a47a438810c1143db2b6006b96f"
+    },
+    {
+      "entry": "0x000ca490",
+      "source": "src/main_unclassified/band_000c/0x000ca490.cpp",
+      "body_sha256": "4DC24A1AFD6FB4FA7D4446888CD5663B205982827D099DBA9EFD68E5AD61158D",
+      "body_ranges": [
+        {
+          "start": "0x000CA490",
+          "end_inclusive": "0x000CA4D6",
+          "length": 71
+        }
+      ],
+      "source_sha256": "fe2946b0b24bca1d6ad3e1dc692698322384531ace74ce968b0c849050005e74",
+      "source_git_blob": "834ea45ae6d5657afe2ec8da75d3159ecc5f3306",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000ca49a, 0x000ca4a0.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "9d881431b502dfb2c30ae5abd43e495f83dc8fd70498467c7dbf829b6187dde3",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039f15c",
+          "after": "UINT32_C(0x0039f15c)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ca49a",
+              "bytes": "c7065cf13900",
+              "operands": "dword ptr [esi], 0x39f15c"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039fff0",
+          "after": "UINT32_C(0x0039fff0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ca4a0",
+              "bytes": "c7462cf0ff3900",
+              "operands": "dword ptr [esi + 0x2c], 0x39fff0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "7113642b43c7d585af00e9bd1a578e639a4ec16e3d051ff9dd6e8567e0aa0ce4"
+    },
+    {
+      "entry": "0x000caff0",
+      "source": "src/main_unclassified/band_000c/0x000caff0.cpp",
+      "body_sha256": "BF68FBEAEA1D184EF76DE6EEA3B75B48E0117B7E3EFB459DD01654A251C97FEE",
+      "body_ranges": [
+        {
+          "start": "0x000CAFF0",
+          "end_inclusive": "0x000CB014",
+          "length": 37
+        }
+      ],
+      "source_sha256": "70ee4a98626947865321e6a3776b7143a6709d091ef8ade543f2c5c9f11e9d56",
+      "source_git_blob": "56264d9911ed10c65bb9c006fa6edb2fbd7dd443",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000cb004, 0x000cb00a.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "87ef38d6a993e2c9fceecdf34cfae3e2be88d225a7dbfd23012261b8cc4a34eb",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039f12c",
+          "after": "UINT32_C(0x0039f12c)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000cb004",
+              "bytes": "c7062cf13900",
+              "operands": "dword ptr [esi], 0x39f12c"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039fff0",
+          "after": "UINT32_C(0x0039fff0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000cb00a",
+              "bytes": "c7462cf0ff3900",
+              "operands": "dword ptr [esi + 0x2c], 0x39fff0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "2fff6e38fc10743a6757e7dce5f09a7306b04ee5b3dfc8ea5f84703f71c74c5e"
+    },
+    {
+      "entry": "0x000cc2a0",
+      "source": "src/main_unclassified/band_000c/0x000cc2a0.cpp",
+      "body_sha256": "27C1D8952F32FB38A393BC48888C3E8C7006A3D7B0740A193CCF63244901DC8C",
+      "body_ranges": [
+        {
+          "start": "0x000CC2A0",
+          "end_inclusive": "0x000CC30F",
+          "length": 112
+        }
+      ],
+      "source_sha256": "a1a61f805746fab485fc607b528f8ab2baaaae7e2464d0873e4de5be55c722fe",
+      "source_git_blob": "fc044aa1a476127e95d6fed0496017ba4a5c2335",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000cc2cd, 0x000cc2d3.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "acb358b8abba0ff7fc9729e646848e98d879a7832b9324bbe12476f6ffda7d85",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039f004",
+          "after": "UINT32_C(0x0039f004)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000cc2cd",
+              "bytes": "c70604f03900",
+              "operands": "dword ptr [esi], 0x39f004"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039fff0",
+          "after": "UINT32_C(0x0039fff0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000cc2d3",
+              "bytes": "c7462cf0ff3900",
+              "operands": "dword ptr [esi + 0x2c], 0x39fff0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "5e947a71f11716485bccac1148bda983081b988c0b04d7fa9fcab64d635d765a"
+    },
+    {
+      "entry": "0x000eb470",
+      "source": "src/main_unclassified/band_000e/0x000eb470.cpp",
+      "body_sha256": "E0960CF548D2E3428F3220D6695C32BDDBEC2EF2ED60BF8B2B033FCE42022F2F",
+      "body_ranges": [
+        {
+          "start": "0x000EB470",
+          "end_inclusive": "0x000EB4B1",
+          "length": 66
+        }
+      ],
+      "source_sha256": "983f7a26fc838c3584a691c75de02a17f90d8bff30ee3d4855a03ea323b62a28",
+      "source_git_blob": "69bd41324f8797326024daf7d5d0ab9018ad75fa",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000eb478, 0x000eb485, 0x000eb47e.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "398711a6992c7d16a8f93c8166eb1f5783f99819307f84dffaeb5f4d3664e683",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039ef60",
+          "after": "UINT32_C(0x0039ef60)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000eb478",
+              "bytes": "c70660ef3900",
+              "operands": "dword ptr [esi], 0x39ef60"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039ee54",
+          "after": "UINT32_C(0x0039ee54)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000eb485",
+              "bytes": "c7460c54ee3900",
+              "operands": "dword ptr [esi + 0xc], 0x39ee54"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000eb47e",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "f2cc2fc6fa806c4caa84f974b9b26927973a0f4aace7df1256d8e8eb4307417a"
+    },
+    {
+      "entry": "0x000eb630",
+      "source": "src/main_unclassified/band_000e/0x000eb630.cpp",
+      "body_sha256": "E436282484D7CFFDEBCF800E60E1CA485D984EF6DDC958922648F8290A79604C",
+      "body_ranges": [
+        {
+          "start": "0x000EB630",
+          "end_inclusive": "0x000EB671",
+          "length": 66
+        }
+      ],
+      "source_sha256": "6f260d1977c4b2db7f982d7f1ca5d32edd49958e9eea3a8ced8db5740893dc1e",
+      "source_git_blob": "0894136452105476dc4af4d44129fa3f3a3520b2",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000eb65a, 0x000eb667, 0x000eb660.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "e8a1baa2006d6b856f77020b13619f53a997f3cff1d054aef183e21cb844c8e6",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039e6a8",
+          "after": "UINT32_C(0x0039e6a8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000eb65a",
+              "bytes": "c706a8e63900",
+              "operands": "dword ptr [esi], 0x39e6a8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039ee54",
+          "after": "UINT32_C(0x0039ee54)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000eb667",
+              "bytes": "c7460c54ee3900",
+              "operands": "dword ptr [esi + 0xc], 0x39ee54"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000eb660",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "f65f9c1cce4b4c236200e19e201d621b6c44d507bb942cd1d4c84004a7d01c6e"
+    },
+    {
+      "entry": "0x000eb6e0",
+      "source": "src/main_unclassified/band_000e/0x000eb6e0.cpp",
+      "body_sha256": "CB11B62BA77E61C5058E3A2CF450FC49E129FAAD8CD23510865AF04648DB4709",
+      "body_ranges": [
+        {
+          "start": "0x000EB6E0",
+          "end_inclusive": "0x000EB721",
+          "length": 66
+        }
+      ],
+      "source_sha256": "2e640ead1b508a0c9627ed21d2910deb5f29d8eb0d8bf1a1c959100b081ad587",
+      "source_git_blob": "3fab07201341a49a8f09e1399a4c01a0aa62f1df",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000eb70a, 0x000eb717, 0x000eb710.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "5386820eafba111361f786f1c55cf960c769c4a1514c1a942530e1b2028999d2",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039e6f8",
+          "after": "UINT32_C(0x0039e6f8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000eb70a",
+              "bytes": "c706f8e63900",
+              "operands": "dword ptr [esi], 0x39e6f8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039ee54",
+          "after": "UINT32_C(0x0039ee54)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000eb717",
+              "bytes": "c7460c54ee3900",
+              "operands": "dword ptr [esi + 0xc], 0x39ee54"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000eb710",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "57dd3903c1988bb4500e9c31c691cf9ea72bd2b0415bd2aacca066918e1ec040"
+    },
+    {
+      "entry": "0x000eb910",
+      "source": "src/main_unclassified/band_000e/0x000eb910.cpp",
+      "body_sha256": "066BBCEBF762E9C9788E7A88F586EB2B3C8DBB77C1754DC075B7E94556F6B098",
+      "body_ranges": [
+        {
+          "start": "0x000EB910",
+          "end_inclusive": "0x000EB93A",
+          "length": 43
+        }
+      ],
+      "source_sha256": "1945e9e24942b5d5f04c68c6463c5565c8cae588dba9f4fbf6d79857b7763d9d",
+      "source_git_blob": "335ac85e3695e8d593c143a1a67c0a59a2645327",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000eb930, 0x000eb923, 0x000eb929.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "1cc53448dc51e9bc7ebaeb1b4f0b9397503e372b4136e844b2b9afb9cabf3f89",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039e7e8",
+          "after": "UINT32_C(0x0039e7e8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000eb930",
+              "bytes": "c7460ce8e73900",
+              "operands": "dword ptr [esi + 0xc], 0x39e7e8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_0039ebb0",
+          "after": "UINT32_C(0x0039ebb0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000eb923",
+              "bytes": "c706b0eb3900",
+              "operands": "dword ptr [esi], 0x39ebb0"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000eb929",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "c6e206ec78b0c2fe588e03c634176440dc018290b2bf6a8bfaa6ccf0d9678f4b"
+    },
+    {
+      "entry": "0x000ebd10",
+      "source": "src/main_unclassified/band_000e/0x000ebd10.cpp",
+      "body_sha256": "7D38E2F4D959771A1A237FF2AF248E8C23494CD764014D0D26E50034D54FB098",
+      "body_ranges": [
+        {
+          "start": "0x000EBD10",
+          "end_inclusive": "0x000EBD3D",
+          "length": 46
+        }
+      ],
+      "source_sha256": "07c10a0feea9cc6804250aa00acea4807f14843bf3a3599f93e6b60f7f09a43c",
+      "source_git_blob": "0796f07045f7aada62f875d8fe0d8a3a17afbbb6",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000ebd1f, 0x000ebd2c, 0x000ebd25.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "b72ef5b1ecb49d6863c5bb5b745174a4003c43345a041bd651efde953c66a3b0",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039e798",
+          "after": "UINT32_C(0x0039e798)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ebd1f",
+              "bytes": "c70698e73900",
+              "operands": "dword ptr [esi], 0x39e798"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_0039e7e8",
+          "after": "UINT32_C(0x0039e7e8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ebd2c",
+              "bytes": "c7460ce8e73900",
+              "operands": "dword ptr [esi + 0xc], 0x39e7e8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ebd25",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "b0ebc12b8f8576d8552d97ba88e32614397d104b4cec48401c1b8c8b2c3947bc"
+    },
+    {
+      "entry": "0x000ebdc0",
+      "source": "src/main_unclassified/band_000e/0x000ebdc0.cpp",
+      "body_sha256": "C9C2EC43EC7CCA0F6BB11DB432F11494057FE105AFD7AC47537B9C371E8FDC22",
+      "body_ranges": [
+        {
+          "start": "0x000EBDC0",
+          "end_inclusive": "0x000EBE0F",
+          "length": 80
+        }
+      ],
+      "source_sha256": "f05be82decb025cb79b64d841077c3efe19845139354297eaf1df229ce64708f",
+      "source_git_blob": "1d1d73fc084e13016bf32eca93abfd70bb7cfb0f",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000ebdea, 0x000ebdf7, 0x000ebdf0.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "587925805bff60276f0a84018eb886646c1f7d13e0d5da4bea13444b245f8b05",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039ec08",
+          "after": "UINT32_C(0x0039ec08)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ebdea",
+              "bytes": "c70608ec3900",
+              "operands": "dword ptr [esi], 0x39ec08"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039ee54",
+          "after": "UINT32_C(0x0039ee54)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ebdf7",
+              "bytes": "c7460c54ee3900",
+              "operands": "dword ptr [esi + 0xc], 0x39ee54"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ebdf0",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "80f5f0bd9655d0082f8b8fda0fc16a48bc247eece5dda048a830a67ba06c7074"
+    },
+    {
+      "entry": "0x000ebf30",
+      "source": "src/main_unclassified/band_000e/0x000ebf30.cpp",
+      "body_sha256": "33E8AD4AF6B4C4B414D08E7013A6C0D21C127172D586B77D8DC6B3EF2E90FB70",
+      "body_ranges": [
+        {
+          "start": "0x000EBF30",
+          "end_inclusive": "0x000EBF56",
+          "length": 39
+        }
+      ],
+      "source_sha256": "fcebfecfb0ffe4428e939aed6d63a3e1ede6b2d29b8e2d92e787c95ed6ddb6e9",
+      "source_git_blob": "faef0739fd2b401ff91003242a5607df3e2e5a47",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000ebf45, 0x000ebf38, 0x000ebf3e.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "9c81190c7af6508890692d4df2baf7dc62dec96b17d99e43554087be35d425e9",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039e7e8",
+          "after": "UINT32_C(0x0039e7e8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ebf45",
+              "bytes": "c7460ce8e73900",
+              "operands": "dword ptr [esi + 0xc], 0x39e7e8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_0039e908",
+          "after": "UINT32_C(0x0039e908)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ebf38",
+              "bytes": "c70608e93900",
+              "operands": "dword ptr [esi], 0x39e908"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ebf3e",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "0ca96cd2a1229a3960781f40abc98f1473695b9421f5ed2729f0f930e70febcc"
+    },
+    {
+      "entry": "0x000ec050",
+      "source": "src/main_unclassified/band_000e/0x000ec050.cpp",
+      "body_sha256": "5F2FC66FCF2F21F26D872829A8C3B9ED6B98C60C6F4CCC669B01434D1F02E41C",
+      "body_ranges": [
+        {
+          "start": "0x000EC050",
+          "end_inclusive": "0x000EC06F",
+          "length": 32
+        }
+      ],
+      "source_sha256": "60618c09d03d8dec4b6d9fd7143352aec95f55fe3153b88701d7e7da935e5474",
+      "source_git_blob": "aa2d4072756a945496d886d2b70c8afcb70fbb0e",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000ec058, 0x000ec065, 0x000ec05e.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "5923cf3030d279f22927ca4bd77e4e8e9db5e92ccd2005ee4e0b5cd17aba51a7",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039e748",
+          "after": "UINT32_C(0x0039e748)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec058",
+              "bytes": "c70648e73900",
+              "operands": "dword ptr [esi], 0x39e748"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_0039e7e8",
+          "after": "UINT32_C(0x0039e7e8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec065",
+              "bytes": "c7460ce8e73900",
+              "operands": "dword ptr [esi + 0xc], 0x39e7e8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec05e",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "8b84d5d0d5365530f757467dcc4e59f242655ee32a1ac2917ea3c05f483be794"
+    },
+    {
+      "entry": "0x000ec180",
+      "source": "src/main_unclassified/band_000e/0x000ec180.cpp",
+      "body_sha256": "56D69AF0513BB8A9054C766444107689E139C6DC214F02F8C7907A5226E8714E",
+      "body_ranges": [
+        {
+          "start": "0x000EC180",
+          "end_inclusive": "0x000EC1B1",
+          "length": 50
+        }
+      ],
+      "source_sha256": "d20aea2206efab3531881a2921380804f21c99f28203d8150812573becc3a849",
+      "source_git_blob": "656710c9507c01b58599b02d68647b4eaf00a60f",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000ec18a, 0x000ec197, 0x000ec190.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "413c32b77c968e59c2e16b7688348e79894517d2f9086894fadf9c8c29821c59",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039e608",
+          "after": "UINT32_C(0x0039e608)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec18a",
+              "bytes": "c70608e63900",
+              "operands": "dword ptr [esi], 0x39e608"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_0039e7e8",
+          "after": "UINT32_C(0x0039e7e8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec197",
+              "bytes": "c7460ce8e73900",
+              "operands": "dword ptr [esi + 0xc], 0x39e7e8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec190",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "45c4a01dedae76e54a6624f1b9ba529beb50170bb4a2fa32563d3260d07d3f7c"
+    },
+    {
+      "entry": "0x000ec2d0",
+      "source": "src/main_unclassified/band_000e/0x000ec2d0.cpp",
+      "body_sha256": "A953F78B0C1348B612599A907B5FEFB841FE6B77227C72315C323EC2E2088D6B",
+      "body_ranges": [
+        {
+          "start": "0x000EC2D0",
+          "end_inclusive": "0x000EC31D",
+          "length": 78
+        }
+      ],
+      "source_sha256": "fba0c5cf25cb2c13be5bbc7246ce59c25f0785ad7744b572d9f8e2136863acee",
+      "source_git_blob": "5d5f85808ac138e3792b65623ccb528d7ad2d6d7",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000ec2fa, 0x000ec307, 0x000ec300.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "f4e689faf3b5699fb39297a9b4b75b3ec06af0cbb3abb2ed3d38abae4b263ab3",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039e9f8",
+          "after": "UINT32_C(0x0039e9f8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec2fa",
+              "bytes": "c706f8e93900",
+              "operands": "dword ptr [esi], 0x39e9f8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039ee54",
+          "after": "UINT32_C(0x0039ee54)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec307",
+              "bytes": "c7460c54ee3900",
+              "operands": "dword ptr [esi + 0xc], 0x39ee54"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec300",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "b3b528f27f88e72d504f37635e8de4c9fbdcd9551c6ee51595999531751615df"
+    },
+    {
+      "entry": "0x000ec460",
+      "source": "src/main_unclassified/band_000e/0x000ec460.cpp",
+      "body_sha256": "915EBCD16665998214EE08AE8555AA001DB46CC494D289A0A8C17C3E88A512C6",
+      "body_ranges": [
+        {
+          "start": "0x000EC460",
+          "end_inclusive": "0x000EC492",
+          "length": 51
+        }
+      ],
+      "source_sha256": "0d08e55e70642c51d278d67e8314c2c13c05afd06494296eaa7d39a6fe1eb6ab",
+      "source_git_blob": "c8521e098f12e5db289826bb612da1b3d0d72e55",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000ec482, 0x000ec475, 0x000ec47b.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "34c9144f06fc90ecc62b7edafd315b4091f24259f5fe5453e42f87bb681c33ec",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039e7e8",
+          "after": "UINT32_C(0x0039e7e8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec482",
+              "bytes": "c7460ce8e73900",
+              "operands": "dword ptr [esi + 0xc], 0x39e7e8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_0039ed98",
+          "after": "UINT32_C(0x0039ed98)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec475",
+              "bytes": "c70698ed3900",
+              "operands": "dword ptr [esi], 0x39ed98"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec47b",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "d0f4cf1fc29e88a2117aee40fbf8817ef20c5312a4a4ae2d84ff86b64c689854"
+    },
+    {
+      "entry": "0x000ec5a0",
+      "source": "src/main_unclassified/band_000e/0x000ec5a0.cpp",
+      "body_sha256": "4CA9EC21CCB5A5E4B060E800D7898929CC54A4F22EF9135FC48BA8427073B579",
+      "body_ranges": [
+        {
+          "start": "0x000EC5A0",
+          "end_inclusive": "0x000EC5F1",
+          "length": 82
+        }
+      ],
+      "source_sha256": "99fd3c9e1f9a846f1acd17190bdd3a98c3ba360eca6eb582395ef858d2f49c5e",
+      "source_git_blob": "932e6c5877164a9ba69099167c673237d0c26afc",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000ec5c7, 0x000ec5ba, 0x000ec5c0.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "b8710a3f339a05c63b15bb6f7cb1d9319a10d4dcf30079e2f59d97dfe4d91f7a",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039eab0",
+          "after": "UINT32_C(0x0039eab0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec5c7",
+              "bytes": "c7460cb0ea3900",
+              "operands": "dword ptr [esi + 0xc], 0x39eab0"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_0039eac0",
+          "after": "UINT32_C(0x0039eac0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec5ba",
+              "bytes": "c706c0ea3900",
+              "operands": "dword ptr [esi], 0x39eac0"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec5c0",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "49841d77d5771ab608ad365e84fc5f853b6435b9ceead27f66ba308988d41c84"
+    },
+    {
+      "entry": "0x000ec910",
+      "source": "src/main_unclassified/band_000e/0x000ec910.cpp",
+      "body_sha256": "611CDE80B0F272438310E6AB978C24E7B4EC7DD2A264241E820A3C55CC166FCC",
+      "body_ranges": [
+        {
+          "start": "0x000EC910",
+          "end_inclusive": "0x000EC951",
+          "length": 66
+        }
+      ],
+      "source_sha256": "471b1bb4eb28757c8f2e38c1e969ed963270542741979f1a106bfcc03fc94109",
+      "source_git_blob": "792355bf04b0fc3fac007f81654e04de75c43a68",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000ec93a, 0x000ec947, 0x000ec940.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "753e2d0b9b83218333d494c7b5c987ac55a51011063d4bdd41eaaff81fab7c85",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039eb60",
+          "after": "UINT32_C(0x0039eb60)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec93a",
+              "bytes": "c70660eb3900",
+              "operands": "dword ptr [esi], 0x39eb60"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039ee54",
+          "after": "UINT32_C(0x0039ee54)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec947",
+              "bytes": "c7460c54ee3900",
+              "operands": "dword ptr [esi + 0xc], 0x39ee54"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec940",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "efee6f13488f1b4ccf49c3fa9eb7ea35e04de7d47986ef4e196c3a455ee839ca"
+    },
+    {
+      "entry": "0x000ec9d0",
+      "source": "src/main_unclassified/band_000e/0x000ec9d0.cpp",
+      "body_sha256": "85241D82F6EA586DB8A0D2652A7364A4947A62B5A59B1BF1841AD2B61EBF4D55",
+      "body_ranges": [
+        {
+          "start": "0x000EC9D0",
+          "end_inclusive": "0x000EC9EF",
+          "length": 32
+        }
+      ],
+      "source_sha256": "952bf78891cf6717761941dc31f01ee55debaa8487ad665e050255bd613ae00c",
+      "source_git_blob": "d47654321f2f830fc094a3bd974a41c9a71ad2bf",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000ec9e5, 0x000ec9d8, 0x000ec9de.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "4ba62b27d824f3dbb281182ee0918cbaaddc955abf8c67142c57551b4bd6b7a6",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039e7e8",
+          "after": "UINT32_C(0x0039e7e8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec9e5",
+              "bytes": "c7460ce8e73900",
+              "operands": "dword ptr [esi + 0xc], 0x39e7e8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_0039eb10",
+          "after": "UINT32_C(0x0039eb10)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec9d8",
+              "bytes": "c70610eb3900",
+              "operands": "dword ptr [esi], 0x39eb10"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec9de",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "79da6f0c2a4d764b9c54a41bf7cefeabc29f4b438366ba1267c971268577be77"
+    },
+    {
+      "entry": "0x000ec9f0",
+      "source": "src/main_unclassified/band_000e/0x000ec9f0.cpp",
+      "body_sha256": "449A58074109D29EB16F6178BB47D48854D663715B645527E4CB1DEA768484AD",
+      "body_ranges": [
+        {
+          "start": "0x000EC9F0",
+          "end_inclusive": "0x000ECA16",
+          "length": 39
+        }
+      ],
+      "source_sha256": "fbf1be69525d32c55760b349da540cfe630013a370827818785e4b9b5a41b590",
+      "source_git_blob": "b62cb8c56a273c39628ca6ffa26f2541c3cc512b",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000eca05, 0x000ec9f8, 0x000ec9fe.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "ade51ad6b7a3f678c39773a408fc0b2de4fb6c6d8ffcb88badc88c81397fb573",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039e7e8",
+          "after": "UINT32_C(0x0039e7e8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000eca05",
+              "bytes": "c7460ce8e73900",
+              "operands": "dword ptr [esi + 0xc], 0x39e7e8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_0039e9a8",
+          "after": "UINT32_C(0x0039e9a8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec9f8",
+              "bytes": "c706a8e93900",
+              "operands": "dword ptr [esi], 0x39e9a8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ec9fe",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "e3badc681f3ffa5a910f498fdc83ec6eca7d55080576c4a4a15a7371806645a3"
+    },
+    {
+      "entry": "0x000ecb50",
+      "source": "src/main_unclassified/band_000e/0x000ecb50.cpp",
+      "body_sha256": "12E8FFD43C24F37C05FFA3744D23FCA27099C4297433B1DB726748FBAFBE8A71",
+      "body_ranges": [
+        {
+          "start": "0x000ECB50",
+          "end_inclusive": "0x000ECB6F",
+          "length": 32
+        }
+      ],
+      "source_sha256": "c6998e7a6bc8308139d8672b4ddaf8aac994844f42c25dfe20358d5235c755e1",
+      "source_git_blob": "7adb6b8a3ea3accccf53a3c24c1724a830f3ea89",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x000ecb65, 0x000ecb58, 0x000ecb5e.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "15bc23bd46de637dc46e188d834832d520f0cef52e1d54c17533a76be88a2e7e",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0039e7e8",
+          "after": "UINT32_C(0x0039e7e8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ecb65",
+              "bytes": "c7460ce8e73900",
+              "operands": "dword ptr [esi + 0xc], 0x39e7e8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_0039ec58",
+          "after": "UINT32_C(0x0039ec58)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ecb58",
+              "bytes": "c70658ec3900",
+              "operands": "dword ptr [esi], 0x39ec58"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003a3f18",
+          "after": "UINT32_C(0x003a3f18)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x000ecb5e",
+              "bytes": "c74608183f3a00",
+              "operands": "dword ptr [esi + 8], 0x3a3f18"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "1aec2042fd4b0f532837ebe592422d9e5155f678589cc1de458a5ee4e6282987"
+    },
+    {
+      "entry": "0x001658c0",
+      "source": "src/main_unclassified/band_0016/0x001658c0.cpp",
+      "body_sha256": "057687611FECB52B568C45F0EAADADCBBCF111D8EED441B03157E6852DA0378E",
+      "body_ranges": [
+        {
+          "start": "0x001658C0",
+          "end_inclusive": "0x001658F0",
+          "length": 49
+        }
+      ],
+      "source_sha256": "f86621df4cd682e5267e706b0ff77d2ca736acefc547d85b574ae3753b552ea2",
+      "source_git_blob": "1db073ad90cda818c486eea834d4569a649f3e67",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x001658c6, 0x001658d4.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "0a89e2ef723d51049e16f99aa435171b16ef63320279229f8be09762881842e9",
+      "edits": [
+        {
+          "before": "&PTR_LAB_0039a864",
+          "after": "UINT32_C(0x0039a864)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x001658c6",
+              "bytes": "c70064a83900",
+              "operands": "dword ptr [eax], 0x39a864"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039a87c",
+          "after": "UINT32_C(0x0039a87c)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x001658d4",
+              "bytes": "c7017ca83900",
+              "operands": "dword ptr [ecx], 0x39a87c"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "f86621df4cd682e5267e706b0ff77d2ca736acefc547d85b574ae3753b552ea2"
+    },
+    {
+      "entry": "0x00219770",
+      "source": "src/main_unclassified/band_0021/0x00219770.cpp",
+      "body_sha256": "67555A03B064D1BEBC858F98A5206F7E38F620810B9B27CCC70AE01565C85584",
+      "body_ranges": [
+        {
+          "start": "0x00219770",
+          "end_inclusive": "0x00219851",
+          "length": 226
+        }
+      ],
+      "source_sha256": "69de08d42ef4df853d82773758560e4b8b9069538189d0607ff6c4c0949074b8",
+      "source_git_blob": "95c3b0f8309def00605c6850df442a57516c725c",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x00219797, 0x00219772.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "8f272a24df5f249a5d59af9b1b4d0097eb213067120d0d352114bcfb00cb429a",
+      "edits": [
+        {
+          "before": "&PTR_FUN_00394d80",
+          "after": "UINT32_C(0x00394d80)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00219797",
+              "bytes": "c700804d3900",
+              "operands": "dword ptr [eax], 0x394d80"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0039af90",
+          "after": "UINT32_C(0x0039af90)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x00219772",
+              "bytes": "c70090af3900",
+              "operands": "dword ptr [eax], 0x39af90"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "69de08d42ef4df853d82773758560e4b8b9069538189d0607ff6c4c0949074b8"
+    },
+    {
+      "entry": "0x0027f5e0",
+      "source": "src/main_unclassified/band_0027/0x0027f5e0.cpp",
+      "body_sha256": "C11A44CA6D2B29131D26955147E86E5638A848433E38BFE47587A7A756D25A14",
+      "body_ranges": [
+        {
+          "start": "0x0027F5E0",
+          "end_inclusive": "0x0027F64A",
+          "length": 107
+        }
+      ],
+      "source_sha256": "3a063325cb33939e65398e2af60e865d6bf3486fde15698d108f4e5a9c7add02",
+      "source_git_blob": "f41bddcada4aa98974cd83a04120a082fdfd8d4f",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x0027f5fe, 0x0027f5f8, 0x0027f5f1.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "5356986478de7d29f7083dc8a6e41f3b1619c93dd7bb828f020cde1bb9eba58e",
+      "edits": [
+        {
+          "before": "&PTR_DAT_00391a88",
+          "after": "UINT32_C(0x00391a88)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0027f5fe",
+              "bytes": "c74010881a3900",
+              "operands": "dword ptr [eax + 0x10], 0x391a88"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_DAT_00391ab0",
+          "after": "UINT32_C(0x00391ab0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0027f5f8",
+              "bytes": "c700b01a3900",
+              "operands": "dword ptr [eax], 0x391ab0"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_003931b0",
+          "after": "UINT32_C(0x003931b0)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0027f5f1",
+              "bytes": "c74010b0313900",
+              "operands": "dword ptr [eax + 0x10], 0x3931b0"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "3a063325cb33939e65398e2af60e865d6bf3486fde15698d108f4e5a9c7add02"
+    },
+    {
+      "entry": "0x002b3d90",
+      "source": "src/main_unclassified/band_002b/0x002b3d90.cpp",
+      "body_sha256": "35C3C82876AC80AD7B926F37FBBF87FA8B95AE8223EC98897DF3671D08B60BDE",
+      "body_ranges": [
+        {
+          "start": "0x002B3D90",
+          "end_inclusive": "0x002B3DF6",
+          "length": 103
+        }
+      ],
+      "source_sha256": "cca3f6024769462e26d96e76edac54c47ae8c3e27d15e5fabc1ddbc2dce9b73f",
+      "source_git_blob": "d6a8f9153b6c6233e72610274130d01b6ebe94fb",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x002b3dc7, 0x002b3d93.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "c253d21d9ec2d30f82b2c26241e3b0d3b1d09847e6f2c0312b28b33f5b803cc8",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0038e844",
+          "after": "UINT32_C(0x0038e844)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002b3dc7",
+              "bytes": "c70044e83800",
+              "operands": "dword ptr [eax], 0x38e844"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_FUN_0038e84c",
+          "after": "UINT32_C(0x0038e84c)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002b3d93",
+              "bytes": "c7004ce83800",
+              "operands": "dword ptr [eax], 0x38e84c"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "cca3f6024769462e26d96e76edac54c47ae8c3e27d15e5fabc1ddbc2dce9b73f"
+    },
+    {
+      "entry": "0x002bf2b0",
+      "source": "src/main_unclassified/band_002b/0x002bf2b0.cpp",
+      "body_sha256": "FE9D9B82B208FE41D4D697589CEB86EF44B6E434FD30BC2AEA52A24839290E67",
+      "body_ranges": [
+        {
+          "start": "0x002BF2B0",
+          "end_inclusive": "0x002BF2FC",
+          "length": 77
+        }
+      ],
+      "source_sha256": "edcb55df80fb4663a7c684fa04fb2ab40a03c0cea8d9feea77c2b5c2cd578658",
+      "source_git_blob": "b20f99c37ec67bc9678442d6312de57ce2ad1c92",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x002bf2d0, 0x002bf2bc.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "f3ff5c15b7b25b0a258d4b4f798e27ab9980cbd030eed2bcfa66c9d9dde129a2",
+      "edits": [
+        {
+          "before": "&PTR_FUN_0038e6f8",
+          "after": "UINT32_C(0x0038e6f8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002bf2d0",
+              "bytes": "c701f8e63800",
+              "operands": "dword ptr [ecx], 0x38e6f8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_0038e720",
+          "after": "UINT32_C(0x0038e720)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002bf2bc",
+              "bytes": "c70020e73800",
+              "operands": "dword ptr [eax], 0x38e720"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "edcb55df80fb4663a7c684fa04fb2ab40a03c0cea8d9feea77c2b5c2cd578658"
+    },
+    {
+      "entry": "0x002e7e10",
+      "source": "src/main_unclassified/band_002e/0x002e7e10.cpp",
+      "body_sha256": "7822B9F2F6BB3795F284A9C216E476E3622F8FB0A9B868E72FA5FD1024584D07",
+      "body_ranges": [
+        {
+          "start": "0x002E7E10",
+          "end_inclusive": "0x002E7E4D",
+          "length": 62
+        }
+      ],
+      "source_sha256": "a2f9b6a0829480f68669c99bf227dd8746c6d9af1be5475bdae2ba4b5115ca8e",
+      "source_git_blob": "612f8bfa1f9e5726effff8f3603cbd152763842a",
+      "added_comment": "  /* XBE MOV m32,imm32 sites: 0x002e7e12, 0x002e7e21, 0x002e7e1b.\n   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "aa8af01d24901605469de44b90b37b7de7033d898ee0cf0b91b54ef28b14e6fb",
+      "edits": [
+        {
+          "before": "&PTR_FUN_003a1a68",
+          "after": "UINT32_C(0x003a1a68)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002e7e12",
+              "bytes": "c74004681a3a00",
+              "operands": "dword ptr [eax + 4], 0x3a1a68"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_003868f8",
+          "after": "UINT32_C(0x003868f8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002e7e21",
+              "bytes": "c74004f8683800",
+              "operands": "dword ptr [eax + 4], 0x3868f8"
+            }
+          ]
+        },
+        {
+          "before": "&PTR_LAB_00386904",
+          "after": "UINT32_C(0x00386904)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x002e7e1b",
+              "bytes": "c70004693800",
+              "operands": "dword ptr [eax], 0x386904"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "a2f9b6a0829480f68669c99bf227dd8746c6d9af1be5475bdae2ba4b5115ca8e"
+    },
+    {
+      "entry": "0x0031c8b1",
+      "source": "src/platform/audio_dsound/0x0031c8b1.cpp",
+      "body_sha256": "DC139FB19E022E3BA2E24FC076165EA341D12E378A26B3CF46074B7879272F31",
+      "body_ranges": [
+        {
+          "start": "0x0031C8B1",
+          "end_inclusive": "0x0031C94E",
+          "length": 158
+        }
+      ],
+      "source_sha256": "519a1b5c3f44d4e5670f981eb1d3080a2ac92dc389c0d0a7cac66411d0ea938c",
+      "source_git_blob": "fbf5ef8cf42327723cd17a527c110c34dee95e6c",
+      "added_comment": "    /* XBE MOV m32,imm32 sites: 0x0031c928, 0x0031c914, 0x0031c900, 0x0031c8ec, 0x0031c8d8.\n     * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */\n",
+      "result_source_sha256": "1699fb604e19913b24678a17f0ac04d1a10ad1f5e4a5e3b8ca9367249c959106",
+      "edits": [
+        {
+          "before": "&DAT_004aa5e8",
+          "after": "UINT32_C(0x004aa5e8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0031c928",
+              "bytes": "c700e8a54a00",
+              "operands": "dword ptr [eax], 0x4aa5e8"
+            }
+          ]
+        },
+        {
+          "before": "&DAT_004ac770",
+          "after": "UINT32_C(0x004ac770)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0031c914",
+              "bytes": "c70070c74a00",
+              "operands": "dword ptr [eax], 0x4ac770"
+            }
+          ]
+        },
+        {
+          "before": "&DAT_004ae0b8",
+          "after": "UINT32_C(0x004ae0b8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0031c900",
+              "bytes": "c700b8e04a00",
+              "operands": "dword ptr [eax], 0x4ae0b8"
+            }
+          ]
+        },
+        {
+          "before": "&DAT_004afc08",
+          "after": "UINT32_C(0x004afc08)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0031c8ec",
+              "bytes": "c70008fc4a00",
+              "operands": "dword ptr [eax], 0x4afc08"
+            }
+          ]
+        },
+        {
+          "before": "&DAT_004afef8",
+          "after": "UINT32_C(0x004afef8)",
+          "count": 1,
+          "instructions": [
+            {
+              "site": "0x0031c8d8",
+              "bytes": "c700f8fe4a00",
+              "operands": "dword ptr [eax], 0x4afef8"
+            }
+          ]
+        }
+      ],
+      "previous_inventory_source_sha256": "519a1b5c3f44d4e5670f981eb1d3080a2ac92dc389c0d0a7cac66411d0ea938c"
     }
   ],
   "quarantine": [
@@ -2351,7 +4206,1085 @@
           "instruction": "fstp dword ptr [esp + 4]"
         }
       ]
+    },
+    {
+      "entry": "0x00023a80",
+      "source": "src/main_unclassified/band_0002/0x00023a80.cpp",
+      "source_sha256": "a254fcd40d137b7f0b877a9fa444fc40af290d1141565bfea108ac6f354b8a07",
+      "body_sha256": "D04B7E37315B819EEBA957A7100377FBF83497E253E26C3B17CEBD1AF75161D2",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00059b60",
+      "source": "src/main_unclassified/band_0005/0x00059b60.cpp",
+      "source_sha256": "ccdc2520f8b4b54311590dd72f645512c6cc3c539a759c16681c73ca840a0837",
+      "body_sha256": "15087E3314805B3C0429584EE2D7183B1D79A93C1F62BB7CDC70890AE12A1D8B",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00059bf0",
+      "source": "src/main_unclassified/band_0005/0x00059bf0.cpp",
+      "source_sha256": "5fdf87f1a811d987871164fe2025e98de3110bd58c2e77c37d43458c0b20c583",
+      "body_sha256": "C85E953D4B81AADB19E2983F497EFF3790461659FE329174478FA3AEDE773D1B",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0005eeb0",
+      "source": "src/main_unclassified/band_0005/0x0005eeb0.cpp",
+      "source_sha256": "8d59d1ff09208034a40730254ed85081e2b3848deb8b360f6fc8a94c6a61aded",
+      "body_sha256": "4163CD0D77673CC29ADF186F4593C41910E5530ED2C274123C39EDAAAD057D22",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00062050",
+      "source": "src/main_unclassified/band_0006/0x00062050.cpp",
+      "source_sha256": "fe2ef28ea1ad97034880eaac0e43d824d98acc38a93b7c6c5f88cef1c72186b8",
+      "body_sha256": "CC4750362DFD31D742712A8E2496B23277E5257E53D868C0045EC63F73AE025D",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x000620a0",
+      "source": "src/main_unclassified/band_0006/0x000620a0.cpp",
+      "source_sha256": "94e43ef936cb1d920f3ca0c74543cbdb805ff8ecfcb3d4a949d08787b002ae93",
+      "body_sha256": "65F0011195D79C9841E73E07B30C0A246B5A148E4024585C686C8EC2F8F48663",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00066d60",
+      "source": "src/main_unclassified/band_0006/0x00066d60.cpp",
+      "source_sha256": "0c2881d92f8f77fefc7ff69ebde1addca618d016cd1e3e7cbbe65f82d3a2f575",
+      "body_sha256": "BFD87B327D75AA99379EF3101D26358D8F9E800D05F2EC3754778408FA8AC600",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00067540",
+      "source": "src/main_unclassified/band_0006/0x00067540.cpp",
+      "source_sha256": "8ee02c124358536889a9d5fe5574c6cb2c80e813f5d62939aca3918f48608539",
+      "body_sha256": "A34ECFE3B6D057D8EA597D4FF07040FF955D3B504594CFCFEE3407F595A708A6",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00074210",
+      "source": "src/main_unclassified/band_0007/0x00074210.cpp",
+      "source_sha256": "a67ed35589d51093620584752b01336133539cf5c518d78f2be0196b3ba0feb7",
+      "body_sha256": "3D4CF766F920E1DD630A196B3078FF47BF7F8EB1DCB935BCBD16AAD50CF93294",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00076f10",
+      "source": "src/main_unclassified/band_0007/0x00076f10.cpp",
+      "source_sha256": "734300060a09868d568236003d496186ab22a11bbcd593e7775bb0ad2a9ad3f7",
+      "body_sha256": "D1476ED3B7C394605506B9DCDEA67B8DCD563C0971A111C5106D9C9CF4AC9FA7",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0008bf70",
+      "source": "src/main_unclassified/band_0008/0x0008bf70.cpp",
+      "source_sha256": "76d92e30615be0221d3e385ff230d5224db54f8781e5a28cd210b464e1eb6401",
+      "body_sha256": "9899B7018FF901083A53582AD72F10686D735DE965FF86591FAADFE3ADD13F42",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00091a90",
+      "source": "src/main_unclassified/band_0009/0x00091a90.cpp",
+      "source_sha256": "ce909af266890a7a2f4a101c8351acf4cd258aeba0c0a13b8cfef45136fcbbfa",
+      "body_sha256": "8650BE141DD07503191B328CF8459264493F078164479376DBEB03290620384F",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00092c50",
+      "source": "src/main_unclassified/band_0009/0x00092c50.cpp",
+      "source_sha256": "3078e653f7f63916237ca81c2165efd5f431228dac238af020b511458a7dda26",
+      "body_sha256": "6A780AFCB28CD570680B75555FC0A684A780220580BABEB63AB9D701413C12EB",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00093480",
+      "source": "src/main_unclassified/band_0009/0x00093480.cpp",
+      "source_sha256": "0808d243502f1ab88a581e6267f606f3335b24a62c6e41008826cc181593728a",
+      "body_sha256": "108B6E5C8501BA77F4103F4C1F62B26794BBBF52964AB0420062E929A45CB9DE",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00094290",
+      "source": "src/main_unclassified/band_0009/0x00094290.cpp",
+      "source_sha256": "a18a73a4670bd9915c94ff06dd14291e8713f0f8b835c5486955119512425d1b",
+      "body_sha256": "18D2472766B0C1875F65EEB0838A1B6A9610FB1ECE7590C3F0EF23A0A91F52D9",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00094f20",
+      "source": "src/main_unclassified/band_0009/0x00094f20.cpp",
+      "source_sha256": "f64fe9bfd9a09e8af331c0b2d3ab5033e5e019e9cc1df60b98442fac88b45b1b",
+      "body_sha256": "1C7243D9BF5B03DE96A7F9E1CC6AEE0C942D1811E91DA023778515825F6774C3",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00095cf0",
+      "source": "src/main_unclassified/band_0009/0x00095cf0.cpp",
+      "source_sha256": "b5c4f9eba6e702c507a0fa6ae95b6c9a9cfc10053fe52ce6b1a8b6aa79e90f64",
+      "body_sha256": "0F3538441D49B226ED4E5098C9EA9AE347BC1BAB440FD802FC232EEC307CB8C6",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00098500",
+      "source": "src/main_unclassified/band_0009/0x00098500.cpp",
+      "source_sha256": "5c454e68dcc9a168751ee94222fc334221da6fc54f7e67d857a0158bec5a6f10",
+      "body_sha256": "EE6A57E0AED8109D6B74301C9D31E711D5E10C346FCB9C586F8DA93C2576E048",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x000998c0",
+      "source": "src/main_unclassified/band_0009/0x000998c0.cpp",
+      "source_sha256": "af0cee14c9781464709be8c21517db575041c97914d7595651ad1b7a41bb1b52",
+      "body_sha256": "56AF7A4BBC9EE0560436C8562DE5BF6AD964E94D437101506289F00190AD03BF",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0009a690",
+      "source": "src/main_unclassified/band_0009/0x0009a690.cpp",
+      "source_sha256": "536fabd01075286db53385580e3c57a816b0da2019847c876bc98360f4376d2b",
+      "body_sha256": "2F80EF5239DC488F935B07465F6CAE75FADBAC5DED6DBCEF40A0909345C34F2C",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0009b340",
+      "source": "src/main_unclassified/band_0009/0x0009b340.cpp",
+      "source_sha256": "8f981d56001d1b150b710cde409cdc343e9fa17227207b6afb9b46182adacc28",
+      "body_sha256": "A733D316C2A40367EB5E73E881BAB46B42DABB92FEAF150245DD0CC72BE34DBA",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x000a1e90",
+      "source": "src/main_unclassified/band_000a/0x000a1e90.cpp",
+      "source_sha256": "065c0af1226731ed35479706e5648ff6fa7f5468ceb178ec87027909be09bb6e",
+      "body_sha256": "0E0F519CDB3FEE7324564E3D94E2B4E393423A2B91B9A12F3EDA4C25353B5399",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x000a2dc0",
+      "source": "src/main_unclassified/band_000a/0x000a2dc0.cpp",
+      "source_sha256": "8fad8ce334b481477c313d01fc91882bffab11c2f3ada1cedff0787078956695",
+      "body_sha256": "F87750C4AC884185F10CE87D6BF8778047D919E17A41AD117ED20CB35729B7CA",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x000a34a0",
+      "source": "src/main_unclassified/band_000a/0x000a34a0.cpp",
+      "source_sha256": "badace7cdf18e44f1d20a6549a10a2dd83463bbcfbc7d0cd8722ef8da3f9fd87",
+      "body_sha256": "C2667195FDC354335126E8C56BFF69617C0041709AD52E3AFDC46DA99D7C5544",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x000a3b10",
+      "source": "src/main_unclassified/band_000a/0x000a3b10.cpp",
+      "source_sha256": "a4151b02f9e2b2e0e7b4230c6966f1d61d4509d8103d33ff355dd6a47cb33b0b",
+      "body_sha256": "01FF57616C921F70EAF7BEBEEF8214CAF60507F7683C4B566EAB18B397E63417",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x000a6fd0",
+      "source": "src/main_unclassified/band_000a/0x000a6fd0.cpp",
+      "source_sha256": "de885b07c098e5d1245bbda27384b9af4e14dc7f15616f5a5a67836ba3b96fb0",
+      "body_sha256": "154B5D2CD6C7B93199924C77D290347322109C9D14A24123763D4656BEBF3357",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x000a8b30",
+      "source": "src/main_unclassified/band_000a/0x000a8b30.cpp",
+      "source_sha256": "3c6f09b47f10c4d9166161b6e2cd2efd46e436eac8062a82558da093a07664fc",
+      "body_sha256": "43903FCF362C101AF5F7C1C7EB38A35B8DCAF7C3FD9862628B49E96A0D484BA9",
+      "reason": "source_occurrence_to_mov_immediate_count_mismatch"
+    },
+    {
+      "entry": "0x000a91e0",
+      "source": "src/main_unclassified/band_000a/0x000a91e0.cpp",
+      "source_sha256": "853c603223c6d36b73e89528ec43cdff5749a49680450e65ae6203e985722dba",
+      "body_sha256": "BEAD1F78C43C62168FC699627F8346E0BFA342B3A472DDC81501F7EF598E6E6B",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x000b5550",
+      "source": "src/main_unclassified/band_000b/0x000b5550.cpp",
+      "source_sha256": "b95fe3ce1593f32f1baa03177f290834616e9f9fc2f3e0ecb634e446c7d77069",
+      "body_sha256": "294D7959D0F5DF1E6F1EC856B6D898F86111998CCC86E08923950C4F522DE4C6",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x000d03a0",
+      "source": "src/main_unclassified/band_000d/0x000d03a0.cpp",
+      "source_sha256": "e5051fc07fbab25c7b5f6a2d3b31e3bfdd089bb9c9f420f121bccb9ac8f7cb28",
+      "body_sha256": "5CB1114BD2056C9DA7B4978883178BB0C7FD561890AEAFF211FB48966FB0F695",
+      "reason": "source_occurrence_to_mov_immediate_count_mismatch"
+    },
+    {
+      "entry": "0x000eb860",
+      "source": "src/main_unclassified/band_000e/0x000eb860.cpp",
+      "source_sha256": "a73973dd4c6518bc735cbed65e5dade93a674981b61793d585649b8d6808bdb5",
+      "body_sha256": "6A20E9E91D4CB54629815AE8055E798C46EBF7578D4B3F41AB70132607A47B94",
+      "reason": "source_occurrence_to_mov_immediate_count_mismatch"
+    },
+    {
+      "entry": "0x000ec6e0",
+      "source": "src/main_unclassified/band_000e/0x000ec6e0.cpp",
+      "source_sha256": "2d4a29d39a2388de6cc4a96a0dbf840bd01e48f3fa63652764da361cbbc663c9",
+      "body_sha256": "A4E14B66C634C9C004BECD161EA84C884550C6E54702D8A82B3AEAD0BBBAD715",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00110d30",
+      "source": "src/main_unclassified/band_0011/0x00110d30.cpp",
+      "source_sha256": "91a1b8e9002963ce485e3aabc72ae942f7e720a7146d08fc97809aab679dbc49",
+      "body_sha256": "E034EB54EA624604EFFBFAADF03B58B2651320FE4C32C71652298E1167867CF9",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00111e40",
+      "source": "src/main_unclassified/band_0011/0x00111e40.cpp",
+      "source_sha256": "bcf1edf04d1c59f3696d02a1b31d703cdfb8136ef26673df3bd2b0c2dc4b8d0a",
+      "body_sha256": "099C1D83B3E97C4776FF0D099D2E040866743D13961170FA919B5E0449D84D72",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00145160",
+      "source": "src/main_unclassified/band_0014/0x00145160.cpp",
+      "source_sha256": "03bfa064a9472abd33b0d9119d5664ac6303f0f86c6bfc96e6eb149a3899f221",
+      "body_sha256": "6F3F65A3F37DFA5D23BB04FF402BEF756BBA1946368CFC31C7922AEF46687ACF",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001457a0",
+      "source": "src/main_unclassified/band_0014/0x001457a0.cpp",
+      "source_sha256": "0a755f6d8703d9a98eeab4bf05ebe27ba86cc4ac61bdf8035b8e8356388d7ed2",
+      "body_sha256": "BAC6D36A4D697D21A200637604BBF11EF2A654260F720CEF0EC2D724A807BB57",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00145890",
+      "source": "src/main_unclassified/band_0014/0x00145890.cpp",
+      "source_sha256": "b4f39378bd64e5eba227535e856bae74f271c69690710721026d15a089438905",
+      "body_sha256": "F27A9368BBA21A3D65B24750E067A05F3113811B81303C00B5E10DFC9199680F",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00149280",
+      "source": "src/main_unclassified/band_0014/0x00149280.cpp",
+      "source_sha256": "6d73a2458af8394c2a5c20039d20c08b9c756eb9ac05feb8a0ff72275ff43a69",
+      "body_sha256": "661AEE1A4A0FC22CE20ACE7B84F82AD68E1E1FD89E0E9F701833E0D2BD4224FD",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00149380",
+      "source": "src/main_unclassified/band_0014/0x00149380.cpp",
+      "source_sha256": "0fc187403a6a5e2d7b0762a3ff80f0cfbe1c5b4a797d072ebea98f0dd3d46e58",
+      "body_sha256": "4372FC15A2A4D84C9582810B410DF2455149655A9CEA5E51EFC4016EC90121B3",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00149f10",
+      "source": "src/main_unclassified/band_0014/0x00149f10.cpp",
+      "source_sha256": "03e6ad4e3dfbdb8658b27d35c931416f184875807c34c5cbd31644f1369ccfeb",
+      "body_sha256": "6172C288D198A95B0C14056B9ADC4E337E0B0FF9E8D89CC30058C02056B52182",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0014a020",
+      "source": "src/main_unclassified/band_0014/0x0014a020.cpp",
+      "source_sha256": "bb86996cb53f1eaaa4ce84d30dee0e23df9126a37559c0ff4b459e52d7978b0f",
+      "body_sha256": "7FA812E948641B65A8320B7E6575AF7CDE8F296857DC68F06FCAB0E4D50575FD",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x001548f0",
+      "source": "src/main_unclassified/band_0015/0x001548f0.cpp",
+      "source_sha256": "31a8ec69d1bb4dab941361e4f05cee034a21fd8799e2c2e159ec167a4f6488a4",
+      "body_sha256": "E9AE0C893DC6D69ACCE86DE9B595C357976FC941DA29C56AA49AA58ED1C70FE9",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00156930",
+      "source": "src/main_unclassified/band_0015/0x00156930.cpp",
+      "source_sha256": "b1052430a8f673dcbdd7957f66e5e289b45f198afffe34b606ea1756194381d7",
+      "body_sha256": "031EE4034A89282ACCEECEAD3A127958959FA771C2D5FE77821F2F9288A97C54",
+      "reason": "source_occurrence_to_mov_immediate_count_mismatch"
+    },
+    {
+      "entry": "0x00156938",
+      "source": "src/main_unclassified/band_0015/0x00156938.cpp",
+      "source_sha256": "221e615dd50b4e59ed56d335886cd64defe9a47fe6e98a8f2a0b873559bf86f4",
+      "body_sha256": "C12C95CB97BEA5B49CE41E7719CB0BE9FF447C747B23FC89068CDF28030CAB89",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00156c50",
+      "source": "src/main_unclassified/band_0015/0x00156c50.cpp",
+      "source_sha256": "4e1ca9ae5876f658556aa559accc0bbac2d45d75b2d7b155772ddd7e54c1b3a9",
+      "body_sha256": "F958EAB356653612A3FA821C6FECE49F777BD280809546BC8D9E9DE59D0119B1",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0015f180",
+      "source": "src/main_unclassified/band_0015/0x0015f180.cpp",
+      "source_sha256": "56d7c7a340aab897555bc66ee8ce00f6bf78bad5147c048929db637290d0af2b",
+      "body_sha256": "EF7D357A255BC511D387000D056FEA14F4D7498234D951806CDA005373164E6E",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0015f2c0",
+      "source": "src/main_unclassified/band_0015/0x0015f2c0.cpp",
+      "source_sha256": "cbc90d94194c9c9fb70c9f851d6d44073f0a6e04fd54c1690f5763a5fa262c5e",
+      "body_sha256": "A48B856B5929BE8447CFD33C4AF01D8EF31B36F19559ABB2E5AAF754096248D0",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00162e90",
+      "source": "src/main_unclassified/band_0016/0x00162e90.cpp",
+      "source_sha256": "af4975270aaf04d079a2189b984747d67ef12db0aa5cb62f1a862182f8a07d39",
+      "body_sha256": "16C4485C11D9C9521F82057447ABD8611F1210F6000487246B2E2AE68286369F",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00162f70",
+      "source": "src/main_unclassified/band_0016/0x00162f70.cpp",
+      "source_sha256": "2ac18b2bab4a3a4cc7a57ff62411a939e22054cad0d69578fb4ec702025c1712",
+      "body_sha256": "D1ACEB619F9F84AA73B34ECA391EDA877CD41C7886080E181670726953EE3B4E",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0016a250",
+      "source": "src/main_unclassified/band_0016/0x0016a250.cpp",
+      "source_sha256": "d869bca5354a143edd5ed3e3c25a188ccade4577d779c6445dae47ce25164c0c",
+      "body_sha256": "B3208DAE4DE60FBF8E0D298AF07092117E6126DBFCF4D624D76B0C5501D22A62",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x0016a5f0",
+      "source": "src/main_unclassified/band_0016/0x0016a5f0.cpp",
+      "source_sha256": "e8f2c3c00602e553572b583949d3815da17e9d51dc42e9264fc97f6a947885d9",
+      "body_sha256": "E56E027488E68FD67B3029295E9A6D4D3C7CBF1C0E73DD6500FEDFD7D61159C5",
+      "reason": "source_occurrence_to_mov_immediate_count_mismatch"
+    },
+    {
+      "entry": "0x0016c750",
+      "source": "src/main_unclassified/band_0016/0x0016c750.cpp",
+      "source_sha256": "6d855b00ca69ea2f0cf15d48eb3d296d0d70c1534cac3f6dc4c81db81331413a",
+      "body_sha256": "E6D68448F7C71B83B511BD414900501CF6E5A10ADACBA5F6BCD08856262C1605",
+      "reason": "source_occurrence_to_mov_immediate_count_mismatch"
+    },
+    {
+      "entry": "0x0016c980",
+      "source": "src/main_unclassified/band_0016/0x0016c980.cpp",
+      "source_sha256": "38dbcd9994997317d3e295c290858907bbf562455b9beffbd0e75d25f773cd67",
+      "body_sha256": "EEAE8B5C74A739A7E8C0DA6C0412157BEA7CCF733E4DCF1AA6D080A7030A3614",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00171740",
+      "source": "src/main_unclassified/band_0017/0x00171740.cpp",
+      "source_sha256": "5bb90a85bfc109acb90f260cb90ffa97cbfa57e27b67b8ce0c4da4964a4dd98b",
+      "body_sha256": "8E113F4C59FFE179E5E89B69344C0CCB6BF1D0555FB503AFD9D594D3FE830E59",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00171890",
+      "source": "src/main_unclassified/band_0017/0x00171890.cpp",
+      "source_sha256": "d3377cb44ef296a18d21b636d6d8cc43ae97a0fda307f8d3363734fb67bea354",
+      "body_sha256": "54AE2C0B906FE77B1741C3A5DC5764E2B43B676F9023158755660E95084DF04F",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00172840",
+      "source": "src/main_unclassified/band_0017/0x00172840.cpp",
+      "source_sha256": "b1508742088829aba67cdf9526dbab4400ba6ae279490af44e2308ba56172057",
+      "body_sha256": "D04A3C2A29FCC3AB4BA4BC8DF22F23B17F678AEC488684B100F469570C3133B9",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00172900",
+      "source": "src/main_unclassified/band_0017/0x00172900.cpp",
+      "source_sha256": "a726c90f1fd43621b68b595728f8ece12e71c14c002bdc7ee87449fe732083d4",
+      "body_sha256": "03725901E422559888C73EA8A63BABBD0E0C500139EB6904D5E72F2B9C518E3B",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00172f10",
+      "source": "src/main_unclassified/band_0017/0x00172f10.cpp",
+      "source_sha256": "4d875c44a7a1444986980f0985ffad4dd4f0223d5183a17ddc6b030942067323",
+      "body_sha256": "76C799C4C6333D5E39429E99B73319DF49CECEB1DC0BD318363FCCFC782F55F6",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00172ff0",
+      "source": "src/main_unclassified/band_0017/0x00172ff0.cpp",
+      "source_sha256": "6ee1d080b79de4dc3350b8ac483adf2143f5206dd43635b86b9d22cd5111e057",
+      "body_sha256": "4931122567E8B57C965794E7FE1C4287BF490361E1899EB8F217CB35ACB22C5D",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00173770",
+      "source": "src/main_unclassified/band_0017/0x00173770.cpp",
+      "source_sha256": "ba02303b2535ecd7952d569ba5b7a287092cc410bf00ee3e976be0ceb7d9ec5b",
+      "body_sha256": "E58011667C2C8CA164D10306F294DA1CFC6BC19D3AEB5BC18EDDB7A177426DB8",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00173830",
+      "source": "src/main_unclassified/band_0017/0x00173830.cpp",
+      "source_sha256": "8927713a95a34ad023aacd4c4775d324083da8ce010c53e8517fb013d94a5ba5",
+      "body_sha256": "7EAE0BE1C190C1AD82CD8E669C72C67A88DA17ED47B3629034659EC3AAFCDA64",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00173c20",
+      "source": "src/main_unclassified/band_0017/0x00173c20.cpp",
+      "source_sha256": "d8613703ea84473c5e186779c6f19928c4e27641db81724f5f54520eedf4cbda",
+      "body_sha256": "274247AE7279A335B9C05E03E2AA49A2318718526B3ACEA1E513650EC309F31C",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00173cf0",
+      "source": "src/main_unclassified/band_0017/0x00173cf0.cpp",
+      "source_sha256": "3b84896b200ca879236356079941e1919ca6e96062f56636ec192da98e2da156",
+      "body_sha256": "DB668430C4B1057F6367F86320A8C1E83050DD2C0BAF416710DD7E5C0340F618",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00174620",
+      "source": "src/main_unclassified/band_0017/0x00174620.cpp",
+      "source_sha256": "bdb1c467e0a40df75d61375ebbac2987096e2c4904c0ac243c10a2db2a1d8ce8",
+      "body_sha256": "8E948ADB614919C83AE90FCFC585C6DC883AF2C9BC8B9F737BE7C566007873FC",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00174740",
+      "source": "src/main_unclassified/band_0017/0x00174740.cpp",
+      "source_sha256": "4c76c2fce296f4e9481206bab67b742b1abbdad994004b66b87618d48c755774",
+      "body_sha256": "2127E14387AEC5EE4F8E352B57F39946D11A942B6BD5451D879F1D7ED7DF15CC",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00176b80",
+      "source": "src/main_unclassified/band_0017/0x00176b80.cpp",
+      "source_sha256": "75371d31c460d3a7bb3f122154c0d54f1e35a8a3482306599bc9ee7f2face6b1",
+      "body_sha256": "0BC63F433FD0AA1B52456EB4224B03DDA1010A7A5F4FD3B691F1CFCF04F1DC56",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00176c70",
+      "source": "src/main_unclassified/band_0017/0x00176c70.cpp",
+      "source_sha256": "674cd44602b343327be2d57d7ee9da840288205a33b0915d9b7a645c526f268d",
+      "body_sha256": "B696AC3039D49A40269C7CDEB0FA21866577B7E66AAA144C67C3927D218FFC15",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00176f70",
+      "source": "src/main_unclassified/band_0017/0x00176f70.cpp",
+      "source_sha256": "4f25b31cbf5fcfd53e09e19552d8e0d187d9c96e013a968c5a080570aa0ee70c",
+      "body_sha256": "5CA62A39F8959DF3E160DCD13E6233B74374814E0CEAA04CE3639075BFC38363",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00177020",
+      "source": "src/main_unclassified/band_0017/0x00177020.cpp",
+      "source_sha256": "c774d4fea05e158790378ae7ec9f3cf726c043d3f07576640454df69ae3629ce",
+      "body_sha256": "ACE5EF3FDB013787BA6F7CEA0611332BE6F8C3A88FFF641F4AB07BFFE4D77F29",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001773b0",
+      "source": "src/main_unclassified/band_0017/0x001773b0.cpp",
+      "source_sha256": "7eef6d87d5827fe8a2af969f7bf453d10e6f457ceefffea4a75dc5abd26808fa",
+      "body_sha256": "3B8BACB4169BEDB2C1D7E1C97708DD6F7BBA77D3DB400F3E4397497AE1728EE3",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00177460",
+      "source": "src/main_unclassified/band_0017/0x00177460.cpp",
+      "source_sha256": "a138b65b1a229e44151a30f707f02329636ceb81ec3efec819933ce687cdddc1",
+      "body_sha256": "5B5B4DEA19C066692A54829632CE123F0E89492AAA2798A6504EF75F24D98688",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001f8b30",
+      "source": "src/main_unclassified/band_001f/0x001f8b30.cpp",
+      "source_sha256": "276105dee29ccb6d3c5f7cb886a70b3040e157107e0302d4bcacff9373c8e032",
+      "body_sha256": "FDBCD1ED588E2A0B0D95A71E1E99FEEFF71FC009F7644F605D6BAA9655143C5F",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x001fa020",
+      "source": "src/main_unclassified/band_001f/0x001fa020.cpp",
+      "source_sha256": "fd336f8954cc9c9e7d620c8f852598aebe8b484c419bcef8b642a041221da117",
+      "body_sha256": "57DBEA5776D50396D71B6668CC92D2CD6CC122F7E85B8AE3548C558E9E2491C9",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fa6f0",
+      "source": "src/main_unclassified/band_001f/0x001fa6f0.cpp",
+      "source_sha256": "4ed2da0c14c961bc676351e86b50d3a3a233735e2c507a7b8574242c09752dc0",
+      "body_sha256": "35B48AD69B81467D43955FE8506869FA26CFF8F040439E91D08E05C5BEB43F48",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001faa90",
+      "source": "src/main_unclassified/band_001f/0x001faa90.cpp",
+      "source_sha256": "e05691274d3388901063a7c540532be6d251244144881efda3760f81969f6e68",
+      "body_sha256": "2135BF718F492E90AFCB61BBEBB96BF01C8A9BB2D9FB1BBEE3EFAA74C21210DB",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fbae0",
+      "source": "src/main_unclassified/band_001f/0x001fbae0.cpp",
+      "source_sha256": "e5916b35ebbc0a2a11c35d732ffaaac6133ec8d7efd1b058e6e1eac0eabf3cb6",
+      "body_sha256": "6DD53E67FC9D61FB8C95C156410D9FF2040C54C04ABAA3232091F1FB878F1B18",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fbb90",
+      "source": "src/main_unclassified/band_001f/0x001fbb90.cpp",
+      "source_sha256": "5ca2e097be48e1fcc97a18d7b934d6aec5805972be63403fb9d08d879f216d21",
+      "body_sha256": "72122E5AA45CD20F5D0E74ABED02CC0115DFF746716A75E20BD97A348E98D79D",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fbc10",
+      "source": "src/main_unclassified/band_001f/0x001fbc10.cpp",
+      "source_sha256": "4fdc2fe51bbe5d93230c780d2441cb0e061f3b3f08783d0ed53bed6dfd4f320f",
+      "body_sha256": "C27D57C18BFA6A7F62A4CA446A3171ED91D06A67A854E9034F763E89A100ACD3",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fbd30",
+      "source": "src/main_unclassified/band_001f/0x001fbd30.cpp",
+      "source_sha256": "cdc29b055cd9bb7d904c924679b3ee7ed03505e425f21f7e3968086b884b32c7",
+      "body_sha256": "EE4F28E44F3AA951C83C67FC1E689A7AC9C50D3E1B5B77F2341EFC82EEEBAA75",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fbde0",
+      "source": "src/main_unclassified/band_001f/0x001fbde0.cpp",
+      "source_sha256": "b4ea24cf5b41746fe83f92f98a54bd42d808fe646db974131b2fbfabce04f3de",
+      "body_sha256": "DD85823495E2C3725892D766393D6A26A67C1665AAE19418813C909B381E8B57",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fbe60",
+      "source": "src/main_unclassified/band_001f/0x001fbe60.cpp",
+      "source_sha256": "f4162c06148f7c1cf61bc81e1a2ced1c9ad65ee35502987ed6091deb940edc3e",
+      "body_sha256": "2C373C1C96E18F60E7B13320C8AE0D45822A61CA4069B124B6F6A1606C1796A0",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fbef0",
+      "source": "src/main_unclassified/band_001f/0x001fbef0.cpp",
+      "source_sha256": "f883d7d5622cca7d9c2ac9dbc8dafead56da8ef24eff337d88a0a9a8e9366baa",
+      "body_sha256": "977B924F7074D145A22FE52ED9943D0EEBA3080CA9AE99128FBBF215584771F3",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fbf70",
+      "source": "src/main_unclassified/band_001f/0x001fbf70.cpp",
+      "source_sha256": "13f64dfd2233f66311fe05850d155dcb3de5e254f4731ab1fc25ea5021713f97",
+      "body_sha256": "D782E8B4E88F91537A2B657FAF461EA66BC655C7B51663B24235ADB5D81F74F3",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fbff0",
+      "source": "src/main_unclassified/band_001f/0x001fbff0.cpp",
+      "source_sha256": "f9036cd40f53fb6f23f3b38e57f4fc72b9665fc660ae0d8ede3656a53008272f",
+      "body_sha256": "0A0E01C36D33559B58735BD988DA554A646E4204B765A609F5C34CC1A94418CA",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fc0a0",
+      "source": "src/main_unclassified/band_001f/0x001fc0a0.cpp",
+      "source_sha256": "72037495a4128c33e9e451e38281e3b2d29b7e6bd1f8e84fa57fe3fcb7dc5aa4",
+      "body_sha256": "82CF79B4C122CEF1A730E25B2F4B555332B1FE8B7DA9E541A3D80F8099F09631",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fc190",
+      "source": "src/main_unclassified/band_001f/0x001fc190.cpp",
+      "source_sha256": "0e21ed2d000965e16742b87ea94dc20df57e042d0b9b226bf6ef51e9a1ca62d6",
+      "body_sha256": "1EF74DA0D150E12C8A17FFFC203D206BC1BB721AE1A9658CBA5DC2A61972BF85",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fc230",
+      "source": "src/main_unclassified/band_001f/0x001fc230.cpp",
+      "source_sha256": "9255ad838b0b1490c74374092fb67f58e7f30eb72af3c8bf86a0a5ece0c3a910",
+      "body_sha256": "A0694A02AEE69B290082934A75663BE4C7B961AC08ACDBF67A5C106A56720C97",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fc2c0",
+      "source": "src/main_unclassified/band_001f/0x001fc2c0.cpp",
+      "source_sha256": "09cd0fe54c358a17c69b07c08d2e4dab226901ea3a1c862d6d935f5de69840c2",
+      "body_sha256": "F79B0A34566B39C67A30F1707C3D8362340529F30BB09394479401852BAAA4F7",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fc330",
+      "source": "src/main_unclassified/band_001f/0x001fc330.cpp",
+      "source_sha256": "684eafacb04e17260615cfc1b71463c80d6e41890226255f96b52015d31f3694",
+      "body_sha256": "0C55B5A24FCAC75E34B940214BD59802D8744792C8A0A08B3AC1CC0861816F46",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fc3b0",
+      "source": "src/main_unclassified/band_001f/0x001fc3b0.cpp",
+      "source_sha256": "80b970c35b4632ad0a5fe1ca77bac10a22d3a4bcad76e1bd7c9d556c81b9ff5d",
+      "body_sha256": "37CFD1E26F3F28F6CEDCCA08D8DD7AD8FF7D19577C8D808B0ED5BD0E2351C4DB",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fc450",
+      "source": "src/main_unclassified/band_001f/0x001fc450.cpp",
+      "source_sha256": "dbefbc310155a1d7d5e51ce451dc8d51a9eb3f9c242331e360e96948dd5731ad",
+      "body_sha256": "5E5E641F26B7F8D40F4016473551469B2B978FA991B0325655E8B2CF1568F252",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fc550",
+      "source": "src/main_unclassified/band_001f/0x001fc550.cpp",
+      "source_sha256": "eb9a51ca9c86922fb46d6c490ada781333ee16be8d08078c18b37a9615cb4807",
+      "body_sha256": "EA5BA7657FF204528464035450407289C6D9ED30AE4E0848B29B40B79F51454D",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fc650",
+      "source": "src/main_unclassified/band_001f/0x001fc650.cpp",
+      "source_sha256": "1c83ea097c4e243bf115d3ef9c13ca557f8815476fd861646ec3b665dc603400",
+      "body_sha256": "4A03B6AF52D1BAC3C9EB6CBBB44CBEC27534BD2BA8D20498A9574EF1C9BD1B82",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fc720",
+      "source": "src/main_unclassified/band_001f/0x001fc720.cpp",
+      "source_sha256": "5dbfc05d8f94631b780a14520d27b6037b44e16162cd14e3efba18dee2362c6d",
+      "body_sha256": "D21F1A9D9F903FBB818A75A8014C5FEEE666F94EA903E4DED16CB3BA5E8F3967",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fc7b0",
+      "source": "src/main_unclassified/band_001f/0x001fc7b0.cpp",
+      "source_sha256": "f2db160c0ac688ff8ffd518a4e0d7a23f65d7cffc96a918e2512677b8f5f9a54",
+      "body_sha256": "E56FA10DB2B56F7E78289172B9E4A254512B6AD63B7A0B92DD2D2C346DEC7B1C",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fca50",
+      "source": "src/main_unclassified/band_001f/0x001fca50.cpp",
+      "source_sha256": "18c7f9d6a722a14ff66d777f53f0411d2da54cee7523e7acabac41748f0b2d9c",
+      "body_sha256": "D7308BA851EEB3818DCEB0D781BF9738E8AD1056BE17250B05977AA4055F7528",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fcb40",
+      "source": "src/main_unclassified/band_001f/0x001fcb40.cpp",
+      "source_sha256": "8741dd4574f4b76dfe9e55b897dfb7715afbc343fdda6501922704fb971d60a4",
+      "body_sha256": "92182C787C3EABDB329695510C5E915320E184BF289EBE4B7BE13881B8DF82AE",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fcc20",
+      "source": "src/main_unclassified/band_001f/0x001fcc20.cpp",
+      "source_sha256": "6b3d68308a93446862c84b42b49c73ba9678f5b8f4e7c7a29f9bb6b49208c819",
+      "body_sha256": "02253D41CADFC906CF0F82879DE49B72671EF10E4D0578054A01E4ABF7566C86",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fcd00",
+      "source": "src/main_unclassified/band_001f/0x001fcd00.cpp",
+      "source_sha256": "a2f25dc60f70d72b13e2c21b9e05018a24d93cc5a8eae966278be1d901f8f944",
+      "body_sha256": "DEC17B08B8EAA38702A57FFA4BC827DAB77F258A48A070AF93B5B8325FDBB6C9",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fcfb0",
+      "source": "src/main_unclassified/band_001f/0x001fcfb0.cpp",
+      "source_sha256": "4dc84895e14d10264370392f9b4e14991adcdfd5523c675111a1ff12b048c74d",
+      "body_sha256": "EB5D7162974749956F8E99547B57174A904EAA521F286A62D92A919F99E8E870",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fd0c0",
+      "source": "src/main_unclassified/band_001f/0x001fd0c0.cpp",
+      "source_sha256": "05a54adea8a462249d52e8045137f996889e96db269f372852616c0b88cabe49",
+      "body_sha256": "AB40A23D73CE761A29F0523E963306C2F881941A96D2F85610539504BB0CA6E4",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fd2c0",
+      "source": "src/main_unclassified/band_001f/0x001fd2c0.cpp",
+      "source_sha256": "21f69177064006578bf1df9874a726b8be52bc4912cf244be8d21baa9b56be95",
+      "body_sha256": "BB6010B8D07AFCAD4D00814FACB6AC0A586E8A7C3E38C396799EDF5F07209140",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fd3c0",
+      "source": "src/main_unclassified/band_001f/0x001fd3c0.cpp",
+      "source_sha256": "69a80fb4eefb2a40a5358666a98f6bd00e7c345193f73488d60f49bc6d27cc17",
+      "body_sha256": "6A9882072B8866A033524EE3B301D02940A8319EBD0F04C98480AD6D3B999AE7",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fd480",
+      "source": "src/main_unclassified/band_001f/0x001fd480.cpp",
+      "source_sha256": "5ac38120d9380cc5c4f42ba56356f3c6bc00124a33194984dfa0234209057ef7",
+      "body_sha256": "BD090559BF0B2457FBC765BAEF781AA09DFDA48489FCD6B7EF812E53F4490E85",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fd500",
+      "source": "src/main_unclassified/band_001f/0x001fd500.cpp",
+      "source_sha256": "3787833b20aa3f8e24a78d2f4857f79db3fa786a697c1d891892ef3a88acc85a",
+      "body_sha256": "9FBDFF72E3B71104628B164AEE5B73ECF65CE7AC39CE41199DBD3A020FDC2A01",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fd5a0",
+      "source": "src/main_unclassified/band_001f/0x001fd5a0.cpp",
+      "source_sha256": "9ef6476de8660e2d2bcd2a73da78e842b62ea9b1e21c5cbcad65e0fde9820872",
+      "body_sha256": "B3F9C512CBB0E8C7BCC24826450940755E29580511AA41D6FDCF1DBD15F797B4",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fd8b0",
+      "source": "src/main_unclassified/band_001f/0x001fd8b0.cpp",
+      "source_sha256": "a847f94bb7714b137c62accead7ec12e56cbf84c7eea5992172cef50f8c6e15a",
+      "body_sha256": "BAA61A9B6EF84FB8CC2870D3BDD098FD2B7310250E877AEFAF821ECD69F04CFF",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fda40",
+      "source": "src/main_unclassified/band_001f/0x001fda40.cpp",
+      "source_sha256": "50b5bf770d759d026b0b5a9460d26c15c98d68658875e1d040872ebcf23b15fe",
+      "body_sha256": "4FAE2F0B45090B3FFEDD2F68209304E63BDBC7AAD8A1970955413A2A77045F94",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fdaf0",
+      "source": "src/main_unclassified/band_001f/0x001fdaf0.cpp",
+      "source_sha256": "a2db537f8d775785522168b15e8c8fe803930fb700c7eba50390b5013d8615d7",
+      "body_sha256": "E1622C86642C20F223D6EC99AA5617156D23E1EED6C76A0BE5161D2209320E92",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x001fdbb0",
+      "source": "src/main_unclassified/band_001f/0x001fdbb0.cpp",
+      "source_sha256": "3d9151390431c1bd9c2abe05f41ffc084a2bba0ce7c29f844d5be5d8372fe550",
+      "body_sha256": "DCF2FF14B62F697384B22EE6F14B70DD56D9E05EB9BBB5A3E7F49A85C855CCEB",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fdc50",
+      "source": "src/main_unclassified/band_001f/0x001fdc50.cpp",
+      "source_sha256": "672d5d181a1e6463a11c5057a743d15f7feaeeb85d1db5e6b0f80f01f41e624d",
+      "body_sha256": "4085083430CB35F7D0F7AEBF50C7195F574A05FF77F871EF94165B0AB9DB1EC4",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fdcf0",
+      "source": "src/main_unclassified/band_001f/0x001fdcf0.cpp",
+      "source_sha256": "5ecfde0e6a059dcb3e0038f6a428de052a4f1335a7709ed3bbd5d53131eb2658",
+      "body_sha256": "54B53BA01CDC84F6B8FD8596A55D82E6A890D84765F29E89D0CB9E647FE46847",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fdd90",
+      "source": "src/main_unclassified/band_001f/0x001fdd90.cpp",
+      "source_sha256": "9ab30a4ec698707bcea5a9dc7ffa1d3493430540dd11119f8f97bbcc0554d413",
+      "body_sha256": "F3524C15043072F55F98C8DFDB3CC011D9413788872168476C99C9C8B27AD724",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fde70",
+      "source": "src/main_unclassified/band_001f/0x001fde70.cpp",
+      "source_sha256": "245ae8104e376c6d6f23b3ab220fe45dc977bfbc931d28696d6d92b9ea31fbad",
+      "body_sha256": "4F38FF0892F49C3FD1F9A6D3D133E0428C558CEAE942BBB790C4C90A83304102",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fe080",
+      "source": "src/main_unclassified/band_001f/0x001fe080.cpp",
+      "source_sha256": "bd4ede615661f8aba809dab3655b4692665e3aea18c63a3aef60715279d749ca",
+      "body_sha256": "C70BE149F42A24A1FC69AE90BD4888905387B551925A43FFA6736A619D5EC7F4",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x001fe150",
+      "source": "src/main_unclassified/band_001f/0x001fe150.cpp",
+      "source_sha256": "09ca8ae540cb0469018359146101a18f0565b5a5c169c12eb7debb95acaa9c13",
+      "body_sha256": "B510E5F6B2E91FA6CC27BD3DD3C97AF69068E4712E02F53A4FA1C7381C767EAE",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00201400",
+      "source": "src/main_unclassified/band_0020/0x00201400.cpp",
+      "source_sha256": "a5bfc3bcd5c0a0c1e31314e44c73bdac069959fd934f82d8760723c17e6b05fb",
+      "body_sha256": "00EA7C9587699C28D2C26FEFDF9D1465BF4257B41A6C460764ED00C747F2B9EF",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00201bd0",
+      "source": "src/main_unclassified/band_0020/0x00201bd0.cpp",
+      "source_sha256": "1f7d0fcda6f1998c9156762d21aba5fdf21f297601d9416da23e72d718a2fbdf",
+      "body_sha256": "FFA16FA3A13BA9C3AADC0DFFD02F77C058ABE2B5AD0FBAC61737DB562BA5C8CC",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00209140",
+      "source": "src/main_unclassified/band_0020/0x00209140.cpp",
+      "source_sha256": "521f4104dd2d124be1932b190662c82c3580a9465efad359db25db7da9104e79",
+      "body_sha256": "A4102AC805D3BE2DB25FECAD6918319215C3F0AED6F23DDA3F4B1E7169DF28EA",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00220e70",
+      "source": "src/main_unclassified/band_0022/0x00220e70.cpp",
+      "source_sha256": "1044e486c65653b886afe9cae5b31c3f6a3df09c09b79b9ecabb51495ac834f4",
+      "body_sha256": "734408F3CA026153A41C03BB5D7B08EDB61ADFB8DF598318D13A425432FB8BCC",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00221470",
+      "source": "src/main_unclassified/band_0022/0x00221470.cpp",
+      "source_sha256": "ce6db00a750f1835084c528ea41e3857b41dd9e90e4bed392d5279ef70cfa5a7",
+      "body_sha256": "2C1CE18E87CA95BA45762383C1FA3D638CB0477C9470851C13BDB72AD40B4A6A",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x002264e0",
+      "source": "src/main_unclassified/band_0022/0x002264e0.cpp",
+      "source_sha256": "7637a36e6766a69977e1493fbafbefbbb6249035a98016cb5e3c510dd963ebd3",
+      "body_sha256": "DD346EE248063EFA14B002D97C02039E6CD629BCB17F114C9CD1F15F0CFAC9BC",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00226640",
+      "source": "src/main_unclassified/band_0022/0x00226640.cpp",
+      "source_sha256": "d0233f9366fc10fe232a9c023efa26429d6128aa3faa0ec2029245e5a17502e1",
+      "body_sha256": "9812620F7CD40ED8A66EDC765AB055B22E7024FD4BDCA00A983D09546CDC1BB1",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00229720",
+      "source": "src/main_unclassified/band_0022/0x00229720.cpp",
+      "source_sha256": "6827e5de2b9cc4f81666defac9022be50e8084c8eb908ccf43b03ffc11a2783a",
+      "body_sha256": "7E4E94E63943F80F44973BC94B0DA70E82F06638A26917932CF41048868970F6",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00229850",
+      "source": "src/main_unclassified/band_0022/0x00229850.cpp",
+      "source_sha256": "5983a25bf86cec8e6b74fb1ce4e4d993219718286accd75abc3735f7a8a10f60",
+      "body_sha256": "534F5ACB53225CFC44A92330AFE4087C427FA284A10A3249A2AD078F40F1DC23",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0022b050",
+      "source": "src/main_unclassified/band_0022/0x0022b050.cpp",
+      "source_sha256": "91996e79c78fae79613b34c8577116f075030cee7cb8c0afaa67672f952cfea4",
+      "body_sha256": "5E26C1E591ABB5F6C48D4FD3AAB4B92C8A7948DCA6F53366D43F569869FE91A8",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0022d330",
+      "source": "src/main_unclassified/band_0022/0x0022d330.cpp",
+      "source_sha256": "a1caacacb5c725f4b0b0c1ecd5e0afc615648f419559cb1baa92f743849d1413",
+      "body_sha256": "3C7991C628AAE65C61140E9EFB721A2CAB180E4936483D83B9C48FFF23653345",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0022d570",
+      "source": "src/main_unclassified/band_0022/0x0022d570.cpp",
+      "source_sha256": "81076d616a38da69df78f0e2964e77b8f4c5b01a17086560dad73216837115a2",
+      "body_sha256": "44A065908E34F74368D8C8CF606C5B4BC0E7D33A45F8BF091FB9646A77DF1F4A",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x0024c950",
+      "source": "src/main_unclassified/band_0024/0x0024c950.cpp",
+      "source_sha256": "34966588cdea24a1ef0b48524d896b202a9d7793c280f1da2650520efe7f8e4c",
+      "body_sha256": "CB327455045BDA446212238076C559B70C635B9EA07A13F03441D4DE6961546B",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0024ca40",
+      "source": "src/main_unclassified/band_0024/0x0024ca40.cpp",
+      "source_sha256": "919f64da8f2ea19d1c016397fa295ab987978ff599bec0c3975fdb117d84188f",
+      "body_sha256": "549672A8A3D5B4667AF8E7912C88B3F9314C46436F82FCDB9241C47595616099",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00255b70",
+      "source": "src/main_unclassified/band_0025/0x00255b70.cpp",
+      "source_sha256": "17b6c11423816ccffc1822c76e9d5bf74087a280d9941ab163290e8eff93ec24",
+      "body_sha256": "E8ACB3CEF8ED988BF2E7B14F129DB0B646130F9B2CFCA5A64D68DDF4E2E75952",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00256d80",
+      "source": "src/main_unclassified/band_0025/0x00256d80.cpp",
+      "source_sha256": "3b454c3596b7210c22833d0f593a8ced99b7070cf1cc11f8a7b0d48d377fe7fa",
+      "body_sha256": "9578F74CD30AEB9CED11D2285047B3FEE1D0D965129B2F45B7D4C1F81958DE6D",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0025b530",
+      "source": "src/main_unclassified/band_0025/0x0025b530.cpp",
+      "source_sha256": "08ec054f33f9956cf63c472267417732b55b7692e2a876e5f3971f84a0dff9c8",
+      "body_sha256": "9F312AF6C03881A89790DF44BD7639E1CB06B6EC9CFB5666FD01A24BB0F6CA2C",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x0025bd50",
+      "source": "src/main_unclassified/band_0025/0x0025bd50.cpp",
+      "source_sha256": "49945773f13f6dec46efd0b0c4fcd21d5d0c044e2334979ffce6d2d265a32dfe",
+      "body_sha256": "A40C381CF72B4B50AB316CF2079A43553BE3C1484D8EA2AB7EA52896561FD020",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00261fb0",
+      "source": "src/main_unclassified/band_0026/0x00261fb0.cpp",
+      "source_sha256": "b145f7fa04d85c657291626aa6d87921505f49b4c28ce2cd1e2988da1ffd1344",
+      "body_sha256": "CCCB1036388E1081DD57AE02BDF946D114D0DCE7A6D7143B902C406E6B4C0166",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00263120",
+      "source": "src/main_unclassified/band_0026/0x00263120.cpp",
+      "source_sha256": "2caa81ed4ebb3c0e7f15ed426894446db1ed1c01cea0b17d676dedf8edeed1a2",
+      "body_sha256": "E89361C7778D84DC9EF27DE8937F62A7FCC5F0B9DCD033CA4CF859C0AF42F984",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x00263270",
+      "source": "src/main_unclassified/band_0026/0x00263270.cpp",
+      "source_sha256": "6758ff5673057ff03333ec85e1be81ddbd85c7d20cf19e8d9510046981a6d7da",
+      "body_sha256": "2B1C3DB089EB9B0C47E1B121A630ABED77ECD5B9FFFD86259B9E69B39F3A7E7E",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00279fa0",
+      "source": "src/main_unclassified/band_0027/0x00279fa0.cpp",
+      "source_sha256": "76263a41080798b0962ff426e855c758022ada528157c8b99d724ba23300ee99",
+      "body_sha256": "85843C31983FFBAE145B2D4F140BB0ABD90FEEF15C661F6D529A2D30ED5273C8",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0027a0a0",
+      "source": "src/main_unclassified/band_0027/0x0027a0a0.cpp",
+      "source_sha256": "68d0c76f7c32a9dc6fd89c8c2291be7fb0d2d5f842dc55a1e52ae910a3bf13de",
+      "body_sha256": "BA53055EE9A5FDA6D6BB094AFE898987C60A0E1D3C7B0261C327BAC08778F566",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0027a0e0",
+      "source": "src/main_unclassified/band_0027/0x0027a0e0.cpp",
+      "source_sha256": "bfd203e88d9f3339b0bade2575922bf147a6fb5dfeeb56e250a5ca6aa91941d0",
+      "body_sha256": "17AB1039E8D2C76DEECBE3F5F088CFE8B43C3F52124B918EB60A418D711472B7",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0027a120",
+      "source": "src/main_unclassified/band_0027/0x0027a120.cpp",
+      "source_sha256": "2f38b1a46bf5230a4291c408ce5ef41b7135dda7a523912958dacea78092255b",
+      "body_sha256": "4DCA0CA03E365964EE3BF1882F6208E3AC9BAB1194E943CC420A6953BD1EC8B1",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0027b5c0",
+      "source": "src/main_unclassified/band_0027/0x0027b5c0.cpp",
+      "source_sha256": "e34159b724c41685dcd77229484d81a3d3567ca74b2411af2b401d2963b52938",
+      "body_sha256": "B163812F73614C57CCB9E448C8E757DB521685F98CD26D41316B5A9A1D77224F",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0027c260",
+      "source": "src/main_unclassified/band_0027/0x0027c260.cpp",
+      "source_sha256": "246eae32dc4e43506a5389ca8ea5e489a69ec250a2df58d80249431661e93bcf",
+      "body_sha256": "7A175F3557C5AFE0E3822533CAA0A3B67805A227387ECD61A832F8E9A66059D9",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0027c3e0",
+      "source": "src/main_unclassified/band_0027/0x0027c3e0.cpp",
+      "source_sha256": "374ac692e702b295c269c60b9ef07ed718cdb4ae9adbd5dbd9324f540ab63b83",
+      "body_sha256": "C06C8DD4878EAABB287D3AB724771341B860854D375610D2890830C02BF5D4E0",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0029fbe0",
+      "source": "src/main_unclassified/band_0029/0x0029fbe0.cpp",
+      "source_sha256": "9911240a062dd1c80fc5eaff97788222fcfa2efb09a9b92a4d4880ba99eddf94",
+      "body_sha256": "6B90EDAD0D9A78B6F7D0727F4F306C8F624BEE8495A8F8A31FD1CCE0D41C968B",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x002bd100",
+      "source": "src/main_unclassified/band_002b/0x002bd100.cpp",
+      "source_sha256": "2f35051b6bdc6656deaba70d95b3814509d178ecc2405f8dbc2379cfdf208a6b",
+      "body_sha256": "754FD1C197174305106282D6BBEE824516D7A9DBC3C7F5D88C7D55F9F8924FE2",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x002bf060",
+      "source": "src/main_unclassified/band_002b/0x002bf060.cpp",
+      "source_sha256": "7eff7926498669485b609a935bc2763287ac17efb3bebc3cb0d9e05fb13b09c3",
+      "body_sha256": "294E61C0A5D96E8F0A22C088390B44F27B7C92CF77E43B60FE9F2E5FE766F0D2",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x002dd270",
+      "source": "src/main_unclassified/band_002d/0x002dd270.cpp",
+      "source_sha256": "d9bf54a389505db392f5a2a2681d99cb17ed0043f45d8c672c7855c5d4544fd2",
+      "body_sha256": "16F321CF9DF1811433C92EAECCFA953BBEA63FB6FE4E59C83DBF7B8AA08B9B55",
+      "reason": "instruction_risk_exclusion"
+    },
+    {
+      "entry": "0x002e5ab0",
+      "source": "src/main_unclassified/band_002e/0x002e5ab0.cpp",
+      "source_sha256": "322722dfc5bec275c4804ab890feb5f38d4e69cb9356f3a452182cf5507f81ce",
+      "body_sha256": "75B20CF854C673C3B5F47D6189BBCCF4D70988621E6F34BF45EC1690CC290854",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x002e6a40",
+      "source": "src/main_unclassified/band_002e/0x002e6a40.cpp",
+      "source_sha256": "fbdaebb87cec4e22507c495ee338343a934050f403a24c010844777a0f627825",
+      "body_sha256": "4FAFF7AE3B48531801DA6E25B35CD458813265839C48CBA3AFF3FADBB6EDDB8E",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x00312e3a",
+      "source": "src/platform/audio_dsound/0x00312e3a.cpp",
+      "source_sha256": "e4ef44fc4c346dc3e066611cc13c29aa7b9a69553ba44dd0795086d43fd3e2e3",
+      "body_sha256": "EE5B6CD0F13C235F06B98B93ADAD9A224B85A42B64281BF19F5E704DDFF4538E",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
+    },
+    {
+      "entry": "0x0031aa6e",
+      "source": "src/platform/audio_dsound/0x0031aa6e.cpp",
+      "source_sha256": "806f2388787defa7cadbe464129b888b65d9064b4610c53b874866461feab5c5",
+      "body_sha256": "D5A21810BF144AC242E095C71B4622FA5B696A16FE81DA5BFD9C34E1BE4542B2",
+      "reason": "full_baseline_has_nonmatching_or_nonaddress_errors"
     }
   ],
-  "baseline_audit_run_id": 41203948583
+  "baseline_audit_run_id": 41203948583,
+  "batches": [
+    {
+      "case_count": 63,
+      "store_count": 63,
+      "source_commit": "ac6e267a5f783580147273d5c79d99e83e566555"
+    },
+    {
+      "case_count": 37,
+      "store_count": 96,
+      "source_base_commit": "ac6e267a5f783580147273d5c79d99e83e566555"
+    }
+  ],
+  "case_count": 100,
+  "store_count": 159
 }

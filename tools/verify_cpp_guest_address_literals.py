@@ -75,9 +75,10 @@ def before_source(case, text):
 
 def verify_source(root, manifest, compiler):
     cases = manifest["cases"]
-    if (len(cases) != 63 or len({c["entry"] for c in cases}) != 63 or
-            manifest["original_xbe_sha256"] != XBE_SHA):
-        raise ValueError("Expected 63 unique reviewed original-address drafts")
+    if (len(cases) != 100 or len({c["entry"] for c in cases}) != 100 or
+            manifest["original_xbe_sha256"] != XBE_SHA or
+            manifest["case_count"] != 100 or manifest["store_count"] != 159):
+        raise ValueError("Expected 100 unique reviewed original-address drafts")
     prior = json.loads((root / "metadata/cpp_20261031_direct_declarations_27.json").read_text())
     protected = {r["entry"] for c in prior["cases"] for r in [c, *c["dependencies"]]}
     protected.update(c["entry"] for c in prior["quarantine"])
@@ -140,8 +141,10 @@ def verify_source(root, manifest, compiler):
                 pass
             else:
                 raise ValueError("Changed-immediate negative control failed")
-    print(f"PASS 63 bounded address-literal repairs; {stores} DWORD stores; "
-          "strict C++17 O0/O2; 126 negative controls")
+    if stores != 159:
+        raise ValueError("Expected exactly 159 reviewed original DWORD stores")
+    print(f"PASS 100 bounded address-literal repairs; {stores} DWORD stores; "
+          "strict C++17 O0/O2; 200 negative controls")
 
 
 def verify_xbe(data, manifest):
@@ -185,7 +188,7 @@ def verify_xbe(data, manifest):
                 original = decoded[int(ins["site"], 16)]
                 if bytes(original.bytes).hex() != ins["bytes"] or original.op_str != ins["operands"]:
                     raise ValueError("Original store boundary/operands differ")
-    print("PASS pinned XBE; 63 complete original bodies and all MOV store boundaries")
+    print("PASS pinned XBE; 100 complete original bodies and all MOV store boundaries")
 
 
 def main():

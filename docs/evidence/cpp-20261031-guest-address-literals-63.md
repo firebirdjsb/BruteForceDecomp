@@ -1,5 +1,8 @@
 # 63 original guest-address literal repairs
 
+Historical first group: extended by the [cumulative 100-file batch](cpp-20261031-guest-address-literals-100.md).
+The shared verifier and manifest now include the additional 37 files.
+
 Base: `41eb6491b56548b9fc00c5aee5aa9ce0f23d1caa`. Canonical language: C++17.
 This batch changes exactly one address expression in each of 63 original-address
 drafts. It preserves the original entry/body SHA-256 labels and all other
