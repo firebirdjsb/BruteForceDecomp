@@ -17,7 +17,11 @@ from verify_cpp_guest_address_literals import mov_memory_imm32
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = 'metadata/cpp_20261101_literal_declarations.json'
-OVERLAY_MANIFEST = 'metadata/cpp_20261101_literal_overlay_12.json'
+OVERLAY_MANIFESTS = (
+    ('metadata/cpp_20261101_literal_overlay_12.json', 12),
+    ('metadata/cpp_20261101_literal_overlay_2.json', 2),
+)
+NEW_OVERLAY_ENTRIES = {'0x000a9b90', '0x00173720'}
 XBE_SHA = 'B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721'
 
 
@@ -73,10 +77,10 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
     expected = manifest['expected_counts']
     overlays = overlays or {}
     # The independent 209-case verifier reuses this function without overlays.
-    if overlays and (len(overlays) != 12
+    if overlays and (len(overlays) != 14
             or any(c['entry'] in overlays and c['status'] != 'partial' for c in cases)
             or set(overlays) - {c['entry'] for c in cases}):
-        raise ValueError('Reviewed 12-case overlay identity/status differs')
+        raise ValueError('Reviewed 14-case overlay identity/status differs')
     if expected != (approved_counts if approved_counts is not None else {'total':250,'complete':29,'partial':221,'values':483}):
         raise ValueError('Reviewed batch totals changed')
     if len(cases) != expected['total'] or len({c['entry'] for c in cases}) != len(cases):
@@ -225,12 +229,19 @@ def main():
     if a.tooldeps: sys.path.insert(0,str(a.tooldeps))
     compiler=shutil.which('clang++')
     if not compiler:p.error('clang++ is required')
-    overlay_doc = json.loads((ROOT/OVERLAY_MANIFEST).read_text(encoding='utf-8'))
-    if (overlay_doc['original_xbe_sha256'] != XBE_SHA
-            or len(overlay_doc['overlays']) != 12
-            or len({c['entry'] for c in overlay_doc['overlays']}) != 12):
-        raise ValueError('Independent 12-case overlay manifest identity differs')
-    overlays = {c['entry']:c for c in overlay_doc['overlays']}
+    overlays = {}
+    for manifest_path, expected_size in OVERLAY_MANIFESTS:
+        overlay_doc = json.loads((ROOT/manifest_path).read_text(encoding='utf-8'))
+        entries = {c['entry'] for c in overlay_doc['overlays']}
+        if (overlay_doc['original_xbe_sha256'] != XBE_SHA
+                or len(overlay_doc['overlays']) != expected_size
+                or len(entries) != expected_size
+                or (expected_size == 2 and entries != NEW_OVERLAY_ENTRIES)
+                or entries.intersection(overlays)):
+            raise ValueError('Independent overlay manifest identity differs: ' + manifest_path)
+        overlays.update({c['entry']: c for c in overlay_doc['overlays']})
+    if len(overlays) != 14:
+        raise ValueError('Combined reviewed overlay count differs')
     verify(ROOT,json.loads((ROOT/MANIFEST).read_text(encoding='utf-8')),compiler,a.xbe.read_bytes() if a.xbe else None,overlays=overlays)
 
 
