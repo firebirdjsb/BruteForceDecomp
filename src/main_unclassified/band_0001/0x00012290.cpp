@@ -1,3 +1,5 @@
+/* Original DWORD address values and source-matched declarations only.
+ * ABI_UNVERIFIED: guest register/memory contracts and complete behavior remain unresolved. */
 /* The original 32-bit x86 ABI is not established by this C11 translation. */
 #include <stdint.h>
 #include "bf_external_symbols.h"
@@ -43,7 +45,7 @@ void FUN_00012290(uint32_t* in_EAX)
     /* TODO: original x86 is 32-bit; host pointer width need not be 32-bit. */
 
     // Store the address of the external symbol at byte offset 0x00.
-    in_EAX[0] = ((uint32_t)(&PTR_FUN_003a4f64));
+    in_EAX[0] = ((uint32_t)(UINT32_C(0x003a4f64)));
 
     // Four-byte stores at byte offsets 0x0C and 0x20, respectively.
     in_EAX[3] = 0;

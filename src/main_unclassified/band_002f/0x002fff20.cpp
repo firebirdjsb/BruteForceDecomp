@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original DWORD address values and source-matched declarations only.
+ * ABI_UNVERIFIED: guest register/memory contracts and complete behavior remain unresolved. */
+extern void FUN_002ffa10(void);
+extern void FUN_00302600(int param_1,int param_2);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_FUN_0038e3c8;
@@ -24,9 +28,9 @@ void FUN_002fff20(void)
   unaff_ESI[1] = in_ECX;
   unaff_ESI[2] = in_EDX;
   unaff_ESI[3] = 0;
-  *unaff_ESI = &PTR_FUN_0038e3e4;
+  *unaff_ESI = UINT32_C(0x0038e3e4);
   FUN_00302600(in_EAX,0x4b0);
-  *unaff_ESI = &PTR_FUN_0038e3c8;
+  *unaff_ESI = UINT32_C(0x0038e3c8);
   puVar1 = unaff_ESI + 0x14;
   iVar2 = 2;
   do {

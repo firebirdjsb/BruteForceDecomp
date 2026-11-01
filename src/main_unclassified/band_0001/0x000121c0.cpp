@@ -1,3 +1,5 @@
+/* Original DWORD address values and source-matched declarations only.
+ * ABI_UNVERIFIED: guest register/memory contracts and complete behavior remain unresolved. */
 /* The original 32-bit x86 ABI is not established by this C11 translation. */
 #include <stdint.h>
 #include "bf_external_symbols.h"
@@ -46,7 +48,7 @@ void FUN_000121c0(uint32_t* in_EAX)
     in_EAX[3] = 0;  // Byte offset 0x0C.
     in_EAX[8] = 0;  // Byte offset 0x20.
     in_EAX[1] = 0;  // Byte offset 0x04.
-    in_EAX[0] = ((uint32_t)(&PTR_FUN_003a4f64));
+    in_EAX[0] = ((uint32_t)(UINT32_C(0x003a4f64)));
     in_EAX[6] = 0;  // Byte offset 0x18.
     in_EAX[5] = 0;  // Byte offset 0x14.
     in_EAX[4] = 0;  // Byte offset 0x10.

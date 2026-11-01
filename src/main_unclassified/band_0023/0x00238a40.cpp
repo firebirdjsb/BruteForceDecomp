@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original DWORD address values and source-matched declarations only.
+ * ABI_UNVERIFIED: guest register/memory contracts and complete behavior remain unresolved. */
+extern void FUN_00239ae0(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_LAB_0039411c;
@@ -29,7 +32,7 @@ void FUN_00238a40(void)
     puVar1[1] = 0;
     puVar1[2] = 0x14;
     puVar1[3] = 0;
-    *puVar1 = &PTR_LAB_00394128;
+    *puVar1 = UINT32_C(0x00394128);
     puVar1 = puVar1 + 5;
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);
@@ -39,7 +42,7 @@ void FUN_00238a40(void)
     puVar1[1] = 0;
     puVar1[2] = 0x14;
     puVar1[3] = 0;
-    *puVar1 = &PTR_LAB_00394134;
+    *puVar1 = UINT32_C(0x00394134);
     puVar1 = puVar1 + 6;
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);
@@ -49,7 +52,7 @@ void FUN_00238a40(void)
     puVar1[1] = 0;
     puVar1[2] = 0x14;
     puVar1[3] = 0;
-    *puVar1 = &PTR_LAB_0039411c;
+    *puVar1 = UINT32_C(0x0039411c);
     puVar1 = puVar1 + 5;
     iVar2 = iVar2 + -1;
   } while (iVar2 != 0);

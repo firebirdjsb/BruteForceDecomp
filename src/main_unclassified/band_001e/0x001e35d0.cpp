@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original DWORD address values and source-matched declarations only.
+ * ABI_UNVERIFIED: guest register/memory contracts and complete behavior remain unresolved. */
+extern uint32_t FUN_002ea01d(uint32_t guest_size);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_00469978;
@@ -26,7 +29,7 @@ undefined4 FUN_001e35d0(void)
     DAT_00469978 = (undefined4 *)0x0;
   }
   else {
-    *DAT_00469978 = &PTR_FUN_003a0620;
+    *DAT_00469978 = UINT32_C(0x003a0620);
     DAT_00469978[2] = 0;
     DAT_00469978[3] = 0;
     DAT_00469978[4] = 0;
@@ -36,7 +39,7 @@ undefined4 FUN_001e35d0(void)
     DAT_0046997c = (undefined4 *)0x0;
   }
   else {
-    *DAT_0046997c = &PTR_FUN_003a0b90;
+    *DAT_0046997c = UINT32_C(0x003a0b90);
     DAT_0046997c[2] = 0;
     DAT_0046997c[3] = 0;
     DAT_0046997c[4] = 0;
@@ -46,7 +49,7 @@ undefined4 FUN_001e35d0(void)
     DAT_00469980 = (undefined4 *)0x0;
   }
   else {
-    *DAT_00469980 = &PTR_FUN_0039aa74;
+    *DAT_00469980 = UINT32_C(0x0039aa74);
     DAT_00469980[2] = 0;
     DAT_00469980[3] = 0;
     DAT_00469980[4] = 0;
@@ -56,7 +59,7 @@ undefined4 FUN_001e35d0(void)
     DAT_00469984 = (undefined4 *)0x0;
   }
   else {
-    *DAT_00469984 = &PTR_LAB_00399d70;
+    *DAT_00469984 = UINT32_C(0x00399d70);
     DAT_00469984[2] = 0;
     DAT_00469984[3] = 0;
     DAT_00469984[4] = 0;
