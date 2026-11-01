@@ -26,7 +26,7 @@ undefined4 FUN_002e0650(int param_1,uint *param_2,int param_3)
   }
   if (uVar2 != uVar1) {
     __dest = (void *)(param_1 + uVar2 * 4);
-    _memmove(__dest,(void *)((int)__dest + 4),(uVar1 - uVar2) * 4 - 4);
+    _memmove(__dest,(void *)((unsigned char *)__dest + 4),(uVar1 - uVar2) * 4 - 4);
     *param_2 = *param_2 - 1;
     return 0;
   }

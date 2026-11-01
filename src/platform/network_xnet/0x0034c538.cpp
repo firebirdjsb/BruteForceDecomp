@@ -24,7 +24,7 @@ bool FUN_0034c538(byte *param_1)
   if (*param_1 < 2) {
     iVar2 = 0x5f;
     bVar6 = true;
-    pbVar5 = (byte *)((int)&DAT_00356a30 + 1);
+    pbVar5 = (byte *)((unsigned char *)&DAT_00356a30 + 1);
     pbVar4 = param_1;
     do {
       pbVar4 = pbVar4 + 1;

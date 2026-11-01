@@ -25,7 +25,7 @@ undefined4 * FUN_00346c3a(short param_1,int param_2,short param_3,char param_4,i
       return puVar2;
     }
     if ((((~((uint)puVar3[3] >> 1) & 1) == (uint)(param_4 == '\x02')) &&
-        (*(short *)((int)puVar3 + 0x4a) == param_1)) &&
+        (*(short *)((unsigned char *)puVar3 + 0x4a) == param_1)) &&
        ((uVar5 = 0, param_5 == 0 || ((puVar3[3] & 0x1000000) == 0)))) {
       if (puVar3[0x11] != param_2) {
         if (puVar3[0x11] != 0) goto LAB_00346cba;
