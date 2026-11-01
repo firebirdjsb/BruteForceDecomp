@@ -100,6 +100,7 @@ def triage(root: Path, audit: dict, limit: int | None = None) -> dict:
         raise ValueError("Incomplete exact-tree C++17 audit results")
     if len({row.get("entry") for row in results}) != 13694:
         raise ValueError("Duplicate or missing original-address audit entries")
+    audit_by_entry = {row["entry"].lower(): row for row in results}
     audited_sha = audit.get("checked_commit_sha")
     if not re.fullmatch(r"[0-9a-f]{40}", str(audited_sha or "")):
         raise ValueError("Missing exact audited commit SHA")
@@ -141,15 +142,33 @@ def triage(root: Path, audit: dict, limit: int | None = None) -> dict:
                 elif not callee_path.is_file():
                     row["triage"] = "CALLEE_SOURCE_MISSING"
                 else:
-                    draft_arity = callee_draft_arity(callee_path.read_text(encoding="utf-8"), symbol)
-                    row["caller_draft_arity"] = caller_arity
-                    row["callee_draft_arity"] = draft_arity
-                    if draft_arity is None:
-                        row["triage"] = "CALLEE_DRAFT_UNPARSEABLE"
-                    elif caller_arity != draft_arity:
-                        row["triage"] = "DRAFT_ARITY_MISMATCH"
+                    # A source-matched caller is not sufficient: the callee must
+                    # also belong to this exact audited tree, with unchanged
+                    # bytes and its original XBE body-digest label intact.
+                    callee_audit = audit_by_entry.get(callee)
+                    if not callee_audit or callee_audit.get("source") != callee_path.relative_to(root).as_posix():
+                        row["triage"] = "CALLEE_AUDIT_ENTRY_MISSING_OR_PATH_MISMATCH"
                     else:
-                        row["triage"] = "DRAFT_ARITY_MATCH_REVIEW_TYPES_AND_XBE"
+                        callee_bytes = callee_path.read_bytes()
+                        if hashlib.sha256(callee_bytes).hexdigest() != callee_audit.get("source_sha256"):
+                            row["triage"] = "STALE_CALLEE_SOURCE"
+                        else:
+                            callee_body = callee_bytes.decode("utf-8")
+                            callee_label = BODY.search(callee_body)
+                            if (not callee_label or
+                                callee_label[1].upper() != str(callee_audit.get("original_body_sha256", "")).upper() or
+                                f"Entry: {callee}" not in callee_body):
+                                row["triage"] = "CALLEE_PROVENANCE_MISMATCH"
+                            else:
+                                draft_arity = callee_draft_arity(callee_body, symbol)
+                                row["caller_draft_arity"] = caller_arity
+                                row["callee_draft_arity"] = draft_arity
+                                if draft_arity is None:
+                                    row["triage"] = "CALLEE_DRAFT_UNPARSEABLE"
+                                elif caller_arity != draft_arity:
+                                    row["triage"] = "DRAFT_ARITY_MISMATCH"
+                                else:
+                                    row["triage"] = "DRAFT_ARITY_MATCH_REVIEW_TYPES_AND_XBE"
         rows.append(row)
         if limit is not None and len(rows) >= limit:
             break
