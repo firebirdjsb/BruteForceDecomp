@@ -60,6 +60,20 @@ class CallerDwordSourceGates(unittest.TestCase):
                 self.assertIn("ABI_UNVERIFIED", src)
                 self.assertEqual(sha256(restore_preimage(src)), original_source)
 
+    def test_source_mutation_controls(self):
+        """A declaration-only pass cannot hide changes to original source or provenance."""
+        for entry, expected_preimage, _ in CASES:
+            src = source_path(entry).read_text(encoding="utf-8")
+            for label, changed in (
+                ("body", src.replace("*(undefined4 *)(unaff_ESI + 0x14) = *",
+                                     "*(undefined4 *)(unaff_ESI + 0x18) = *", 1)),
+                ("digest", src.replace("Input x86 body SHA-256:", "Input x86 body SHA-255:", 1)),
+                ("abi", src.replace("ABI_UNVERIFIED", "ABI_VERIFIED", 1)),
+            ):
+                with self.subTest(entry=entry, mutation=label):
+                    self.assertNotEqual(changed, src)
+                    self.assertNotEqual(sha256(restore_preimage(changed)), expected_preimage)
+
     @unittest.skipUnless(CLANGXX, "clang++ required")
     def test_cpp17_o0_o2_and_mutation_negatives(self):
         for entry, *_ in CASES:
