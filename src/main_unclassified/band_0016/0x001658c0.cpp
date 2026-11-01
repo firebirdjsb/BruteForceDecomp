@@ -18,11 +18,13 @@ void FUN_001658c0(void)
   int iVar2;
   
   in_EAX[1] = 0;
-  *in_EAX = &PTR_LAB_0039a864;
+  /* XBE MOV m32,imm32 sites: 0x001658c6, 0x001658d4.
+   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */
+  *in_EAX = UINT32_C(0x0039a864);
   puVar1 = in_EAX + 3;
   iVar2 = 0x1b;
   do {
-    *puVar1 = &PTR_LAB_0039a87c;
+    *puVar1 = UINT32_C(0x0039a87c);
     puVar1[3] = 0;
     puVar1[1] = 0;
     puVar1[2] = 0;

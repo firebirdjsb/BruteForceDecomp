@@ -16,9 +16,11 @@ void FUN_002e7e10(void)
 {
   undefined4 *in_ECX;
   
-  in_ECX[1] = &PTR_FUN_003a1a68;
-  *in_ECX = &PTR_LAB_00386904;
-  in_ECX[1] = &PTR_LAB_003868f8;
+  /* XBE MOV m32,imm32 sites: 0x002e7e12, 0x002e7e21, 0x002e7e1b.
+   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */
+  in_ECX[1] = UINT32_C(0x003a1a68);
+  *in_ECX = UINT32_C(0x00386904);
+  in_ECX[1] = UINT32_C(0x003868f8);
   in_ECX[4] = 0;
   in_ECX[5] = 0;
   in_ECX[6] = 0;
