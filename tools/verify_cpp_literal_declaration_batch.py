@@ -72,7 +72,8 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
     cases = manifest['cases']
     expected = manifest['expected_counts']
     overlays = overlays or {}
-    if (len(overlays) != 12
+    # The independent 209-case verifier reuses this function without overlays.
+    if overlays and (len(overlays) != 12
             or any(c['entry'] in overlays and c['status'] != 'partial' for c in cases)
             or set(overlays) - {c['entry'] for c in cases}):
         raise ValueError('Reviewed 12-case overlay identity/status differs')
