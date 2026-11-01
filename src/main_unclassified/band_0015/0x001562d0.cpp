@@ -6,15 +6,17 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched four-byte output interface; original Xbox guest ABI remains ABI_UNVERIFIED. */
+extern undefined4 *FUN_000e0350(int param_1,undefined4 *param_2,undefined4 guest_stack_word_3);
 void FUN_001562d0(void)
 
 {
   undefined4 *puVar1;
   int unaff_ESI;
-  undefined1 local_4 [4];
+  undefined4 local_4; /* One guest DWORD; callee writes all four bytes. */
   
   if (((*(byte *)(unaff_ESI + 0x26) & 0x10) == 0) && (*(int *)(unaff_ESI + 8) != 0)) {
-    puVar1 = (undefined4 *)FUN_000e0350(*(int *)(unaff_ESI + 8),local_4,unaff_ESI);
+    puVar1 = (undefined4 *)FUN_000e0350(*(int *)(unaff_ESI + 8),&local_4,unaff_ESI);
     *(undefined4 *)(unaff_ESI + 0x14) = *puVar1;
     *(byte *)(unaff_ESI + 0x26) = *(byte *)(unaff_ESI + 0x26) | 0x10;
   }
