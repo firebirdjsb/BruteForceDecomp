@@ -21,7 +21,7 @@ void FUN_00291870(undefined4 param_1,undefined2 param_2,int *param_3,int param_4
   in_EAX[1] = 0;
   in_EAX[1] = *in_ECX;
   *(undefined2 *)(in_EAX + 3) = param_2;
-  *(undefined2 *)((int)in_EAX + 0xe) = 1;
+  *(undefined2 *)((unsigned char *)in_EAX + 0xe) = 1;
   in_EAX[2] = *param_3 + param_4;
   in_EAX[4] = param_1;
   return;
