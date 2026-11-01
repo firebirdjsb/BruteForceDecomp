@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched C++ draft signature; original E8 CALL 0x000E45FE and
+ * EAX return verified against the pinned retail XBE. Incoming ECX and
+ * cross-function linkage remain ABI_UNVERIFIED. */
+extern uint FUN_000e6cc0(void);
 void FUN_000e45f0(int param_1,int param_2,int param_3,int param_4)
 
 {
@@ -22,7 +26,7 @@ void FUN_000e45f0(int param_1,int param_2,int param_3,int param_4)
   unaff_ESI[2] = 0;
   unaff_ESI[1] = 0;
   unaff_ESI[3] = uVar4;
-  bVar1 = *(byte *)((int)unaff_EDI + 0x13);
+  bVar1 = *(byte *)((byte *)unaff_EDI + 0x13);
   unaff_ESI[4] = (unaff_EDI[4] & 0xfffff000 | param_1 - 1U) & 0xff000fff | (param_2 + -1) * 0x1000;
   uVar3 = iVar2 * param_3 + (bVar1 + 1) * 0x40 * param_4 + unaff_EDI[1];
   uVar4 = uVar3 | 0x80000000;
