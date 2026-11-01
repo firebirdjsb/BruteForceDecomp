@@ -20,7 +20,7 @@ void FUN_000b79a0(void)
   
   FUN_000b6cc0();
   *(undefined2 *)(in_EAX + 1) = 0;
-  *(undefined2 *)((int)in_EAX + 6) = 0;
+  *(undefined2 *)((byte *)in_EAX + 6) = 0;
   *in_EAX = UINT32_C(0x0039fd2c);
   return;
 }

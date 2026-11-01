@@ -23,7 +23,7 @@ void FUN_000c24f0(void)
   FUN_000b2230();
   *in_EAX = UINT32_C(0x0039f5e8);
   in_EAX[0xb] = UINT32_C(0x0039fff0);
-  *(undefined2 *)((int)in_EAX + 0xe) = 0x80;
+  *(undefined2 *)((byte *)in_EAX + 0xe) = 0x80;
   *(undefined2 *)(in_EAX + 3) = 0x80;
   FUN_000ba6d0();
   *(byte *)(in_EAX + 0x19) = *(byte *)(in_EAX + 0x19) & 0xfe;

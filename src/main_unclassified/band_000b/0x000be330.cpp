@@ -25,7 +25,7 @@ void FUN_000be330(void)
   in_EAX[0x1b] = 0;
   in_EAX[0x1e] = 0;
   in_EAX[0x1d] = 0;
-  *(undefined2 *)((int)in_EAX + 0xe) = 0;
+  *(undefined2 *)((byte *)in_EAX + 0xe) = 0;
   *(undefined2 *)(in_EAX + 3) = 0;
   in_EAX[0x1f] = 0x3f400000;
   *(undefined1 *)(in_EAX + 0x19) = 1;
