@@ -59,6 +59,8 @@ jobs:
         run: python3 tools/verify_cpp_dword_operations.py
       - name: Verify 209 further partial DWORD operand repairs
         run: python3 tools/verify_cpp_remaining_literal_repairs.py
+      - name: Verify 20 original-XBE-gated byte-offset syntax repairs
+        run: python3 tools/verify_cpp_byte_offsets_20.py --root .
       - name: Verify 250 bounded operand repairs with explicit residual errors
         run: python3 tools/verify_cpp_literal_declaration_batch.py
       - name: Verify 100 original Xbox guest address literal repairs
