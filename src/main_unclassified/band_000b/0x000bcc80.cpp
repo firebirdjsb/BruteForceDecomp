@@ -1,3 +1,5 @@
+/* Partial original DWORD address-value repair; other C++ errors remain.
+ * ABI_UNVERIFIED: register/memory mapping and complete behavior remain unresolved. */
 /* Brute Force original Xbox - independent, unverified C11 draft.
  * Input x86 body SHA-256: 4B736C755A6D93970BB4D0DECD5E56894E3F91BE2B0B3B3C25B9DAC69885794D
  * Entry: 0x000bcc80, Ghidra index: 2301, label: FUN_000bcc80
@@ -38,7 +40,7 @@ void FUN_000bcc80(void)
   if (unaff_ESI[0xe] != 0) {
     FUN_0008f6e0();
   }
-  *unaff_ESI = &PTR_FUN_0039f89c;
+  *unaff_ESI = UINT32_C(0x0039f89c);
   FUN_000b2530();
   return;
 }

@@ -1,3 +1,5 @@
+/* Partial original DWORD address-value repair; other C++ errors remain.
+ * ABI_UNVERIFIED: register/memory mapping and complete behavior remain unresolved. */
 /* Brute Force original Xbox - independent, unverified C11 draft.
  * Input x86 body SHA-256: 3F738EC0587D58524CAF2CD5BF6C56B688FC6D94B04A069083D2161C56634B59
  * Entry: 0x000b2230, Ghidra index: 2141, label: FUN_000b2230
@@ -25,7 +27,7 @@ void FUN_000b2230(void)
   
   FUN_000ba5b0(unaff_ESI);
   puVar1 = unaff_ESI + 0xb;
-  *puVar1 = &PTR_FUN_0039ffac;
+  *puVar1 = UINT32_C(0x0039ffac);
   unaff_ESI[0xf] = 0;
   uVar2 = FUN_00061500(unaff_ESI + 0x10);
   unaff_ESI[0x11] = uVar2;
@@ -33,7 +35,7 @@ void FUN_000b2230(void)
   *(undefined2 *)(unaff_ESI + 0x14) = 0;
   unaff_ESI[0xd] = puVar1;
   unaff_ESI[0xc] = puVar1;
-  *puVar1 = &PTR_LAB_0039fff0;
+  *puVar1 = UINT32_C(0x0039fff0);
   *(undefined2 *)((int)unaff_ESI + 0x56) = 0;
   *(undefined2 *)(unaff_ESI + 0x15) = 0;
   *(undefined1 *)(unaff_ESI + 0x16) = 0;
@@ -42,7 +44,7 @@ void FUN_000b2230(void)
   *(undefined1 *)(unaff_ESI + 0x17) = 0;
   *(undefined1 *)((int)unaff_ESI + 0x5d) = 0;
   *(undefined1 *)((int)unaff_ESI + 0x5e) = 0;
-  *unaff_ESI = &PTR_FUN_0039ffc0;
+  *unaff_ESI = UINT32_C(0x0039ffc0);
   *(byte *)(unaff_ESI + 0x18) = *(byte *)(unaff_ESI + 0x18) & 0xf8;
   *(byte *)(unaff_ESI + 0x18) = *(byte *)(unaff_ESI + 0x18) | 8;
   return;
