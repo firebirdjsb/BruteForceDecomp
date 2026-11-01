@@ -9,6 +9,16 @@ import subprocess
 
 XBE_SHA256 = "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721"
 INCLUDE = b'#include "bf_x86_sqrtss.h"\n'
+# Source-matched draft declarations, NOT instruction-level Xbox ABI proof.
+# Strip only these exact additions before checking the original source blob.
+EXTRA_DECLARATIONS = {
+    "00046c70": b'/* Source-matched callee draft declaration only; Xbox ABI_UNVERIFIED. */\nextern char FUN_0004cd10(undefined4 param_1,float param_2);\n',
+    "00058610": b'/* Source-matched callee draft declaration only; Xbox ABI_UNVERIFIED. */\nextern int FUN_00058590(float param_1);\n',
+}
+CALLEE_DRAFT_SIGNATURES = {
+    "00046c70": ("0004cd10", b"char FUN_0004cd10(undefined4 param_1,float param_2)"),
+    "00058610": ("00058590", b"int FUN_00058590(float param_1)"),
+}
 FIXTURES = """00023460 c7d879dabefe7fb4294f49c91a4aef132ebaf78b 000234fe:f30f51442414
 00023540 fc4ab9f076e039cea8d6c99225acb200cca0ccfb 000235a4:f30f51442404
 00025870 2e6a8566b61b934e7f2cc5cca88cd214756a9472 000258ed:f30f51442404
@@ -47,7 +57,15 @@ def check_source(root, row):
     path = root / f"src/main_unclassified/band_{entry[:4]}/0x{entry}.cpp"
     data = path.read_bytes()
     assert data.count(INCLUDE) == 1, entry
-    assert blob_sha(data.replace(INCLUDE, b'', 1)) == expected_sha, entry
+    original = data.replace(INCLUDE, b'', 1)
+    if entry in EXTRA_DECLARATIONS:
+        declaration = EXTRA_DECLARATIONS[entry]
+        assert original.count(declaration) == 1, entry
+        original = original.replace(declaration, b'', 1)
+        target, signature = CALLEE_DRAFT_SIGNATURES[entry]
+        callee = root / f"src/main_unclassified/band_{target[:4]}/0x{target}.cpp"
+        assert signature in callee.read_bytes(), (entry, target)
+    assert blob_sha(original) == expected_sha, entry
     assert data.count(b'SQRT(') == 1, entry
     assert b'ABI_UNVERIFIED' in data and b'Input x86 body SHA-256:' in data, entry
     return path
