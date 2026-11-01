@@ -26,7 +26,7 @@ void FUN_002dbab0(int param_1,int param_2,int param_3,float param_4)
   uVar2 = *(int *)(param_1 + 4) + *(int *)(param_1 + 0x24) * param_3 * 4;
   pfVar9 = (float *)(uVar1 & 0xfffffff0);
   pfVar8 = (float *)(uVar2 & 0xfffffff0);
-  iVar10 = ((int)(uVar1 - (int)pfVar9) >> 2) + *(int *)(param_1 + 0x28);
+  iVar10 = ((int)(uVar1 - (uVar1 & 0xfffffff0U)) >> 2) + *(int *)(param_1 + 0x28);
   do {
     fVar4 = *pfVar9;
     fVar5 = pfVar9[1];
