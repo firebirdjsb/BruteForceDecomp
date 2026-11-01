@@ -15,6 +15,11 @@ class DeclarationTriageTests(unittest.TestCase):
     def test_balanced_argument_counts(self):
         self.assertEqual(argument_count("()", 0), 0)
         self.assertEqual(argument_count("(a, f(b,c), (d,e))", 0), 3)
+        # A cast or nested expression can occupy the entire argument slot.
+        self.assertEqual(argument_count("((undefined1 *)(unaff_EDI + 4))", 0), 1)
+        self.assertEqual(argument_count("((uint32_t)(in_EAX))", 0), 1)
+        self.assertEqual(argument_count("((int *)p, (float)x)", 0), 2)
+        self.assertEqual(argument_count("((f(a,b)), c)", 0), 2)
         self.assertEqual(argument_count("(a, 'x,y', \"z,z\")", 0), 3)
         self.assertIsNone(argument_count("(a, f(b)", 0))
 

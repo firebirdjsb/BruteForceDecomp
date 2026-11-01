@@ -42,6 +42,10 @@ def argument_count(text: str, open_paren: int) -> int | None:
             quote = char
         elif char == "(":
             depth += 1
+            # A fully parenthesized expression is still one argument.
+            # Previously FUN_x((type *)(guest + 4)) was miscounted as zero.
+            if depth > 1:
+                has_token = True
         elif char == ")":
             depth -= 1
             if depth == 0:
