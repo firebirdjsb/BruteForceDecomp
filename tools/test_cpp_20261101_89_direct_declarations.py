@@ -19,6 +19,27 @@ DATA = json.loads(MANIFEST.read_text())
 CASES = {r['caller']: r for r in DATA['callers']}
 NOTE = '/* Source-matched declarations; original direct calls checked. Xbox ABI_UNVERIFIED. */\n'
 
+# Independently reviewed source-only declaration added after the 89-call manifest.
+# Pin BOTH the newer full source and the original manifest preimage; never
+# accept arbitrary callee drift as evidence of an unchanged original function.
+INDEPENDENT_CALLEE_ADDITIONS = {
+    '0x0015b9d0': (
+        'f1afaa60039d01addf0a7f451835a495e09a6bdf5e45a2a2c5ae09f1d2c06128',
+        '/* Source-matched callee draft declarations; Xbox ABI remains ABI_UNVERIFIED. */\n'
+        'extern void FUN_0010bc40(void);\n',
+    ),
+}
+
+def strip_pinned_independent_addition(entry, text):
+    if entry not in INDEPENDENT_CALLEE_ADDITIONS:
+        return text
+    full_sha, block = INDEPENDENT_CALLEE_ADDITIONS[entry]
+    if hashlib.sha256(text.encode()).hexdigest() != full_sha:
+        raise AssertionError('independent callee source drift: ' + entry)
+    if text.count(block) != 1:
+        raise AssertionError('missing or duplicate independent declaration: ' + entry)
+    return text.replace(block, '', 1)
+
 def block(row):
     return NOTE + ''.join('extern ' + s + ';\n' for s in row['declarations'])
 
@@ -29,7 +50,7 @@ def preimage(entry):
         if text.count(addition) != 1:
             raise AssertionError('missing or duplicate declaration block: ' + entry)
         text = text.replace(addition, '', 1)
-    return text
+    return strip_pinned_independent_addition(entry, text)
 
 def run(argv, **kwargs):
     result = subprocess.run(argv, capture_output=True, text=True, timeout=60, **kwargs)
