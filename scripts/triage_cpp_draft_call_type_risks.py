@@ -38,7 +38,13 @@ def run_clang(clang: str, include: Path, source_dir: Path, source: str, opt: str
         path = Path(temp) / "candidate.cpp"
         path.write_text(source, encoding="utf-8")
         proc = subprocess.run(
-            [clang, "-std=c++17", "-fsyntax-only", opt, "-I", str(include),
+            [clang, "-std=c++17", "-fsyntax-only", opt,
+             # Host syntax can silently convert a float to a guest DWORD, or
+             # a guest IEEE-754 bit-pattern word to a numeric float. Neither
+             # conversion establishes the original Xbox CALL/stack contract.
+             # Conservative source-only triage quarantines these cases.
+             "-Werror=float-conversion", "-Werror=implicit-int-float-conversion",
+             "-I", str(include),
              "-I", str(source_dir), str(path)],
             capture_output=True, text=True, check=False,
         )
