@@ -57,6 +57,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate 40 retail-XBE direct-call manifest negative controls (no private XBE)
         run: python3 tests/test_cpp_20261102_40_xbe_edges.py
+      - name: Verify 40 original caller/callee body provenance (no private XBE)
+        run: python3 tests/test_cpp_20261102_40_body_provenance.py
       - name: Verify five DWORD primitive repairs and native instruction oracle
         run: python3 tools/verify_cpp_dword_operations.py
       - name: Verify 209 further partial DWORD operand repairs
