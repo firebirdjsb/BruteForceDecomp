@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original E8 call 0x0010CBC2: bytewise write to local DWORD; Xbox ABI_UNVERIFIED. */
+extern void FUN_000ee5c0(byte *param_1,float param_2);
 void FUN_0010cbb0(void)
 
 {
@@ -16,7 +18,7 @@ void FUN_0010cbb0(void)
   
   uVar1 = *in_EAX;
   local_4 = uVar1;
-  FUN_000ee5c0(&local_4,0x3f000000);
+  FUN_000ee5c0(reinterpret_cast<byte *>(&local_4),0.5f);
   *(undefined4 *)(unaff_ESI + 0x84) = uVar1;
   *(undefined4 *)(unaff_ESI + 0x88) = local_4;
   *(undefined4 *)(unaff_ESI + 0x90) = 0;
