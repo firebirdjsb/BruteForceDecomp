@@ -95,6 +95,8 @@ jobs:
         run: python3 tools/test_cpp_20261102_002e35c0_eax_return.py --root .
       - name: Verify two original DWORD caller C++17 repairs (Xbox ABI unverified)
         run: python3 tests/test_cpp_20261102_two_dword_callers.py
+      - name: Verify three original EAX caller declarations (Xbox ABI unverified)
+        run: python3 tests/test_cpp_20261102_three_eax_return_callers.py
       - name: Validate compiler and C++ progress gates
         run: |
           python3 -m unittest discover -s tools -p 'test_cpp_draft_coverage.py' -v
