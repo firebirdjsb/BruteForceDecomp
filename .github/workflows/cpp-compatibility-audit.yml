@@ -73,6 +73,8 @@ jobs:
         run: python3 scripts/verify_cpp_20261102_002e3500.py --root .
       - name: Verify four source-matched C++17 declarations without Xbox ABI claims
         run: python3 scripts/verify_cpp_20261102_four_source_matched.py --root .
+      - name: Verify six source-matched C++17 declarations (Xbox ABI unverified)
+        run: python3 scripts/verify_cpp_20261102_six_source_matched.py --root .
       - name: Validate compiler and C++ progress gates
         run: |
           python3 -m unittest discover -s tools -p 'test_cpp_draft_coverage.py' -v
