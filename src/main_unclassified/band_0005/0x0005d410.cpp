@@ -9,7 +9,9 @@
 extern void FUN_0005d550(undefined4 *param_1,char param_2,undefined4 param_3);
 extern void FUN_00142a80(void);
 
-void FUN_0005d410(uint *param_1)
+/* Retail XBE: all three RET 4 paths set EAX = EDI (output address).
+ * Guest EDI provenance / host pointer ABI_UNVERIFIED. */
+undefined4 * FUN_0005d410(uint *param_1)
 
 {
   int *piVar1;
@@ -41,7 +43,7 @@ void FUN_0005d410(uint *param_1)
       puVar3 = (undefined4 *)FUN_0005d550(&param_1,1,param_1);
       *unaff_EDI = *puVar3;
       *(undefined1 *)(unaff_EDI + 1) = 1;
-      return;
+      return unaff_EDI;
     }
     FUN_00142a80();
   }
@@ -49,9 +51,9 @@ void FUN_0005d410(uint *param_1)
     puVar3 = (undefined4 *)FUN_0005d550(&param_1,bVar5,param_1);
     *unaff_EDI = *puVar3;
     *(undefined1 *)(unaff_EDI + 1) = 1;
-    return;
+    return unaff_EDI;
   }
   *unaff_EDI = piVar4;
   *(undefined1 *)(unaff_EDI + 1) = 0;
-  return;
+  return unaff_EDI;
 }
