@@ -59,6 +59,26 @@ def run(argv, **kwargs):
     return result
 
 class DeclarationBatch(unittest.TestCase):
+    def test_independent_callee_reconciliation_negative_controls(self):
+        entry = '0x0015b9d0'
+        current = source_path(ROOT, entry).read_text()
+        original = strip_pinned_independent_addition(entry, current)
+        self.assertEqual(hashlib.sha256(original.encode()).hexdigest(),
+                         'e113046418ddb4814cc32559717835c3925d132d04decb2697597844a6fbeb49')
+        self.assertEqual(read_body_digest(current), read_body_digest(original))
+        full_sha, block = INDEPENDENT_CALLEE_ADDITIONS[entry]
+        self.assertEqual(hashlib.sha256(current.encode()).hexdigest(), full_sha)
+        for corrupted in (
+            current.replace('extern void FUN_0010bc40(void);',
+                            'extern int FUN_0010bc40(void);', 1),
+            current.replace('FUN_0010bc40();', 'FUN_0010bc40(1);', 1),
+            current.replace(block, '', 1),
+            current.replace(block, block + block, 1),
+        ):
+            with self.subTest(mutated_sha=hashlib.sha256(corrupted.encode()).hexdigest()):
+                with self.assertRaises(AssertionError):
+                    strip_pinned_independent_addition(entry, corrupted)
+
     def test_exact_preimages_body_labels_and_existing_definitions(self):
         self.assertEqual(len(CASES), 89)
         self.assertEqual(sum(len(r['declarations']) for r in CASES.values()), 168)
