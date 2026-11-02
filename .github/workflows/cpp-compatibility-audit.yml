@@ -108,6 +108,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_triage_cpp_undeclared_calls.py' -v
           python3 -m unittest discover -s tools -p 'test_triage_cpp_declaration_edges.py' -v
           python3 tests/test_triage_cpp_draft_call_type_risks.py
+          python3 tests/test_prioritize_cpp_declaration_edges.py
           python3 tests/test_cpp_draft_call_float_guard.py
           python3 -m unittest discover -s tools -p 'test_cpp_memory_helper_syntax.py' -v
           python3 -m unittest discover -s tools -p 'test_identify_cpp_verified_call_edges.py' -v
@@ -172,12 +173,18 @@ jobs:
         run: python3 tools/triage_cpp_undeclared_calls.py --report cpp_compat_results/cpp_compat_report.json --out cpp_compat_results
       - name: SHA-gated source-only declaration and linkage triage
         run: python3 tools/triage_cpp_declaration_edges.py --root . --audit cpp_compat_results/cpp_compat_report.json --out cpp_compat_results/cpp_declaration_edge_triage.json
+      - name: Prioritize independently testable single-error declarations
+        run: |
+          python3 scripts/prioritize_cpp_declaration_edges.py \
+            --audit cpp_compat_results/cpp_compat_report.json \
+            --edges cpp_compat_results/cpp_declaration_edge_triage.json \
+            --out cpp_compat_results/cpp_declaration_priority_edges.json
       - name: Dry-run exact-tree source-matched declarations without modifying game code
         run: |
           python3 scripts/triage_cpp_draft_call_type_risks.py \
             --root . \
             --audit cpp_compat_results/cpp_compat_report.json \
-            --edges cpp_compat_results/cpp_declaration_edge_triage.json \
+            --edges cpp_compat_results/cpp_declaration_priority_edges.json \
             --limit 400 --max-arity 3 --include-multiple-errors \
             --out cpp_compat_results/cpp_draft_call_type_risks.json
       - name: Cross-reference compiler failures with recorded original x86 call edges
