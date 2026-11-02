@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched C++17 declaration; retail XBE E8/RET observed.
+ * Callee draft signature only; Xbox ABI_UNVERIFIED. */
+extern void FUN_000ef180(void);
 /* Matching original XBE: these two guest VAs contain NUL-terminated
  * 16-bit UTF-16 format strings, referenced by PUSH immediate instructions.
  * Syntax-only declarations; guest-to-host relocation/linking is NOT done. */
