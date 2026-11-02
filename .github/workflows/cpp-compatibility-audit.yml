@@ -87,6 +87,8 @@ jobs:
         run: python3 scripts/verify_cpp_20261102_five_source_only.py --root .
       - name: Verify five new retail E8 source-only declarations (Xbox ABI unverified)
         run: python3 tests/test_cpp_20261102_five_source_e8.py
+      - name: Verify three additional retail E8 source-only declarations (Xbox ABI unverified)
+        run: python3 tests/test_cpp_20261102_three_more_e8.py
       - name: Validate compiler and C++ progress gates
         run: |
           python3 -m unittest discover -s tools -p 'test_cpp_draft_coverage.py' -v
