@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched draft declaration; Xbox ABI_UNVERIFIED. */
+extern int * FUN_00023010(int *param_1,int param_2);
 int FUN_000230a0(void)
 
 {
@@ -13,7 +15,7 @@ int FUN_000230a0(void)
   int in_EAX;
   int *piVar2;
   undefined4 in_ECX;
-  undefined1 local_4 [4];
+  int local_4 [1];
   
   iVar1 = *(int *)(in_EAX + 4);
   piVar2 = (int *)FUN_00023010(local_4,in_ECX);
