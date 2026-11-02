@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* C++17 draft declaration copied from the original-address callee source.
+ * ABI_UNVERIFIED: source-only prototype; not a verified Xbox calling convention. */
+extern undefined4 FUN_00344f7f(void);
 void FUN_00345049(void)
 
 {
