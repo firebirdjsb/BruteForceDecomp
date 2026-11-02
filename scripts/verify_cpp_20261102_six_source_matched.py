@@ -16,37 +16,37 @@ CASES = {
         'src/main_unclassified/band_0010/0x00105af0.cpp',
         '99f2fe8394f28e6cd3f1102234c33b10444824632b13fa43d7c0d7f53c1bd2e5',
         '6CFECA41E4082F91EF1A24D4AB47F9306763A7E0978DD335A070FA9A563F9856',
-        ('void FUN_00105910(void);',),
+        ('extern void FUN_00105910(void);',),
     ),
     '0x0014d470': (
         'src/main_unclassified/band_0014/0x0014d470.cpp',
         '9fbbd31d0cb473c99b93426f459a73354524fc39f11c45be16200ecf8d9641a1',
         'F709F372266ACCFF93C0B3C0F58F0E23170BF8FA1A9114B73F5C0F51DFC747F6',
-        ('void FUN_0014ae80(void);',),
+        ('extern void FUN_0014ae80(void);',),
     ),
     '0x0014d500': (
         'src/main_unclassified/band_0014/0x0014d500.cpp',
         '90ff71c84548cedb6816886e3c6f6f89588836a3a1c54699ca8bd8a5b086ec25',
         '8CC791CABB7F2F6E9ECBCEA1AE8EABCE22820406F2AF9F1F16EB21699938309C',
-        ('void FUN_0014ae80(void);',),
+        ('extern void FUN_0014ae80(void);',),
     ),
     '0x0014d570': (
         'src/main_unclassified/band_0014/0x0014d570.cpp',
         '9524469bb39921372b32cf4957c1cccb87fd353ebef6a90c32325e3aff41f1e5',
         '791298B00E86320C127A644F080C0910B7351609165231CD937E185297FA9A71',
-        ('void FUN_0014ae80(void);',),
+        ('extern void FUN_0014ae80(void);',),
     ),
     '0x0015b9d0': (
         'src/main_unclassified/band_0015/0x0015b9d0.cpp',
         'e113046418ddb4814cc32559717835c3925d132d04decb2697597844a6fbeb49',
         '179124130DEAF4C1E9D5CF52AA84585082E2EA08D9913A2D195C4CC94977239B',
-        ('void FUN_0010bc40(void);',),
+        ('extern void FUN_0010bc40(void);',),
     ),
     '0x00289fa0': (
         'src/main_unclassified/band_0028/0x00289fa0.cpp',
         'ce7dc6925ac9e58dbc93114f05acd185f579572077284911cab9493f0aed1ec9',
         'A44A1A2B03D7A47ACAC718AE813AB3C716D8EE37B130F0DDB929A1B6B44B3FF6',
-        ('void FUN_0028a460(void);',),
+        ('extern void FUN_0028a460(void);',),
     ),
 }
 
