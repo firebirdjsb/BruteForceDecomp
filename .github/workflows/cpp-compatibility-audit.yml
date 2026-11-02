@@ -57,6 +57,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify 40 adjacent original instruction windows and 21 focused handoffs (no private XBE)
         run: python3 tests/test_cpp_20261102_40_adjacent_windows.py
+      - name: Verify 26 retail callee entry windows and 26 mutation controls (no private XBE)
+        run: python3 tests/test_cpp_20261102_26_callee_prologues.py
       - name: Validate 40 retail-XBE direct-call manifest negative controls (no private XBE)
         run: python3 tests/test_cpp_20261102_40_xbe_edges.py
       - name: Verify 40 original caller/callee body provenance (no private XBE)
