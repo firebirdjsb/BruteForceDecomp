@@ -28,6 +28,13 @@ INDEPENDENT_CALLEE_ADDITIONS = {
         '/* Source-matched callee draft declarations; Xbox ABI remains ABI_UNVERIFIED. */\n'
         'extern void FUN_0010bc40(void);\n',
     ),
+    # The later retail-EAX return repair added only this exact declaration to
+    # a callee referenced by the older 89-edge manifest. Preserve both hashes.
+    '0x0027e5f0': (
+        '1a5267027edf88debb630ee5978aafbdfd132bf7f86fd9592026dfed832d43ad',
+        '/* Original E8 call and callee EAX preservation verified; Xbox ABI_UNVERIFIED. */\n'
+        'extern int FUN_0027e580(void);\n',
+    ),
 }
 
 def strip_pinned_independent_addition(entry, text):
@@ -74,6 +81,26 @@ class DeclarationBatch(unittest.TestCase):
             current.replace('FUN_0010bc40();', 'FUN_0010bc40(1);', 1),
             current.replace(block, '', 1),
             current.replace(block, block + block, 1),
+        ):
+            with self.subTest(mutated_sha=hashlib.sha256(corrupted.encode()).hexdigest()):
+                with self.assertRaises(AssertionError):
+                    strip_pinned_independent_addition(entry, corrupted)
+
+    def test_later_eax_return_declaration_negative_controls(self):
+        entry = '0x0027e5f0'
+        current = source_path(ROOT, entry).read_text()
+        original = strip_pinned_independent_addition(entry, current)
+        self.assertEqual(hashlib.sha256(original.encode()).hexdigest(),
+                         '3152cd3f4064b6d6b91ca8d95fe9e3d8e30255fb0521103d71618d12d8b3d1c7')
+        self.assertEqual(read_body_digest(current), read_body_digest(original))
+        full_sha, block = INDEPENDENT_CALLEE_ADDITIONS[entry]
+        self.assertEqual(hashlib.sha256(current.encode()).hexdigest(), full_sha)
+        for corrupted in (
+            current.replace(block, '', 1),
+            current.replace(block, block + block, 1),
+            current.replace('extern int FUN_0027e580(void);',
+                            'extern void FUN_0027e580(void);', 1),
+            current.replace('FUN_0027e580();', 'FUN_0027e580(1);', 1),
         ):
             with self.subTest(mutated_sha=hashlib.sha256(corrupted.encode()).hexdigest()):
                 with self.assertRaises(AssertionError):
