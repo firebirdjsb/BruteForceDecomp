@@ -6,11 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_002e35c0(undefined4 *param_1)
+undefined4 * FUN_002e35c0(undefined4 *param_1)
 
 {
   int in_ECX;
   
   *param_1 = *(undefined4 *)(in_ECX + 4);
-  return;
+  return param_1;
 }

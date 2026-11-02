@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original EAX is loaded from [ESP+4] and returned after a 4-byte output write; Xbox ABI_UNVERIFIED. */
+extern undefined4 * FUN_002e35c0(undefined4 *param_1);
 undefined4 FUN_002e0890(undefined4 param_1,int *param_2)
 
 {
