@@ -108,6 +108,7 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_triage_cpp_undeclared_calls.py' -v
           python3 -m unittest discover -s tools -p 'test_triage_cpp_declaration_edges.py' -v
           python3 tests/test_triage_cpp_draft_call_type_risks.py
+          python3 tests/test_cpp_draft_call_float_guard.py
           python3 -m unittest discover -s tools -p 'test_cpp_memory_helper_syntax.py' -v
           python3 -m unittest discover -s tools -p 'test_identify_cpp_verified_call_edges.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_virtual_bridge_syntax.py' -v
