@@ -6,7 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_0027c1a0(uint *param_1)
+undefined4 *FUN_0027c1a0(uint *param_1)
 
 {
   int *piVar1;
@@ -38,7 +38,7 @@ void FUN_0027c1a0(uint *param_1)
       puVar3 = (undefined4 *)FUN_0027c770(&param_1,1,param_1);
       *unaff_EDI = *puVar3;
       *(undefined1 *)(unaff_EDI + 1) = 1;
-      return;
+      return unaff_EDI;
     }
     FUN_00139120();
   }
@@ -46,9 +46,9 @@ void FUN_0027c1a0(uint *param_1)
     puVar3 = (undefined4 *)FUN_0027c770(&param_1,bVar5,param_1);
     *unaff_EDI = *puVar3;
     *(undefined1 *)(unaff_EDI + 1) = 1;
-    return;
+    return unaff_EDI;
   }
   *unaff_EDI = piVar4;
   *(undefined1 *)(unaff_EDI + 1) = 0;
-  return;
+  return unaff_EDI;
 }
