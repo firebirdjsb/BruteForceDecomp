@@ -14,6 +14,7 @@ import sys
 from body_hash_labels import read_body_digest
 from source_layout import source_path
 from verify_cpp_guest_address_literals import mov_memory_imm32
+import verify_cpp_002e9c30_continuation as continuation_gate
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = 'metadata/cpp_20261101_literal_declarations.json'
@@ -238,7 +239,25 @@ def validate_heap_free_batch(root, manifest, approved_counts, heap_free_overlays
             raise ValueError('Heap-free historical case identity differs')
 
 
-def restore(case, text, overlays=None, source_spelling_overlays=None, exported_instruction_overlays=None, heap_free_overlays=None):
+def load_continuation_overlays(root):
+    """One bounded continuation; never part of the earlier five-call channel."""
+    return continuation_gate.load(root)
+
+
+def restore_continuation_instruction(case, text, continuation_overlays=None):
+    return continuation_gate.restore_to_historical(case, text, continuation_overlays or {})
+
+
+def apply_continuation_instruction(case, text, continuation_overlays=None):
+    return continuation_gate.reapply_to_diagnostic(case, text, continuation_overlays or {})
+
+
+def restore(case, text, overlays=None, source_spelling_overlays=None, exported_instruction_overlays=None, heap_free_overlays=None, continuation_overlays=None):
+    if set(continuation_overlays or {}).intersection(
+            set(overlays or {}) | set(source_spelling_overlays or {}) |
+            set(exported_instruction_overlays or {}) | set(heap_free_overlays or {})):
+        raise ValueError('Continuation evidence classes overlap')
+    text = restore_continuation_instruction(case, text, continuation_overlays)
     if set(heap_free_overlays or {}).intersection(
             set(overlays or {}) | set(source_spelling_overlays or {}) | set(exported_instruction_overlays or {})):
         raise ValueError('Heap-free evidence classes overlap')
@@ -281,7 +300,8 @@ def restore(case, text, overlays=None, source_spelling_overlays=None, exported_i
             raise ValueError('Original source-only spelling position differs')
         before = before.replace(spelling['before'], spelling['after'], 1)
     before = apply_exported_instruction(case, before, exported_instruction_overlays)
-    return apply_heap_free_instruction(case, before, heap_free_overlays)
+    before = apply_heap_free_instruction(case, before, heap_free_overlays)
+    return apply_continuation_instruction(case, before, continuation_overlays)
 
 
 def compile_text(compiler, root, source, opt):
@@ -296,13 +316,16 @@ def compile_text(compiler, root, source, opt):
     return result.returncode, errors, warnings, locations
 
 
-def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=None, source_spelling_overlays=None, exported_instruction_overlays=None, heap_free_overlays=None):
+def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=None, source_spelling_overlays=None, exported_instruction_overlays=None, heap_free_overlays=None, continuation_overlays=None):
     cases = manifest['cases']
     expected = manifest['expected_counts']
     overlays = overlays or {}
     source_spelling_overlays = source_spelling_overlays or {}
     exported_instruction_overlays = exported_instruction_overlays or {}
     heap_free_overlays = heap_free_overlays or {}
+    continuation_overlays = continuation_overlays or {}
+    continuation_gate.validate_batch(root, manifest, approved_counts, continuation_overlays,
+                                     overlays, source_spelling_overlays, exported_instruction_overlays, heap_free_overlays)
     validate_heap_free_batch(root, manifest, approved_counts, heap_free_overlays,
                             overlays, source_spelling_overlays, exported_instruction_overlays)
     validate_exported_instruction_overlays(exported_instruction_overlays)
@@ -331,7 +354,7 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
     with (root/'metadata/bulk_13694_inventory.csv').open(encoding='utf-8') as stream:
         inventory = {r['entry']:r for r in csv.DictReader(stream)}
     texts = {c['entry']:source_path(root,c['entry']).read_text(encoding='utf-8') for c in cases}
-    preimages = {c['entry']:restore(c,texts[c['entry']],overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays) for c in cases}
+    preimages = {c['entry']:restore(c,texts[c['entry']],overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays,continuation_overlays) for c in cases}
     full = partial = values = 0
     for case in cases:
         text = texts[case['entry']]
@@ -341,7 +364,8 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
         if read_body_digest(text) != (case['body_sha256'],False):
             raise ValueError('Original body label changed')
         row = inventory[case['entry']]
-        historical_text = restore_heap_free_instruction(case, text, heap_free_overlays)
+        historical_text = restore_continuation_instruction(case, text, continuation_overlays)
+        historical_text = restore_heap_free_instruction(case, historical_text, heap_free_overlays)
         historical_text = restore_exported_instruction(case, historical_text, exported_instruction_overlays)
         inventory_sha = overlays[case['entry']]['prior_sha256'] if case['entry'] in overlays else sha(restore_source_spelling(case,historical_text,source_spelling_overlays))
         if row['original_body_sha256'] != case['body_sha256'] or row['c_sha256'] != inventory_sha:
@@ -368,7 +392,7 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
                 raise ValueError('Signature differs from real source definition')
             if 'extern '+dep['signature']+';\n' not in case['added_block']:
                 raise ValueError('Declaration not source matched')
-        effective_status = 'complete' if case['entry'] in overlays or case['entry'] in source_spelling_overlays or case['entry'] in exported_instruction_overlays or case['entry'] in heap_free_overlays else case['status']
+        effective_status = 'complete' if case['entry'] in overlays or case['entry'] in source_spelling_overlays or case['entry'] in exported_instruction_overlays or case['entry'] in heap_free_overlays or case['entry'] in continuation_overlays else case['status']
         for opt in ('-O0','-O2'):
             old_rc, old, old_warnings, old_locations = compile_text(compiler,root,preimages[case['entry']],opt)
             rc, errors, warnings, locations = compile_text(compiler,root,text.replace(case['added_block'],'',1) if effective_status=='partial' else text,opt)
@@ -398,7 +422,7 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
         if effective_status == 'complete': full += 1
         else: partial += 1
         try:
-            restore(case,text.replace(case['edits'][0]['after'],'UINT32_C(0)',1),overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays)
+            restore(case,text.replace(case['edits'][0]['after'],'UINT32_C(0)',1),overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays,continuation_overlays)
         except ValueError:
             pass
         else:
@@ -407,22 +431,22 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
         if completion is not None:
             changed = text.replace(completion['after'], completion['before'], 1)
             try:
-                restore(case,changed,overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays)
+                restore(case,changed,overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays,continuation_overlays)
             except ValueError:
                 pass
             else:
                 raise ValueError('Changed-overlay negative control escaped')
-        exported = exported_instruction_overlays.get(case['entry']) or heap_free_overlays.get(case['entry'])
+        exported = exported_instruction_overlays.get(case['entry']) or heap_free_overlays.get(case['entry']) or continuation_overlays.get(case['entry'])
         if exported is not None:
             for edit in exported['replacements']:
                 changed = text.replace(edit['after'], edit['before'], 1)
                 try:
-                    restore(case,changed,overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays)
+                    restore(case,changed,overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays,continuation_overlays)
                 except ValueError:
                     pass
                 else:
                     raise ValueError('Changed exported-instruction overlay control escaped')
-    completions = len(overlays) + len(source_spelling_overlays) + len(exported_instruction_overlays) + len(heap_free_overlays)
+    completions = len(overlays) + len(source_spelling_overlays) + len(exported_instruction_overlays) + len(heap_free_overlays) + len(continuation_overlays)
     if (full,partial,values) != (expected['complete']+completions,expected['partial']-completions,expected['values']):
         raise ValueError('Verification totals differ')
     print(f'PASS {full} complete C++17 repairs; {partial} partial repairs; {values} DWORD values; O0/O2 and preimage/corruption controls')
@@ -432,6 +456,8 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
         print('1 separately pinned exported-instruction completion; historical DWORD count unchanged; no XBE authentication claimed by this overlay')
     if heap_free_overlays:
         print(f'{len(heap_free_overlays)} separately pinned heap-free call completions; historical ledger and DWORD counts unchanged; no whole-XBE authentication claimed')
+    if continuation_overlays:
+        print('1 separately pinned bounded continuation completion; original 18-byte body and historical ledger unchanged; ABI/runtime unresolved')
     if image is not None:
         verify_image(image, cases, overlays)
     else:

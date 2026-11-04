@@ -6,3 +6,6 @@ tests/fixtures/0023c0e0_before.cpp.txt -text whitespace=-blank-at-eol
 
 # Preserve the exact public-source preimage for tagged conversion tests.
 tests/fixtures/00077eb0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve the exact public-source preimage for native norm tests.
+tests/fixtures/00314c76_before.cpp.txt -text whitespace=-blank-at-eol

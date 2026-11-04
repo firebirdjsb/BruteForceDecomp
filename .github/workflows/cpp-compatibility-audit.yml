@@ -84,7 +84,9 @@ jobs:
       - name: Verify six source-matched C++17 declarations (Xbox ABI unverified)
         run: python3 scripts/verify_cpp_20261102_six_source_matched.py --root .
       - name: Verify five source-only C++17 declarations (Xbox ABI unverified)
-        run: python3 scripts/verify_cpp_20261102_five_source_only.py --root .
+        run: |
+          python3 tests/test_cpp_20261102_five_source_only.py
+          python3 scripts/verify_cpp_20261102_five_source_only.py --root .
       - name: Verify five new retail E8 source-only declarations (Xbox ABI unverified)
         run: python3 tests/test_cpp_20261102_five_source_e8.py
       - name: Verify three additional retail E8 source-only declarations (Xbox ABI unverified)
@@ -154,6 +156,7 @@ jobs:
           python3 tools/test_cpp_002338c0_sse_operation.py
           python3 tools/test_cpp_0023c0e0_storage_operation.py
           python3 tools/test_cpp_00077eb0_conversion_operation.py
+          python3 tools/test_cpp_00314c76_norm_operation.py
           python3 tools/test_cpp_20261104_uploaded_evidence.py
           python3 tools/test_cpp_20261104_0003f0e0_eax_handoff.py
           python3 tools/test_cpp_20261104_guest_initializers.py
@@ -162,6 +165,8 @@ jobs:
           python3 tools/test_cpp_20261104_memory_call_declarations.py
           python3 tools/test_cpp_20261104_heap_free_scalar_calls.py
           python3 tools/test_cpp_20261104_heap_free_literal_overlays.py
+          python3 tools/test_cpp_002e9c30_continuation.py
+          python3 tools/test_cpp_20261104_continuation_literal_overlay.py
           python3 tools/test_cpp_20261104_four_guest_constants.py
           python3 tools/test_cpp_20261104_eax_scalar_calls.py
           python3 tools/test_cpp_20261104_eax_lea_calls.py

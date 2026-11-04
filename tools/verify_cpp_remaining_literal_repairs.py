@@ -6,7 +6,7 @@ from pathlib import Path
 import shutil
 import sys
 from verify_cpp_literal_declaration_batch import (SOURCE_SPELLING_OVERLAYS, REMAINING_MANIFEST,
-                                                   load_heap_free_overlays, verify)
+                                                   load_heap_free_overlays, load_continuation_overlays, verify)
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -32,4 +32,5 @@ if __name__=='__main__':
     verify(ROOT,manifest,compiler,a.xbe.read_bytes() if a.xbe else None,
            approved_counts={'total':209,'complete':0,'partial':209,'values':469},
            overlays=overlays, source_spelling_overlays=SOURCE_SPELLING_OVERLAYS,
-           heap_free_overlays=load_heap_free_overlays(ROOT, REMAINING_MANIFEST))
+           heap_free_overlays=load_heap_free_overlays(ROOT, REMAINING_MANIFEST),
+           continuation_overlays=load_continuation_overlays(ROOT))

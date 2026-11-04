@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "entry": "0x002e9c30",
+  "source": "src/main_unclassified/band_002e/0x002e9c30.cpp",
+  "status": "CPP_DRAFT, ABI_UNVERIFIED; bounded source continuation only",
+  "scope": "Complete bounded memory/call statement continuation, not complete function, ABI or runtime equivalence",
+  "base_commit": "5f7a4cf7e2fc70c5a0c50018f4d1c97838024cea",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_machine_code_executed": false,
+  "canonical_held_function_executed": false,
+  "source_before_sha256": "ed7d574f0c5837c9af44bdba91b2c7222e8b38b32cbb4ae63aaba9a2be8492f5",
+  "source_after_sha256": "e7a7789ae559642042a29cfd056cf12bd1daad3024d98e1ce73a74cefe30b83d",
+  "preimage_git_blob": "5e0ee92062c2d830e6558796850b02af4adc5ee8",
+  "original_body_sha256": "16F51CE9E39F62C64F480972ECE34344FFD240A259379B37E7FA597D850F01D4",
+  "body_byte_count": 18,
+  "body_ranges": [
+    {
+      "start": "0x002E9C30",
+      "end_inclusive": "0x002E9C41",
+      "length": 18
+    }
+  ],
+  "replacements": [
+    {
+      "before": "#include \"bf_ghidra_types.h\"\n",
+      "after": "#include \"bf_ghidra_types.h\"\n#include \"bf_002ea018_heap_free_guest32.h\"\n",
+      "count": 1,
+      "kind": "existing_guest32_header"
+    },
+    {
+      "before": "  undefined4 *in_ECX;\n",
+      "after": "  undefined4 *in_ECX;\n  uint32_t guest_allocation_va;\n  /* Bounded source continuation from separately hashed adjacent context.\n   * Original recorded body remains 18 bytes through 0x002e9c41.\n   * Requires a valid seven-DWORD object surviving a normal guest call return.\n   * ECX binding, guest ESI preservation, EAX=0, flags and stack remain\n   * ABI_UNVERIFIED; this void draft is not a guest-register implementation. */\n",
+      "count": 1,
+      "kind": "bounded_scope_and_capture_local"
+    },
+    {
+      "before": "  \n  *in_ECX = ",
+      "after": "  \n  guest_allocation_va = in_ECX[3];\n  *in_ECX = ",
+      "count": 1,
+      "kind": "load_before_table_word_store"
+    },
+    {
+      "before": "                    /* WARNING: Subroutine does not return */\n  thunk_FUN_00237ec0(in_ECX[3]);",
+      "after": "  thunk_FUN_00237ec0(guest_allocation_va);\n  in_ECX[3] = UINT32_C(0);\n  in_ECX[4] = UINT32_C(0);\n  in_ECX[5] = UINT32_C(0);\n  in_ECX[6] = UINT32_C(0);",
+      "count": 1,
+      "kind": "normal_return_and_four_missing_stores"
+    }
+  ],
+  "historical_ledger": {
+    "ledger": "metadata/cpp_20261101_remaining_literal_repairs.json",
+    "ledger_sha256": "e8215f264ed96b97af09c41f1c9f2e8fc26e41437225efe6cfbcce53e0d54448",
+    "case_index": 188,
+    "historical_status": "partial",
+    "historical_result_sha256": "ed7d574f0c5837c9af44bdba91b2c7222e8b38b32cbb4ae63aaba9a2be8492f5",
+    "historical_preimage_sha256": "0919594bebb7e11a7e530e28cacb60ee713272e025624af531dbdf6192279e74",
+    "historical_preimage_git_blob": "fb417971ad856b7cc81c3a6b0b9a90c406178a83",
+    "original_literal_edit_count": 1
+  },
+  "instruction_windows": [
+    {
+      "role": "save_esi",
+      "address": "0x002e9c30",
+      "bytes": "56",
+      "evidence_scope": "official_body"
+    },
+    {
+      "role": "bind_esi_from_ecx",
+      "address": "0x002e9c31",
+      "bytes": "8bf1",
+      "evidence_scope": "official_body"
+    },
+    {
+      "role": "load_allocation",
+      "address": "0x002e9c33",
+      "bytes": "8b460c",
+      "evidence_scope": "official_body"
+    },
+    {
+      "role": "push_allocation",
+      "address": "0x002e9c36",
+      "bytes": "50",
+      "evidence_scope": "official_body"
+    },
+    {
+      "role": "table_word_store",
+      "address": "0x002e9c37",
+      "bytes": "c7067c693800",
+      "evidence_scope": "official_body"
+    },
+    {
+      "role": "call",
+      "address": "0x002e9c3d",
+      "bytes": "e8d6030000",
+      "evidence_scope": "official_body"
+    },
+    {
+      "role": "zero_eax",
+      "address": "0x002e9c42",
+      "bytes": "33c0",
+      "evidence_scope": "adjacent_context_only"
+    },
+    {
+      "role": "caller_cleanup",
+      "address": "0x002e9c44",
+      "bytes": "83c404",
+      "evidence_scope": "adjacent_context_only"
+    },
+    {
+      "role": "zero_0c",
+      "address": "0x002e9c47",
+      "bytes": "89460c",
+      "evidence_scope": "adjacent_context_only"
+    },
+    {
+      "role": "zero_10",
+      "address": "0x002e9c4a",
+      "bytes": "894610",
+      "evidence_scope": "adjacent_context_only"
+    },
+    {
+      "role": "zero_14",
+      "address": "0x002e9c4d",
+      "bytes": "894614",
+      "evidence_scope": "adjacent_context_only"
+    },
+    {
+      "role": "zero_18",
+      "address": "0x002e9c50",
+      "bytes": "894618",
+      "evidence_scope": "adjacent_context_only"
+    },
+    {
+      "role": "restore_esi",
+      "address": "0x002e9c53",
+      "bytes": "5e",
+      "evidence_scope": "adjacent_context_only"
+    },
+    {
+      "role": "ret",
+      "address": "0x002e9c54",
+      "bytes": "c3",
+      "evidence_scope": "adjacent_context_only"
+    }
+  ],
+  "context_provenance": {
+    "function_entry": "002e9c30",
+    "source": "immutable copied-project program memory",
+    "scope": "adjacent context, not an official function body and not whole-XBE reauthentication",
+    "start": "002e9c30",
+    "end_inclusive": "002e9c81",
+    "last_official_body_address": "002e9c41",
+    "length": 82,
+    "program_memory_context_sha256": "0F5C8818C9E8DF592509BD9E6E9654DE506D52B7B51DA0C77DE5687B4D882180"
+  },
+  "analyzed_flow_override": {
+    "address": "0x002e9c3d",
+    "value": "CALL_RETURN",
+    "used_for_control_flow": false
+  },
+  "call_target": "0x002ea018",
+  "source_call": "thunk_FUN_00237ec0(guest_allocation_va);",
+  "guest_indirect_slot": "0x003bc654",
+  "unchanged_dependencies": [
+    {
+      "source": "include/bf_002ea018_heap_free_guest32.h",
+      "source_sha256": "2702304c1b7a712dbf9f6de09770f13202bab3b596534097d7b683464ff553db"
+    },
+    {
+      "source": "src/main_unclassified/band_002e/0x002ea018.cpp",
+      "source_sha256": "9010ae46707759b7b8b90e3c53db6b44f81566275023a79e7881af06920cce34"
+    },
+    {
+      "source": "src/main_unclassified/band_0006/0x00067bf0.cpp",
+      "source_sha256": "e94f7e19233062f9fcd6f75db3b2c17654e085769ef535fe583a5465d42d2a35"
+    }
+  ],
+  "valid_object_scope": [
+    "Initialized ordinary native DWORD storage representing a seven-word operation only; no guest-to-host mapping is inferred.",
+    "All seven words remain valid and writable through the callback, which returns normally.",
+    "The callback observes the new table word and receives the allocation word captured before that store. It may mutate object words; later stores clear only indexes 3,4,5,6 in source order.",
+    "No object lifetime ending, faults, MMIO, concurrent access, guest-address wrapping, original exceptions or arbitrary aliasing is modeled."
+  ],
+  "unverified": [
+    "Original ECX-to-host input binding; canonical pointer pseudo-register remains uninitialized.",
+    "Guest ESI survival across a dynamically replaced target; source local pointer is only a projection assuming that survival.",
+    "EAX is zero at machine RET, while unchanged void signature supplies no C++ result or register guarantee.",
+    "XOR flags are overwritten by ADD ESP,4; final flags and exact ESP/RET/POP behavior are not modeled.",
+    "Other caller/callee register clobbers, guest heap identity, target dispatch, guest stack memory, and native runtime linkage.",
+    "Official recorded body is only 18 bytes. The separate 82-byte context establishes an instruction path through RET, not new inventory-authenticated body boundaries or whole-XBE identity."
+  ],
+  "source_sequence_limit": "Traced cells test extracted C++ source sequencing only. Optimized ordinary DWORD stores may be coalesced or reordered; original fault, MMIO and concurrent-observer behavior is excluded."
+}

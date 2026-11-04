@@ -32,7 +32,13 @@ CALLEES = {
     "00174aa0": ("96a0c750cd6a0d355f08ed40698ce359f8a7cb2f", "void FUN_00174aa0(int param_1)"),
     "0012aba0": ("4e3c6c2d5514e7b317f4c0f21611ac67e2a2c0c8", "void FUN_0012aba0(void)"),
 }
+# The November 2 declaration contract retains its exact original header pin.
 HEADER_BLOB = "dd77bc872c0f6240d6035f775b1d64df7cc33094"
+# The only reviewed evolution is 3e362b69bf11774eb4bad6c278d1fbe75d382273:
+# a single CONCAT14 spelling, also recorded in the integer primitive manifest.
+# Verify both endpoints and the reversible edit; do not replace the old pin.
+EVOLVED_HEADER_BLOB = "b282a40b581257dce6d7e459c873a4e4be12e36f"
+HEADER_ADDITION = b"#define CONCAT14(h,l) ((uint64_t)bf_ghidra_concat_words((h),(l),1,4))\n"
 
 
 def blob_sha(data: bytes) -> str:
@@ -43,8 +49,15 @@ def source_path(root: Path, ident: str) -> Path:
     return root / "src" / "main_unclassified" / ("band_" + ident[:4]) / ("0x" + ident + ".cpp")
 
 
+def assert_header_history(header: bytes) -> None:
+    assert blob_sha(header) == EVOLVED_HEADER_BLOB, "shared header: evolved source drift"
+    assert header.count(HEADER_ADDITION) == 1, "shared header: missing or duplicate CONCAT14 addition"
+    historical = header.replace(HEADER_ADDITION, b"", 1)
+    assert blob_sha(historical) == HEADER_BLOB, "shared header: historical source drift"
+
+
 def assert_source_only(root: Path) -> None:
-    assert blob_sha((root / "include/bf_ghidra_types.h").read_bytes()) == HEADER_BLOB
+    assert_header_history((root / "include/bf_ghidra_types.h").read_bytes())
     for ident, (original_sha, body_sha, declarations) in CALLERS.items():
         text = source_path(root, ident).read_text(encoding="utf-8")
         block = BLOCK_NOTE + "\n".join(declarations) + "\n"
