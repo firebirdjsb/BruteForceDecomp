@@ -24,7 +24,7 @@ void FUN_000de540(int param_1)
   while( true ) {
     if (puVar2 == *(undefined4 **)(in_ECX + 0xc28)) {
       iVar1 = *(int *)(in_ECX + 0xc28);
-      iVar3 = FUN_000ff730(in_ECX + 0xc24,iVar1,*(undefined4 *)(iVar1 + 4),&param_1);
+      iVar3 = FUN_000ff730(in_ECX + 0xc24,iVar1,*(undefined4 *)(iVar1 + 4),reinterpret_cast<undefined4 *>(&param_1));
       FUN_000b2a50();
       *(int *)(iVar1 + 4) = iVar3;
       **(int **)(iVar3 + 4) = iVar3;

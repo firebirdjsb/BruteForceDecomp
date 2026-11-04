@@ -9,6 +9,8 @@ import shutil
 import struct
 import subprocess
 
+from cpp_memory_call_declarations import restore_for_byte_offset_ledger
+
 EXPECTED_XBE = 'B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721'
 
 
@@ -79,6 +81,9 @@ def main():
         if not args.probes_only:
             path = args.root/case['path']
             text = path.read_text(encoding='utf-8')
+            # Compose only the separately SHA-pinned later call declarations.
+            # The original byte-offset manifest and preimage hashes stay fixed.
+            text = restore_for_byte_offset_ledger(args.root, case, text)
             before, after = case['before'], case['after']
             if text.count(after) != 1 or before in text or 'ABI_UNVERIFIED' not in text:
                 raise ValueError('Source edit changed '+case['entry'])

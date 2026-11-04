@@ -8,6 +8,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched raw guest DWORD interface; native callback mapping and ABI
+ * remain unverified. No host function pointer is introduced. */
+extern int __cdecl _atexit(undefined4 callback_guest_word);
 /* Source-matched declaration of FUN_00310440; callback ABI and behavior remain
  * ABI_UNVERIFIED. This only resolves name lookup in the C11 draft. */
 extern void FUN_00310440(void);
@@ -39,19 +42,19 @@ undefined4 FUN_0009e8b0(void)
   
   if ((DAT_004a748c & 1) == 0) {
     DAT_004a748c = DAT_004a748c | 1;
-    _DAT_004a7470 = &UNK_0038df04;
-    _DAT_004a746c = &UNK_0038df04;
+    _DAT_004a7470 = UINT32_C(0x0038df04);
+    _DAT_004a746c = UINT32_C(0x0038df04);
     _DAT_004a745c = 0xedca4b16;
     _DAT_004a7460 = 0xeee373be;
-    _DAT_004a7468 = &UNK_0038def4;
+    _DAT_004a7468 = UINT32_C(0x0038def4);
     _DAT_004a7464 = 0x10;
     _DAT_004a7474 = 0xe59d69a0;
     _DAT_004a7478 = 0xeee373be;
-    _DAT_004a7488 = &UNK_0038def0;
-    _DAT_004a7480 = &UNK_0038def4;
-    _DAT_004a7484 = &UNK_0038def0;
+    _DAT_004a7488 = UINT32_C(0x0038def0);
+    _DAT_004a7480 = UINT32_C(0x0038def4);
+    _DAT_004a7484 = UINT32_C(0x0038def0);
     _DAT_004a747c = 0;
-    _atexit(FUN_00310440);
+    _atexit(UINT32_C(0x00310440));
   }
   if (unaff_ESI != (undefined4 *)0x0) {
     *unaff_ESI = UINT32_C(0x004a745c);

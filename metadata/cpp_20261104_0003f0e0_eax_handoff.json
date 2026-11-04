@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "scope": "One existing EAX-model argument restored from the caller MOV EAX,ESI; no signature or pointer conversion",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "base_commit": "3592e3baffc73387faa8e83fe4aef78a0b4b652d",
+  "evidence": {
+    "archive_name": "REA-Evidence.zip",
+    "archive_sha256": "3b76a9013dcafe31b7b8b278255048c44fd635224ab788cc7ed8d8887108b783",
+    "range_export_name": "FunctionExport.zip",
+    "range_export_sha256": "2ae4f35ac3a9a014321b7c3e59af906b6a310f6232b35742804b877783f078a5",
+    "method": "Expand original instruction exports into address-keyed bytes, require exact body-range coverage, and match reconstructed SHA-256 against FunctionExport and canonical inventory. Self-reported authenticated flags are ignored. Only short relevant windows are retained."
+  },
+  "case": {
+    "entry": "0x0003f0e0",
+    "source": "src/main_unclassified/band_0003/0x0003f0e0.cpp",
+    "original_body_sha256": "DCDA3CF09D39198A7FB8E0516FBEF2EA594502676F5FDBADA628A5194AE7D8DA",
+    "body_byte_count": 86,
+    "body_ranges": [
+      {
+        "start": "0x0003F0E0",
+        "end_inclusive": "0x0003F135",
+        "length": 86
+      }
+    ],
+    "source_before_sha256": "2d0f57b673d9140576daf8c0df17556f973f3db162c9c1d61097534ea298c2f8",
+    "source_after_sha256": "0816221884073200267c43d070692a24a13eaa9d16868df531546804c2773394",
+    "preimage_git_blob": "0a5374825d11e30a382657cafc0b0cd41df9b454",
+    "private_record": "REA-Evidence/callee_output/0x0003f0e0.json",
+    "body_range_source": "FunctionExport/functions_000400_000499.jsonl",
+    "old_call": "FUN_000120f0();",
+    "new_call": "FUN_000120f0(unaff_ESI);",
+    "existing_declaration": "extern uint32_t FUN_000120f0(int32_t in_EAX);",
+    "instruction_windows": [
+      {
+        "address": "0x0003f0e0",
+        "bytes": "53"
+      },
+      {
+        "address": "0x0003f0e1",
+        "bytes": "8bc6"
+      },
+      {
+        "address": "0x0003f0e3",
+        "bytes": "33db"
+      },
+      {
+        "address": "0x0003f0e5",
+        "bytes": "e80630fdff"
+      },
+      {
+        "address": "0x0003f0ea",
+        "bytes": "3bc3"
+      },
+      {
+        "address": "0x0003f12d",
+        "bytes": "c20400"
+      },
+      {
+        "address": "0x0003f133",
+        "bytes": "c20400"
+      }
+    ]
+  },
+  "callee": {
+    "entry": "0x000120f0",
+    "source": "src/main_unclassified/band_0001/0x000120f0.cpp",
+    "source_sha256": "489e756aa67efded951953ae71a2ce264c07aebeffc30db237759f85751490e6",
+    "existing_definition_signature": "uint32_t FUN_000120f0(int32_t in_EAX)",
+    "original_body_sha256": "9FEFE68C61CEC0943A913B1988495825BFD1E3F128E1F92DB0A3DA5D8376BB9C",
+    "body_byte_count": 71,
+    "body_ranges": [
+      {
+        "start": "0x000120F0",
+        "end_inclusive": "0x00012136",
+        "length": 71
+      }
+    ],
+    "private_record": "REA-Evidence/private-results/bf_caller_windows.json",
+    "private_record_collection": "callee_and_helper_windows",
+    "body_range_source": "FunctionExport/functions_000000_000099.jsonl",
+    "instruction_windows": [
+      {
+        "address": "0x000120f0",
+        "bytes": "83ec08"
+      },
+      {
+        "address": "0x000120f3",
+        "bytes": "33c9"
+      },
+      {
+        "address": "0x000120f5",
+        "bytes": "894c2400"
+      },
+      {
+        "address": "0x000120f9",
+        "bytes": "8b5008"
+      },
+      {
+        "address": "0x00012130",
+        "bytes": "8bc6"
+      },
+      {
+        "address": "0x00012132",
+        "bytes": "5e"
+      },
+      {
+        "address": "0x00012133",
+        "bytes": "83c408"
+      },
+      {
+        "address": "0x00012136",
+        "bytes": "c3"
+      }
+    ]
+  },
+  "verification_boundary": "Only the existing incoming EAX model argument is provided. The caller still has unresolved original live-in ESI, guest/host memory mapping and surrounding partial-register semantics. The callee source retains independent compilation and memory-model blockers. This is neither recovered native ABI nor successful cross-function linkage or runtime behavior. Only initialized synthetic signed DWORD transfer expressions execute in tests."
+}

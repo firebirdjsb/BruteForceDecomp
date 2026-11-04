@@ -25,5 +25,5 @@ undefined * FUN_000b8860(void)
     DAT_004a5c82 = 0x8a;
     DAT_004a5c83 = 0xff;
   }
-  return &DAT_004a5c80;
+  return reinterpret_cast<undefined *>(&DAT_004a5c80);
 }

@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "scope": "Four bounded guest DWORD immediate stores; preserve all declarations, return statements and function identity labels.",
+  "base_commit": "280f5cf7317833f7b224d18c8a3d56be664c8f96",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_game_bytes_executed": false,
+  "guest_memory_mapping_verified": false,
+  "evidence": {
+    "source": "Immutable Ghidra program-memory export, functions.jsonl, all-v1",
+    "ghidra_version": "12.1.4",
+    "language_id": "x86:LE:32:default",
+    "compiler_spec_id": "windows",
+    "access_mode": "Read-only program view; no analysis or project mutation",
+    "provenance_json_sha256": "043b3bcbafe64dfd582407b63869706ab6ede8b5f741033fa64ab21678575c8e",
+    "validation_json_sha256": "5798418be97d58257a5adcd13d9927096d251136e29fbf925f3ccb6c46020afe",
+    "method": "Each exact 11-byte body independently decodes as C7 /0 mod=00 r/m=101 absolute DWORD imm32 store followed by C3 RET. Exported memory body hashes match canonical inventory. Listing text is not operand proof; byte decoding supplies address and value. Stored executable metadata does not authenticate the complete original image."
+  },
+  "historical_manifest_overlap": {
+    "scanned_pattern": "metadata/**/*.json",
+    "scanned_file_count": 26,
+    "scanned_relative_paths_sha256": "59daa77fad5edde5c87bc487baca3846fcbe8728c780db41f086aa7de6ad9ecc",
+    "matching_manifests": [],
+    "method": "Before editing, search all existing JSON metadata for these four entry hex strings. No historical repair overlays require composition. Identity and group CSV rows remain unchanged."
+  },
+  "cases": [
+    {
+      "entry": "0x0030f7d0",
+      "source": "src/main_unclassified/band_0030/0x0030f7d0.cpp",
+      "original_body_sha256": "84AB4E18F6B21B2FDA87A3EA4DA9F6BF36185B8F78482FFF91AE5E048E49836F",
+      "body_byte_count": 11,
+      "instruction_count": 2,
+      "body_range": {
+        "start": "0x0030f7d0",
+        "end_inclusive": "0x0030f7da",
+        "length": 11
+      },
+      "body_bytes_hex": "c70550104000a0e33900c3",
+      "store_address": "0x0030f7d0",
+      "return_address": "0x0030f7da",
+      "destination_guest_address": "0x00401050",
+      "stored_guest_word": "0x0039e3a0",
+      "source_before_sha256": "5f38e71afbdd30d5eaf0ecb882b828cfcc95cccf485200fe6269e8c0cad4abdc",
+      "source_after_sha256": "c9ce82274a69a687c9779bc0273521babfaa49c84a841d6428ffac2b0869a647",
+      "preimage_git_blob": "88291dc4b3ac73d30f0f2c919b6d0fe0b975fea3",
+      "replacement": {
+        "before": "PTR_PTR_00401050 = (undefined *)&PTR_LAB_0039e3a0;",
+        "after": "PTR_PTR_00401050 = UINT32_C(0x0039e3a0);",
+        "count": 1
+      },
+      "expected_original_error": "incompatible pointer to integer conversion",
+      "private_record": {
+        "jsonl_byte_offset": 266776310,
+        "jsonl_byte_length": 1034,
+        "jsonl_record_sha256": "d4680bec2ee334c4fa7b8958a0af0fc13007befa633c8a5f56af9688888c9c77"
+      },
+      "listing_review": {
+        "issues": [],
+        "flow_override": "NONE",
+        "length_override": false,
+        "fallthrough_override": false
+      }
+    },
+    {
+      "entry": "0x0030f7e0",
+      "source": "src/main_unclassified/band_0030/0x0030f7e0.cpp",
+      "original_body_sha256": "863863DC8BD3C27836B24EF2A1D188A4D0AB1814C83BE8CAD0C162C43F0DFCD2",
+      "body_byte_count": 11,
+      "instruction_count": 2,
+      "body_range": {
+        "start": "0x0030f7e0",
+        "end_inclusive": "0x0030f7ea",
+        "length": 11
+      },
+      "body_bytes_hex": "c7055410400038e53900c3",
+      "store_address": "0x0030f7e0",
+      "return_address": "0x0030f7ea",
+      "destination_guest_address": "0x00401054",
+      "stored_guest_word": "0x0039e538",
+      "source_before_sha256": "b40ead795c9d095371cb655cc6faec84e8c6ccdbac54d194f3700635942ae883",
+      "source_after_sha256": "bfc72fb6fe0a73e24eea18485cb69f08e86f42f21962cd616b66a4a59634208d",
+      "preimage_git_blob": "1ddb7ca11bb85a73a7235bf5a2fa178aeec22753",
+      "replacement": {
+        "before": "PTR_PTR_00401054 = (undefined *)&PTR_LAB_0039e538;",
+        "after": "PTR_PTR_00401054 = UINT32_C(0x0039e538);",
+        "count": 1
+      },
+      "expected_original_error": "incompatible pointer to integer conversion",
+      "private_record": {
+        "jsonl_byte_offset": 266777344,
+        "jsonl_byte_length": 1034,
+        "jsonl_record_sha256": "7bc2a91764ce560d74db9b328f7d539a6b284e3d1825f8f5f0a16d42af245564"
+      },
+      "listing_review": {
+        "issues": [],
+        "flow_override": "NONE",
+        "length_override": false,
+        "fallthrough_override": false
+      }
+    },
+    {
+      "entry": "0x0030f7f0",
+      "source": "src/main_unclassified/band_0030/0x0030f7f0.cpp",
+      "original_body_sha256": "066A97FD8D2672ED629DFA120D264D338476205D54D13143642C8437C89612FA",
+      "body_byte_count": 11,
+      "instruction_count": 2,
+      "body_range": {
+        "start": "0x0030f7f0",
+        "end_inclusive": "0x0030f7fa",
+        "length": 11
+      },
+      "body_bytes_hex": "c70558104000a0e33900c3",
+      "store_address": "0x0030f7f0",
+      "return_address": "0x0030f7fa",
+      "destination_guest_address": "0x00401058",
+      "stored_guest_word": "0x0039e3a0",
+      "source_before_sha256": "3b6b9cd48f0b09c686227e924f171f45ce602dc5950a70e792ff1263c369b8c3",
+      "source_after_sha256": "635ba0f81ef38053e2de5bd19bdb43da81a5cc5e5bb9dfd814828dd7cf34f42c",
+      "preimage_git_blob": "c36085f34671c299c8836b6ef01020bcd4384a2e",
+      "replacement": {
+        "before": "PTR_PTR_00401058 = (undefined *)&PTR_LAB_0039e3a0;",
+        "after": "PTR_PTR_00401058 = UINT32_C(0x0039e3a0);",
+        "count": 1
+      },
+      "expected_original_error": "incompatible pointer to integer conversion",
+      "private_record": {
+        "jsonl_byte_offset": 266778378,
+        "jsonl_byte_length": 1034,
+        "jsonl_record_sha256": "11ab9f17bdc55f1f5d2457f6ede6e81c05fff99bd75a1c31a815b52414198927"
+      },
+      "listing_review": {
+        "issues": [],
+        "flow_override": "NONE",
+        "length_override": false,
+        "fallthrough_override": false
+      }
+    },
+    {
+      "entry": "0x0030f820",
+      "source": "src/main_unclassified/band_0030/0x0030f820.cpp",
+      "original_body_sha256": "1DBCE9CD1D0075F2CB11DA5C4B4EB917F794516E1C69CBCF319E2647497A2185",
+      "body_byte_count": 11,
+      "instruction_count": 2,
+      "body_range": {
+        "start": "0x0030f820",
+        "end_inclusive": "0x0030f82a",
+        "length": 11
+      },
+      "body_bytes_hex": "c70560134000a0e33900c3",
+      "store_address": "0x0030f820",
+      "return_address": "0x0030f82a",
+      "destination_guest_address": "0x00401360",
+      "stored_guest_word": "0x0039e3a0",
+      "source_before_sha256": "eab6f427391d006a8479bb10547e229faf2cbb2510d281b57ae5334498fbc902",
+      "source_after_sha256": "5afc4c272a14bd094e53a723261eba0b1001221293baa59468a037e62a8dfdba",
+      "preimage_git_blob": "f4f224983b694d309c51959e01b95d5b3d68a7c1",
+      "replacement": {
+        "before": "PTR_PTR_00401360 = (undefined *)&PTR_LAB_0039e3a0;",
+        "after": "PTR_PTR_00401360 = UINT32_C(0x0039e3a0);",
+        "count": 1
+      },
+      "expected_original_error": "incompatible pointer to integer conversion",
+      "private_record": {
+        "jsonl_byte_offset": 266781482,
+        "jsonl_byte_length": 1034,
+        "jsonl_record_sha256": "b4a78b3db969db6d196a9455779416e7ee029af9bd3c5bb505b9379fe031a04a"
+      },
+      "listing_review": {
+        "issues": [],
+        "flow_override": "NONE",
+        "length_override": false,
+        "fallthrough_override": false
+      }
+    }
+  ],
+  "verification_boundary": "Only the literal DWORD store operands are recovered. The existing globals remain unresolved host storage proxies; address mapping, overlapping globals, class or vtable meaning, register/stack ABI, flags, platform behavior and game runtime remain unverified. Synthetic tests execute extracted assignments in initialized host storage, never original game bytes or canonical game functions. Host source syntax/object checks do not prove Xbox ABI, native linkage, gameplay, whole-XBE authentication or byte-identical rebuilding."
+}

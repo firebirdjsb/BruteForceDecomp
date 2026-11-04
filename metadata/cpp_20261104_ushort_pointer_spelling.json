@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "base_commit": "40097c03998d44d65cdaefa3ed55f0f376455f8c",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "meaning": "Explicit conversion of an existing DWORD-offset object address to the existing ushort pointer destination. Source spelling only; original ABI, storage and behavior remain unverified.",
+  "entry": "0x00072890",
+  "source": "src/main_unclassified/band_0007/0x00072890.cpp",
+  "original_body_sha256": "7684AB89D778871B352D0FF8FCA56F7889D608187F6DB654EA22188285EE52EC",
+  "source_before_sha256": "f4f2ff9407363b49e4e3bbbadb3bfb37315910ca782103455b4fec2292496d5b",
+  "source_after_sha256": "5aaca2295bd16b09c83160402500c2e1580ec439af295440483b6776fa42254b",
+  "old": "&DAT_0048a820 + ((int)(char)(*(char *)(in_EDX + 0x124) << 1) >> 1) * 0x3600",
+  "new": "reinterpret_cast<undefined2 *>(&DAT_0048a820 + ((int)(char)(*(char *)(in_EDX + 0x124) << 1) >> 1) * 0x3600)"
+}

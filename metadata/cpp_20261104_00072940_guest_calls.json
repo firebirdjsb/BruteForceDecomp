@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "scope": "Nine instruction-backed argument handoffs in one C++17 draft; no new prototype or ABI",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "base_commit": "cdc65a71adbe1445bf501c98d3a88e94b1e72ba5",
+  "evidence": {
+    "archive_name": "REA-Evidence.zip",
+    "archive_sha256": "3b76a9013dcafe31b7b8b278255048c44fd635224ab788cc7ed8d8887108b783",
+    "range_export_name": "FunctionExport.zip",
+    "range_export_sha256": "2ae4f35ac3a9a014321b7c3e59af906b6a310f6232b35742804b877783f078a5",
+    "method": "Reconstruct address-keyed instruction bytes; require exact coverage of each export body range; concatenate ascending ranges and match inventory/export SHA-256. Self-reported authenticated flags are not evidence. Only short relevant instruction windows are retained."
+  },
+  "case": {
+    "entry": "0x00072940",
+    "source": "src/main_unclassified/band_0007/0x00072940.cpp",
+    "original_body_sha256": "F5B3BAB9507A5A4B71447C224D87723D38E3F0BA735DBDF7A060F697DFF0F7A0",
+    "body_byte_count": 390,
+    "body_ranges": [
+      {
+        "start": "0x00072940",
+        "end_inclusive": "0x00072AC5",
+        "length": 390
+      }
+    ],
+    "source_before_sha256": "b0f996d9e29c2bace0278188abf0ee0bb3a8d09cf96118fd68589f2bcdc970e1",
+    "source_after_sha256": "bd282329fdd9c60b680cdcd25ba482c6a12ded54de11c4500d1963c0094ce4d9",
+    "preimage_git_blob": "d85ec693dc50f8db33a84ee0d76ce7c3bb93dd33",
+    "private_record": "REA-Evidence/missing_callees_output/0x00072940.json",
+    "body_range_source": "FunctionExport/functions_001200_001299.jsonl",
+    "old_call": "FUN_0008f6a0(0);"
+  },
+  "callee": {
+    "entry": "0x0008f6a0",
+    "source": "src/main_unclassified/band_0008/0x0008f6a0.cpp",
+    "original_body_sha256": "339DC70ADE9DA431A03D8964268E2B983BF89DF209448A87B645006C63D4420D",
+    "body_byte_count": 64,
+    "body_ranges": [
+      {
+        "start": "0x0008F6A0",
+        "end_inclusive": "0x0008F6DF",
+        "length": 64
+      }
+    ],
+    "source_sha256": "6996e48e796e895c0241326081bc8f9e6609e21ebf9754312e1b5a74ee528836",
+    "private_record": "REA-Evidence/private-results/bf_caller_windows.json",
+    "private_record_collection": "callee_and_helper_windows",
+    "body_range_source": "FunctionExport/functions_001700_001799.jsonl",
+    "instruction_windows": [
+      {
+        "address": "0x0008f6a0",
+        "bytes": "8b4604"
+      },
+      {
+        "address": "0x0008f6a5",
+        "bytes": "538b5c2408"
+      },
+      {
+        "address": "0x0008f6de",
+        "bytes": "5bc3"
+      }
+    ]
+  },
+  "edges": [
+    {
+      "call": {
+        "address": "0x0007296b",
+        "bytes": "e830cd0100"
+      },
+      "push": {
+        "address": "0x00072969",
+        "bytes": "6a00"
+      },
+      "caller_cleanup": {
+        "address": "0x00072970",
+        "bytes": "83c404"
+      },
+      "esi_producers": [
+        {
+          "address": "0x00072964",
+          "bytes": "8d7734"
+        }
+      ],
+      "source_call": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x34), UINT32_C(0));",
+      "guest_word_0": 0
+    },
+    {
+      "call": {
+        "address": "0x0007298f",
+        "bytes": "e80ccd0100"
+      },
+      "push": {
+        "address": "0x0007298d",
+        "bytes": "6a00"
+      },
+      "caller_cleanup": {
+        "address": "0x00072994",
+        "bytes": "83c404"
+      },
+      "esi_producers": [
+        {
+          "address": "0x00072987",
+          "bytes": "8d74df34"
+        }
+      ],
+      "source_call": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + static_cast<std::uint32_t>(unaff_EBX) * UINT32_C(8) + UINT32_C(0x34), UINT32_C(0));",
+      "guest_word_0": 0
+    },
+    {
+      "call": {
+        "address": "0x000729c0",
+        "bytes": "e8dbcc0100"
+      },
+      "push": {
+        "address": "0x000729be",
+        "bytes": "6a00"
+      },
+      "caller_cleanup": {
+        "address": "0x000729c5",
+        "bytes": "83c404"
+      },
+      "esi_producers": [
+        {
+          "address": "0x000729b9",
+          "bytes": "8d773c"
+        }
+      ],
+      "source_call": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x3c), UINT32_C(0));",
+      "guest_word_0": 0
+    },
+    {
+      "call": {
+        "address": "0x000729e1",
+        "bytes": "e8bacc0100"
+      },
+      "push": {
+        "address": "0x000729df",
+        "bytes": "6a00"
+      },
+      "caller_cleanup": {
+        "address": "0x000729e6",
+        "bytes": "83c404"
+      },
+      "esi_producers": [
+        {
+          "address": "0x000729da",
+          "bytes": "8d7744"
+        }
+      ],
+      "source_call": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x44), UINT32_C(0));",
+      "guest_word_0": 0
+    },
+    {
+      "call": {
+        "address": "0x00072a02",
+        "bytes": "e899cc0100"
+      },
+      "push": {
+        "address": "0x00072a00",
+        "bytes": "6a00"
+      },
+      "caller_cleanup": {
+        "address": "0x00072a07",
+        "bytes": "83c404"
+      },
+      "esi_producers": [
+        {
+          "address": "0x000729fb",
+          "bytes": "8d774c"
+        }
+      ],
+      "source_call": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x4c), UINT32_C(0));",
+      "guest_word_0": 0
+    },
+    {
+      "call": {
+        "address": "0x00072a23",
+        "bytes": "e878cc0100"
+      },
+      "push": {
+        "address": "0x00072a21",
+        "bytes": "6a00"
+      },
+      "caller_cleanup": {
+        "address": "0x00072a28",
+        "bytes": "83c404"
+      },
+      "esi_producers": [
+        {
+          "address": "0x00072a1c",
+          "bytes": "8d7754"
+        }
+      ],
+      "source_call": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x54), UINT32_C(0));",
+      "guest_word_0": 0
+    },
+    {
+      "call": {
+        "address": "0x00072a44",
+        "bytes": "e857cc0100"
+      },
+      "push": {
+        "address": "0x00072a42",
+        "bytes": "6a00"
+      },
+      "caller_cleanup": {
+        "address": "0x00072a49",
+        "bytes": "83c404"
+      },
+      "esi_producers": [
+        {
+          "address": "0x00072a3d",
+          "bytes": "8d775c"
+        }
+      ],
+      "source_call": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x5c), UINT32_C(0));",
+      "guest_word_0": 0
+    },
+    {
+      "call": {
+        "address": "0x00072a77",
+        "bytes": "e824cc0100"
+      },
+      "push": {
+        "address": "0x00072a75",
+        "bytes": "6a00"
+      },
+      "caller_cleanup": {
+        "address": "0x00072a7c",
+        "bytes": "83c404"
+      },
+      "esi_producers": [
+        {
+          "address": "0x00072a70",
+          "bytes": "8d774c"
+        }
+      ],
+      "source_call": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x4c), UINT32_C(0));",
+      "guest_word_0": 0
+    },
+    {
+      "call": {
+        "address": "0x00072abc",
+        "bytes": "e8dfcb0100"
+      },
+      "push": {
+        "address": "0x00072aba",
+        "bytes": "6a00"
+      },
+      "caller_cleanup": {
+        "address": "0x00072ac1",
+        "bytes": "83c404"
+      },
+      "esi_producers": [
+        {
+          "address": "0x00072a59",
+          "bytes": "8d7764"
+        },
+        {
+          "address": "0x00072a8c",
+          "bytes": "8d7754"
+        },
+        {
+          "address": "0x00072a9e",
+          "bytes": "8d773c"
+        },
+        {
+          "address": "0x00072ab0",
+          "bytes": "8d7744"
+        }
+      ],
+      "source_call": "FUN_0008f6a0(static_cast<std::uint32_t>(iVar1), UINT32_C(0));",
+      "guest_word_0": 0,
+      "source_bindings": [
+        "iVar1 = unaff_EDI + 100;",
+        "iVar1 = unaff_EDI + 0x54;",
+        "iVar1 = unaff_EDI + 0x3c;",
+        "iVar1 = unaff_EDI + 0x44;"
+      ]
+    }
+  ],
+  "verification_boundary": "Only existing guest32 model arguments are restored. The caller retains unresolved live-in registers, guest/host memory mapping, signed address arithmetic, nested-call effects and switch table semantics. No whole original function executes in tests; synthetic arithmetic and a capture-only mock are tested. No recovered native Xbox ABI, linkage, behavior or byte-identical rebuild is claimed."
+}

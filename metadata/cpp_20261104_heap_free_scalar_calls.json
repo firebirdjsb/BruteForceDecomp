@@ -1,0 +1,611 @@
+{
+  "schema_version": 1,
+  "scope": "Five existing scalar DWORD heap-thunk calls: existing header only for three callers and original address-specific callee identity for two. No signature, prototype, global, pointer conversion or runtime adapter change.",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "base_commit": "c0ee5c65154399963851cd92279eb81e17e5b998",
+  "evidence": {
+    "archive_name": "GhidraProjects.zip",
+    "archive_sha256": "7a7183991d57d12b869fcea9acc92e5ecd9d2f4e9292904a2329899955438905",
+    "source": "Read-only immutable copied Ghidra program memory. No original FileBytes exists; full XBE identity remains metadata only.",
+    "body_method": "Ascending original body ranges concatenate exactly, matching canonical inventory and unchanged historical ledger. Every instruction byte covers exactly the original body; raw x86 bytes determine transfer and cleanup.",
+    "context_method": "Separately SHA-pinned adjacent context supplies bytes excluded by stored CALL_RETURN flow overrides. Context is not included in original body ranges or digest.",
+    "analysis_metadata_quarantined": [
+      "CALL_RETURN flow overrides",
+      "Ghidra flow_type",
+      "Ghidra text/operand/target labels"
+    ],
+    "runtime_boundary": "No canonical whole function executed. Only initialized synthetic scalar argument transfers are exercised. The existing guest tail-jump adapter remains undefined."
+  },
+  "header": {
+    "source": "include/bf_002ea018_heap_free_guest32.h",
+    "source_sha256": "2702304c1b7a712dbf9f6de09770f13202bab3b596534097d7b683464ff553db"
+  },
+  "models": [
+    {
+      "source": "src/main_unclassified/band_002e/0x002ea018.cpp",
+      "source_sha256": "9010ae46707759b7b8b90e3c53db6b44f81566275023a79e7881af06920cce34",
+      "original_body_sha256": "294834B54A619FECA8C92DEFC6F1FEE5F351FBAB0CF3F387F9FDAAC1FE6CD6C3",
+      "body_byte_count": 5,
+      "body_ranges": [
+        {
+          "start": "0x002EA018",
+          "end_inclusive": "0x002EA01C",
+          "length": 5
+        }
+      ],
+      "existing_export_record": "REA-Evidence.zip!REA-Evidence/callee_output/0x002ea018.json",
+      "entry": "0x002ea018",
+      "private_function_record": "all-v1/functions.jsonl#002ea018",
+      "instruction_window": {
+        "address": "0x002ea018",
+        "bytes": "e9d3dbd7ff"
+      }
+    },
+    {
+      "source": "src/main_unclassified/band_0006/0x00067bf0.cpp",
+      "source_sha256": "e94f7e19233062f9fcd6f75db3b2c17654e085769ef535fe583a5465d42d2a35",
+      "original_body_sha256": "964E6CBFFE5D3753558EC7D2E38D46DFE066CF0156FB09CC0FAD3B5FF329ACE2",
+      "body_byte_count": 6,
+      "body_ranges": [
+        {
+          "start": "0x00067BF0",
+          "end_inclusive": "0x00067BF5",
+          "length": 6
+        }
+      ],
+      "existing_export_record": "REA-Evidence.zip!REA-Evidence/BruteForce-Caller-Windows-PRIVATE.zip!bf_caller_windows.json/caller_windows/3",
+      "entry": "0x00067bf0",
+      "private_function_record": "all-v1/functions.jsonl#00067bf0",
+      "instruction_window": {
+        "address": "0x00067bf0",
+        "bytes": "ff2554c63b00"
+      }
+    },
+    {
+      "source": "src/main_unclassified/band_002e/0x002ea4f9.cpp",
+      "source_sha256": "319c90650c2c40563df8f5801d187b9f40af73f7b028e9972b0ed58e21e09d1e",
+      "original_body_sha256": "EE0AFD26B5AD2109B6447F4B4B9F49E8D7A874921ACB621226F018944545AD93",
+      "body_byte_count": 5,
+      "body_ranges": [
+        {
+          "start": "0x002EA4F9",
+          "end_inclusive": "0x002EA4FD",
+          "length": 5
+        }
+      ],
+      "existing_export_record": "REA-Evidence.zip!REA-Evidence/callee_output/0x002ea4f9.json",
+      "entry": "0x002ea4f9",
+      "private_function_record": "all-v1/functions.jsonl#002ea4f9",
+      "instruction_window": {
+        "address": "0x002ea4f9",
+        "bytes": "e91afbffff"
+      }
+    },
+    {
+      "source": "src/main_unclassified/band_0023/0x00237ec0.cpp",
+      "source_sha256": "a5aaa443dd2d5adec81ed84b664b031d4c8812abd6f2e031970268ae0530be76",
+      "original_body_sha256": "AA35726C3037E872B1F4DD54BC64DF55B01AC73E8ED04533F2411D071FCEBD54",
+      "body_byte_count": 19,
+      "body_ranges": [
+        {
+          "start": "0x00237EC0",
+          "end_inclusive": "0x00237ED2",
+          "length": 19
+        }
+      ],
+      "existing_export_record": "REA-Evidence.zip!REA-Evidence/BruteForce-Caller-Windows-PRIVATE.zip!bf_caller_windows.json/callee_and_helper_windows/2",
+      "entry": "0x00237ec0",
+      "private_function_record": "all-v1/functions.jsonl#00237ec0"
+    },
+    {
+      "source": "src/main_unclassified/band_002f/0x002f77f3.cpp",
+      "source_sha256": "8c9d356e2f44dfcd63376f2bc93347512b0e813099dc3c2b99ab016cceebeeef",
+      "original_body_sha256": "051B0569AA703CFE0AA5FEAEA2E3CD08E6B1BF1B4F08C2202E5570C36A130959",
+      "body_byte_count": 6,
+      "body_ranges": [
+        {
+          "start": "0x002F77F3",
+          "end_inclusive": "0x002F77F8",
+          "length": 6
+        }
+      ],
+      "existing_export_record": "REA-Evidence.zip!REA-Evidence/BruteForce-Caller-Windows-PRIVATE.zip!bf_caller_windows.json/callee_and_helper_windows/3",
+      "entry": "0x002f77f3",
+      "private_function_record": "all-v1/functions.jsonl#002f77f3"
+    },
+    {
+      "source": "src/main_unclassified/band_002f/0x002f77dc.cpp",
+      "source_sha256": "b4366c610847c0bcc21a22223817df3bf97fc49e234491e4c2e7ae4edd3ea80a",
+      "original_body_sha256": "A4035F578AC64F75B8FEEFE280843301EDD247FBAD78BCE2C95D20F0DB9E4BC1",
+      "body_byte_count": 23,
+      "body_ranges": [
+        {
+          "start": "0x002F77DC",
+          "end_inclusive": "0x002F77F2",
+          "length": 23
+        }
+      ],
+      "existing_export_record": "REA-Evidence.zip!REA-Evidence/BruteForce-Caller-Windows-PRIVATE.zip!bf_caller_windows.json/callee_and_helper_windows/4",
+      "entry": "0x002f77dc",
+      "private_function_record": "all-v1/functions.jsonl#002f77dc"
+    }
+  ],
+  "cases": [
+    {
+      "entry": "0x0008dcf0",
+      "source": "src/main_unclassified/band_0008/0x0008dcf0.cpp",
+      "original_body_sha256": "E20D1B2127E7DB88E43E03E02961FF9EB17FDACFEC21E101178862555912A026",
+      "body_byte_count": 45,
+      "body_ranges": [
+        {
+          "start": "0x0008DCF0",
+          "end_inclusive": "0x0008DD05",
+          "length": 22
+        },
+        {
+          "start": "0x0008DD09",
+          "end_inclusive": "0x0008DD1F",
+          "length": 23
+        }
+      ],
+      "source_before_sha256": "efcfeb34b92f06181e722135b16ea8a5ae2c5acc39d36f66b000a7facd5616e3",
+      "source_after_sha256": "f3f042a492bc62d4fe8cea671591e645dcab40598198ceb72bb6bbbc2328e396",
+      "preimage_git_blob": "d6e29a50836173daff51eba8c64a3326b6c55f14",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\n#include \"bf_002ea018_heap_free_guest32.h\"\n",
+          "count": 1,
+          "kind": "existing_guest32_header"
+        }
+      ],
+      "historical_ledger": {
+        "ledger": "metadata/cpp_20261101_literal_declarations.json",
+        "ledger_sha256": "a5ad8f63714151ddcc66088df4999c54cf988c4e11699f2495410f306506aeef",
+        "case_index": 60,
+        "historical_status": "partial",
+        "historical_result_sha256": "efcfeb34b92f06181e722135b16ea8a5ae2c5acc39d36f66b000a7facd5616e3",
+        "historical_preimage_sha256": "950cba113927e8cdf2459813e4f6ab67252c32fc929932ba45770c5b84474e69",
+        "historical_preimage_git_blob": "d694eedab46f9cca469fc2b93dbfe40620c9e0e6",
+        "original_literal_edit_count": 1
+      },
+      "call_target": "0x002ea018",
+      "source_call_before": "thunk_FUN_00237ec0(in_ECX[0xb]);",
+      "source_call_after": "thunk_FUN_00237ec0(in_ECX[0xb]);",
+      "source_argument": "in_ECX[0xb]",
+      "instruction_windows": {
+        "binding": {
+          "address": "0x0008dcf1",
+          "bytes": "8bf1",
+          "evidence_scope": "official_body"
+        },
+        "load": {
+          "address": "0x0008dcf9",
+          "bytes": "8b462c",
+          "evidence_scope": "official_body"
+        },
+        "push": {
+          "address": "0x0008dd00",
+          "bytes": "50",
+          "evidence_scope": "official_body"
+        },
+        "call": {
+          "address": "0x0008dd01",
+          "bytes": "e812c32500",
+          "evidence_scope": "official_body"
+        },
+        "cleanup": {
+          "address": "0x0008dd06",
+          "bytes": "83c404",
+          "evidence_scope": "adjacent_context_only"
+        },
+        "continuation": {
+          "address": "0x0008dd09",
+          "bytes": "c7462c00000000",
+          "evidence_scope": "official_body"
+        },
+        "epilogue": {
+          "address": "0x0008dd1e",
+          "bytes": "5ec3",
+          "evidence_scope": "official_body"
+        }
+      },
+      "analyzed_flow_override": {
+        "address": "0x0008dd01",
+        "value": "CALL_RETURN",
+        "used_for_control_flow": false
+      },
+      "private_function_record": "all-v1/functions.jsonl#0008dcf0",
+      "private_context_record": "heap-free-context-v1/0008dcf0.json",
+      "context_provenance": {
+        "start": "0008dcf0",
+        "end_inclusive": "0008dd2f",
+        "last_official_body_address": "0008dd1f",
+        "length": 64,
+        "program_memory_context_sha256": "F60995E740C92FCE8437119346E88176793CAAEBF32D04A9C86249BC4C701AFE",
+        "source": "immutable copied-project program memory",
+        "scope": "adjacent context, not an official function body and not whole-XBE reauthentication"
+      },
+      "continuation_review": "Raw call fallthrough reaches one-word caller cleanup and the existing stores/epilogue through plain RET. Source continuation retained unchanged; broad return/register effects remain ABI_UNVERIFIED."
+    },
+    {
+      "entry": "0x000c0040",
+      "source": "src/main_unclassified/band_000c/0x000c0040.cpp",
+      "original_body_sha256": "010B16FBE698771B0818CACF43C2E7458FFD8D25E4AC9CE4DF2C2F1B509C1225",
+      "body_byte_count": 105,
+      "body_ranges": [
+        {
+          "start": "0x000C0040",
+          "end_inclusive": "0x000C0070",
+          "length": 49
+        },
+        {
+          "start": "0x000C0074",
+          "end_inclusive": "0x000C00AB",
+          "length": 56
+        }
+      ],
+      "source_before_sha256": "365ee67e738c5282fbb932056c823c51600d44298385884cc231505431b834f7",
+      "source_after_sha256": "57c9736b0b515894918a2d2058d52ba619d2757ee6eee3d7aa338dc97c54a025",
+      "preimage_git_blob": "fa0001b8d30455c0923b4f9567f4ea7564a00f85",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\n#include \"bf_002ea018_heap_free_guest32.h\"\n",
+          "count": 1,
+          "kind": "existing_guest32_header"
+        }
+      ],
+      "historical_ledger": {
+        "ledger": "metadata/cpp_20261101_literal_declarations.json",
+        "ledger_sha256": "a5ad8f63714151ddcc66088df4999c54cf988c4e11699f2495410f306506aeef",
+        "case_index": 130,
+        "historical_status": "partial",
+        "historical_result_sha256": "365ee67e738c5282fbb932056c823c51600d44298385884cc231505431b834f7",
+        "historical_preimage_sha256": "a400800077a4488b594de40118ad79ae92a1e53331321eb63a46362dc698907c",
+        "historical_preimage_git_blob": "d5b88d93bd604f23b69a3097cea0f1b378c3db51",
+        "original_literal_edit_count": 2
+      },
+      "call_target": "0x002ea018",
+      "source_call_before": "thunk_FUN_00237ec0(in_EAX[0x1a]);",
+      "source_call_after": "thunk_FUN_00237ec0(in_EAX[0x1a]);",
+      "source_argument": "in_EAX[0x1a]",
+      "instruction_windows": {
+        "binding": {
+          "address": "0x000c0042",
+          "bytes": "8bf0",
+          "evidence_scope": "official_body"
+        },
+        "load": {
+          "address": "0x000c0064",
+          "bytes": "8b4668",
+          "evidence_scope": "official_body"
+        },
+        "push": {
+          "address": "0x000c006b",
+          "bytes": "50",
+          "evidence_scope": "official_body"
+        },
+        "call": {
+          "address": "0x000c006c",
+          "bytes": "e8a79f2200",
+          "evidence_scope": "official_body"
+        },
+        "cleanup": {
+          "address": "0x000c0071",
+          "bytes": "83c404",
+          "evidence_scope": "adjacent_context_only"
+        },
+        "continuation": {
+          "address": "0x000c0074",
+          "bytes": "895e68",
+          "evidence_scope": "official_body"
+        },
+        "epilogue": {
+          "address": "0x000c00a7",
+          "bytes": "8bc65e5bc3",
+          "evidence_scope": "official_body"
+        }
+      },
+      "analyzed_flow_override": {
+        "address": "0x000c006c",
+        "value": "CALL_RETURN",
+        "used_for_control_flow": false
+      },
+      "private_function_record": "all-v1/functions.jsonl#000c0040",
+      "private_context_record": "heap-free-context-v1/000c0040.json",
+      "context_provenance": {
+        "start": "000c0040",
+        "end_inclusive": "000c00bb",
+        "last_official_body_address": "000c00ab",
+        "length": 124,
+        "program_memory_context_sha256": "BDBD448B4BD024E166961E070A1386BB990B98AAE4626DAED771BA1731CFB158",
+        "source": "immutable copied-project program memory",
+        "scope": "adjacent context, not an official function body and not whole-XBE reauthentication"
+      },
+      "continuation_review": "Raw call fallthrough reaches one-word caller cleanup and the existing stores/epilogue through plain RET. Source continuation retained unchanged; broad return/register effects remain ABI_UNVERIFIED."
+    },
+    {
+      "entry": "0x0023cca0",
+      "source": "src/main_unclassified/band_0023/0x0023cca0.cpp",
+      "original_body_sha256": "2ED7F2401C53E947B6A5A2952011738C5CC87A56FEB2EB9C8D169BDC3F7C3E81",
+      "body_byte_count": 76,
+      "body_ranges": [
+        {
+          "start": "0x0023CCA0",
+          "end_inclusive": "0x0023CCC7",
+          "length": 40
+        },
+        {
+          "start": "0x0023CCCB",
+          "end_inclusive": "0x0023CCEE",
+          "length": 36
+        }
+      ],
+      "source_before_sha256": "6d8dc49507e592fa3f51601f53cb84789918fc4d49f09bab41c4ffd054647d71",
+      "source_after_sha256": "3f477b4e4d2e34a2f32324d8458eef6c27711d169f3fc2668da642c8027dc212",
+      "preimage_git_blob": "2010aede12f32740f38e8e17dbd4b349c8893a6a",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\n#include \"bf_002ea018_heap_free_guest32.h\"\n",
+          "count": 1,
+          "kind": "existing_guest32_header"
+        }
+      ],
+      "historical_ledger": {
+        "ledger": "metadata/cpp_20261101_remaining_literal_repairs.json",
+        "ledger_sha256": "e8215f264ed96b97af09c41f1c9f2e8fc26e41437225efe6cfbcce53e0d54448",
+        "case_index": 94,
+        "historical_status": "partial",
+        "historical_result_sha256": "6d8dc49507e592fa3f51601f53cb84789918fc4d49f09bab41c4ffd054647d71",
+        "historical_preimage_sha256": "0a8d01036b5ddb3d1a919fb7a09a327a5868b48917533ff0774c5a9643042159",
+        "historical_preimage_git_blob": "dc444cda27415a354c5db71312f0d3aac8d9e86c",
+        "original_literal_edit_count": 1
+      },
+      "call_target": "0x002ea018",
+      "source_call_before": "thunk_FUN_00237ec0(unaff_ESI[2]);",
+      "source_call_after": "thunk_FUN_00237ec0(unaff_ESI[2]);",
+      "source_argument": "unaff_ESI[2]",
+      "instruction_windows": {
+        "load": {
+          "address": "0x0023ccbb",
+          "bytes": "8b4608",
+          "evidence_scope": "official_body"
+        },
+        "push": {
+          "address": "0x0023ccc2",
+          "bytes": "50",
+          "evidence_scope": "official_body"
+        },
+        "call": {
+          "address": "0x0023ccc3",
+          "bytes": "e850d30a00",
+          "evidence_scope": "official_body"
+        },
+        "cleanup": {
+          "address": "0x0023ccc8",
+          "bytes": "83c404",
+          "evidence_scope": "adjacent_context_only"
+        },
+        "continuation": {
+          "address": "0x0023cccb",
+          "bytes": "897e08",
+          "evidence_scope": "official_body"
+        },
+        "epilogue": {
+          "address": "0x0023cceb",
+          "bytes": "8bc65fc3",
+          "evidence_scope": "official_body"
+        }
+      },
+      "analyzed_flow_override": {
+        "address": "0x0023ccc3",
+        "value": "CALL_RETURN",
+        "used_for_control_flow": false
+      },
+      "private_function_record": "all-v1/functions.jsonl#0023cca0",
+      "private_context_record": "heap-free-context-v1/0023cca0.json",
+      "context_provenance": {
+        "start": "0023cca0",
+        "end_inclusive": "0023ccfe",
+        "last_official_body_address": "0023ccee",
+        "length": 95,
+        "program_memory_context_sha256": "BCE3163E57F7EA4022F6F1EDE2A582EB725BF3D865C42518EC2E1AC4ECD2C90C",
+        "source": "immutable copied-project program memory",
+        "scope": "adjacent context, not an official function body and not whole-XBE reauthentication"
+      },
+      "continuation_review": "Raw call fallthrough reaches one-word caller cleanup and the existing stores/epilogue through plain RET. Source continuation retained unchanged; broad return/register effects remain ABI_UNVERIFIED."
+    },
+    {
+      "entry": "0x002ea08b",
+      "source": "src/main_unclassified/band_002e/0x002ea08b.cpp",
+      "original_body_sha256": "D03A5D0AA32C6FC85DA7A141F74A4094124D85B955D7F2728AF0C47EAE994B79",
+      "body_byte_count": 21,
+      "body_ranges": [
+        {
+          "start": "0x002EA08B",
+          "end_inclusive": "0x002EA09E",
+          "length": 20
+        },
+        {
+          "start": "0x002EA0A0",
+          "end_inclusive": "0x002EA0A0",
+          "length": 1
+        }
+      ],
+      "source_before_sha256": "ea909039e35a80245d85958c286b7aebdcefac0103177884f69e28d138f047c5",
+      "source_after_sha256": "c15ac316f86981d5e0a3bb5048e806d2d91eeaa808fab0c0796168897b6fd332",
+      "preimage_git_blob": "84314d4e10110962b0f7737a51bced2884175788",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\n#include \"bf_002ea018_heap_free_guest32.h\"\n",
+          "count": 1,
+          "kind": "existing_guest32_header"
+        },
+        {
+          "before": "thunk_FUN_00237ec0(in_ECX[1]);",
+          "after": "thunk_FUN_00067bf0(in_ECX[1]);",
+          "count": 1,
+          "kind": "exact_original_target_identity"
+        }
+      ],
+      "historical_ledger": {
+        "ledger": "metadata/cpp_20261101_remaining_literal_repairs.json",
+        "ledger_sha256": "e8215f264ed96b97af09c41f1c9f2e8fc26e41437225efe6cfbcce53e0d54448",
+        "case_index": 190,
+        "historical_status": "partial",
+        "historical_result_sha256": "ea909039e35a80245d85958c286b7aebdcefac0103177884f69e28d138f047c5",
+        "historical_preimage_sha256": "2e98427c620e13887900cb28a5774f88606065f65d1a2440750d5f64e28eae8c",
+        "historical_preimage_git_blob": "1a6f1bca4a78a62680807932f4a1461ad650cad8",
+        "original_literal_edit_count": 1
+      },
+      "call_target": "0x00067bf0",
+      "source_call_before": "thunk_FUN_00237ec0(in_ECX[1]);",
+      "source_call_after": "thunk_FUN_00067bf0(in_ECX[1]);",
+      "source_argument": "in_ECX[1]",
+      "instruction_windows": {
+        "push": {
+          "address": "0x002ea097",
+          "bytes": "ff7104",
+          "evidence_scope": "official_body"
+        },
+        "call": {
+          "address": "0x002ea09a",
+          "bytes": "e851dbd7ff",
+          "evidence_scope": "official_body"
+        },
+        "cleanup": {
+          "address": "0x002ea09f",
+          "bytes": "59",
+          "evidence_scope": "adjacent_context_only"
+        },
+        "continuation": {
+          "address": "0x002ea0a0",
+          "bytes": "c3",
+          "evidence_scope": "official_body"
+        }
+      },
+      "analyzed_flow_override": {
+        "address": "0x002ea09a",
+        "value": "CALL_RETURN",
+        "used_for_control_flow": false
+      },
+      "private_function_record": "all-v1/functions.jsonl#002ea08b",
+      "private_context_record": "heap-free-context-v1/002ea08b.json",
+      "context_provenance": {
+        "start": "002ea08b",
+        "end_inclusive": "002ea0b0",
+        "last_official_body_address": "002ea0a0",
+        "length": 38,
+        "program_memory_context_sha256": "D8EE5C850AA8518FFB1931B70F00CBDD1D1E21F7488AB77FD2D7F12E3EDA2764",
+        "source": "immutable copied-project program memory",
+        "scope": "adjacent context, not an official function body and not whole-XBE reauthentication"
+      },
+      "continuation_review": "Raw call fallthrough reaches one-word caller cleanup and the existing stores/epilogue through plain RET. Source continuation retained unchanged; broad return/register effects remain ABI_UNVERIFIED."
+    },
+    {
+      "entry": "0x002ea0ca",
+      "source": "src/main_unclassified/band_002e/0x002ea0ca.cpp",
+      "original_body_sha256": "6C7DF2613DFE779F93B760398826EE2C8936EE7C54875F696A4BCA21CB29E902",
+      "body_byte_count": 20,
+      "body_ranges": [
+        {
+          "start": "0x002EA0CA",
+          "end_inclusive": "0x002EA0DC",
+          "length": 19
+        },
+        {
+          "start": "0x002EA0DE",
+          "end_inclusive": "0x002EA0DE",
+          "length": 1
+        }
+      ],
+      "source_before_sha256": "3787d815c1516797ef40cbe05fa3388ae2e094e0340d064256ab88a815361fb9",
+      "source_after_sha256": "414736b15715059419751ff2ed2db15d919b8ba7b7f3833573805ba2721c951e",
+      "preimage_git_blob": "648520255bf36fc44ee5719f260175b2fdc82333",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\n#include \"bf_002ea018_heap_free_guest32.h\"\n",
+          "count": 1,
+          "kind": "existing_guest32_header"
+        },
+        {
+          "before": "thunk_FUN_00237ec0(in_ECX[1]);",
+          "after": "thunk_FUN_00067bf0(in_ECX[1]);",
+          "count": 1,
+          "kind": "exact_original_target_identity"
+        }
+      ],
+      "historical_ledger": {
+        "ledger": "metadata/cpp_20261101_remaining_literal_repairs.json",
+        "ledger_sha256": "e8215f264ed96b97af09c41f1c9f2e8fc26e41437225efe6cfbcce53e0d54448",
+        "case_index": 191,
+        "historical_status": "partial",
+        "historical_result_sha256": "3787d815c1516797ef40cbe05fa3388ae2e094e0340d064256ab88a815361fb9",
+        "historical_preimage_sha256": "d4def283d29580b12e590832484f4e8b5bebb319bcf84fca9067d3ede1c5d9cd",
+        "historical_preimage_git_blob": "09abbcae7b105600094480940291b993ba697b49",
+        "original_literal_edit_count": 1
+      },
+      "call_target": "0x00067bf0",
+      "source_call_before": "thunk_FUN_00237ec0(in_ECX[1]);",
+      "source_call_after": "thunk_FUN_00067bf0(in_ECX[1]);",
+      "source_argument": "in_ECX[1]",
+      "instruction_windows": {
+        "load": {
+          "address": "0x002ea0d0",
+          "bytes": "8b4904",
+          "evidence_scope": "official_body"
+        },
+        "push": {
+          "address": "0x002ea0d7",
+          "bytes": "51",
+          "evidence_scope": "official_body"
+        },
+        "call": {
+          "address": "0x002ea0d8",
+          "bytes": "e813dbd7ff",
+          "evidence_scope": "official_body"
+        },
+        "cleanup": {
+          "address": "0x002ea0dd",
+          "bytes": "59",
+          "evidence_scope": "adjacent_context_only"
+        },
+        "continuation": {
+          "address": "0x002ea0de",
+          "bytes": "c3",
+          "evidence_scope": "official_body"
+        }
+      },
+      "analyzed_flow_override": {
+        "address": "0x002ea0d8",
+        "value": "CALL_RETURN",
+        "used_for_control_flow": false
+      },
+      "private_function_record": "all-v1/functions.jsonl#002ea0ca",
+      "private_context_record": "heap-free-context-v1/002ea0ca.json",
+      "context_provenance": {
+        "start": "002ea0ca",
+        "end_inclusive": "002ea0ee",
+        "last_official_body_address": "002ea0de",
+        "length": 37,
+        "program_memory_context_sha256": "5B170AC0B67B79F9A1B42F5A8D5465857B914F171DD560F43562FE7FB458106D",
+        "source": "immutable copied-project program memory",
+        "scope": "adjacent context, not an official function body and not whole-XBE reauthentication"
+      },
+      "continuation_review": "Raw call fallthrough reaches one-word caller cleanup and the existing stores/epilogue through plain RET. Source continuation retained unchanged; broad return/register effects remain ABI_UNVERIFIED."
+    }
+  ],
+  "held_cases": [
+    {
+      "entry": "0x002e9c30",
+      "reason": "Raw continuation through 0x002e9c54 has four zero stores, POP ESI and RET absent from current source. Not an include-only repair; excluded from this batch."
+    }
+  ],
+  "integration_requirement": "Extend historical overlay admission separately for exactly two 250-case and three 209-case records, with exact two-stage reversal and original literal negative controls. Do not rewrite either ledger or inventory."
+}

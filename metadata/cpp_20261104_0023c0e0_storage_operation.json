@@ -1,0 +1,198 @@
+{
+  "entry": "0x0023c0e0",
+  "original_body_sha256": "5E5BB17FE34459DC784761E327D05E19B70925A191BC5665096D992CE7496333",
+  "body_bytes": 126,
+  "instruction_count": 49,
+  "source_before_sha256": "19c6ec93782b89af0faecd68fa5a088f2b7ba7af61173843826c6c27c2fe7e33",
+  "source_before_git_blob": "591d0b14bbb106a5ffd71c392d535492fb86b05c",
+  "artifacts": {
+    "0x0023c0e0.cpp": "3ca09ddf4c0added71dcf96de39ba211e3de750b17fa93826b227aed1a3ac8be",
+    "bf_0023c0e0_storage_operation.h": "b88dd1487412148b89f77e1885ebc87fed15368b6b43eb76df33d21234a7348a",
+    "test.cpp": "222a92c612cabf985d1100fced7f6d4695f17fcc8435556d8fbebc9ac13fc277"
+  },
+  "evidence_boundary": "Copied immutable Ghidra program memory matches the pinned canonical body digest. Original FileBytes absent; full original XBE was not reauthenticated.",
+  "logical_operation": {
+    "input": "Two already-snapshotted raw uint32 words, plus writable byte-buffer pointer. No host float input or arithmetic cast.",
+    "result": "(selector & 0xffffff00) | 1",
+    "output_extent_bytes": {
+      "0xeee373be": 1,
+      "0xeda5d734": 4,
+      "0x00a38d8e": 4,
+      "0xf05d9dab": 8,
+      "0xf95aad3d": 12,
+      "0x1d3e389e": 16,
+      "other": 0
+    },
+    "store_order": {
+      "one_conversion": [
+        0
+      ],
+      "two_conversions": [
+        4,
+        0
+      ],
+      "three_conversions": [
+        8,
+        4,
+        0
+      ],
+      "four_conversions": [
+        12,
+        8,
+        4,
+        0
+      ]
+    },
+    "conversion": "FILD m32int interprets all raw bits as a signed integer. FST/FSTP m32fp retain native x87 rounding and status. Four-output case reloads for +12, +8, then shares one FILD for FST+4/FSTP+0."
+  },
+  "original_register_contract": {
+    "inputs": "EAX=input DWORD address; EDX=output address; [entry ESP+4]=selector DWORD address",
+    "snapshot_order": "MOV ECX,[EAX] then load selector through stack argument; copy raw input into temporary stack slot.",
+    "outputs": "EAX=selector upper24|1; ECX=raw input after final POP, not entry ECX; EDX unchanged.",
+    "cleanup": "RET with no immediate, caller owns incoming argument.",
+    "exclusions": "Host operation does not implement integer EFLAGS, guest pointer translation, entry/exit GPR transport, or x87 instruction/data-pointer fields."
+  },
+  "host_contract": "GNU/Clang native x86 x87; all FP exceptions masked; the next push destination ((TOP - 1) mod 8) empty in the x87 tag word; valid output extent. Byte-unaligned output allowed. No C++ FP fallback. Fast math rejected.",
+  "tests": "Authored native branch oracle, not extracted instruction execution. Compare memory/return/CW/SW/tag/active x87 stack/MXCSR with all 3 PC and 4 RC modes, depths 0/1/4/7, status seeds 0/003f/4700/473f. Exact integer anchors, unaligned output, raw input/output overlap, unchanged sentinels and exact-length guard-page spans.",
+  "limits": [
+    "No full-game behavior, native linkage, Xbox execution or byte-identical rebuild claim.",
+    "No original instruction/data pointer parity; memory-fault and unmasked exception recovery excluded.",
+    "Original-entry wrapper retains unresolved register pseudo-locals and is syntax-checked, not executed.",
+    "No fault/MMIO/observer ordering equivalence claim; exact store order is structurally pinned because same-value stores are not distinguished by final ordinary RAM."
+  ],
+  "narrow_opcode_windows": [
+    {
+      "va": "0x0023c0e1",
+      "bytes": "8b08",
+      "operation": "MOV ECX,dword ptr [EAX]"
+    },
+    {
+      "va": "0x0023c0ee",
+      "bytes": "894c2400",
+      "operation": "MOV dword ptr [ESP],ECX"
+    },
+    {
+      "va": "0x0023c10d",
+      "bytes": "890a",
+      "operation": "MOV dword ptr [EDX],ECX"
+    },
+    {
+      "va": "0x0023c111",
+      "bytes": "db442400",
+      "operation": "FILD dword ptr [ESP]"
+    },
+    {
+      "va": "0x0023c117",
+      "bytes": "d95a0c",
+      "operation": "FSTP float ptr [EDX + 0xc]"
+    },
+    {
+      "va": "0x0023c11a",
+      "bytes": "db442400",
+      "operation": "FILD dword ptr [ESP]"
+    },
+    {
+      "va": "0x0023c11e",
+      "bytes": "d95a08",
+      "operation": "FSTP float ptr [EDX + 0x8]"
+    },
+    {
+      "va": "0x0023c121",
+      "bytes": "db442400",
+      "operation": "FILD dword ptr [ESP]"
+    },
+    {
+      "va": "0x0023c125",
+      "bytes": "d95204",
+      "operation": "FST float ptr [EDX + 0x4]"
+    },
+    {
+      "va": "0x0023c128",
+      "bytes": "d91a",
+      "operation": "FSTP float ptr [EDX]"
+    },
+    {
+      "va": "0x0023c136",
+      "bytes": "880a",
+      "operation": "MOV byte ptr [EDX],CL"
+    },
+    {
+      "va": "0x0023c138",
+      "bytes": "b001",
+      "operation": "MOV AL,0x1"
+    },
+    {
+      "va": "0x0023c14a",
+      "bytes": "db442400",
+      "operation": "FILD dword ptr [ESP]"
+    },
+    {
+      "va": "0x0023c14e",
+      "bytes": "d95a08",
+      "operation": "FSTP float ptr [EDX + 0x8]"
+    },
+    {
+      "va": "0x0023c151",
+      "bytes": "db442400",
+      "operation": "FILD dword ptr [ESP]"
+    },
+    {
+      "va": "0x0023c155",
+      "bytes": "d95204",
+      "operation": "FST float ptr [EDX + 0x4]"
+    },
+    {
+      "va": "0x0023c158",
+      "bytes": "d91a",
+      "operation": "FSTP float ptr [EDX]"
+    }
+  ],
+  "artifact_source_paths": {
+    "wrapper": "src/main_unclassified/band_0023/0x0023c0e0.cpp",
+    "header": "include/bf_0023c0e0_storage_operation.h",
+    "oracle": "tests/test_0023c0e0_storage_operation.cpp",
+    "preimage": "tests/fixtures/0023c0e0_before.cpp.txt"
+  },
+  "test_counts": {
+    "per_configuration_memory_return_fpu_cases": 11058432,
+    "word_inputs": 4114,
+    "selectors": 14,
+    "precision_modes": 3,
+    "rounding_modes": 4,
+    "stack_depths": 4,
+    "status_seeds": 4,
+    "overlap_snapshot_cases": 924
+  },
+  "tested_architecture": "x86-64 Linux SysV, native Clang/GCC. No 32-bit or other ABI execution claimed.",
+  "sanitizer_limits": "ASan/UBSan executed with ASAN_OPTIONS=detect_leaks=0. LeakSanitizer is not tested in this sandbox.",
+  "verification_plan": [
+    "Clang C++17 O0/O2 native oracle and canonical syntax",
+    "GCC C++17 O2 ASan+UBSan with leak detection disabled",
+    "Original public source reversal, historical failure and narrow-instruction mutation checks",
+    "Behavior negatives: raw-float interpretation, wrong selector, wrong byte, lost return bits",
+    "Structural negatives: four-output order and paired FST/FSTP order",
+    "Harness negative: missing FXRSTOR register clobbers",
+    "Isolated operation Clang O0/O2 codegen rejects external memcpy/memory/library calls"
+  ],
+  "harness_review_fixes": [
+    "FXRSTOR declares all architecture XMM and x87 register clobbers",
+    "FNINIT and seed FILD declare all x87 register clobbers",
+    "FXSAVE capture objects are uninitialized, avoiding intervening library calls",
+    "Live-XMM regression rejects lost FXRSTOR clobbers",
+    "The next FILD push destination must be empty, not an arbitrary free slot"
+  ],
+  "compared_fxsave_fields": {
+    "control_word": "bytes 0..1, including exception masks, precision and rounding controls",
+    "status_word": "bytes 2..3, including sticky exception flags, condition bits and TOP",
+    "abridged_tag_word": "byte 4, mapping occupied physical x87 registers",
+    "active_x87_stack_values": "first 10 bytes of each 16-byte logical ST slot, only when its corresponding physical tag is nonempty using TOP",
+    "mxcsr": "bytes 24..27, including SSE rounding/control and exception flags; operation performs no SSE FP arithmetic"
+  },
+  "excluded_fxsave_fields": {
+    "instruction_and_data_bookkeeping": "FOP bytes 6..7, FIP bytes 8..15, FDP bytes 16..23 differ with native instruction/data addresses; not guest-address emulated",
+    "inactive_x87_payloads_and_slot_padding": "Empty-tag register contents are not logical stack values; bytes 10..15 of ST storage slots are padding",
+    "xmm_register_values": "Host compiler may use XMM registers for integer/memory movement; guest SIMD register preservation is part of the excluded ABI bridge",
+    "mxcsr_mask": "bytes 28..31 describe hardware capabilities rather than operation results",
+    "reserved_fields": "Not defined logical operation state; comparison does not assert complete FXSAVE image or CPU-context equivalence"
+  }
+}

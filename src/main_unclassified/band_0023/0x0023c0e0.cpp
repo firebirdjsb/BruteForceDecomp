@@ -6,45 +6,16 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_0023c0e0_storage_operation.h"
 undefined4 FUN_0023c0e0(uint *param_1)
-
 {
-  float fVar1;
-  uint uVar2;
+  /* ABI_UNVERIFIED: EAX and EDX are original guest pointer-register inputs.
+   * This wrapper retains draft pseudo-locals, not a native guest ABI bridge. */
   float *in_EAX;
   float *in_EDX;
-  
-  fVar1 = *in_EAX;
-  uVar2 = *param_1;
-  if (uVar2 < 0xeee373bf) {
-    if (uVar2 == 0xeee373be) {
-      *(char *)in_EDX = SUB41(fVar1,0);
-      return 0xeee37301;
-    }
-    if (uVar2 == 0xa38d8e) {
-      *in_EDX = (float)(int)fVar1;
-      return 0xa38d01;
-    }
-    if (uVar2 == 0x1d3e389e) {
-      in_EDX[3] = (float)(int)fVar1;
-      in_EDX[2] = (float)(int)fVar1;
-      in_EDX[1] = (float)(int)fVar1;
-      *in_EDX = (float)(int)fVar1;
-      return 0x1d3e3801;
-    }
-    if (uVar2 == 0xeda5d734) {
-      *in_EDX = fVar1;
-      return 0xeda5d701;
-    }
-  }
-  else {
-    if (uVar2 != 0xf05d9dab) {
-      if (uVar2 != 0xf95aad3d) goto LAB_0023c15c;
-      in_EDX[2] = (float)(int)fVar1;
-    }
-    in_EDX[1] = (float)(int)fVar1;
-    *in_EDX = (float)(int)fVar1;
-  }
-LAB_0023c15c:
-  return CONCAT31((int3)(uVar2 >> 8),1);
+  uint32_t raw_input_word;
+  uint32_t selector;
+  memcpy(&raw_input_word, in_EAX, sizeof raw_input_word);
+  memcpy(&selector, param_1, sizeof selector);
+  return bf_0023c0e0_storage_operation(raw_input_word, selector, in_EDX);
 }

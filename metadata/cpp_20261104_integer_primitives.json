@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "scope": "Five C++17 draft syntax passes using integer Ghidra primitives only",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "semantic_boundary": "CONCAT14 preserves the low 1+4 bytes in a uint64_t result. Existing CARRY4 accepts only integral operands of exactly four bytes. No ABI, register, memory-layout, floating-point, or whole-function behavior claim.",
+  "concat_header": "include/bf_ghidra_types.h",
+  "concat_header_before_sha256": "c916a7c5bbfd3fbcfdf3f970858f0ef84e0602c8b58d75eb4da5a48fb1efb251",
+  "concat_header_after_sha256": "5dfa1c69c07740d45536c1f5a45479e59c97275343017b68b3ff17ed39fd6dce",
+  "concat_added_line": "#define CONCAT14(h,l) ((uint64_t)bf_ghidra_concat_words((h),(l),1,4))\n",
+  "carry_header": "include/bf_x86_dword_operations.h",
+  "carry_header_sha256": "79e008296733510aa28210da8c8bcd1b5b243f6b00ec00465c3a4d7ac7775cf0",
+  "added_source_line": "#include \"bf_x86_dword_operations.h\"\n",
+  "cases": [
+    {
+      "entry": "0x002ebd50",
+      "source": "src/main_unclassified/band_002e/0x002ebd50.cpp",
+      "original_body_sha256": "8964DCF0D769CB61DD4354FEAC00491AE8C1B34EB9627A4C5EC2D4350243D395",
+      "source_before_sha256": "e379b3618fe1e70cef23e61148526b548c0ef07b7073a7bfe837ceb95d8f139d",
+      "source_after_sha256": "da1216a75cb3adce662a6d85294502f79351d599a323dc3f7ddf77fa26d79ddc"
+    },
+    {
+      "entry": "0x002efa30",
+      "source": "src/main_unclassified/band_002e/0x002efa30.cpp",
+      "original_body_sha256": "84D17E172FF5E6BCE23B7837CC15439649F685D00B3CDFF9CC07CAE79A0A88F2",
+      "source_before_sha256": "77cb8c25bc27d89442a3c9478a11d617ab3237593cefebd7c4fddcfcab58fa7d",
+      "source_after_sha256": "7555332c210dd1d2663bb6fc3d50ad0417e3ede143dcd7df5f90a7d884366a55"
+    },
+    {
+      "entry": "0x002f0d30",
+      "source": "src/main_unclassified/band_002f/0x002f0d30.cpp",
+      "original_body_sha256": "106B501E819FC91BBE63E9D1399D58966A0AD64E9DB30078334CCDF21F01FDF8",
+      "source_before_sha256": "6c64fcbd41d25e83f1147cb8f4dbc78739ecdca3967011fad3ff1862f39e52c9",
+      "source_after_sha256": "e8514d55310d3a4f15cc00cd1f95bfcfe65a53d96edf2577c503e92ff7651a69"
+    },
+    {
+      "entry": "0x002fe6a0",
+      "source": "src/main_unclassified/band_002f/0x002fe6a0.cpp",
+      "original_body_sha256": "E1FCF7FC916461A2C414A1E217732D003803A01B8364A6ACB293366906FCC724",
+      "source_before_sha256": "a78f9dee08bdf652a390ccf8635bb0ba4f93424d8aa9b9a45077215cfd6130c4",
+      "source_after_sha256": "1d6c2122a3127ae31c200b1b243fac162b3533970f3f162ce2b4a8a9f98b11a5"
+    },
+    {
+      "entry": "0x002fe780",
+      "source": "src/main_unclassified/band_002f/0x002fe780.cpp",
+      "original_body_sha256": "E85CA4198A284FA33B4141D18479FF2EDFDED90A25E35567AC9D55BD2BCCB611",
+      "source_before_sha256": "d6a19af3541f65c65852c711b76570030fc83120389be3e3ef3a02735e422555",
+      "source_after_sha256": "b492f9ee78b28c2e92c37ece3b1b4ec8d5ad5d07c650333e471fefb045f361fe"
+    }
+  ]
+}

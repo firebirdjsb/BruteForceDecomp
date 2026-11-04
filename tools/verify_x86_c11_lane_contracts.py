@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import struct
 from pathlib import Path
 
@@ -325,9 +326,56 @@ def check_xbe(path: Path) -> None:
           f"{len(DIRECT_CALLS)} original call destinations; XBE digest matches")
 
 
+# Exact historical view for the later exported-instruction initializer repair.
+# The original source expectations and XBE checks below remain unchanged.
+INITIALIZER_SOURCE = "src/main_unclassified/band_0003/0x000388b0.cpp"
+INITIALIZER_MANIFEST = "metadata/cpp_20261104_guest_initializers.json"
+INITIALIZER_MANIFEST_SHA = "d66a70ab9ebc052266638955ea78133344bef7568587bf918c59db0c3619226d"
+INITIALIZER_BEFORE_SHA = "1edd614b74a759fe669fc56510049750ee4711a4e8db57a5a1de3e840914d851"
+INITIALIZER_AFTER_SHA = "dadacb38fa5f26e0e14f66a52d4f964ee82e00ae3197530f05dba3230be1981e"
+INITIALIZER_BEFORE_BLOB = "27abd12c216f5197e0e4896a3a3e6673c17a95e1"
+
+
+def historical_lane_source(root: Path, name: str, source: str) -> str:
+    """Restore only a separately pinned later repair for historical token checks.
+
+    This is not a second callback implementation or new original-XBE proof.
+    Current initializer behavior is checked by its own focused evidence gate.
+    """
+    if name != INITIALIZER_SOURCE:
+        return source
+    digest = hashlib.sha256(source.encode()).hexdigest()
+    if digest == INITIALIZER_BEFORE_SHA:
+        return source
+    if digest != INITIALIZER_AFTER_SHA:
+        raise ValueError("Unreviewed initializer source in historical lane gate")
+    raw = (root / INITIALIZER_MANIFEST).read_bytes()
+    if hashlib.sha256(raw).hexdigest() != INITIALIZER_MANIFEST_SHA:
+        raise ValueError("Changed initializer overlay evidence manifest")
+    document = json.loads(raw)
+    cases = [case for case in document["cases"] if case["entry"] == "0x000388b0"]
+    if len(cases) != 1:
+        raise ValueError("Initializer overlay identity differs")
+    case = cases[0]
+    if (case["source"] != name or case["source_before_sha256"] != INITIALIZER_BEFORE_SHA
+            or case["source_after_sha256"] != INITIALIZER_AFTER_SHA
+            or case["preimage_git_blob"] != INITIALIZER_BEFORE_BLOB
+            or document["original_xbe_reauthenticated"] is not False):
+        raise ValueError("Initializer historical overlay boundary differs")
+    for edit in reversed(case["replacements"]):
+        if edit["count"] != 1 or source.count(edit["after"]) != 1:
+            raise ValueError("Initializer overlay replacement differs")
+        source = source.replace(edit["after"], edit["before"], 1)
+    restored = source.encode()
+    blob = hashlib.sha1(b"blob " + str(len(restored)).encode() + b"\0" + restored).hexdigest()
+    if hashlib.sha256(restored).hexdigest() != INITIALIZER_BEFORE_SHA or blob != INITIALIZER_BEFORE_BLOB:
+        raise ValueError("Initializer historical source preimage differs")
+    return source
+
+
 def check_sources(root: Path) -> None:
     for name, (required, forbidden) in SOURCE_EXPECTATIONS.items():
-        source = (root / name).read_text(encoding="utf-8")
+        source = historical_lane_source(root, name, (root / name).read_text(encoding="utf-8"))
         for item in required:
             if item not in source:
                 raise ValueError(f"{name}: missing checked C construct {item!r}")

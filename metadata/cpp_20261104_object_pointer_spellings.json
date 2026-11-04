@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "base_commit": "d3d193be8d198bb328101f056ae0c4d356d952e3",
+  "meaning": "Existing object addresses and arithmetic expressed with explicit C++ pointer casts; ABI_UNVERIFIED, not original instruction evidence.",
+  "cases": [
+    {
+      "entry": "0x0008c210",
+      "source": "src/main_unclassified/band_0008/0x0008c210.cpp",
+      "original_body_sha256": "CD3F4598FF7763074F130C1CC066162874F55C2FA6FE7EE0D50081B7F3ABD449",
+      "source_before_sha256": "5e7d9ce137c8226c6e3f54575975c2f1e1e23db8e9dc3b7b60cd2550fe53f504",
+      "source_after_sha256": "770bb843cfee62d14c007162e50f8a9171a8ff03c036b74ba198c785758c2757",
+      "replacements": [
+        {
+          "old": "piVar3 = &DAT_003f7e3c + in_EAX * 2",
+          "new": "piVar3 = reinterpret_cast<int*>(&DAT_003f7e3c + in_EAX * 2)",
+          "kind": "explicit_object_pointer_conversion"
+        },
+        {
+          "old": "piVar3 = &DAT_003f7e3c;",
+          "new": "piVar3 = reinterpret_cast<int*>(&DAT_003f7e3c);",
+          "kind": "explicit_object_pointer_conversion"
+        },
+        {
+          "old": "piVar4 = &DAT_003f7e3c;",
+          "new": "piVar4 = reinterpret_cast<int*>(&DAT_003f7e3c);",
+          "kind": "explicit_object_pointer_conversion"
+        }
+      ],
+      "expected_diagnostic": "converts between pointers to integer types with different sign"
+    },
+    {
+      "entry": "0x000a50b0",
+      "source": "src/main_unclassified/band_000a/0x000a50b0.cpp",
+      "original_body_sha256": "126463AC49317A5021556BCE9A7600EF092E1E35C81FADA77DE8B5B88BB5B8DE",
+      "source_before_sha256": "a28e8c68cd5fd6eddfb12ca3cbae265d3fa7ca26799c6adffdc3790d105da171",
+      "source_after_sha256": "ca4eeac8ea2994e9f61119dc69a9fdd3522f88dbb9a48716e4e63029f4913cc1",
+      "replacements": [
+        {
+          "old": "piVar3 = puVar4 + 2;",
+          "new": "piVar3 = reinterpret_cast<int*>(puVar4 + 2);",
+          "kind": "explicit_object_pointer_conversion"
+        }
+      ],
+      "expected_diagnostic": "converts between pointers to integer types with different sign"
+    },
+    {
+      "entry": "0x000b8860",
+      "source": "src/main_unclassified/band_000b/0x000b8860.cpp",
+      "original_body_sha256": "25745727D35DB14565188EE76794F2B73F94B98FA1B723647B520643915AEAD2",
+      "source_before_sha256": "af70edfc29642a11a4ed1c683ccc17872e1de6961b150f292c05048c04fc7b1f",
+      "source_after_sha256": "fd2eea6d2ee6f2c2a5e391380952fbf30e9a4889dc8d606b93ccf2390d714ff6",
+      "replacements": [
+        {
+          "old": "return &DAT_004a5c80;",
+          "new": "return reinterpret_cast<undefined *>(&DAT_004a5c80);",
+          "kind": "explicit_object_pointer_conversion"
+        }
+      ],
+      "expected_diagnostic": "cannot initialize return object"
+    },
+    {
+      "entry": "0x0036a7c0",
+      "source": "src/video_bink/binkyuy2/0x0036a7c0.cpp",
+      "original_body_sha256": "85A4AFD9632AB407AF27D7E2C3B643D821EEFB3DF27CDE0135089941C579D0E0",
+      "source_before_sha256": "60c53e84b59090bad3ca3bc873e0f5af81ab496de8eb843ae3c229567bf7cf87",
+      "source_after_sha256": "317d7ba920bef78dd437b8d8247d506bb8a0852e07471b83911c67d65d6cac0b",
+      "replacements": [
+        {
+          "old": "pbVar1 = DAT_004be768 + 1;",
+          "new": "pbVar1 = reinterpret_cast<byte *>(DAT_004be768 + 1);",
+          "kind": "explicit_object_pointer_conversion"
+        },
+        {
+          "old": "pbVar1 = DAT_004be76c + 1;",
+          "new": "pbVar1 = reinterpret_cast<byte *>(DAT_004be76c + 1);",
+          "kind": "explicit_object_pointer_conversion"
+        }
+      ],
+      "expected_diagnostic": "incompatible pointer types"
+    },
+    {
+      "entry": "0x0036fbe0",
+      "source": "src/platform/graphics_d3d/0x0036fbe0.cpp",
+      "original_body_sha256": "BECC2D4674649A4CA3CED23B293B7A2A45446A377E079EEDC3BAC01419960165",
+      "source_before_sha256": "37cf2da57b82d3406158bebb677b0c5efc3eaae6f078254a6b994f7ed1371b3a",
+      "source_after_sha256": "fd15b64ab81e472077a02dfb8aea932baab898bdc0be10bb6ac3af77985b47e0",
+      "replacements": [
+        {
+          "old": "piVar5 = puVar3 + 0x12;",
+          "new": "piVar5 = reinterpret_cast<int*>(puVar3 + 0x12);",
+          "kind": "explicit_object_pointer_conversion"
+        }
+      ],
+      "expected_diagnostic": "converts between pointers to integer types with different sign"
+    }
+  ]
+}

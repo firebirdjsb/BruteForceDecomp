@@ -28,6 +28,41 @@ class DeclarationTriageTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "full_inventory"):
                 triage(Path(temp), {"scope": "sample", "checked": 3})
 
+    def test_literals_comments_and_nested_delimiters(self):
+        cases = {
+            '("a,b)")': 1,
+            "('x')": 1,
+            '("", "second")': 2,
+            r'("escaped\"quote,)", x)': 2,
+            r'("ends\\", x)': 2,
+            r"('\'', x)": 2,
+            '("first" "second", x)': 2,
+            '("/* , ) */", x)': 2,
+            '(/* , ) */)': 0,
+            '(a/* , ) */, b)': 2,
+            '(a // , )\n, b)': 2,
+            '(a[1, 2], {3, 4})': 2,
+            '(f({1, 2}, array[i, j]), b)': 2,
+        }
+        for text, expected in cases.items():
+            with self.subTest(text=text):
+                self.assertEqual(argument_count(text, 0), expected)
+        self.assertEqual(argument_count('FUN_x("a,b") trailing', 5), 1)
+
+    def test_malformed_or_unsupported_arguments_are_deferred(self):
+        for text in ('(,)', '(a,)', '(,a)', '(a,,b)', '(a, /*x*/)',
+                     '(a[1), b]', '(a}', '(a /* unterminated)',
+                     '(a // closing parenthesis is commented out)',
+                     '("unterminated)', '("line\nbreak")',
+                     '("dangling' + '\\',
+                     '(R"tag(raw, ) text)tag")',
+                     '(a // continued\\\n, b)'):
+            with self.subTest(text=text):
+                self.assertIsNone(argument_count(text, 0))
+        for text, offset in (("", 0), ("", -1), ("(", -1), ("()", 2), ("x()", 0)):
+            with self.subTest(text=text, offset=offset):
+                self.assertIsNone(argument_count(text, offset))
+
     def test_source_hash_arity_and_negative_controls(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
@@ -59,6 +94,20 @@ class DeclarationTriageTests(unittest.TestCase):
             self.assertEqual(found["caller_draft_arity"], 2)
             self.assertEqual(found["abi_status"], "ABI_UNVERIFIED")
             self.assertEqual(found["link_status"], "NOT_LINK_TESTED")
+            # Exercise the scheduling classification, not just the lexer.
+            for arguments, classification in (
+                ('"first", "second"', "DRAFT_ARITY_MATCH_REVIEW_TYPES_AND_XBE"),
+                ('"only"', "DRAFT_ARITY_MISMATCH"),
+                ('1 /* , ) */, helper(2, 3)', "DRAFT_ARITY_MATCH_REVIEW_TYPES_AND_XBE"),
+                ('1, /* missing argument */', "CALL_UNPARSEABLE"),
+            ):
+                with self.subTest(arguments=arguments):
+                    changed = source.replace("1, helper(2, 3)", arguments)
+                    caller.write_bytes(changed.encode())
+                    row["source_sha256"] = hashlib.sha256(caller.read_bytes()).hexdigest()
+                    self.assertEqual(triage(root, audit)["candidates"][0]["triage"], classification)
+            caller.write_bytes(source.encode())
+            row["source_sha256"] = hashlib.sha256(caller.read_bytes()).hexdigest()
             callee.write_text(callee_source.replace("int x, int y) { return x+y;", "int x) { return x;"))
             callee_row["source_sha256"] = hashlib.sha256(callee.read_bytes()).hexdigest()
             self.assertEqual(triage(root, audit)["candidates"][0]["triage"], "DRAFT_ARITY_MISMATCH")

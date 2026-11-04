@@ -19,7 +19,7 @@ undefined * XAPILIB__GetTypeInformation_8(void)
   ppuVar1 = &g_DeviceTypeInfoTableBegin;
   cVar2 = '\0';
   do {
-    if (*ppuVar1 != (char *)0x0) {
+    if (*ppuVar1 != nullptr) {
       if (**ppuVar1 == in_CL) {
         *in_EDX = cVar2;
         return *ppuVar1;

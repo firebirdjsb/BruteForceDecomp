@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""209 original literal repairs; 14 later XBE-gated syntax completions."""
+"""209 original literal repairs; 14 later XBE-gated and one source-only spelling completion."""
 import argparse
 import json
 from pathlib import Path
 import shutil
 import sys
-from verify_cpp_literal_declaration_batch import verify
+from verify_cpp_literal_declaration_batch import (SOURCE_SPELLING_OVERLAYS, REMAINING_MANIFEST,
+                                                   load_heap_free_overlays, verify)
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -30,4 +31,5 @@ if __name__=='__main__':
         raise ValueError('209-case independently verified 14-overlay identity changed')
     verify(ROOT,manifest,compiler,a.xbe.read_bytes() if a.xbe else None,
            approved_counts={'total':209,'complete':0,'partial':209,'values':469},
-           overlays=overlays)
+           overlays=overlays, source_spelling_overlays=SOURCE_SPELLING_OVERLAYS,
+           heap_free_overlays=load_heap_free_overlays(ROOT, REMAINING_MANIFEST))

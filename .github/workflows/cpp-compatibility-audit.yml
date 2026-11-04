@@ -136,12 +136,37 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_triage_cpp_undeclared_calls.py' -v
           python3 -m unittest discover -s tools -p 'test_triage_cpp_declaration_edges.py' -v
           python3 tests/test_triage_cpp_draft_call_type_risks.py
+          python3 tests/test_cpp_draft_call_audit_gate.py
+          python3 tools/test_cpp_pointer_comparison_syntax.py
+          python3 tools/test_cpp_object_pointer_spellings.py
+          python3 tools/test_cpp_20261104_byte_offset_000b2720.py
+          python3 tools/test_cpp_20261104_00072940_guest_calls.py
+          python3 tools/test_cpp_pointer_argument_spellings.py
+          python3 tools/test_cpp_ushort_pointer_spelling.py
+          python3 tests/test_cpp_source_spelling_overlay.py
           python3 tests/test_prioritize_cpp_declaration_edges.py
           python3 tests/test_cpp_draft_call_float_guard.py
           python3 -m unittest discover -s tools -p 'test_cpp_memory_helper_syntax.py' -v
           python3 -m unittest discover -s tools -p 'test_identify_cpp_verified_call_edges.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_virtual_bridge_syntax.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_ghidra_concat.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_integer_primitives.py' -v
+          python3 tools/test_cpp_002338c0_sse_operation.py
+          python3 tools/test_cpp_0023c0e0_storage_operation.py
+          python3 tools/test_cpp_00077eb0_conversion_operation.py
+          python3 tools/test_cpp_20261104_uploaded_evidence.py
+          python3 tools/test_cpp_20261104_0003f0e0_eax_handoff.py
+          python3 tools/test_cpp_20261104_guest_initializers.py
+          python3 tools/test_cpp_20261104_initializer_literal_overlay.py
+          python3 tools/test_cpp_20261104_initializer_lane_overlay.py
+          python3 tools/test_cpp_20261104_memory_call_declarations.py
+          python3 tools/test_cpp_20261104_heap_free_scalar_calls.py
+          python3 tools/test_cpp_20261104_heap_free_literal_overlays.py
+          python3 tools/test_cpp_20261104_four_guest_constants.py
+          python3 tools/test_cpp_20261104_eax_scalar_calls.py
+          python3 tools/test_cpp_20261104_eax_lea_calls.py
+          python3 tools/test_cpp_20261104_esi_stack_calls.py
+          python3 tools/test_cpp_20261104_byte_offsets_five.py
           python3 -m unittest discover -s tools -p 'test_cpp_allocator_guest32.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_heap_free_guest32.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_heap_malloc_guest32.py' -v

@@ -34,7 +34,7 @@ undefined4 FUN_0024efa0(void)
       }
       local_8 = puVar4;
       puVar4 = puVar2;
-      cVar1 = *(char *)((int)puVar2 + 0x15);
+      cVar1 = *(reinterpret_cast<char*>(puVar2) + 0x15);
     }
     if ((local_8 == local_4) || ((int)unaff_ESI < (int)local_8[3])) {
       ppuVar3 = &local_4;

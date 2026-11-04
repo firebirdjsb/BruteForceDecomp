@@ -20,7 +20,7 @@ void FUN_00073550(int param_1)
   if (param_1 != 0) {
     FUN_00073110(in_ECX,param_1,0);
     iVar1 = *(int *)(in_ECX + 0xc);
-    iVar2 = FUN_000ff730(in_ECX + 8,iVar1,*(undefined4 *)(iVar1 + 4),&param_1);
+    iVar2 = FUN_000ff730(in_ECX + 8,iVar1,*(undefined4 *)(iVar1 + 4),reinterpret_cast<undefined4 *>(&param_1));
     FUN_000b2a50();
     *(int *)(iVar1 + 4) = iVar2;
     **(int **)(iVar2 + 4) = iVar2;

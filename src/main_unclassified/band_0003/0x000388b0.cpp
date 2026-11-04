@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched raw guest DWORD interface; native callback mapping and ABI
+ * remain unverified. No host function pointer is introduced. */
+extern int __cdecl _atexit(undefined4 callback_guest_word);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern void FUN_00023740(void);
@@ -24,10 +27,10 @@ int FUN_000388b0(int param_1)
       DAT_004a88e4 = DAT_004a88e4 | 1;
       FUN_00023740();
       /* x86 0x000388E3: push 0x0030DE90; 0x000388E8: call 0x002EA4BF.\n       * The callback address is original-image-relative, not a native-PC pointer.\n       * TODO ABI_UNVERIFIED: map this original code address to a linked C function. */
-      _atexit((void (*)(void))(uintptr_t)0x0030de90U);
+      _atexit(UINT32_C(0x0030de90));
     }
     if (DAT_004a884c != in_EAX) {
-      FUN_0008f6a0();
+      FUN_0008f6a0(UINT32_C(0x004a8848), static_cast<std::uint32_t>(in_EAX));
     }
     FUN_00038b00();
     if (param_1 != *(int *)(param_1 + 4)) {

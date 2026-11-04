@@ -1,0 +1,317 @@
+{
+  "schema_version": 1,
+  "scope": "Six original guest DWORD stores, two raw callback words, one existing ESI/stack model handoff; no new callee prototype or native Xbox ABI",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "base_commit": "8044af8f537dbdc3b7d0053b1a43363e505339c8",
+  "evidence": {
+    "archive_name": "REA-Evidence.zip",
+    "archive_sha256": "3b76a9013dcafe31b7b8b278255048c44fd635224ab788cc7ed8d8887108b783",
+    "range_export_name": "FunctionExport.zip",
+    "range_export_sha256": "2ae4f35ac3a9a014321b7c3e59af906b6a310f6232b35742804b877783f078a5",
+    "method": "Three complete machine-byte exports were reconstructed by original address, checked for exact range coverage and matched to FunctionExport and inventory body digests. Existing atexit source signature/hash and exported body identity are pinned separately, without a new complete-machine-byte claim. Private archives are optional for public tests; neither export nor its flags reauthenticates the original XBE."
+  },
+  "cases": [
+    {
+      "entry": "0x0009e8b0",
+      "source": "src/main_unclassified/band_0009/0x0009e8b0.cpp",
+      "original_body_sha256": "DF8B2B59C7E5CB3BB4DAD4292BF9D9093E7F6F538F58874E0129A38FBF898545",
+      "body_ranges": [
+        {
+          "start": "0x0009E8B0",
+          "end_inclusive": "0x0009E957",
+          "length": 168
+        }
+      ],
+      "body_byte_count": 168,
+      "instruction_count": 31,
+      "source_before_sha256": "04d495ca4439d02cc1d1d0b4d9078c923b7de32822e074abe21cec120e6e481b",
+      "source_after_sha256": "cc442031564f8ed5d20353768a631a9718cc5b4e51f7c70eff8726dd01d7144a",
+      "preimage_git_blob": "69aa66319c21395bc016e9073e250dc384a424a9",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\n/* Source-matched raw guest DWORD interface; native callback mapping and ABI\n * remain unverified. No host function pointer is introduced. */\nextern int __cdecl _atexit(undefined4 callback_guest_word);\n",
+          "count": 1,
+          "kind": "source_matched_declaration"
+        },
+        {
+          "before": "_DAT_004a7470 = &UNK_0038df04;",
+          "after": "_DAT_004a7470 = UINT32_C(0x0038df04);",
+          "count": 1,
+          "kind": "guest_dword_store"
+        },
+        {
+          "before": "_DAT_004a746c = &UNK_0038df04;",
+          "after": "_DAT_004a746c = UINT32_C(0x0038df04);",
+          "count": 1,
+          "kind": "guest_dword_store"
+        },
+        {
+          "before": "_DAT_004a7468 = &UNK_0038def4;",
+          "after": "_DAT_004a7468 = UINT32_C(0x0038def4);",
+          "count": 1,
+          "kind": "guest_dword_store"
+        },
+        {
+          "before": "_DAT_004a7488 = &UNK_0038def0;",
+          "after": "_DAT_004a7488 = UINT32_C(0x0038def0);",
+          "count": 1,
+          "kind": "guest_dword_store"
+        },
+        {
+          "before": "_DAT_004a7480 = &UNK_0038def4;",
+          "after": "_DAT_004a7480 = UINT32_C(0x0038def4);",
+          "count": 1,
+          "kind": "guest_dword_store"
+        },
+        {
+          "before": "_DAT_004a7484 = &UNK_0038def0;",
+          "after": "_DAT_004a7484 = UINT32_C(0x0038def0);",
+          "count": 1,
+          "kind": "guest_dword_store"
+        },
+        {
+          "before": "_atexit(FUN_00310440);",
+          "after": "_atexit(UINT32_C(0x00310440));",
+          "count": 1,
+          "kind": "guest_callback_word"
+        }
+      ],
+      "private_record": "REA-Evidence/missing_targets_output/0x0009e8b0.json",
+      "body_range_source": "FunctionExport/functions_001800_001899.jsonl",
+      "export_body_bytes_rechecked": true,
+      "original_error_count": 7
+    },
+    {
+      "entry": "0x000388b0",
+      "source": "src/main_unclassified/band_0003/0x000388b0.cpp",
+      "original_body_sha256": "FDB8BB17790B8FED2EDBAAF9732849C8C73D9D53A5DD536E5A67E08781D2E5F3",
+      "body_ranges": [
+        {
+          "start": "0x000388B0",
+          "end_inclusive": "0x00038935",
+          "length": 134
+        }
+      ],
+      "body_byte_count": 134,
+      "instruction_count": 45,
+      "source_before_sha256": "1edd614b74a759fe669fc56510049750ee4711a4e8db57a5a1de3e840914d851",
+      "source_after_sha256": "dadacb38fa5f26e0e14f66a52d4f964ee82e00ae3197530f05dba3230be1981e",
+      "preimage_git_blob": "27abd12c216f5197e0e4896a3a3e6673c17a95e1",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\n/* Source-matched raw guest DWORD interface; native callback mapping and ABI\n * remain unverified. No host function pointer is introduced. */\nextern int __cdecl _atexit(undefined4 callback_guest_word);\n",
+          "count": 1,
+          "kind": "source_matched_declaration"
+        },
+        {
+          "before": "_atexit((void (*)(void))(uintptr_t)0x0030de90U);",
+          "after": "_atexit(UINT32_C(0x0030de90));",
+          "count": 1,
+          "kind": "guest_callback_word"
+        },
+        {
+          "before": "FUN_0008f6a0();",
+          "after": "FUN_0008f6a0(UINT32_C(0x004a8848), static_cast<std::uint32_t>(in_EAX));",
+          "count": 1,
+          "kind": "guest_register_stack_handoff"
+        }
+      ],
+      "private_record": "REA-Evidence/callee_output/0x000388b0.json",
+      "body_range_source": "FunctionExport/functions_000300_000399.jsonl",
+      "export_body_bytes_rechecked": true,
+      "original_error_count": 2
+    }
+  ],
+  "callees": [
+    {
+      "entry": "0x0008f6a0",
+      "source": "src/main_unclassified/band_0008/0x0008f6a0.cpp",
+      "original_body_sha256": "339DC70ADE9DA431A03D8964268E2B983BF89DF209448A87B645006C63D4420D",
+      "body_ranges": [
+        {
+          "start": "0x0008F6A0",
+          "end_inclusive": "0x0008F6DF",
+          "length": 64
+        }
+      ],
+      "body_byte_count": 64,
+      "instruction_count": 20,
+      "source_sha256": "6996e48e796e895c0241326081bc8f9e6609e21ebf9754312e1b5a74ee528836",
+      "signature": "void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0)",
+      "private_record": "REA-Evidence/private-results/bf_caller_windows.json",
+      "private_collection": "callee_and_helper_windows",
+      "body_range_source": "FunctionExport/functions_001700_001799.jsonl",
+      "export_body_bytes_rechecked": true,
+      "instruction_windows": [
+        {
+          "address": "0x0008f6a0",
+          "bytes": "8b4604"
+        },
+        {
+          "address": "0x0008f6a5",
+          "bytes": "538b5c2408"
+        },
+        {
+          "address": "0x0008f6de",
+          "bytes": "5bc3"
+        }
+      ]
+    },
+    {
+      "entry": "0x002ea4bf",
+      "source": "src/main_unclassified/band_002e/0x002ea4bf.cpp",
+      "original_body_sha256": "8758B5F180D70ED03FCB7124F3970D139513901E47C04547BCE0E0A00E18912B",
+      "body_ranges": [
+        {
+          "start": "0x002EA4BF",
+          "end_inclusive": "0x002EA4D0",
+          "length": 18
+        }
+      ],
+      "body_byte_count": 18,
+      "source_sha256": "357f17a6022cf4444bf06db7ac5ed0c930b6690c28450a093265a00013852e6f",
+      "signature": "int __cdecl _atexit(undefined4 callback_guest_word)",
+      "body_range_source": "FunctionExport/functions_010500_010599.jsonl",
+      "export_body_bytes_rechecked": false,
+      "boundary": "Existing canonical raw-word model only. FunctionExport range and declared body digest match inventory, but no complete machine-byte record was available in this evidence bundle. No new callee ABI, complete-body reauthentication or runtime claim.",
+      "historical_evidence": "docs/X86_STACK_SLOT_AND_EXCEPTION_ADDRESS_PASS_2026-10-23.md"
+    }
+  ],
+  "dword_stores": [
+    {
+      "producer": {
+        "address": "0x0009e8cb",
+        "bytes": "b804df3800"
+      },
+      "store": {
+        "address": "0x0009e8db",
+        "bytes": "a370744a00"
+      },
+      "source_statement": "_DAT_004a7470 = UINT32_C(0x0038df04);"
+    },
+    {
+      "producer": {
+        "address": "0x0009e8cb",
+        "bytes": "b804df3800"
+      },
+      "store": {
+        "address": "0x0009e8e5",
+        "bytes": "a36c744a00"
+      },
+      "source_statement": "_DAT_004a746c = UINT32_C(0x0038df04);"
+    },
+    {
+      "producer": {
+        "address": "0x0009e8e0",
+        "bytes": "b9f4de3800"
+      },
+      "store": {
+        "address": "0x0009e904",
+        "bytes": "890d68744a00"
+      },
+      "source_statement": "_DAT_004a7468 = UINT32_C(0x0038def4);"
+    },
+    {
+      "producer": {
+        "address": "0x0009e8ea",
+        "bytes": "b8f0de3800"
+      },
+      "store": {
+        "address": "0x0009e924",
+        "bytes": "a388744a00"
+      },
+      "source_statement": "_DAT_004a7488 = UINT32_C(0x0038def0);"
+    },
+    {
+      "producer": {
+        "address": "0x0009e8e0",
+        "bytes": "b9f4de3800"
+      },
+      "store": {
+        "address": "0x0009e929",
+        "bytes": "890d80744a00"
+      },
+      "source_statement": "_DAT_004a7480 = UINT32_C(0x0038def4);"
+    },
+    {
+      "producer": {
+        "address": "0x0009e8ea",
+        "bytes": "b8f0de3800"
+      },
+      "store": {
+        "address": "0x0009e92f",
+        "bytes": "a384744a00"
+      },
+      "source_statement": "_DAT_004a7484 = UINT32_C(0x0038def0);"
+    }
+  ],
+  "callback_calls": [
+    {
+      "owner_entry": "0x0009e8b0",
+      "push": {
+        "address": "0x0009e8ef",
+        "bytes": "6840043100"
+      },
+      "call": {
+        "address": "0x0009e93e",
+        "bytes": "e87cbb2400"
+      },
+      "caller_cleanup": {
+        "address": "0x0009e943",
+        "bytes": "83c404"
+      },
+      "source_statement": "_atexit(UINT32_C(0x00310440));"
+    },
+    {
+      "owner_entry": "0x000388b0",
+      "push": {
+        "address": "0x000388e3",
+        "bytes": "6890de3000"
+      },
+      "call": {
+        "address": "0x000388e8",
+        "bytes": "e8d21b2b00"
+      },
+      "caller_cleanup": {
+        "address": "0x000388ed",
+        "bytes": "83c404"
+      },
+      "source_statement": "_atexit(UINT32_C(0x0030de90));"
+    }
+  ],
+  "guest_handoff": {
+    "owner_entry": "0x000388b0",
+    "entry_eax_capture": {
+      "address": "0x000388b2",
+      "bytes": "8bf8"
+    },
+    "push": {
+      "address": "0x000388f8",
+      "bytes": "57"
+    },
+    "esi_producer": {
+      "address": "0x000388f9",
+      "bytes": "be48884a00"
+    },
+    "call": {
+      "address": "0x000388fe",
+      "bytes": "e89d6d0500"
+    },
+    "caller_cleanup": {
+      "address": "0x00038903",
+      "bytes": "83c404"
+    },
+    "source_statement": "FUN_0008f6a0(UINT32_C(0x004a8848), static_cast<std::uint32_t>(in_EAX));"
+  },
+  "historical_literal_overlap": {
+    "entry": "0x0009e8b0",
+    "manifest": "metadata/cpp_20261101_literal_declarations.json",
+    "result_source_sha256": "04d495ca4439d02cc1d1d0b4d9078c923b7de32822e074abe21cec120e6e481b",
+    "method": "Keep the historical manifest unchanged. Reverse this separately pinned repair before its original source/body/preimage controls; this is exported-byte evidence, not an additional image-verified overlay."
+  },
+  "verification_boundary": "All canonical caller live-ins, host/guest memory mapping, overlapping globals, nested-callee effects, signed address arithmetic, callbacks and return ABI remain unresolved. The synthetic initialized DWORD/capture harness does not execute either canonical caller, either canonical callee, uploaded code, an original instruction stream, or native callback targets. Source compilation and narrow operand tests are not full runtime, linkage, Xbox ABI, 1:1 behavior or byte-identical rebuild verification."
+}

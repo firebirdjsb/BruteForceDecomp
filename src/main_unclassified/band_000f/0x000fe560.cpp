@@ -32,7 +32,7 @@ undefined4 FUN_000fe560(void)
     while( true ) {
       puVar6 = (undefined4 *)puVar6[1];
       piVar3 = (int *)puVar6[2];
-      if ((*(byte *)((int)piVar3 + 0x65) & 8) != 0) break;
+      if ((*(reinterpret_cast<byte*>(piVar3) + 0x65) & 8) != 0) break;
       if (puVar6 == puVar7) {
         return uVar5;
       }

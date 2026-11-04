@@ -16,7 +16,7 @@ undefined4 FUN_000480f0(void)
   int iVar2;
   int unaff_ESI;
   
-  iVar2 = FUN_000120f0();
+  iVar2 = FUN_000120f0(unaff_ESI);
   if ((*(ushort *)(unaff_ESI + 0x892) & 0x4000) == 0) {
     if ((*(int *)(*(int *)(iVar2 + 0x2e8) + 0x1b8) == 5) &&
        (*(int *)(*(int *)(iVar2 + 0x2e8) + 0x1bc) == (int)*(short *)(unaff_ESI + 0x890))) {

@@ -35,7 +35,7 @@ void FUN_00072890(void)
     if (-1 < cVar2) {
       *(int *)(unaff_ESI + 0x24 + ((int)cVar2 >> 1) * 4) = in_EDX;
       *(undefined2 **)(in_EDX + 0x120) =
-           &DAT_0048a820 + ((int)(char)(*(char *)(in_EDX + 0x124) << 1) >> 1) * 0x3600;
+           reinterpret_cast<undefined2 *>(&DAT_0048a820 + ((int)(char)(*(char *)(in_EDX + 0x124) << 1) >> 1) * 0x3600);
     }
   }
   return;

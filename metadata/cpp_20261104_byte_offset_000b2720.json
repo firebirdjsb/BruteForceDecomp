@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "base_commit": "cdc65a71adbe1445bf501c98d3a88e94b1e72ba5",
+  "meaning": "One byte-pointer displacement spelling repair. Private exported instruction bytes match the existing original-body digest; the original XBE file was not reauthenticated. ABI_UNVERIFIED, not native linkage or game behavior verification.",
+  "evidence": {
+    "private_archive_name": "REA-Evidence.zip",
+    "private_archive_sha256": "3b76a9013dcafe31b7b8b278255048c44fd635224ab788cc7ed8d8887108b783",
+    "private_record": "REA-Evidence/missing_targets_output/0x000b2720.json",
+    "body_range_source": "FunctionExport.zip!FunctionExport/functions_002100_002199.jsonl:50",
+    "method": "Expand exported instructions into address-keyed bytes, require exact coverage of the two body ranges, concatenate range bytes in address order, and compare SHA-256 with the canonical inventory and source header. Ignore self-reported authenticated flags. Only the two short relevant instruction windows are stored here."
+  },
+  "case": {
+    "entry": "0x000b2720",
+    "source": "src/main_unclassified/band_000b/0x000b2720.cpp",
+    "original_body_sha256": "FA3DDCED915EA15A204A7C6FE7DEA4FA42C8AE94D13822E936DF2CCEA6F3D637",
+    "body_byte_count": 71,
+    "body_ranges": [
+      {
+        "start": "0x000b2720",
+        "end_inclusive": "0x000b2739",
+        "length": 26
+      },
+      {
+        "start": "0x000b2740",
+        "end_inclusive": "0x000b276c",
+        "length": 45
+      }
+    ],
+    "source_before_sha256": "e5aedaf9e099c9900c3bed49d8b77e4cb6b0e8025dccb38aa461b98f9466a315",
+    "source_after_sha256": "179a2c43acd60e5bd5a5c4e4b7b675b568403b2f1a76071cb45110a3071f7bd3",
+    "preimage_git_blob": "84a2974b390c526cff210a19a760e3bff48cc2f6",
+    "replacement": {
+      "old": "*(byte *)((int)piVar2 + 0x13)",
+      "new": "*(reinterpret_cast<byte*>(piVar2) + 0x13)"
+    },
+    "instruction_windows": [
+      {
+        "address": "0x000b2740",
+        "bytes": "8b7508",
+        "observation": "MOV ESI,dword ptr [EBP+0x8] loads the pointer represented by piVar2 = (int *)puVar4[2]."
+      },
+      {
+        "address": "0x000b2743",
+        "bytes": "f6461301",
+        "observation": "TEST byte ptr [ESI+0x13],1 reads one byte at displacement 0x13 and tests its low bit."
+      }
+    ],
+    "expected_diagnostic": "cast from pointer to smaller type",
+    "verification_boundary": "Preserves the byte displacement, read width and bit predicate for a valid existing host pointer. Does not implement guest32 modular address arithmetic or translation, establish pointer provenance/object layout, recover implicit ECX/EDI/EAX inputs, certify callee or indirect-call ABI, or execute the full function."
+  }
+}

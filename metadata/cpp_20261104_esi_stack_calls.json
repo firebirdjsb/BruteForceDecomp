@@ -1,0 +1,779 @@
+{
+  "schema_version": 1,
+  "scope": "Seven existing ESI/stack guest32 model handoffs; no caller definition or ABI changes",
+  "base_commit": "3a6d3bb6c2dd820d74557517a43c0c71d49c2729",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "existing_model_declaration": "extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);",
+  "callee": {
+    "entry": "0x0008f6a0",
+    "source": "src/main_unclassified/band_0008/0x0008f6a0.cpp",
+    "original_body_sha256": "339DC70ADE9DA431A03D8964268E2B983BF89DF209448A87B645006C63D4420D",
+    "body_byte_count": 64,
+    "body_ranges": [
+      {
+        "start": "0008f6a0",
+        "end_inclusive": "0008f6df",
+        "length": 64
+      }
+    ],
+    "private_jsonl_byte_offset": 43016421,
+    "private_jsonl_byte_length": 7473,
+    "private_validation_issues": [],
+    "source_sha256": "6996e48e796e895c0241326081bc8f9e6609e21ebf9754312e1b5a74ee528836",
+    "header": "include/bf_xbe_guest32_record_model.h",
+    "header_sha256": "04b5a96effc67f8163b2f148f37168950488912ea54df491f540aa5e7a779bbb",
+    "instruction_windows": [
+      {
+        "address": "0008f6a0",
+        "bytes": "8b4604"
+      },
+      {
+        "address": "0008f6a5",
+        "bytes": "538b5c2408"
+      },
+      {
+        "address": "0008f6de",
+        "bytes": "5bc3"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "entry": "0x0014bd40",
+      "source": "src/main_unclassified/band_0014/0x0014bd40.cpp",
+      "original_body_sha256": "0F6F775DD42A10ED6B26007645FC487566C654D05F4AA1DA75C489D42A047FE8",
+      "body_byte_count": 56,
+      "body_ranges": [
+        {
+          "start": "0014bd40",
+          "end_inclusive": "0014bd77",
+          "length": 56
+        }
+      ],
+      "private_jsonl_byte_offset": 109046928,
+      "private_jsonl_byte_length": 6336,
+      "private_validation_issues": [],
+      "source_before_sha256": "23bfe8fef0942ab194408ea19ae3ad709d5a0e83586d47e35fd10123c584f76c",
+      "source_after_sha256": "cb1a485acf2ce967c656737f3d8b79197765b0af1bbe67e5ea499c544dbb0773",
+      "preimage_git_blob": "3d7a633cbda8ccb657b081a345b9126ca54cf773",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\nextern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);\n",
+          "count": 1
+        },
+        {
+          "before": "FUN_0008f6a0();",
+          "after": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + UINT32_C(0xac), static_cast<std::uint32_t>(unaff_EDI));",
+          "count": 1
+        }
+      ],
+      "source_call_before": "FUN_0008f6a0();",
+      "source_call_after": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + UINT32_C(0xac), static_cast<std::uint32_t>(unaff_EDI));",
+      "esi_source": "unaff_EBX",
+      "esi_displacement": 172,
+      "payload_source": "unaff_EDI",
+      "windows": {
+        "esi": [
+          {
+            "address": "0014bd49",
+            "bytes": "8db3ac000000"
+          }
+        ],
+        "payload": [],
+        "push": [
+          {
+            "address": "0014bd51",
+            "bytes": "57"
+          }
+        ],
+        "skip": [
+          {
+            "address": "0014bd4f",
+            "bytes": "7409"
+          }
+        ],
+        "call": [
+          {
+            "address": "0014bd52",
+            "bytes": "e84939f4ff"
+          }
+        ],
+        "cleanup": [
+          {
+            "address": "0014bd57",
+            "bytes": "83c404"
+          }
+        ],
+        "continuation": [
+          {
+            "address": "0014bd5a",
+            "bytes": "85ff"
+          }
+        ]
+      }
+    },
+    {
+      "entry": "0x00173270",
+      "source": "src/main_unclassified/band_0017/0x00173270.cpp",
+      "original_body_sha256": "8ABC5598A26D8256E6EB5BB66A059DD8F5EFE3D2077AC4BA83921C273F849C2B",
+      "body_byte_count": 67,
+      "body_ranges": [
+        {
+          "start": "00173270",
+          "end_inclusive": "001732b2",
+          "length": 67
+        }
+      ],
+      "private_jsonl_byte_offset": 123574414,
+      "private_jsonl_byte_length": 8393,
+      "private_validation_issues": [],
+      "source_before_sha256": "1d28189fe0714c77eeed0bc3bad93730d03813762bc2523ad40032ffa8eba1f1",
+      "source_after_sha256": "0b7f45a337077e90d554e7419cbe384198312891fc87adf4589b74d7fc2c21ac",
+      "preimage_git_blob": "ed90d0e40334afbe9a39927994c92b29f95b3029",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\nextern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);\n",
+          "count": 1
+        },
+        {
+          "before": "FUN_0008f6a0();",
+          "after": "FUN_0008f6a0(static_cast<std::uint32_t>(iVar1) + UINT32_C(0x88), static_cast<std::uint32_t>(unaff_EDI));",
+          "count": 1
+        }
+      ],
+      "source_call_before": "FUN_0008f6a0();",
+      "source_call_after": "FUN_0008f6a0(static_cast<std::uint32_t>(iVar1) + UINT32_C(0x88), static_cast<std::uint32_t>(unaff_EDI));",
+      "esi_source": "iVar1",
+      "esi_displacement": 136,
+      "payload_source": "unaff_EDI",
+      "windows": {
+        "binding": [
+          {
+            "address": "00173279",
+            "bytes": "8b4708"
+          },
+          {
+            "address": "0017327d",
+            "bytes": "8b98f00b0000"
+          }
+        ],
+        "esi": [
+          {
+            "address": "0017328c",
+            "bytes": "8db388000000"
+          }
+        ],
+        "payload": [],
+        "push": [
+          {
+            "address": "00173294",
+            "bytes": "57"
+          }
+        ],
+        "skip": [
+          {
+            "address": "00173292",
+            "bytes": "7409"
+          }
+        ],
+        "call": [
+          {
+            "address": "00173295",
+            "bytes": "e806c4f1ff"
+          }
+        ],
+        "cleanup": [
+          {
+            "address": "0017329a",
+            "bytes": "83c404"
+          }
+        ],
+        "continuation": [
+          {
+            "address": "0017329d",
+            "bytes": "83fdff"
+          }
+        ]
+      }
+    },
+    {
+      "entry": "0x001fba60",
+      "source": "src/main_unclassified/band_001f/0x001fba60.cpp",
+      "original_body_sha256": "D30C8208995CE8C50E01CDBCCF24D14D756EBBC3EB12ADB9A1038FDA66BBE40F",
+      "body_byte_count": 30,
+      "body_ranges": [
+        {
+          "start": "001fba60",
+          "end_inclusive": "001fba7d",
+          "length": 30
+        }
+      ],
+      "private_jsonl_byte_offset": 170176839,
+      "private_jsonl_byte_length": 4083,
+      "private_validation_issues": [],
+      "source_before_sha256": "4b500562f2035de7f326c7fcfc794c58d4a6a1e19271f76df6e9d190a6a8c660",
+      "source_after_sha256": "f8250916ee7960f8b6bd406ca77a07ee95746bb9d67531edf6d4755c07d88771",
+      "preimage_git_blob": "9f468e80c71eee40f420ea73bc6c0836c82d5f5c",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\nextern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);\n",
+          "count": 1
+        },
+        {
+          "before": "FUN_0008f6a0();",
+          "after": "FUN_0008f6a0(static_cast<std::uint32_t>(in_ECX) + UINT32_C(0xb0), static_cast<std::uint32_t>(in_EAX));",
+          "count": 1
+        }
+      ],
+      "source_call_before": "FUN_0008f6a0();",
+      "source_call_after": "FUN_0008f6a0(static_cast<std::uint32_t>(in_ECX) + UINT32_C(0xb0), static_cast<std::uint32_t>(in_EAX));",
+      "esi_source": "in_ECX",
+      "esi_displacement": 176,
+      "payload_source": "in_EAX",
+      "windows": {
+        "esi": [
+          {
+            "address": "001fba61",
+            "bytes": "8bf1"
+          },
+          {
+            "address": "001fba69",
+            "bytes": "81c6b0000000"
+          }
+        ],
+        "payload": [],
+        "push": [
+          {
+            "address": "001fba73",
+            "bytes": "50"
+          }
+        ],
+        "skip": [
+          {
+            "address": "001fba71",
+            "bytes": "7409"
+          }
+        ],
+        "call": [
+          {
+            "address": "001fba74",
+            "bytes": "e8273ce9ff"
+          }
+        ],
+        "cleanup": [
+          {
+            "address": "001fba79",
+            "bytes": "83c404"
+          }
+        ],
+        "continuation": [
+          {
+            "address": "001fba7c",
+            "bytes": "5e"
+          }
+        ]
+      }
+    },
+    {
+      "entry": "0x0020d710",
+      "source": "src/main_unclassified/band_0020/0x0020d710.cpp",
+      "original_body_sha256": "2EC32EDBFDB4CD56A928F18C88B64115AE8744DE46055FF0CAB767A9E436FA71",
+      "body_byte_count": 49,
+      "body_ranges": [
+        {
+          "start": "0020d710",
+          "end_inclusive": "0020d740",
+          "length": 49
+        }
+      ],
+      "private_jsonl_byte_offset": 174926025,
+      "private_jsonl_byte_length": 7925,
+      "private_validation_issues": [],
+      "source_before_sha256": "8c00169c26ff4610dc2cb4619a26a2e64cf17f3968466cc35f59ebd263ea9639",
+      "source_after_sha256": "ba5e680d11f100b44a0e516649e89ea9e1c06529994eec588b6e6be40a3f3186",
+      "preimage_git_blob": "9d128e420f82ae3f2aa0a043d066867cd34d552c",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\nextern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);\n",
+          "count": 1
+        },
+        {
+          "before": "FUN_0008f6a0(*(int *)(unaff_EDI + 4));",
+          "after": "FUN_0008f6a0(static_cast<std::uint32_t>(param_1), *(int *)(unaff_EDI + 4));",
+          "count": 1
+        }
+      ],
+      "source_call_before": "FUN_0008f6a0(*(int *)(unaff_EDI + 4));",
+      "source_call_after": "FUN_0008f6a0(static_cast<std::uint32_t>(param_1), *(int *)(unaff_EDI + 4));",
+      "esi_source": "param_1",
+      "esi_displacement": 0,
+      "payload_source": "*(int *)(unaff_EDI + 4)",
+      "windows": {
+        "binding": [
+          {
+            "address": "0020d710",
+            "bytes": "53"
+          },
+          {
+            "address": "0020d715",
+            "bytes": "56"
+          }
+        ],
+        "esi": [
+          {
+            "address": "0020d716",
+            "bytes": "8b74240c"
+          }
+        ],
+        "payload": [
+          {
+            "address": "0020d727",
+            "bytes": "8b4704"
+          }
+        ],
+        "push": [
+          {
+            "address": "0020d72e",
+            "bytes": "50"
+          }
+        ],
+        "skip": [
+          {
+            "address": "0020d72c",
+            "bytes": "7409"
+          }
+        ],
+        "call": [
+          {
+            "address": "0020d72f",
+            "bytes": "e86c1fe8ff"
+          }
+        ],
+        "cleanup": [
+          {
+            "address": "0020d734",
+            "bytes": "83c404"
+          }
+        ],
+        "continuation": [
+          {
+            "address": "0020d737",
+            "bytes": "83c608"
+          }
+        ],
+        "loop": [
+          {
+            "address": "0020d73a",
+            "bytes": "3bf3"
+          },
+          {
+            "address": "0020d73c",
+            "bytes": "75e2"
+          }
+        ]
+      }
+    },
+    {
+      "entry": "0x0020db30",
+      "source": "src/main_unclassified/band_0020/0x0020db30.cpp",
+      "original_body_sha256": "A59B468F382F0A37947818287590937A1695101DBE4D0779F8F903B34C71C3E0",
+      "body_byte_count": 56,
+      "body_ranges": [
+        {
+          "start": "0020db30",
+          "end_inclusive": "0020db67",
+          "length": 56
+        }
+      ],
+      "private_jsonl_byte_offset": 175062496,
+      "private_jsonl_byte_length": 9257,
+      "private_validation_issues": [],
+      "source_before_sha256": "1c1d96165a4727d3967b53055c115745572f40e686e00d6460ab54ab4fbc4d29",
+      "source_after_sha256": "eb4341ecf33f9b04407fbcbead59a79f591531f0002ab41e8adcf98558248e31",
+      "preimage_git_blob": "45ebe9b3f9ff11254b8fb3ff32c4c0d44ab7fe4d",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\nextern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);\n",
+          "count": 1
+        },
+        {
+          "before": "FUN_0008f6a0(*(int *)(param_1 + 4));",
+          "after": "FUN_0008f6a0(static_cast<std::uint32_t>(in_EAX), *(int *)(param_1 + 4));",
+          "count": 1
+        }
+      ],
+      "source_call_before": "FUN_0008f6a0(*(int *)(param_1 + 4));",
+      "source_call_after": "FUN_0008f6a0(static_cast<std::uint32_t>(in_EAX), *(int *)(param_1 + 4));",
+      "esi_source": "in_EAX",
+      "esi_displacement": 0,
+      "payload_source": "*(int *)(param_1 + 4)",
+      "windows": {
+        "binding": [
+          {
+            "address": "0020db30",
+            "bytes": "53"
+          },
+          {
+            "address": "0020db35",
+            "bytes": "56"
+          },
+          {
+            "address": "0020db36",
+            "bytes": "57"
+          },
+          {
+            "address": "0020db37",
+            "bytes": "8b7c2410"
+          }
+        ],
+        "esi": [
+          {
+            "address": "0020db3d",
+            "bytes": "8bf0"
+          }
+        ],
+        "payload": [
+          {
+            "address": "0020db48",
+            "bytes": "8b4704"
+          }
+        ],
+        "push": [
+          {
+            "address": "0020db4f",
+            "bytes": "50"
+          }
+        ],
+        "skip": [
+          {
+            "address": "0020db4d",
+            "bytes": "7409"
+          }
+        ],
+        "call": [
+          {
+            "address": "0020db50",
+            "bytes": "e84b1be8ff"
+          }
+        ],
+        "cleanup": [
+          {
+            "address": "0020db55",
+            "bytes": "83c404"
+          }
+        ],
+        "continuation": [
+          {
+            "address": "0020db58",
+            "bytes": "83c708"
+          },
+          {
+            "address": "0020db5b",
+            "bytes": "83c608"
+          }
+        ],
+        "loop": [
+          {
+            "address": "0020db5e",
+            "bytes": "3bfb"
+          },
+          {
+            "address": "0020db60",
+            "bytes": "75df"
+          }
+        ],
+        "return_value": [
+          {
+            "address": "0020db63",
+            "bytes": "8bc6"
+          }
+        ]
+      }
+    },
+    {
+      "entry": "0x00226360",
+      "source": "src/main_unclassified/band_0022/0x00226360.cpp",
+      "original_body_sha256": "518CF522DF8469B5968C7F0BF622E4EB8AE22AA4DF3B5060AD9E95C2C8C53DCF",
+      "body_byte_count": 74,
+      "body_ranges": [
+        {
+          "start": "00226360",
+          "end_inclusive": "002263a9",
+          "length": 74
+        }
+      ],
+      "private_jsonl_byte_offset": 183607964,
+      "private_jsonl_byte_length": 8233,
+      "private_validation_issues": [],
+      "source_before_sha256": "7fa8e8978872960244196f9528be033a51119a84e7330220e466252b5a68cb02",
+      "source_after_sha256": "90f173eab280822aaba701b2dd9312ebe63a23e41ab93e8919b0f5ead5f15f05",
+      "preimage_git_blob": "5376adb45e3591dfe07d9e4b3e01ace311cc2595",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\nextern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);\n",
+          "count": 1
+        },
+        {
+          "before": "FUN_0008f6a0();",
+          "after": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x1e8), static_cast<std::uint32_t>(in_EAX));",
+          "count": 1
+        }
+      ],
+      "source_call_before": "FUN_0008f6a0();",
+      "source_call_after": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x1e8), static_cast<std::uint32_t>(in_EAX));",
+      "esi_source": "unaff_EDI",
+      "esi_displacement": 488,
+      "payload_source": "in_EAX",
+      "windows": {
+        "esi": [
+          {
+            "address": "0022636c",
+            "bytes": "8db7e8010000"
+          }
+        ],
+        "payload": [],
+        "push": [
+          {
+            "address": "00226374",
+            "bytes": "50"
+          }
+        ],
+        "skip": [
+          {
+            "address": "00226372",
+            "bytes": "7409"
+          }
+        ],
+        "call": [
+          {
+            "address": "00226375",
+            "bytes": "e82693e6ff"
+          }
+        ],
+        "cleanup": [
+          {
+            "address": "0022637a",
+            "bytes": "83c404"
+          }
+        ],
+        "continuation": [
+          {
+            "address": "0022637d",
+            "bytes": "8b4308"
+          }
+        ]
+      }
+    },
+    {
+      "entry": "0x0022dc60",
+      "source": "src/main_unclassified/band_0022/0x0022dc60.cpp",
+      "original_body_sha256": "7309C2BB95524F4334DBF231A99CB7D578269F75B7D0412F347391DA468568B6",
+      "body_byte_count": 81,
+      "body_ranges": [
+        {
+          "start": "0022dc60",
+          "end_inclusive": "0022dcb0",
+          "length": 81
+        }
+      ],
+      "private_jsonl_byte_offset": 186345849,
+      "private_jsonl_byte_length": 8627,
+      "private_validation_issues": [],
+      "source_before_sha256": "a500eac686206702c74750df6a7caa740b5343ab1e56a09dbca2c4f168f198cc",
+      "source_after_sha256": "a68f45735dd1d47caa1b0634ed85e1813490b5517110a5252538f3fbb1bf3478",
+      "preimage_git_blob": "670b543826c11a54a7e2c8730a6eba5f648dde90",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\nextern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);\n",
+          "count": 1
+        },
+        {
+          "before": "FUN_0008f6a0();",
+          "after": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x35c), static_cast<std::uint32_t>(in_EAX));",
+          "count": 1
+        }
+      ],
+      "source_call_before": "FUN_0008f6a0();",
+      "source_call_after": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x35c), static_cast<std::uint32_t>(in_EAX));",
+      "esi_source": "unaff_EDI",
+      "esi_displacement": 860,
+      "payload_source": "in_EAX",
+      "windows": {
+        "esi": [
+          {
+            "address": "0022dc6c",
+            "bytes": "8db75c030000"
+          }
+        ],
+        "payload": [],
+        "push": [
+          {
+            "address": "0022dc74",
+            "bytes": "50"
+          }
+        ],
+        "skip": [
+          {
+            "address": "0022dc72",
+            "bytes": "7409"
+          }
+        ],
+        "call": [
+          {
+            "address": "0022dc75",
+            "bytes": "e8261ae6ff"
+          }
+        ],
+        "cleanup": [
+          {
+            "address": "0022dc7a",
+            "bytes": "83c404"
+          }
+        ],
+        "continuation": [
+          {
+            "address": "0022dc7d",
+            "bytes": "8b4308"
+          }
+        ]
+      }
+    }
+  ],
+  "historical_ledger_scan": {
+    "scope": "Existing metadata/cpp_*.json and metadata/cpp_*.csv at base commit; no matching caller entry",
+    "file_count": 30,
+    "overlaps": [],
+    "files": [
+      {
+        "path": "metadata/cpp_20261031_direct_declarations_27.json",
+        "sha256": "9b0efeb24152d5545c5974894196e0320ff6f237ceda5e70c4b5ca86b664ff26"
+      },
+      {
+        "path": "metadata/cpp_20261031_guest_address_literals.json",
+        "sha256": "3aa1a8a1866d144ff26b84e0f6ff56007d343ffe9d9be33de355a1be4f60fd97"
+      },
+      {
+        "path": "metadata/cpp_20261101_36_call_windows.csv",
+        "sha256": "4feae358d89a6a59ef584344f9ed38f93b3e40e06a65da9eba9d13bc5fdb29ce"
+      },
+      {
+        "path": "metadata/cpp_20261101_89_direct_declarations.json",
+        "sha256": "3b6b09a2775d0fd4e1cb92b1e2af00a403cf9bc270eabcd07e91a2d365313427"
+      },
+      {
+        "path": "metadata/cpp_20261101_byte_offset_20.json",
+        "sha256": "bd871a1207667d6ed5fbe69e5aa00a77ff75f96bc7775ed68ceda72eb6658ebb"
+      },
+      {
+        "path": "metadata/cpp_20261101_dword_operations.json",
+        "sha256": "556f8c76461f8c10e7e094a425263bebbad83e807a146f2d6ce5896942be0910"
+      },
+      {
+        "path": "metadata/cpp_20261101_literal_declarations.json",
+        "sha256": "a5ad8f63714151ddcc66088df4999c54cf988c4e11699f2495410f306506aeef"
+      },
+      {
+        "path": "metadata/cpp_20261101_literal_overlay_12.json",
+        "sha256": "27e728373cd2f1bc7c4b5fb1255f1ad44fb74279c90dfe57d5a63901083a3637"
+      },
+      {
+        "path": "metadata/cpp_20261101_literal_overlay_2.json",
+        "sha256": "afa76705ad5c4a4aa33351e7ff0c8684ce31668867faca550e516918318bb378"
+      },
+      {
+        "path": "metadata/cpp_20261101_remaining_literal_overlay_14.json",
+        "sha256": "04bc19746f5dfc882807a5734142ae6e3b8e7e56f6b73374b70ff142c963e77c"
+      },
+      {
+        "path": "metadata/cpp_20261101_remaining_literal_repairs.json",
+        "sha256": "e8215f264ed96b97af09c41f1c9f2e8fc26e41437225efe6cfbcce53e0d54448"
+      },
+      {
+        "path": "metadata/cpp_20261102_40_body_provenance.csv",
+        "sha256": "58cdb52e4b383142461ab83bd6ee8e146b629f0e772a83b2f861f53e039df38b"
+      },
+      {
+        "path": "metadata/cpp_20261104_0003f0e0_eax_handoff.json",
+        "sha256": "179da50023241e1bc76c0840e2a3657e87e98641f6ea4c3cd97f5b68f6a31e24"
+      },
+      {
+        "path": "metadata/cpp_20261104_00072940_guest_calls.json",
+        "sha256": "8adb90bf21d169ef75cad50cc18d1fc5b0f95d308183344ea1fddb195abc1180"
+      },
+      {
+        "path": "metadata/cpp_20261104_002338c0_sse_operation.json",
+        "sha256": "3c193a743be458e39f3ec6a0341160fe7af0785c24d0413e2a3c8187db07912c"
+      },
+      {
+        "path": "metadata/cpp_20261104_0023c0e0_storage_operation.json",
+        "sha256": "ffb20cf5decb187374af8b19d5fb3254996f54274cea5e11853a73f9e2e92432"
+      },
+      {
+        "path": "metadata/cpp_20261104_byte_offset_000b2720.json",
+        "sha256": "b1912f1ee20543ab9f8f26f831dd08a92ddd656fae2c332105dfd4d6ae5ff516"
+      },
+      {
+        "path": "metadata/cpp_20261104_byte_offsets_five.json",
+        "sha256": "924bcfde06ee2ee7f638eb591ce62bebb7167034988a10aa294ebefbe463331b"
+      },
+      {
+        "path": "metadata/cpp_20261104_eax_lea_calls.json",
+        "sha256": "ed7555a782a4b86c0a4e1df0cf3ca5b83ba84c122de1f04f1843a0ac3c012458"
+      },
+      {
+        "path": "metadata/cpp_20261104_eax_scalar_calls.json",
+        "sha256": "4ba978620312fc3555db8074895102de4d80def441f6c3bef78d35b7f238789d"
+      },
+      {
+        "path": "metadata/cpp_20261104_four_guest_constants.json",
+        "sha256": "763c39fa5cbaed412b68c46bf92665c5a3b23af5a679cc3a730630b2a9f0b8e9"
+      },
+      {
+        "path": "metadata/cpp_20261104_guest_initializers.json",
+        "sha256": "d66a70ab9ebc052266638955ea78133344bef7568587bf918c59db0c3619226d"
+      },
+      {
+        "path": "metadata/cpp_20261104_heap_free_scalar_calls.json",
+        "sha256": "1254d95cc4a3f3b6710342e30c91dbf8fcb8a9d13b93f41d0a4672a87642992e"
+      },
+      {
+        "path": "metadata/cpp_20261104_integer_primitives.json",
+        "sha256": "c6ab37c18d9b2f7fb3e6379f088c387926bbb1c35cfafd9098af95055854ec66"
+      },
+      {
+        "path": "metadata/cpp_20261104_memory_call_declarations_2.json",
+        "sha256": "98172a862e6faf67c815c369453f73d8e0d4d05bd64c804cdaa8e94c24168bb6"
+      },
+      {
+        "path": "metadata/cpp_20261104_object_pointer_spellings.json",
+        "sha256": "8d2dfe79dee946695d463669f4c39e741cb9214ead0f8fbe2a740e293b6a17ac"
+      },
+      {
+        "path": "metadata/cpp_20261104_pointer_argument_spellings.json",
+        "sha256": "4b579e9ea27e3d19be93341e805f7b1f1a9faaf75babfae840a3cab073052ca8"
+      },
+      {
+        "path": "metadata/cpp_20261104_ushort_pointer_spelling.json",
+        "sha256": "e16e6ba967caa2a7f6414049a9c7d897b2fafae008e25caf765e429162066e15"
+      },
+      {
+        "path": "metadata/cpp_allocator_verified_call_sites.csv",
+        "sha256": "cbaa7ff562ce5cbd315ba1a04c28d5ddc965a61581f09a1320df1f772d781ad9"
+      },
+      {
+        "path": "metadata/cpp_ctor_eax_passthrough_20261101.csv",
+        "sha256": "10d378dae5ab3d8d7677c4be7f794173113030f35507d2cecdcdc35f16bc7408"
+      }
+    ]
+  },
+  "verification_boundary": "Only explicit handoff arguments and a source-matched declaration are added. Original caller definitions, live-in pseudo-registers, signed address/loop arithmetic, host pointer and array accesses, and all surrounding code are unchanged and remain ABI_UNVERIFIED. Synthetic tests execute initialized scalar transfers and capture mocks, never these callers, canonical callee, raw game bytes or the XBE. Private replay validates body bytes and decode boundaries, not whole-XBE authentication, recovered ABI, game runtime behavior or byte identity."
+}

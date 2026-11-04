@@ -1,0 +1,8 @@
+# Preserve the exact historical public-source preimage, including its original whitespace.
+tests/fixtures/002338c0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve the exact historical source fixture for reversible x87 repair tests.
+tests/fixtures/0023c0e0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve the exact public-source preimage for tagged conversion tests.
+tests/fixtures/00077eb0_before.cpp.txt -text whitespace=-blank-at-eol

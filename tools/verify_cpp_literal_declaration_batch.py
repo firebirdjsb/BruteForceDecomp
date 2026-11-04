@@ -23,13 +23,231 @@ OVERLAY_MANIFESTS = (
 )
 NEW_OVERLAY_ENTRIES = {'0x000a9b90', '0x00173720'}
 XBE_SHA = 'B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721'
+EXPORTED_INSTRUCTION_MANIFEST = 'metadata/cpp_20261104_guest_initializers.json'
+EXPORTED_INSTRUCTION_MANIFEST_SHA = 'd66a70ab9ebc052266638955ea78133344bef7568587bf918c59db0c3619226d'
+EXPORTED_INSTRUCTION_OVERLAYS_SHA = '362398476e0c86c464c482220dfc81bfd35177e10c750d6c47a4a741a337a755'
+# A separate evidence channel: do not widen the earlier initializer's allowlist.
+HEAP_FREE_MANIFEST = 'metadata/cpp_20261104_heap_free_scalar_calls.json'
+HEAP_FREE_MANIFEST_SHA = '1254d95cc4a3f3b6710342e30c91dbf8fcb8a9d13b93f41d0a4672a87642992e'
+REMAINING_MANIFEST = 'metadata/cpp_20261101_remaining_literal_repairs.json'
+HEAP_FREE_BATCHES = {
+    MANIFEST: {
+        'entries': {'0x0008dcf0', '0x000c0040'},
+        'overlays_sha256': 'aaf9268e1e7adee3b213e01aab6ddcaea8ecd2e4b54404369f500a93e4563453',
+        'ledger_sha256': 'a5ad8f63714151ddcc66088df4999c54cf988c4e11699f2495410f306506aeef',
+        'counts': None,
+    },
+    REMAINING_MANIFEST: {
+        'entries': {'0x0023cca0', '0x002ea08b', '0x002ea0ca'},
+        'overlays_sha256': 'a5314acb7498a1c1e3ff23f77d205a41fa823aeb56aa470253282fd4f7e8a0d8',
+        'ledger_sha256': 'e8215f264ed96b97af09c41f1c9f2e8fc26e41437225efe6cfbcce53e0d54448',
+        'counts': {'total':209,'complete':0,'partial':209,'values':469},
+    },
+}
+
+
+# Source-intent spelling only: no XBE instruction evidence is asserted here.
+# Keep separate from the independently instruction-gated 14-case overlays.
+SOURCE_SPELLING_OVERLAYS = {
+    '0x0036fbe0': {
+        'entry': '0x0036fbe0',
+        'before': 'piVar5 = puVar3 + 0x12;',
+        'after': 'piVar5 = reinterpret_cast<int*>(puVar3 + 0x12);',
+        'prior_sha256': '37cf2da57b82d3406158bebb677b0c5efc3eaae6f078254a6b994f7ed1371b3a',
+        'current_sha256': 'fd15b64ab81e472077a02dfb8aea932baab898bdc0be10bb6ac3af77985b47e0',
+        'body_sha256': 'BECC2D4674649A4CA3CED23B293B7A2A45446A377E079EEDC3BAC01419960165',
+    },
+}
+
+
+def restore_source_spelling(case, text, source_spelling_overlays=None):
+    overlays = source_spelling_overlays or {}
+    if overlays and overlays != SOURCE_SPELLING_OVERLAYS:
+        raise ValueError('Source-only spelling overlay pins differ')
+    overlay = overlays.get(case['entry'])
+    if overlay is not None:
+        if (case['status'] != 'partial'
+                or case['body_sha256'] != overlay['body_sha256']
+                or case['result_source_sha256'] != overlay['prior_sha256']
+                or sha(text) != overlay['current_sha256']
+                or text.count(overlay['after']) != 1
+                or overlay['before'] in text):
+            raise ValueError('Changed source-only spelling overlay: ' + case['entry'])
+        text = text.replace(overlay['after'], overlay['before'], 1)
+        if sha(text) != overlay['prior_sha256']:
+            raise ValueError('Source-only spelling preimage differs')
+    return text
 
 
 def sha(text):
     return hashlib.sha256(text.encode()).hexdigest()
 
 
-def restore(case, text, overlays=None):
+def validate_exported_instruction_overlays(overlays):
+    """Pin the exact export-evidenced case independently of caller-supplied hashes.
+
+    This third evidence class is neither an image-verified overlay nor a
+    source-spelling-only change. The original XBE is not authenticated here.
+    """
+    if overlays and (set(overlays) != {'0x0009e8b0'} or
+            sha(json.dumps(overlays, sort_keys=True, separators=(',', ':'))) !=
+            EXPORTED_INSTRUCTION_OVERLAYS_SHA):
+        raise ValueError('Exported-instruction overlay pins differ')
+
+
+def load_exported_instruction_overlays(root):
+    raw = (root / EXPORTED_INSTRUCTION_MANIFEST).read_bytes()
+    if hashlib.sha256(raw).hexdigest() != EXPORTED_INSTRUCTION_MANIFEST_SHA:
+        raise ValueError('Exported-instruction evidence manifest changed')
+    document = json.loads(raw)
+    if (document['original_xbe_sha256'] != XBE_SHA or
+            document['original_xbe_reauthenticated'] is not False or
+            document['original_game_functions_executed'] is not False):
+        raise ValueError('Exported-instruction evidence boundary changed')
+    overlays = {c['entry']: c for c in document['cases'] if c['entry'] == '0x0009e8b0'}
+    if not overlays:
+        raise ValueError('Exported-instruction overlay is missing')
+    validate_exported_instruction_overlays(overlays)
+    return overlays
+
+
+def restore_exported_instruction(case, text, exported_instruction_overlays=None):
+    overlays = exported_instruction_overlays or {}
+    validate_exported_instruction_overlays(overlays)
+    overlay = overlays.get(case['entry'])
+    if overlay is None:
+        return text
+    if (case['status'] != 'partial' or case['source'] != overlay['source'] or
+            case['body_sha256'] != overlay['original_body_sha256'] or
+            case['body_ranges'] != overlay['body_ranges'] or
+            case['result_source_sha256'] != overlay['source_before_sha256'] or
+            sha(text) != overlay['source_after_sha256']):
+        raise ValueError('Changed exported-instruction overlay: ' + case['entry'])
+    for edit in reversed(overlay['replacements']):
+        if edit['count'] != 1 or text.count(edit['after']) != 1:
+            raise ValueError('Exported-instruction replacement occurrence differs')
+        text = text.replace(edit['after'], edit['before'], 1)
+    raw = text.encode()
+    blob = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+    if sha(text) != overlay['source_before_sha256'] or blob != overlay['preimage_git_blob']:
+        raise ValueError('Exported-instruction historical result preimage differs')
+    return text
+
+
+def apply_exported_instruction(case, text, exported_instruction_overlays=None):
+    overlays = exported_instruction_overlays or {}
+    validate_exported_instruction_overlays(overlays)
+    overlay = overlays.get(case['entry'])
+    if overlay is not None:
+        for edit in overlay['replacements']:
+            if text.count(edit['before']) != 1 or edit['after'] in text:
+                raise ValueError('Original preimage exported-instruction position differs')
+            text = text.replace(edit['before'], edit['after'], 1)
+    return text
+
+
+def validate_heap_free_overlays(overlays, ledger=None):
+    """Exact per-ledger subsets of a separately pinned program-memory export."""
+    if not overlays:
+        return
+    allowed = HEAP_FREE_BATCHES.items() if ledger is None else [(ledger, HEAP_FREE_BATCHES.get(ledger))]
+    digest = sha(json.dumps(overlays, sort_keys=True, separators=(',', ':')))
+    if not any(pin is not None and set(overlays) == pin['entries'] and
+               digest == pin['overlays_sha256'] for _, pin in allowed):
+        raise ValueError('Heap-free exported-instruction overlay pins or ledger differ')
+
+
+def load_heap_free_overlays(root, ledger):
+    if ledger not in HEAP_FREE_BATCHES:
+        raise ValueError('Unknown heap-free historical ledger')
+    raw = (root / HEAP_FREE_MANIFEST).read_bytes()
+    if hashlib.sha256(raw).hexdigest() != HEAP_FREE_MANIFEST_SHA:
+        raise ValueError('Heap-free exported-instruction manifest changed')
+    document = json.loads(raw)
+    if (document['original_xbe_sha256'] != XBE_SHA or
+            document['original_xbe_reauthenticated'] is not False or
+            document['original_game_functions_executed'] is not False):
+        raise ValueError('Heap-free export evidence boundary changed')
+    entries = {c['entry'] for c in document['cases']}
+    if len(document['cases']) != 5 or entries != set().union(*(p['entries'] for p in HEAP_FREE_BATCHES.values())):
+        raise ValueError('Heap-free five-case identity changed')
+    overlays = {c['entry']: c for c in document['cases'] if c['historical_ledger']['ledger'] == ledger}
+    validate_heap_free_overlays(overlays, ledger)
+    if not overlays:
+        raise ValueError('Missing heap-free historical overlays')
+    return overlays
+
+
+def restore_heap_free_instruction(case, text, heap_free_overlays=None):
+    overlays = heap_free_overlays or {}
+    validate_heap_free_overlays(overlays)
+    overlay = overlays.get(case['entry'])
+    if overlay is None:
+        return text
+    historical = overlay['historical_ledger']
+    if (case['status'] != 'partial' or case['source'] != overlay['source'] or
+            case['body_sha256'] != overlay['original_body_sha256'] or
+            case['body_ranges'] != overlay['body_ranges'] or
+            case['result_source_sha256'] != overlay['source_before_sha256'] or
+            case['source_sha256'] != historical['historical_preimage_sha256'] or
+            case['source_git_blob'] != historical['historical_preimage_git_blob'] or
+            sha(text) != overlay['source_after_sha256']):
+        raise ValueError('Changed heap-free historical overlay: ' + case['entry'])
+    for edit in reversed(overlay['replacements']):
+        if edit['count'] != 1 or text.count(edit['after']) != 1:
+            raise ValueError('Heap-free replacement occurrence differs')
+        text = text.replace(edit['after'], edit['before'], 1)
+    raw = text.encode()
+    blob = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+    if sha(text) != overlay['source_before_sha256'] or blob != overlay['preimage_git_blob']:
+        raise ValueError('Heap-free historical result preimage differs')
+    return text
+
+
+def apply_heap_free_instruction(case, text, heap_free_overlays=None):
+    overlays = heap_free_overlays or {}
+    validate_heap_free_overlays(overlays)
+    overlay = overlays.get(case['entry'])
+    if overlay is not None:
+        for edit in overlay['replacements']:
+            if edit['count'] != 1 or text.count(edit['before']) != 1 or edit['after'] in text:
+                raise ValueError('Original preimage heap-free position differs')
+            text = text.replace(edit['before'], edit['after'], 1)
+    return text
+
+
+def validate_heap_free_batch(root, manifest, approved_counts, heap_free_overlays,
+                             overlays, source_spelling_overlays, exported_instruction_overlays):
+    if not heap_free_overlays:
+        return
+    candidates = [name for name, pin in HEAP_FREE_BATCHES.items() if approved_counts == pin['counts']]
+    if len(candidates) != 1:
+        raise ValueError('Heap-free overlay batch counts differ')
+    ledger = candidates[0]
+    validate_heap_free_overlays(heap_free_overlays, ledger)
+    raw = (root / ledger).read_bytes()
+    pin = HEAP_FREE_BATCHES[ledger]
+    if hashlib.sha256(raw).hexdigest() != pin['ledger_sha256'] or json.loads(raw) != manifest:
+        raise ValueError('Heap-free historical ledger changed')
+    if set(heap_free_overlays).intersection(set(overlays) | set(source_spelling_overlays) | set(exported_instruction_overlays)):
+        raise ValueError('Heap-free evidence classes overlap')
+    for entry, overlay in heap_free_overlays.items():
+        historical = overlay['historical_ledger']
+        if (historical['ledger'] != ledger or historical['ledger_sha256'] != pin['ledger_sha256'] or
+                manifest['cases'][historical['case_index']]['entry'] != entry):
+            raise ValueError('Heap-free historical case identity differs')
+
+
+def restore(case, text, overlays=None, source_spelling_overlays=None, exported_instruction_overlays=None, heap_free_overlays=None):
+    if set(heap_free_overlays or {}).intersection(
+            set(overlays or {}) | set(source_spelling_overlays or {}) | set(exported_instruction_overlays or {})):
+        raise ValueError('Heap-free evidence classes overlap')
+    text = restore_heap_free_instruction(case, text, heap_free_overlays)
+    if set(exported_instruction_overlays or {}).intersection(
+            set(overlays or {}) | set(source_spelling_overlays or {})):
+        raise ValueError('Exported-instruction evidence classes overlap')
+    text = restore_exported_instruction(case, text, exported_instruction_overlays)
+    text = restore_source_spelling(case, text, source_spelling_overlays)
     # Compose only independently SHA-pinned later repairs; the original
     # literal-batch preimage and Git blob must still match exactly.
     overlay = (overlays or {}).get(case['entry'])
@@ -57,7 +275,13 @@ def restore(case, text, overlays=None):
         if before.count(overlay['before']) != 1 or overlay['after'] in before:
             raise ValueError('Original preimage overlay position differs: ' + case['entry'])
         before = before.replace(overlay['before'], overlay['after'], 1)
-    return before
+    spelling = (source_spelling_overlays or {}).get(case['entry'])
+    if spelling is not None:
+        if before.count(spelling['before']) != 1 or spelling['after'] in before:
+            raise ValueError('Original source-only spelling position differs')
+        before = before.replace(spelling['before'], spelling['after'], 1)
+    before = apply_exported_instruction(case, before, exported_instruction_overlays)
+    return apply_heap_free_instruction(case, before, heap_free_overlays)
 
 
 def compile_text(compiler, root, source, opt):
@@ -72,11 +296,28 @@ def compile_text(compiler, root, source, opt):
     return result.returncode, errors, warnings, locations
 
 
-def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=None):
+def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=None, source_spelling_overlays=None, exported_instruction_overlays=None, heap_free_overlays=None):
     cases = manifest['cases']
     expected = manifest['expected_counts']
     overlays = overlays or {}
-    # The independent 209-case verifier reuses this function without overlays.
+    source_spelling_overlays = source_spelling_overlays or {}
+    exported_instruction_overlays = exported_instruction_overlays or {}
+    heap_free_overlays = heap_free_overlays or {}
+    validate_heap_free_batch(root, manifest, approved_counts, heap_free_overlays,
+                            overlays, source_spelling_overlays, exported_instruction_overlays)
+    validate_exported_instruction_overlays(exported_instruction_overlays)
+    if exported_instruction_overlays and (
+            approved_counts is not None or
+            set(exported_instruction_overlays) - {c['entry'] for c in cases} or
+            set(exported_instruction_overlays).intersection(set(overlays) | set(source_spelling_overlays))):
+        raise ValueError('Exported-instruction overlay batch identity differs')
+    if source_spelling_overlays and (
+            source_spelling_overlays != SOURCE_SPELLING_OVERLAYS
+            or approved_counts != {'total':209,'complete':0,'partial':209,'values':469}
+            or set(source_spelling_overlays) - {c['entry'] for c in cases}
+            or set(source_spelling_overlays).intersection(overlays)):
+        raise ValueError('Source-only spelling overlay batch identity differs')
+    # Existing instruction-gated callers keep the exact 14-case gate.
     if overlays and (len(overlays) != 14
             or any(c['entry'] in overlays and c['status'] != 'partial' for c in cases)
             or set(overlays) - {c['entry'] for c in cases}):
@@ -87,9 +328,10 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
         raise ValueError('Batch size/identity differs')
     if manifest['original_xbe_sha256'] != XBE_SHA:
         raise ValueError('Original image identity changed')
-    inventory = {r['entry']:r for r in csv.DictReader((root/'metadata/bulk_13694_inventory.csv').open(encoding='utf-8'))}
+    with (root/'metadata/bulk_13694_inventory.csv').open(encoding='utf-8') as stream:
+        inventory = {r['entry']:r for r in csv.DictReader(stream)}
     texts = {c['entry']:source_path(root,c['entry']).read_text(encoding='utf-8') for c in cases}
-    preimages = {c['entry']:restore(c,texts[c['entry']],overlays) for c in cases}
+    preimages = {c['entry']:restore(c,texts[c['entry']],overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays) for c in cases}
     full = partial = values = 0
     for case in cases:
         text = texts[case['entry']]
@@ -99,7 +341,9 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
         if read_body_digest(text) != (case['body_sha256'],False):
             raise ValueError('Original body label changed')
         row = inventory[case['entry']]
-        inventory_sha = overlays[case['entry']]['prior_sha256'] if case['entry'] in overlays else sha(text)
+        historical_text = restore_heap_free_instruction(case, text, heap_free_overlays)
+        historical_text = restore_exported_instruction(case, historical_text, exported_instruction_overlays)
+        inventory_sha = overlays[case['entry']]['prior_sha256'] if case['entry'] in overlays else sha(restore_source_spelling(case,historical_text,source_spelling_overlays))
         if row['original_body_sha256'] != case['body_sha256'] or row['c_sha256'] != inventory_sha:
             raise ValueError('Inventory fingerprint differs')
         if 'ABI_UNVERIFIED' not in text:
@@ -124,7 +368,7 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
                 raise ValueError('Signature differs from real source definition')
             if 'extern '+dep['signature']+';\n' not in case['added_block']:
                 raise ValueError('Declaration not source matched')
-        effective_status = 'complete' if case['entry'] in overlays else case['status']
+        effective_status = 'complete' if case['entry'] in overlays or case['entry'] in source_spelling_overlays or case['entry'] in exported_instruction_overlays or case['entry'] in heap_free_overlays else case['status']
         for opt in ('-O0','-O2'):
             old_rc, old, old_warnings, old_locations = compile_text(compiler,root,preimages[case['entry']],opt)
             rc, errors, warnings, locations = compile_text(compiler,root,text.replace(case['added_block'],'',1) if effective_status=='partial' else text,opt)
@@ -154,22 +398,40 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
         if effective_status == 'complete': full += 1
         else: partial += 1
         try:
-            restore(case,text.replace(case['edits'][0]['after'],'UINT32_C(0)',1),overlays)
+            restore(case,text.replace(case['edits'][0]['after'],'UINT32_C(0)',1),overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays)
         except ValueError:
             pass
         else:
             raise ValueError('Changed-literal negative control escaped')
-        if case['entry'] in overlays:
-            changed = text.replace(overlays[case['entry']]['after'], overlays[case['entry']]['before'], 1)
+        completion = overlays.get(case['entry']) or source_spelling_overlays.get(case['entry'])
+        if completion is not None:
+            changed = text.replace(completion['after'], completion['before'], 1)
             try:
-                restore(case,changed,overlays)
+                restore(case,changed,overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays)
             except ValueError:
                 pass
             else:
                 raise ValueError('Changed-overlay negative control escaped')
-    if (full,partial,values) != (expected['complete']+len(overlays),expected['partial']-len(overlays),expected['values']):
+        exported = exported_instruction_overlays.get(case['entry']) or heap_free_overlays.get(case['entry'])
+        if exported is not None:
+            for edit in exported['replacements']:
+                changed = text.replace(edit['after'], edit['before'], 1)
+                try:
+                    restore(case,changed,overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays)
+                except ValueError:
+                    pass
+                else:
+                    raise ValueError('Changed exported-instruction overlay control escaped')
+    completions = len(overlays) + len(source_spelling_overlays) + len(exported_instruction_overlays) + len(heap_free_overlays)
+    if (full,partial,values) != (expected['complete']+completions,expected['partial']-completions,expected['values']):
         raise ValueError('Verification totals differ')
     print(f'PASS {full} complete C++17 repairs; {partial} partial repairs; {values} DWORD values; O0/O2 and preimage/corruption controls')
+    if source_spelling_overlays:
+        print('1 exact source-only pointer spelling completion; no new XBE instruction evidence')
+    if exported_instruction_overlays:
+        print('1 separately pinned exported-instruction completion; historical DWORD count unchanged; no XBE authentication claimed by this overlay')
+    if heap_free_overlays:
+        print(f'{len(heap_free_overlays)} separately pinned heap-free call completions; historical ledger and DWORD counts unchanged; no whole-XBE authentication claimed')
     if image is not None:
         verify_image(image, cases, overlays)
     else:
@@ -242,7 +504,9 @@ def main():
         overlays.update({c['entry']: c for c in overlay_doc['overlays']})
     if len(overlays) != 14:
         raise ValueError('Combined reviewed overlay count differs')
-    verify(ROOT,json.loads((ROOT/MANIFEST).read_text(encoding='utf-8')),compiler,a.xbe.read_bytes() if a.xbe else None,overlays=overlays)
+    verify(ROOT,json.loads((ROOT/MANIFEST).read_text(encoding='utf-8')),compiler,a.xbe.read_bytes() if a.xbe else None,overlays=overlays,
+           exported_instruction_overlays=load_exported_instruction_overlays(ROOT),
+           heap_free_overlays=load_heap_free_overlays(ROOT, MANIFEST))
 
 
 if __name__=='__main__':main()

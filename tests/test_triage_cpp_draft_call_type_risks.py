@@ -41,13 +41,17 @@ def run() -> None:
                             "errors": [] if entry.endswith("30") else ["use of undeclared identifier 'FUN_00010030'"]})
         for i in range(13694-3):
             entry = f"0x{0x100000+i:08x}"
-            results.append({"entry":entry,"source":"unused", "source_sha256":"unused", "original_body_sha256":"unused", "body_provenance":"match", "status":"pass"})
-        audit = {"scope":"full_inventory","checked":13694,"checked_commit_sha":"test-sha",
+            results.append({"entry":entry,"source":"unused", "source_sha256":"a" * 64, "original_body_sha256":"b" * 64, "body_provenance":"match", "status":"pass"})
+        audit = {"scope":"full_inventory","checked":13694,"checked_commit_sha":"a" * 40,
+                 "original_function_count":13694,"passing_is_not_1_to_1":True,
                  "counts":{"pass":13692,"fail":2},"results":results}
-        edges = {"audited_commit":"test-sha","candidates":[
+        edges = {"audited_commit":"a" * 40,"candidates":[
             {"caller": caller, "callee":"0x00010030", "source":f"src/main_unclassified/band_0001/{caller}.cpp",
              "caller_draft_arity":0, "triage":"DRAFT_ARITY_MATCH_REVIEW_TYPES_AND_XBE"}
             for caller in ("0x00010010","0x00010020")]}
+        for edge, row in zip(edges["candidates"], results):
+            edge["source_sha256"] = row["source_sha256"]
+            edge["original_body_sha256"] = row["original_body_sha256"]
         (root / "audit.json").write_text(json.dumps(audit))
         (root / "edges.json").write_text(json.dumps(edges))
         cmd = [sys.executable, str(SCRIPT), "--root", str(root), "--audit", str(root / "audit.json"),

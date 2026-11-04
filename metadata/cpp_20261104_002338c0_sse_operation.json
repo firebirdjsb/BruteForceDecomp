@@ -1,0 +1,79 @@
+{
+  "schema": "bf-scoped-sse-operation-v1",
+  "entry": "0x002338c0",
+  "ghidra_index": 7787,
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_body_sha256": "5897040BE668154EA2E3C435098155BB2F0738FF57A70BFA63AC39F047CF75E1",
+  "body_start": "0x002338c0",
+  "body_end_inclusive": "0x002339ce",
+  "body_byte_count": 271,
+  "instruction_count": 72,
+  "source": "src/main_unclassified/band_0023/0x002338c0.cpp",
+  "source_before_sha256": "1cc444199404e8002d717a473df46d191a5222f18cce8a588903c5d7d1ab7213",
+  "source_before_git_blob": "146c46062299b556d75b951fc1523df6c2f6220b",
+  "source_before_commit": "cdc65a71adbe1445bf501c98d3a88e94b1e72ba5",
+  "source_after_sha256": "5bd6f6c8c591024d9f57e1186139adbabe63d24afd3574b0929f811ff2479563",
+  "preimage_fixture": "tests/fixtures/002338c0_before.cpp.txt",
+  "preimage_origin": "Already-public canonical C++ draft, preserved verbatim; not a private machine-code export.",
+  "header": "include/bf_002338c0_sse_operation.h",
+  "header_sha256": "de12e6428f63813db3e9b38b57de9772327061856508e24c97afe9420b3bd53d",
+  "oracle": "tests/test_002338c0_sse_operation.cpp",
+  "oracle_sha256": "eee918c97ceeae4a759805078f790280cb47e55215c2d32bb10fb6aca92f92be",
+  "evidence": {
+    "rea_archive_sha256": "3b76a9013dcafe31b7b8b278255048c44fd635224ab788cc7ed8d8887108b783",
+    "rea_member": "REA-Evidence/missing_callees_output/0x002338c0.json",
+    "function_export_archive_sha256": "2ae4f35ac3a9a014321b7c3e59af906b6a310f6232b35742804b877783f078a5",
+    "function_export_member": "FunctionExport/functions_007700_007799.jsonl",
+    "authentication": "All 271 original instruction bytes match the pinned original body digest and FunctionExport. Uploaded executable scripts were not run."
+  },
+  "narrow_opcode_windows": [
+    {
+      "address": "0x002338c1",
+      "hex": "8b4c24108b4424088b5c240c",
+      "meaning": "After PUSH EBX: right, output, left loaded from entry ESP+12,+4,+8."
+    },
+    {
+      "address": "0x002338d1",
+      "hex": "0f166104",
+      "meaning": "MOVHPS loads raw upper binary32 pair from right+4 bytes."
+    },
+    {
+      "address": "0x0023392d",
+      "hex": "0f58c80f59d6",
+      "meaning": "First row: ADDPS XMM1,XMM0 occurs before MULPS XMM2,XMM6."
+    },
+    {
+      "address": "0x00233948",
+      "hex": "0f175004",
+      "meaning": "MOVHPS stores raw upper pair to output+4 bytes."
+    },
+    {
+      "address": "0x00233956",
+      "hex": "0f105b10",
+      "meaning": "Second left vector is read after first output row stores."
+    },
+    {
+      "address": "0x002339a0",
+      "hex": "f30f105320",
+      "meaning": "Left+32-byte scalar read after second output row stores."
+    },
+    {
+      "address": "0x002339c9",
+      "hex": "8b4424085bc3",
+      "meaning": "Return output pointer in EAX, restore EBX, RET without argument purge."
+    }
+  ],
+  "host_contract": [
+    "GNU/Clang x86 with native SSE; fast math rejected; no arithmetic fallback.",
+    "Each buffer is 12 live float objects aligned to alignof(float); overlaps use whole-float offsets.",
+    "The entire right input is read before stores; left reads remain staged between output stores.",
+    "All packed FP operations and original destination/source ordering are retained. MXCSR is inherited, not silently reset.",
+    "Masked-exception output bits and sticky flags are tested against a separately authored native SSE oracle on the executing CPU."
+  ],
+  "limits": [
+    "The canonical host source signature is preserved, not certified as an original guest32 stack/register ABI.",
+    "No guest-address translation, arbitrary byte-unaligned input contract, inaccessible-memory fault ordering, or unmasked exception recovery is provided.",
+    "Native-host agreement does not establish cross-CPU NaN behavior, Xbox execution, full XMM/GPR preservation, native-game linkage, or byte-identical rebuild.",
+    "The sibling 002333b0 host-operation pattern is architectural precedent only, not instruction evidence."
+  ]
+}

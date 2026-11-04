@@ -21,11 +21,11 @@ int FUN_0036a7c0(int param_1,int param_2)
   iVar2 = param_1;
   do {
     *DAT_004be760 = (uint)*DAT_004be768 << 0x10 | (uint)*DAT_004be768 | 0x80008000;
-    pbVar1 = DAT_004be768 + 1;
+    pbVar1 = reinterpret_cast<byte *>(DAT_004be768 + 1);
     DAT_004be768 = DAT_004be768 + 2;
     DAT_004be760[1] = (uint)*pbVar1 << 0x10 | (uint)*pbVar1 | 0x80008000;
     *DAT_004be764 = (uint)*DAT_004be76c << 0x10 | (uint)*DAT_004be76c | 0x80008000;
-    pbVar1 = DAT_004be76c + 1;
+    pbVar1 = reinterpret_cast<byte *>(DAT_004be76c + 1);
     DAT_004be76c = DAT_004be76c + 2;
     DAT_004be764[1] = (uint)*pbVar1 << 0x10 | (uint)*pbVar1 | 0x80008000;
     DAT_004be760 = DAT_004be760 + 2;
