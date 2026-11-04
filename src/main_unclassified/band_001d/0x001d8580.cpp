@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE direct E8 at 0x001D85AD -> 0x001D1FB0, callee RET 4.
+ * One guest-stack DWORD; implicit register/native linkage ABI_UNVERIFIED. */
+extern void FUN_001d1fb0(int guest_stack_word_0);
 int * FUN_001d8580(int *param_1,int param_2,int param_3,int param_4)
 
 {

@@ -20,7 +20,9 @@ void FUN_002241d0(void)
   undefined4 *puVar4;
   
   in_EDX[1] = in_EAX;
-  *in_EDX = &PTR_LAB_0039485c;
+  /* XBE 0x002241d4: MOV m32,0x0039485c stores a 32-bit guest VA.
+   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */
+  *in_EDX = UINT32_C(0x0039485c);
   puVar4 = in_EDX + 2;
   for (iVar3 = 0xc; iVar3 != 0; iVar3 = iVar3 + -1) {
     *puVar4 = 0x3f800000;

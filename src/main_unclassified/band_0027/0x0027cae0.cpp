@@ -25,6 +25,6 @@ void FUN_0027cae0(undefined4 param_1,undefined4 param_2,undefined1 param_3)
   in_EAX[5] = uVar2;
   in_EAX[6] = uVar1;
   *(undefined1 *)(in_EAX + 7) = param_3;
-  *(undefined1 *)((int)in_EAX + 0x1d) = 0;
+  *(undefined1 *)((unsigned char *)in_EAX + 0x1d) = 0;
   return;
 }

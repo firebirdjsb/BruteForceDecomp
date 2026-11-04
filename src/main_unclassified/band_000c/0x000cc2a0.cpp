@@ -25,8 +25,10 @@ void FUN_000cc2a0(void)
   in_EAX[0x1f] = 0;
   in_EAX[0x20] = 0;
   in_EAX[0x21] = 0;
-  *in_EAX = &PTR_FUN_0039f004;
-  in_EAX[0xb] = &PTR_LAB_0039fff0;
+  /* XBE MOV m32,imm32 sites: 0x000cc2cd, 0x000cc2d3.
+   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */
+  *in_EAX = UINT32_C(0x0039f004);
+  in_EAX[0xb] = UINT32_C(0x0039fff0);
   in_EAX[0x22] = 0x43000000;
   in_EAX[0x23] = 0x42c80000;
   in_EAX[0x24] = 0x40800000;

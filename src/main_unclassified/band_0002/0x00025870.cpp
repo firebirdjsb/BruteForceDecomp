@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_sqrtss.h"
 #include <xmmintrin.h>
 /* Original x86 RCPSS approximate reciprocal: scalar low lane only. */
 /* WARNING: Restarted to delay deadcode elimination for space: stack */

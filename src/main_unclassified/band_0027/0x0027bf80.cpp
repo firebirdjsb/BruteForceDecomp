@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Retail E8 0x0027BFC9 returns EDI through EAX; source-matched only, ABI_UNVERIFIED. */
+extern undefined4 *FUN_0027c1a0(uint *param_1);
 int FUN_0027bf80(void)
 
 {

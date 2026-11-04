@@ -19,6 +19,7 @@ void FUN_00181350(undefined4 param_1,undefined4 param_2,undefined1 param_3)
   in_EAX[3] = *in_ECX;
   in_EAX[4] = in_ECX[1];
   *(undefined1 *)(in_EAX + 5) = param_3;
-  *(undefined1 *)((int)in_EAX + 0x15) = 0;
+  /* XBE 0x00181372: MOV BYTE PTR [EAX+0x15],0; ABI_UNVERIFIED. */
+  *(undefined1 *)((unsigned char *)in_EAX + 0x15) = 0;
   return;
 }

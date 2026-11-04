@@ -6,13 +6,17 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Callee 0x001FEDB0 views this existing DWORD buffer bytewise.
+ * reinterpret_cast preserves the source buffer address and does not
+ * translate guest VAs to host memory. Original Xbox ABI_UNVERIFIED. */
+extern char FUN_001fedb0(undefined4 flag, int *key, byte *data);
 char FUN_00202d60(undefined4 param_1,int *param_2,undefined4 *param_3)
 
 {
   char cVar1;
   int in_ECX;
   
-  cVar1 = FUN_001fedb0(param_1,param_2,param_3);
+  cVar1 = FUN_001fedb0(param_1,param_2,reinterpret_cast<byte *>(param_3));
   if (cVar1 == '\0') {
     if (*param_2 == 0x13e6d98a) {
       if ((char)param_1 == '\0') {

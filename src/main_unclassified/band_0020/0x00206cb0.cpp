@@ -6,13 +6,16 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* 0x001FEDB0 byte-buffer callee draft matches this source pointer;
+ * host pointer address is preserved, while Xbox guest ABI is UNVERIFIED. */
+extern char FUN_001fedb0(undefined4 flag, int *key, byte *data);
 char FUN_00206cb0(undefined4 param_1,int *param_2,undefined4 *param_3)
 
 {
   char cVar1;
   int in_ECX;
   
-  cVar1 = FUN_001fedb0(param_1,param_2,param_3);
+  cVar1 = FUN_001fedb0(param_1,param_2,reinterpret_cast<byte *>(param_3));
   if (cVar1 == '\0') {
     if (*param_2 == -0x1d4df4a3) {
       if ((char)param_1 == '\0') {

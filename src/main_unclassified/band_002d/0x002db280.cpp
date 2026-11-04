@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Callee-draft zero-argument edge only; original Xbox ABI_UNVERIFIED. */
+extern bool FUN_002dbb40(void);
 void FUN_002db280(void)
 
 {

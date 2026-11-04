@@ -6,6 +6,13 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original XBE 0x00205226: direct CALL 0x0003D730; two guest stack
+ * DWORDs, callee RET 8, and EAX returns the first guest pointer.
+ * Source-matched declaration only: guest memory/ABI_UNVERIFIED. */
+extern undefined4 *FUN_0003d730(undefined4 *param_1, undefined4 *param_2);
+/* 0x001FEDB0 byte-buffer callee draft matches this source pointer;
+ * host pointer address is preserved, while Xbox guest ABI is UNVERIFIED. */
+extern char FUN_001fedb0(undefined4 flag, int *key, byte *data);
 char FUN_002051a0(undefined4 param_1,int *param_2,undefined4 *param_3)
 
 {
@@ -16,7 +23,7 @@ char FUN_002051a0(undefined4 param_1,int *param_2,undefined4 *param_3)
   undefined4 *puVar4;
   undefined4 *puVar5;
   
-  cVar1 = FUN_001fedb0(param_1,param_2,param_3);
+  cVar1 = FUN_001fedb0(param_1,param_2,reinterpret_cast<byte *>(param_3));
   if (cVar1 == '\0') {
     uVar2 = *(undefined1 *)(in_ECX + 0x98);
     cVar3 = (char)param_1;

@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* ABI_UNVERIFIED: callee source-draft signatures only; Xbox CALL/RET not checked. */
+extern undefined1 FUN_0012eab0(char param_1);
+extern void FUN_0013ec30(void);
 undefined4 FUN_0013eb70(void)
 
 {

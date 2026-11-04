@@ -1,3 +1,5 @@
+/* Original DWORD address values and source-matched declarations only.
+ * ABI_UNVERIFIED: guest register/memory contracts and complete behavior remain unresolved. */
 /* The original 32-bit x86 ABI is not established by this C11 translation. */
 #include <stdint.h>
 #include "bf_external_symbols.h"
@@ -46,11 +48,11 @@ void FUN_000122d0(uint32_t param_1, uint32_t* in_EAX)
 #endif
 
     // Word indices below represent byte offsets of index * 4.
-    in_EAX[0] = ((uint32_t)(&PTR_FUN_003a479c));
+    in_EAX[0] = ((uint32_t)(UINT32_C(0x003a479c)));
     in_EAX[4] = 0;
     in_EAX[9] = 0;
     in_EAX[2] = 0;
-    in_EAX[1] = ((uint32_t)(&PTR_FUN_003a4f64));
+    in_EAX[1] = ((uint32_t)(UINT32_C(0x003a4f64)));
     in_EAX[7] = 0;
     in_EAX[6] = 0;
     in_EAX[5] = 0;

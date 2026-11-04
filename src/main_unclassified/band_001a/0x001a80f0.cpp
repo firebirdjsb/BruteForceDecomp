@@ -6,10 +6,13 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched declaration: XBE 0x001a8104 PUSH ESI, 0x001a8105 E8 CALL;
+ * callee 0x001ad080 exits with RET 4. Guest ABI_UNVERIFIED. */
+extern void FUN_001ad080(int *param_1);
 undefined4 FUN_001a80f0(void)
 
 {
-  undefined4 *unaff_ESI;
+  int *unaff_ESI;
   
   FUN_001ad080(unaff_ESI);
   return *unaff_ESI;

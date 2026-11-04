@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-draft declaration only; Xbox x86 guest ABI_UNVERIFIED. */
+extern void FUN_003711f0(void);
 #include "bf_xbox_d3d_state_globals_x86.h"
 void D3D8LTCG__D3DDevice_SetRenderState_MultiSampleMask(undefined4 param_1)
 

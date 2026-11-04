@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Ghidra-draft-matched declarations; original Xbox implicit registers ABI_UNVERIFIED. */
+extern void FUN_0001f4f0(int param_1, uint param_2, uint param_3);
+extern void FUN_001d5b10(int param_1);
+extern void FUN_0010bc40(void);
 int * FUN_001d91e0(int *param_1,int param_2,int param_3,int param_4)
 
 {

@@ -18,7 +18,9 @@ undefined4 * FUN_000cda00(void)
   
   puVar1 = (undefined4 *)FUN_002ea01d(0x30);
   if (puVar1 != (undefined4 *)0x0) {
-    *puVar1 = &PTR_LAB_0039c0ec;
+    /* XBE 0x000cda10: MOV m32,0x0039c0ec stores a 32-bit guest VA.
+     * Register ABI and guest memory translation remain ABI_UNVERIFIED. */
+    *puVar1 = UINT32_C(0x0039c0ec);
     puVar1[2] = 0;
     puVar1[1] = 0;
     puVar1[9] = 0;

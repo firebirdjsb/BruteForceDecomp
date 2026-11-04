@@ -52,7 +52,7 @@ void FUN_0005b9a0(uint *param_1,int param_2)
     *(undefined4 *)(iVar2 + 0x1c) = 0;
     *(byte *)(iVar2 + 0x20) = *(byte *)(iVar2 + 0x20) & 0xfe;
     if (*(int *)(iVar2 + 4) != param_2) {
-      FUN_0008f6a0(param_2);
+      FUN_0008f6a0(static_cast<std::uint32_t>(iVar2), static_cast<std::uint32_t>(param_2));
     }
     if (*param_1 <= param_1[1]) {
       FUN_0005dc80();

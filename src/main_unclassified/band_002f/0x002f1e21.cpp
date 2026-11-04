@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched declarations; direct CALL targets checked against the pinned XBE.
+ * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.
+ */
+extern undefined4 ___addl(uint param_1,uint param_2,uint *param_3);
 /* Library Function - Single Match
     ___add_12
    

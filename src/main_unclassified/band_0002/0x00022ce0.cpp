@@ -22,7 +22,8 @@ void FUN_00022ce0(void)
   *(undefined4 *)(in_ECX + 8) = uVar2;
   *(undefined4 *)(in_ECX + 0xc) = uVar1;
   if (*(int *)(in_ECX + 0x14) != *(int *)(in_EAX + 0x14)) {
-    FUN_0008f6a0(*(int *)(in_EAX + 0x14));
+    /* XBE 0x00022CE0 ESI=ECX+0x10 and PUSH EAX; host guest-register model only, ABI_UNVERIFIED. */
+    FUN_0008f6a0(static_cast<std::uint32_t>(in_ECX) + UINT32_C(0x10), static_cast<std::uint32_t>(*(int *)(in_EAX + 0x14)));
   }
   return;
 }

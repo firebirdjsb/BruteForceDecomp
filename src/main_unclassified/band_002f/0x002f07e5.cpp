@@ -6,6 +6,20 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include <string.h>
+/* XBE 0x002F07E8 and 0x002F0891 load original 64-bit IEEE754 stack
+ * words into x87. This is bit reinterpretation, NOT integer-to-double
+ * conversion. x87 precision and other branches remain ABI_UNVERIFIED. */
+static inline double bf_002f07e5_f64_words(uint32_t lo, uint32_t hi)
+{
+  uint64_t bits = ((uint64_t)hi << 32) | lo;
+  double out;
+  memcpy(&out, &bits, sizeof(out));
+  return out;
+}
+/* Source-matched draft declaration; XBE direct CALL 0x002F08D9 confirmed.
+ * The callee's full x87 behavior and linkage remain ABI_UNVERIFIED. */
+extern undefined4 FUN_002f0784(double param_1);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t _DAT_003b6df8;
@@ -21,7 +35,7 @@ undefined4 FUN_002f07e5(int param_1,int param_2,int param_3,int param_4,double *
   int iVar3;
   undefined4 uVar4;
   
-  dVar1 = (double)CONCAT44(param_2,param_1);
+  dVar1 = bf_002f07e5_f64_words(param_1,param_2);
   uVar4 = 0;
   if (dVar1 < 0.0) {
     dVar1 = -dVar1;
@@ -52,9 +66,9 @@ LAB_002f0881:
       if (param_1 != 0) {
         return 0;
       }
-      iVar3 = FUN_002f0784(CONCAT44(param_4,param_3));
-      if ((double)CONCAT44(param_4,param_3) <= 0.0) {
-        if (0.0 <= (double)CONCAT44(param_4,param_3)) {
+      iVar3 = FUN_002f0784(bf_002f07e5_f64_words(param_3,param_4));
+      if (bf_002f07e5_f64_words(param_3,param_4) <= 0.0) {
+        if (0.0 <= bf_002f07e5_f64_words(param_3,param_4)) {
           dVar2 = 1.0;
           goto LAB_002f0930;
         }
@@ -75,8 +89,8 @@ LAB_002f0881:
     if (param_1 != 0) {
       return 0;
     }
-    if (0.0 < (double)CONCAT44(param_4,param_3)) goto LAB_002f0930;
-    if (0.0 <= (double)CONCAT44(param_4,param_3)) {
+    if (0.0 < bf_002f07e5_f64_words(param_3,param_4)) goto LAB_002f0930;
+    if (0.0 <= bf_002f07e5_f64_words(param_3,param_4)) {
       dVar2 = 1.0;
       goto LAB_002f0930;
     }

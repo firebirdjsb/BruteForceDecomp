@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* C++17 source-matched declaration only: FUN_0017c270.cpp draft is void(void).
+ * Original Xbox register/stack inputs and runtime ABI remain ABI_UNVERIFIED. */
+extern void FUN_0017c270(void);
 undefined4 * FUN_0017d7c0(undefined4 *param_1,undefined4 *param_2)
 
 {

@@ -18,7 +18,7 @@ longlong * FUN_002f8a4b(longlong *param_1,uint param_2)
     lVar1 = (ulonglong)param_2 * 10000;
     *param_1 = lVar1;
     *(int *)param_1 = -(int)lVar1;
-    *(uint *)((int)param_1 + 4) = -((int)((ulonglong)lVar1 >> 0x20) + (uint)((int)lVar1 != 0));
+    *(uint *)((unsigned char *)param_1 + 4) = -((int)((ulonglong)lVar1 >> 0x20) + (uint)((int)lVar1 != 0));
   }
   return param_1;
 }

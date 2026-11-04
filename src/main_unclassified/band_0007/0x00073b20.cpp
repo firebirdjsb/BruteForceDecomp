@@ -6,7 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-extern void FUN_002334b0(void);
+/* Original 0x0073B6D E8 -> 0x002334B0; EAX output preserved to RET.
+ * This is source-matched C++17 only; Xbox register ABI_UNVERIFIED. */
+extern float * FUN_002334b0(void);
 
 undefined4 * FUN_00073b20(undefined4 param_1,undefined4 *param_2)
 

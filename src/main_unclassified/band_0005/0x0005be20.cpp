@@ -39,7 +39,9 @@ LAB_0005be34:
         iVar3 = 0;
       }
       if (*(int *)(iVar3 + 0x14) != unaff_EBX) {
-        FUN_0008f6a0();
+        /* Original XBE: 0x0005BE59 LEA ESI,[EAX+0x10]; 0x0005BE61 PUSH EBX; CALL 0x0008F6A0.
+       Host-only guest32 register/stack model; original C++ ABI_UNVERIFIED. */
+    FUN_0008f6a0(static_cast<std::uint32_t>(iVar3) + UINT32_C(0x10), static_cast<std::uint32_t>(unaff_EBX));
       }
     }
   }

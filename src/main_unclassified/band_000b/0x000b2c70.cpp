@@ -23,7 +23,9 @@ void FUN_000b2c70(void)
   in_EAX[0x1a] = 0;
   in_EAX[0x19] = 0;
   *(byte *)(in_EAX + 0x18) = *(byte *)(in_EAX + 0x18) & 0xf9;
-  *in_EAX = &PTR_FUN_0039ff7c;
-  in_EAX[0xb] = &PTR_LAB_0039fff0;
+  /* XBE MOV m32,imm32 sites: 0x000b2c8a, 0x000b2c90.
+   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */
+  *in_EAX = UINT32_C(0x0039ff7c);
+  in_EAX[0xb] = UINT32_C(0x0039fff0);
   return;
 }

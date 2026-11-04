@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-observed 0x0017EE90 returns a guest DWORD with no explicit
+ * arguments. Implicit guest registers and Xbox ABI remain UNVERIFIED. */
+extern undefined4 FUN_0017ee90(void);
 undefined4 FUN_0017f0f0(void)
 
 {

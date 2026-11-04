@@ -21,10 +21,10 @@ void FUN_0006ff00(void)
   iVar2 = *(int *)(unaff_EDI + 0x148);
   if (((iVar2 != 0) && (*(int *)(*(int *)(iVar2 + 0xc) + 4) == 3)) && (*(int *)(iVar2 + 0x5e4) != 0)
      ) {
-    FUN_0008f6a0(0);
+    FUN_0008f6a0(static_cast<std::uint32_t>(iVar2) + 0x5e0U, 0U);
   }
   if (*(int *)(unaff_EDI + 0x148) != unaff_EBX) {
-    FUN_0008f6a0();
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + 0x144U, static_cast<std::uint32_t>(unaff_EBX));
   }
   if ((unaff_EBX != 0) && (*(int *)(*(int *)(unaff_EBX + 0xc) + 4) == 3)) {
     if (*(int *)(unaff_EBX + 0x7a8) == 0) {
@@ -44,7 +44,7 @@ void FUN_0006ff00(void)
       *(byte *)(unaff_EDI + 0x4c) = *(byte *)(unaff_EDI + 0x4c) | 1;
     }
     if (*(int *)(unaff_EBX + 0x5e4) != unaff_EDI) {
-      FUN_0008f6a0();
+      FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + 0x5e0U, static_cast<std::uint32_t>(unaff_EDI));
     }
   }
   return;

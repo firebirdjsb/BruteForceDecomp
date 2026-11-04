@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched callee drafts; implicit Xbox register/stack ABI_UNVERIFIED. */
+extern undefined4 FUN_001020d0(void);
+extern undefined4 FUN_0008a460(void);
+extern void FUN_0010c7d0(void);
 undefined4 FUN_000f7920(void)
 
 {

@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched Ghidra draft declaration only; original Xbox x87/ABI_UNVERIFIED. */
+extern int FUN_00319a67(float param_1);
 undefined4 FUN_00314d1b(float param_1)
 
 {

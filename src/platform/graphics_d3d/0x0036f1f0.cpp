@@ -1,3 +1,5 @@
+/* Partial original DWORD address values; other C++ errors remain.
+ * Complete register/memory contracts and behavior are ABI_UNVERIFIED. */
 /* Brute Force original Xbox - independent, unverified C11 draft.
  * Input x86 body SHA-256: 8ACF6BE3408E1E7603D680AA4FFD5A929AC5234CB2772F9E628D38439A49B74C
  * Entry: 0x0036f1f0, Ghidra index: 13323, label: D3DDevice_SetShaderConstantMode_0__LTCG_eax1
@@ -53,7 +55,7 @@ void D3D8LTCG__D3DDevice_SetShaderConstantMode_0__LTCG_eax1(void)
     FUN_00372200();
     FUN_00372200();
     FUN_00372200();
-    puVar2[0x53] = &DAT_001009d0;
+    puVar2[0x53] = UINT32_C(0x001009d0);
     puVar2[0x54] = 0;
     puVar2[0x55] = 0;
     puVar2[0x57] = 0;

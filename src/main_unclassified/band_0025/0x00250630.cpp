@@ -18,6 +18,6 @@ void FUN_00250630(undefined4 param_1,undefined4 *param_2,undefined1 param_3)
   in_EAX[2] = param_1;
   in_EAX[3] = *param_2;
   *(undefined1 *)(in_EAX + 4) = param_3;
-  *(undefined1 *)((int)in_EAX + 0x11) = 0;
+  *(undefined1 *)((unsigned char *)in_EAX + 0x11) = 0;
   return;
 }

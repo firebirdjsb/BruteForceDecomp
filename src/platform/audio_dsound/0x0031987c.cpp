@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* C++17 source-matched declaration only; original Xbox ABI_UNVERIFIED. */
+extern int FUN_00319589(void);
 void DSOUND__CMcpxBuffer_SetBufferData(void)
 
 {

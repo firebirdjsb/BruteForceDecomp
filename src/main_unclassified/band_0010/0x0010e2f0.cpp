@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Existing 0x002EA01D direct/indirect guest32 allocator boundary:
+ * one source size DWORD and 32-bit EAX result. Guest-memory ABI unverified. */
+#include "bf_002ea01d_allocator_guest32.h"
 void FUN_0010e2f0(undefined4 *param_1,int param_2)
 
 {

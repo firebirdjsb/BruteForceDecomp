@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Existing 0x002EA01D allocation boundary takes one guest32 size and
+ * returns guest32 EAX. No host allocation/pointer ABI is established. */
+#include "bf_002ea01d_allocator_guest32.h"
 undefined4 FUN_000fd550(undefined4 param_1,int *param_2)
 
 {

@@ -17,7 +17,9 @@ void FUN_002b3d90(void)
   undefined4 *in_EAX;
   int in_EDX;
   
-  *in_EAX = &PTR_FUN_0038e84c;
+  /* XBE MOV m32,imm32 sites: 0x002b3dc7, 0x002b3d93.
+   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */
+  *in_EAX = UINT32_C(0x0038e84c);
   uVar1 = *(undefined4 *)(in_EDX + 0x14);
   in_EAX[3] = 0;
   in_EAX[2] = 0;
@@ -32,7 +34,7 @@ void FUN_002b3d90(void)
   *(undefined4 **)(in_EDX + 0x18) = in_EAX;
   in_EAX[4] = in_EDX;
   in_EAX[0xe] = 0;
-  *in_EAX = &PTR_FUN_0038e844;
+  *in_EAX = UINT32_C(0x0038e844);
   in_EAX[0x10] = 0;
   in_EAX[0x11] = 0;
   *(undefined2 *)(in_EAX + 0x1a) = 0;

@@ -16,7 +16,8 @@ void FUN_0004b5f0(void)
   
   *(undefined4 *)(in_ECX + 4) = 0;
   if (in_EAX != 0) {
-    FUN_0008f6a0();
+    /* XBE 0x0004B5F0 ESI=ECX and PUSH EAX; host guest-register model only, ABI_UNVERIFIED. */
+    FUN_0008f6a0(static_cast<std::uint32_t>(in_ECX), static_cast<std::uint32_t>(in_EAX));
   }
   return;
 }

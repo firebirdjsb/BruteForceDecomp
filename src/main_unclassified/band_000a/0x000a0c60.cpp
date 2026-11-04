@@ -7,7 +7,9 @@
  */
 #include "bf_ghidra_types.h"
 #include "../../contracts/bf_000a0c60_memory_operation.h"
-void FUN_000a0c60(void)
+/* Original retail XBE preserves incoming EAX at every RET; expose only that
+ * observed return register. Guest pointer/host ABI remain ABI_UNVERIFIED. */
+float * FUN_000a0c60(void)
 
 {
   float *in_EAX;
@@ -17,5 +19,5 @@ void FUN_000a0c60(void)
   /* ABI_UNVERIFIED: this original entry still has unbound register inputs.
    * Proven callers bind the shared memory operation separately. */
   bf_000a0c60_produce(in_EAX, in_ECX, in_EDX);
-  return;
+  return in_EAX;
 }

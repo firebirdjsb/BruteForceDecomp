@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* C++17 source-matched declaration only; original Xbox ABI_UNVERIFIED. */
+extern void FUN_00317e2d(void);
 void FUN_00318786(void)
 
 {

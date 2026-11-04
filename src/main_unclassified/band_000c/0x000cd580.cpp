@@ -23,7 +23,7 @@ void FUN_000cd580(void)
     puVar1[4] = 0x40;
     puVar1[5] = 0x40;
     *(undefined2 *)(puVar1 + 6) = 0;
-    *(undefined2 *)((int)puVar1 + 0x1a) = 0;
+    *(undefined2 *)((byte *)puVar1 + 0x1a) = 0;
     puVar1[7] = 0;
     puVar1[8] = 0;
     puVar1 = puVar1 + 0xb;

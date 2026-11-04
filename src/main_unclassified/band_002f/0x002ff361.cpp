@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched declarations; direct CALL targets checked against the pinned XBE.
+ * ABI_UNVERIFIED: source signatures are not recovered Xbox/native interfaces.
+ */
+extern ushort FUN_002ee46d(ushort param_1,ushort param_2);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0040f518;

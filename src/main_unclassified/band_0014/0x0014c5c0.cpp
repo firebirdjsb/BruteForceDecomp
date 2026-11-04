@@ -1,3 +1,5 @@
+/* Partial original DWORD address-value repair; other C++ errors remain.
+ * ABI_UNVERIFIED: register/memory mapping and complete behavior remain unresolved. */
 /* Brute Force original Xbox - independent, unverified C11 draft.
  * Input x86 body SHA-256: 932D74EA57D297EA5BD5AA1546DEEF924095CD9A958B80A9ED009715884022A1
  * Entry: 0x0014c5c0, Ghidra index: 4340, label: FUN_0014c5c0
@@ -19,14 +21,14 @@ void FUN_0014c5c0(void)
   undefined4 *unaff_EBX;
   
   FUN_0014ac90();
-  *unaff_EBX = &PTR_FUN_0039b318;
+  *unaff_EBX = UINT32_C(0x0039b318);
   unaff_EBX[0xd] = 0x1010101;
   unaff_EBX[0xe] = 0x1010101;
   *(undefined1 *)(unaff_EBX + 0xf) = 1;
   unaff_EBX[0x10] = 0;
   unaff_EBX[5] = 1;
   FUN_0014ac90();
-  unaff_EBX[0x11] = &PTR_FUN_0039b318;
+  unaff_EBX[0x11] = UINT32_C(0x0039b318);
   unaff_EBX[0x1e] = 0x1010101;
   unaff_EBX[0x1f] = 0x1010101;
   *(undefined1 *)(unaff_EBX + 0x20) = 1;
@@ -34,17 +36,17 @@ void FUN_0014c5c0(void)
   unaff_EBX[0x16] = 1;
   FUN_0014ac90();
   unaff_EBX[0x27] = 2;
-  unaff_EBX[0x22] = &PTR_FUN_0039b1b0;
+  unaff_EBX[0x22] = UINT32_C(0x0039b1b0);
   FUN_0014ac90();
-  unaff_EBX[0x2f] = &PTR_FUN_0039b470;
+  unaff_EBX[0x2f] = UINT32_C(0x0039b470);
   unaff_EBX[0x34] = 2;
   FUN_0014b540();
   FUN_0014ac90();
-  unaff_EBX[0x44] = &PTR_FUN_0039cfe0;
+  unaff_EBX[0x44] = UINT32_C(0x0039cfe0);
   FUN_0014ac90();
-  unaff_EBX[0x51] = &PTR_FUN_0039b138;
+  unaff_EBX[0x51] = UINT32_C(0x0039b138);
   FUN_0014ac90();
-  unaff_EBX[0x5e] = &PTR_FUN_0039b138;
+  unaff_EBX[0x5e] = UINT32_C(0x0039b138);
   unaff_EBX[0x6d] = 0;
   unaff_EBX[0x6f] = 0xffffffff;
   unaff_EBX[0x6e] = 10;

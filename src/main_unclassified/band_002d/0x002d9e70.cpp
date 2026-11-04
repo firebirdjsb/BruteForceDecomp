@@ -6,6 +6,8 @@
  * See docs/evidence/002d9e70-descriptor-sse.md for instruction facts and limits.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched prototype only; Xbox guest ABI_UNVERIFIED. */
+extern void FUN_002d9dd0(void);
 #include <xmmintrin.h>
 
 #pragma STDC FP_CONTRACT OFF

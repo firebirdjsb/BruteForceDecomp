@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-only C++17 call declaration; guest ABI_UNVERIFIED. */
+extern uint FUN_0005c0a0(void);
 float10 FUN_001242a0(void)
 
 {

@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original retail XBE E8 at 0x000ED145 calls 0x000ED030; that callee
+ * has RET 0x0C at 0x000ED085 and 0x000ED093. Three guest stack DWORDs
+ * match this caller's draft expression and the callee's source definition.
+ * Original guest ECX, full object/host ABI and semantics remain ABI_UNVERIFIED. */
+extern char FUN_000ed030(undefined4 guest_word0,int *guest_word1,undefined4 *guest_word2);
 char FUN_000ed130(undefined4 param_1,int *param_2,undefined4 *param_3)
 
 {

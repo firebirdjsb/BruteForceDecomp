@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Exact existing callee draft signature only; original Xbox ABI_UNVERIFIED. */
+extern void FUN_001e7c00(void);
 void FUN_001e7f80(void)
 
 {

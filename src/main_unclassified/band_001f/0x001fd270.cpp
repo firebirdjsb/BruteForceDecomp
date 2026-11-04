@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Existing zero-explicit-arg constructor 0x001FE080; guest ESI
+ * input and x86 register/stack ABI remain UNVERIFIED. */
+extern void FUN_001fe080(void);
 void FUN_001fd270(void)
 
 {

@@ -44,7 +44,7 @@ undefined4 * FUN_0004ea20(void)
     }
     local_1c = puVar5;
     puVar5 = puVar3;
-    cVar1 = *(char *)((int)puVar3 + 0x21);
+    cVar1 = *(char *)((unsigned char *)puVar3 + 0x21);
   }
   if ((local_1c == puVar2) || (local_14 < (uint)local_1c[3])) {
     local_18 = puVar2;

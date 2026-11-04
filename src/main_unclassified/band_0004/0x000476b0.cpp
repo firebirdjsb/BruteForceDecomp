@@ -27,7 +27,8 @@ void FUN_000476b0(int param_1,int param_2,int param_3)
         piVar4[-3] = iVar2;
         piVar4[-2] = iVar1;
         if (*piVar4 != *piVar3) {
-          FUN_0008f6a0(*piVar3);
+          /* XBE 0x000476B0 ESI=EDI-4 and PUSH ECX; host guest-register model only, ABI_UNVERIFIED. */
+    FUN_0008f6a0(static_cast<std::uint32_t>(param_3) + UINT32_C(0x10), static_cast<std::uint32_t>(*piVar3));
         }
       }
       param_3 = param_3 + 0x18;

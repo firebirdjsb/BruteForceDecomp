@@ -7,13 +7,13 @@
 
 [![C++ source audit](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml/badge.svg?branch=main)](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml)
 
-![C++17 syntax coverage: 19.48%](docs/progress/cpp-syntax.svg)
+![C++17 syntax coverage: 28.81%](docs/progress/cpp-syntax.svg)
 
-**19.48% C++17 syntax coverage** · **2,667 / 13,694** function drafts passing · **11,027** failing. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/ffa3d8966f200552ef7e8e1908d91dfa2b024d88) · [Audit run](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/41106488523).
+**28.81% C++17 syntax coverage** · **3,945 / 13,694** function drafts passing · **9,749** failing. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/43988fb41b3129efd8e04d7c0f40a64db2ad1383) · [Audit run](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/41549995098).
 
-![Overall roadmap tracking: 2.78%](docs/progress/overall.svg)
+![Overall roadmap tracking: 4.12%](docs/progress/overall.svg)
 
-**Overall tracked roadmap: 2.78%**. This is a seven-stage planning indicator crediting *only* the C++ syntax fraction of stage one; the other six stages are not verified. **It is not verified game completion.**
+**Overall tracked roadmap: 4.12%**. This is a seven-stage planning indicator crediting *only* the C++ syntax fraction of stage one; the other six stages are not verified. **It is not verified game completion.**
 
 **Native PC game: NOT buildable/playable yet.** Original Xbox C++ object layouts, virtual dispatch, guest ABI, cross-function linkage, platform services and 1:1 behavior still require evidence.
 
@@ -22,6 +22,14 @@
 <!-- BF_PROGRESS_END -->
 
 Public, evidence-driven research workspace for the original Xbox 32-bit x86 `default.xbe`. This is a **source reconstruction**, not original source code or a proven byte-identical reimplementation.
+
+## Three independent milestones
+
+1. **C++17 syntax coverage:** all 13,694 original-address drafts compile individually under strict Clang++17.
+2. **1:1 Xbox reconstruction:** recovered functions preserve the original instructions' observable behavior and calling conventions.
+3. **Native PC linkage:** reconstructed functions work together with the necessary platform adaptations.
+
+Syntax passes do not establish the other two milestones. See [current milestone status](docs/STATUS.md#three-independently-tracked-milestones) and the [machine-readable ledger](docs/progress/milestones.json).
 
 ## C++ reconstruction transition (2026-10-30)
 

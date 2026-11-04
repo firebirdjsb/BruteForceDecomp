@@ -6,7 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-void FUN_002334b0(void)
+/* Original retail XBE preserves incoming EAX at every RET; expose only that
+ * observed return register. Guest pointer/host ABI remain ABI_UNVERIFIED. */
+float * FUN_002334b0(void)
 
 {
   float *in_EAX;
@@ -22,5 +24,5 @@ void FUN_002334b0(void)
   in_EAX[6] = in_EDX[7] * in_ECX[3] + in_ECX[6] * in_EDX[8] + in_EDX[6] * *in_ECX;
   in_EAX[7] = in_ECX[1] * in_EDX[6] + in_ECX[4] * in_EDX[7] + in_ECX[7] * in_EDX[8];
   in_EAX[8] = in_ECX[2] * in_EDX[6] + in_ECX[5] * in_EDX[7] + in_ECX[8] * in_EDX[8];
-  return;
+  return in_EAX;
 }

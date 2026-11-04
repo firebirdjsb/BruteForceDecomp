@@ -1,3 +1,5 @@
+/* Partial original DWORD address-value repair; other C++ errors remain.
+ * ABI_UNVERIFIED: register/memory mapping and complete behavior remain unresolved. */
 /* Brute Force original Xbox - independent, unverified C11 draft.
  * Input x86 body SHA-256: F4DD392614C64EBEEE177201B287DF298CFB599C8EEA8DF1E84117E2FCF2FAA9
  * Entry: 0x0010d3a0, Ghidra index: 3490, label: FUN_0010d3a0
@@ -19,7 +21,7 @@ void FUN_0010d3a0(void)
   int *piVar2;
   
   piVar2 = (int *)in_ECX[0x2f];
-  *in_ECX = &PTR_FUN_0039dfc8;
+  *in_ECX = UINT32_C(0x0039dfc8);
   for (; piVar2 != (int *)in_ECX[0x30]; piVar2 = piVar2 + 1) {
     iVar1 = *piVar2;
     if (iVar1 != 0) {
@@ -43,7 +45,7 @@ void FUN_0010d3a0(void)
   in_ECX[0x2b] = 0;
   in_ECX[0x2c] = 0;
   in_ECX[0x2d] = 0;
-  *in_ECX = &PTR_FUN_0039e188;
+  *in_ECX = UINT32_C(0x0039e188);
   if (in_ECX[0x1a] != 0) {
                     /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(in_ECX[0x1a]);
@@ -51,7 +53,7 @@ void FUN_0010d3a0(void)
   in_ECX[0x1a] = 0;
   in_ECX[0x1b] = 0;
   in_ECX[0x1c] = 0;
-  *in_ECX = &PTR_LAB_0039e5c8;
+  *in_ECX = UINT32_C(0x0039e5c8);
   FUN_000ef7f0();
   if (in_ECX[0x15] != 0) {
                     /* WARNING: Subroutine does not return */

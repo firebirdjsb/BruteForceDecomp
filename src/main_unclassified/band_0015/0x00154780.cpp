@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source draft 0x001D59E0 has no explicit args; incoming EAX/ECX
+ * are guest-register inputs whose Xbox ABI remains UNVERIFIED. */
+extern void FUN_001d59e0(void);
 void FUN_00154780(void)
 
 {

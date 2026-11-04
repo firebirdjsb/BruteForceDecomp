@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Matching zero-explicit-argument Ghidra callee 0x001FE080. Its
+ * incoming guest ESI/register and object ABI remain UNVERIFIED. */
+extern void FUN_001fe080(void);
 void FUN_001fbf30(void)
 
 {

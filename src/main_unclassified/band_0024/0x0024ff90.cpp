@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-draft declaration only; original Xbox guest ABI remains ABI_UNVERIFIED. */
+extern void FUN_000b2a50(void);
 void FUN_0024ff90(int param_1,int param_2,int param_3)
 
 {

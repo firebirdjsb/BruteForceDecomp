@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source draft 0x001FC7F0 uses guest EBX/EDI register objects.
+ * Host declaration matches zero-explicit-arg draft; Xbox ABI_UNVERIFIED. */
+extern void FUN_001fc7f0(void);
 void FUN_0020dd20(void)
 
 {

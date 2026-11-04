@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE: one pushed guest DWORD to direct CALL 0x0022E780;
+ * callee reads entry ESP+4 and RET 4. The original word represents
+ * a guest address, NOT a native host pointer; ABI_UNVERIFIED. */
+extern void FUN_0022e780(std::uint32_t guest_object_va);
 undefined4 FUN_00231720(int param_1)
 
 {

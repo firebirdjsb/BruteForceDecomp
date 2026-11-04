@@ -1,3 +1,5 @@
+/* Partial original DWORD address-value repair; other C++ errors remain.
+ * ABI_UNVERIFIED: register/memory mapping and complete behavior remain unresolved. */
 /* Brute Force original Xbox - independent, unverified C11 draft.
  * Input x86 body SHA-256: 98EC08F6824B5F062177012C16E96AD9D82031A558548D3E6A1756590253B658
  * Entry: 0x00146930, Ghidra index: 4228, label: FUN_00146930
@@ -97,7 +99,7 @@ undefined4 FUN_00146930(void)
   puVar2 = (undefined4 *)FUN_002ea01d(8);
   if (puVar2 != (undefined4 *)0x0) {
     FUN_00146870(0x12);
-    *puVar2 = &PTR_LAB_0039bfa8;
+    *puVar2 = UINT32_C(0x0039bfa8);
   }
   puVar2 = (undefined4 *)FUN_002ea01d(0xc);
   if (puVar2 == (undefined4 *)0x0) {
@@ -105,7 +107,7 @@ undefined4 FUN_00146930(void)
   }
   else {
     FUN_00146870(0x13);
-    *puVar2 = &PTR_LAB_0039bf18;
+    *puVar2 = UINT32_C(0x0039bf18);
   }
   puVar3 = (undefined4 *)FUN_002ea01d(0x30);
   if (puVar3 == (undefined4 *)0x0) {
@@ -118,28 +120,28 @@ undefined4 FUN_00146930(void)
     puVar3[9] = 0;
     puVar3[10] = 0;
     puVar3[0xb] = 0;
-    *puVar3 = &PTR_FUN_0039be64;
+    *puVar3 = UINT32_C(0x0039be64);
   }
   puVar2[2] = puVar3;
   puVar2 = (undefined4 *)FUN_002ea01d(8);
   if (puVar2 != (undefined4 *)0x0) {
     FUN_00146870(0x14);
-    *puVar2 = &PTR_LAB_0039bd00;
+    *puVar2 = UINT32_C(0x0039bd00);
   }
   puVar2 = (undefined4 *)FUN_002ea01d(8);
   if (puVar2 != (undefined4 *)0x0) {
     FUN_00146870(0x15);
-    *puVar2 = &PTR_LAB_0039bbf0;
+    *puVar2 = UINT32_C(0x0039bbf0);
   }
   puVar2 = (undefined4 *)FUN_002ea01d(8);
   if (puVar2 != (undefined4 *)0x0) {
     FUN_00146870(0x16);
-    *puVar2 = &PTR_LAB_0039bae0;
+    *puVar2 = UINT32_C(0x0039bae0);
   }
   puVar2 = (undefined4 *)FUN_002ea01d(8);
   if (puVar2 != (undefined4 *)0x0) {
     FUN_00146870(0x17);
-    *puVar2 = &PTR_LAB_0039ba00;
+    *puVar2 = UINT32_C(0x0039ba00);
   }
   iVar1 = FUN_002ea01d(8);
   if (iVar1 != 0) {

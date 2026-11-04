@@ -1,3 +1,5 @@
+/* Partial original DWORD address values; other C++ errors remain.
+ * Complete register/memory contracts and behavior are ABI_UNVERIFIED. */
 /* Brute Force original Xbox - independent, unverified C11 draft.
  * Input x86 body SHA-256: 8088421089A1F8B8C5058C0CE4C1FEB0CE6751728FE7D069FC57BC349A20034B
  * Entry: 0x001a0630, Ghidra index: 5327, label: FUN_001a0630
@@ -6,6 +8,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Existing zero-arg Ghidra constructor 0x001E0EF0 reads guest ESI.
+ * Syntax-only call boundary; Xbox x86 ABI remains UNVERIFIED. */
+extern void FUN_001e0ef0(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_LAB_00399878;
@@ -22,8 +27,8 @@ uint FUN_001a0630(undefined4 *param_1)
   else {
     FUN_001e0ef0();
     puVar1[0xe] = 1;
-    *puVar1 = &PTR_LAB_00399898;
-    puVar1[5] = &PTR_LAB_00399878;
+    *puVar1 = UINT32_C(0x00399898);
+    puVar1[5] = UINT32_C(0x00399878);
   }
   *param_1 = puVar1;
   return (puVar1 != (undefined4 *)0x0) - 1 & 0x80004005;

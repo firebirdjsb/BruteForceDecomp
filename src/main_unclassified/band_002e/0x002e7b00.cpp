@@ -32,7 +32,7 @@ undefined4 FUN_002e7b00(int param_1,int param_2)
     }
     *(byte *)(iVar2 + 0xc) = bVar1 - 1;
     __dest = (void *)(iVar2 + uVar3 * 4);
-    _memmove(__dest,(void *)((int)__dest + 4),((byte)(bVar1 - 1) - uVar3) * 4);
+    _memmove(__dest,(void *)((unsigned char *)__dest + 4),((byte)(bVar1 - 1) - uVar3) * 4);
   }
   return 0;
 }

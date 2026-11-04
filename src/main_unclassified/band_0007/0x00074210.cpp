@@ -1,3 +1,5 @@
+/* Partial original DWORD address-value repair; other C++ errors remain.
+ * ABI_UNVERIFIED: register/memory mapping and complete behavior remain unresolved. */
 /* Brute Force original Xbox - independent, unverified C11 draft.
  * Input x86 body SHA-256: 3D4CF766F920E1DD630A196B3078FF47BF7F8EB1DCB935BCBD16AAD50CF93294
  * Entry: 0x00074210, Ghidra index: 1318, label: FUN_00074210
@@ -31,19 +33,19 @@ void FUN_00074210(int param_1)
       puVar2 = (undefined4 *)0x0;
     }
     else {
-      *puVar2 = &PTR_LAB_003a2608;
+      *puVar2 = UINT32_C(0x003a2608);
       puVar2[1] = 0xe40c705f;
     }
     puVar3 = (undefined4 *)FUN_002ea01d(8);
     if (puVar3 == (undefined4 *)0x0) {
-      *puVar1 = &PTR_FUN_003a2610;
+      *puVar1 = UINT32_C(0x003a2610);
       puVar1[1] = 0;
       puVar1[2] = puVar2;
     }
     else {
-      *puVar3 = &PTR_LAB_003a25f8;
+      *puVar3 = UINT32_C(0x003a25f8);
       *(byte *)(puVar3 + 1) = *(byte *)(puVar3 + 1) & 0xfe;
-      *puVar1 = &PTR_FUN_003a2610;
+      *puVar1 = UINT32_C(0x003a2610);
       puVar1[1] = puVar3;
       puVar1[2] = puVar2;
     }
@@ -59,19 +61,19 @@ void FUN_00074210(int param_1)
       puVar2 = (undefined4 *)0x0;
     }
     else {
-      *puVar2 = &PTR_LAB_003a2608;
+      *puVar2 = UINT32_C(0x003a2608);
       puVar2[1] = 0x1a9fa076;
     }
     puVar3 = (undefined4 *)FUN_002ea01d(8);
     if (puVar3 == (undefined4 *)0x0) {
-      *puVar1 = &PTR_FUN_003a2610;
+      *puVar1 = UINT32_C(0x003a2610);
       puVar1[1] = 0;
       puVar1[2] = puVar2;
     }
     else {
-      *puVar3 = &PTR_LAB_003a25e8;
+      *puVar3 = UINT32_C(0x003a25e8);
       puVar3[1] = 0;
-      *puVar1 = &PTR_FUN_003a2610;
+      *puVar1 = UINT32_C(0x003a2610);
       puVar1[1] = puVar3;
       puVar1[2] = puVar2;
     }
@@ -87,19 +89,19 @@ void FUN_00074210(int param_1)
       puVar2 = (undefined4 *)0x0;
     }
     else {
-      *puVar2 = &PTR_LAB_003a2608;
+      *puVar2 = UINT32_C(0x003a2608);
       puVar2[1] = 0x8e35174;
     }
     puVar3 = (undefined4 *)FUN_002ea01d(8);
     if (puVar3 == (undefined4 *)0x0) {
-      *puVar1 = &PTR_FUN_003a2610;
+      *puVar1 = UINT32_C(0x003a2610);
       puVar1[1] = 0;
       puVar1[2] = puVar2;
     }
     else {
-      *puVar3 = &PTR_LAB_003a25e8;
+      *puVar3 = UINT32_C(0x003a25e8);
       puVar3[1] = 0;
-      *puVar1 = &PTR_FUN_003a2610;
+      *puVar1 = UINT32_C(0x003a2610);
       puVar1[1] = puVar3;
       puVar1[2] = puVar2;
     }
@@ -112,21 +114,21 @@ void FUN_00074210(int param_1)
       puVar2 = (undefined4 *)0x0;
     }
     else {
-      *puVar2 = &PTR_LAB_003a2608;
+      *puVar2 = UINT32_C(0x003a2608);
       puVar2[1] = 0x105ad0e9;
     }
     puVar3 = (undefined4 *)FUN_002ea01d(8);
     if (puVar3 != (undefined4 *)0x0) {
       puVar3[1] = 0;
-      *puVar3 = &PTR_LAB_003a25e8;
+      *puVar3 = UINT32_C(0x003a25e8);
       puVar1[2] = puVar2;
-      *puVar1 = &PTR_FUN_003a2610;
+      *puVar1 = UINT32_C(0x003a2610);
       puVar1[1] = puVar3;
       *(undefined4 **)(param_1 + 0x10) = puVar1;
       return;
     }
     puVar1[2] = puVar2;
-    *puVar1 = &PTR_FUN_003a2610;
+    *puVar1 = UINT32_C(0x003a2610);
     puVar1[1] = 0;
     *(undefined4 **)(param_1 + 0x10) = puVar1;
     return;

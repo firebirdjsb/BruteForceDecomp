@@ -20,8 +20,10 @@ void FUN_000b1a00(void)
   undefined4 *puVar2;
   
   FUN_000b2230();
-  *in_EAX = &PTR_FUN_003a0004;
-  in_EAX[0xb] = &PTR_LAB_0039fff0;
+  /* XBE MOV m32,imm32 sites: 0x000b1a0e, 0x000b1a14.
+   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */
+  *in_EAX = UINT32_C(0x003a0004);
+  in_EAX[0xb] = UINT32_C(0x0039fff0);
   puVar2 = in_EAX + 0x19;
   for (iVar1 = 0xf; iVar1 != 0; iVar1 = iVar1 + -1) {
     *puVar2 = 0;

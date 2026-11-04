@@ -16,13 +16,15 @@ void FUN_00089a50(void)
   undefined4 *in_EAX;
   int in_ECX;
   
-  *in_EAX = &PTR_LAB_003a21bc;
+  /* XBE MOV m32,imm32 sites: 0x00089a6d, 0x00089a50.
+   * Guest address values only; register ABI/memory mapping ABI_UNVERIFIED. */
+  *in_EAX = UINT32_C(0x003a21bc);
   in_EAX[3] = 0;
   in_EAX[4] = 0;
   in_EAX[5] = 0;
   in_EAX[1] = in_ECX;
   in_EAX[2] = *(undefined4 *)(in_ECX + 0xbec);
-  *in_EAX = &PTR_FUN_003a21fc;
+  *in_EAX = UINT32_C(0x003a21fc);
   in_EAX[7] = 0;
   in_EAX[5] = 0x159bec67;
   in_EAX[3] = 0xe8e14fcf;

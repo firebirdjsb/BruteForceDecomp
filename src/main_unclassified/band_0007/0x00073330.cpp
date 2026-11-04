@@ -52,7 +52,8 @@ void FUN_00073330(float param_1)
         FUN_00073110(in_EAX,iVar1,0);
         FUN_00072940();
         if (*(int *)(in_EAX + 0x38) != iVar1) {
-          FUN_0008f6a0(iVar1);
+          // XBE 0x000733C9: ESI=EDI+0x34 (EDI=incoming EAX), PUSH EBP, caller ADD ESP,4; ABI_UNVERIFIED.
+          FUN_0008f6a0(static_cast<std::uint32_t>(in_EAX) + UINT32_C(0x34), static_cast<std::uint32_t>(iVar1));
         }
         FUN_00072900(iVar1,0);
         *(undefined4 *)(in_EAX + 0x74) = 2;

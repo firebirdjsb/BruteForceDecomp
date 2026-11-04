@@ -15,7 +15,9 @@ void FUN_000555f0(void)
   int in_ECX;
   
   if (*(int *)(in_ECX + 0x20) != in_EAX) {
-    FUN_0008f6a0();
+    /* Original XBE: 0x000555F6 ADD ESI,0x1C; 0x000555FD PUSH EAX; CALL 0x0008F6A0.
+       Host-only guest32 register/stack model; original C++ ABI_UNVERIFIED. */
+    FUN_0008f6a0(static_cast<std::uint32_t>(in_ECX) + UINT32_C(0x1c), static_cast<std::uint32_t>(in_EAX));
   }
   return;
 }

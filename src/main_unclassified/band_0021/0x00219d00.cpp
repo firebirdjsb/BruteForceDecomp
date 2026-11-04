@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original XBE: two guest DWORDs / RET 8 and EAX result; ECX/EDX unresolved. */
+extern uint32_t FUN_00160da0(uint32_t guest_word0, uint32_t guest_word1);
 void FUN_00219d00(int param_1,char param_2)
 
 {

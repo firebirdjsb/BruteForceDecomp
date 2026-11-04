@@ -28,7 +28,9 @@ void FUN_0005cbc0(int param_1,int param_2)
           iVar2 = *(int *)(iVar1 + 4);
         }
         if (*(int *)(iVar1 + 0xc) != iVar2) {
-          FUN_0008f6a0(iVar2);
+          /* Original XBE: 0x0005CBF6 LEA ESI,[EDI+8]; 0x0005CC02 PUSH EAX; CALL 0x0008F6A0.
+       Host-only guest32 register/stack model; original C++ ABI_UNVERIFIED. */
+    FUN_0008f6a0(static_cast<std::uint32_t>(iVar1) + UINT32_C(8), static_cast<std::uint32_t>(iVar2));
         }
         *(byte *)(iVar1 + 0x20) = *(byte *)(iVar1 + 0x20) & 0xfe;
       }

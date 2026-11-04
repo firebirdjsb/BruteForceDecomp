@@ -6,7 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-uint FUN_002e49c0(undefined4 param_1,int *param_2,undefined4 *param_3)
+/* Source-matched prototype only; Xbox guest ABI_UNVERIFIED. */
+extern undefined4 FUN_002e4550(undefined4 param_1);
+/* Original 0x002E49FF MOV [EAX],ESI writes an untyped full DWORD.
+ * Use neutral guest32 storage; signedness of this output is not inferred. */
+uint FUN_002e49c0(undefined4 param_1,undefined4 *param_2,undefined4 *param_3)
 
 {
   int iVar1;
@@ -20,7 +24,7 @@ uint FUN_002e49c0(undefined4 param_1,int *param_2,undefined4 *param_3)
   iVar2 = (**(code **)*in_ECX)();
   iVar1 = iVar1 - iVar2 >> 4;
   *param_3 = in_ECX[iVar1 * 4 + 0x15];
-  if (param_2 != (int *)0x0) {
+  if (param_2 != (undefined4 *)0x0) {
     iVar1 = in_ECX[(iVar1 + 5) * 4];
     *param_2 = iVar1;
     return (iVar1 != 0) - 1 & 0x80004005;

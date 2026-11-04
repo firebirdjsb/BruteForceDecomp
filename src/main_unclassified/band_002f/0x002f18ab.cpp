@@ -20,7 +20,7 @@ void ___dtold(uint *param_1,uint *param_2)
   ushort uVar4;
   uint local_8;
   
-  uVar1 = *(ushort *)((int)param_2 + 6);
+  uVar1 = *(ushort *)((unsigned char *)param_2 + 6);
   local_8 = 0x80000000;
   uVar3 = uVar1 >> 4;
   uVar4 = uVar3 & 0x7ff;

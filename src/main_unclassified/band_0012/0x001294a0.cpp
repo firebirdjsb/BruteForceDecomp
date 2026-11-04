@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Existing void(void) source interface at 0x00129530, with implicit
+ * guest EAX input; Xbox calling convention remains ABI_UNVERIFIED. */
+extern void FUN_00129530(void);
 void FUN_001294a0(void)
 
 {

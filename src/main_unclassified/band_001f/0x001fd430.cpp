@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source draft constructor 0x001FE080 has no explicit arguments.
+ * Original guest register inputs and native x86 ABI remain UNVERIFIED. */
+extern void FUN_001fe080(void);
 void FUN_001fd430(void)
 
 {

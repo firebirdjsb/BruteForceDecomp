@@ -25,6 +25,7 @@ void FUN_001813e0(undefined4 param_1,undefined4 param_2,undefined1 param_3)
     puVar2 = puVar2 + 1;
   }
   *(undefined1 *)(in_EAX + 0x10) = param_3;
-  *(undefined1 *)((int)in_EAX + 0x41) = 0;
+  /* XBE 0x0018140C: MOV BYTE PTR [EAX+0x41],0; ABI_UNVERIFIED. */
+  *(undefined1 *)((unsigned char *)in_EAX + 0x41) = 0;
   return;
 }

@@ -21,7 +21,8 @@ void FUN_000c8530(void)
   do {
     if (*piVar2 == in_EAX) {
       if ((iVar1 != 0) && (*(int *)(in_EDX + iVar1 * 8 + 0x34) != 0)) {
-        FUN_0008f6a0(0);
+        // XBE 0x000C8558: ESI=EDX+index*8+0x30, PUSH 0, caller ADD ESP,4; ABI_UNVERIFIED.
+        FUN_0008f6a0(static_cast<std::uint32_t>(in_EDX) + static_cast<std::uint32_t>(iVar1) * UINT32_C(8) + UINT32_C(0x30), UINT32_C(0));
       }
       return;
     }

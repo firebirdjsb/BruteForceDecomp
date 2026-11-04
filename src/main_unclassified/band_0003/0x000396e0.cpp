@@ -20,7 +20,8 @@ void FUN_000396e0(void)
   int unaff_EBX;
   
   if (*(int *)(in_EAX + 4) != *(int *)(unaff_EBX + 4)) {
-    FUN_0008f6a0(*(int *)(unaff_EBX + 4));
+    /* XBE 0x000396E0 ESI=incoming EAX and PUSH EAX; host guest-register model only, ABI_UNVERIFIED. */
+    FUN_0008f6a0(static_cast<std::uint32_t>(in_EAX), static_cast<std::uint32_t>(*(int *)(unaff_EBX + 4)));
   }
   *(undefined4 *)(in_EAX + 8) = *(undefined4 *)(unaff_EBX + 8);
   *(undefined4 *)(in_EAX + 0xc) = *(undefined4 *)(unaff_EBX + 0xc);

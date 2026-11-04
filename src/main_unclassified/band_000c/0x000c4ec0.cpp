@@ -15,13 +15,13 @@ void FUN_000c4ec0(void)
   int unaff_EDI;
   
   if (*(int *)(unaff_EBX + 0x638) != unaff_EDI) {
-    FUN_0008f6a0();
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + 0x634U, static_cast<std::uint32_t>(unaff_EDI));
   }
   if (*(int *)(unaff_EBX + 0x630) != 0) {
-    FUN_0008f6a0(0);
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + 0x62cU, 0U);
   }
   if (*(int *)(unaff_EBX + 0x640) != unaff_EDI) {
-    FUN_0008f6a0();
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EBX) + 0x63cU, static_cast<std::uint32_t>(unaff_EDI));
   }
   return;
 }

@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original E8 call and callee EAX preservation verified; Xbox ABI_UNVERIFIED. */
+extern float * FUN_002334b0(void);
 /* WARNING: Restarted to delay deadcode elimination for space: stack */
 
 void FUN_00232290(undefined4 param_1,undefined4 param_2,undefined4 *param_3)

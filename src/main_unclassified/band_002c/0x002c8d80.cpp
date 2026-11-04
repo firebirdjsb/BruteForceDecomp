@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Existing zero-argument 0x002CCF80 Ghidra callee declaration.
+ * Guest input registers and original Xbox ABI are UNVERIFIED. */
+extern void FUN_002ccf80(void);
 void FUN_002c8d80(int param_1,int param_2)
 
 {

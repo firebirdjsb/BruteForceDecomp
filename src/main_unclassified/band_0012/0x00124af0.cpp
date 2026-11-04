@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE: two guest DWORDs, EAX result, RET 8; implicit ECX/EDX remain unresolved. */
+extern uint32_t FUN_00160da0(uint32_t guest_word0, uint32_t guest_word1);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0046cfdc;

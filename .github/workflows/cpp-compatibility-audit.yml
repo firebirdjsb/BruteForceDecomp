@@ -1,7 +1,7 @@
 name: Full C++17 source draft syntax inventory (not a native game build)
 concurrency:
   group: full-cpp17-audit-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 on:
   push:
     branches: [main]
@@ -11,6 +11,7 @@ on:
       - 'tools/**'
       - 'scripts/**'
       - 'metadata/**'
+      - 'docs/audits/**'
       - 'tests/**'
       - 'viewer/**'
       - 'tools/source_layout.py'
@@ -54,13 +55,89 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Verify 40 adjacent original instruction windows and 21 focused handoffs (no private XBE)
+        run: python3 tests/test_cpp_20261102_40_adjacent_windows.py
+      - name: Verify 26 retail callee entry windows and 26 mutation controls (no private XBE)
+        run: python3 tests/test_cpp_20261102_26_callee_prologues.py
+      - name: Validate 40 retail-XBE direct-call manifest negative controls (no private XBE)
+        run: python3 tests/test_cpp_20261102_40_xbe_edges.py
+      - name: Verify 40 original caller/callee body provenance (no private XBE)
+        run: python3 tests/test_cpp_20261102_40_body_provenance.py
+      - name: Verify five DWORD primitive repairs and native instruction oracle
+        run: python3 tools/verify_cpp_dword_operations.py
+      - name: Verify 209 further partial DWORD operand repairs
+        run: python3 tools/verify_cpp_remaining_literal_repairs.py
+      - name: Verify 20 original-XBE-gated byte-offset syntax repairs
+        run: python3 tools/verify_cpp_byte_offsets_20.py --root .
+      - name: Verify 250 bounded operand repairs with explicit residual errors
+        run: python3 tools/verify_cpp_literal_declaration_batch.py
+      - name: Verify 100 original Xbox guest address literal repairs
+        run: python3 tools/verify_cpp_guest_address_literals.py --root .
+      - name: Verify 27 original-address source declaration repairs
+        run: python3 tools/verify_cpp_direct_declaration_batch.py --root .
+      - name: Verify source-matched D3D C++17 declaration (ABI unverified)
+        run: python3 scripts/verify_cpp_d3d_003747d7.py --root .
+      - name: Verify source-matched 002E3500 C++17 declaration
+        run: python3 scripts/verify_cpp_20261102_002e3500.py --root .
+      - name: Verify four source-matched C++17 declarations without Xbox ABI claims
+        run: python3 scripts/verify_cpp_20261102_four_source_matched.py --root .
+      - name: Verify six source-matched C++17 declarations (Xbox ABI unverified)
+        run: python3 scripts/verify_cpp_20261102_six_source_matched.py --root .
+      - name: Verify five source-only C++17 declarations (Xbox ABI unverified)
+        run: python3 scripts/verify_cpp_20261102_five_source_only.py --root .
+      - name: Verify five new retail E8 source-only declarations (Xbox ABI unverified)
+        run: python3 tests/test_cpp_20261102_five_source_e8.py
+      - name: Verify three additional retail E8 source-only declarations (Xbox ABI unverified)
+        run: python3 tests/test_cpp_20261102_three_more_e8.py
+      - name: Verify three retail-preserved EAX return contracts (source-only C++17)
+        run: python3 tests/test_cpp_20261102_three_eax_returns.py
+      - name: Verify original EAX output return at 002E35C0 (retail XBE checked privately)
+        run: python3 tools/test_cpp_20261102_002e35c0_eax_return.py --root .
+      - name: Verify two original DWORD caller C++17 repairs (Xbox ABI unverified)
+        run: python3 tests/test_cpp_20261102_two_dword_callers.py
+      - name: Verify three original EAX caller declarations (Xbox ABI unverified)
+        run: python3 tests/test_cpp_20261102_three_eax_return_callers.py
+      - name: Verify two retail EDI-backed EAX caller contracts (Xbox ABI unverified)
+        run: python3 tests/test_cpp_20261102_two_edi_return_callers.py
       - name: Validate compiler and C++ progress gates
         run: |
+          python3 -m unittest discover -s tools -p 'test_cpp_draft_coverage.py' -v
+          python3 tools/audit_cpp_draft_coverage.py --root . --out cpp_compat_results/cpp_draft_coverage.json
+          python3 -m unittest discover -s tools -p 'test_triage_cpp_fidelity_flags.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_position_check_source_call.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_two_source_matched_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_six_scalar_source_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_two_float4_source_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_9_source_only_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_two_exact_single_errors.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_000e0350_dword_callers.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_four_zero_arg_edges.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261101_nullary_26.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261101_001013d0_signed_output.py' -v
+          python3 scripts/verify_cpp_001013d0_signed_output_xbe.py --self-test
+          python3 tools/test_cpp_20261101_f6890_declarations.py
+          python3 scripts/verify_cpp_20261101_27_direct_edges_xbe.py --self-test
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_nine_zero_arg_source_edges.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_four_mapped_source_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_two_new_source_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_seven_single_error_source_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_seven_partial_edges.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_two_x87_source_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_float_word_edge.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_five_dsound_declarations.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_bink_scalar_call.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_27_source_matched_calls.py' -v
+          python3 tools/triage_cpp_fidelity_flags.py --root . --report cpp_compat_results/cpp_draft_coverage.json --out cpp_compat_results
           python3 -m unittest discover -s tools -p 'test_sweep_cpp_compat.py' -v
           python3 tools/check_cpp_only_policy.py
           python3 tools/test_publish_cpp_progress.py
+          python3 -m unittest discover -s tools -p 'test_verify_cpp_audit_tree.py' -v
           python3 -m unittest discover -s tools -p 'test_classify_cpp_failures.py' -v
           python3 -m unittest discover -s tools -p 'test_triage_cpp_undeclared_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_triage_cpp_declaration_edges.py' -v
+          python3 tests/test_triage_cpp_draft_call_type_risks.py
+          python3 tests/test_prioritize_cpp_declaration_edges.py
+          python3 tests/test_cpp_draft_call_float_guard.py
           python3 -m unittest discover -s tools -p 'test_cpp_memory_helper_syntax.py' -v
           python3 -m unittest discover -s tools -p 'test_identify_cpp_verified_call_edges.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_virtual_bridge_syntax.py' -v
@@ -71,18 +148,73 @@ jobs:
           python3 -m unittest discover -s tools -p 'test_cpp_heap_wrapper_call_chain.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_abi_conservative_declarations.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_pseudotype_and_source_declaration_gates.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_001fe080_dispatch_syntax.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_verified_source_call_declarations.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_evidenced_declaration_batches.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261030_source_matched_batch.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261030_source_only_callers.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_batch26.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_followup27.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_source_only_25.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_platform_27.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_main_17.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_main_19.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_source_matched_00238110.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_eleven_verified_calls.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_20261031_dsound_scalar_draft.py' -v
+          python3 tools/verify_cpp_20261030_source_only_calls_xbe.py --self-test
+          python3 -m unittest discover -s tools -p 'test_cpp_00160da0_return_contract.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_0008a0b0_eax_return.py' -v
+          python3 tools/test_cpp_0008f6a0_callers.py --root .
+          python3 tools/test_cpp_0008f6a0_six_more_callers.py --root . --self-test
+          python3 tools/test_cpp_0008f6a0_20261031_callers.py --root . --self-test
+          python3 tools/test_cpp_0008f6a0_20261031_followup.py --root . --self-test
+          python3 tools/verify_cpp_20261030_six_call_edges.py --root . --self-test
+          python3 -m unittest discover -s tools -p 'test_cpp_draft_signature_repair_batch.py' -v
+          python3 -m unittest discover -s tools -p 'test_cpp_002be9e0_002bea90_callers.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_00058d40_guest_handoff.py' -v
+          python3 tools/test_cpp_scalar_edges_20261031.py
           python3 -m py_compile tools/verify_cpp_hotspot_xbe.py
           python3 tools/verify_cpp_allocator_immediate_sites.py
           python3 scripts/verify_00087630_guest_calls_xbe.py
+          python3 scripts/verify_cpp17_triage_40_xbe.py --self-test
+          python3 tools/test_cpp_20261031_two_dword_links.py --root . --self-test
+          python3 tools/test_cpp_20261101_sqrtss_20.py --root . --self-test
+          python3 tools/test_cpp_20261101_seven_source_calls.py
+          python3 scripts/verify_cpp_20261101_seven_source_calls_xbe.py --self-test
+          python3 tools/test_cpp_20261101_89_direct_declarations.py -v
+          python3 scripts/verify_cpp_20261101_89_direct_declarations_xbe.py --self-test
+          python3 scripts/verify_cpp_36_first_error_e8_xbe.py --self-test
+          python3 scripts/verify_cpp_return_only_fidelity_xbe.py --self-test
       - name: Inventory C++17 syntax separately from the historical C11 baseline
         env:
           LIMIT: ${{ github.event_name == 'push' && '0' || inputs.source_limit }}
         run: python3 tools/sweep_cpp_compat.py --root . --out cpp_compat_results --jobs 8 --limit "$LIMIT"
+      - name: Verify full C++17 audit against exact source bytes and original inventory
+        if: ${{ github.event_name == 'push' || inputs.source_limit == '0' }}
+        env:
+          AUDITED_SHA: ${{ github.sha }}
+        run: python3 tools/verify_cpp_audit_tree.py --root . --report cpp_compat_results/cpp_compat_report.json --expected-sha "$AUDITED_SHA"
       - name: Classify C++ compiler diagnostics into repair queues
         run: python3 tools/classify_cpp_failures.py --report cpp_compat_results/cpp_compat_report.json --out cpp_compat_results
       - name: Rank unresolved cross-function identifiers without guessing call contracts
         run: python3 tools/triage_cpp_undeclared_calls.py --report cpp_compat_results/cpp_compat_report.json --out cpp_compat_results
+      - name: SHA-gated source-only declaration and linkage triage
+        run: python3 tools/triage_cpp_declaration_edges.py --root . --audit cpp_compat_results/cpp_compat_report.json --out cpp_compat_results/cpp_declaration_edge_triage.json
+      - name: Prioritize independently testable single-error declarations
+        run: |
+          python3 scripts/prioritize_cpp_declaration_edges.py \
+            --audit cpp_compat_results/cpp_compat_report.json \
+            --edges cpp_compat_results/cpp_declaration_edge_triage.json \
+            --out cpp_compat_results/cpp_declaration_priority_edges.json
+      - name: Dry-run exact-tree source-matched declarations without modifying game code
+        run: |
+          python3 scripts/triage_cpp_draft_call_type_risks.py \
+            --root . \
+            --audit cpp_compat_results/cpp_compat_report.json \
+            --edges cpp_compat_results/cpp_declaration_priority_edges.json \
+            --limit 400 --max-arity 3 --include-multiple-errors \
+            --out cpp_compat_results/cpp_draft_call_type_risks.json
       - name: Cross-reference compiler failures with recorded original x86 call edges
         run: python3 tools/identify_cpp_verified_call_edges.py --report cpp_compat_results/cpp_compat_report.json --out cpp_compat_results
       - name: Publish exact-commit full C++ syntax coverage

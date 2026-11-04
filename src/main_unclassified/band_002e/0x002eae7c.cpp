@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched C++17 declaration only; Xbox guest ABI_UNVERIFIED. */
+extern uint FUN_002ee49d(uint param_1);
 long __cdecl _atol(char *__nptr)
 
 {

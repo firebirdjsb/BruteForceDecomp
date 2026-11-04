@@ -23,7 +23,7 @@ void FUN_00072af0(int param_1,undefined4 param_2)
     FUN_00073110(in_ECX,param_1,in_EAX);
     FUN_00072940();
     if (*(int *)(in_ECX + 0x38 + in_EAX * 8) != param_1) {
-      FUN_0008f6a0(param_1);
+      FUN_0008f6a0(static_cast<std::uint32_t>(in_ECX) + static_cast<std::uint32_t>(in_EAX) * UINT32_C(8) + UINT32_C(0x34), static_cast<std::uint32_t>(param_1));
     }
     FUN_00072900(param_1,in_EAX);
     *(undefined4 *)(in_ECX + 0x74) = param_2;

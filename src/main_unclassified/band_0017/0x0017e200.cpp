@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original E8 call and callee EAX preservation verified; Xbox ABI_UNVERIFIED. */
+extern float * FUN_000a0c60(void);
 void FUN_0017e200(float param_1,float *param_2,char param_3)
 
 {

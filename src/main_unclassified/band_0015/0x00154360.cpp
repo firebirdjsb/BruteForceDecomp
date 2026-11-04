@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source draft 0x00154420 uses implicit guest EAX/ECX object registers.
+ * This declaration matches source arity only; Xbox ABI_UNVERIFIED. */
+extern void FUN_00154420(void);
 int FUN_00154360(int param_1,int param_2)
 
 {

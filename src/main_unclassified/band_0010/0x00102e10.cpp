@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-draft declaration only; original x86 guest ABI remains ABI_UNVERIFIED. */
+extern undefined4 FUN_00102e60(void);
 uint FUN_00102e10(int *param_1)
 
 {

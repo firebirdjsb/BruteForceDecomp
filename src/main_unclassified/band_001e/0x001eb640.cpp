@@ -23,7 +23,7 @@ void FUN_001eb640(void)
   in_EAX[8] = 500;
   in_EAX[10] = 4000;
   *(undefined1 *)(in_EAX + 0xb) = 1;
-  *(undefined1 *)((int)in_EAX + 0x2d) = 1;
+  *(undefined1 *)((unsigned char *)in_EAX + 0x2d) = 1;
   in_EAX[0xc] = 0;
   return;
 }

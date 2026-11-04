@@ -14,7 +14,8 @@ void FUN_0014b5d0(int param_1)
   (**(code **)(*in_ECX + 0x30))();
   if (param_1 != 0) {
     in_ECX[7] = param_1;
-    (**(code **)(*in_ECX + 0x24))(*(short *)((int)in_ECX + 0x1a) + 1);
+    /* XBE 0x0014B5E5: MOVSX EAX,WORD PTR [ESI+0x1A]; indirect dispatch unverified. */
+    (**(code **)(*in_ECX + 0x24))(*(short *)((unsigned char *)in_ECX + 0x1a) + 1);
   }
   return;
 }

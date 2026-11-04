@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_dword_operations.h"
+/* Bounded DWORD storage/flag primitive only; whole-function ABI_UNVERIFIED. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0046d064;
@@ -21,7 +23,7 @@ int FUN_00235d50(int *param_1)
   piVar3 = *(int **)(in_ECX + 0xc);
   iVar2 = 0;
   if (piVar3 == (int *)0x0) {
-    piVar3 = &DAT_0046d064;
+    piVar3 = bf_x86_signed_dword_view(&DAT_0046d064);
   }
   if (*piVar3 != *param_1) {
     iVar4 = *(int *)(in_ECX + 0x4c);

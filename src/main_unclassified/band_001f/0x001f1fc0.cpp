@@ -6,10 +6,13 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched declaration: XBE 0x001f1fe1 PUSH EDI, 0x001f1fe4 E8 CALL;
+ * callee 0x001f2020 exits with RET 4. Guest ABI_UNVERIFIED. */
+extern undefined4 FUN_001f2020(undefined4 *param_1);
 uint FUN_001f1fc0(void)
 
 {
-  int *piVar1;
+  undefined4 *piVar1;
   byte bVar2;
   undefined4 uVar3;
   int iVar4;
@@ -19,7 +22,7 @@ uint FUN_001f1fc0(void)
     return 0xffffffff;
   }
   iVar4 = *(int *)(unaff_ESI + 0x284);
-  piVar1 = (int *)(unaff_ESI + 0x284);
+  piVar1 = (undefined4 *)(unaff_ESI + 0x284);
   if (iVar4 == 0) {
     uVar3 = FUN_001f2020(piVar1);
     *(undefined4 *)(unaff_ESI + 0x280) = uVar3;

@@ -7,9 +7,11 @@
  */
 #include "bf_ghidra_types.h"
 #include "bf_002ea01d_allocator_guest32.h"
-extern void FUN_0008a0b0(void);
+/* XBE 0x00088500 calls this helper then copies EAX to ESI. */
+extern undefined4 * FUN_0008a0b0(void);
 extern uint FUN_002383b0(void);
-extern void FUN_00160da0(void);
+/* XBE verified two guest DWORDs and RET 8; ECX/EDX remain unbound. */
+extern uint32_t FUN_00160da0(uint32_t guest_word0, uint32_t guest_word1);
 
 undefined4 * FUN_000884b0(void)
 

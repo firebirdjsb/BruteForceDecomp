@@ -6,7 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-extern void FUN_0005d410(uint *param_1);
+/* Original E8 0x0005D2DB -> 0x0005D410; caller dereferences EAX.
+ * Source-matched return declaration; Xbox ABI_UNVERIFIED. */
+extern undefined4 * FUN_0005d410(uint *param_1);
 
 int FUN_0005d2b0(void)
 

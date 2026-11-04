@@ -1,3 +1,5 @@
+/* Partial original DWORD address-value repair; other C++ errors remain.
+ * ABI_UNVERIFIED: register/memory mapping and complete behavior remain unresolved. */
 /* Brute Force original Xbox - independent, unverified C11 draft.
  * Input x86 body SHA-256: 3499BD6DEE31C958874C24B7E9B8CA44A701BDA46314AD21B523320400595750
  * Entry: 0x000c4550, Ghidra index: 2405, label: FUN_000c4550
@@ -6,6 +8,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* C++ declaration matches one guest DWORD-pointer argument in the
+ * 0x000BA5B0 Ghidra draft; original guest ABI remains UNVERIFIED. */
+extern undefined4 * FUN_000ba5b0(undefined4 *guest_object);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_004a5ca0;
@@ -29,7 +34,7 @@ void FUN_000c4550(void)
   *(undefined1 *)((int)unaff_ESI + 0x2d) = 0xff;
   *(undefined1 *)((int)unaff_ESI + 0x2e) = 0xff;
   unaff_ESI[0xc] = 0;
-  *unaff_ESI = &PTR_FUN_0039f4b8;
+  *unaff_ESI = UINT32_C(0x0039f4b8);
   if ((uVar3 & 1) == 0) {
     _DAT_004a5ca4 = _DAT_004a5ca4 | 1;
     DAT_004a5ca0 = 0xffffd7c0;

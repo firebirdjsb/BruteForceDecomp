@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE E8 at 0x001E579D -> 0x001E57D0; callee RET 8.
+ * Original guest stack words evidenced; native ABI remains ABI_UNVERIFIED. */
+extern undefined4 FUN_001e57d0(undefined4 guest_word_0, byte *guest_word_1);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t *DAT_00469b54;

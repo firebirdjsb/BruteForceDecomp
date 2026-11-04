@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
 void FUN_0012ac00(void)
 
 {
@@ -13,7 +14,8 @@ void FUN_0012ac00(void)
   int in_ECX;
   
   if (*(int *)(in_ECX + 4) != in_EAX) {
-    FUN_0008f6a0();
+    // XBE 0x0012AC09: ESI=ECX, PUSH EAX, caller ADD ESP,4; ABI_UNVERIFIED.
+    FUN_0008f6a0(static_cast<std::uint32_t>(in_ECX), static_cast<std::uint32_t>(in_EAX));
   }
   return;
 }

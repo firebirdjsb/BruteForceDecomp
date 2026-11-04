@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source draft 0x00162290 accesses guest EAX implicitly.
+ * Original guest register/object ABI_UNVERIFIED. */
+extern void FUN_00162290(void);
 void FUN_00162330(void)
 
 {

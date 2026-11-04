@@ -28,7 +28,7 @@ undefined4 FUN_0012e9d0(void)
           return uVar1;
         }
       }
-      if ((*(byte *)((int)piVar2 + 0x3d) & 4) == 0) {
+      if ((*(byte *)((unsigned char *)piVar2 + 0x3d) & 4) == 0) {
         if (*(int *)(unaff_EBX + 0x218) == 0) {
           *(int **)(unaff_EBX + 0x218) = piVar2;
           uVar1 = 1;

@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* C++ declaration matches one guest DWORD-pointer argument in the
+ * 0x000BA5B0 Ghidra draft; original guest ABI remains UNVERIFIED. */
+extern undefined4 * FUN_000ba5b0(undefined4 *guest_object);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern int FUN_000a7770(uint *param_1);

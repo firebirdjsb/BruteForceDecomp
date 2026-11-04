@@ -18,7 +18,7 @@ void FUN_00145cb0(void)
   in_EDX[10] = 0;
   in_EDX[0xb] = 0;
   in_EDX[0xc] = 1;
-  *(undefined1 *)((int)in_EDX + 0x71) = 1;
+  *(undefined1 *)((byte *)in_EDX + 0x71) = 1;
   *in_EDX = 0;
   in_EDX[1] = 0;
   in_EDX[5] = 0;

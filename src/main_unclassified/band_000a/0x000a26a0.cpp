@@ -48,7 +48,7 @@ int FUN_000a26a0(void)
       }
       local_8 = puVar5;
       puVar5 = puVar3;
-      cVar1 = *(char *)((int)puVar3 + 0x15);
+      cVar1 = *(char *)((unsigned char *)puVar3 + 0x15);
     }
     if ((local_8 == local_4) || (uVar2 < (uint)local_8[3])) {
       ppuVar4 = &local_4;

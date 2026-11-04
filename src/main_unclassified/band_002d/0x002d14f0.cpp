@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Existing Ghidra callee draft declarations only; implicit guest registers ABI_UNVERIFIED. */
+extern void FUN_002b3c60(void);
+extern void FUN_002ce2c0(void);
 void FUN_002d14f0(int param_1)
 
 {

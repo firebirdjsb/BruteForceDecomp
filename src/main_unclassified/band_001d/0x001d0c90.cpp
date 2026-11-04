@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* 0x001D2AF0 Ghidra source takes one explicit 32-bit guest word;
+ * guest EBX and preserved register/stack ABI remain UNVERIFIED. */
+extern void FUN_001d2af0(int guest_object);
 void FUN_001d0c90(int param_1,int param_2)
 
 {

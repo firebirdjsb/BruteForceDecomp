@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE: two caller-owned guest DWORDs, ADD ESP,8 after direct CALL;
+ * EAX/ECX inputs and linked host ABI remain ABI_UNVERIFIED. */
+extern int FUN_0023a790(std::uint32_t guest_stack_word_0,
+                        std::uint32_t guest_stack_word_1);
 bool FUN_001a0680(void)
 
 {

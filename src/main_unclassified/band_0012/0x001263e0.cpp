@@ -34,7 +34,7 @@ bool FUN_001263e0(void)
       }
       puVar3 = puVar5;
       puVar5 = puVar4;
-      cVar1 = *(char *)((int)puVar4 + 0x15);
+      cVar1 = *(char *)((byte *)puVar4 + 0x15);
     }
     if ((puVar3 != puVar2) && ((uint)puVar3[3] <= unaff_EDI)) {
       return puVar3 == *(undefined4 **)(unaff_ESI + 0x7f8);

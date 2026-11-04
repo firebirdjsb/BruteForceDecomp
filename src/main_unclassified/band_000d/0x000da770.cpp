@@ -6,7 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-extern void FUN_00160da0(void);
+/* XBE confirms two guest DWORDs and RET 8, but guest ECX/EDX remain unresolved. */
+extern uint32_t FUN_00160da0(uint32_t guest_word0, uint32_t guest_word1);
 extern int FUN_0020a620(void);
 extern uint32_t FUN_002ea01d(uint32_t guest_size);
 extern int FUN_000da840(int *param_1);

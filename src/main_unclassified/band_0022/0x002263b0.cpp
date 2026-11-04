@@ -20,6 +20,6 @@ void FUN_002263b0(void)
   *(byte *)(in_EAX + 0x220) = *(char *)(unaff_ESI + 5) << 7 | *(byte *)(in_EAX + 0x220) & 0x7f;
   *(byte *)(in_EAX + 0x221) =
        *(byte *)(in_EAX + 0x221) ^
-       (*(char *)((int)unaff_ESI + 0x15) << 1 ^ *(byte *)(in_EAX + 0x221)) & 2;
+       (*(char *)((unsigned char *)unaff_ESI + 0x15) << 1 ^ *(byte *)(in_EAX + 0x221)) & 2;
   return;
 }

@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE 0x002BEA90 returns with RET 8 after two guest DWORDs.
+ * The callee's implicit ESI state remains ABI_UNVERIFIED.
+ * Source-matched C++ declaration only; not a native guest ABI adapter. */
+extern uint FUN_002bea90(undefined4 param_1, uint param_2);
 void FUN_002b6050(void)
 
 {

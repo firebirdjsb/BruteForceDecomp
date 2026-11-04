@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* 0x00059A80 Ghidra callee has no explicit stack parameters.
+ * Implicit guest EAX/ECX inputs and Xbox ABI remain UNVERIFIED. */
+extern void FUN_00059a80(void);
 void FUN_000ec770(int param_1)
 
 {

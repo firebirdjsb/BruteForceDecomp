@@ -36,7 +36,7 @@ float10 FUN_00125940(void)
       }
       local_8 = puVar4;
       puVar4 = puVar2;
-      cVar1 = *(char *)((int)puVar2 + 0x15);
+      cVar1 = *(char *)((byte *)puVar2 + 0x15);
     }
     if ((local_8 == local_4) || (unaff_ESI < (uint)local_8[3])) {
       ppuVar3 = &local_4;

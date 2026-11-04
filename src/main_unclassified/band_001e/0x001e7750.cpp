@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Original DWORD address values and source-matched declarations only.
+ * ABI_UNVERIFIED: guest register/memory contracts and complete behavior remain unresolved. */
+extern uint32_t FUN_002ea01d(uint32_t guest_size);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_FUN_00396cd4;
@@ -16,7 +19,7 @@ undefined4 * FUN_001e7750(void)
   
   puVar1 = (undefined4 *)FUN_002ea01d(0x40);
   if (puVar1 != (undefined4 *)0x0) {
-    *puVar1 = &PTR_FUN_00396cd4;
+    *puVar1 = UINT32_C(0x00396cd4);
     puVar1[3] = 0;
     puVar1[2] = 0;
     puVar1[1] = 0;

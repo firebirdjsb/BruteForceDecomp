@@ -22,6 +22,8 @@ void FUN_0013da10(void)
   in_EAX[4] = 0;
   in_EAX[3] = 0;
   *(byte *)(in_EAX + 7) = *(byte *)(in_EAX + 7) & 0xc1;
-  *in_EAX = &PTR_LAB_0039cea8;
+  /* XBE 0x0013da2c: MOV m32,0x0039cea8 stores a 32-bit guest VA.
+   * Register ABI and guest memory translation remain ABI_UNVERIFIED. */
+  *in_EAX = UINT32_C(0x0039cea8);
   return;
 }

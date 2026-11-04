@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE E8 at 0x002AC85F -> 0x002AD140; callee RET 12.
+ * Original guest stack words evidenced; native ABI remains ABI_UNVERIFIED. */
+extern void FUN_002ad140(int guest_word_0, int guest_word_1, uint guest_word_2);
 void FUN_002ac830(int param_1)
 
 {

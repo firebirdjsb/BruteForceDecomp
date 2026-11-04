@@ -16,10 +16,10 @@ void FUN_00056c20(void)
   int unaff_EDI;
   
   if (*(int *)(unaff_EDI + 8) != *(int *)(unaff_EBX + 8)) {
-    FUN_0008f6a0(*(int *)(unaff_EBX + 8));
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(4), static_cast<std::uint32_t>(*(int *)(unaff_EBX + 8)));
   }
   if (*(int *)(unaff_EDI + 0x10) != *(int *)(unaff_EBX + 0x10)) {
-    FUN_0008f6a0(*(int *)(unaff_EBX + 0x10));
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0xc), static_cast<std::uint32_t>(*(int *)(unaff_EBX + 0x10)));
   }
   bVar1 = *(byte *)(unaff_EDI + 0x14) ^
           (*(byte *)(unaff_EDI + 0x14) ^ *(byte *)(unaff_EBX + 0x14)) & 1;

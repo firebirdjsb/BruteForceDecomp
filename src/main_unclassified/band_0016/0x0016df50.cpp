@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* XBE E8 0x0016DF64 -> 0x0003D6C0, three guest DWORDs, RET 0x0C.
+ * Guest pointer translation and linked host ABI remain ABI_UNVERIFIED. */
+extern undefined4 *FUN_0003d6c0(undefined4 *guest_dst,
+                                    undefined4 *guest_src_a,
+                                    undefined4 *guest_src_b);
 void FUN_0016df50(void)
 
 {

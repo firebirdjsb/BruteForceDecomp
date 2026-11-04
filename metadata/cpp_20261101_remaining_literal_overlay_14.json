@@ -1,0 +1,133 @@
+{
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "base_reviewed_head": "90d098b6c86d947444771e01cd112c0f8b5f6cad",
+  "description": "14 independently original-XBE verified halfword offsets composed over the separate 209-case literal repair ledger. Source SHA256 preimages and exact operand bytes pinned. Syntax evidence only; ABI_UNVERIFIED.",
+  "overlays": [
+    {
+      "entry": "0x00290d10",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "778651761cb42555781700a8e36279a24fd1f447d924acdf243d569cff28f85a",
+      "current_sha256": "2b0ceb34d2432d042531e7f43bb2334644143e0234e9ae6aa6395f44a5be2b97",
+      "site": "0x00290d2f",
+      "bytes": "66c7400e0100"
+    },
+    {
+      "entry": "0x00290f80",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "b596d41290efd7a0b2d8a27585716fe98fca799ff84219d644664c4cf71c89df",
+      "current_sha256": "70603dc6e91bc845ec649a91247bf0cb73ebb52a61bd461f06c53046d23912c6",
+      "site": "0x00290f9f",
+      "bytes": "66c7400e0100"
+    },
+    {
+      "entry": "0x00291190",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "2340436d83a4981de5da3b4b71e25b660d0508717ac2c9dd6caac606a0e71997",
+      "current_sha256": "f25387d382f1ba4f48bde01ad87ca89f477283146ba701aeceb639113336109e",
+      "site": "0x002911af",
+      "bytes": "66c7400e0100"
+    },
+    {
+      "entry": "0x002913d0",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "c4909946bce2e77ee2a891172bc7e651879440255465ce5198fd117a73c26972",
+      "current_sha256": "4554869a55077a2fec63914e5ad6a3a7ea2f76c96da8aefac373ebfb008bd274",
+      "site": "0x002913ef",
+      "bytes": "66c7400e0100"
+    },
+    {
+      "entry": "0x00291530",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "e171751fdfb26b18a0fcba4fdaa483f4e22a10403c07462a904e3ba402794bee",
+      "current_sha256": "dd677fed8369351faef7d1f30c1790f5ca9e8d361e49a04ec37aa9667a3a9354",
+      "site": "0x0029154f",
+      "bytes": "66c7400e0100"
+    },
+    {
+      "entry": "0x00291750",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "0df6237bbc3d70b09c5cfca0763b21da6b1237cb77c3abf5ed7b42a84b442d1d",
+      "current_sha256": "0f924ec232ebefe84e3f8c74e11bbfa3fe2f351f62b1da7f76e0448ba6e00b50",
+      "site": "0x0029176f",
+      "bytes": "66c7400e0100"
+    },
+    {
+      "entry": "0x00291870",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "7b0e8dbe8de3470464af47757188076a122a47d6f756aa65c5e2bce940d3fa2e",
+      "current_sha256": "0452c43dfb791fe9bd669e0359e28363de4add7b3990190f92b114693e13b5da",
+      "site": "0x0029188f",
+      "bytes": "66c7400e0100"
+    },
+    {
+      "entry": "0x00291a90",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "f687c7cb5ad64eef920e8dec7ad9e0e02eb1127a4f51bf0b8e04a1cb42af9e0a",
+      "current_sha256": "845a44191a22c40c1032bd0e48549e0eb0dd7cc134014a40d1e43c32d8e2b0bd",
+      "site": "0x00291aaf",
+      "bytes": "66c7400e0100"
+    },
+    {
+      "entry": "0x00291b90",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "dde2a66114eb44c28ef63e3ff6f07a29670ac116341e2dc8df186ef058687f4a",
+      "current_sha256": "526b3f7ab9cddfbef5e01d67e3f672db45ae985d374ec7231963a4dbeb468e19",
+      "site": "0x00291baf",
+      "bytes": "66c7400e0100"
+    },
+    {
+      "entry": "0x00291de0",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "77f97ccc52dd2cfefa52c25311f22d28429bb30b7259464af5a3d2e178374866",
+      "current_sha256": "6daea7c1f0aeaa9d85fede760dda1eb59b1c5390a8a0c303654b4fd08bc12f83",
+      "site": "0x00291dff",
+      "bytes": "66c7400e0100"
+    },
+    {
+      "entry": "0x00291ed0",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "faa33d5ece9ce0fb76c2cc9201e0cd431bfd175a7f66d04c574db8e4342dfa6e",
+      "current_sha256": "e5bf079fa071833a69a46d9d405789c848b9877038571362670dd40d924cb1d4",
+      "site": "0x00291eef",
+      "bytes": "66c7400e0100"
+    },
+    {
+      "entry": "0x002920d0",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "6d5176471f095744ea5d0c47a9f0dacfb242254cabbd556e42e096f2e94d4083",
+      "current_sha256": "6cf3755069de4be9daf39d025afee3fbbdddf044d281b95a0e689973274c6fea",
+      "site": "0x002920ef",
+      "bytes": "66c7400e0100"
+    },
+    {
+      "entry": "0x00292180",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "d253dff607f709c2afed01e4f2c1ae4357530bba4c442416d47a8b1d41aa69d3",
+      "current_sha256": "52710b5d976b5b6f2805113e432626ace2d032dce19201858045c4c5c8d38b52",
+      "site": "0x0029219f",
+      "bytes": "66c7400e0100"
+    },
+    {
+      "entry": "0x00292290",
+      "before": "((int)in_EAX + 0xe)",
+      "after": "((unsigned char *)in_EAX + 0xe)",
+      "prior_sha256": "493084e354b7f14a5f2f16d4f99124152e368a596fb9af8b6f711348e83aa494",
+      "current_sha256": "a6b869c56ad9b66eeb46d7c8e363e0aa3129f1b9d64d8920162d9922d2786685",
+      "site": "0x002922af",
+      "bytes": "66c7400e0100"
+    }
+  ]
+}

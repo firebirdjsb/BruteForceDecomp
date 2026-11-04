@@ -18,7 +18,8 @@ void FUN_0008bb40(float param_1)
   
   if ((*(byte *)(in_EAX + 0x6c) & 1) == 0) {
     if ((*(int *)(in_EAX + 0x68) != 0) && (*(int *)(in_EAX + 0x68) != 0)) {
-      FUN_0008f6a0(0);
+      // XBE 0x0008BB8D: ESI=incoming EAX+0x64, PUSH 0, caller ADD ESP,4; ABI_UNVERIFIED.
+      FUN_0008f6a0(static_cast<std::uint32_t>(in_EAX) + UINT32_C(0x64), UINT32_C(0));
     }
   }
   else {
