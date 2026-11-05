@@ -1,0 +1,392 @@
+{
+  "schema_version": 1,
+  "scope": "Two exact existing source declarations only; original register/stack/return mismatches remain",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "source_base_commit": "177bffee55681237c4000ddd40c1959ef152a133",
+  "baseline_audit_commit": "97539fcd895d15a55a0752502079c476bb446693",
+  "baseline_syntax_passes": 4040,
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "abi_recovered": false,
+  "native_linkage_tested": false,
+  "semantic_equivalence_claimed": false,
+  "headers": [
+    {
+      "path": "include/bf_ghidra_types.h",
+      "sha256": "5dfa1c69c07740d45536c1f5a45479e59c97275343017b68b3ff17ed39fd6dce"
+    }
+  ],
+  "validation_support_files": [
+    {
+      "path": "tools/source_layout.py",
+      "sha256": "e23db596e0823fb674db21f01a6477c60c0625084506ba030c45cbce7c7f9856"
+    },
+    {
+      "path": "tools/body_hash_labels.py",
+      "sha256": "c1379c3c4e77a26222bf754b5b8018217df169c95caec30d2f2528e91d0457f1"
+    },
+    {
+      "path": "metadata/asm_supported_readable_names.csv",
+      "sha256": "99da6b2000ba82ed702fb654804815fba12a53b92e685a2f98f211bf1bd04bf1"
+    }
+  ],
+  "cases": [
+    {
+      "entry": "0x001d1a80",
+      "source": "src/main_unclassified/band_001d/0x001d1a80.cpp",
+      "original_body_sha256": "F21113BF66B9FD512DD0BCED2D67D850374561E8C15D1050C8C02D9286803063",
+      "body_byte_count": 29,
+      "instruction_count": 11,
+      "label": "FUN_001d1a80",
+      "body_ranges": [
+        {
+          "start": "001d1a80",
+          "end_inclusive": "001d1a9c",
+          "length": 29
+        }
+      ],
+      "direct_calls": [
+        {
+          "address": "001d1a94",
+          "bytes": "e8e70f0100",
+          "mnemonic": "call",
+          "target": "0x001e2a80"
+        }
+      ],
+      "branches": [],
+      "ret_sites": [
+        {
+          "address": "001d1a9c",
+          "bytes": "c3"
+        }
+      ],
+      "instruction_windows": {
+        "001d1a80": {
+          "address": "001d1a80",
+          "bytes": "51"
+        },
+        "001d1a81": {
+          "address": "001d1a81",
+          "bytes": "8b442400"
+        },
+        "001d1a8d": {
+          "address": "001d1a8d",
+          "bytes": "50"
+        },
+        "001d1a8e": {
+          "address": "001d1a8e",
+          "bytes": "8b442414"
+        },
+        "001d1a92": {
+          "address": "001d1a92",
+          "bytes": "51"
+        },
+        "001d1a93": {
+          "address": "001d1a93",
+          "bytes": "52"
+        },
+        "001d1a94": {
+          "address": "001d1a94",
+          "bytes": "e8e70f0100"
+        },
+        "001d1a99": {
+          "address": "001d1a99",
+          "bytes": "83c410"
+        },
+        "001d1a9c": {
+          "address": "001d1a9c",
+          "bytes": "c3"
+        }
+      },
+      "private_index_row_sha256": "91ec31d884e338660be209a8c6bc0e90edbb08e2f7b3121dd4ead2acd3410cd9",
+      "private_export_record_sha256": "10fee2e84514fa1132c9e83f859e9399c2cf13641d7313ed1d74c2e1a3430a48",
+      "callee": "0x001e2a80",
+      "definition_signature": "void FUN_001d1a80(undefined4 param_1,undefined4 param_2)",
+      "source_call": "FUN_001e2a80(param_1,param_2);",
+      "source_declaration": "extern int FUN_001e2a80(int param_1,int param_2);",
+      "added_declaration_block": "/* Exact existing C++ draft declaration only; ABI_UNVERIFIED.\n * The original caller also forwards hidden EAX and an extra stack word.\n * Its void source signature loses the returned EAX. These mismatches remain;\n * this declaration does not recover the Xbox register/stack/return ABI. */\nextern int FUN_001e2a80(int param_1,int param_2);\n",
+      "source_before_sha256": "b23e15b332e5ea84cf575c7156837dca9e90ed0f60bb322cd9145e2a90e80842",
+      "source_after_sha256": "829b39578bf494055aaa12f907dfdc351917b6749995320a5f29b34efef7ee9b",
+      "preimage_git_blob": "f70f021901457eba578ddc7a407c2defa0f7a325",
+      "hidden_eax_represented": false,
+      "extra_stack_word_represented": false,
+      "returned_eax_preserved_by_source": false,
+      "historical_inventory_row": {
+        "index": "6284",
+        "entry": "0x001d1a80",
+        "name": "FUN_001d1a80",
+        "original_body_sha256": "F21113BF66B9FD512DD0BCED2D67D850374561E8C15D1050C8C02D9286803063",
+        "c_sha256": "b23e15b332e5ea84cf575c7156837dca9e90ed0f60bb322cd9145e2a90e80842",
+        "origin": "GHIDRA_C_DRAFT",
+        "c11_syntax": "HOST_CLANG_OK",
+        "abi": "UNVERIFIED",
+        "behavior": "UNVERIFIED",
+        "issues": ""
+      }
+    },
+    {
+      "entry": "0x001dc7e0",
+      "source": "src/main_unclassified/band_001d/0x001dc7e0.cpp",
+      "original_body_sha256": "75ECC4BC63625230AB3FA9F706E0DCA8304897178A1FB1FB827F97FB8894DCE0",
+      "body_byte_count": 29,
+      "instruction_count": 11,
+      "label": "FUN_001dc7e0",
+      "body_ranges": [
+        {
+          "start": "001dc7e0",
+          "end_inclusive": "001dc7fc",
+          "length": 29
+        }
+      ],
+      "direct_calls": [
+        {
+          "address": "001dc7f4",
+          "bytes": "e8779bffff",
+          "mnemonic": "call",
+          "target": "0x001d6370"
+        }
+      ],
+      "branches": [],
+      "ret_sites": [
+        {
+          "address": "001dc7fc",
+          "bytes": "c3"
+        }
+      ],
+      "instruction_windows": {
+        "001dc7e0": {
+          "address": "001dc7e0",
+          "bytes": "51"
+        },
+        "001dc7e1": {
+          "address": "001dc7e1",
+          "bytes": "8b442400"
+        },
+        "001dc7ed": {
+          "address": "001dc7ed",
+          "bytes": "50"
+        },
+        "001dc7ee": {
+          "address": "001dc7ee",
+          "bytes": "8b442414"
+        },
+        "001dc7f2": {
+          "address": "001dc7f2",
+          "bytes": "51"
+        },
+        "001dc7f3": {
+          "address": "001dc7f3",
+          "bytes": "52"
+        },
+        "001dc7f4": {
+          "address": "001dc7f4",
+          "bytes": "e8779bffff"
+        },
+        "001dc7f9": {
+          "address": "001dc7f9",
+          "bytes": "83c410"
+        },
+        "001dc7fc": {
+          "address": "001dc7fc",
+          "bytes": "c3"
+        }
+      },
+      "private_index_row_sha256": "c808364f39aa2dd2e9f534ed33836c26adde1f9edee2032648ff1c6732c47d91",
+      "private_export_record_sha256": "15a53036ab84cc65bddaf72c7a7f6ecfed393f3629e1b09eedf213885e83ab22",
+      "callee": "0x001d6370",
+      "definition_signature": "void FUN_001dc7e0(undefined4 param_1,undefined4 param_2)",
+      "source_call": "FUN_001d6370(param_1,param_2);",
+      "source_declaration": "extern int FUN_001d6370(int param_1,int param_2);",
+      "added_declaration_block": "/* Exact existing C++ draft declaration only; ABI_UNVERIFIED.\n * The original caller also forwards hidden EAX and an extra stack word.\n * Its void source signature loses the returned EAX. These mismatches remain;\n * this declaration does not recover the Xbox register/stack/return ABI. */\nextern int FUN_001d6370(int param_1,int param_2);\n",
+      "source_before_sha256": "f214d986e6671e3affb040535f63aebf86b11836dee0c3c4e144b0508e2b9caa",
+      "source_after_sha256": "5f41836b324afe0192aa7ce176159593efd9f086c164570dc43fabd0de9c15f8",
+      "preimage_git_blob": "3f073f76cc6345d95b3c2c96ff9e7891b3879fc0",
+      "hidden_eax_represented": false,
+      "extra_stack_word_represented": false,
+      "returned_eax_preserved_by_source": false,
+      "historical_inventory_row": {
+        "index": "6555",
+        "entry": "0x001dc7e0",
+        "name": "FUN_001dc7e0",
+        "original_body_sha256": "75ECC4BC63625230AB3FA9F706E0DCA8304897178A1FB1FB827F97FB8894DCE0",
+        "c_sha256": "f214d986e6671e3affb040535f63aebf86b11836dee0c3c4e144b0508e2b9caa",
+        "origin": "GHIDRA_C_DRAFT",
+        "c11_syntax": "HOST_CLANG_OK",
+        "abi": "UNVERIFIED",
+        "behavior": "UNVERIFIED",
+        "issues": ""
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "entry": "0x001e2a80",
+      "source": "src/main_unclassified/band_001e/0x001e2a80.cpp",
+      "original_body_sha256": "0C206940F080D3B2E496AE99A5B33B352A3582CF808468794AD4A8CF6EE074A4",
+      "body_byte_count": 45,
+      "instruction_count": 22,
+      "label": "FUN_001e2a80",
+      "body_ranges": [
+        {
+          "start": "001e2a80",
+          "end_inclusive": "001e2aac",
+          "length": 45
+        }
+      ],
+      "direct_calls": [
+        {
+          "address": "001e2a98",
+          "bytes": "e853cae3ff",
+          "mnemonic": "call",
+          "target": "0x0001f4f0"
+        }
+      ],
+      "branches": [
+        {
+          "address": "001e2a8f",
+          "bytes": "7416",
+          "mnemonic": "je",
+          "target": "0x001e2aa7"
+        },
+        {
+          "address": "001e2aa5",
+          "bytes": "75ea",
+          "mnemonic": "jne",
+          "target": "0x001e2a91"
+        }
+      ],
+      "ret_sites": [
+        {
+          "address": "001e2aac",
+          "bytes": "c3"
+        }
+      ],
+      "instruction_windows": {
+        "001e2a81": {
+          "address": "001e2a81",
+          "bytes": "8b5c240c"
+        },
+        "001e2a86": {
+          "address": "001e2a86",
+          "bytes": "8b74240c"
+        },
+        "001e2a8d": {
+          "address": "001e2a8d",
+          "bytes": "8bf8"
+        },
+        "001e2a8f": {
+          "address": "001e2a8f",
+          "bytes": "7416"
+        },
+        "001e2a98": {
+          "address": "001e2a98",
+          "bytes": "e853cae3ff"
+        },
+        "001e2aa5": {
+          "address": "001e2aa5",
+          "bytes": "75ea"
+        },
+        "001e2aa7": {
+          "address": "001e2aa7",
+          "bytes": "8bc7"
+        },
+        "001e2aac": {
+          "address": "001e2aac",
+          "bytes": "c3"
+        }
+      },
+      "private_index_row_sha256": "fbd80742ffc2d225853b280b1d077a8e515ceff7fdc9b935e02186131ba0668c",
+      "private_export_record_sha256": "e1920dc020dc70566f8f3df9fe23d0f7e884b1d63df05c2d2f1577c1c2dd16b9",
+      "source_sha256": "c1e963852f847e3a524126d1f96b16d06be4f08098c49e4aa23a535021154b91",
+      "definition_signature": "int FUN_001e2a80(int param_1,int param_2)"
+    },
+    {
+      "entry": "0x001d6370",
+      "source": "src/main_unclassified/band_001d/0x001d6370.cpp",
+      "original_body_sha256": "EE35CD74C74BC454ACE0E123DC1482059DBEB74BEF1964FD40CE9AA1FFBEE121",
+      "body_byte_count": 45,
+      "instruction_count": 22,
+      "label": "FUN_001d6370",
+      "body_ranges": [
+        {
+          "start": "001d6370",
+          "end_inclusive": "001d639c",
+          "length": 45
+        }
+      ],
+      "direct_calls": [
+        {
+          "address": "001d6388",
+          "bytes": "e8b315ebff",
+          "mnemonic": "call",
+          "target": "0x00087940"
+        }
+      ],
+      "branches": [
+        {
+          "address": "001d637f",
+          "bytes": "7416",
+          "mnemonic": "je",
+          "target": "0x001d6397"
+        },
+        {
+          "address": "001d6395",
+          "bytes": "75ea",
+          "mnemonic": "jne",
+          "target": "0x001d6381"
+        }
+      ],
+      "ret_sites": [
+        {
+          "address": "001d639c",
+          "bytes": "c3"
+        }
+      ],
+      "instruction_windows": {
+        "001d6371": {
+          "address": "001d6371",
+          "bytes": "8b5c240c"
+        },
+        "001d6376": {
+          "address": "001d6376",
+          "bytes": "8b74240c"
+        },
+        "001d637d": {
+          "address": "001d637d",
+          "bytes": "8bf8"
+        },
+        "001d637f": {
+          "address": "001d637f",
+          "bytes": "7416"
+        },
+        "001d6388": {
+          "address": "001d6388",
+          "bytes": "e8b315ebff"
+        },
+        "001d6395": {
+          "address": "001d6395",
+          "bytes": "75ea"
+        },
+        "001d6397": {
+          "address": "001d6397",
+          "bytes": "8bc7"
+        },
+        "001d639c": {
+          "address": "001d639c",
+          "bytes": "c3"
+        }
+      },
+      "private_index_row_sha256": "78bb2c9cd02c6579bd410ae5205c96ac32d083d039e033f8e144d9eaae17711b",
+      "private_export_record_sha256": "5697a531d571741c1b53a6fcf2f1001388120f22ad0938e1a4971bb69d7bd757",
+      "source_sha256": "03ffb5357a69bfeb80fe1bde1a87ca97989ef28e7f1a936394df5b2021d15676",
+      "definition_signature": "int FUN_001d6370(int param_1,int param_2)"
+    }
+  ],
+  "limitations": [
+    "Both original callers load hidden EAX from entry ESP+12 and push saved incoming ECX as an additional stack word. Neither is represented by the unchanged two-argument source call.",
+    "Both callees use incoming EAX and return EAX. The existing caller void signatures discard that returned value; no argument, signature, return, cast or function body is repaired.",
+    "The unsigned undefined4 caller arguments and signed int callee parameters are existing draft types; no new signedness, pointer meaning or cross-platform conversion contract is established.",
+    "Unbound register pseudo-locals, downstream call interfaces, guest32 memory translation, object lifetime and full x86 flags/register behavior remain unresolved. Callers and callees must not be executed by these checks.",
+    "Full private body hashes and independently decoded boundaries/control flow establish export consistency only. The complete original retail XBE has not been reauthenticated, and no linking, gameplay, 1:1 semantics or byte-identical rebuild is claimed."
+  ]
+}

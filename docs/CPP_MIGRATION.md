@@ -38,3 +38,15 @@ Old C-only fixture CLI runners require `--historical-c11`; their original eviden
 `tools/check_cpp_only_policy.py` rejects active C compiler routes and verifies source completeness. Original XBE identities/body hashes remain unchanged. Every active C++ workflow dependency directory triggers the canonical audit; publication still requires a complete exact-commit report with zero provenance/audit errors.
 
 Validation: all modified Python modules compile, canonical C++ preflight and corruption controls pass, and source layout/body provenance checks cover all 13,694 entries. A local full preflight found 2,713 passes and 10,981 C++ syntax failures with zero provenance or audit errors. That working-tree preflight is not used to replace the last confirmed published audit. Native linkage, original ABI, recovered class layout and 1:1 runtime behavior remain unverified.
+
+### Bounded undeclared-call diagnostics
+
+Declaration-edge triage and the source-only declaration dry-run share one
+full-match diagnostic grammar. They accept a bare missing `FUN_` plus eight
+hexadecimal digits, with an optional exact suffix such as
+`; did you mean 'FUN_001d1a80'?` (also `FUN_` plus eight hexadecimal digits).
+Matching remains case-insensitive. Only the first symbol is the missing
+callee; Clang's suggested spelling never authorizes a renamed call or declaration.
+Malformed suffixes, other suggestion forms and trailing text are deferred.
+This widens the read-only review queue, not the syntax, provenance, source-hash,
+float-conversion or original Xbox ABI gates.

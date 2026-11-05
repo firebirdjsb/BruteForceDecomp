@@ -47,6 +47,35 @@ class AuditGateTests(unittest.TestCase):
         self.assertEqual(rows[self.edges["candidates"][0]["caller"]]["status"], "fail")
         self.assertEqual((self.audit, self.edges), before)
 
+    def test_suggestion_is_accepted_for_missing_callee_only(self):
+        diagnostic = "use of undeclared identifier 'FUN_00010001'; did you mean 'FUN_00010000'?"
+        for message in (diagnostic, diagnostic.upper()):
+            with self.subTest(message=message):
+                self.audit["results"][0]["errors"] = [message]
+                before = copy.deepcopy((self.audit, self.edges))
+                self.assertEqual(len(gate.validate_audit(self.audit, self.edges)), 13694)
+                self.assertEqual((self.audit, self.edges), before)
+        self.edges["candidates"][0]["callee"] = "0x00010000"
+        self.rejects_before_compiler()
+
+    def test_suggestion_never_substitutes_for_missing_callee(self):
+        self.audit["results"][0]["errors"] = [
+            "use of undeclared identifier 'FUN_00010002'; did you mean 'FUN_00010001'?"
+        ]
+        self.rejects_before_compiler()
+
+    def test_malformed_suggestions_rejected_before_compiler(self):
+        bare = "use of undeclared identifier 'FUN_00010001'"
+        for suffix in ("; did you mean 'FUN_00010000'", "; did you mean FUN_00010000?",
+                       "; did you mean 'FUN_00010000?", "; did you mean 'FUN_0001000'?",
+                       "; did you mean 'FUN_000100000'?", "; did you mean 'FUN_0001000g'?",
+                       "; did you mean 'other_symbol'?", "; did you mean 'FUN_00010000'? trailing",
+                       "; did you mean 'FUN_00010000'?\n", "\n", " trailing",
+                       "; did you mean 'FUN_00010000'?; did you mean 'FUN_00010001'?"):
+            with self.subTest(suffix=suffix):
+                self.audit["results"][0]["errors"] = [bare + suffix]
+                self.rejects_before_compiler()
+
     def test_upstream_quarantined_missing_callee_is_not_screened(self):
         edge = self.edges["candidates"][0]
         edge.update(callee="0x99999999", triage="CALLEE_SOURCE_MISSING")

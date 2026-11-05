@@ -17,6 +17,9 @@ import subprocess
 import sys
 import tempfile
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
+from triage_cpp_declaration_edges import ERROR as UNDECLARED_CALL
+
 ELIGIBLE = "DRAFT_ARITY_MATCH_REVIEW_TYPES_AND_XBE"
 ENTRY = re.compile(r"0x[0-9a-f]{8}\Z")
 COMMIT = re.compile(r"[0-9a-f]{40}\Z")
@@ -86,9 +89,9 @@ def validate_audit(audit: dict, edges: dict) -> dict[str, dict]:
         seen.add(pair)
         source = results[caller]
         errors = source.get("errors", [])
-        if (source["status"] != "fail" or not errors
-                or not re.fullmatch(r"use of undeclared identifier 'FUN_" + re.escape(callee[2:]) + "'",
-                                    errors[0], flags=re.I)):
+        missing = UNDECLARED_CALL.fullmatch(errors[0]) if errors else None
+        if (source["status"] != "fail" or missing is None
+                or missing[2].lower() != callee[2:]):
             raise ValueError("candidate does not identify the caller's first undeclared-call error")
         if any(edge.get(field) != source[field] for field in
                ("source", "source_sha256", "original_body_sha256")):
@@ -164,7 +167,8 @@ def triage(root: Path, audit: dict, edges: dict, clang: str, limit: int,
         errors = cr.get("errors", [])
         if only_single_error and len(errors) != 1:
             continue
-        if not errors or f"use of undeclared identifier 'FUN_{callee[2:]}'" not in errors[0]:
+        missing = UNDECLARED_CALL.fullmatch(errors[0]) if errors else None
+        if missing is None or missing[2].lower() != callee[2:]:
             continue
         record = {"caller": caller, "callee": callee, "source": edge["source"],
                   "audited_commit": sha, "xbox_abi": "ABI_UNVERIFIED",

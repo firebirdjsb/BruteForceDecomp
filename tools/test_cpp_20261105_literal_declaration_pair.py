@@ -80,7 +80,7 @@ class LiteralDeclarationPairTests(unittest.TestCase):
     def test_exact_sources_and_reversal(self):
         evidence.verify_source(ROOT,self.doc)
         for case in self.doc['cases']:
-            source = (ROOT/case['source']).read_text()
+            source = (ROOT/case['source']).read_bytes().decode('utf-8')
             old = evidence.restore(case,source)
             self.assertEqual(evidence.apply(case,old),source)
             immediate = case['store']['immediate']
@@ -100,7 +100,7 @@ class LiteralDeclarationPairTests(unittest.TestCase):
     def test_strict_o0_o2_syntax_objects_and_restoration_negatives(self):
         with tempfile.TemporaryDirectory() as temp:
             for case in self.doc['cases']:
-                source = (ROOT/case['source']).read_text()
+                source = (ROOT/case['source']).read_bytes().decode('utf-8')
                 old = evidence.restore(case,source)
                 for opt in ('-O0','-O2'):
                     for extra in ((),('-c','-o',str(Path(temp)/(case['entry']+opt+'.o')))):
@@ -121,7 +121,7 @@ class LiteralDeclarationPairTests(unittest.TestCase):
                             self.assertNotIn(token,result.stderr)
 
     def test_exact_definition_compatibility_is_not_an_abi_bridge(self):
-        combined = '\n'.join((ROOT/i['source']).read_text() for i in self.doc['cases']+self.doc['dependencies'])
+        combined = '\n'.join((ROOT/i['source']).read_bytes().decode('utf-8') for i in self.doc['cases']+self.doc['dependencies'])
         combined += '\nstatic_assert(std::is_same<decltype(&FUN_00066920),void (*)(void)>::value,"exact source type");\n'
         with tempfile.TemporaryDirectory() as temp:
             for opt in ('-O0','-O2'):
@@ -147,6 +147,32 @@ class LiteralDeclarationPairTests(unittest.TestCase):
                     evidence.verify_dependencies(root,self.doc)
                 target.write_bytes(raw)
             evidence.verify_dependencies(root,self.doc)
+
+    def test_source_and_header_newline_bytes_fail_closed(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            targets = [i['source'] for i in self.doc['cases']+self.doc['dependencies']]
+            targets += [i['path'] for i in self.doc['headers']]
+            support = ['metadata/asm_supported_readable_names.csv','metadata/bulk_13694_inventory.csv']
+            for path in targets+support:
+                dest = root/path;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(ROOT/path,dest)
+            evidence.verify_source(root,self.doc)
+            for path in targets:
+                target = root/path;raw = target.read_bytes()
+                self.assertNotIn(b'\r',raw)
+                self.assertGreater(raw.count(b'\n'),1)
+                for name,mutant in (('crlf',raw.replace(b'\n',b'\r\n')),
+                                    ('mixed',raw.replace(b'\n',b'\r\n',1))):
+                    with self.subTest(path=path,newlines=name):
+                        self.assertNotEqual(mutant,raw)
+                        try:
+                            target.write_bytes(mutant)
+                            with self.assertRaises(ValueError):
+                                evidence.verify_source(root,self.doc)
+                        finally:
+                            target.write_bytes(raw)
+                        self.assertEqual(target.read_bytes(),raw)
+                        evidence.verify_source(root,self.doc)
 
     def test_all_public_metadata_and_instruction_bytes_fail_closed(self):
         count = byte_count = 0
@@ -191,7 +217,7 @@ class LiteralDeclarationPairTests(unittest.TestCase):
         runs = 0
         with tempfile.TemporaryDirectory() as temp:
             for case in self.doc['cases']:
-                source = (ROOT/case['source']).read_text()
+                source = (ROOT/case['source']).read_bytes().decode('utf-8')
                 statement = next(line.strip() for line in source.splitlines() if line.strip() == case['after'])
                 immediate = case['store']['immediate']; low = int(immediate,16)&0xffff
                 variants = [('positive',statement,0),

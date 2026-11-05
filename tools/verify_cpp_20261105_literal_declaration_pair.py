@@ -125,7 +125,7 @@ def verify_dependencies(root, doc):
     for dep in doc['dependencies']:
         path = source_path(root, dep['entry'])
         need(path.relative_to(root).as_posix() == dep['source'], 'callee canonical route differs')
-        source = path.read_text()
+        source = path.read_bytes().decode('utf-8')
         need(sha(source.encode()) == dep['source_sha256'], 'callee source drift')
         need(source.count(dep['definition_signature']+'\n') == 1, 'callee definition signature differs')
 
@@ -138,7 +138,7 @@ def verify_source(root, doc):
     for item in doc['cases']+doc['dependencies']:
         path = source_path(root,item['entry'])
         need(path.relative_to(root).as_posix() == item['source'], 'canonical source route differs')
-        source = path.read_text(); body, conflict = read_body_digest(source)
+        source = path.read_bytes().decode('utf-8'); body, conflict = read_body_digest(source)
         need(not conflict and body == item['original_body_sha256'] ==
              inventory[item['entry']]['original_body_sha256'], 'body provenance differs')
         need('Entry: '+item['entry'] in source and 'label: '+item['label'] in source and

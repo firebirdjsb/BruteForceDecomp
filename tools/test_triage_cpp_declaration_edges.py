@@ -8,10 +8,46 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from triage_cpp_declaration_edges import argument_count, triage
+from triage_cpp_declaration_edges import ERROR, argument_count, triage
 
 
 class DeclarationTriageTests(unittest.TestCase):
+    def test_bounded_suggestion_preserves_missing_symbol(self):
+        for diagnostic in (
+            "use of undeclared identifier 'FUN_001e2a80'",
+            "use of undeclared identifier 'FUN_001e2a80'; did you mean 'FUN_001d1a80'?",
+            "use of undeclared identifier 'FUN_001E2A80'; did you mean 'FUN_001D1A80'?",
+            "USE OF UNDECLARED IDENTIFIER 'fun_001e2a80'",
+        ):
+            with self.subTest(diagnostic=diagnostic):
+                match = ERROR.fullmatch(diagnostic)
+                self.assertIsNotNone(match)
+                self.assertEqual(match[1].lower(), "fun_001e2a80")
+                self.assertEqual(match[2].lower(), "001e2a80")
+
+    def test_malformed_or_unbounded_diagnostic_is_deferred(self):
+        bare = "use of undeclared identifier 'FUN_001e2a80'"
+        suggested = bare + "; did you mean 'FUN_001d1a80'?"
+        for diagnostic in (
+            bare + "; did you mean 'FUN_001d1a80'",  # Missing question mark.
+            bare + "; did you mean FUN_001d1a80?",   # Missing quotes.
+            bare + "; did you mean 'FUN_001d1a80?",  # Unclosed quote.
+            bare + "; did you mean 'FUN_001d1a8'?",  # Wrong address width.
+            bare + "; did you mean 'FUN_001d1a80f'?",
+            bare + "; did you mean 'FUN_001d1a8g'?", # Non-hex address.
+            bare + "; did you mean 'other_symbol'?", # Unsupported suggestion.
+            bare + "; did you mean 'thunk_FUN_001d1a80'?",
+            bare + "; did you mean 'FUN_001d1a80'; injected?",
+            suggested + " trailing", suggested + "\n", suggested + "\r\n",
+            suggested + "; did you mean 'FUN_00000001'?",
+            "prefix " + suggested, bare + " trailing", bare + "\n",
+            suggested.replace("FUN_001e2a80", "DAT_001e2a80"),
+            suggested.replace("FUN_001e2a80", "FUN_001e2a800"),
+            suggested.replace("FUN_001e2a80", "thunk_FUN_001e2a80"),
+        ):
+            with self.subTest(diagnostic=diagnostic):
+                self.assertIsNone(ERROR.fullmatch(diagnostic))
+
     def test_balanced_argument_counts(self):
         self.assertEqual(argument_count("()", 0), 0)
         self.assertEqual(argument_count("(a, f(b,c), (d,e))", 0), 3)
@@ -94,6 +130,13 @@ class DeclarationTriageTests(unittest.TestCase):
             self.assertEqual(found["caller_draft_arity"], 2)
             self.assertEqual(found["abi_status"], "ABI_UNVERIFIED")
             self.assertEqual(found["link_status"], "NOT_LINK_TESTED")
+            # A suggestion of the caller itself must never change the callee.
+            bare = row["errors"][0]
+            row["errors"] = [bare + "; did you mean 'FUN_00012340'?"]
+            self.assertEqual(triage(root, audit)["candidates"], [found])
+            row["errors"][0] += " trailing"
+            self.assertEqual(triage(root, audit)["candidates"], [])
+            row["errors"] = [bare]
             # Exercise the scheduling classification, not just the lexer.
             for arguments, classification in (
                 ('"first", "second"', "DRAFT_ARITY_MATCH_REVIEW_TYPES_AND_XBE"),

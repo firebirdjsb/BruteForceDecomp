@@ -16,7 +16,12 @@ from pathlib import Path
 
 from source_layout import relative_source_path
 
-ERROR = re.compile(r"^use of undeclared identifier '(FUN_([0-9a-f]{8}))'$", re.I)
+# Only the first symbol identifies the missing call. Clang's optional spelling
+# suggestion is diagnostic text, never a replacement callee or ABI evidence.
+# Keep this bounded and full-matched: arbitrary diagnostic suffixes are deferred.
+ERROR = re.compile(
+    r"^use of undeclared identifier '(FUN_([0-9a-f]{8}))'"
+    r"(?:; did you mean 'FUN_[0-9a-f]{8}'\?)?$", re.I)
 BODY = re.compile(r"Input x86 body SHA-256:\s*([0-9a-f]{64})", re.I)
 
 
