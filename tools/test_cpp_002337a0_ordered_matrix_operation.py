@@ -59,10 +59,12 @@ def codegen_check(assembly,expected):
  assert [norm(s) for s in lines]==converted,'wrong event, offset, operand or ordering'
  before,after=re.split(r'#APP.*?#NO_APP',assembly,flags=re.S)
  # Strict symbolic native transport: only full-width GPR MOVs and a balanced
- # RBP frame are allowed outside the pinned asm region. This rejects extra
- # FP/loads/calls/narrowing and proves exact native argument/result transport.
+ # RBP frame are allowed outside the pinned asm region, with an optional
+ # operand-free ENDBR64 as the first entry instruction for host CET/IBT.
+ # Do not disable compiler protection or admit the marker elsewhere. This rejects
+ # extra FP/loads/calls/narrowing and proves exact native argument/result transport.
  reg={'%rdi':'out','%rsi':'left','%rdx':'right','%rbp':'saved_rbp','%rsp':('stack',0)}
- mem={};pushes=pops=returns=0
+ mem={};pushes=pops=returns=wrapper_ops=0;entry_open=False
  def address(v):
   m=re.fullmatch(r'(-?\d*)\(%r(sp|bp)\)',v);assert m,v
   base=reg['%r'+m[2]];assert isinstance(base,tuple) and base[0]=='stack'
@@ -75,10 +77,15 @@ def codegen_check(assembly,expected):
   return v[0]
  for region,prior in [(before,True),(after,False)]:
   for line in region.splitlines():
-   m=re.match(r'^\s+([a-z0-9]+)\s*(.*)',line)
-   if not m:continue
-   op,arg=m.groups();arg=norm(arg.split('#')[0])
-   if op=='pushq':
+   text=line.split('#')[0].strip()
+   if text=='.cfi_startproc':entry_open=True
+   elif text=='.cfi_endproc':entry_open=False
+   if not text or text.startswith('.') or text.endswith(':'):continue
+   m=re.fullmatch(r'([a-z][a-z0-9]*)\s*(.*)',text);assert m,line
+   op,arg=m.groups();arg=norm(arg)
+   if op=='endbr64':
+    assert prior and entry_open and wrapper_ops==0 and not arg,'misplaced or malformed entry marker'
+   elif op=='pushq':
     assert prior and arg=='%rbp' and pushes==0
     reg['%rsp']=('stack',reg['%rsp'][1]-8);write(reg['%rsp'][1],reg['%rbp']);pushes+=1
    elif op=='popq':
@@ -95,8 +102,35 @@ def codegen_check(assembly,expected):
      assert prior;at=address(dst);stack=reg['%rsp'][1];assert stack-128<=at and at+8<=stack
      write(at,value)
    else:raise AssertionError('unexpected wrapper operation: '+line)
+   wrapper_ops+=1
   if prior:assert reg.get(lr)=='left' and reg.get(rr)=='right' and reg.get(orr)=='out'
  assert pushes==pops and returns==1
+
+def entry_marker_controls(assembly,expected,rejected):
+ # Check real compiler output first, then vary only the authored wrapper text.
+ codegen_check(assembly,expected)
+ plain=re.sub(r'(?m)^[ \t]*endbr64[ \t]*(?:#.*)?\n','',assembly)
+ start='\t.cfi_startproc\n';assert plain.count(start)==1
+ entry='\tendbr64\n'
+ def marked(marker):return plain.replace(start,start+marker,1)
+ for marker in ['',entry,'endbr64\n','  endbr64  # host entry marker\n']:
+  codegen_check(marked(marker),expected)
+ for marker in [entry+entry,'\tendbr64 %rax\n','\tendbr64 $0\n',
+                '\tendbr32\n','\tendbr\n','\tnop\n','ud2\n']:
+  rejected(codegen_check,marked(marker),expected)
+ rejected(codegen_check,plain.replace(start,entry+start,1),expected)
+ # Every later position is invalid, including inside and after the SSE block.
+ for boundary in ['#APP','#NO_APP']:
+  rejected(codegen_check,plain.replace(boundary,entry+boundary,1),expected)
+  rejected(codegen_check,plain.replace(boundary,boundary+'\n'+entry,1),expected)
+ rejected(codegen_check,plain+'\n'+entry,expected)
+ # The admitted marker must not bypass the exact return or SSE graph checks.
+ protected=marked(entry)
+ bad,count=re.subn(r'(?m)^([ \t]*)(retq?)([ \t]*(?:#.*)?)$',
+                  r'\1movq %rsi,%rax\n\1\2\3',protected);assert count==1
+ rejected(codegen_check,bad,expected)
+ bad=protected.replace('mulps','addps',1);assert bad!=protected
+ rejected(codegen_check,bad,expected)
 
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--root',type=pathlib.Path,default=pathlib.Path(__file__).resolve().parents[1]);ap.add_argument('--program-record',type=pathlib.Path);ap.add_argument('--sanitizers',action='store_true');ap.add_argument('--corpus-dir',type=pathlib.Path);ap.add_argument('--capstone',action='store_true');a=ap.parse_args();root=a.root.resolve()
@@ -166,7 +200,7 @@ def main():
        assert integer.operation(memory,l,r,o,csr)==rational.operation(memory,l,r,o,csr),name
   for name,case in integer.NAMED_ANCHORS.items():(td/(name+'.bin')).write_bytes(integer.record(*case,0x1f80))
   for opt in ['-O0','-O2']:
-   asm=td/(opt+'.s');run(common+[opt,'-S',str(src),'-o',str(asm)]);codegen_check(asm.read_text(),expected);print('Exact 71-SSE event graph/native transport:',opt,flush=True)
+   asm=td/(opt+'.s');run(common+[opt,'-S',str(src),'-o',str(asm)]);entry_marker_controls(asm.read_text(),expected,rejected);print('Exact 71-SSE event graph/native transport:',opt,flush=True)
    for extra in ['\tfldz\n','\taddss %xmm1,%xmm2\n','\tcallq helper\n','\tmovups (%rdi),%xmm0\n','\tmovq %rdi,%rbx\n','\tmovl %edi,%eax\n','\tretq $12\n','\tvfmadd132ps %xmm1,%xmm2,%xmm0\n']:
     rejected(codegen_check,asm.read_text()+'\n'+extra,expected)
    rejected(codegen_check,asm.read_text().replace('\tretq','\tmovq %rsi,%rax\n\tretq'),expected)
@@ -212,10 +246,16 @@ def main():
   oracle=native.read_text();assert 'fxrstor (%rsp)\\n' in oracle;ss=td/'capture_bad.cpp';ss.write_text(oracle.replace('fxrstor (%rsp)\\n','',1));exe=td/'capture_bad';run(common+['-O2',str(ss),str(src),'-o',str(exe)]);bad=run([str(exe)],ok=False);assert 'caller-state restoration failed' in bad.stderr;negatives+=1
   if a.sanitizers:
    g=shutil.which('g++');assert g
-   asm=td/'gcc.s';run([g]+common[1:]+['-O2','-S',str(src),'-o',str(asm)]);codegen_check(asm.read_text(),expected)
-   for test in [native,model]:
-    exe=td/(test.stem+'-san');run([g]+common[1:]+['-O2','-fsanitize=address,undefined','-fno-omit-frame-pointer','-fno-pie','-no-pie',str(test),str(src),'-o',str(exe)])
-    for fixture in fixtures if test==model else [None]:
-     print('GCC ASan+UBSan:',run(['env','ASAN_OPTIONS=detect_leaks=0:halt_on_error=1','UBSAN_OPTIONS=halt_on_error=1',str(exe)]+([str(fixture)] if fixture else [])).stdout.strip(),flush=True)
+   for protection in ['default','branch','full']:
+    gcc=[g]+common[1:]+([] if protection=='default' else ['-fcf-protection='+protection])
+    asm=td/('gcc-'+protection+'.s');run(gcc+['-O2','-S',str(src),'-o',str(asm)])
+    assembly=asm.read_text()
+    if protection!='default':assert len(re.findall(r'(?m)^\s*endbr64\s*$',assembly))==1
+    entry_marker_controls(assembly,expected,rejected)
+    print('GCC exact 71-SSE event graph/native transport:',protection,'-O2',flush=True)
+    for test in [native,model]:
+     exe=td/(test.stem+'-san-'+protection);run(gcc+['-O2','-fsanitize=address,undefined','-fno-omit-frame-pointer','-fno-pie','-no-pie',str(test),str(src),'-o',str(exe)])
+     for fixture in fixtures if test==model else [None]:
+      print('GCC ASan+UBSan '+protection+':',run(['env','ASAN_OPTIONS=detect_leaks=0:halt_on_error=1','UBSAN_OPTIONS=halt_on_error=1',str(exe)]+([str(fixture)] if fixture else [])).stdout.strip(),flush=True)
  print('Exact source reversal and',negatives,'negative controls passed; bounded native operation only',flush=True)
 if __name__=='__main__':main()

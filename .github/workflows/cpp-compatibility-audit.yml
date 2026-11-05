@@ -15,6 +15,7 @@ on:
       - 'docs/evidence/002b3cc0_add_operation*.md'
       - 'docs/evidence/002b3e60_multiply_add_operation.md'
       - 'docs/evidence/002b8d10_multiply_add_operation.md'
+      - 'docs/evidence/scalar_sse_conversion*.md'
       - 'tests/**'
       - 'viewer/**'
       - 'tools/source_layout.py'
@@ -96,6 +97,8 @@ jobs:
         run: python3 tools/test_cpp_20261105_word_limit_widths.py
       - name: Verify two WORD counter operands (quarantined flows and ABI remain unresolved)
         run: python3 tools/test_cpp_20261105_counter_word_widths.py
+      - name: Verify masked signed32 scalar SSE conversion models (not game implementation)
+        run: python3 tools/test_cpp_scalar_sse_conversions.py --compiler g++ --sanitize
       - name: Verify 27 original-address source declaration repairs
         run: python3 tools/verify_cpp_direct_declaration_batch.py --root .
       - name: Verify source-matched D3D C++17 declaration (ABI unverified)

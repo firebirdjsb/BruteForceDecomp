@@ -1,0 +1,19 @@
+# Protected entry validation and scalar conversion-model checkpoint
+
+This checkpoint changes tests and supporting evidence only. All 13,694 canonical game sources, game headers, historical inventory and original-body labels remain unchanged. The exact-tree checker still matches the complete Clang21 audit at `d31c7332b22e0c9e4194b3fec6c58cd13ce83850`: **4,055 passing / 9,639 failing**, with zero provenance or checker errors. No syntax gain or new game-function admission is claimed.
+
+## Compiler-generated entry marker
+
+CI run 42010880645 passed the preceding counter repair and matrix numerical/negative controls, then exposed GCC's protected `endbr64` entry marker, which the wrapper validator had not recognized. The test-only correction retains compiler protection and accepts one operand-free marker strictly at the valid entry position. It does not relax the exact SSE graph, pointer transport, return or state checks, and does not accept GCC O0's separately unsupported `nop`.
+
+Independent review checks 15 supported emitted compiler/protection combinations, 75 positive and 1,611 negative controls. Complete Clang19/21 matrix gates pass with GCC14 default, branch and full protection plus ASan/UBSan. The coordinator also ran all 133 commands from the existing workflow aggregate unchanged with Clang21 and GCC full protection enabled; the entire aggregate passed. This is distinct from broad unittest discovery's previously documented baseline failures.
+
+## Reusable scalar conversion evidence
+
+The additive foundation models signed32 CVTTSS2SI and CVTSI2SS under the documented masked-exception native domain. Separate integer and Fraction derivations are checked against authored single-instruction native fixtures. No original game machine code or uploaded script is executed. Neither conversion signals the denormal-operand exception; DAZ and precision/invalid effects are tested explicitly rather than borrowed from arithmetic rules. See [model scope and limits](scalar_sse_conversion_models.md), [integer derivation](scalar_sse_conversion_integer_model.md) and [rational derivation](scalar_sse_conversion_rational_model.md).
+
+Independent standalone review reproduced six compiler/optimization builds with 94,027,104 comparisons each, 4,111,712 sanitizer comparisons, 505,088 Fraction comparisons and 82,000 rational self-tests. It added 254,080 independently structured binary-search cases against the Fraction oracle and all seven fresh binaries. Installed-layout review verified all 14 additive files, unchanged numerical cores, 26 compiled controls per compiler and ten failure/cleanup tests. Explicit `-m64` selects the intended target, and sanitizer errors fail closed rather than merely printing diagnostics.
+
+Coordinator integration separately passed the full Clang21 runner and GCC14 runner with full compiler protection and ASan/UBSan. The new public CI step runs the same GCC command, without private exports, downloads or secrets. Clang sanitizer runtimes are absent in this cloud toolchain, so no Clang sanitizer result is claimed. LeakSanitizer remains disabled; inline-assembly access coverage depends on the stated codegen and fixture checks, not sanitizer instrumentation of assembly.
+
+This is a conversion-model foundation, not implementation of 0x00233020. Its original constant-memory spans still lack a justified native binding. A read-only section and no recorded direct writers do not prove runtime immutability, especially where addresses escape through writable data. Original Pentium III equivalence, unmasked exception execution, whole-game linkage and byte-identical rebuilding remain unverified. Modern native agreement and syntax success do not establish full 1:1 game behavior.
