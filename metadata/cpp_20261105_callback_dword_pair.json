@@ -1,0 +1,83 @@
+{
+  "scope": "Two bounded immediate DWORD operands; not recovered native objects, ABI, behavior or byte match",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "source_base_commit": "549a33d60e30cca3c25dcae4d3435f0c27de9c9b",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "cases": [
+    {
+      "entry": "0x003455a6",
+      "source": "src/platform/network_xnet/0x003455a6.cpp",
+      "label": "FUN_003455a6",
+      "original_body_sha256": "5D762D4B09DF06F8D6D65CCF00F5431C964E3B91BE46D079066551B7215544A7",
+      "body_ranges": [
+        {
+          "start": "003455a6",
+          "end_inclusive": "003455c0",
+          "length": 27
+        }
+      ],
+      "body_byte_count": 27,
+      "instruction_count": 8,
+      "source_before_sha256": "3d5103a4f743adf687d2a6cf9ec0b7fbf678024ba93d9835d67b9a786c61aa2c",
+      "preimage_git_blob": "da13b5da1509d7ec732acd232f890963fdaf9242",
+      "source_after_sha256": "0373bd4e3a35bd930c9d8cb65bb9e13fb4f30554e954d2e9ed22db2c04d16bcb",
+      "added_comment": "/* Operand-only repair: original 003455b7 C7 /0 stores the four-byte\n * guest value 0x0034c826, not a native function pointer. Guest mapping,\n * native object lifetime/aliasing/alignment and signed base arithmetic\n * remain ABI_UNVERIFIED. The existing direct call is unchanged. */\n",
+      "before": "*(code **)(param_1 + 0x10) = FUN_0034c826;",
+      "after": "*(uint32_t *)(param_1 + 0x10) = UINT32_C(0x0034c826);",
+      "store": {
+        "address": "003455b7",
+        "bytes": "c7401026c83400",
+        "destination": "DWORD [EAX+0x10]",
+        "base_binding": "EAX = DWORD [entry ESP+4]",
+        "width_bits": 32,
+        "immediate": "0x0034c826"
+      },
+      "entry_load": {
+        "address": "003455a6",
+        "bytes": "8b442404"
+      },
+      "native_storage_contract_recovered": false
+    },
+    {
+      "entry": "0x0034eea9",
+      "source": "src/platform/network_xnet/0x0034eea9.cpp",
+      "label": "FUN_0034eea9",
+      "original_body_sha256": "AB240CDB44D0D2A240FA63E30B664AE4AA662F5590252FA76EACD2880C2D9F47",
+      "body_ranges": [
+        {
+          "start": "0034eea9",
+          "end_inclusive": "0034eecc",
+          "length": 36
+        }
+      ],
+      "body_byte_count": 36,
+      "instruction_count": 11,
+      "source_before_sha256": "8838090d8934bef3bc87e062f8c84d8980835ba1bba09e6d5a205586cc24f50a",
+      "preimage_git_blob": "615b94756621b45c4ff627a3dd0c35a62d6f0f83",
+      "source_after_sha256": "7e732d076ef2f717962f66d5b1a22b040661c59cad76b44a8b56389158684a62",
+      "added_comment": "/* Operand-only repair: original 0034eebb C7 /0 stores the four-byte\n * guest value 0x0034c826, not a native function pointer. Guest mapping,\n * native object lifetime/aliasing/alignment and signed base arithmetic\n * remain ABI_UNVERIFIED. The existing direct call is unchanged. */\n",
+      "before": "*(code **)(param_1 + 0x10) = FUN_0034c826;",
+      "after": "*(uint32_t *)(param_1 + 0x10) = UINT32_C(0x0034c826);",
+      "store": {
+        "address": "0034eebb",
+        "bytes": "c7401026c83400",
+        "destination": "DWORD [EAX+0x10]",
+        "base_binding": "EAX = DWORD [entry ESP+4]",
+        "width_bits": 32,
+        "immediate": "0x0034c826"
+      },
+      "entry_load": {
+        "address": "0034eea9",
+        "bytes": "8b442404"
+      },
+      "native_storage_contract_recovered": false
+    }
+  ],
+  "limitations": [
+    "Existing signed param_1+0x10 arithmetic and integer-to-host-pointer mapping are unchanged and unresolved.",
+    "uint32_t lvalue models the proven 32-bit guest operand only; it does not establish object lifetime, effective type, aliasing, alignment or bounds on a native object.",
+    "Existing direct-call declaration, control flow and remaining operations are unchanged; no callback execution or target host pointer is manufactured.",
+    "Private JSON export bytes can prove consistency with body hashes and independent instruction boundaries, not authenticate the complete original XBE."
+  ]
+}

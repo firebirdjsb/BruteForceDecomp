@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Operand-only repair: original 0034eebb C7 /0 stores the four-byte
+ * guest value 0x0034c826, not a native function pointer. Guest mapping,
+ * native object lifetime/aliasing/alignment and signed base arithmetic
+ * remain ABI_UNVERIFIED. The existing direct call is unchanged. */
 /* Source-matched declaration of FUN_0034c826; callback ABI and behavior remain
  * ABI_UNVERIFIED. This only resolves name lookup in the C11 draft. */
 extern void FUN_0034c826(int param_1);
@@ -18,7 +22,7 @@ void FUN_0034eea9(int param_1)
     }
     else {
       *(undefined4 *)(param_1 + 0x18) = 0;
-      *(code **)(param_1 + 0x10) = FUN_0034c826;
+      *(uint32_t *)(param_1 + 0x10) = UINT32_C(0x0034c826);
     }
   }
   return;

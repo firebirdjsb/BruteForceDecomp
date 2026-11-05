@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Operand-only repair: six original C7 /0 instructions store guest DWORD
+ * values in the existing uint32_t globals, not native symbol addresses.
+ * Global storage mapping, target identities and the existing direct-call ABI
+ * remain ABI_UNVERIFIED. No callback binding or whole-caller claim. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern undefined4 FUN_00087d20(void);
@@ -24,14 +28,14 @@ undefined4 FUN_00087cc0(undefined1 *param_1)
 {
   undefined4 uVar1;
   
-  PTR_FUN_003bc650 = &UNK_002379a0;
-  PTR_FUN_003bc654 = &UNK_002379d0;
-  PTR_FUN_003bc658 = &UNK_00237a00;
+  PTR_FUN_003bc650 = UINT32_C(0x002379a0);
+  PTR_FUN_003bc654 = UINT32_C(0x002379d0);
+  PTR_FUN_003bc658 = UINT32_C(0x00237a00);
   uVar1 = FUN_00087d20();
   *(undefined4 *)(param_1 + 4) = uVar1;
   *param_1 = 1;
-  PTR_FUN_003bc650 = &UNK_00237810;
-  PTR_FUN_003bc654 = &UNK_00237910;
-  PTR_FUN_003bc658 = &UNK_002378a0;
+  PTR_FUN_003bc650 = UINT32_C(0x00237810);
+  PTR_FUN_003bc654 = UINT32_C(0x00237910);
+  PTR_FUN_003bc658 = UINT32_C(0x002378a0);
   return 0;
 }

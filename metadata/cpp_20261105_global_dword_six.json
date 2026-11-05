@@ -1,0 +1,98 @@
+{
+  "scope": "Six bounded guest DWORD immediates in one caller; not recovered global mapping, callback identities, ABI, behavior or byte match",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "source_base_commit": "ecbdf69bb2c6ccd6c92fa336c355d64e70875a13",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "cases": [
+    {
+      "entry": "0x00087cc0",
+      "source": "src/main_unclassified/band_0008/0x00087cc0.cpp",
+      "original_body_sha256": "93CBE7D076AD040F798E96BC4C2CC58049D955F52052206A8244E1CBE367739B",
+      "body_ranges": [
+        {
+          "start": "00087cc0",
+          "end_inclusive": "00087d11",
+          "length": 82
+        }
+      ],
+      "body_byte_count": 82,
+      "instruction_count": 14,
+      "source_before_sha256": "a8db6078899c1fa93ecc45d7f1bcc07f2fefcdab60039a58a184b089e0b25972",
+      "preimage_git_blob": "dfaf9c204aa0e67e1668845ac1f91030a2802fe8",
+      "label": "FUN_00087cc0",
+      "source_after_sha256": "a6c6ab3c962723ae4b76601e35872a2f2b48ac814a5594abd083c26d625da70b",
+      "added_comment": "/* Operand-only repair: six original C7 /0 instructions store guest DWORD\n * values in the existing uint32_t globals, not native symbol addresses.\n * Global storage mapping, target identities and the existing direct-call ABI\n * remain ABI_UNVERIFIED. No callback binding or whole-caller claim. */\n",
+      "edits": [
+        {
+          "site": "00087cc5",
+          "bytes": "c70550c63b00a0792300",
+          "width_bits": 32,
+          "destination_guest_va": "0x003bc650",
+          "immediate_guest_value": "0x002379a0",
+          "before": "PTR_FUN_003bc650 = &UNK_002379a0;",
+          "after": "PTR_FUN_003bc650 = UINT32_C(0x002379a0);"
+        },
+        {
+          "site": "00087ccf",
+          "bytes": "c70554c63b00d0792300",
+          "width_bits": 32,
+          "destination_guest_va": "0x003bc654",
+          "immediate_guest_value": "0x002379d0",
+          "before": "PTR_FUN_003bc654 = &UNK_002379d0;",
+          "after": "PTR_FUN_003bc654 = UINT32_C(0x002379d0);"
+        },
+        {
+          "site": "00087cd9",
+          "bytes": "c70558c63b00007a2300",
+          "width_bits": 32,
+          "destination_guest_va": "0x003bc658",
+          "immediate_guest_value": "0x00237a00",
+          "before": "PTR_FUN_003bc658 = &UNK_00237a00;",
+          "after": "PTR_FUN_003bc658 = UINT32_C(0x00237a00);"
+        },
+        {
+          "site": "00087cee",
+          "bytes": "c70550c63b0010782300",
+          "width_bits": 32,
+          "destination_guest_va": "0x003bc650",
+          "immediate_guest_value": "0x00237810",
+          "before": "PTR_FUN_003bc650 = &UNK_00237810;",
+          "after": "PTR_FUN_003bc650 = UINT32_C(0x00237810);"
+        },
+        {
+          "site": "00087cf8",
+          "bytes": "c70554c63b0010792300",
+          "width_bits": 32,
+          "destination_guest_va": "0x003bc654",
+          "immediate_guest_value": "0x00237910",
+          "before": "PTR_FUN_003bc654 = &UNK_00237910;",
+          "after": "PTR_FUN_003bc654 = UINT32_C(0x00237910);"
+        },
+        {
+          "site": "00087d02",
+          "bytes": "c70558c63b00a0782300",
+          "width_bits": 32,
+          "destination_guest_va": "0x003bc658",
+          "immediate_guest_value": "0x002378a0",
+          "before": "PTR_FUN_003bc658 = &UNK_002378a0;",
+          "after": "PTR_FUN_003bc658 = UINT32_C(0x002378a0);"
+        }
+      ],
+      "direct_call": {
+        "site": "00087ce3",
+        "bytes": "e838000000",
+        "target": "00087d20",
+        "declaration": "extern undefined4 FUN_00087d20(void);",
+        "statement": "uVar1 = FUN_00087d20();"
+      },
+      "native_storage_mapping_recovered": false
+    }
+  ],
+  "limitations": [
+    "Only six right-hand operands and one boundary comment change. Existing declarations, direct call and all other source text are unchanged.",
+    "Existing uint32_t global declarations are syntax-only storage hypotheses. No guest-to-host mapping, linker binding or target function ABI is recovered.",
+    "Authored initialized uint32_t fixture checks the six extracted assignments and neighboring words, not the caller or its direct callee.",
+    "Private export body consistency and independent decode do not reauthenticate the complete original XBE."
+  ]
+}

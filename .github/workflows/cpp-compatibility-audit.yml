@@ -76,6 +76,10 @@ jobs:
         run: python3 tools/verify_cpp_literal_declaration_batch.py
       - name: Verify 100 original Xbox guest address literal repairs
         run: python3 tools/verify_cpp_guest_address_literals.py --root .
+      - name: Verify two bounded callback DWORD operands (not native object or ABI recovery)
+        run: python3 tools/test_cpp_20261105_callback_dword_pair.py
+      - name: Verify six bounded global DWORD operands (not ABI or mapping recovery)
+        run: python3 tools/test_cpp_20261105_global_dword_six.py
       - name: Verify 27 original-address source declaration repairs
         run: python3 tools/verify_cpp_direct_declaration_batch.py --root .
       - name: Verify source-matched D3D C++17 declaration (ABI unverified)
