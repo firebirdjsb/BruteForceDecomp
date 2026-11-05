@@ -165,6 +165,7 @@ jobs:
           python3 tools/test_cpp_002b3e60_multiply_add_operation.py
           python3 tools/test_cpp_002b8d10_multiply_add_operation.py
           python3 tools/test_cpp_002ccc10_difference_products_operation.py
+          python3 tools/test_cpp_003759c0_four_term_operation.py --sanitizers
           python3 tools/test_cpp_20261104_uploaded_evidence.py
           python3 tools/test_cpp_20261104_0003f0e0_eax_handoff.py
           python3 tools/test_cpp_20261104_guest_initializers.py
@@ -173,6 +174,7 @@ jobs:
           python3 tools/test_cpp_20261104_memory_call_declarations.py
           python3 tools/test_cpp_20261104_heap_free_scalar_calls.py
           python3 tools/test_cpp_20261105_allocator_declarations.py
+          python3 tools/test_cpp_20261105_next_allocator_declarations.py
           python3 tools/test_cpp_20261104_heap_free_literal_overlays.py
           python3 tools/test_cpp_002e9c30_continuation.py
           python3 tools/test_cpp_fixed_byte_loops.py
@@ -182,6 +184,7 @@ jobs:
           python3 tools/test_cpp_00343343_bounded_length.py
           python3 tools/test_cpp_002eaa70_bounded_length.py
           python3 tools/test_cpp_002ee365_bounded_query.py
+          python3 tools/test_cpp_0034e2e0_integer_index.py
           python3 tools/test_cpp_20261104_continuation_literal_overlay.py
           python3 tools/test_cpp_20261104_four_guest_constants.py
           python3 tools/test_cpp_20261104_eax_scalar_calls.py

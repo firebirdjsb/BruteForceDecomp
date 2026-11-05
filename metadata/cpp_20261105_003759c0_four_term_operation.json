@@ -1,0 +1,47 @@
+{
+  "entry": "0x003759c0",
+  "original_body_sha256": "8D9A9D11F07D18B9B216AB210508D8F0E36AF65D001346642B3F9B5FF5D914FA",
+  "body_bytes": 87,
+  "instruction_count": 22,
+  "private_program_record_sha256": "6d19749d1da0e13646d4c7b340a7296c768019fba9653cfc4955d3bb14c36c3f",
+  "source_before_sha256": "a87a24b35a083e644763ce16c0645db3168f36d0f89c038986b66b251069f0c0",
+  "source_before_git_blob": "2943010f278aaf3ff827f325b4b1cccdd515cd5d",
+  "artifacts": {
+    "0x003759c0.cpp": "7ed22c5678335a1e971b5551f21d88819f8db554b56bf383f4789b2c6a7aac75",
+    "bf_003759c0_four_term_operation.h": "fa16ce087ec6388b8bfd4eb9d1da302e1ba664be8269053923e9538b94857cb4",
+    "native_test.cpp": "cba2596d64d5ebfd0f0a409ee93f23f7404ea1ccb7ea10952f29fa3bf55717b2",
+    "model_test.cpp": "01a34cf59164d1602ca75bbdd424ab7c4f6949a3080cacabbe306d6272c0da5e",
+    "generate_model.py": "5fd7c612a69069780a463b5a5375bb7dd490ed55728cc82ed12636208ba88764",
+    "integer_primitives.py": "914ce626554bef5148e7224565bd074ae777e1518766193af133c20553cef4c5",
+    "README.md": "4415da1edbd18add89ef20d829a7a3f2135aef3e767475969688487568aa9e67",
+    "rational_generate.py": "9ff903bb2d58b5e214e139fd01cc3245da02776134bd30b37edcdbd88043b369",
+    "rational_test.cpp": "fa5f43ceb0ebbaca703cbcf90cdc0b52d0c620e42dfa5309add579bfbfbdb4ab"
+  },
+  "narrow_opcode_windows": [
+    {
+      "va": "0x003759c0",
+      "bytes": "8b4424088b4c2410"
+    },
+    {
+      "va": "0x003759d0",
+      "bytes": "0f5911"
+    },
+    {
+      "va": "0x003759e0",
+      "bytes": "0f58d1"
+    },
+    {
+      "va": "0x00375a01",
+      "bytes": "0f5949300f58d1"
+    },
+    {
+      "va": "0x00375a08",
+      "bytes": "0f13100fc6d202f30f115008"
+    },
+    {
+      "va": "0x00375a14",
+      "bytes": "c21000"
+    }
+  ],
+  "boundary": "Bounded native host memory operation only. Guest ABI/register/EFLAGS/stack aliasing, 32-bit wrapping, faults, unmasked traps and original CPU equivalence excluded. No original machine code executed."
+}

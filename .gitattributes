@@ -45,3 +45,9 @@ tests/fixtures/002ee365_before.cpp.txt -text whitespace=-blank-at-eol
 
 # Preserve exact historical difference-products preimage.
 tests/fixtures/002ccc10_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical integer-index preimage.
+tests/fixtures/0034e2e0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical four-term operation preimage.
+tests/fixtures/003759c0_before.cpp.txt -text whitespace=-blank-at-eol
