@@ -17,7 +17,7 @@ import tempfile
 
 sys.dont_write_bytecode = True
 MANIFEST = "metadata/scalar_sse_conversion_models.json"
-MANIFEST_SHA = "7090ae297716c75f4cb7850246ad55e6e0a4ea69392d46b61ea9a5826d612373"
+MANIFEST_SHA = "87be6a9b446e551233facae9355fdb4a2a10e8ec8ad3baf682760ff7ca457124"
 FULL = "PASS cases=94027104 digest=3e3ff9e07e718c00"
 QUICK = "PASS cases=4111712 digest=93feb65bf07f7a93"
 CORPUS_INPUT = "576de321ccbd762934e9a90ce9fca5358ba07d59fbd6a687a6683d524ca00751"
@@ -163,6 +163,8 @@ def main():
     support = root / "tests/support/scalar_sse_conversions"
     test = root / "tests/test_scalar_sse_conversions.cpp"
     codegen = load("codegen", support / "codegen.py")
+    require(codegen.protector_controls() == 784, "stack protector mutation count drift")
+    print("Stack protector parser controls: 8 positive shapes; 784 negatives rejected", flush=True)
     oracle = load("rational", support / "rational_oracle.py")
     corpus = load("corpus", support / "corpus.py")
     controls = load("mutations", support / "mutations.py")

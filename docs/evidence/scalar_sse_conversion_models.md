@@ -61,6 +61,18 @@ No universal x87-state exhaustion or whole-wrapper XMM preservation is claimed.
 The exact asm region has one legacy conversion with explicit 32-bit GPR operands;
 codegen rejects conversion widening, extra arithmetic, or changed capture/restore.
 
+The codegen validator permits the Linux x86-64 GCC/Clang stack-canary failure
+edge only after the exact MXCSR restore. It checks the TLS canary save/reload,
+same QWORD stack slot without overlapping byte accesses, comparison, branch polarity and actual target addresses,
+and a separate returning success edge. Every returning path must pass canary
+initialization, the complete conversion region and comparison. Arbitrary calls,
+indirect failure calls,
+normal-path failure calls, malformed guards and bypasses remain rejected. Compiler
+protections are not disabled. Eight parser-positive variants and 784 negative
+checks cover GCC equal/unequal edges and Clang memory/register comparisons, for
+both wrappers and with sanitizer permission both off and on. These parser checks
+are not a general control-flow or stack-protector security proof.
+
 The runner also retains 505,088 Fraction/native/integer comparisons, 82,000
 rational edge/property/API/CLI tests, 25 compiled semantic mutants, and 57 static
 codegen mutants per build. Sanitized quick runs retain 4,111,712 native checks.
