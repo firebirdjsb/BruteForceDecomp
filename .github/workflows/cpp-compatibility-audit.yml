@@ -90,6 +90,8 @@ jobs:
         run: python3 tools/test_cpp_20261105_global_dword_six.py
       - name: Verify two 00023a80 DWORD operands (existing x87 mismatch remains)
         run: python3 tools/test_cpp_20261105_00023a80_literal_pair.py
+      - name: Verify two WORD limit operands (no global mapping or ABI recovery)
+        run: python3 tools/test_cpp_20261105_word_limit_widths.py
       - name: Verify 27 original-address source declaration repairs
         run: python3 tools/verify_cpp_direct_declaration_batch.py --root .
       - name: Verify source-matched D3D C++17 declaration (ABI unverified)
@@ -181,6 +183,7 @@ jobs:
           python3 tools/test_cpp_002ccc10_difference_products_operation.py
           python3 tools/test_cpp_003759c0_four_term_operation.py --sanitizers
           python3 tools/test_cpp_002b73d0_three_term_operation.py --repo . --sanitizers
+          python3 tools/test_cpp_002b7360_subtracted_three_term_operation.py --repo . --sanitizers
           python3 tools/test_cpp_20261104_uploaded_evidence.py
           python3 tools/test_cpp_20261104_0003f0e0_eax_handoff.py
           python3 tools/test_cpp_20261104_guest_initializers.py

@@ -11,9 +11,9 @@
 extern uint32_t DAT_004a8fc0;
 extern uint32_t DAT_004a8fc8;
 extern uint32_t DAT_004a8fcc;
-extern uint32_t DAT_004a8fe0;
+extern uint16_t DAT_004a8fe0;
 extern uint32_t DAT_004a8fe2;
-extern uint32_t DAT_004a8fe4;
+extern uint16_t DAT_004a8fe4;
 extern uint32_t DAT_004a8fe6;
 extern uint32_t DAT_004a8fe8;
 extern uint32_t DAT_004a8fec;

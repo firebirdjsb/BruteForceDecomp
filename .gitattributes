@@ -54,3 +54,6 @@ tests/fixtures/003759c0_before.cpp.txt -text whitespace=-blank-at-eol
 
 # Preserve exact historical three-term operation preimage.
 tests/fixtures/002b73d0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical subtracted three-term preimage.
+tests/fixtures/002b7360_before.cpp.txt -text whitespace=-blank-at-eol
