@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Operand-only repair: the original C7 /0 stores write two guest DWORD
+ * immediates, not native symbol addresses. Hidden EAX/EDX inputs, guest memory
+ * and the existing x87 mismatch remain ABI_UNVERIFIED: the integer copy below
+ * is not equivalent to the original FLD/FSTP for all inputs. No whole-function
+ * semantic, original-machine or byte-match claim. */
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_FUN_003a479c;
@@ -19,11 +24,11 @@ void FUN_00023a80(undefined4 param_1)
   undefined4 *in_EAX;
   undefined4 *in_EDX;
   
-  *in_EAX = &PTR_FUN_003a479c;
+  *in_EAX = UINT32_C(0x003a479c);
   in_EAX[4] = 0;
   in_EAX[9] = 0;
   in_EAX[2] = 0;
-  in_EAX[1] = &PTR_FUN_003a4f64;
+  in_EAX[1] = UINT32_C(0x003a4f64);
   in_EAX[7] = 0;
   in_EAX[6] = 0;
   in_EAX[5] = 0;
