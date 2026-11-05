@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "scope": "Bounded native unsynchronized RDTSC and low/high transport only; not Xbox clock, guest ABI or original execution",
+  "source_base_commit": "c0c45a50049e060ee0ded648361439fba7ccebef",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_machine_code_executed": false,
+  "guest_abi_recovered": false,
+  "clock_frequency_recovered": false,
+  "monotonicity_assumed": false,
+  "cases": [
+    {
+      "entry": "0x00377780",
+      "label": "FUN_00377780",
+      "signature": "undefined8 FUN_00377780(void)",
+      "source": "src/platform/graphics_d3d/0x00377780.cpp",
+      "preimage": "docs/preimages/timestamp_00377780.cpp.txt",
+      "source_before_sha256": "9c07212ef1345ef0e174fa3e2d989cb2330c4cf4ab81464bcc6a44701812cf68",
+      "source_after_sha256": "5cc7bb75a0fd956760ffb5f3e6066a2f67eb9024f246ae7cdefd5573e04b8fbf",
+      "preimage_git_blob": "7391a9e08244e4a9e8e77ceca3bc656759e8f99b",
+      "original_body_sha256": "E572998B3B58C16BC83EC1DA10D1EC23BC90D1A98AC7F63477406D47905C32D3",
+      "body_byte_count": 3,
+      "instruction_count": 2,
+      "private_index_row_sha256": "11d66d0f28db6e5eae3b6bd953b6cc9551d34aa45207e5c78ecb25a0d02ec634",
+      "private_record_canonical_sha256": "167681aab3b8e2b33e6bc0921c4efec933a84a09de5cddd823c50b12b5cec526",
+      "private_record_raw_sha256": "9cd55099ac91129b1b341e723bab8429938e40bb8b0bab1f9038207536c1c174",
+      "body_ranges": [
+        {
+          "start": "00377780",
+          "end_inclusive": "00377782",
+          "length": 3
+        }
+      ],
+      "instruction_windows": [
+        {
+          "address": "00377780",
+          "bytes": "0f31"
+        },
+        {
+          "address": "00377782",
+          "bytes": "c3"
+        }
+      ],
+      "edits": [
+        {
+          "before": "/* Brute Force original Xbox - independent, unverified C11 draft.\n * Input x86 body SHA-256: E572998B3B58C16BC83EC1DA10D1EC23BC90D1A98AC7F63477406D47905C32D3\n * Entry: 0x00377780, Ghidra index: 13456, label: FUN_00377780\n * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.\n * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes\n * may be inaccurate. C syntax validity never proves original runtime behavior.\n */\n#include \"bf_ghidra_types.h\"\nundefined8 FUN_00377780(void)\n\n{\n  undefined8 uVar1;\n  \n  uVar1 = rdtsc();\n  return uVar1;\n}\n",
+          "after": "/* Brute Force original Xbox - independent, unverified C11 draft.\n * Input x86 body SHA-256: E572998B3B58C16BC83EC1DA10D1EC23BC90D1A98AC7F63477406D47905C32D3\n * Entry: 0x00377780, Ghidra index: 13456, label: FUN_00377780\n * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.\n * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes\n * may be inaccurate. C syntax validity never proves original runtime behavior.\n */\n#include \"bf_ghidra_types.h\"\n#include \"bf_native_timestamp_operation.h\"\nundefined8 FUN_00377780(void)\n\n{\n  undefined8 uVar1;\n  \n  /* Native unsynchronized timestamp only; Xbox clock and ABI remain unverified. */\n  uVar1 = bf_native_timestamp_unsynchronized();\n  return uVar1;\n}\n"
+        }
+      ]
+    },
+    {
+      "entry": "0x002f2986",
+      "label": "QueryPerformanceCounter",
+      "signature": "undefined4 XAPILIB__QueryPerformanceCounter(undefined4 *param_1)",
+      "source": "src/main_unclassified/band_002f/0x002f2986.cpp",
+      "preimage": "docs/preimages/timestamp_002f2986.cpp.txt",
+      "source_before_sha256": "c0f1d6fe15fb8d07d8046b8cee9d32eced400bb41f97c4c476110e8da66d06b4",
+      "source_after_sha256": "24850299dcde4b3111a691762fac65d76dc8dfa3a965a6f4b459fd90c826bb4b",
+      "preimage_git_blob": "b161ac2beca28c7699241ba8860da0355a6b4653",
+      "original_body_sha256": "70BA83B459AA83150DC6FB7078B292C4A53D35AA6B26B690DEB64971B7AE4374",
+      "body_byte_count": 17,
+      "instruction_count": 7,
+      "private_index_row_sha256": "6a508baf00f1aa5f4977b6c81ce3ad27f9bad0bc2b7434538ce067c09099ee68",
+      "private_record_canonical_sha256": "12f7b15aa6bc439bfc46aa8555598518b92c6d48fc61386a313c6b087f669530",
+      "private_record_raw_sha256": "9f62e8394c1073189b992d397f7baaec114d8b3e821832ae31905ce62db8e6f4",
+      "body_ranges": [
+        {
+          "start": "002f2986",
+          "end_inclusive": "002f2996",
+          "length": 17
+        }
+      ],
+      "instruction_windows": [
+        {
+          "address": "002f2986",
+          "bytes": "8b4c2404"
+        },
+        {
+          "address": "002f298a",
+          "bytes": "0f31"
+        },
+        {
+          "address": "002f298c",
+          "bytes": "8901"
+        },
+        {
+          "address": "002f298e",
+          "bytes": "895104"
+        },
+        {
+          "address": "002f2991",
+          "bytes": "33c0"
+        },
+        {
+          "address": "002f2993",
+          "bytes": "40"
+        },
+        {
+          "address": "002f2994",
+          "bytes": "c20400"
+        }
+      ],
+      "edits": [
+        {
+          "before": "/* Brute Force original Xbox - independent, unverified C11 draft.\n * Input x86 body SHA-256: 70BA83B459AA83150DC6FB7078B292C4A53D35AA6B26B690DEB64971B7AE4374\n * Entry: 0x002f2986, Ghidra index: 10809, label: QueryPerformanceCounter\n * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.\n * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes\n * may be inaccurate. C syntax validity never proves original runtime behavior.\n */\n#include \"bf_ghidra_types.h\"\nundefined4 XAPILIB__QueryPerformanceCounter(undefined4 *param_1)\n\n{\n  undefined8 uVar1;\n  \n  uVar1 = rdtsc();\n  *param_1 = (int)uVar1;\n  param_1[1] = (int)((ulonglong)uVar1 >> 0x20);\n  return 1;\n}\n",
+          "after": "/* Brute Force original Xbox - independent, unverified C11 draft.\n * Input x86 body SHA-256: 70BA83B459AA83150DC6FB7078B292C4A53D35AA6B26B690DEB64971B7AE4374\n * Entry: 0x002f2986, Ghidra index: 10809, label: QueryPerformanceCounter\n * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.\n * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes\n * may be inaccurate. C syntax validity never proves original runtime behavior.\n */\n#include \"bf_ghidra_types.h\"\n#include \"bf_native_timestamp_operation.h\"\nundefined4 XAPILIB__QueryPerformanceCounter(undefined4 *param_1)\n\n{\n  undefined8 uVar1;\n  \n  /* Native unsynchronized timestamp only; Xbox clock and ABI remain unverified. */\n  uVar1 = bf_native_timestamp_unsynchronized();\n  /* Native contract: two live, writable, aligned uint32_t objects.\n   * Volatile accesses preserve the two ordered DWORD stores, not atomicity. */\n  volatile undefined4 *output = param_1;\n  output[0] = static_cast<undefined4>(uVar1);\n  output[1] = static_cast<undefined4>(uVar1 >> 32);\n  return 1;\n}\n"
+        }
+      ]
+    }
+  ],
+  "dependency_pins": [
+    {
+      "path": "metadata/bulk_13694_inventory.csv",
+      "sha256": "74ae7a7ae0b3bb4e662a27826ec94228c781332b5aa9c9d6baea2709e9c6209f"
+    },
+    {
+      "path": "include/bf_ghidra_types.h",
+      "sha256": "5dfa1c69c07740d45536c1f5a45479e59c97275343017b68b3ff17ed39fd6dce"
+    },
+    {
+      "path": "tools/source_layout.py",
+      "sha256": "e23db596e0823fb674db21f01a6477c60c0625084506ba030c45cbce7c7f9856"
+    },
+    {
+      "path": "tools/body_hash_labels.py",
+      "sha256": "c1379c3c4e77a26222bf754b5b8018217df169c95caec30d2f2528e91d0457f1"
+    }
+  ],
+  "artifact_pins": [
+    {
+      "path": "include/bf_native_timestamp_operation.h",
+      "sha256": "4ee7bb5015f96399789defa90227fcefa9c45e8b6673e9bf58619c3375f75491"
+    },
+    {
+      "path": "tests/test_timestamp_transport.cpp",
+      "sha256": "b7eaf789a3d40f36a672bb980bb77a870897c8be75b3a350fb633c403f1e4afd"
+    },
+    {
+      "path": "tools/timestamp_codegen.py",
+      "sha256": "69c91119e92d21d2c1705c4cdb144cbb5581584c76866e31a3ecebbd61b87d44"
+    }
+  ]
+}

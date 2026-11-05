@@ -6,11 +6,13 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_native_timestamp_operation.h"
 undefined8 FUN_00377780(void)
 
 {
   undefined8 uVar1;
   
-  uVar1 = rdtsc();
+  /* Native unsynchronized timestamp only; Xbox clock and ABI remain unverified. */
+  uVar1 = bf_native_timestamp_unsynchronized();
   return uVar1;
 }

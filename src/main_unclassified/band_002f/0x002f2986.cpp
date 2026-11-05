@@ -6,13 +6,18 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_native_timestamp_operation.h"
 undefined4 XAPILIB__QueryPerformanceCounter(undefined4 *param_1)
 
 {
   undefined8 uVar1;
   
-  uVar1 = rdtsc();
-  *param_1 = (int)uVar1;
-  param_1[1] = (int)((ulonglong)uVar1 >> 0x20);
+  /* Native unsynchronized timestamp only; Xbox clock and ABI remain unverified. */
+  uVar1 = bf_native_timestamp_unsynchronized();
+  /* Native contract: two live, writable, aligned uint32_t objects.
+   * Volatile accesses preserve the two ordered DWORD stores, not atomicity. */
+  volatile undefined4 *output = param_1;
+  output[0] = static_cast<undefined4>(uVar1);
+  output[1] = static_cast<undefined4>(uVar1 >> 32);
   return 1;
 }

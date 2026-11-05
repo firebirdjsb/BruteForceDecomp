@@ -98,6 +98,8 @@ jobs:
         run: python3 tools/test_cpp_20261105_word_limit_widths.py
       - name: Verify two WORD counter operands (quarantined flows and ABI remain unresolved)
         run: python3 tools/test_cpp_20261105_counter_word_widths.py
+      - name: Verify native unsynchronized timestamp transport (not Xbox clock or ABI)
+        run: python3 tools/test_cpp_timestamp_leaves.py
       - name: Verify masked signed32 scalar SSE conversion models (not game implementation)
         run: python3 tools/test_cpp_scalar_sse_conversions.py --compiler g++ --sanitize
       - name: Verify 27 original-address source declaration repairs
