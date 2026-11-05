@@ -169,6 +169,7 @@ jobs:
           python3 tools/test_cpp_002e9c30_continuation.py
           python3 tools/test_cpp_fixed_byte_loops.py
           python3 tools/test_cpp_fixed_byte_copies.py
+          python3 tools/test_cpp_next_byte_copies.py
           python3 tools/test_cpp_20261104_continuation_literal_overlay.py
           python3 tools/test_cpp_20261104_four_guest_constants.py
           python3 tools/test_cpp_20261104_eax_scalar_calls.py
