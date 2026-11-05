@@ -25,3 +25,11 @@ Final broad unittest discovery runs 438 tests: the same 14 baseline failing subc
 ## Remaining limits
 
 The matrix operation admits initialized, correctly aligned native objects, documented overlaps and masked floating-point exceptions. It does not recover guest32 mapping, stack-slot aliases, original register/EFLAGS/cleanup state, fault ordering, MMIO, concurrency or original Pentium III equivalence. Width fixes do not establish global definitions, storage lifetime, aliases or native/guest ABI. LeakSanitizer and unavailable Clang sanitizers are not claimed. Full XBE authentication, whole-game linkage and byte-identical rebuilding remain unverified.
+
+## CI compiler portability follow-up
+
+Exact-head run 42006445604 reached the counter gate on Ubuntu 26.04 with Clang 21.1.8 and exposed a test matcher limitation: optimized guarded subtraction is `sub nuw i16`, while Clang 19 emits `sub i16`. No game source changed. The repaired matcher admits only an actual scalar SSA subtraction, i16/i32, with valid unique LLVM no-wrap flags. It rejects other opcodes, widths, duplicate/unknown flags, comments and decoy functions. Existing memory-width, unsigned comparison, operand/guard model and mutation checks remain in place.
+
+Independent review reproduces Clang 19/21 output and validates 3,148 further rejected IR mutations, four initialized-codegen runtime positives and 16 rejected operand/guard mutants. Full private counter gates pass both compilers; author tests also cover Clang 22. The matrix gate separately passes Clang 21 with all original negative controls.
+
+A fresh full Clang 21 audit at `d31c7332b22e0c9e4194b3fec6c58cd13ce83850` reproduces the entire previous 4,055/9,639 status and source/body-hash vectors, with zero provenance/checker errors. Report SHA-256: `2ae95768e6bee486ea5ce1642e5eecfd4a03b38c41e537ae8d946b512f55bec7`. Final aggregate discovery runs 439 tests with the same 14 baseline failing subchecks and one provenance error, plus 33 skips. No new failure identity remains; this does not make the aggregate fully green. Remote CI success is checked separately.

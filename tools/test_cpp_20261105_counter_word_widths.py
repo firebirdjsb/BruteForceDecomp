@@ -92,6 +92,18 @@ extern "C" bool drain_counter(WORD *counter,WORD request){bool enough=COMPARISON
 extern "C" void increment_counter(WORD *counter){*counter=static_cast<WORD>(*counter+1);}
 extern "C" void copy_counter(WORD *counter,WORD value){*counter=value;}
 '''.replace('WORD',word).replace('COMPARISON',comparison)
+
+# Clang 21 can prove the guarded subtraction does not unsigned-wrap and emit
+# `sub nuw i16`; Clang 19 emits `sub i16`. At O0 both promote to `sub nsw i32`.
+# Match an actual scalar SSA instruction, not text in comments or another opcode.
+# Only LLVM's two integer no-wrap flags are admitted, at most once each. This is
+# an instruction-shape check; the initialized-local model checks the operands and
+# branch behavior independently. Neither fixture executes original game code.
+LLVM_LOCAL=r'%[-a-zA-Z$._0-9]+'
+WORD_SUBTRACTION=re.compile(
+    rf'^[ \t]*{LLVM_LOCAL} = sub(?P<flags>(?: nuw(?: nsw)?| nsw(?: nuw)?)?) '
+    rf'i(?:16|32) {LLVM_LOCAL}, {LLVM_LOCAL}[ \t]*$',re.M)
+
 def validate_codegen(ir):
     evidence.need(re.search(r'load i16,',ir) and re.search(r'store i16 ',ir),'WORD memory absent')
     evidence.need(not re.search(r'(?:load|store) i32(?:,| )',ir),'widened scalar memory')
@@ -100,7 +112,7 @@ def validate_codegen(ir):
     promoted=(len(re.findall(r'zext i16 .* to i32',comparison))>=2 and re.search(r'icmp s(?:le|ge|gt|lt) i32',comparison))
     evidence.need(unsigned or promoted,'unsigned WORD comparison absent')
     evidence.need(not re.search(r'sext i16|icmp s(?:le|ge|gt|lt) i16',comparison),'signed WORD comparison')
-    evidence.need(re.search(r'sub(?: nsw)? i(?:16|32)',comparison),'WORD subtraction absent')
+    evidence.need(WORD_SUBTRACTION.search(comparison),'WORD subtraction absent')
 
 class CounterWordTests(unittest.TestCase):
     @classmethod
@@ -200,11 +212,53 @@ class CounterWordTests(unittest.TestCase):
     def test_word_codegen(self):
         with tempfile.TemporaryDirectory() as temporary:
             for opt in ('-O0','-O2'):
-                for variant,source in [('positive',codegen()),('wide',codegen('std::uint32_t')),('signed',codegen(signed=True))]:
+                variants=[('positive',codegen()),('wide',codegen('std::uint32_t')),('signed',codegen(signed=True)),
+                          ('missing-sub',codegen().replace('*counter-request','*counter')),
+                          ('add-not-sub',codegen().replace('*counter-request','*counter+request'))]
+                for variant,source in variants:
                     ir=Path(temporary)/(variant+opt+'.ll');result=self.compile(source,opt,('-S','-emit-llvm','-o',str(ir)));self.assertEqual(result.returncode,0,result.stderr)
-                    if variant=='positive':validate_codegen(ir.read_text())
+                    if variant=='positive':
+                        text=ir.read_text();validate_codegen(text)
+                        subtraction=WORD_SUBTRACTION.search(text);self.assertIsNotNone(subtraction)
+                        # Vary flags only: preserve the emitted type, both operands,
+                        # comparison, guarded store, and all remaining IR verbatim.
+                        start,end=subtraction.span('flags')
+                        for flags in ('',' nuw',' nsw',' nuw nsw',' nsw nuw'):
+                            with self.subTest(opt=opt,flags=flags):
+                                validate_codegen(text[:start]+flags+text[end:])
                     else:
                         with self.assertRaises(ValueError):validate_codegen(ir.read_text())
+    def test_word_subtraction_instruction_controls(self):
+        # Authored parser fixtures, not compiler-output or game-behavior evidence.
+        template='''define i1 @drain_counter(ptr %counter, i16 %request) {
+  %value = load i16, ptr %counter
+  %enough = icmp uge i16 %value, %request
+INSTRUCTION
+  store i16 %result, ptr %counter
+  ret i1 %enough
+}
+'''
+        flags=('',' nuw',' nsw',' nuw nsw',' nsw nuw')
+        for width in (16,32):
+            for flag in flags:
+                line=f'  %result = sub{flag} i{width} %value, %request'
+                with self.subTest(width=width,flag=flag):validate_codegen(template.replace('INSTRUCTION',line))
+        invalid_flags=(' exact',' fast',' nneg',' nuw nuw',' nsw nsw',' nuw nsw nuw',' nsw nuw nsw',' nuw exact',' nsw fast')
+        invalid=[f'  %result = sub{flag} i16 %value, %request' for flag in invalid_flags]
+        invalid += [f'  %result = sub nuw {ty} %value, %request' for ty in ('i8','i64','i160','i320','<2 x i16>')]
+        invalid += [f'  %result = {op} i16 %value, %request' for op in ('add','fsub','usub','submarine')]
+        invalid += ['  ; %result = sub i16 %value, %request',
+                    '  call void @sub(i16 %value, i16 %request)',
+                    '  %result = sub i16 %value',
+                    '  %result = sub i16 %value, %request, %extra',
+                    '  %result = sub i16 %value, 0',
+                    '  %result = sub i16 poison, %request',
+                    '  %result = sub i16 undef, %request']
+        for line in invalid:
+            with self.subTest(line=line),self.assertRaisesRegex(ValueError,'WORD subtraction absent'):
+                validate_codegen(template.replace('INSTRUCTION',line))
+        outside=template.replace('INSTRUCTION','')+'define void @decoy() {\n  %result = sub i16 %value, %request\n}\n'
+        with self.assertRaisesRegex(ValueError,'WORD subtraction absent'):validate_codegen(outside)
     def test_private_boundaries_flows_quarantine_and_controls(self):
         if PRIVATE_EXPORT is None:self.skipTest('private export not requested')
         from capstone import Cs,CS_ARCH_X86,CS_MODE_32
