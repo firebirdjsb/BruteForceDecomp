@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002ea01d_allocator_guest32.h"
+/* Source-draft declaration only; implicit guest EAX input remains ABI_UNVERIFIED. */
+extern void FUN_002b3c60(void);
 void FUN_002d1560(undefined4 param_1,undefined4 param_2)
 
 {

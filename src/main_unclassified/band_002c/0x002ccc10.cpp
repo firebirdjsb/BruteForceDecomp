@@ -6,26 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002ccc10_difference_products_operation.h"
 void FUN_002ccc10(float *param_1,float *param_2,float *param_3,float *param_4)
 
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  
-  fVar1 = *param_4 - *param_2;
-  fVar5 = (float)*(undefined8 *)(param_2 + 1);
-  fVar2 = (float)*(undefined8 *)(param_4 + 1) - fVar5;
-  fVar6 = (float)((ulonglong)*(undefined8 *)(param_2 + 1) >> 0x20);
-  fVar3 = (float)((ulonglong)*(undefined8 *)(param_4 + 1) >> 0x20) - fVar6;
-  fVar4 = *param_3 - *param_2;
-  fVar5 = (float)*(undefined8 *)(param_3 + 1) - fVar5;
-  fVar6 = (float)((ulonglong)*(undefined8 *)(param_3 + 1) >> 0x20) - fVar6;
-  *param_1 = fVar2 * fVar6 - fVar3 * fVar5;
-  *(ulonglong *)(param_1 + 1) =
-       CONCAT44(fVar1 * fVar5 - fVar2 * fVar4,fVar3 * fVar4 - fVar1 * fVar6);
-  return;
+  bf_002ccc10_difference_products_operation(param_1, param_2, param_3, param_4);
 }

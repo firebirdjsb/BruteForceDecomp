@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "entry": "0x002ee365",
+  "source": "src/main_unclassified/band_002e/0x002ee365.cpp",
+  "baseline_commit": "03217aaba3f880229e72769a88b013e1286729cc",
+  "preimage_fixture": "tests/fixtures/002ee365_before.cpp.txt",
+  "fixture": "tests/fixtures/002ee365_native_model.cpp",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_body_sha256": "10A53C6D2C7A4B1EB2BF0213EC7CBEF4B63BAC4D7D97799377DCCDE1906854B8",
+  "original_xbe_reauthenticated": false,
+  "original_machine_code_executed": false,
+  "canonical_functions_executed": false,
+  "source_before_sha256": "f164bc530a4c6d5761ec423e9cc9a49972bf5a8db1c11a638a763a4363e2a083",
+  "source_after_sha256": "00a7c7fdb3ea315b6e90bc9e72787198287e58bf480c477e38a6a793b9dc3993",
+  "preimage_git_blob": "01cd5204e548812fd24b5ea4093afc0c68fad307",
+  "signature": "uint FUN_002ee365(ushort *param_1,char *param_2,uint param_3)",
+  "replacement": {
+    "before": "    uVar3 = (int)param_2 - (int)pcVar1;",
+    "after": "    // Bounded native query only: first zero at L <= min(UINT32_MAX,PTRDIFF_MAX),\n    // in one live char array, with the final one-past advance valid. The copy\n    // branch is unchanged. Guest32 mapping/wrap and ABI remain unverified.\n    uVar3 = static_cast<uint>(param_2 - pcVar1);",
+    "count": 1
+  },
+  "body_ranges": [
+    {
+      "start": "002ee365",
+      "end_inclusive": "002ee3a5",
+      "length": 65,
+      "bytes_hex": "558bec8b550833c085d2567422394510742c762a8b4d0c03c8660fb63166893280390074194042423b451072e7eb0f8b450c8d50018a084084c975f92bc25e5dc3"
+    }
+  ],
+  "instruction_count": 32,
+  "instruction_windows": [
+    {
+      "address": "0x002ee365",
+      "bytes": "55"
+    },
+    {
+      "address": "0x002ee366",
+      "bytes": "8bec"
+    },
+    {
+      "address": "0x002ee368",
+      "bytes": "8b5508"
+    },
+    {
+      "address": "0x002ee36b",
+      "bytes": "33c0"
+    },
+    {
+      "address": "0x002ee36d",
+      "bytes": "85d2"
+    },
+    {
+      "address": "0x002ee36f",
+      "bytes": "56"
+    },
+    {
+      "address": "0x002ee370",
+      "bytes": "7422"
+    },
+    {
+      "address": "0x002ee372",
+      "bytes": "394510"
+    },
+    {
+      "address": "0x002ee375",
+      "bytes": "742c"
+    },
+    {
+      "address": "0x002ee377",
+      "bytes": "762a"
+    },
+    {
+      "address": "0x002ee379",
+      "bytes": "8b4d0c"
+    },
+    {
+      "address": "0x002ee37c",
+      "bytes": "03c8"
+    },
+    {
+      "address": "0x002ee37e",
+      "bytes": "660fb631"
+    },
+    {
+      "address": "0x002ee382",
+      "bytes": "668932"
+    },
+    {
+      "address": "0x002ee385",
+      "bytes": "803900"
+    },
+    {
+      "address": "0x002ee388",
+      "bytes": "7419"
+    },
+    {
+      "address": "0x002ee38a",
+      "bytes": "40"
+    },
+    {
+      "address": "0x002ee38b",
+      "bytes": "42"
+    },
+    {
+      "address": "0x002ee38c",
+      "bytes": "42"
+    },
+    {
+      "address": "0x002ee38d",
+      "bytes": "3b4510"
+    },
+    {
+      "address": "0x002ee390",
+      "bytes": "72e7"
+    },
+    {
+      "address": "0x002ee392",
+      "bytes": "eb0f"
+    },
+    {
+      "address": "0x002ee394",
+      "bytes": "8b450c"
+    },
+    {
+      "address": "0x002ee397",
+      "bytes": "8d5001"
+    },
+    {
+      "address": "0x002ee39a",
+      "bytes": "8a08"
+    },
+    {
+      "address": "0x002ee39c",
+      "bytes": "40"
+    },
+    {
+      "address": "0x002ee39d",
+      "bytes": "84c9"
+    },
+    {
+      "address": "0x002ee39f",
+      "bytes": "75f9"
+    },
+    {
+      "address": "0x002ee3a1",
+      "bytes": "2bc2"
+    },
+    {
+      "address": "0x002ee3a3",
+      "bytes": "5e"
+    },
+    {
+      "address": "0x002ee3a4",
+      "bytes": "5d"
+    },
+    {
+      "address": "0x002ee3a5",
+      "bytes": "c3"
+    }
+  ],
+  "native_query_contract": [
+    "Destination argument is null; source is nonnull and belongs to one live char array.",
+    "First zero occurs at offset L <= min(UINT32_MAX,PTRDIFF_MAX); all reads through zero and the final one-past advance are valid.",
+    "Capacity argument is ignored by this branch, including zero."
+  ],
+  "native_copy_test_contract": [
+    "Copy branch is unchanged, including byte reload after each word store.",
+    "Native tests use initialized, separate, non-overlapping char source and live ushort destination arrays; CHAR_BIT=8, sizeof(ushort)=2, sizeof(uint)=4.",
+    "For positive capacity C, provide C readable source bytes and C writable ushort elements, including valid increments; for C=0 no dereference occurs and source may be null.",
+    "No native mixed-width overlap or arbitrary guest memory equivalence is claimed."
+  ],
+  "evidence_contract": [
+    "All 65 body bytes and 32 instruction boundaries, with closed raw-derived control flow; all three inputs are explicit entry stack words.",
+    "No external calls, globals, hidden register inputs, or new ABI arguments.",
+    "Byte-load, 16-bit-store, reread ordering is retained. Overlap tests are integer byte-memory models only."
+  ],
+  "boundary": [
+    "Only bounded native query pointer-subtraction spelling is repaired.",
+    "Guest memory mapping, guest address wrap, registers, flags, stack transport and Xbox execution remain unverified.",
+    "Stored canonical hash match is not original whole-XBE reauthentication."
+  ],
+  "host_fixture_sha256": "22b76beca4461da7ee054828a518a37130f09ea4250f1e0dd78694019708f3c0",
+  "expected_output": "202441 initialized native cases; 90553 overlap-memory model cases; 100090 DWORD arithmetic model cases passed"
+}

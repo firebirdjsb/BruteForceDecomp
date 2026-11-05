@@ -20,7 +20,10 @@ uint FUN_002ee365(ushort *param_1,char *param_2,uint param_3)
       cVar2 = *param_2;
       param_2 = param_2 + 1;
     } while (cVar2 != '\0');
-    uVar3 = (int)param_2 - (int)pcVar1;
+    // Bounded native query only: first zero at L <= min(UINT32_MAX,PTRDIFF_MAX),
+    // in one live char array, with the final one-past advance valid. The copy
+    // branch is unchanged. Guest32 mapping/wrap and ABI remain unverified.
+    uVar3 = static_cast<uint>(param_2 - pcVar1);
   }
   else if ((param_3 != 0) && (param_3 != 0)) {
     do {

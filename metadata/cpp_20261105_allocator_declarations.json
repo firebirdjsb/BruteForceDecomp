@@ -1,0 +1,317 @@
+{
+  "schema_version": 1,
+  "scope": "Two declaration-only C++17 syntax completions; no Xbox ABI, native linkage or whole-function behavior claim.",
+  "base_commit": "03217aaba3f880229e72769a88b013e1286729cc",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "stored_original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "cases": [
+    {
+      "entry": "0x002d1560",
+      "source": "src/main_unclassified/band_002d/0x002d1560.cpp",
+      "source_before_sha256": "8091b2ed6f7fa3cdfc6b8f97bf870bebf6ff8b9325923c5ac7a57323b6170ed9",
+      "preimage_git_blob": "325bddcfd1207fcc57f273133800e52d6e608d99",
+      "original_body_sha256": "B27B734E7A65F870AAA590B4D3D2CAA1A978A287968058FDF84A2BD6479B350B",
+      "body_byte_count": 122,
+      "body_ranges": [
+        {
+          "start": "002d1560",
+          "end_inclusive": "002d15d9",
+          "length": 122
+        }
+      ],
+      "instruction_count": 37,
+      "analyzed_overrides": [],
+      "direct_calls": [
+        {
+          "address": "002d1573",
+          "bytes": "e8e826feff",
+          "target": "0x2b3c60"
+        },
+        {
+          "address": "002d1581",
+          "bytes": "e8978a0100",
+          "target": "0x2ea01d"
+        }
+      ],
+      "instruction_windows": {
+        "entry_binding": {
+          "address": "0x002d1560",
+          "bytes": "568bf1",
+          "scope": "official_body"
+        },
+        "callee_eax_selection": {
+          "address": "0x002d1563",
+          "bytes": "8b86b000000085c075068b86f8000000",
+          "scope": "official_body"
+        },
+        "callee_call": {
+          "address": "0x002d1573",
+          "bytes": "e8e826feff",
+          "scope": "official_body"
+        },
+        "allocation_predicate": {
+          "address": "0x002d1578",
+          "bytes": "8b466c85c07528",
+          "scope": "official_body"
+        },
+        "size_and_call": {
+          "address": "0x002d157f",
+          "bytes": "6a30e8978a0100",
+          "scope": "official_body"
+        },
+        "eax_store": {
+          "address": "0x002d1586",
+          "bytes": "89466c",
+          "scope": "official_body"
+        },
+        "caller_cleanup": {
+          "address": "0x002d159d",
+          "bytes": "83c404",
+          "scope": "official_body"
+        },
+        "stack_param2_load": {
+          "address": "0x002d15aa",
+          "bytes": "8b44240c",
+          "scope": "official_body"
+        },
+        "epilogue": {
+          "address": "0x002d15d6",
+          "bytes": "5ec20800",
+          "scope": "official_body"
+        }
+      },
+      "source_after_sha256": "0e9de8443d7dc9317c656a37c9c3848c1a4374870f7761f7b69824eccf9d9fe3",
+      "source_call": "iVar1 = FUN_002ea01d(0x30);",
+      "guest_size": 48,
+      "guest_eax_destination": "DWORD [ESI+0x6c]",
+      "source_only_other_declaration": "extern void FUN_002b3c60(void);",
+      "added_block": "#include \"bf_002ea01d_allocator_guest32.h\"\n/* Source-draft declaration only; implicit guest EAX input remains ABI_UNVERIFIED. */\nextern void FUN_002b3c60(void);\n"
+    },
+    {
+      "entry": "0x002d1960",
+      "source": "src/main_unclassified/band_002d/0x002d1960.cpp",
+      "source_before_sha256": "0b7b2dc12525c3403c004ad8591de66f3270dcf3996a05d10970a82eecce52ae",
+      "preimage_git_blob": "99e06ab46f2e3a96773fbebd5242ec65191815e8",
+      "original_body_sha256": "C068ADC28BAAB411B9C56C6EF9DAC32863CCF0B1494B3A3D4FE4BE82D39D0A4C",
+      "body_byte_count": 123,
+      "body_ranges": [
+        {
+          "start": "002d1960",
+          "end_inclusive": "002d19da",
+          "length": 123
+        }
+      ],
+      "instruction_count": 37,
+      "analyzed_overrides": [],
+      "direct_calls": [
+        {
+          "address": "002d1973",
+          "bytes": "e8e822feff",
+          "target": "0x2b3c60"
+        },
+        {
+          "address": "002d1981",
+          "bytes": "e897860100",
+          "target": "0x2ea01d"
+        }
+      ],
+      "instruction_windows": {
+        "entry_binding": {
+          "address": "0x002d1960",
+          "bytes": "568bf1",
+          "scope": "official_body"
+        },
+        "callee_eax_selection": {
+          "address": "0x002d1963",
+          "bytes": "8b86b000000085c075068b86f8000000",
+          "scope": "official_body"
+        },
+        "callee_call": {
+          "address": "0x002d1973",
+          "bytes": "e8e822feff",
+          "scope": "official_body"
+        },
+        "allocation_predicate": {
+          "address": "0x002d1978",
+          "bytes": "8b466c85c07528",
+          "scope": "official_body"
+        },
+        "size_and_call": {
+          "address": "0x002d197f",
+          "bytes": "6a30e897860100",
+          "scope": "official_body"
+        },
+        "eax_store": {
+          "address": "0x002d1986",
+          "bytes": "89466c",
+          "scope": "official_body"
+        },
+        "caller_cleanup": {
+          "address": "0x002d199d",
+          "bytes": "83c404",
+          "scope": "official_body"
+        },
+        "stack_param2_load": {
+          "address": "0x002d19aa",
+          "bytes": "8b44240c",
+          "scope": "official_body"
+        },
+        "epilogue": {
+          "address": "0x002d19d7",
+          "bytes": "5ec20800",
+          "scope": "official_body"
+        }
+      },
+      "source_after_sha256": "7eb6a3792793a8967f0dfdb6e34752d95cefdbc2843fc9f976ec9b96ff5bdc1b",
+      "source_call": "iVar1 = FUN_002ea01d(0x30);",
+      "guest_size": 48,
+      "guest_eax_destination": "DWORD [ESI+0x6c]",
+      "source_only_other_declaration": "extern void FUN_002b3c60(void);",
+      "added_block": "#include \"bf_002ea01d_allocator_guest32.h\"\n/* Source-draft declaration only; implicit guest EAX input remains ABI_UNVERIFIED. */\nextern void FUN_002b3c60(void);\n"
+    }
+  ],
+  "dependencies": [
+    {
+      "entry": "0x002b3c60",
+      "source": "src/main_unclassified/band_002b/0x002b3c60.cpp",
+      "source_before_sha256": "5d819368b32c95387de038656f252cc83519da23648808259fe5699edc4622b7",
+      "preimage_git_blob": "ce803c238ff65818ca2a1effa0dddf83728df1ff",
+      "original_body_sha256": "79500F7EF157F66D50D428148F8510C31EA28BABEFA5823096CD057181624BCD",
+      "body_byte_count": 94,
+      "body_ranges": [
+        {
+          "start": "002b3c60",
+          "end_inclusive": "002b3cbd",
+          "length": 94
+        }
+      ],
+      "instruction_count": 34,
+      "analyzed_overrides": [],
+      "direct_calls": [
+        {
+          "address": "002b3c6f",
+          "bytes": "e80c750000",
+          "target": "0x2bb180"
+        },
+        {
+          "address": "002b3c9d",
+          "bytes": "e8de920100",
+          "target": "0x2ccf80"
+        }
+      ],
+      "instruction_windows": {
+        "0": {
+          "address": "0x002b3c60",
+          "bytes": "5180787008",
+          "scope": "official_body"
+        },
+        "1": {
+          "address": "0x002b3c74",
+          "bytes": "5f5e59c3",
+          "scope": "official_body"
+        },
+        "2": {
+          "address": "0x002b3cba",
+          "bytes": "5f5e59c3",
+          "scope": "official_body"
+        }
+      },
+      "definition_signature": "void FUN_002b3c60(void)"
+    },
+    {
+      "entry": "0x002ea01d",
+      "source": "src/main_unclassified/band_002e/0x002ea01d.cpp",
+      "source_before_sha256": "224aa3712c3926241ecdaf9a65479645c29f5332196430c178eb2f85c9588519",
+      "preimage_git_blob": "8fd179c6586b56e2a433c6d73a9b1d83525d0d54",
+      "original_body_sha256": "2BE5420D091BB8EE22CC1BAEE0A8B5141819810443556764D49A2A826495BD36",
+      "body_byte_count": 14,
+      "body_ranges": [
+        {
+          "start": "002ea01d",
+          "end_inclusive": "002ea02a",
+          "length": 14
+        }
+      ],
+      "instruction_count": 6,
+      "analyzed_overrides": [],
+      "direct_calls": [
+        {
+          "address": "002ea023",
+          "bytes": "e8a8dcd7ff",
+          "target": "0x67cd0"
+        }
+      ],
+      "instruction_windows": {
+        "0": {
+          "address": "0x002ea01d",
+          "bytes": "6a01ff742408",
+          "scope": "official_body"
+        },
+        "1": {
+          "address": "0x002ea023",
+          "bytes": "e8a8dcd7ff",
+          "scope": "official_body"
+        },
+        "2": {
+          "address": "0x002ea028",
+          "bytes": "5959c3",
+          "scope": "official_body"
+        }
+      },
+      "definition_signature": "uint32_t FUN_002ea01d(uint32_t guest_size)"
+    },
+    {
+      "entry": "0x00067cd0",
+      "source": "src/main_unclassified/band_0006/0x00067cd0.cpp",
+      "source_before_sha256": "90034faf1b38a6d2e1a972cc35600ff6bf2c179dbb1a98bc4b336c506b49f879",
+      "preimage_git_blob": "e579c1ec2d0cf47f784cc4c328bf906a23fd1ba9",
+      "original_body_sha256": "9968AC090E0AE0888EA43C9B3C5FF62D49BD0ADCDB46D431ADD6CC3ADC79067D",
+      "body_byte_count": 15,
+      "body_ranges": [
+        {
+          "start": "00067cd0",
+          "end_inclusive": "00067cde",
+          "length": 15
+        }
+      ],
+      "instruction_count": 5,
+      "analyzed_overrides": [],
+      "direct_calls": [
+        {
+          "address": "00067cd5",
+          "bytes": "ff1550c63b00",
+          "target": "dword ptr [0x3bc650]"
+        }
+      ],
+      "instruction_windows": {
+        "0": {
+          "address": "0x00067cd0",
+          "bytes": "8b44240450",
+          "scope": "official_body"
+        },
+        "1": {
+          "address": "0x00067cd5",
+          "bytes": "ff1550c63b00",
+          "scope": "official_body"
+        },
+        "2": {
+          "address": "0x00067cdb",
+          "bytes": "83c404c3",
+          "scope": "official_body"
+        }
+      },
+      "definition_signature": "uint32_t FUN_00067cd0(uint32_t guest_size)"
+    }
+  ],
+  "headers": [
+    {
+      "source": "include/bf_002ea01d_allocator_guest32.h",
+      "sha256": "b0444a9873a225468217278bf7aebbe617ed63461c072a1a8522ece70c184712"
+    },
+    {
+      "source": "include/bf_ghidra_types.h",
+      "sha256": "5dfa1c69c07740d45536c1f5a45479e59c97275343017b68b3ff17ed39fd6dce"
+    }
+  ]
+}
