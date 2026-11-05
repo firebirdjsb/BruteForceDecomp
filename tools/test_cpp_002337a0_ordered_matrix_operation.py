@@ -61,10 +61,13 @@ def codegen_check(assembly,expected):
  # Strict symbolic native transport: only full-width GPR MOVs and a balanced
  # RBP frame are allowed outside the pinned asm region, with an optional
  # operand-free ENDBR64 as the first entry instruction for host CET/IBT.
+ # One operand-free VZEROUPPER is allowed immediately before the return. It
+ # changes only upper native caller-clobbered vector bits, outside this bounded
+ # legacy-SSE contract; low XMM, memory, GPRs, MXCSR and x87 are unchanged.
  # Do not disable compiler protection or admit the marker elsewhere. This rejects
  # extra FP/loads/calls/narrowing and proves exact native argument/result transport.
  reg={'%rdi':'out','%rsi':'left','%rdx':'right','%rbp':'saved_rbp','%rsp':('stack',0)}
- mem={};pushes=pops=returns=wrapper_ops=0;entry_open=False
+ mem={};pushes=pops=returns=wrapper_ops=0;entry_open=False;cleanup=False
  def address(v):
   m=re.fullmatch(r'(-?\d*)\(%r(sp|bp)\)',v);assert m,v
   base=reg['%r'+m[2]];assert isinstance(base,tuple) and base[0]=='stack'
@@ -83,8 +86,13 @@ def codegen_check(assembly,expected):
    if not text or text.startswith('.') or text.endswith(':'):continue
    m=re.fullmatch(r'([a-z][a-z0-9]*)\s*(.*)',text);assert m,line
    op,arg=m.groups();arg=norm(arg)
+   assert not returns,'instruction after return'
+   assert not cleanup or op in ('retq','ret'),'AVX cleanup must directly precede return'
    if op=='endbr64':
     assert prior and entry_open and wrapper_ops==0 and not arg,'misplaced or malformed entry marker'
+   elif op=='vzeroupper':
+    assert not prior and entry_open and not arg,'misplaced or malformed AVX cleanup'
+    cleanup=True
    elif op=='pushq':
     assert prior and arg=='%rbp' and pushes==0
     reg['%rsp']=('stack',reg['%rsp'][1]-8);write(reg['%rsp'][1],reg['%rbp']);pushes+=1
@@ -131,6 +139,40 @@ def entry_marker_controls(assembly,expected,rejected):
  rejected(codegen_check,bad,expected)
  bad=protected.replace('mulps','addps',1);assert bad!=protected
  rejected(codegen_check,bad,expected)
+
+def avx_cleanup_controls(assembly,expected,rejected):
+ # Do not erase arbitrary AVX instructions or exempt any of the pinned events.
+ codegen_check(assembly,expected)
+ plain=re.sub(r'(?m)^[ \t]*vzeroupper[ \t]*(?:#.*)?\n','',assembly)
+ ret=r'(?m)^([ \t]*)(retq?)([ \t]*(?:#.*)?)$'
+ assert len(re.findall(ret,plain))==1
+ def cleaned(marker):return re.sub(ret,lambda m:marker+m[0],plain)
+ cleanup='\tvzeroupper\n'
+ for marker in ['',cleanup,'vzeroupper\n','  vzeroupper  # native upper-vector cleanup\n']:
+  codegen_check(cleaned(marker),expected)
+ for marker in [cleanup+cleanup,'\tvzeroupper %ymm0\n','\tvzeroupper $0\n',
+                '\tvzeroall\n','\tvpxor %ymm0,%ymm0,%ymm0\n',
+                cleanup+'\tmovq %rdi,%rax\n',cleanup+'\tnop\n',
+                cleanup+'\taddss %xmm1,%xmm2\n',cleanup+'\tcallq helper\n']:
+  rejected(codegen_check,cleaned(marker),expected)
+ # Reject cleanup at entry, before/inside the SSE region, and after return.
+ for boundary in ['\t.cfi_startproc','#APP','#NO_APP']:
+  rejected(codegen_check,plain.replace(boundary,cleanup+boundary,1),expected)
+ rejected(codegen_check,plain.replace('\t.cfi_startproc','\t.cfi_startproc\n'+cleanup,1),expected)
+ rejected(codegen_check,plain+'\n'+cleanup,expected)
+ rejected(codegen_check,re.sub(ret,lambda m:m[0]+'\n'+cleanup,plain),expected)
+ # Admission of this one instruction must not bypass return or event checks.
+ cleaned_assembly=cleaned(cleanup)
+ bad=re.sub(ret,lambda m:'\tmovq %rsi,%rax\n'+cleanup+m[0],plain)
+ rejected(codegen_check,bad,expected)
+ bad=cleaned_assembly.replace('mulps','addps',1);assert bad!=cleaned_assembly
+ rejected(codegen_check,bad,expected)
+ bad=re.sub(r'\bmovups(\s+%xmm2)',r'vmovups\1',cleaned_assembly,count=1);assert bad!=cleaned_assembly
+ rejected(codegen_check,bad,expected)
+
+def wrapper_controls(assembly,expected,rejected):
+ entry_marker_controls(assembly,expected,rejected)
+ avx_cleanup_controls(assembly,expected,rejected)
 
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--root',type=pathlib.Path,default=pathlib.Path(__file__).resolve().parents[1]);ap.add_argument('--program-record',type=pathlib.Path);ap.add_argument('--sanitizers',action='store_true');ap.add_argument('--corpus-dir',type=pathlib.Path);ap.add_argument('--capstone',action='store_true');a=ap.parse_args();root=a.root.resolve()
@@ -200,7 +242,11 @@ def main():
        assert integer.operation(memory,l,r,o,csr)==rational.operation(memory,l,r,o,csr),name
   for name,case in integer.NAMED_ANCHORS.items():(td/(name+'.bin')).write_bytes(integer.record(*case,0x1f80))
   for opt in ['-O0','-O2']:
-   asm=td/(opt+'.s');run(common+[opt,'-S',str(src),'-o',str(asm)]);entry_marker_controls(asm.read_text(),expected,rejected);print('Exact 71-SSE event graph/native transport:',opt,flush=True)
+   asm=td/(opt+'.s');run(common+[opt,'-S',str(src),'-o',str(asm)]);wrapper_controls(asm.read_text(),expected,rejected);print('Exact 71-SSE event graph/native transport:',opt,flush=True)
+   # Compile-only AVX coverage is safe even on hosts without AVX execution.
+   avx=td/(opt+'-avx.s');run(common+[opt,'-mavx','-S',str(src),'-o',str(avx)])
+   wrapper_controls(avx.read_text(),expected,rejected)
+   print('Exact 71-SSE event graph/native transport:',opt,'-mavx',flush=True)
    for extra in ['\tfldz\n','\taddss %xmm1,%xmm2\n','\tcallq helper\n','\tmovups (%rdi),%xmm0\n','\tmovq %rdi,%rbx\n','\tmovl %edi,%eax\n','\tretq $12\n','\tvfmadd132ps %xmm1,%xmm2,%xmm0\n']:
     rejected(codegen_check,asm.read_text()+'\n'+extra,expected)
    rejected(codegen_check,asm.read_text().replace('\tretq','\tmovq %rsi,%rax\n\tretq'),expected)
@@ -246,13 +292,20 @@ def main():
   oracle=native.read_text();assert 'fxrstor (%rsp)\\n' in oracle;ss=td/'capture_bad.cpp';ss.write_text(oracle.replace('fxrstor (%rsp)\\n','',1));exe=td/'capture_bad';run(common+['-O2',str(ss),str(src),'-o',str(exe)]);bad=run([str(exe)],ok=False);assert 'caller-state restoration failed' in bad.stderr;negatives+=1
   if a.sanitizers:
    g=shutil.which('g++');assert g
+   print(run([g,'--version']).stdout.splitlines()[0],flush=True)
+   target=run([g,'-O2','-Q','--help=target']).stdout
+   print('GCC -O2 target options:', '; '.join(line.strip() for line in target.splitlines() if re.match(r'\s*-(?:march=|mavx\s|mvzeroupper\s)',line)),flush=True)
    for protection in ['default','branch','full']:
     gcc=[g]+common[1:]+([] if protection=='default' else ['-fcf-protection='+protection])
     asm=td/('gcc-'+protection+'.s');run(gcc+['-O2','-S',str(src),'-o',str(asm)])
     assembly=asm.read_text()
     if protection!='default':assert len(re.findall(r'(?m)^\s*endbr64\s*$',assembly))==1
-    entry_marker_controls(assembly,expected,rejected)
+    wrapper_controls(assembly,expected,rejected)
     print('GCC exact 71-SSE event graph/native transport:',protection,'-O2',flush=True)
+    avx=td/('gcc-'+protection+'-avx.s');run(gcc+['-O2','-mavx','-S',str(src),'-o',str(avx)])
+    assert len(re.findall(r'(?m)^\s*vzeroupper\s*$',avx.read_text()))==1
+    wrapper_controls(avx.read_text(),expected,rejected)
+    print('GCC exact 71-SSE event graph/native transport:',protection,'-O2 -mavx',flush=True)
     for test in [native,model]:
      exe=td/(test.stem+'-san-'+protection);run(gcc+['-O2','-fsanitize=address,undefined','-fno-omit-frame-pointer','-fno-pie','-no-pie',str(test),str(src),'-o',str(exe)])
      for fixture in fixtures if test==model else [None]:

@@ -60,3 +60,6 @@ tests/fixtures/002b7360_before.cpp.txt -text whitespace=-blank-at-eol
 
 # Preserve exact historical ordered matrix preimage.
 tests/fixtures/002337a0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical mixed x87/SSE source preimage.
+tests/fixtures/002b6640_before.cpp.txt -text whitespace=-blank-at-eol
