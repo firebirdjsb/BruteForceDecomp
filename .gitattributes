@@ -24,3 +24,9 @@ tests/fixtures/cpp_next_byte_copies/*.before.cpp -text whitespace=-blank-at-eol
 
 # Preserve exact historical fixtures for seven byte-assignment spellings.
 tests/fixtures/cpp_additional_byte_copies/*.before.cpp -text whitespace=-blank-at-eol
+
+# Preserve the exact historical source fixture for native packed ADDPS tests.
+tests/fixtures/002b3cc0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve the exact historical preimage for bounded native byte-string length.
+tests/fixtures/00343343_before.cpp.txt -text whitespace=-blank-at-eol

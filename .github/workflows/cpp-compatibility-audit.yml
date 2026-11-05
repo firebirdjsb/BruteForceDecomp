@@ -12,6 +12,7 @@ on:
       - 'scripts/**'
       - 'metadata/**'
       - 'docs/audits/**'
+      - 'docs/evidence/002b3cc0_add_operation*.md'
       - 'tests/**'
       - 'viewer/**'
       - 'tools/source_layout.py'
@@ -158,6 +159,7 @@ jobs:
           python3 tools/test_cpp_00077eb0_conversion_operation.py
           python3 tools/test_cpp_00314c76_norm_operation.py
           python3 tools/test_cpp_002eca8b_round_operation.py
+          python3 tools/test_cpp_002b3cc0_add_operation.py
           python3 tools/test_cpp_20261104_uploaded_evidence.py
           python3 tools/test_cpp_20261104_0003f0e0_eax_handoff.py
           python3 tools/test_cpp_20261104_guest_initializers.py
@@ -171,6 +173,7 @@ jobs:
           python3 tools/test_cpp_fixed_byte_copies.py
           python3 tools/test_cpp_next_byte_copies.py
           python3 tools/test_cpp_additional_byte_copies.py
+          python3 tools/test_cpp_00343343_bounded_length.py
           python3 tools/test_cpp_20261104_continuation_literal_overlay.py
           python3 tools/test_cpp_20261104_four_guest_constants.py
           python3 tools/test_cpp_20261104_eax_scalar_calls.py
