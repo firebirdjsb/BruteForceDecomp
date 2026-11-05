@@ -1,0 +1,214 @@
+{
+  "scope": "Two bounded guest DWORD literals and exact source-only declarations; no ABI, behavior or byte-match recovery",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "source_base_commit": "7f4fd2dc86f96e9e3f7985814837c9c5a4b0181d",
+  "baseline_audit_commit": "679bed432acf202ea85facd60c7f324a631b5013",
+  "baseline_syntax_passes": 4038,
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "abi_recovered": false,
+  "source_declaration": "extern void FUN_00066920(void);",
+  "added_declaration_block": "/* Exact source-draft declaration only. Original callers move ESI into EAX;\n * this void interface does not bind that hidden input or the callers'\n * EAX=ESI return. Guest register/memory contracts remain ABI_UNVERIFIED. */\nextern void FUN_00066920(void);\n",
+  "headers": [
+    {
+      "path": "include/bf_ghidra_types.h",
+      "sha256": "5dfa1c69c07740d45536c1f5a45479e59c97275343017b68b3ff17ed39fd6dce"
+    }
+  ],
+  "cases": [
+    {
+      "entry": "0x002ae200",
+      "label": "FUN_002ae200",
+      "source": "src/main_unclassified/band_002a/0x002ae200.cpp",
+      "original_body_sha256": "A4005BDD9CB723123DCFF6A3F1241F55FC594B2B9E947CA83638140C1C657845",
+      "body_ranges": [
+        {
+          "start": "002ae200",
+          "end_inclusive": "002ae233",
+          "length": 52
+        }
+      ],
+      "body_byte_count": 52,
+      "instruction_count": 11,
+      "source_before_sha256": "0448297e0a9977a6141b86d981d9ca0d1bd94256c7150ab0a9998347ffebcf66",
+      "source_after_sha256": "59fbc32322ff4330b538642f940b06d2286d4d06f3e0d783aa38a35fb0bddc2a",
+      "preimage_git_blob": "e9ef027b0cc19bc7f552774b9802bf2029cbfcf1",
+      "before": "*unaff_ESI = &PTR_LAB_0038f4d0;",
+      "after": "*unaff_ESI = UINT32_C(0x0038f4d0);",
+      "added_comment": "  /* Original 002ae221 C7 /0 stores the four-byte guest value 0x0038f4d0.\n   * No host address is substituted; guest storage remains ABI_UNVERIFIED. */\n",
+      "source_call": "FUN_00066920();",
+      "store": {
+        "address": "002ae221",
+        "bytes": "c706d0f43800",
+        "width_bits": 32,
+        "immediate": "0x0038f4d0",
+        "destination": "DWORD [ESI]"
+      },
+      "direct_calls": [
+        {
+          "address": "002ae202",
+          "bytes": "e81987dbff",
+          "target": "0x00066920"
+        }
+      ],
+      "instruction_windows": {
+        "002ae200": {
+          "address": "002ae200",
+          "bytes": "8bc6"
+        },
+        "002ae202": {
+          "address": "002ae202",
+          "bytes": "e81987dbff"
+        },
+        "002ae221": {
+          "address": "002ae221",
+          "bytes": "c706d0f43800"
+        },
+        "002ae231": {
+          "address": "002ae231",
+          "bytes": "8bc6"
+        },
+        "002ae233": {
+          "address": "002ae233",
+          "bytes": "c3"
+        }
+      },
+      "native_storage_contract_recovered": false,
+      "hidden_input_and_return_represented": false
+    },
+    {
+      "entry": "0x002aaac0",
+      "label": "FUN_002aaac0",
+      "source": "src/main_unclassified/band_002a/0x002aaac0.cpp",
+      "original_body_sha256": "427A3E1341FC825128C6DC5A9736CF2D2B720785F6A3067BF36E1EEC0F9BBB13",
+      "body_ranges": [
+        {
+          "start": "002aaac0",
+          "end_inclusive": "002aab0b",
+          "length": 76
+        }
+      ],
+      "body_byte_count": 76,
+      "instruction_count": 19,
+      "source_before_sha256": "711a4a59000fb6bfdb8cbaf5e234b0ae61f4689729fd652b670c0405ac4d5d91",
+      "source_after_sha256": "4d425796b9ae8d88dbe3e65f92045abdbe7675d8ac308cf1a426cd5af3aead6b",
+      "preimage_git_blob": "d0399791c27b8e188ea0c8512265d91356dee515",
+      "before": "*unaff_ESI = &PTR_FUN_0038f800;",
+      "after": "*unaff_ESI = UINT32_C(0x0038f800);",
+      "added_comment": "  /* Original 002aaade C7 /0 stores the four-byte guest value 0x0038f800.\n   * No host address is substituted; guest storage remains ABI_UNVERIFIED. */\n",
+      "source_call": "FUN_00066920();",
+      "store": {
+        "address": "002aaade",
+        "bytes": "c70600f83800",
+        "width_bits": 32,
+        "immediate": "0x0038f800",
+        "destination": "DWORD [ESI]"
+      },
+      "direct_calls": [
+        {
+          "address": "002aaac5",
+          "bytes": "e856bedbff",
+          "target": "0x00066920"
+        }
+      ],
+      "instruction_windows": {
+        "002aaac0": {
+          "address": "002aaac0",
+          "bytes": "83ec0c"
+        },
+        "002aaac3": {
+          "address": "002aaac3",
+          "bytes": "8bc6"
+        },
+        "002aaac5": {
+          "address": "002aaac5",
+          "bytes": "e856bedbff"
+        },
+        "002aaade": {
+          "address": "002aaade",
+          "bytes": "c70600f83800"
+        },
+        "002aaae8": {
+          "address": "002aaae8",
+          "bytes": "89442408"
+        },
+        "002aaaec": {
+          "address": "002aaaec",
+          "bytes": "89442404"
+        },
+        "002aaaf0": {
+          "address": "002aaaf0",
+          "bytes": "89442400"
+        },
+        "002aab06": {
+          "address": "002aab06",
+          "bytes": "8bc6"
+        },
+        "002aab08": {
+          "address": "002aab08",
+          "bytes": "83c40c"
+        },
+        "002aab0b": {
+          "address": "002aab0b",
+          "bytes": "c3"
+        }
+      },
+      "native_storage_contract_recovered": false,
+      "hidden_input_and_return_represented": false
+    }
+  ],
+  "dependencies": [
+    {
+      "entry": "0x00066920",
+      "label": "FUN_00066920",
+      "source": "src/main_unclassified/band_0006/0x00066920.cpp",
+      "source_sha256": "a8c258934c11545e1a006d794011ea6fa885006795eb5ad49959783aa510d477",
+      "definition_signature": "void FUN_00066920(void)",
+      "original_body_sha256": "A93F04EAA98EAA37069145C133D48C99CD389EAE8A69E611C9CF34ADE8C8640B",
+      "body_ranges": [
+        {
+          "start": "00066920",
+          "end_inclusive": "0006696c",
+          "length": 77
+        }
+      ],
+      "body_byte_count": 77,
+      "instruction_count": 17,
+      "direct_calls": [],
+      "instruction_windows": {
+        "00066920": {
+          "address": "00066920",
+          "bytes": "33c9"
+        },
+        "00066922": {
+          "address": "00066922",
+          "bytes": "894804"
+        },
+        "00066940": {
+          "address": "00066940",
+          "bytes": "8a8890000000"
+        },
+        "00066960": {
+          "address": "00066960",
+          "bytes": "c70010303a00"
+        },
+        "00066966": {
+          "address": "00066966",
+          "bytes": "888890000000"
+        },
+        "0006696c": {
+          "address": "0006696c",
+          "bytes": "c3"
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "The incoming ESI value is unbound in both source callers; neither caller may be executed.",
+    "The exact void source declaration does not convey original EAX=ESI input to the callee or callers EAX=ESI return. No prototype, call expression or return was changed.",
+    "The uint32_t immediate represents a guest value, not a native address or proof of a vtable, code target or object layout.",
+    "Guest mapping, native object lifetime, alignment, aliasing, bounds and full register/flags/stack behavior remain unresolved.",
+    "002aaac0 source omits original 12-byte local stack allocation and three DWORD zero stores; they are unchanged residual omissions.",
+    "Private exported bytes validate internal body consistency and instruction decoding, not complete original-XBE authenticity."
+  ]
+}
