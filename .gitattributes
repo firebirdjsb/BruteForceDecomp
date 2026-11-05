@@ -21,3 +21,6 @@ tests/fixtures/cpp_fixed_byte_copies/*.before.cpp -text whitespace=-blank-at-eol
 
 # Preserve exact preimages for four constant-offset copy spellings.
 tests/fixtures/cpp_next_byte_copies/*.before.cpp -text whitespace=-blank-at-eol
+
+# Preserve exact historical fixtures for seven byte-assignment spellings.
+tests/fixtures/cpp_additional_byte_copies/*.before.cpp -text whitespace=-blank-at-eol

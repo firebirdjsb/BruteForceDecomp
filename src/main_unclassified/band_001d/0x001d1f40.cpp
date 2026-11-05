@@ -16,7 +16,7 @@ void FUN_001d1f40(void)
   in_EAX[1] = in_ECX[1];
   in_EAX[2] = in_ECX[2];
   *(undefined1 *)(in_EAX + 3) = *(undefined1 *)(in_ECX + 3);
-  *(undefined1 *)((int)in_EAX + 0xd) = *(undefined1 *)((int)in_ECX + 0xd);
+  *(reinterpret_cast<unsigned char *>(in_EAX) + 0xd) = *(reinterpret_cast<unsigned char *>(in_ECX) + 0xd);
   in_EAX[4] = in_ECX[4];
   in_EAX[5] = in_ECX[5];
   in_EAX[6] = in_ECX[6];
