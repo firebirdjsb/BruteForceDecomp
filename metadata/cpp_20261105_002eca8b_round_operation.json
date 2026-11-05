@@ -1,0 +1,133 @@
+{
+  "entry": "0x002eca8b",
+  "original_body_sha256": "B2ACFB60D9432E4AD64781AC801918ADA55D9C22650B1504C4EE039ED85DA31F",
+  "body_bytes": 19,
+  "instruction_count": 9,
+  "source_before_sha256": "3f63ceb3b2e31e2c63525d0a273a2d462bedea40b8e3509b2684c68832f34638",
+  "source_before_git_blob": "6d0854ee9f13107721aa00731219413ab225957f",
+  "artifacts": {
+    "0x002eca8b.cpp": "c4d74b987e3f9783d93c2794f030e4376c94b8fbcd1cd3d846ba0e1a5e9d3dc9",
+    "bf_002eca8b_round_operation.h": "7e6ea85a7745bd6fa754ebf97bd526f49c7a913d651c4930bfb04b18c7f67a31",
+    "test.cpp": "09e37a49c3dc28dd92149ebb0ac99df11f8b7e266bbc7a7a173644e67773166c",
+    "integer_model.cpp": "e0fb04d480c0d3086d91032a54fc582484a45b23776da2e86c19249d59ec8464"
+  },
+  "artifact_source_paths": {
+    "wrapper": "src/main_unclassified/band_002e/0x002eca8b.cpp",
+    "header": "include/bf_002eca8b_round_operation.h",
+    "oracle": "tests/test_002eca8b_round_operation.cpp",
+    "preimage": "tests/fixtures/002eca8b_before.cpp.txt",
+    "integer_model": "tests/test_002eca8b_round_integer_model.cpp"
+  },
+  "evidence_boundary": "Complete immutable Ghidra program-memory body matches canonical function digest and all nine instruction boundaries without listing overrides. Stored original FileBytes are absent; no whole-XBE reauthentication. No original machine code or uploaded scripts executed.",
+  "logical_operation": {
+    "input": "One live readable alignof(double)-aligned binary64 object; canonical native double argument is captured to an object without FP arithmetic.",
+    "sequence": "FLD binary64 input, FRNDINT according to existing x87 RC, FSTP binary64 local scratch, FLD binary64 scratch. Explicit narrowing store/reload retained, not simplified to host round/rint or a long-double result.",
+    "result": "Native binary80 ST0 return; unchanged source interface float10 FUN_002eca8b(double). Existing x87 controls and MXCSR preserved.",
+    "peak_stack": "One extra entry, including at return; specifically the next push destination (TOP-1) modulo8 must be empty. All seven preceding logical entries may be live."
+  },
+  "original_register_contract": {
+    "input": "FLD qword [ESP+0xc] after two PUSH ECX reads the argument at entry ESP+4. No other semantic input register.",
+    "output": "ST0 holds reloaded binary64 result extended to binary80. The two POP ECX instructions leave ECX containing the high dword of rounded binary64 scratch; RET does not pop argument bytes.",
+    "not_implemented": "Guest argument/stack mapping, ECX high-dword result transport, other guest registers/integer EFLAGS and x86 RET transport."
+  },
+  "host_contract": "GNU/Clang x86-64 Linux default SysV; native binary80 long double, IEEE binary64 double; valid aligned double input object; all x87 exceptions masked, PC encoding valid00/10/11 (reserved01 excluded); next physical push destination empty. Unsupported architecture/type and fast math rejected. Canonical codegen must retain force-inlined operation and never insert a duplicate push.",
+  "return_boundary_justification": [
+    "Canonical wrapper is invoked directly through an authored assembly call boundary. MOVSD loads the raw binary64 into native XMM0, CALL invokes compiled double-argument wrapper, and FXSAVE captures native ST0 immediately before a C++ consumer can spill it. The bridge saves/restores full caller FP state, RBX and call alignment.",
+    "A normal static-inline helper caused Clang19 O0 to emit FLD ST0/FSTP ST0 after calling it, which overflows if seven prior entries are live. always_inline eliminates the helper call and duplicate. The gate rejects any FP operation outside original inline assembly except paired FSTPT/FLDT binary80 copies; it rejects calls and contains an always_inline-removal negative.",
+    "For any finite binary64 input of magnitude below2^52, rounding produces an integer of magnitude at most2^52, exactly representable as binary64. Larger finite inputs are already integral. Original output is zero, normal binary80, infinity or quiet NaN, never binary80 subnormal or signaling NaN; FLD and FRNDINT quiet signaling NaNs under masked exceptions.",
+    "Native80 spill/reload copies therefore neither narrow the value nor introduce conversion exceptions. Their maximum occupancy remains one extra slot and final FLD clears C1, as does the original final FLD64. Undefined condition behavior is compared on tested native hardware, not claimed universally or on original Pentium-III hardware."
+  ],
+  "compared_fxsave_fields": {
+    "control_word": "bytes0..1 including exception masks, PC and RC",
+    "status_word": "bytes2..3 including sticky flags, condition codes and TOP",
+    "abridged_tag_word": "byte4",
+    "active_x87_stack_values": "first10 bytes in each logical16-byte ST slot whose TOP-mapped physical tag is occupied",
+    "mxcsr": "bytes24..27, including controls and sticky status"
+  },
+  "excluded_fxsave_fields": {
+    "instruction_and_data_bookkeeping": "FOP/FIP/FDP differ with native instruction/data addresses and compiler copies",
+    "inactive_payloads_and_padding": "Empty-tag register payload and ST-slot padding are not active logical values",
+    "xmm_register_values": "Native argument/memory transport may overwrite XMM registers; guest SIMD transport is excluded",
+    "mxcsr_mask_and_reserved": "Hardware-capability and reserved fields, not logical operation output"
+  },
+  "limits": [
+    "Bounded native host operation only, not original Xbox execution, guest ABI, cross-function game behavior or byte-identical rebuild.",
+    "No unmasked exceptions, invalid memory, fault/MMIO/concurrent observer coverage or arbitrary unaligned typed object contract.",
+    "No FIP/FDP/FOP or complete CPU-state equivalence.",
+    "Sanitizers cover compiler-visible C++ accesses; native asm memory span also uses a guard page and input sentinels. LeakSanitizer is disabled and untested.",
+    "Other compilers/configurations are not established merely by the native platform guard."
+  ],
+  "narrow_opcode_windows": [
+    {
+      "va": "0x002eca91",
+      "bytes": "d9fc",
+      "operation": "FRNDINT"
+    },
+    {
+      "va": "0x002eca93",
+      "bytes": "dd5c2400",
+      "operation": "FSTP qword ptr [ESP]"
+    },
+    {
+      "va": "0x002eca97",
+      "bytes": "dd442400",
+      "operation": "FLD qword ptr [ESP]"
+    },
+    {
+      "va": "0x002eca9d",
+      "bytes": "c3",
+      "operation": "RET"
+    }
+  ],
+  "capture_boundary": "Authored normal out-of-line SysV assembly saves caller FP state and RBX, loads raw argument with MOVSD, captures immediately after CALL, then restores caller state before returning void. No C++ result-consuming bridge is allowed.",
+  "tests": {
+    "main_cases_per_configuration": 120324096,
+    "input_words": 102,
+    "x87_pc_modes": [
+      0,
+      2,
+      3
+    ],
+    "x87_rounding_modes": 4,
+    "mxcsr_modes": 16,
+    "all_top_values": 8,
+    "sparse_tag_patterns": 128,
+    "status_seeds": [
+      "0",
+      "003f",
+      "0200",
+      "4700",
+      "473f",
+      "477f"
+    ],
+    "extra": "Independent integer-encoded binary80 anchors, +/-1.5 directed/tie-even/zero rounding with PE, exact input guard-page extent, sentinels, caller FP restoration and preservation of all preceding active x87 entries. A focused seven-live-entry anchor exercises exactly one free push slot before the full matrix.",
+    "oracle": "Independently authored native original-sequence function, never execution of extracted bytes.",
+    "passed": [
+      "Clang19 C++17 O0",
+      "Clang19 C++17 O2",
+      "GCC14 C++17 O2 ASan+UBSan (detect_leaks=0)"
+    ],
+    "independent_integer_model": {
+      "cases_per_configuration": 4276224,
+      "input_words": 174,
+      "passed": [
+        "Clang19 C++17 O0",
+        "Clang19 C++17 O2",
+        "GCC14 C++17 O2 ASan+UBSan (detect_leaks=0)"
+      ],
+      "scope": "Integer-only binary64 decoding/rounding and binary80 encoding; checks exact returned80, signed zero, quieted NaN payload/sign, IE/DE/PE/SF, C1/TOP/tags/old live80 and preserved CW/MXCSR. Includes +/-0.5, 2^52-0.5 and PC24 2^24+1.",
+      "status_seeds": [
+        "0",
+        "007f"
+      ],
+      "condition_seed": "4700",
+      "mxcsr": "ffc0 (all exceptions masked, DAZ/FTZ and RC3)"
+    }
+  },
+  "gate_requirements": [
+    "Pinned historical fixture SHA/Git blob and exact reversal; old undeclared ROUND failure at O0/O2.",
+    "Pinned wrapper/helper/oracle and narrow opcode windows; optional complete19-byte private original body check.",
+    "Actual native wrapper return-boundary tests at O0/O2; codegen forbids helper calls, FLD ST0 duplicates, external math and all non-original FP operations except native80 spills.",
+    "Negative missing FRNDINT, skipped original scratch store/reload, narrowed return, removed always_inline and lost caller FP restoration; unsupported architecture/native80/fast-math compile checks."
+  ]
+}

@@ -6,8 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002eca8b_round_operation.h"
 float10 FUN_002eca8b(double param_1)
 
 {
-  return (float10)ROUND(param_1);
+  return bf_002eca8b_round_operation(&param_1);
 }

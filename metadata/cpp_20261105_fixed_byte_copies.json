@@ -1,0 +1,619 @@
+{
+  "schema_version": 1,
+  "base_commit": "abba9be73c6e50d08940df2c4ec2ea2e9dad06b1",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_machine_code_executed": false,
+  "canonical_functions_executed": false,
+  "scope": "Five fixed-byte copy spellings only; bounded native object tests do not verify guest address wrapping/mapping, register or stack ABI, full runtime, linkage, or rebuild equivalence.",
+  "entries": [
+    {
+      "entry": "0x001dce30",
+      "source": "src/main_unclassified/band_001d/0x001dce30.cpp",
+      "preimage_fixture": "tests/fixtures/cpp_fixed_byte_copies/0x001dce30.before.cpp",
+      "source_before_sha256": "d750a3a46194f2f920894e6fece3d6e317c168c2e43777ad0c8c3793fcd9a9ed",
+      "source_after_sha256": "620b89406025e1645a86f5e3bf98f810af2c2890b3cf8228d605a695367e4762",
+      "preimage_git_blob": "78fa106cab8987c51d9f05328423c2a65c8bf923",
+      "original_body_sha256": "81E3007DC2DD605D775490A91CC1CDBB8514603981BCD317A80C7506E0447E56",
+      "body_ranges": [
+        {
+          "start": "001dce30",
+          "end_inclusive": "001dce4c",
+          "length": 29,
+          "bytes_hex": "85c074168b1189108b51048950048a51088850088a4909884809c20400"
+        }
+      ],
+      "instruction_count": 11,
+      "instruction_windows": [
+        {
+          "address": "0x001dce30",
+          "bytes": "85c0"
+        },
+        {
+          "address": "0x001dce32",
+          "bytes": "7416"
+        },
+        {
+          "address": "0x001dce34",
+          "bytes": "8b11"
+        },
+        {
+          "address": "0x001dce36",
+          "bytes": "8910"
+        },
+        {
+          "address": "0x001dce38",
+          "bytes": "8b5104"
+        },
+        {
+          "address": "0x001dce3b",
+          "bytes": "895004"
+        },
+        {
+          "address": "0x001dce3e",
+          "bytes": "8a5108"
+        },
+        {
+          "address": "0x001dce41",
+          "bytes": "885008"
+        },
+        {
+          "address": "0x001dce44",
+          "bytes": "8a4909"
+        },
+        {
+          "address": "0x001dce47",
+          "bytes": "884809"
+        },
+        {
+          "address": "0x001dce4a",
+          "bytes": "c20400"
+        }
+      ],
+      "replacements": [
+        {
+          "before": "*(undefined1 *)((int)in_EAX + 9) = *(undefined1 *)((int)in_ECX + 9);",
+          "after": "*(reinterpret_cast<unsigned char *>(in_EAX) + 9) = *(reinterpret_cast<unsigned char *>(in_ECX) + 9);",
+          "count": 1
+        }
+      ],
+      "offset": 9,
+      "dst": "in_EAX",
+      "src": "in_ECX",
+      "kind": "guard",
+      "extent": 10,
+      "transfers": [
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "dst_stride": 0,
+      "src_stride": 0
+    },
+    {
+      "entry": "0x001dd130",
+      "source": "src/main_unclassified/band_001d/0x001dd130.cpp",
+      "preimage_fixture": "tests/fixtures/cpp_fixed_byte_copies/0x001dd130.before.cpp",
+      "source_before_sha256": "d5adff00e29a557b2dacad0a3ddded3c9ab06d6e6b6c86f1b3e85ceaa2ad5347",
+      "source_after_sha256": "96554bd87821a4af38f8311ca7f3bb9b6259616ebd2b3d47b0288879c1f27c5a",
+      "preimage_git_blob": "83c83ca693ec6f74805c02b5a58f9301c2c81651",
+      "original_body_sha256": "DE783F6B1281CE10FA5214057B49F63F73908198409BEF87816C18653B6C7D9C",
+      "body_ranges": [
+        {
+          "start": "001dd130",
+          "end_inclusive": "001dd152",
+          "length": 35,
+          "bytes_hex": "85c0741c8b1189108b51048950048b51088950088a510c88500c8a490d88480dc20400"
+        }
+      ],
+      "instruction_count": 13,
+      "instruction_windows": [
+        {
+          "address": "0x001dd130",
+          "bytes": "85c0"
+        },
+        {
+          "address": "0x001dd132",
+          "bytes": "741c"
+        },
+        {
+          "address": "0x001dd134",
+          "bytes": "8b11"
+        },
+        {
+          "address": "0x001dd136",
+          "bytes": "8910"
+        },
+        {
+          "address": "0x001dd138",
+          "bytes": "8b5104"
+        },
+        {
+          "address": "0x001dd13b",
+          "bytes": "895004"
+        },
+        {
+          "address": "0x001dd13e",
+          "bytes": "8b5108"
+        },
+        {
+          "address": "0x001dd141",
+          "bytes": "895008"
+        },
+        {
+          "address": "0x001dd144",
+          "bytes": "8a510c"
+        },
+        {
+          "address": "0x001dd147",
+          "bytes": "88500c"
+        },
+        {
+          "address": "0x001dd14a",
+          "bytes": "8a490d"
+        },
+        {
+          "address": "0x001dd14d",
+          "bytes": "88480d"
+        },
+        {
+          "address": "0x001dd150",
+          "bytes": "c20400"
+        }
+      ],
+      "replacements": [
+        {
+          "before": "*(undefined1 *)((int)in_EAX + 0xd) = *(undefined1 *)((int)in_ECX + 0xd);",
+          "after": "*(reinterpret_cast<unsigned char *>(in_EAX) + 0xd) = *(reinterpret_cast<unsigned char *>(in_ECX) + 0xd);",
+          "count": 1
+        }
+      ],
+      "offset": 13,
+      "dst": "in_EAX",
+      "src": "in_ECX",
+      "kind": "guard",
+      "extent": 14,
+      "transfers": [
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          12,
+          1
+        ],
+        [
+          13,
+          1
+        ]
+      ],
+      "dst_stride": 0,
+      "src_stride": 0
+    },
+    {
+      "entry": "0x001dcde0",
+      "source": "src/main_unclassified/band_001d/0x001dcde0.cpp",
+      "preimage_fixture": "tests/fixtures/cpp_fixed_byte_copies/0x001dcde0.before.cpp",
+      "source_before_sha256": "66d9e736cb2d2f65ba5358b4a3c528a6b2733833f59d93b56ad7a4d582c1b876",
+      "source_after_sha256": "c4314bd2c7fa37802d59c2293fa475a1c6b70234ab906f82635c59c5d9be6bd0",
+      "preimage_git_blob": "b8bf40d4f68ecf57c2bb3d694e9971b7515ad1e4",
+      "original_body_sha256": "A9972CA7C77EB8E5EE2BC9029FB6B2AA336297561F75E5135AC1296961E6AB8D",
+      "body_ranges": [
+        {
+          "start": "001dcde0",
+          "end_inclusive": "001dce0e",
+          "length": 47,
+          "bytes_hex": "85c074288b1189108b51048950048b51088950088a510c88500c8a510d88500d8b51108950108b4914894814c20400"
+        }
+      ],
+      "instruction_count": 17,
+      "instruction_windows": [
+        {
+          "address": "0x001dcde0",
+          "bytes": "85c0"
+        },
+        {
+          "address": "0x001dcde2",
+          "bytes": "7428"
+        },
+        {
+          "address": "0x001dcde4",
+          "bytes": "8b11"
+        },
+        {
+          "address": "0x001dcde6",
+          "bytes": "8910"
+        },
+        {
+          "address": "0x001dcde8",
+          "bytes": "8b5104"
+        },
+        {
+          "address": "0x001dcdeb",
+          "bytes": "895004"
+        },
+        {
+          "address": "0x001dcdee",
+          "bytes": "8b5108"
+        },
+        {
+          "address": "0x001dcdf1",
+          "bytes": "895008"
+        },
+        {
+          "address": "0x001dcdf4",
+          "bytes": "8a510c"
+        },
+        {
+          "address": "0x001dcdf7",
+          "bytes": "88500c"
+        },
+        {
+          "address": "0x001dcdfa",
+          "bytes": "8a510d"
+        },
+        {
+          "address": "0x001dcdfd",
+          "bytes": "88500d"
+        },
+        {
+          "address": "0x001dce00",
+          "bytes": "8b5110"
+        },
+        {
+          "address": "0x001dce03",
+          "bytes": "895010"
+        },
+        {
+          "address": "0x001dce06",
+          "bytes": "8b4914"
+        },
+        {
+          "address": "0x001dce09",
+          "bytes": "894814"
+        },
+        {
+          "address": "0x001dce0c",
+          "bytes": "c20400"
+        }
+      ],
+      "replacements": [
+        {
+          "before": "*(undefined1 *)((int)in_EAX + 0xd) = *(undefined1 *)((int)in_ECX + 0xd);",
+          "after": "*(reinterpret_cast<unsigned char *>(in_EAX) + 0xd) = *(reinterpret_cast<unsigned char *>(in_ECX) + 0xd);",
+          "count": 1
+        }
+      ],
+      "offset": 13,
+      "dst": "in_EAX",
+      "src": "in_ECX",
+      "kind": "guard",
+      "extent": 24,
+      "transfers": [
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          12,
+          1
+        ],
+        [
+          13,
+          1
+        ],
+        [
+          16,
+          4
+        ],
+        [
+          20,
+          4
+        ]
+      ],
+      "dst_stride": 0,
+      "src_stride": 0
+    },
+    {
+      "entry": "0x001d05d0",
+      "source": "src/main_unclassified/band_001d/0x001d05d0.cpp",
+      "preimage_fixture": "tests/fixtures/cpp_fixed_byte_copies/0x001d05d0.before.cpp",
+      "source_before_sha256": "96a574aba3593f875f803c1612d0313f61397793518d46f10a63b1d134dda7df",
+      "source_after_sha256": "a3d6efd397297de3405390677181b1ac73c7b64a5753e121ac557b2a483cf1b6",
+      "preimage_git_blob": "810571f9cc569fb265f34872567fca3f55b2a331",
+      "original_body_sha256": "4F390729F4C3FD94009BBBAA00DFC41D8C27D3518B813E13C7B895466A7CD27F",
+      "body_ranges": [
+        {
+          "start": "001d05d0",
+          "end_inclusive": "001d0604",
+          "length": 53,
+          "bytes_hex": "8b442404568b74240c3bc674268d49008b1189108b51048950048b51088950088a510c88500c8a510d88500d83c0103bc675dd5ec3"
+        }
+      ],
+      "instruction_count": 21,
+      "instruction_windows": [
+        {
+          "address": "0x001d05d0",
+          "bytes": "8b442404"
+        },
+        {
+          "address": "0x001d05d4",
+          "bytes": "56"
+        },
+        {
+          "address": "0x001d05d5",
+          "bytes": "8b74240c"
+        },
+        {
+          "address": "0x001d05d9",
+          "bytes": "3bc6"
+        },
+        {
+          "address": "0x001d05db",
+          "bytes": "7426"
+        },
+        {
+          "address": "0x001d05dd",
+          "bytes": "8d4900"
+        },
+        {
+          "address": "0x001d05e0",
+          "bytes": "8b11"
+        },
+        {
+          "address": "0x001d05e2",
+          "bytes": "8910"
+        },
+        {
+          "address": "0x001d05e4",
+          "bytes": "8b5104"
+        },
+        {
+          "address": "0x001d05e7",
+          "bytes": "895004"
+        },
+        {
+          "address": "0x001d05ea",
+          "bytes": "8b5108"
+        },
+        {
+          "address": "0x001d05ed",
+          "bytes": "895008"
+        },
+        {
+          "address": "0x001d05f0",
+          "bytes": "8a510c"
+        },
+        {
+          "address": "0x001d05f3",
+          "bytes": "88500c"
+        },
+        {
+          "address": "0x001d05f6",
+          "bytes": "8a510d"
+        },
+        {
+          "address": "0x001d05f9",
+          "bytes": "88500d"
+        },
+        {
+          "address": "0x001d05fc",
+          "bytes": "83c010"
+        },
+        {
+          "address": "0x001d05ff",
+          "bytes": "3bc6"
+        },
+        {
+          "address": "0x001d0601",
+          "bytes": "75dd"
+        },
+        {
+          "address": "0x001d0603",
+          "bytes": "5e"
+        },
+        {
+          "address": "0x001d0604",
+          "bytes": "c3"
+        }
+      ],
+      "replacements": [
+        {
+          "before": "*(undefined1 *)((int)param_1 + 0xd) = *(undefined1 *)((int)in_ECX + 0xd);",
+          "after": "*(reinterpret_cast<unsigned char *>(param_1) + 0xd) = *(reinterpret_cast<unsigned char *>(in_ECX) + 0xd);",
+          "count": 1
+        }
+      ],
+      "offset": 13,
+      "dst": "param_1",
+      "src": "in_ECX",
+      "kind": "fill",
+      "extent": 14,
+      "transfers": [
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          12,
+          1
+        ],
+        [
+          13,
+          1
+        ]
+      ],
+      "dst_stride": 16,
+      "src_stride": 0
+    },
+    {
+      "entry": "0x001e07e0",
+      "source": "src/main_unclassified/band_001e/0x001e07e0.cpp",
+      "preimage_fixture": "tests/fixtures/cpp_fixed_byte_copies/0x001e07e0.before.cpp",
+      "source_before_sha256": "f08e8f229e5afdbe69ded403ab1c65541e1467bac4eeb075b263fd19006c6ee1",
+      "source_after_sha256": "a33c47593190761726547246c9b57a66c2ff1822e13ba1ea689ea5ecf5ea6890",
+      "preimage_git_blob": "1b8557f58a7d99a7fe727a94c9e7d943ac08e75b",
+      "original_body_sha256": "8ABD734FE093C8B6E9F616366AF827B0A60D324F0C8EC0CCC330C1173276F239",
+      "body_ranges": [
+        {
+          "start": "001e07e0",
+          "end_inclusive": "001e0811",
+          "length": 50,
+          "bytes_hex": "8b4c2404568b74240c3bce74238d49008b1189108b51048950048a51088850088a510988500983c10c83c00c3bce75e05ec3"
+        }
+      ],
+      "instruction_count": 20,
+      "instruction_windows": [
+        {
+          "address": "0x001e07e0",
+          "bytes": "8b4c2404"
+        },
+        {
+          "address": "0x001e07e4",
+          "bytes": "56"
+        },
+        {
+          "address": "0x001e07e5",
+          "bytes": "8b74240c"
+        },
+        {
+          "address": "0x001e07e9",
+          "bytes": "3bce"
+        },
+        {
+          "address": "0x001e07eb",
+          "bytes": "7423"
+        },
+        {
+          "address": "0x001e07ed",
+          "bytes": "8d4900"
+        },
+        {
+          "address": "0x001e07f0",
+          "bytes": "8b11"
+        },
+        {
+          "address": "0x001e07f2",
+          "bytes": "8910"
+        },
+        {
+          "address": "0x001e07f4",
+          "bytes": "8b5104"
+        },
+        {
+          "address": "0x001e07f7",
+          "bytes": "895004"
+        },
+        {
+          "address": "0x001e07fa",
+          "bytes": "8a5108"
+        },
+        {
+          "address": "0x001e07fd",
+          "bytes": "885008"
+        },
+        {
+          "address": "0x001e0800",
+          "bytes": "8a5109"
+        },
+        {
+          "address": "0x001e0803",
+          "bytes": "885009"
+        },
+        {
+          "address": "0x001e0806",
+          "bytes": "83c10c"
+        },
+        {
+          "address": "0x001e0809",
+          "bytes": "83c00c"
+        },
+        {
+          "address": "0x001e080c",
+          "bytes": "3bce"
+        },
+        {
+          "address": "0x001e080e",
+          "bytes": "75e0"
+        },
+        {
+          "address": "0x001e0810",
+          "bytes": "5e"
+        },
+        {
+          "address": "0x001e0811",
+          "bytes": "c3"
+        }
+      ],
+      "replacements": [
+        {
+          "before": "*(undefined1 *)((int)in_EAX + 9) = *(undefined1 *)((int)param_1 + 9);",
+          "after": "*(reinterpret_cast<unsigned char *>(in_EAX) + 9) = *(reinterpret_cast<unsigned char *>(param_1) + 9);",
+          "count": 1
+        }
+      ],
+      "offset": 9,
+      "dst": "in_EAX",
+      "src": "param_1",
+      "kind": "copy",
+      "extent": 10,
+      "transfers": [
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "dst_stride": 12,
+      "src_stride": 12
+    }
+  ]
+}
