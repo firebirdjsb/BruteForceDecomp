@@ -1,0 +1,451 @@
+{
+  "schema_version": 1,
+  "scope": "Seven unresolved extern counter widths only; no definitions, ABI, mapping, aliases, native objects or whole-function behavior",
+  "source_base_commit": "0d126ada5b84ae7aac17bd02e97799f8e84291c9",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "canonical_functions_executed": false,
+  "original_machine_code_executed": false,
+  "global_definitions_added": false,
+  "global_mapping_recovered": false,
+  "object_layout_or_aliases_recovered": false,
+  "abi_recovered": false,
+  "quarantined_index_rows_promoted": false,
+  "cases": [
+    {
+      "entry": "0x0037f9a9",
+      "label": "FUN_0037f9a9",
+      "source": "src/platform/xpp_role_unverified/0x0037f9a9.cpp",
+      "source_before_sha256": "6f253a5efac686d0a0a89e149fadd0fbc68bb3e59461a9451e8fb5d318ecdc95",
+      "source_after_sha256": "96b7b2f4e7f29d77ea881233188f4cbbf01b94502ca7b5560f7d5a484a389491",
+      "preimage_git_blob": "ae906dc455db6a90089944c5c9b23684d4a66cd8",
+      "original_body_sha256": "ABB9727C43B05D5F2695E3895737ABB7FB01510211E56CA72D77E6344A2C4FB4",
+      "body_ranges": [
+        {
+          "start": "0037f9a9",
+          "end_inclusive": "0037fb6d",
+          "length": 453
+        }
+      ],
+      "body_byte_count": 453,
+      "instruction_count": 142,
+      "private_index_row_sha256": "0cf9eacc141436d736279024774736db32dc28adae9cd3c5ab48b15fff1f9afa",
+      "private_record_canonical_sha256": "564e663c05110743d6a1494adbdb15767b99fca9275315774d2049f83d3df5ce",
+      "private_index_issues": [],
+      "private_index_validation_pass": true,
+      "edits": [
+        {
+          "before": "extern uint32_t DAT_004a8fe2;",
+          "after": "extern uint16_t DAT_004a8fe2;",
+          "symbol": "DAT_004a8fe2"
+        },
+        {
+          "before": "extern uint32_t DAT_004a8fe6;",
+          "after": "extern uint16_t DAT_004a8fe6;",
+          "symbol": "DAT_004a8fe6"
+        }
+      ],
+      "diagnostic_count_unlimited": 19,
+      "audit_status": "fail",
+      "instruction_windows": [
+        {
+          "address": "0037fb5e",
+          "bytes": "66890de28f4a00"
+        },
+        {
+          "address": "0037fb65",
+          "bytes": "66a3e68f4a00"
+        }
+      ],
+      "indirect_import_operands": [
+        {
+          "address": "0037fa07",
+          "bytes": "ff15c0643800",
+          "analyzed_flows": [
+            "EXTERNAL:00000061"
+          ]
+        },
+        {
+          "address": "0037fa13",
+          "bytes": "ff15f4633800",
+          "analyzed_flows": [
+            "EXTERNAL:0000002e"
+          ]
+        },
+        {
+          "address": "0037fa1a",
+          "bytes": "ff15f8633800",
+          "analyzed_flows": [
+            "EXTERNAL:0000002f"
+          ]
+        }
+      ],
+      "quarantined_flow_overrides": []
+    },
+    {
+      "entry": "0x00385128",
+      "label": "FUN_00385128",
+      "source": "src/platform/xpp_role_unverified/0x00385128.cpp",
+      "source_before_sha256": "016afccdc5736db9faf5c919a9f901ea1d9dec47209fcd24b837d26835fb7cbb",
+      "source_after_sha256": "7a56f8bf15dd247aaabf403dff70426acb8db1cb3a77b4a48577261adc6c4574",
+      "preimage_git_blob": "b2b84585a289cf07530e8d466acff0e0f104aaa4",
+      "original_body_sha256": "90CAD26D41E5DEDC52F6AFF273299EAD093C99BD8E866163C8FB146136DCFF6A",
+      "body_ranges": [
+        {
+          "start": "00385128",
+          "end_inclusive": "00385159",
+          "length": 50
+        }
+      ],
+      "body_byte_count": 50,
+      "instruction_count": 15,
+      "private_index_row_sha256": "083acf649adc670f702dd10fdb589f95a40c764f313450074ba74f4fb2163961",
+      "private_record_canonical_sha256": "5918a95184d3041b37e18d064b3d81994e21ec7f3c28a961848a7574c5b0b2c0",
+      "private_index_issues": [
+        "flow_override"
+      ],
+      "private_index_validation_pass": false,
+      "edits": [
+        {
+          "before": "extern uint32_t DAT_004a8fe2;",
+          "after": "extern uint16_t DAT_004a8fe2;",
+          "symbol": "DAT_004a8fe2"
+        },
+        {
+          "before": "extern uint32_t DAT_004a8fe6;",
+          "after": "extern uint16_t DAT_004a8fe6;",
+          "symbol": "DAT_004a8fe6"
+        }
+      ],
+      "diagnostic_count_unlimited": 3,
+      "audit_status": "fail",
+      "instruction_windows": [
+        {
+          "address": "0038513c",
+          "bytes": "e9ad0f0000"
+        },
+        {
+          "address": "00385141",
+          "bytes": "66ff05e68f4a00"
+        },
+        {
+          "address": "00385148",
+          "bytes": "e9f40f0000"
+        },
+        {
+          "address": "0038514d",
+          "bytes": "66ff05e28f4a00"
+        },
+        {
+          "address": "00385154",
+          "bytes": "e935100000"
+        }
+      ],
+      "indirect_import_operands": [],
+      "quarantined_flow_overrides": [
+        {
+          "address": "0038513c",
+          "bytes": "e9ad0f0000",
+          "override": "CALL_RETURN",
+          "analyzed_flow_type": "CALL_TERMINATOR",
+          "target": "003860ee"
+        },
+        {
+          "address": "00385148",
+          "bytes": "e9f40f0000",
+          "override": "CALL_RETURN",
+          "analyzed_flow_type": "CALL_TERMINATOR",
+          "target": "00386141"
+        },
+        {
+          "address": "00385154",
+          "bytes": "e935100000",
+          "override": "CALL_RETURN",
+          "analyzed_flow_type": "CALL_TERMINATOR",
+          "target": "0038618e"
+        }
+      ]
+    },
+    {
+      "entry": "0x0038524e",
+      "label": "FUN_0038524e",
+      "source": "src/platform/xpp_role_unverified/0x0038524e.cpp",
+      "source_before_sha256": "91dd9eec5f9f51a40441b70eb5ddb102114a8902b82edf017c5dc497dfb4f6e2",
+      "source_after_sha256": "aa1c79df72b961a8ee14c74a554e403d43b7eba8be5fff6823400dccdead044d",
+      "preimage_git_blob": "7b829db19259dc0fd8e79d846e6adc070c7b3168",
+      "original_body_sha256": "BA4DE524EBFF03927E42ED838CEB60299918B3084090B89839C8D50589639BA9",
+      "body_ranges": [
+        {
+          "start": "0038524e",
+          "end_inclusive": "003852f9",
+          "length": 172
+        }
+      ],
+      "body_byte_count": 172,
+      "instruction_count": 64,
+      "private_index_row_sha256": "887a5668469e6eb71fe592c6d475ff297165facbfb8650bf482a50d7dfadfe5f",
+      "private_record_canonical_sha256": "3c399e7b2ddf5a32728efc8cda84020e2ade7431883338e6cb198068959d2938",
+      "private_index_issues": [],
+      "private_index_validation_pass": true,
+      "edits": [
+        {
+          "before": "extern uint32_t DAT_004a8fe2;",
+          "after": "extern uint16_t DAT_004a8fe2;",
+          "symbol": "DAT_004a8fe2"
+        }
+      ],
+      "diagnostic_count_unlimited": 5,
+      "audit_status": "fail",
+      "instruction_windows": [
+        {
+          "address": "0038527c",
+          "bytes": "66ff05e28f4a00"
+        }
+      ],
+      "indirect_import_operands": [],
+      "quarantined_flow_overrides": []
+    },
+    {
+      "entry": "0x00385d45",
+      "label": "FUN_00385d45",
+      "source": "src/platform/xpp_role_unverified/0x00385d45.cpp",
+      "source_before_sha256": "13133aa928c212c977e59344ce4a04d6c187d077e95a9367eb16d768b77db469",
+      "source_after_sha256": "ab18d62d7df49bab346ba5aa33301a5e9779e9dda5573b9d73d0fa31b6b54e98",
+      "preimage_git_blob": "ebd61a1d35876762ca66125cfee1d453a863106c",
+      "original_body_sha256": "C35058C8EC7723D30A34ADF3BCA41101FD711F3E75ACEC5E1463F851E1101AEC",
+      "body_ranges": [
+        {
+          "start": "00385d45",
+          "end_inclusive": "00385d63",
+          "length": 31
+        }
+      ],
+      "body_byte_count": 31,
+      "instruction_count": 9,
+      "private_index_row_sha256": "26847981c7d239e71247ce852214b07361ad100832fc5c3c846863f8e675f894",
+      "private_record_canonical_sha256": "d958a389fccd09a9e6183a58b92ad2eb95a58c82ec9bfcc6c18e78e5b7e25b6e",
+      "private_index_issues": [],
+      "private_index_validation_pass": true,
+      "edits": [
+        {
+          "before": "extern uint32_t DAT_004a8fe2;",
+          "after": "extern uint16_t DAT_004a8fe2;",
+          "symbol": "DAT_004a8fe2"
+        }
+      ],
+      "diagnostic_count_unlimited": 0,
+      "audit_status": "pass",
+      "instruction_windows": [
+        {
+          "address": "00385d45",
+          "bytes": "668b442404"
+        },
+        {
+          "address": "00385d4a",
+          "bytes": "663905e28f4a00"
+        },
+        {
+          "address": "00385d51",
+          "bytes": "7304"
+        },
+        {
+          "address": "00385d53",
+          "bytes": "33c0"
+        },
+        {
+          "address": "00385d55",
+          "bytes": "eb0a"
+        },
+        {
+          "address": "00385d57",
+          "bytes": "662905e28f4a00"
+        },
+        {
+          "address": "00385d5e",
+          "bytes": "33c0"
+        },
+        {
+          "address": "00385d60",
+          "bytes": "40"
+        },
+        {
+          "address": "00385d61",
+          "bytes": "c20400"
+        }
+      ],
+      "indirect_import_operands": [],
+      "quarantined_flow_overrides": []
+    },
+    {
+      "entry": "0x00385d64",
+      "label": "FUN_00385d64",
+      "source": "src/platform/xpp_role_unverified/0x00385d64.cpp",
+      "source_before_sha256": "e3649b2894494b0d3865321a75230affc430de9fec1a96192f70d32fee67ab37",
+      "source_after_sha256": "0853a829109424f6f84adb9590c08d8b6f35108d91c96be55d4f61ab0d6e3471",
+      "preimage_git_blob": "4df233342b84a6f6976461de6ca8d0cb58c9397e",
+      "original_body_sha256": "D8016269303419F5CE45156AB548BA943201A2B6D81946F59E118567C9DA34CA",
+      "body_ranges": [
+        {
+          "start": "00385d64",
+          "end_inclusive": "00385d82",
+          "length": 31
+        }
+      ],
+      "body_byte_count": 31,
+      "instruction_count": 9,
+      "private_index_row_sha256": "ed53405189bd8363776598f643d5fcb4b987854bd96eef877abdb1f27d49808f",
+      "private_record_canonical_sha256": "ee1352c7b08ce2fd35852cc6b010379691f8e2a9cf18f8a12f0120f538349c19",
+      "private_index_issues": [],
+      "private_index_validation_pass": true,
+      "edits": [
+        {
+          "before": "extern uint32_t DAT_004a8fe6;",
+          "after": "extern uint16_t DAT_004a8fe6;",
+          "symbol": "DAT_004a8fe6"
+        }
+      ],
+      "diagnostic_count_unlimited": 0,
+      "audit_status": "pass",
+      "instruction_windows": [
+        {
+          "address": "00385d64",
+          "bytes": "668b442404"
+        },
+        {
+          "address": "00385d69",
+          "bytes": "663905e68f4a00"
+        },
+        {
+          "address": "00385d70",
+          "bytes": "7304"
+        },
+        {
+          "address": "00385d72",
+          "bytes": "33c0"
+        },
+        {
+          "address": "00385d74",
+          "bytes": "eb0a"
+        },
+        {
+          "address": "00385d76",
+          "bytes": "662905e68f4a00"
+        },
+        {
+          "address": "00385d7d",
+          "bytes": "33c0"
+        },
+        {
+          "address": "00385d7f",
+          "bytes": "40"
+        },
+        {
+          "address": "00385d80",
+          "bytes": "c20400"
+        }
+      ],
+      "indirect_import_operands": [],
+      "quarantined_flow_overrides": []
+    }
+  ],
+  "dependency_pins": [
+    {
+      "path": "metadata/bulk_13694_inventory.csv",
+      "sha256": "74ae7a7ae0b3bb4e662a27826ec94228c781332b5aa9c9d6baea2709e9c6209f"
+    },
+    {
+      "path": "include/bf_ghidra_types.h",
+      "sha256": "5dfa1c69c07740d45536c1f5a45479e59c97275343017b68b3ff17ed39fd6dce"
+    },
+    {
+      "path": "tools/source_layout.py",
+      "sha256": "e23db596e0823fb674db21f01a6477c60c0625084506ba030c45cbce7c7f9856"
+    },
+    {
+      "path": "tools/body_hash_labels.py",
+      "sha256": "c1379c3c4e77a26222bf754b5b8018217df169c95caec30d2f2528e91d0457f1"
+    },
+    {
+      "path": "metadata/cpp_20261105_word_limit_widths.json",
+      "sha256": "4921ff805090cf2b0368968efa6631dee90896333507c7a2fc547b996a1b6343"
+    }
+  ],
+  "predecessor_gate_pins": [
+    {
+      "path": "tools/verify_cpp_20261105_word_limit_widths.py",
+      "sha256": "62b5387de21a93336d979a46c4aabcfdb1a39def3b3efd2eef36fde320de1248"
+    },
+    {
+      "path": "tools/test_cpp_20261105_word_limit_widths.py",
+      "sha256": "f27ecbaf4e7a8c50b7b3e1bfe9921c74df91d9222ad48e2a0c8090e7510640fe"
+    }
+  ],
+  "region_labels": [
+    {
+      "source": "src/platform/xpp_role_unverified/0x0037f9a9.cpp",
+      "symbol": "DAT_004a8fe0",
+      "declaration": "extern uint16_t DAT_004a8fe0;",
+      "occurrences": 5
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x0037f9a9.cpp",
+      "symbol": "DAT_004a8fe2",
+      "declaration": "extern uint16_t DAT_004a8fe2;",
+      "occurrences": 2
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x0037f9a9.cpp",
+      "symbol": "DAT_004a8fe4",
+      "declaration": "extern uint16_t DAT_004a8fe4;",
+      "occurrences": 5
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x0037f9a9.cpp",
+      "symbol": "DAT_004a8fe6",
+      "declaration": "extern uint16_t DAT_004a8fe6;",
+      "occurrences": 2
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x00385128.cpp",
+      "symbol": "DAT_004a8fe2",
+      "declaration": "extern uint16_t DAT_004a8fe2;",
+      "occurrences": 3
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x00385128.cpp",
+      "symbol": "DAT_004a8fe6",
+      "declaration": "extern uint16_t DAT_004a8fe6;",
+      "occurrences": 3
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x0038524e.cpp",
+      "symbol": "DAT_004a8fe2",
+      "declaration": "extern uint16_t DAT_004a8fe2;",
+      "occurrences": 3
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x00385d45.cpp",
+      "symbol": "DAT_004a8fe2",
+      "declaration": "extern uint16_t DAT_004a8fe2;",
+      "occurrences": 4
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x00385d64.cpp",
+      "symbol": "DAT_004a8fe6",
+      "declaration": "extern uint16_t DAT_004a8fe6;",
+      "occurrences": 4
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x0038620e.cpp",
+      "symbol": "DAT_004a8fe4",
+      "declaration": "extern uint16_t DAT_004a8fe4;",
+      "occurrences": 2
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x0038624a.cpp",
+      "symbol": "DAT_004a8fe0",
+      "declaration": "extern uint16_t DAT_004a8fe0;",
+      "occurrences": 2
+    }
+  ]
+}

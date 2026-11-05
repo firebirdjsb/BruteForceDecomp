@@ -1,0 +1,53 @@
+{
+  "entry": "0x002337a0",
+  "scope": "bounded native ordered 64-byte operation only; guest ABI and runtime unverified",
+  "body_sha256": "9845F4400F31673C8FFC0EC92B60D421983004F32EEE8BC70A60F9061E3EB58B",
+  "body_bytes": 286,
+  "instruction_count": 76,
+  "source_before_sha256": "3f89f5ebb5ae3b05640221e6ec860ae8c4f8051119cfe3243801edc95250767e",
+  "source_before_git_blob": "863682618bdc600ab99219ed0f21a982038e34b9",
+  "artifacts": {
+    "src/main_unclassified/band_0023/0x002337a0.cpp": "8f0f1802209fd17fbddfc6d747c9687f27b0a19adaff2bffe3150e3e286b2d1d",
+    "include/bf_002337a0_ordered_matrix_operation.h": "212d45974328d3bd9bdffa661c0a37bd143fe5720a5181d3bd7385d3a1b5e816",
+    "tests/test_002337a0_ordered_matrix_operation.cpp": "86214001f1c9ce65194882d07b17c8efc6655163c82645760871be579d9b29e6",
+    "tests/test_002337a0_ordered_matrix_model.cpp": "d4f8f45f81c2334c87e21d70adabd555277b62a7ba55a572e281b85d4d942174",
+    "tests/generate_002337a0_ordered_matrix_integer_model.py": "8f97a978b15aeebffbaa1e182326566ee2168c1bf6aff00545d233e48bf69055",
+    "tests/generate_002337a0_ordered_matrix_rational_model.py": "07fec5e0bc1e92fbaae06ac7890f531cdfcfbae8ec96b5b14b94ad7c8d412804",
+    "tests/generate_002b3e60_multiply_add_integer_model.py": "914ce626554bef5148e7224565bd074ae777e1518766193af133c20553cef4c5",
+    "tests/generate_003759c0_four_term_rational_model.py": "9ff903bb2d58b5e214e139fd01cc3245da02776134bd30b37edcdbd88043b369",
+    "metadata/002337a0_ordered_sse.json": "e1d546a1304cef8328e149d90c9e77ffd072f108066d1a8b507a21b286765ac3",
+    "docs/evidence/002337a0_ordered_matrix_operation.md": "32d3f00dc749941c65199461fb5cd6fc2985d6189697f9ca0a28921edf0989f6"
+  },
+  "narrow_opcode_windows": [
+    {
+      "va": "0x002337a0",
+      "bytes": "8b5424088b4424048b4c240c"
+    },
+    {
+      "va": "0x002337bc",
+      "bytes": "0f59c1"
+    },
+    {
+      "va": "0x00233871",
+      "bytes": "f30f104234"
+    },
+    {
+      "va": "0x0023387d",
+      "bytes": "0f137820f30f1052300f177828"
+    },
+    {
+      "va": "0x002338b5",
+      "bytes": "0f1150308b442404c3"
+    }
+  ],
+  "corpora": {
+    "integer": {
+      "records": 191200,
+      "sha256": "c049d0cdbc47ba167cf6e363b30e2b1bcd369eeb5a2e3835cc58d5a20b2dd0a7"
+    },
+    "rational": {
+      "records": 46064,
+      "sha256": "bcca9c713fe519c4d986f06e828dd6b068b1e63d94fca2f99d085017bfa93750"
+    }
+  }
+}

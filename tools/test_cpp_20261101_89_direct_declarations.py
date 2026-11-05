@@ -47,11 +47,51 @@ def strip_pinned_independent_addition(entry, text):
         raise AssertionError('missing or duplicate independent declaration: ' + entry)
     return text.replace(block, '', 1)
 
+# Only these two historical callee images were changed by the independently
+# reviewed counter WORD package. Its immutable manifest pins both full images
+# and one exact extern substitution per callee, not a general type rewrite.
+COUNTER_CALLEES = ('0x00385d45', '0x00385d64')
+COUNTER_MANIFEST_SHA = 'f21931924ea7c42ccde29b00284942e8321f84fc3ad3da0d8f71e641b120ba69'
+
+
+def pinned_counter_cases(root=ROOT):
+    import verify_cpp_20261105_counter_word_widths as counter
+    with (root / counter.NAME).open('rb') as stream:
+        raw = stream.read(1024*1024+1)
+    if hashlib.sha256(raw).hexdigest() != COUNTER_MANIFEST_SHA:
+        raise AssertionError('reviewed counter manifest bytes differ')
+    doc = counter.load_bytes(raw)
+    selected = {}
+    for entry in COUNTER_CALLEES:
+        matches = [case for case in doc['cases'] if case['entry'] == entry]
+        historical = {target['source_sha256'] for row in CASES.values()
+                      for target in row['callees'] if target['entry'] == entry}
+        if len(matches) != 1 or historical != {matches[0]['source_before_sha256']}:
+            raise AssertionError('counter predecessor does not equal historical callee: ' + entry)
+        selected[entry] = matches[0]
+    return selected
+
+
+def project_pinned_counter_callee(entry, raw, root=ROOT):
+    if entry not in COUNTER_CALLEES:
+        return raw
+    if not isinstance(raw, bytes):
+        raise AssertionError('counter projection requires exact raw source bytes')
+    import verify_cpp_20261105_counter_word_widths as counter
+    case = pinned_counter_cases(root)[entry]
+    if hashlib.sha256(raw).hexdigest() == case['source_before_sha256']:
+        return raw
+    # restore rejects everything except the complete approved postimage, then
+    # checks exact substitution reversal, preimage SHA/Git blob and roundtrip.
+    return counter.restore(case, raw)
+
+
 def block(row):
     return NOTE + ''.join('extern ' + s + ';\n' for s in row['declarations'])
 
 def preimage(entry):
-    text = source_path(ROOT, entry).read_text()
+    raw = source_path(ROOT, entry).read_bytes()
+    text = project_pinned_counter_callee(entry, raw).decode()
     if entry in CASES:
         addition = block(CASES[entry])
         if text.count(addition) != 1:
@@ -68,7 +108,7 @@ def run(argv, **kwargs):
 class DeclarationBatch(unittest.TestCase):
     def test_independent_callee_reconciliation_negative_controls(self):
         entry = '0x0015b9d0'
-        current = source_path(ROOT, entry).read_text()
+        current = source_path(ROOT, entry).read_bytes().decode()
         original = strip_pinned_independent_addition(entry, current)
         self.assertEqual(hashlib.sha256(original.encode()).hexdigest(),
                          'e113046418ddb4814cc32559717835c3925d132d04decb2697597844a6fbeb49')
@@ -88,7 +128,7 @@ class DeclarationBatch(unittest.TestCase):
 
     def test_later_eax_return_declaration_negative_controls(self):
         entry = '0x0027e5f0'
-        current = source_path(ROOT, entry).read_text()
+        current = source_path(ROOT, entry).read_bytes().decode()
         original = strip_pinned_independent_addition(entry, current)
         self.assertEqual(hashlib.sha256(original.encode()).hexdigest(),
                          '3152cd3f4064b6d6b91ca8d95fe9e3d8e30255fb0521103d71618d12d8b3d1c7')
@@ -105,6 +145,61 @@ class DeclarationBatch(unittest.TestCase):
             with self.subTest(mutated_sha=hashlib.sha256(corrupted.encode()).hexdigest()):
                 with self.assertRaises(AssertionError):
                     strip_pinned_independent_addition(entry, corrupted)
+
+    def test_reviewed_counter_callee_projection_and_negative_controls(self):
+        import verify_cpp_20261105_counter_word_widths as counter
+        cases = pinned_counter_cases()
+        source_controls = manifest_controls = 0
+        for entry, case in cases.items():
+            raw = source_path(ROOT, entry).read_bytes()
+            before = project_pinned_counter_callee(entry, raw)
+            after = counter.apply(case, before)
+            self.assertIn(raw, (before, after))
+            self.assertEqual(hashlib.sha256(before).hexdigest(), case['source_before_sha256'])
+            self.assertEqual(hashlib.sha256(after).hexdigest(), case['source_after_sha256'])
+            self.assertEqual(project_pinned_counter_callee(entry, before), before)
+            self.assertEqual(project_pinned_counter_callee(entry, after), before)
+            self.assertEqual(read_body_digest(before.decode()), read_body_digest(after.decode()))
+            self.assertEqual(project_pinned_counter_callee('0x00385df0', after), after)
+            with self.assertRaises(AssertionError):
+                project_pinned_counter_callee(entry, after.decode())
+            for source, declaration in ((before, case['edits'][0]['before'].encode()),
+                                        (after, case['edits'][0]['after'].encode())):
+                mutants = [source+b'\n', source.replace(b'\n',b'\r\n'),
+                           source.replace(b'\n',b'\r\n',1), b'\xef\xbb\xbf'+source,
+                           source[:-1], source.replace(declaration,b'',1),
+                           source.replace(declaration,declaration+b'\n'+declaration,1),
+                           source.replace(declaration,declaration.replace(b'uint',b'int'),1),
+                           source.replace(b'ABI_UNVERIFIED',b'ABI_VERIFIED',1),
+                           source.replace(b'param_1 <=',b'param_1 <',1),
+                           source.replace(b'return bVar1;',b'return true;',1),
+                           source.replace(b'(ushort param_1)',b'(uint param_1)',1)]
+                for mutant in mutants:
+                    self.assertNotEqual(mutant, source)
+                    with self.assertRaises((AssertionError, ValueError)):
+                        project_pinned_counter_callee(entry, mutant)
+                    source_controls += 1
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); path = root / counter.NAME
+            path.parent.mkdir(parents=True)
+            original = (ROOT / counter.NAME).read_bytes()
+            variants = [original+b'\n', original.replace(b'\n',b'\r\n'), original[:-1],
+                        b'{"cases":[],"cases":[]}', b'{"cases":NaN}', b'{"cases":Infinity}']
+            for key in ('source_before_sha256', 'source_after_sha256', 'entry', 'source', 'preimage_git_blob'):
+                changed = json.loads(original); changed['cases'][-1][key] += '!'
+                variants.append(json.dumps(changed).encode())
+            changed = json.loads(original); changed['cases'][-1]['edits'][0]['after'] = 'extern uint32_t DAT_004a8fe6;'
+            variants.append(json.dumps(changed).encode())
+            for mutant in variants:
+                path.write_bytes(mutant)
+                for entry in COUNTER_CALLEES:
+                    with self.assertRaises((AssertionError, ValueError)):
+                        project_pinned_counter_callee(entry, source_path(ROOT, entry).read_bytes(), root)
+                    manifest_controls += 1
+            path.write_bytes(original)
+            self.assertEqual(pinned_counter_cases(root), cases)
+        print('Exact counter predecessor projection: 2 old/current image pairs;',
+              source_controls, 'raw-source and', manifest_controls, 'manifest corruption controls')
 
     def test_exact_preimages_body_labels_and_existing_definitions(self):
         self.assertEqual(len(CASES), 89)

@@ -129,7 +129,7 @@ class WordLimitTests(unittest.TestCase):
         evidence.verify_source(ROOT,self.doc)
         count=0
         for case in self.doc['cases']:
-            new=(ROOT/case['source']).read_bytes();old=evidence.restore(case,new)
+            new=evidence.source_at_width_stage(ROOT,case,(ROOT/case['source']).read_bytes());old=evidence.restore(case,new)
             self.assertEqual(evidence.apply(case,old),new)
             self.assertEqual(new[new.index(b'void)'):],old[old.index(b'void)'):])
             mutants=[new+b'\n',new.replace(b'\n',b'\r\n'),new.replace(b'ABI_UNVERIFIED',b'ABI_VERIFIED'),
@@ -144,9 +144,104 @@ class WordLimitTests(unittest.TestCase):
                 with self.assertRaises(ValueError):evidence.restore(case,mutant)
         self.assertEqual(count,4)
 
+    def test_only_exact_later_declarations_reverse_to_width_stage(self):
+        import verify_cpp_20261105_word_source_declarations as declarations
+        later = declarations.load_manifest(ROOT)
+        for case, approved in zip(self.doc['cases'][1:], later['cases']):
+            raw = (ROOT/case['source']).read_bytes()
+            recovered = evidence.source_at_width_stage(ROOT, case, raw)
+            self.assertEqual(evidence.sha(recovered), case['source_after_sha256'])
+            # Current source may be either approved stage. Always construct the
+            # exact later postimage before exercising its reversal and mutants.
+            postimage = declarations.apply(approved, recovered.decode()).encode()
+            self.assertIn(raw, (recovered, postimage))
+            raw = postimage
+            self.assertEqual(evidence.source_at_width_stage(ROOT, case, raw), recovered)
+            self.assertEqual(declarations.restore(approved, raw.decode()).encode(), recovered)
+            self.assertEqual(evidence.source_at_width_stage(ROOT, case, recovered), recovered)
+            self.assertEqual(evidence.apply(case, evidence.restore(case, recovered)), recovered)
+            block = approved['added_declaration_block'].encode()
+            mutants = [raw+b'\n', raw.replace(b'\n', b'\r\n'), raw+block,
+                       raw.replace(block,b'',1)+block,
+                       raw.replace(b'extern void ', b'extern int ',1),
+                       raw.replace(b'extern uint16_t ',b'extern uint32_t ',1),
+                       raw.replace(b'return 0x40000000;', b'return 0;',1),
+                       raw.replace(b'ABI_UNVERIFIED',b'ABI_VERIFIED',1)]
+            for mutant in mutants:
+                self.assertNotEqual(mutant, raw)
+                with self.assertRaises(ValueError):
+                    evidence.source_at_width_stage(ROOT, case, mutant)
+        # No unrelated initializer edits can be normalized away.
+        first = self.doc['cases'][0]
+        with self.assertRaises((ValueError, FileNotFoundError)):
+            evidence.source_at_width_stage(ROOT, first, (ROOT/first['source']).read_bytes()+b'\n')
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            manifest = root/declarations.NAME
+            manifest.parent.mkdir(parents=True)
+            original = (ROOT/declarations.NAME).read_bytes()
+            manifest.write_bytes(original+b'\n')
+            with self.assertRaises(ValueError):
+                evidence.source_at_width_stage(root, case, raw)
+
+    def test_counter_and_declaration_layers_individually_and_combined(self):
+        if not (ROOT/evidence.COUNTER_LAYER_NAME).exists():
+            self.skipTest('optional independently authored counter layer not installed')
+        import verify_cpp_20261105_word_source_declarations as declarations
+        later = declarations.load_manifest(ROOT)
+        counter_raw = (ROOT/evidence.COUNTER_LAYER_NAME).read_bytes()
+        self.assertEqual(evidence.sha(counter_raw), evidence.COUNTER_LAYER_SHA)
+        counters = evidence.strict_json(counter_raw)['cases']
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            paths = {p['path'] for p in self.doc['dependency_pins']} | {
+                '.github/workflows/cpp-compatibility-audit.yml', declarations.NAME, evidence.COUNTER_LAYER_NAME}
+            for rel in paths:
+                (root/rel).parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(ROOT/rel, root/rel)
+            counter_sources = {}
+            for case in counters:
+                raw = (ROOT/case['source']).read_bytes()
+                if evidence.sha(raw) == case['source_before_sha256']:
+                    before = raw; after = raw
+                    for edit in case['edits']:
+                        after = after.replace(edit['before'].encode(), edit['after'].encode(), 1)
+                else:
+                    after = raw
+                    before = evidence.reverse_counter_layer(root, case['source'], raw, case['source_before_sha256'])
+                self.assertEqual(evidence.sha(after), case['source_after_sha256'])
+                counter_sources[case['source']] = (before, after)
+            declaration_sources = {}
+            for case in later['cases']:
+                raw = (ROOT/case['source']).read_bytes()
+                if evidence.sha(raw) == case['source_before_sha256']:
+                    before = raw; after = declarations.apply(case, raw.decode()).encode()
+                else:
+                    after = raw; before = declarations.restore(case, raw.decode()).encode()
+                declaration_sources[case['source']] = (before, after)
+            for counter_on, declaration_on in ((False,False),(True,False),(False,True),(True,True)):
+                for source, versions in counter_sources.items():
+                    (root/source).write_bytes(versions[int(counter_on)])
+                for source, versions in declaration_sources.items():
+                    (root/source).write_bytes(versions[int(declaration_on)])
+                evidence.verify_source(root, self.doc)
+            for case in counters:
+                source = root/case['source']; before, after = counter_sources[case['source']]
+                for mutant in (after+b'\n', after.replace(b'\n',b'\r\n'),
+                               after.replace(b'ABI_UNVERIFIED',b'ABI_VERIFIED',1),
+                               after.replace(case['edits'][0]['after'].encode(),b'',1)):
+                    source.write_bytes(mutant)
+                    with self.assertRaises(ValueError): evidence.verify_source(root, self.doc)
+                source.write_bytes(after)
+            manifest = root/evidence.COUNTER_LAYER_NAME
+            manifest.write_bytes(counter_raw+b'\n')
+            with self.assertRaises(ValueError): evidence.verify_source(root, self.doc)
+            manifest.write_bytes(counter_raw); evidence.verify_source(root, self.doc)
+        print('Exact predecessor projections: baseline, declaration-only, counter-only and combined; corruptions rejected')
+
     def test_unlimited_diagnostics_and_sweep_status_unchanged(self):
         for case in self.doc['cases']:
-            new=(ROOT/case['source']).read_bytes();old=evidence.restore(case,new)
+            new=evidence.source_at_width_stage(ROOT,case,(ROOT/case['source']).read_bytes());old=evidence.restore(case,new)
             for opt in ('-O0','-O2'):
                 results=[self.compile(s.decode(),opt) for s in (old,new)]
                 for result in results:
@@ -160,7 +255,7 @@ class WordLimitTests(unittest.TestCase):
                      for s in (old,new)]
             self.assertTrue(all(r.returncode for r in results))
             self.assertEqual(errors(results[0])[:3],errors(results[1])[:3])
-        print('O0/O2 diagnostic counts unchanged: 19,1,1; sweep status fail/fail/fail; zero syntax gain')
+        print('Recovered WORD stage: O0/O2 diagnostics unchanged: 19,1,1; historical sweep fail/fail/fail; zero width-only syntax gain')
 
     def test_manifest_windows_and_mutations(self):
         leaf_count=byte_count=0
@@ -194,7 +289,10 @@ class WordLimitTests(unittest.TestCase):
     def test_dependency_region_and_additive_ci_pins(self):
         with tempfile.TemporaryDirectory() as temporary:
             root=Path(temporary)
-            paths={p['path'] for p in self.doc['dependency_pins']}|{'.github/workflows/cpp-compatibility-audit.yml'}
+            paths={p['path'] for p in self.doc['dependency_pins']}|{'.github/workflows/cpp-compatibility-audit.yml',
+                    'metadata/cpp_20261105_word_source_declarations.json'}
+            if (ROOT/evidence.COUNTER_LAYER_NAME).exists():
+                paths.add(evidence.COUNTER_LAYER_NAME)
             for rel in paths:
                 (root/rel).parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(ROOT/rel,root/rel)
             evidence.verify_source(root,self.doc)

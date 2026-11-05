@@ -1,0 +1,809 @@
+{
+  "schema_version": 1,
+  "scope": "Two exact existing zero-argument declarations after separately verified WORD limit widths; register inputs remain unbound",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "source_base_commit": "0d126ada5b84ae7aac17bd02e97799f8e84291c9",
+  "baseline_audit_commit": "8c889189435c6f07e5457db38c6deb8d2c9f386c",
+  "baseline_syntax_passes": 4052,
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "abi_recovered": false,
+  "native_linkage_tested": false,
+  "semantic_equivalence_claimed": false,
+  "historical_inventory_sha256": "74ae7a7ae0b3bb4e662a27826ec94228c781332b5aa9c9d6baea2709e9c6209f",
+  "headers": [
+    {
+      "path": "include/bf_ghidra_types.h",
+      "sha256": "5dfa1c69c07740d45536c1f5a45479e59c97275343017b68b3ff17ed39fd6dce"
+    }
+  ],
+  "validation_support_files": [
+    {
+      "path": "tools/source_layout.py",
+      "sha256": "e23db596e0823fb674db21f01a6477c60c0625084506ba030c45cbce7c7f9856"
+    },
+    {
+      "path": "tools/body_hash_labels.py",
+      "sha256": "c1379c3c4e77a26222bf754b5b8018217df169c95caec30d2f2528e91d0457f1"
+    },
+    {
+      "path": "metadata/asm_supported_readable_names.csv",
+      "sha256": "99da6b2000ba82ed702fb654804815fba12a53b92e685a2f98f211bf1bd04bf1"
+    },
+    {
+      "path": "metadata/cpp_20261105_word_limit_widths.json",
+      "sha256": "4921ff805090cf2b0368968efa6631dee90896333507c7a2fc547b996a1b6343"
+    }
+  ],
+  "cases": [
+    {
+      "entry": "0x0038620e",
+      "source": "src/platform/xpp_role_unverified/0x0038620e.cpp",
+      "label": "FUN_0038620e",
+      "original_body_sha256": "50261BA376B6D13B4548856EA3A439058A4E6CE88487D3EFCB1C18E6CBF9213F",
+      "body_byte_count": 60,
+      "instruction_count": 16,
+      "body_ranges": [
+        {
+          "start": "0038620e",
+          "end_inclusive": "00386249",
+          "length": 60
+        }
+      ],
+      "private_index_row_sha256": "56b2d53b44441a5f532771a62a2eba0b1743145b1e072e07bac18a187736125e",
+      "private_export_record_sha256": "73207a9115117803baaa6c387f60d017843986a1773fd2d2eac227053733c369",
+      "historical_inventory_row": {
+        "index": "13691",
+        "entry": "0x0038620e",
+        "name": "FUN_0038620e",
+        "original_body_sha256": "50261BA376B6D13B4548856EA3A439058A4E6CE88487D3EFCB1C18E6CBF9213F",
+        "c_sha256": "27f4d9fee571f917e4f69ce3784182338f6a14d171265dedde562ea2309ea2f3",
+        "origin": "GHIDRA_C_DRAFT",
+        "c11_syntax": "HOST_CLANG_OK",
+        "abi": "UNVERIFIED",
+        "behavior": "UNVERIFIED",
+        "issues": "implicit_registers;external_data_symbols"
+      },
+      "definition_signature": "undefined4 FUN_0038620e(void)",
+      "direct_calls": [
+        {
+          "address": "0038623f",
+          "bytes": "e8fdfeffff",
+          "mnemonic": "call",
+          "target": "0x00386141"
+        }
+      ],
+      "branches": [
+        {
+          "address": "00386219",
+          "bytes": "7606",
+          "mnemonic": "jbe",
+          "target": "0x00386221"
+        },
+        {
+          "address": "0038622a",
+          "bytes": "740b",
+          "mnemonic": "je",
+          "target": "0x00386237"
+        },
+        {
+          "address": "00386235",
+          "bytes": "eb02",
+          "mnemonic": "jmp",
+          "target": "0x00386239"
+        }
+      ],
+      "ret_sites": [
+        {
+          "address": "00386220",
+          "bytes": "c3"
+        },
+        {
+          "address": "00386249",
+          "bytes": "c3"
+        }
+      ],
+      "instruction_windows": {
+        "0038620e": {
+          "address": "0038620e",
+          "bytes": "668b4220"
+        },
+        "00386212": {
+          "address": "00386212",
+          "bytes": "663b05e48f4a00"
+        },
+        "00386219": {
+          "address": "00386219",
+          "bytes": "7606"
+        },
+        "00386220": {
+          "address": "00386220",
+          "bytes": "c3"
+        },
+        "00386221": {
+          "address": "00386221",
+          "bytes": "8d8124040000"
+        },
+        "0038622a": {
+          "address": "0038622a",
+          "bytes": "740b"
+        },
+        "0038622c": {
+          "address": "0038622c",
+          "bytes": "8b8128040000"
+        },
+        "00386232": {
+          "address": "00386232",
+          "bytes": "895024"
+        },
+        "00386235": {
+          "address": "00386235",
+          "bytes": "eb02"
+        },
+        "00386237": {
+          "address": "00386237",
+          "bytes": "8910"
+        },
+        "00386239": {
+          "address": "00386239",
+          "bytes": "899128040000"
+        },
+        "0038623f": {
+          "address": "0038623f",
+          "bytes": "e8fdfeffff"
+        },
+        "00386244": {
+          "address": "00386244",
+          "bytes": "b800000040"
+        },
+        "00386249": {
+          "address": "00386249",
+          "bytes": "c3"
+        }
+      },
+      "register_observations": [
+        {
+          "offset": 0,
+          "mnemonic": "mov",
+          "operands": "ax, word ptr [edx + 0x20]"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "cmp",
+          "operands": "ax, word ptr [0x4a8fe4]"
+        },
+        {
+          "offset": 19,
+          "mnemonic": "lea",
+          "operands": "eax, [ecx + 0x424]"
+        },
+        {
+          "offset": 30,
+          "mnemonic": "mov",
+          "operands": "eax, dword ptr [ecx + 0x428]"
+        },
+        {
+          "offset": 36,
+          "mnemonic": "mov",
+          "operands": "dword ptr [eax + 0x24], edx"
+        },
+        {
+          "offset": 41,
+          "mnemonic": "mov",
+          "operands": "dword ptr [eax], edx"
+        },
+        {
+          "offset": 43,
+          "mnemonic": "mov",
+          "operands": "dword ptr [ecx + 0x428], edx"
+        },
+        {
+          "offset": 54,
+          "mnemonic": "mov",
+          "operands": "eax, 0x40000000"
+        }
+      ],
+      "callee": "0x00386141",
+      "source_before_sha256": "bc04f366fdf2aa1262ad465ce6642a0a60530f46bd3effe1c90d351c04c31fed",
+      "source_after_sha256": "520fc782dcce9595b87afd2f09a1c54ad9bc94cb1833648f43853e7fcf81cebe",
+      "preimage_git_blob": "dbaa1a08e95003ab3d6f51d6e4a78a3956a52635",
+      "added_declaration_block": "/* Exact existing callee draft declaration only; Xbox ABI_UNVERIFIED.\n * Original caller consumes hidden ECX/EDX and preserves ECX for this\n * callee, which saves it in ESI. The unchanged zero-argument source\n * call omits that binding; in_ECX/in_EDX remain unbound. Downstream\n * interfaces remain unresolved. These mismatches remain; no guest\n * pointer/ABI bridge is added. Do not execute this caller as game code. */\nextern void FUN_00386141(void);\n",
+      "source_declaration": "extern void FUN_00386141(void);",
+      "source_call": "FUN_00386141();",
+      "source_call_arity": 0,
+      "hidden_register_inputs_represented": false,
+      "guest_pointer_mapping_established": false,
+      "callee_function_pointer_type": "void (*)(void)",
+      "caller_function_pointer_type": "undefined4 (*)(void)"
+    },
+    {
+      "entry": "0x0038624a",
+      "source": "src/platform/xpp_role_unverified/0x0038624a.cpp",
+      "label": "FUN_0038624a",
+      "original_body_sha256": "DD000346FCE7B4B54E10A72DBEAC462BCA2790D6D2625245DE9C84078397FC72",
+      "body_byte_count": 60,
+      "instruction_count": 16,
+      "body_ranges": [
+        {
+          "start": "0038624a",
+          "end_inclusive": "00386285",
+          "length": 60
+        }
+      ],
+      "private_index_row_sha256": "0d4377c81c19fe3a76602d56dd7674ae6928387a5a0366550ae8ac69c639665f",
+      "private_export_record_sha256": "7005b870e9145e3d6f1bdd052cf74d7ce9e0bf0d6de9b6d588f9a7f6f7e6304f",
+      "historical_inventory_row": {
+        "index": "13692",
+        "entry": "0x0038624a",
+        "name": "FUN_0038624a",
+        "original_body_sha256": "DD000346FCE7B4B54E10A72DBEAC462BCA2790D6D2625245DE9C84078397FC72",
+        "c_sha256": "c786640a6cba6e97bc66ac35d4a5e3f7e308e64a33580ddb742b243eabf19cef",
+        "origin": "GHIDRA_C_DRAFT",
+        "c11_syntax": "HOST_CLANG_OK",
+        "abi": "UNVERIFIED",
+        "behavior": "UNVERIFIED",
+        "issues": "implicit_registers;external_data_symbols"
+      },
+      "definition_signature": "undefined4 FUN_0038624a(void)",
+      "direct_calls": [
+        {
+          "address": "0038627b",
+          "bytes": "e80effffff",
+          "mnemonic": "call",
+          "target": "0x0038618e"
+        }
+      ],
+      "branches": [
+        {
+          "address": "00386255",
+          "bytes": "7606",
+          "mnemonic": "jbe",
+          "target": "0x0038625d"
+        },
+        {
+          "address": "00386266",
+          "bytes": "740b",
+          "mnemonic": "je",
+          "target": "0x00386273"
+        },
+        {
+          "address": "00386271",
+          "bytes": "eb02",
+          "mnemonic": "jmp",
+          "target": "0x00386275"
+        }
+      ],
+      "ret_sites": [
+        {
+          "address": "0038625c",
+          "bytes": "c3"
+        },
+        {
+          "address": "00386285",
+          "bytes": "c3"
+        }
+      ],
+      "instruction_windows": {
+        "0038624a": {
+          "address": "0038624a",
+          "bytes": "668b4220"
+        },
+        "0038624e": {
+          "address": "0038624e",
+          "bytes": "663b05e08f4a00"
+        },
+        "00386255": {
+          "address": "00386255",
+          "bytes": "7606"
+        },
+        "0038625c": {
+          "address": "0038625c",
+          "bytes": "c3"
+        },
+        "0038625d": {
+          "address": "0038625d",
+          "bytes": "8d811c040000"
+        },
+        "00386266": {
+          "address": "00386266",
+          "bytes": "740b"
+        },
+        "00386268": {
+          "address": "00386268",
+          "bytes": "8b8120040000"
+        },
+        "0038626e": {
+          "address": "0038626e",
+          "bytes": "895024"
+        },
+        "00386271": {
+          "address": "00386271",
+          "bytes": "eb02"
+        },
+        "00386273": {
+          "address": "00386273",
+          "bytes": "8910"
+        },
+        "00386275": {
+          "address": "00386275",
+          "bytes": "899120040000"
+        },
+        "0038627b": {
+          "address": "0038627b",
+          "bytes": "e80effffff"
+        },
+        "00386280": {
+          "address": "00386280",
+          "bytes": "b800000040"
+        },
+        "00386285": {
+          "address": "00386285",
+          "bytes": "c3"
+        }
+      },
+      "register_observations": [
+        {
+          "offset": 0,
+          "mnemonic": "mov",
+          "operands": "ax, word ptr [edx + 0x20]"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "cmp",
+          "operands": "ax, word ptr [0x4a8fe0]"
+        },
+        {
+          "offset": 19,
+          "mnemonic": "lea",
+          "operands": "eax, [ecx + 0x41c]"
+        },
+        {
+          "offset": 30,
+          "mnemonic": "mov",
+          "operands": "eax, dword ptr [ecx + 0x420]"
+        },
+        {
+          "offset": 36,
+          "mnemonic": "mov",
+          "operands": "dword ptr [eax + 0x24], edx"
+        },
+        {
+          "offset": 41,
+          "mnemonic": "mov",
+          "operands": "dword ptr [eax], edx"
+        },
+        {
+          "offset": 43,
+          "mnemonic": "mov",
+          "operands": "dword ptr [ecx + 0x420], edx"
+        },
+        {
+          "offset": 54,
+          "mnemonic": "mov",
+          "operands": "eax, 0x40000000"
+        }
+      ],
+      "callee": "0x0038618e",
+      "source_before_sha256": "d2c02157ec84ccbccb3de166bf17a2f5408e4c66668366fb8f93267ea938f4e0",
+      "source_after_sha256": "1e1b77952411b68c3aabd4e0e943a9b2dbf493bb12165cc1278e30e29e748958",
+      "preimage_git_blob": "e303a2cd54cf475aa4929335931f32c143e2902b",
+      "added_declaration_block": "/* Exact existing callee draft declaration only; Xbox ABI_UNVERIFIED.\n * Original caller consumes hidden ECX/EDX and preserves ECX for this\n * callee, which saves it in ESI. The unchanged zero-argument source\n * call omits that binding; in_ECX/in_EDX remain unbound. Downstream\n * interfaces remain unresolved. These mismatches remain; no guest\n * pointer/ABI bridge is added. Do not execute this caller as game code. */\nextern void FUN_0038618e(void);\n",
+      "source_declaration": "extern void FUN_0038618e(void);",
+      "source_call": "FUN_0038618e();",
+      "source_call_arity": 0,
+      "hidden_register_inputs_represented": false,
+      "guest_pointer_mapping_established": false,
+      "callee_function_pointer_type": "void (*)(void)",
+      "caller_function_pointer_type": "undefined4 (*)(void)"
+    }
+  ],
+  "dependencies": [
+    {
+      "entry": "0x00386141",
+      "source": "src/platform/xpp_role_unverified/0x00386141.cpp",
+      "label": "FUN_00386141",
+      "original_body_sha256": "1252A600D91C75E9A478831D50438B6CA50B6AE4572F43C8DBF43A3F14ACBBD6",
+      "body_byte_count": 77,
+      "instruction_count": 26,
+      "body_ranges": [
+        {
+          "start": "00386141",
+          "end_inclusive": "0038618d",
+          "length": 77
+        }
+      ],
+      "private_index_row_sha256": "3b1e7fb2fc82a9670aa9dcfd7e37f487891bd87417fd7f19fac6f209efbef675",
+      "private_export_record_sha256": "bc715b89bc779200d630fe9377f89d725f6e979c1a51d31381883a2464d14ded",
+      "historical_inventory_row": {
+        "index": "13688",
+        "entry": "0x00386141",
+        "name": "FUN_00386141",
+        "original_body_sha256": "1252A600D91C75E9A478831D50438B6CA50B6AE4572F43C8DBF43A3F14ACBBD6",
+        "c_sha256": "10cf83596536ef1601a3efc630f841527b5f7b9ec131cf9ea9e2c9b8a66a4b1b",
+        "origin": "GHIDRA_C_DRAFT",
+        "c11_syntax": "HOST_CLANG_OK",
+        "abi": "UNVERIFIED",
+        "behavior": "UNVERIFIED",
+        "issues": "implicit_registers"
+      },
+      "definition_signature": "void FUN_00386141(void)",
+      "direct_calls": [
+        {
+          "address": "0038615b",
+          "bytes": "e804fcffff",
+          "mnemonic": "call",
+          "target": "0x00385d64"
+        },
+        {
+          "address": "0038617d",
+          "bytes": "e86efcffff",
+          "mnemonic": "call",
+          "target": "0x00385df0"
+        }
+      ],
+      "branches": [
+        {
+          "address": "0038614b",
+          "bytes": "743f",
+          "mnemonic": "je",
+          "target": "0x0038618c"
+        },
+        {
+          "address": "00386162",
+          "bytes": "7427",
+          "mnemonic": "je",
+          "target": "0x0038618b"
+        },
+        {
+          "address": "0038616f",
+          "bytes": "7506",
+          "mnemonic": "jne",
+          "target": "0x00386177"
+        },
+        {
+          "address": "00386189",
+          "bytes": "75c3",
+          "mnemonic": "jne",
+          "target": "0x0038614e"
+        }
+      ],
+      "ret_sites": [
+        {
+          "address": "0038618d",
+          "bytes": "c3"
+        }
+      ],
+      "instruction_windows": {
+        "00386142": {
+          "address": "00386142",
+          "bytes": "8bf1"
+        },
+        "00386144": {
+          "address": "00386144",
+          "bytes": "83be2404000000"
+        },
+        "0038614b": {
+          "address": "0038614b",
+          "bytes": "743f"
+        },
+        "0038614e": {
+          "address": "0038614e",
+          "bytes": "8bbe24040000"
+        },
+        "00386154": {
+          "address": "00386154",
+          "bytes": "33c0"
+        },
+        "00386156": {
+          "address": "00386156",
+          "bytes": "668b4720"
+        },
+        "0038615b": {
+          "address": "0038615b",
+          "bytes": "e804fcffff"
+        },
+        "00386160": {
+          "address": "00386160",
+          "bytes": "84c0"
+        },
+        "00386162": {
+          "address": "00386162",
+          "bytes": "7427"
+        },
+        "0038616f": {
+          "address": "0038616f",
+          "bytes": "7506"
+        },
+        "00386171": {
+          "address": "00386171",
+          "bytes": "218628040000"
+        },
+        "00386177": {
+          "address": "00386177",
+          "bytes": "8b5710"
+        },
+        "0038617a": {
+          "address": "0038617a",
+          "bytes": "57"
+        },
+        "0038617b": {
+          "address": "0038617b",
+          "bytes": "8bce"
+        },
+        "0038617d": {
+          "address": "0038617d",
+          "bytes": "e86efcffff"
+        },
+        "00386189": {
+          "address": "00386189",
+          "bytes": "75c3"
+        },
+        "0038618d": {
+          "address": "0038618d",
+          "bytes": "c3"
+        }
+      },
+      "register_observations": [
+        {
+          "offset": 1,
+          "mnemonic": "mov",
+          "operands": "esi, ecx"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "cmp",
+          "operands": "dword ptr [esi + 0x424], 0"
+        },
+        {
+          "offset": 13,
+          "mnemonic": "mov",
+          "operands": "edi, dword ptr [esi + 0x424]"
+        },
+        {
+          "offset": 19,
+          "mnemonic": "xor",
+          "operands": "eax, eax"
+        },
+        {
+          "offset": 21,
+          "mnemonic": "mov",
+          "operands": "ax, word ptr [edi + 0x20]"
+        },
+        {
+          "offset": 31,
+          "mnemonic": "test",
+          "operands": "al, al"
+        },
+        {
+          "offset": 48,
+          "mnemonic": "and",
+          "operands": "dword ptr [esi + 0x428], eax"
+        },
+        {
+          "offset": 54,
+          "mnemonic": "mov",
+          "operands": "edx, dword ptr [edi + 0x10]"
+        },
+        {
+          "offset": 57,
+          "mnemonic": "push",
+          "operands": "edi"
+        },
+        {
+          "offset": 58,
+          "mnemonic": "mov",
+          "operands": "ecx, esi"
+        }
+      ],
+      "source_sha256": "55e1c66027dbbaeabb88c6a22647887cb56f62dbd9d3fe1a19b1f0c7a2794714",
+      "git_blob": "6e8b23a1c5b4b1c8169303b08530ad51600fd5ae"
+    },
+    {
+      "entry": "0x0038618e",
+      "source": "src/platform/xpp_role_unverified/0x0038618e.cpp",
+      "label": "FUN_0038618e",
+      "original_body_sha256": "197E7970EB7823A119A3D2F8CFE2ADBE595CB5B32C56F5915BEB265AAE812259",
+      "body_byte_count": 77,
+      "instruction_count": 26,
+      "body_ranges": [
+        {
+          "start": "0038618e",
+          "end_inclusive": "003861da",
+          "length": 77
+        }
+      ],
+      "private_index_row_sha256": "73c4520eba3c0917503c99eb42ba25df6027da93b93a380cf1930423cee20990",
+      "private_export_record_sha256": "0e70f46bed47a342c62edcbb39dffab234ef112e40b415b8e4cdd42515644690",
+      "historical_inventory_row": {
+        "index": "13689",
+        "entry": "0x0038618e",
+        "name": "FUN_0038618e",
+        "original_body_sha256": "197E7970EB7823A119A3D2F8CFE2ADBE595CB5B32C56F5915BEB265AAE812259",
+        "c_sha256": "9669f3d4e18154e1fef8f075fa1e4323114b97408bba645593127bccd9ed9ccd",
+        "origin": "GHIDRA_C_DRAFT",
+        "c11_syntax": "HOST_CLANG_OK",
+        "abi": "UNVERIFIED",
+        "behavior": "UNVERIFIED",
+        "issues": "implicit_registers"
+      },
+      "definition_signature": "void FUN_0038618e(void)",
+      "direct_calls": [
+        {
+          "address": "003861a8",
+          "bytes": "e898fbffff",
+          "mnemonic": "call",
+          "target": "0x00385d45"
+        },
+        {
+          "address": "003861ca",
+          "bytes": "e821fcffff",
+          "mnemonic": "call",
+          "target": "0x00385df0"
+        }
+      ],
+      "branches": [
+        {
+          "address": "00386198",
+          "bytes": "743f",
+          "mnemonic": "je",
+          "target": "0x003861d9"
+        },
+        {
+          "address": "003861af",
+          "bytes": "7427",
+          "mnemonic": "je",
+          "target": "0x003861d8"
+        },
+        {
+          "address": "003861bc",
+          "bytes": "7506",
+          "mnemonic": "jne",
+          "target": "0x003861c4"
+        },
+        {
+          "address": "003861d6",
+          "bytes": "75c3",
+          "mnemonic": "jne",
+          "target": "0x0038619b"
+        }
+      ],
+      "ret_sites": [
+        {
+          "address": "003861da",
+          "bytes": "c3"
+        }
+      ],
+      "instruction_windows": {
+        "0038618f": {
+          "address": "0038618f",
+          "bytes": "8bf1"
+        },
+        "00386191": {
+          "address": "00386191",
+          "bytes": "83be1c04000000"
+        },
+        "00386198": {
+          "address": "00386198",
+          "bytes": "743f"
+        },
+        "0038619b": {
+          "address": "0038619b",
+          "bytes": "8bbe1c040000"
+        },
+        "003861a1": {
+          "address": "003861a1",
+          "bytes": "33c0"
+        },
+        "003861a3": {
+          "address": "003861a3",
+          "bytes": "668b4720"
+        },
+        "003861a8": {
+          "address": "003861a8",
+          "bytes": "e898fbffff"
+        },
+        "003861ad": {
+          "address": "003861ad",
+          "bytes": "84c0"
+        },
+        "003861af": {
+          "address": "003861af",
+          "bytes": "7427"
+        },
+        "003861bc": {
+          "address": "003861bc",
+          "bytes": "7506"
+        },
+        "003861be": {
+          "address": "003861be",
+          "bytes": "218620040000"
+        },
+        "003861c4": {
+          "address": "003861c4",
+          "bytes": "8b5710"
+        },
+        "003861c7": {
+          "address": "003861c7",
+          "bytes": "57"
+        },
+        "003861c8": {
+          "address": "003861c8",
+          "bytes": "8bce"
+        },
+        "003861ca": {
+          "address": "003861ca",
+          "bytes": "e821fcffff"
+        },
+        "003861d6": {
+          "address": "003861d6",
+          "bytes": "75c3"
+        },
+        "003861da": {
+          "address": "003861da",
+          "bytes": "c3"
+        }
+      },
+      "register_observations": [
+        {
+          "offset": 1,
+          "mnemonic": "mov",
+          "operands": "esi, ecx"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "cmp",
+          "operands": "dword ptr [esi + 0x41c], 0"
+        },
+        {
+          "offset": 13,
+          "mnemonic": "mov",
+          "operands": "edi, dword ptr [esi + 0x41c]"
+        },
+        {
+          "offset": 19,
+          "mnemonic": "xor",
+          "operands": "eax, eax"
+        },
+        {
+          "offset": 21,
+          "mnemonic": "mov",
+          "operands": "ax, word ptr [edi + 0x20]"
+        },
+        {
+          "offset": 31,
+          "mnemonic": "test",
+          "operands": "al, al"
+        },
+        {
+          "offset": 48,
+          "mnemonic": "and",
+          "operands": "dword ptr [esi + 0x420], eax"
+        },
+        {
+          "offset": 54,
+          "mnemonic": "mov",
+          "operands": "edx, dword ptr [edi + 0x10]"
+        },
+        {
+          "offset": 57,
+          "mnemonic": "push",
+          "operands": "edi"
+        },
+        {
+          "offset": 58,
+          "mnemonic": "mov",
+          "operands": "ecx, esi"
+        }
+      ],
+      "source_sha256": "fb9ef2c7a41baae87918a6f03f263925029cf4328d54afb3f88ac42953f909b5",
+      "git_blob": "dfc1e91ed09f92696d9fd78c5a5a212254b99253"
+    }
+  ],
+  "limitations": [
+    "0038620e and 0038624a consume hidden ECX/EDX and leave ECX intact for 00386141 and 0038618e. Both zero-argument caller/callee source signatures omit ECX binding, and in_ECX/in_EDX pseudo-locals remain unbound. These are exact existing source declarations only, not recovered Xbox interfaces.",
+    "The independently admitted uint16_t limit externs remain unchanged. This batch adds no definitions, mapped guest storage, object layout, pointer bridge, register inputs, or function-body edits.",
+    "Each callee saves incoming ECX in ESI; downstream 00385d64 or 00385d45 receives an explicitly pushed zero-extended WORD, and 00385df0 receives pushed EDI plus hidden EDX=[EDI+0x10] and ECX=ESI. Operand evidence does not establish downstream interfaces, stack cleanup, calling convention or semantics.",
+    "The four complete bodies, every instruction boundary and all direct CALL/branch/RET/fallthrough metadata are replayed privately using independent 32-bit decoding and exact original body hashes, with no analyzed overrides permitted. Full original-XBE reauthentication is not claimed.",
+    "Compile-only O0/O2 syntax and object success is not native linkage, execution, ABI recovery, behavior, semantic equivalence or a byte-identical rebuild. Do not execute these drafts as game code."
+  ]
+}

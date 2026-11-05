@@ -143,10 +143,82 @@ def restore(case, new):
     return old
 
 
-def region_labels(root):
+COUNTER_LAYER_NAME = 'metadata/cpp_20261105_counter_word_widths.json'
+COUNTER_LAYER_SHA = 'f21931924ea7c42ccde29b00284942e8321f84fc3ad3da0d8f71e641b120ba69'
+COUNTER_LAYER_SOURCES = {
+    'src/platform/xpp_role_unverified/0x'+entry+'.cpp'
+    for entry in ('0037f9a9', '00385128', '0038524e', '00385d45', '00385d64')
+}
+
+
+def reverse_counter_layer(root, source, raw, expected_sha):
+    """Recover one exact predecessor image; counter evidence stays separate."""
+    need(source in COUNTER_LAYER_SOURCES, 'unapproved counter projection source')
+    need((Path(root)/COUNTER_LAYER_NAME).is_file(), 'approved counter manifest missing')
+    with (Path(root)/COUNTER_LAYER_NAME).open('rb') as stream:
+        manifest = stream.read(1024*1024+1)
+    need(sha(manifest) == COUNTER_LAYER_SHA, 'approved counter manifest bytes differ')
+    later = strict_json(manifest)
+    matches = [c for c in later['cases'] if c['source'] == source]
+    need(len(matches) == 1, 'approved counter case differs')
+    case = matches[0]
+    need(sha(raw) == case['source_after_sha256'] and case['source_before_sha256'] == expected_sha,
+         'counter layer is not the exact approved postimage/preimage')
+    recovered = raw
+    for edit in reversed(case['edits']):
+        before, after = edit['before'].encode(), edit['after'].encode()
+        need(recovered.count(after) == 1 and before not in recovered, 'counter reversal count differs')
+        recovered = recovered.replace(after, before, 1)
+    need(sha(recovered) == expected_sha, 'counter predecessor bytes differ')
+    need(hashlib.sha1(b'blob '+str(len(recovered)).encode()+b'\0'+recovered).hexdigest() == case['preimage_git_blob'],
+         'counter predecessor Git blob differs')
+    return recovered
+
+
+def source_at_width_stage(root, case, raw):
+    """Reverse only the later, separately pinned pair of source declarations.
+
+    The immutable WORD manifest and its restore/apply hashes are unchanged.
+    No arbitrary extern, comment or body edit can be normalized away.
+    """
+    need(isinstance(raw, bytes), 'source layer requires raw bytes')
+    if sha(raw) == case['source_after_sha256']:
+        return raw
+    if case['source'] in COUNTER_LAYER_SOURCES:
+        return reverse_counter_layer(root, case['source'], raw, case['source_after_sha256'])
+    need(case['entry'] in ('0x0038620e', '0x0038624a'), 'unapproved source layer')
+    import verify_cpp_20261105_word_source_declarations as declarations
+    later = declarations.load_manifest(root)
+    matches = [c for c in later['cases'] if c['entry'] == case['entry']]
+    need(len(matches) == 1, 'approved declaration case differs')
+    approved = matches[0]
+    need(approved['source'] == case['source'] and
+         approved['source_before_sha256'] == case['source_after_sha256'],
+         'declaration preimage does not equal exact WORD postimage')
+    recovered = declarations.restore(approved, raw.decode()).encode()
+    need(sha(recovered) == case['source_after_sha256'], 'WORD source layer differs')
+    return recovered
+
+
+def source_at_dependency_stage(root, doc, source, raw, expected_sha):
+    if sha(raw) == expected_sha:
+        return raw
+    matches = [case for case in doc['cases'] if case['source'] == source]
+    if matches:
+        need(len(matches) == 1 and matches[0]['source_after_sha256'] == expected_sha,
+             'predecessor case pin differs')
+        return source_at_width_stage(root, matches[0], raw)
+    return reverse_counter_layer(root, source, raw, expected_sha)
+
+
+def region_labels(root, doc):
     labels = []
+    pins = {p['path']:p['sha256'] for p in doc['dependency_pins']}
     for path in (root/'src').rglob('*.cpp'):
-        text = path.read_text()
+        raw = path.read_bytes(); source = path.relative_to(root).as_posix()
+        if source in pins:
+            raw = source_at_dependency_stage(root, doc, source, raw, pins[source])
+        text = raw.decode()
         for address in ('004a8fe0', '004a8fe2', '004a8fe4', '004a8fe6'):
             symbol = 'DAT_'+address
             if symbol in text:
@@ -162,12 +234,14 @@ def verify_source(root, doc):
     with (root/'metadata/bulk_13694_inventory.csv').open(newline='') as stream:
         inventory = {r['entry']:r for r in csv.DictReader(stream)}
     for pin in doc['dependency_pins']:
-        need(sha((root/pin['path']).read_bytes()) == pin['sha256'], 'dependency/source bytes drift: '+pin['path'])
-    need(region_labels(root) == doc['region_labels'], 'region declaration/reference footprint differs')
+        raw = (root/pin['path']).read_bytes()
+        raw = source_at_dependency_stage(root, doc, pin['path'], raw, pin['sha256'])
+        need(sha(raw) == pin['sha256'], 'dependency/source bytes drift: '+pin['path'])
+    need(region_labels(root, doc) == doc['region_labels'], 'region declaration/reference footprint differs')
     for case in doc['cases']:
         path = source_path(root, case['entry'])
         need(path.relative_to(root).as_posix() == case['source'], 'source route differs')
-        raw = path.read_bytes(); restore(case, raw)
+        raw = source_at_width_stage(root, case, path.read_bytes()); restore(case, raw)
         digest, conflict = read_body_digest(raw.decode())
         need(not conflict and digest == case['original_body_sha256'] == inventory[case['entry']]['original_body_sha256'],
              'original body identity differs')
