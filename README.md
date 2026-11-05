@@ -7,13 +7,13 @@
 
 [![C++ source audit](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml/badge.svg?branch=main)](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml)
 
-![C++17 syntax coverage: 29.50%](docs/progress/cpp-syntax.svg)
+![C++17 syntax coverage: 29.52%](docs/progress/cpp-syntax.svg)
 
-**29.50% C++17 syntax coverage** · **4,040 / 13,694** function drafts passing · **9,654** failing. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/177bffee55681237c4000ddd40c1959ef152a133) · [Audit run](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/41977904440).
+**29.52% C++17 syntax coverage** · **4,042 / 13,694** function drafts passing · **9,652** failing. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/f9bd13326c3094b15e28d27053d7ecf841889140) · [Audit run](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/41981888356).
 
-![Overall roadmap tracking: 4.21%](docs/progress/overall.svg)
+![Overall roadmap tracking: 4.22%](docs/progress/overall.svg)
 
-**Overall tracked roadmap: 4.21%**. This is a seven-stage planning indicator crediting *only* the C++ syntax fraction of stage one; the other six stages are not verified. **It is not verified game completion.**
+**Overall tracked roadmap: 4.22%**. This is a seven-stage planning indicator crediting *only* the C++ syntax fraction of stage one; the other six stages are not verified. **It is not verified game completion.**
 
 **Native PC game: NOT buildable/playable yet.** Original Xbox C++ object layouts, virtual dispatch, guest ABI, cross-function linkage, platform services and 1:1 behavior still require evidence.
 
