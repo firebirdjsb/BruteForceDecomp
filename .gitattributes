@@ -9,3 +9,6 @@ tests/fixtures/00077eb0_before.cpp.txt -text whitespace=-blank-at-eol
 
 # Preserve the exact public-source preimage for native norm tests.
 tests/fixtures/00314c76_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact original source fixtures for fixed-byte loop reversals.
+tests/fixtures/cpp_fixed_byte_loops/*.before.cpp -text whitespace=-blank-at-eol
