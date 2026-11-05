@@ -14,11 +14,13 @@ void FUN_000beae0(void)
   int unaff_EDI;
   
   if (*(int *)(unaff_EDI + 8) != *(int *)(unaff_EDI + 0x10)) {
-    FUN_0008f6a0(*(int *)(unaff_EDI + 0x10));
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(4),
+                  static_cast<std::uint32_t>(*(int *)(unaff_EDI + 0x10)));
   }
   if ((*(byte *)(unaff_EDI + 0x4c) & 1) == 0) {
     if (*(int *)(unaff_EDI + 0x10) != 0) {
-      FUN_0008f6a0(0);
+      FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x0c),
+                    UINT32_C(0));
     }
   }
   else if (*(int *)(unaff_EDI + 0x10) == 0) {
