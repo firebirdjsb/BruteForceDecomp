@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "entry": "0x002eaa70",
+  "source": "src/main_unclassified/band_002e/0x002eaa70.cpp",
+  "baseline_commit": "dcfa46ea5ff5774364e45f18e0cb521c44559801",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_body_sha256": "AB4BAB194AAE7751EAE686A11B9B3777DD65C29138D9A7D064CC8A88CB137299",
+  "source_before_sha256": "127b3aeb95429bc817d4092f6f0474db01b1b39bae4d83d314b745bd79ed23cf",
+  "source_after_sha256": "916c139a16084a113a24f512e98843917b6bd12e5f7a675eebb77c169dd969af",
+  "preimage_git_blob": "02972748ce3c900492d65a542e33bde1f64f4c3d",
+  "preimage_fixture": "tests/fixtures/002eaa70_before.cpp.txt",
+  "signature": "int FUN_002eaa70(short *param_1)",
+  "replacement": {
+    "before": "  return ((int)psVar2 - (int)param_1 >> 1) + -1;",
+    "after": "  // Bounded native object only: two's-complement 16-bit short, 32-bit int,\n  // first zero at L <= 0x3ffffffe and L+1 <= PTRDIFF_MAX in one live short array.\n  // Reads through the zero and the final one-past advance must be valid.\n  // Guest32 mapping/wrap, registers/flags and RET transport remain ABI_UNVERIFIED.\n  return static_cast<int>(psVar2 - param_1) - 1;",
+    "count": 1
+  },
+  "body_ranges": [
+    {
+      "start": "002eaa70",
+      "end_inclusive": "002eaa85",
+      "length": 22,
+      "bytes_hex": "8b442404668b0840406685c975f62b442404d1f848c3"
+    }
+  ],
+  "instruction_count": 10,
+  "instruction_windows": [
+    {
+      "address": "0x002eaa70",
+      "bytes": "8b442404",
+      "mnemonic": "MOV",
+      "operands": [
+        "EAX",
+        "dword ptr [ESP + 0x4]"
+      ]
+    },
+    {
+      "address": "0x002eaa74",
+      "bytes": "668b08",
+      "mnemonic": "MOV",
+      "operands": [
+        "CX",
+        "word ptr [EAX]"
+      ]
+    },
+    {
+      "address": "0x002eaa77",
+      "bytes": "40",
+      "mnemonic": "INC",
+      "operands": [
+        "EAX"
+      ]
+    },
+    {
+      "address": "0x002eaa78",
+      "bytes": "40",
+      "mnemonic": "INC",
+      "operands": [
+        "EAX"
+      ]
+    },
+    {
+      "address": "0x002eaa79",
+      "bytes": "6685c9",
+      "mnemonic": "TEST",
+      "operands": [
+        "CX",
+        "CX"
+      ]
+    },
+    {
+      "address": "0x002eaa7c",
+      "bytes": "75f6",
+      "mnemonic": "JNZ",
+      "operands": [
+        "0x002eaa74"
+      ]
+    },
+    {
+      "address": "0x002eaa7e",
+      "bytes": "2b442404",
+      "mnemonic": "SUB",
+      "operands": [
+        "EAX",
+        "dword ptr [ESP + 0x4]"
+      ]
+    },
+    {
+      "address": "0x002eaa82",
+      "bytes": "d1f8",
+      "mnemonic": "SAR",
+      "operands": [
+        "EAX",
+        "0x1"
+      ]
+    },
+    {
+      "address": "0x002eaa84",
+      "bytes": "48",
+      "mnemonic": "DEC",
+      "operands": [
+        "EAX"
+      ]
+    },
+    {
+      "address": "0x002eaa85",
+      "bytes": "c3",
+      "mnemonic": "RET",
+      "operands": []
+    }
+  ],
+  "private_record": {
+    "jsonl_byte_offset": 254732994,
+    "jsonl_byte_length": 3747,
+    "sha256": "0c6006354ce3926a08612d90efac8f0af7d4bfe80497ed80ff517098396859a7"
+  },
+  "native_contract": {
+    "char_bits": 8,
+    "short_bits": 16,
+    "int_bits": 32,
+    "pointer_bits": 64,
+    "length_bound": "L <= 0x3ffffffe and L+1 <= PTRDIFF_MAX",
+    "memory": "Non-null, suitably aligned pointer into one live short array, first zero at element L, all elements 0..L readable, every advance including the final one-past advance valid.",
+    "null": "No null guard exists in the original body; null is outside this native contract and never executed.",
+    "guest_model": "G >= 1 and G+2*(L+1) <= UINT32_MAX. DWORD subtraction equals 2*(L+1) <= 0x7ffffffe; SAR 1 then DEC equals L.",
+    "cutoff": "At excluded L=0x3fffffff, SUB is 0x80000000 and SAR/DEC gives 0xbfffffff, not L. This is a bounded repair, not an unbounded strlen rewrite.",
+    "excludes": [
+      "lengths above the stated bound",
+      "guest32 address mapping and wrap",
+      "unaligned guest memory",
+      "registers, flags, stack and RET transport",
+      "faults, MMIO and concurrent access",
+      "cross-function linkage and original runtime/rebuild equivalence"
+    ],
+    "short_representation": "two's complement, SHRT_MIN == -32768 and SHRT_MAX == 32767"
+  },
+  "verification_boundary": {
+    "full_xbe_reauthenticated": false,
+    "original_machine_code_executed": false,
+    "canonical_native_function_executed_with_initialized_inputs": true,
+    "guest_abi_verified": false,
+    "runtime_1_to_1_verified": false
+  }
+}
