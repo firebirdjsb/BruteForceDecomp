@@ -14,6 +14,7 @@ on:
       - 'docs/audits/**'
       - 'docs/evidence/002b3cc0_add_operation*.md'
       - 'docs/evidence/002b3e60_multiply_add_operation.md'
+      - 'docs/evidence/002b8d10_multiply_add_operation.md'
       - 'tests/**'
       - 'viewer/**'
       - 'tools/source_layout.py'
@@ -162,6 +163,7 @@ jobs:
           python3 tools/test_cpp_002eca8b_round_operation.py
           python3 tools/test_cpp_002b3cc0_add_operation.py
           python3 tools/test_cpp_002b3e60_multiply_add_operation.py
+          python3 tools/test_cpp_002b8d10_multiply_add_operation.py
           python3 tools/test_cpp_20261104_uploaded_evidence.py
           python3 tools/test_cpp_20261104_0003f0e0_eax_handoff.py
           python3 tools/test_cpp_20261104_guest_initializers.py

@@ -36,3 +36,6 @@ tests/fixtures/002eaa70_before.cpp.txt -text whitespace=-blank-at-eol
 
 # Preserve exact historical packed multiply/add preimage.
 tests/fixtures/002b3e60_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical in-place packed multiply/add preimage.
+tests/fixtures/002b8d10_before.cpp.txt -text whitespace=-blank-at-eol
