@@ -80,6 +80,8 @@ jobs:
         run: python3 tools/test_cpp_20261105_two_source_declarations.py
       - name: Verify seven exact source declarations (hidden register and return mismatches remain)
         run: python3 tools/test_cpp_20261105_seven_source_declarations.py
+      - name: Verify two source declarations with unresolved hidden register inputs
+        run: python3 tools/test_cpp_20261105_register_source_declarations.py
       - name: Verify two bounded guest literals and exact source declarations (ABI unverified)
         run: python3 tools/test_cpp_20261105_literal_declaration_pair.py
       - name: Verify two bounded callback DWORD operands (not native object or ABI recovery)

@@ -6,6 +6,12 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Exact existing callee draft declaration only; Xbox ABI_UNVERIFIED.
+ * Original caller passes incoming ECX+0x38 through ECX into this callee
+ * and its downstream call. The unchanged zero-argument source call omits
+ * that binding; in_ECX remains unbound. No guest pointer/ABI bridge is added.
+ * These mismatches remain; do not execute this caller as game code. */
+extern bool FUN_002e4940(void);
 uint FUN_002e5900(void)
 
 {
