@@ -7,9 +7,9 @@
 
 [![C++ source audit](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml/badge.svg?branch=main)](https://github.com/firebirdjsb/BruteForceDecomp/actions/workflows/cpp-compatibility-audit.yml)
 
-![C++17 syntax coverage: 29.58%](docs/progress/cpp-syntax.svg)
+![C++17 syntax coverage: 29.59%](docs/progress/cpp-syntax.svg)
 
-**29.58% C++17 syntax coverage** · **4,051 / 13,694** function drafts passing · **9,643** failing. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/a8672a38c4079209c46d7d39c15d95031c800231) · [Audit run](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/41990819119).
+**29.59% C++17 syntax coverage** · **4,052 / 13,694** function drafts passing · **9,642** failing. [Exact audited commit](https://github.com/firebirdjsb/BruteForceDecomp/commit/0d126ada5b84ae7aac17bd02e97799f8e84291c9) · [Audit run](https://github.com/firebirdjsb/BruteForceDecomp/actions/runs/41997675230).
 
 ![Overall roadmap tracking: 4.23%](docs/progress/overall.svg)
 
