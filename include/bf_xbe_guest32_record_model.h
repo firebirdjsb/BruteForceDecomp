@@ -9,6 +9,9 @@
 // Runtime guest-address translation is intentionally unresolved/unimplemented.
 std::uint32_t bf_guest_read_u32(std::uint32_t guest_va);
 void bf_guest_write_u32(std::uint32_t guest_va, std::uint32_t value);
+// Byte operations are distinct from DWORD operations: preserve adjacent bytes.
+std::uint8_t bf_guest_read_u8(std::uint32_t guest_va);
+void bf_guest_write_u8(std::uint32_t guest_va, std::uint8_t value);
 
 // Explicit host-side guest-register models, NOT original Xbox C++ prototypes.
 void FUN_0008f6e0(std::uint32_t guest_edx);
