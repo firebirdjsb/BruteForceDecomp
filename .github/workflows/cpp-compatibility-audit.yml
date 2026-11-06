@@ -212,6 +212,7 @@ jobs:
           python3 tools/test_cpp_20261104_heap_free_scalar_calls.py
           python3 tools/test_cpp_20261105_allocator_declarations.py
           python3 tools/test_cpp_20261105_next_allocator_declarations.py
+          python3 tools/test_cpp_20261106_guest32_records.py
           python3 tools/test_cpp_20261104_heap_free_literal_overlays.py
           python3 tools/test_cpp_002e9c30_continuation.py
           python3 tools/test_cpp_fixed_byte_loops.py
