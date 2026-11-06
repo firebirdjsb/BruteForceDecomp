@@ -49,6 +49,44 @@ HEAP_FREE_BATCHES = {
 
 # Source-intent spelling only: no XBE instruction evidence is asserted here.
 # Keep separate from the independently instruction-gated 14-case overlays.
+# A later independently XBE-checked guest32 rewrite superseded this one
+# historical 250-case *partial* DWORD literal draft. Keep that historical
+# verifier's source and original preimage exact, rather than silently dropping
+# its entry or widening the original literal operation allowlist.
+# Source fixture is pinned to the SHA of commit 6eea3e8 and the manifest.
+SUPERSEDED_GUEST32_SOURCE = {
+    'entry': '0x0001d470',
+    'body_sha256': '9D9A8EBA1FF910609ABDE98C000B99E3AE58251E5FFEDCEE9E1768D7710C511E',
+    'historical_sha256': '260647b96dae33ff90722a8f0962f7ec4eac28366c7c54e06e47c1aecfd0c332',
+    'current_sha256': '7b9abe5b1f92e7bdcc362a53e29dcc3ea0c617e14f0f1cb6723717336f15f87d',
+    'fixture': 'tests/fixtures/original_0x0001d470_post_literal_20261105.txt',
+}
+
+
+def historical_literal_source_for_guest32_rewrite(case, text):
+    """Recover one exact historical literal draft; never accept a changed rewrite.
+
+    This is not a new declaration, an x86 ABI claim or a generated source
+    repair: it preserves the previous verifier's immutable input identity.
+    """
+    guard = SUPERSEDED_GUEST32_SOURCE
+    if case['entry'] != guard['entry']:
+        return text
+    if (case['body_sha256'] != guard['body_sha256']
+            or case['status'] != 'partial'
+            or case['result_source_sha256'] != guard['historical_sha256']):
+        raise ValueError('Superseded source provenance/identity differs')
+    current = sha(text)
+    if current == guard['historical_sha256']:
+        return text  # Historical regression fixtures remain valid.
+    if current != guard['current_sha256']:
+        raise ValueError('Changed XBE-evidenced guest32 rewrite: '+case['entry'])
+    historical = (ROOT / guard['fixture']).read_text(encoding='utf-8')
+    if sha(historical) != guard['historical_sha256']:
+        raise ValueError('Historical literal fixture differs')
+    return historical
+
+
 SOURCE_SPELLING_OVERLAYS = {
     '0x0036fbe0': {
         'entry': '0x0036fbe0',
@@ -257,6 +295,7 @@ def restore(case, text, overlays=None, source_spelling_overlays=None, exported_i
             set(overlays or {}) | set(source_spelling_overlays or {}) |
             set(exported_instruction_overlays or {}) | set(heap_free_overlays or {})):
         raise ValueError('Continuation evidence classes overlap')
+    text = historical_literal_source_for_guest32_rewrite(case, text)
     text = restore_continuation_instruction(case, text, continuation_overlays)
     if set(heap_free_overlays or {}).intersection(
             set(overlays or {}) | set(source_spelling_overlays or {}) | set(exported_instruction_overlays or {})):
@@ -368,6 +407,11 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
         historical_text = restore_heap_free_instruction(case, historical_text, heap_free_overlays)
         historical_text = restore_exported_instruction(case, historical_text, exported_instruction_overlays)
         inventory_sha = overlays[case['entry']]['prior_sha256'] if case['entry'] in overlays else sha(restore_source_spelling(case,historical_text,source_spelling_overlays))
+        if case['entry'] == SUPERSEDED_GUEST32_SOURCE['entry']:
+            # Inventory tracks the older verified source; the source-only
+            # guest32 rewrite must independently match its exact SHA above.
+            historical_text = historical_literal_source_for_guest32_rewrite(case, historical_text)
+            inventory_sha = sha(historical_text)
         if row['original_body_sha256'] != case['body_sha256'] or row['c_sha256'] != inventory_sha:
             raise ValueError('Inventory fingerprint differs')
         if 'ABI_UNVERIFIED' not in text:
@@ -392,7 +436,7 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
                 raise ValueError('Signature differs from real source definition')
             if 'extern '+dep['signature']+';\n' not in case['added_block']:
                 raise ValueError('Declaration not source matched')
-        effective_status = 'complete' if case['entry'] in overlays or case['entry'] in source_spelling_overlays or case['entry'] in exported_instruction_overlays or case['entry'] in heap_free_overlays or case['entry'] in continuation_overlays else case['status']
+        effective_status = 'complete' if case['entry'] in overlays or case['entry'] in source_spelling_overlays or case['entry'] in exported_instruction_overlays or case['entry'] in heap_free_overlays or case['entry'] in continuation_overlays or case['entry'] == SUPERSEDED_GUEST32_SOURCE['entry'] else case['status']
         for opt in ('-O0','-O2'):
             old_rc, old, old_warnings, old_locations = compile_text(compiler,root,preimages[case['entry']],opt)
             rc, errors, warnings, locations = compile_text(compiler,root,text.replace(case['added_block'],'',1) if effective_status=='partial' else text,opt)
@@ -446,7 +490,8 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
                     pass
                 else:
                     raise ValueError('Changed exported-instruction overlay control escaped')
-    completions = len(overlays) + len(source_spelling_overlays) + len(exported_instruction_overlays) + len(heap_free_overlays) + len(continuation_overlays)
+    additional_guest32_completion = sum(c['entry'] == SUPERSEDED_GUEST32_SOURCE['entry'] for c in cases)
+    completions = len(overlays) + len(source_spelling_overlays) + len(exported_instruction_overlays) + len(heap_free_overlays) + len(continuation_overlays) + additional_guest32_completion
     if (full,partial,values) != (expected['complete']+completions,expected['partial']-completions,expected['values']):
         raise ValueError('Verification totals differ')
     print(f'PASS {full} complete C++17 repairs; {partial} partial repairs; {values} DWORD values; O0/O2 and preimage/corruption controls')
@@ -458,6 +503,8 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
         print(f'{len(heap_free_overlays)} separately pinned heap-free call completions; historical ledger and DWORD counts unchanged; no whole-XBE authentication claimed')
     if continuation_overlays:
         print('1 separately pinned bounded continuation completion; original 18-byte body and historical ledger unchanged; ABI/runtime unresolved')
+    if additional_guest32_completion:
+        print('1 exact historical 0001d470 partial ledger source preserved; subsequent XBE-evidenced guest32 rewrite syntactically complete; ABI/runtime unverified')
     if image is not None:
         verify_image(image, cases, overlays)
     else:
