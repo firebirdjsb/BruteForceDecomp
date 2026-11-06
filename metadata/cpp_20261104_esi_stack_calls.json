@@ -23,7 +23,7 @@
     "private_validation_issues": [],
     "source_sha256": "6996e48e796e895c0241326081bc8f9e6609e21ebf9754312e1b5a74ee528836",
     "header": "include/bf_xbe_guest32_record_model.h",
-    "header_sha256": "04b5a96effc67f8163b2f148f37168950488912ea54df491f540aa5e7a779bbb",
+    "header_sha256": "c45821aa7ca3ba0df05e69b9bbf82fd60ee5df16b3835d800408b7ea2f640130",
     "instruction_windows": [
       {
         "address": "0008f6a0",
