@@ -1,38 +1,32 @@
-/* Partial original DWORD address-value repair; other C++ errors remain.
- * ABI_UNVERIFIED: register/memory mapping and complete behavior remain unresolved. */
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox: 0x0001d470, FUN_0001d470.
  * Input x86 body SHA-256: 9D9A8EBA1FF910609ABDE98C000B99E3AE58251E5FFEDCEE9E1768D7710C511E
- * Entry: 0x0001d470, Ghidra index: 130, label: FUN_0001d470
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: CPP_DRAFT, ABI_UNVERIFIED, NOT_NATIVE_LINKED, NOT_BEHAVIOR_TESTED.
+ * Host guest_esi models the incoming Xbox ESI register, NOT a recovered
+ * original C++ signature. No native pointer is truncated to guest32.
+ * The memory interface is intentionally unresolved until guest mapping exists.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern void FUN_0008f6e0(std::uint32_t guest_edx);
+#include "bf_xbe_guest32_record_model.h"
 
-extern uint32_t PTR_FUN_003a4f64;
-extern uint32_t PTR_FUN_003a4f68;
-void FUN_0001d470(void)
-
+void FUN_0001d470(std::uint32_t guest_esi)
 {
-  undefined4 *unaff_ESI;
-  
-  if (unaff_ESI[0x16] != 0) {
-    FUN_0008f6e0();
-  }
-  unaff_ESI[7] = UINT32_C(0x003a4f64);
-  if (unaff_ESI[0xf] != 0) {
-    FUN_0008f6e0();
-  }
-  if (unaff_ESI[10] != 0) {
-    FUN_0008f6e0();
-  }
-  *unaff_ESI = UINT32_C(0x003a4f68);
-  if (unaff_ESI[5] != 0) {
-    FUN_0008f6e0();
-    return;
-  }
-  return;
+    // XBE 0x1D470: MOV EAX,[ESI+0x58], LEA EDX,[ESI+0x54].
+    if (bf_guest_read_u32(guest_esi + UINT32_C(0x58)) != 0) {
+        FUN_0008f6e0(guest_esi + UINT32_C(0x54));
+    }
+    bf_guest_write_u32(guest_esi + UINT32_C(0x1c), UINT32_C(0x003a4f64));
+
+    // XBE 0x1D47F: LEA EDX,[ESI+0x38], then MOV EAX,[EDX+4].
+    if (bf_guest_read_u32(guest_esi + UINT32_C(0x3c)) != 0) {
+        FUN_0008f6e0(guest_esi + UINT32_C(0x38));
+    }
+    // XBE 0x1D495: MOV EAX,[ESI+0x28], LEA EDX,[ESI+0x24].
+    if (bf_guest_read_u32(guest_esi + UINT32_C(0x28)) != 0) {
+        FUN_0008f6e0(guest_esi + UINT32_C(0x24));
+    }
+    // XBE 0x1D4A4: LEA EDX,[ESI+0x10], then MOV [ESI],0x003A4F68.
+    bf_guest_write_u32(guest_esi, UINT32_C(0x003a4f68));
+    if (bf_guest_read_u32(guest_esi + UINT32_C(0x14)) != 0) {
+        // Original 0x1D4B4 is JMP 0x8F6E0; host tail ABI unverified.
+        FUN_0008f6e0(guest_esi + UINT32_C(0x10));
+    }
 }
