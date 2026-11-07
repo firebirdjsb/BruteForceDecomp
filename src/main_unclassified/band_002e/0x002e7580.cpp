@@ -1,31 +1,25 @@
-/* Partial original DWORD address values; other C++ errors remain.
- * Complete register/memory contracts and behavior are ABI_UNVERIFIED. */
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force retail Xbox original x86 entry: FUN_002e7580, 0x002E7580.
  * Input x86 body SHA-256: 205EC72C6826C01320D87261F17580333696C778127427C642D63532DBCCC1F2
- * Entry: 0x002e7580, Ghidra index: 10509, label: FUN_002e7580
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: CPP_DRAFT, ABI_UNVERIFIED, CROSS_FUNCTION_UNVERIFIED,
+ *         NOT_NATIVE_LINKED, NOT_BEHAVIOR_TESTED.
+ * The explicit host inputs model original live x86 register/stack words
+ * (ECX initial guest address; original EAX is a copy), not recovered Xbox C++ parameters. Native guest-memory mapping,
+ * stack/register ABI, faults and linkage remain ABI_UNVERIFIED.
+ * Exact original per-byte and per-DWORD write order, including values -1.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t PTR_LAB_003868c8;
-void FUN_002e7580(void)
+#include "bf_xbe_guest32_record_model.h"
 
+std::uint32_t FUN_002e7580(std::uint32_t guest_ecx)
 {
-  undefined4 *in_ECX;
-  
-  *(undefined1 *)((int)in_ECX + 7) = 0;
-  *(undefined1 *)(in_ECX + 2) = 0;
-  *(undefined1 *)((int)in_ECX + 5) = 0;
-  *in_ECX = UINT32_C(0x003868c8);
-  *(undefined1 *)((int)in_ECX + 6) = 0xff;
-  in_ECX[5] = 0;
-  in_ECX[6] = 0;
-  in_ECX[7] = 0;
-  in_ECX[8] = 0;
-  in_ECX[3] = 0xffffffff;
-  in_ECX[4] = 0xffffffff;
-  return;
+    const std::uint32_t base = guest_ecx;
+    bf_guest_write_u8(base + UINT32_C(7), UINT8_C(0));
+    bf_guest_write_u8(base + UINT32_C(8), UINT8_C(0));
+    bf_guest_write_u8(base + UINT32_C(5), UINT8_C(0));
+    bf_guest_write_u32(base, UINT32_C(0x003868c8));
+    bf_guest_write_u8(base + UINT32_C(6), UINT8_C(0xff));
+    for (std::uint32_t offset = UINT32_C(0x14); offset <= UINT32_C(0x20); offset += UINT32_C(4))
+        bf_guest_write_u32(base + offset, UINT32_C(0));
+    bf_guest_write_u32(base + UINT32_C(0x0c), UINT32_MAX);
+    bf_guest_write_u32(base + UINT32_C(0x10), UINT32_MAX);
+    return base;
 }
