@@ -1,23 +1,20 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force retail Xbox original x86 entry: FUN_0025d880, 0x0025D880.
  * Input x86 body SHA-256: E15B4AF8376AD8D6BD10BBE873C59BA03249057D053F61A63FE8168CB3A1D219
- * Entry: 0x0025d880, Ghidra index: 8573, label: FUN_0025d880
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: CPP_DRAFT, ABI_UNVERIFIED, CROSS_FUNCTION_UNVERIFIED,
+ *         NOT_NATIVE_LINKED, NOT_BEHAVIOR_TESTED.
+ * The explicit host inputs model original live x86 register/stack words
+ * (EAX), not recovered Xbox C++ parameters. Native guest-memory mapping,
+ * stack/register ABI, faults and linkage remain ABI_UNVERIFIED.
+ * Original loop uses guest byte +0x25, link at +0, and returns predecessor EAX.
  */
-#include "bf_ghidra_types.h"
-void FUN_0025d880(void)
+#include "bf_xbe_guest32_record_model.h"
 
+std::uint32_t FUN_0025d880(std::uint32_t guest_eax)
 {
-  char cVar1;
-  int *piVar2;
-  int *in_EAX;
-  
-  piVar2 = (int *)*in_EAX;
-  cVar1 = *(char *)((int)piVar2 + 0x25);
-  while (cVar1 == '\0') {
-    piVar2 = (int *)*piVar2;
-    cVar1 = *(char *)((int)piVar2 + 0x25);
-  }
-  return;
+    std::uint32_t current = bf_guest_read_u32(guest_eax);
+    while (bf_guest_read_u8(current + UINT32_C(0x25)) == 0) {
+        guest_eax = current;
+        current = bf_guest_read_u32(guest_eax);
+    }
+    return guest_eax;
 }
