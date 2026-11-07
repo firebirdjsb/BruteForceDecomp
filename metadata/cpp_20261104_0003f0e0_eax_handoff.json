@@ -113,7 +113,11 @@
         "address": "0x00012136",
         "bytes": "c3"
       }
-    ]
+    ],
+    "historical_source_fixture": "tests/fixtures/original_0x000120f0_pre_guest32_20261106.txt",
+    "current_source_sha256": "d7953dfa686e2dc4e244abd36a18233242cfee9ca548c0d4246b54145e91c5dd",
+    "current_definition_signature": "std::uint32_t FUN_000120f0(std::uint32_t guest_eax)",
+    "current_source_status": "CPP_DRAFT, ABI_UNVERIFIED, NOT_NATIVE_LINKED, NOT_BEHAVIOR_TESTED"
   },
-  "verification_boundary": "Only the existing incoming EAX model argument is provided. The caller still has unresolved original live-in ESI, guest/host memory mapping and surrounding partial-register semantics. The callee source retains independent compilation and memory-model blockers. This is neither recovered native ABI nor successful cross-function linkage or runtime behavior. Only initialized synthetic signed DWORD transfer expressions execute in tests."
+  "verification_boundary": "Only the existing incoming EAX model argument is provided. The caller still has unresolved original live-in ESI, guest/host memory mapping and surrounding partial-register semantics. The historical callee draft is archived; the current guest32 callee parses as C++17 but has unresolved runtime memory mapping, stack aliasing and original ABI. This is neither recovered native ABI nor successful cross-function linkage or runtime behavior. Only initialized synthetic signed DWORD transfer expressions execute in tests."
 }

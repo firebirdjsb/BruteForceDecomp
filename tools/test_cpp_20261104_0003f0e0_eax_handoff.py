@@ -24,7 +24,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_OVERRIDE = None
 SOURCE_OVERRIDE = None
-MANIFEST_SHA = '179da50023241e1bc76c0840e2a3657e87e98641f6ea4c3cd97f5b68f6a31e24'
+MANIFEST_SHA = '306e1f02d0440078f7c271ad8c76096ed23742ec48a9cdf2a6931b3d4d09b52e'
 MANIFEST_NAME = 'cpp_20261104_0003f0e0_eax_handoff.json'
 
 
@@ -166,10 +166,39 @@ class EaxHandoffTests(unittest.TestCase):
             self.assertEqual(item['original_body_sha256'], inventory[item['entry']])
             self.assertEqual(sum(r['length'] for r in item['body_ranges']), item['body_byte_count'])
         callee = self.manifest['callee']
+        # Historical argument-transfer evidence is immutable. Do not rewrite
+        # the old compiler/signed-DWORD fixture to claim the new guest ABI.
+        historical = (ROOT/callee['historical_source_fixture']).read_bytes()
+        self.assertEqual(sha(historical), callee['source_sha256'])
+        self.assertIn(callee['existing_definition_signature']+'\n{', historical.decode())
+        # The live implementation is separately pinned after its XBE-backed
+        # guest-memory reconstruction; it is NOT an Xbox ABI proof.
         callee_bytes = (ROOT/callee['source']).read_bytes()
-        self.assertEqual(sha(callee_bytes), callee['source_sha256'])
-        self.assertIn(callee['existing_definition_signature']+'\n{', callee_bytes.decode())
+        self.assertEqual(sha(callee_bytes), callee['current_source_sha256'])
+        self.assertIn(callee['current_definition_signature']+'\n{', callee_bytes.decode())
+        self.assertIn(callee['current_source_status'], callee_bytes.decode())
+        self.assertNotEqual(sha(callee_bytes), sha(historical))
         self.original()
+
+    def test_current_guest32_callee_strict_syntax(self):
+        callee = self.manifest['callee']
+        for opt in ('-O0', '-O2'):
+            good = self.compile(ROOT/callee['source'], opt, '-fsyntax-only',
+                                '-Werror=pointer-to-int-cast')
+            self.assertEqual(good.returncode, 0, good.stderr)
+
+    def test_historical_and_current_callee_corruption_controls(self):
+        callee = self.manifest['callee']
+        old = (ROOT/callee['historical_source_fixture']).read_bytes()
+        current = (ROOT/callee['source']).read_bytes()
+        self.assertEqual(sha(old), callee['source_sha256'])
+        self.assertEqual(sha(current), callee['current_source_sha256'])
+        for source, expected in ((old, callee['source_sha256']),
+                                 (current, callee['current_source_sha256'])):
+            for index in (0, len(source)//2, len(source)-1):
+                mutant = bytearray(source)
+                mutant[index] ^= 1
+                self.assertNotEqual(sha(mutant), expected)
 
     def test_instruction_decoding_and_source_expression(self):
         validate_contract(self.manifest)
