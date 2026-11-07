@@ -76,6 +76,76 @@ SUPERSEDED_GUEST32_SOURCES = {
         'current_sha256': 'a9c445eb7a03dcfbf34263b62b8f4cfa0a9f11601df6fb1167b477b6e1da86ff',
         'fixture': 'tests/fixtures/original_0x002e7580_post_literal_20261107.txt',
     },
+    '0x00095cf0': {
+        'entry': '0x00095cf0',
+        'body_sha256': '0F3538441D49B226ED4E5098C9EA9AE347BC1BAB440FD802FC232EEC307CB8C6',
+        'historical_sha256': '6b6935e1f5a38452bdf08016c58b812be0b3b5db57257233d27e0dc9c076d222',
+        'current_sha256': '5bbd0241b9d772c5bf98d93e1dc90df5dbba231306e1f934de7bdc163c710180',
+        'fixture': 'tests/fixtures/original_0x00095cf0_post_literal_20261107.txt',
+    },
+    '0x000968e0': {
+        'entry': '0x000968e0',
+        'body_sha256': '0144D044D67307F6BBFE271AFAB9348C6401A897176DD9A93814060F63E1EF2C',
+        'historical_sha256': 'ca013a3d7f9ace10520140470f9727ee251f7f44fce52e2260dd9cfe319a77f9',
+        'current_sha256': '4095feb45f11aa84fd2be9f2c1e121bf65b1df7b963343bb08ef39d48a57ce9a',
+        'fixture': 'tests/fixtures/original_0x000968e0_post_literal_20261107.txt',
+    },
+    '0x00098500': {
+        'entry': '0x00098500',
+        'body_sha256': 'EE6A57E0AED8109D6B74301C9D31E711D5E10C346FCB9C586F8DA93C2576E048',
+        'historical_sha256': '093996e9e67f06e800f0df59525086424ba1e3ba5676486a1c07260ad3b0389b',
+        'current_sha256': 'ed7016627289935a929a73597536e24d307e4650f775b376404690c59a0384a2',
+        'fixture': 'tests/fixtures/original_0x00098500_post_literal_20261107.txt',
+    },
+    '0x0009c5e0': {
+        'entry': '0x0009c5e0',
+        'body_sha256': 'B3B00C206159F6F348B6EE1573F3E5E1F2AE9684A3B7EBACC303F16ED23624BC',
+        'historical_sha256': '3fe66b0a2bfb714483049a2258ec1eb3cad613a9f335bd35630d9ac3b871689e',
+        'current_sha256': '856254f25248e15c0a286b12ca20d7c8e25016a39e6f60ec00951a207ab6b753',
+        'fixture': 'tests/fixtures/original_0x0009c5e0_post_literal_20261107.txt',
+    },
+    '0x0009da70': {
+        'entry': '0x0009da70',
+        'body_sha256': '5A3B1C7B2563FC7D6C4493E5DD748F94B2A0FBCB5E1DA387FED8E949293732A2',
+        'historical_sha256': 'c169f0676e0d8f7fdce1db498d044cf5f78544e143c277e76518975383b23e88',
+        'current_sha256': '7d70f77f74a75cd43c768634d707622655ee1b6f5a5691596634382532e72f91',
+        'fixture': 'tests/fixtures/original_0x0009da70_post_literal_20261107.txt',
+    },
+    '0x000a1e90': {
+        'entry': '0x000a1e90',
+        'body_sha256': '0E0F519CDB3FEE7324564E3D94E2B4E393423A2B91B9A12F3EDA4C25353B5399',
+        'historical_sha256': '39ab1eef9f00a94086dbe247902b1153fdd3452b2911a42c2fae9df32722b63b',
+        'current_sha256': '160d72003f67aee6d1480927258b75e1a3ee853b1cf4a0d3900d8f198f082c2a',
+        'fixture': 'tests/fixtures/original_0x000a1e90_post_literal_20261107.txt',
+    },
+    '0x000a2dc0': {
+        'entry': '0x000a2dc0',
+        'body_sha256': 'F87750C4AC884185F10CE87D6BF8778047D919E17A41AD117ED20CB35729B7CA',
+        'historical_sha256': '3732368aa58624409b870306e01890a2abfac148418ee6c4ae6c5d289c570f03',
+        'current_sha256': '64580034cf4c160440d58eb7ec46ce68e60ca2df09efa74aa3ccad5df197d5af',
+        'fixture': 'tests/fixtures/original_0x000a2dc0_post_literal_20261107.txt',
+    },
+    '0x000a34a0': {
+        'entry': '0x000a34a0',
+        'body_sha256': 'C2667195FDC354335126E8C56BFF69617C0041709AD52E3AFDC46DA99D7C5544',
+        'historical_sha256': '910cdc2786487eaab36b1734453acfa5e6d8d96f4a74301c17d7ce5adb747f72',
+        'current_sha256': 'bcf1f51561b4cd05f52df9c65784ba345bb739a48118fa7f92f8bfaa3158ebcf',
+        'fixture': 'tests/fixtures/original_0x000a34a0_post_literal_20261107.txt',
+    },
+    '0x000a3b10': {
+        'entry': '0x000a3b10',
+        'body_sha256': '01FF57616C921F70EAF7BEBEEF8214CAF60507F7683C4B566EAB18B397E63417',
+        'historical_sha256': 'fbbf16a4c74f1f264522954eb432e1a9135ba82ad5c80bb572a4f3977468bea3',
+        'current_sha256': '0a3b8785d64f034a881a6cee90f5683035fa7d56b0d1a73cbe0afa9e79134e65',
+        'fixture': 'tests/fixtures/original_0x000a3b10_post_literal_20261107.txt',
+    },
+    '0x000a6fd0': {
+        'entry': '0x000a6fd0',
+        'body_sha256': '154B5D2CD6C7B93199924C77D290347322109C9D14A24123763D4656BEBF3357',
+        'historical_sha256': '8765494e79db6b5dfad960e45f7669142001964fd25e3de2c1c8e45e0d70de67',
+        'current_sha256': 'df09021d00558698c69c7449881130dcaa2ec9915b58caf3d1b302bc3bff4141',
+        'fixture': 'tests/fixtures/original_0x000a6fd0_post_literal_20261107.txt',
+    },
 }
 
 
@@ -484,12 +554,30 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
                 raise ValueError('Unknown repair status')
         if effective_status == 'complete': full += 1
         else: partial += 1
-        try:
-            restore(case,text.replace(case['edits'][0]['after'],'UINT32_C(0)',1),overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays,continuation_overlays)
-        except ValueError:
-            pass
+        if case['entry'] in SUPERSEDED_GUEST32_SOURCES:
+            # Historical literals no longer exist in the XBE-backed source.
+            # Verify BOTH immutable identities: new live source and archived
+            # old literal source. Reject a test that does not change bytes.
+            if text.count('ABI_UNVERIFIED') < 1:
+                raise ValueError('Missing live-source mutation anchor')
+            mutations = (
+                text.replace('ABI_UNVERIFIED','ABI_MUTATED',1),
+                historical_literal_source_for_guest32_rewrite(case,text).replace(
+                    case['edits'][0]['after'],'UINT32_C(0)',1),
+            )
+            if mutations[1] == historical_literal_source_for_guest32_rewrite(case,text):
+                raise ValueError('Missing archived historical literal mutation anchor')
         else:
-            raise ValueError('Changed-literal negative control escaped')
+            mutations = (text.replace(case['edits'][0]['after'],'UINT32_C(0)',1),)
+        for mutated in mutations:
+            if mutated == text:
+                raise ValueError('No-op changed-literal negative control')
+            try:
+                restore(case,mutated,overlays,source_spelling_overlays,exported_instruction_overlays,heap_free_overlays,continuation_overlays)
+            except ValueError:
+                pass
+            else:
+                raise ValueError('Changed-literal negative control escaped')
         completion = overlays.get(case['entry']) or source_spelling_overlays.get(case['entry'])
         if completion is not None:
             changed = text.replace(completion['after'], completion['before'], 1)
