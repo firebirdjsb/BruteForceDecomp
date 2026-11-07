@@ -727,11 +727,11 @@
       },
       {
         "path": "metadata/cpp_20261104_eax_lea_calls.json",
-        "sha256": "ed7555a782a4b86c0a4e1df0cf3ca5b83ba84c122de1f04f1843a0ac3c012458"
+        "sha256": "3971cbb09c27c6a0d29fa97ae0f234dcafbd70a542e493b18411853eb173f2a5"
       },
       {
         "path": "metadata/cpp_20261104_eax_scalar_calls.json",
-        "sha256": "4ba978620312fc3555db8074895102de4d80def441f6c3bef78d35b7f238789d"
+        "sha256": "c33fb2d140ca9dd03246360326815b418490a6cf1635e8a702e7e4acf5aa858f"
       },
       {
         "path": "metadata/cpp_20261104_four_guest_constants.json",
