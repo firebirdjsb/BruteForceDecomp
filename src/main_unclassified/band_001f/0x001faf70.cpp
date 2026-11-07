@@ -1,22 +1,28 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force retail Xbox original x86 entry: FUN_001faf70, 0x001FAF70.
  * Input x86 body SHA-256: 545C2D8C55EC9C0879D9B077005DFDFBCFC36BEB8DE7F1BF1DEB48CB5C4C982B
- * Entry: 0x001faf70, Ghidra index: 7106, label: FUN_001faf70
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: CPP_DRAFT, ABI_UNVERIFIED, CROSS_FUNCTION_UNVERIFIED,
+ *         NOT_NATIVE_LINKED, NOT_BEHAVIOR_TESTED.
+ * The explicit host inputs model original live x86 register/stack words
+ * (EAX result address and 3 original stack words), not recovered Xbox C++ parameters. Native guest-memory mapping,
+ * stack/register ABI, faults and linkage remain ABI_UNVERIFIED.
+ * The stack key pointer is dereferenced once only when begin != end.
  */
-#include "bf_ghidra_types.h"
-void FUN_001faf70(int *param_1,int *param_2,int *param_3)
+#include "bf_xbe_guest32_record_model.h"
 
+std::uint32_t FUN_001faf70(std::uint32_t guest_out,
+                                std::uint32_t guest_begin,
+                                std::uint32_t guest_end,
+                                std::uint32_t guest_key_address)
 {
-  int *in_EAX;
-  
-  if (param_1 != param_2) {
-    do {
-      if (param_1[3] == *param_3) break;
-      param_1 = (int *)*param_1;
-    } while (param_1 != param_2);
-  }
-  *in_EAX = (int)param_1;
-  return;
+    std::uint32_t current = guest_begin;
+    if (current != guest_end) {
+        const std::uint32_t key = bf_guest_read_u32(guest_key_address);
+        do {
+            if (bf_guest_read_u32(current + UINT32_C(12)) == key)
+                break;
+            current = bf_guest_read_u32(current);
+        } while (current != guest_end);
+    }
+    bf_guest_write_u32(guest_out, current);
+    return guest_out;
 }
