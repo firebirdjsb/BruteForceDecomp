@@ -1,47 +1,52 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original retail Xbox entry 0x00142a80: FUN_00142a80.
  * Input x86 body SHA-256: 6203F8F98B992E5CB7D7CFAFE6A98D520A153FEB30B94FDC161E960CDC4604F6
- * Entry: 0x00142a80, Ghidra index: 4129, label: FUN_00142a80
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: CPP_DRAFT, ABI_UNVERIFIED, NOT_NATIVE_LINKED,
+ *         CROSS_FUNCTION_UNVERIFIED, NOT_BEHAVIOR_TESTED.
+ * Input guest_edx models the original EDX register holding a guest 32-bit
+ * address of the mutable list-cursor DWORD; it is not a recovered original
+ * C++ signature. Guest read/write mapping, fault/alias timing, x86 register
+ * live-outs, EFLAGS and all callers remain unverified.
+ * Full original contiguous 93-byte x86 body and eight branches verified.
  */
-#include "bf_ghidra_types.h"
-void FUN_00142a80(void)
+#include "bf_xbe_guest32_record_model.h"
 
+void FUN_00142a80(std::uint32_t guest_edx)
 {
-  char cVar1;
-  int iVar2;
-  int iVar3;
-  int *piVar4;
-  int *in_EDX;
-  
-  piVar4 = (int *)*in_EDX;
-  if (*(char *)((int)piVar4 + 0x1d) != '\0') {
-    *in_EDX = piVar4[2];
-    return;
-  }
-  iVar2 = *piVar4;
-  if (*(char *)(iVar2 + 0x1d) == '\0') {
-    cVar1 = *(char *)(*(int *)(iVar2 + 8) + 0x1d);
-    iVar3 = *(int *)(iVar2 + 8);
-    while (cVar1 == '\0') {
-      cVar1 = *(char *)(*(int *)(iVar3 + 8) + 0x1d);
-      iVar2 = iVar3;
-      iVar3 = *(int *)(iVar3 + 8);
+    // EAX <- [EDX]; test the original unsigned byte flag.
+    std::uint32_t node = bf_guest_read_u32(guest_edx);
+    if (bf_guest_read_u8(node + UINT32_C(0x1d)) != 0) {
+        bf_guest_write_u32(guest_edx, bf_guest_read_u32(node + UINT32_C(8)));
+        return;
     }
-    *in_EDX = iVar2;
-    return;
-  }
-  piVar4 = (int *)piVar4[1];
-  if (*(char *)((int)piVar4 + 0x1d) == '\0') {
-    do {
-      if (*in_EDX != *piVar4) break;
-      *in_EDX = (int)piVar4;
-      piVar4 = (int *)piVar4[1];
-    } while (*(char *)((int)piVar4 + 0x1d) == '\0');
-    if (*(char *)((int)piVar4 + 0x1d) == '\0') {
-      *in_EDX = (int)piVar4;
+
+    // EBX test of [first + flag], followed by the +8 chain when clear.
+    std::uint32_t child = bf_guest_read_u32(node);
+    if (bf_guest_read_u8(child + UINT32_C(0x1d)) == 0) {
+        std::uint32_t next = bf_guest_read_u32(child + UINT32_C(8));
+        while (bf_guest_read_u8(next + UINT32_C(0x1d)) == 0) {
+            child = next;
+            next = bf_guest_read_u32(child + UINT32_C(8));
+        }
+        bf_guest_write_u32(guest_edx, child);
+        return;
     }
-  }
-  return;
+
+    // Backwards list direction: test +4 link and repeatedly compare cursor
+    // against [node] before advancing. Preserve every guest read/write order.
+    node = bf_guest_read_u32(node + UINT32_C(4));
+    if (bf_guest_read_u8(node + UINT32_C(0x1d)) != 0)
+        return;
+
+    for (;;) {
+        const std::uint32_t cursor = bf_guest_read_u32(guest_edx);
+        if (cursor != bf_guest_read_u32(node))
+            break;
+        bf_guest_write_u32(guest_edx, node);
+        node = bf_guest_read_u32(node + UINT32_C(4));
+        if (bf_guest_read_u8(node + UINT32_C(0x1d)) != 0)
+            break;
+    }
+    // Original XBE does a SECOND byte read before this final conditional store.
+    if (bf_guest_read_u8(node + UINT32_C(0x1d)) == 0)
+        bf_guest_write_u32(guest_edx, node);
 }
