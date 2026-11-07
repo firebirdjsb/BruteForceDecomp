@@ -54,12 +54,28 @@ HEAP_FREE_BATCHES = {
 # verifier's source and original preimage exact, rather than silently dropping
 # its entry or widening the original literal operation allowlist.
 # Source fixture is pinned to the SHA of commit 6eea3e8 and the manifest.
-SUPERSEDED_GUEST32_SOURCE = {
-    'entry': '0x0001d470',
-    'body_sha256': '9D9A8EBA1FF910609ABDE98C000B99E3AE58251E5FFEDCEE9E1768D7710C511E',
-    'historical_sha256': '260647b96dae33ff90722a8f0962f7ec4eac28366c7c54e06e47c1aecfd0c332',
-    'current_sha256': '7b9abe5b1f92e7bdcc362a53e29dcc3ea0c617e14f0f1cb6723717336f15f87d',
-    'fixture': 'tests/fixtures/original_0x0001d470_post_literal_20261105.txt',
+SUPERSEDED_GUEST32_SOURCES = {
+    '0x0001d470': {
+        'entry': '0x0001d470',
+        'body_sha256': '9D9A8EBA1FF910609ABDE98C000B99E3AE58251E5FFEDCEE9E1768D7710C511E',
+        'historical_sha256': '260647b96dae33ff90722a8f0962f7ec4eac28366c7c54e06e47c1aecfd0c332',
+        'current_sha256': '7b9abe5b1f92e7bdcc362a53e29dcc3ea0c617e14f0f1cb6723717336f15f87d',
+        'fixture': 'tests/fixtures/original_0x0001d470_post_literal_20261105.txt',
+    },
+    '0x001736a0': {
+        'entry': '0x001736a0',
+        'body_sha256': 'DD9E08C3484F856CCED33FC3C5F5512CE2C69949645BCA707669312BF262B4C8',
+        'historical_sha256': '5d493975c00972884a5d3ae1914dfb0914e1b81f16e4bd8f562905f06b127bba',
+        'current_sha256': '1e5d3a18ef355560ded772ba198f1fa0a73a17221ef6dd7d3b2c2682d4b2ec25',
+        'fixture': 'tests/fixtures/original_0x001736a0_post_literal_20261107.txt',
+    },
+    '0x002e7580': {
+        'entry': '0x002e7580',
+        'body_sha256': '205EC72C6826C01320D87261F17580333696C778127427C642D63532DBCCC1F2',
+        'historical_sha256': 'f65c7b8a758ff77e73b08e096022ca572ab06f15c2554304541ada4861057551',
+        'current_sha256': 'a9c445eb7a03dcfbf34263b62b8f4cfa0a9f11601df6fb1167b477b6e1da86ff',
+        'fixture': 'tests/fixtures/original_0x002e7580_post_literal_20261107.txt',
+    },
 }
 
 
@@ -69,8 +85,8 @@ def historical_literal_source_for_guest32_rewrite(case, text):
     This is not a new declaration, an x86 ABI claim or a generated source
     repair: it preserves the previous verifier's immutable input identity.
     """
-    guard = SUPERSEDED_GUEST32_SOURCE
-    if case['entry'] != guard['entry']:
+    guard = SUPERSEDED_GUEST32_SOURCES.get(case['entry'])
+    if guard is None:
         return text
     if (case['body_sha256'] != guard['body_sha256']
             or case['status'] != 'partial'
@@ -82,8 +98,11 @@ def historical_literal_source_for_guest32_rewrite(case, text):
     if current != guard['current_sha256']:
         raise ValueError('Changed XBE-evidenced guest32 rewrite: '+case['entry'])
     historical = (ROOT / guard['fixture']).read_text(encoding='utf-8')
-    if sha(historical) != guard['historical_sha256']:
-        raise ValueError('Historical literal fixture differs')
+    if (sha(historical) != guard['historical_sha256']
+            or read_body_digest(historical) != (guard['body_sha256'], False)
+            or read_body_digest(text) != (guard['body_sha256'], False)
+            or 'ABI_UNVERIFIED' not in text):
+        raise ValueError('Historical guest32 literal provenance differs')
     return historical
 
 
@@ -407,7 +426,7 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
         historical_text = restore_heap_free_instruction(case, historical_text, heap_free_overlays)
         historical_text = restore_exported_instruction(case, historical_text, exported_instruction_overlays)
         inventory_sha = overlays[case['entry']]['prior_sha256'] if case['entry'] in overlays else sha(restore_source_spelling(case,historical_text,source_spelling_overlays))
-        if case['entry'] == SUPERSEDED_GUEST32_SOURCE['entry']:
+        if case['entry'] in SUPERSEDED_GUEST32_SOURCES:
             # Inventory tracks the older verified source; the source-only
             # guest32 rewrite must independently match its exact SHA above.
             historical_text = historical_literal_source_for_guest32_rewrite(case, historical_text)
@@ -436,7 +455,7 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
                 raise ValueError('Signature differs from real source definition')
             if 'extern '+dep['signature']+';\n' not in case['added_block']:
                 raise ValueError('Declaration not source matched')
-        effective_status = 'complete' if case['entry'] in overlays or case['entry'] in source_spelling_overlays or case['entry'] in exported_instruction_overlays or case['entry'] in heap_free_overlays or case['entry'] in continuation_overlays or case['entry'] == SUPERSEDED_GUEST32_SOURCE['entry'] else case['status']
+        effective_status = 'complete' if case['entry'] in overlays or case['entry'] in source_spelling_overlays or case['entry'] in exported_instruction_overlays or case['entry'] in heap_free_overlays or case['entry'] in continuation_overlays or case['entry'] in SUPERSEDED_GUEST32_SOURCES else case['status']
         for opt in ('-O0','-O2'):
             old_rc, old, old_warnings, old_locations = compile_text(compiler,root,preimages[case['entry']],opt)
             rc, errors, warnings, locations = compile_text(compiler,root,text.replace(case['added_block'],'',1) if effective_status=='partial' else text,opt)
@@ -490,7 +509,7 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
                     pass
                 else:
                     raise ValueError('Changed exported-instruction overlay control escaped')
-    additional_guest32_completion = sum(c['entry'] == SUPERSEDED_GUEST32_SOURCE['entry'] for c in cases)
+    additional_guest32_completion = sum(c['entry'] in SUPERSEDED_GUEST32_SOURCES for c in cases)
     completions = len(overlays) + len(source_spelling_overlays) + len(exported_instruction_overlays) + len(heap_free_overlays) + len(continuation_overlays) + additional_guest32_completion
     if (full,partial,values) != (expected['complete']+completions,expected['partial']-completions,expected['values']):
         raise ValueError('Verification totals differ')
@@ -504,7 +523,7 @@ def verify(root, manifest, compiler, image=None, approved_counts=None, overlays=
     if continuation_overlays:
         print('1 separately pinned bounded continuation completion; original 18-byte body and historical ledger unchanged; ABI/runtime unresolved')
     if additional_guest32_completion:
-        print('1 exact historical 0001d470 partial ledger source preserved; subsequent XBE-evidenced guest32 rewrite syntactically complete; ABI/runtime unverified')
+        print(f'{additional_guest32_completion} exact historical partial ledger sources preserved; later XBE-evidenced guest32 drafts syntactically complete; ABI/runtime unverified')
     if image is not None:
         verify_image(image, cases, overlays)
     else:
