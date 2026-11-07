@@ -232,6 +232,7 @@ jobs:
           python3 tools/test_cpp_20261104_eax_lea_calls.py
           python3 tools/test_cpp_20261104_esi_stack_calls.py
           python3 tools/test_cpp_20261104_000beae0_esi_handoffs.py
+          python3 tools/test_cpp_20261106_eax_scalar_drafts.py
           python3 tools/test_cpp_20261104_byte_offsets_five.py
           python3 -m unittest discover -s tools -p 'test_cpp_allocator_guest32.py' -v
           python3 -m unittest discover -s tools -p 'test_cpp_heap_free_guest32.py' -v
