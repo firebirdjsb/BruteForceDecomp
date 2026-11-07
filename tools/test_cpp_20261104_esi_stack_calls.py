@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CANDIDATE_ROOT = None
 PRIVATE_EXPORT = None
 MANIFEST = 'metadata/cpp_20261104_esi_stack_calls.json'
-MANIFEST_SHA = '148448dd4790233d7beb167fc2958d32dbeb59728bf35ff9c77ff10cc02375d0'
+MANIFEST_SHA = '59c4edc25c73766f0d61ced3244c1654e1a07d41c004d317cda9914e788e850d'
 DECL = 'extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);'
 ENTRIES = ('0014bd40','00173270','001fba60','0020d710','0020db30','00226360','0022dc60')
 # Reviewed source bindings, not new native/register ABI declarations.
