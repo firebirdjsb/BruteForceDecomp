@@ -331,7 +331,11 @@
         "address": "0x00012136",
         "bytes": "c3"
       }
-    ]
+    ],
+    "historical_source_fixture": "tests/fixtures/original_0x000120f0_pre_guest32_20261106.txt",
+    "current_source_sha256": "d7953dfa686e2dc4e244abd36a18233242cfee9ca548c0d4246b54145e91c5dd",
+    "current_definition_signature": "std::uint32_t FUN_000120f0(std::uint32_t guest_eax)",
+    "current_source_status": "CPP_DRAFT, ABI_UNVERIFIED, NOT_NATIVE_LINKED, NOT_BEHAVIOR_TESTED"
   },
-  "verification_boundary": "Only scalar register-input argument transfer is repaired. Existing uninitialized pseudo-register locals, guest/native memory mapping, partial-register returns, other call contracts and the callee source compilation blockers remain ABI_UNVERIFIED. Runtime tests initialize synthetic int32 values and use a capture-only stand-in; no whole caller/callee execution or native linkage is claimed."
+  "verification_boundary": "Only scalar register-input argument transfer is repaired. Existing uninitialized pseudo-register locals, guest/native memory mapping, partial-register returns, other call contracts and the callee's guest32 mapping, guest-stack aliasing and original ABI remain unverified; the current callee passes isolated C++17 syntax. Runtime tests initialize synthetic int32 values and use a capture-only stand-in; no whole caller/callee execution or native linkage is claimed."
 }

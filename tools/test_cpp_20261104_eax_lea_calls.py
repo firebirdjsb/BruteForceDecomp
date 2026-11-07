@@ -18,7 +18,7 @@ import unittest
 ROOT=Path(__file__).resolve().parents[1]
 CANDIDATE_ROOT=None
 MANIFEST_NAME='metadata/cpp_20261104_eax_lea_calls.json'
-MANIFEST_SHA='ed7555a782a4b86c0a4e1df0cf3ca5b83ba84c122de1f04f1843a0ac3c012458'
+MANIFEST_SHA = '3971cbb09c27c6a0d29fa97ae0f234dcafbd70a542e493b18411853eb173f2a5'
 SPECS={
  '0x00033ac0':[(0x33ac0,'56'),(0x33ac1,'8bf1'),(0x33ac3,'57'),(0x33ac4,'8d46c0'),(0x33ac7,'e824e6fdff'),(0x33acc,'8dbe44060000'),(0x33ad2,'c6807006000000'),(0x33af5,'5e'),(0x33af6,'c3')],
  '0x0003f5d0':[(0x3f5d0,'56'),(0x3f5d1,'8bf1'),(0x3f5d3,'8d46c0'),(0x3f5d6,'e8152bfdff'),(0x3f5db,'8bc8'),(0x3f61e,'5e'),(0x3f61f,'c3')],
@@ -157,8 +157,21 @@ class EaxLeaCallsTests(unittest.TestCase):
                 for changed in (source+'\n',source.replace(item['source_block_after'],item['source_block_before']),source.replace('ABI_UNVERIFIED','ABI_VERIFIED',1)):
                     with self.assertRaises(ValueError):self.original(item,changed)
             else:
-                self.assertEqual(sha(source.encode()),item['source_sha256'])
-                self.assertIn(item['existing_definition_signature']+'\n{',source)
+                # The historical caller-hand-off ABI is pinned to the original
+                # callee source fixture, rather than silently reinterpreting its
+                # old signed-DWORD declaration as the current guest32 interface.
+                historical=(ROOT/item['historical_source_fixture']).read_bytes()
+                self.assertEqual(sha(historical),item['source_sha256'])
+                self.assertIn(item['existing_definition_signature']+'\n{',historical.decode())
+                self.assertEqual(sha(source.encode()),item['current_source_sha256'])
+                self.assertIn(item['current_definition_signature']+'\n{',source)
+                self.assertIn(item['current_source_status'],source)
+                self.assertNotEqual(sha(historical),sha(source.encode()))
+                for raw,expected in ((historical,item['source_sha256']),
+                                     (source.encode(),item['current_source_sha256'])):
+                    for position in (0,len(raw)//2,len(raw)-1):
+                        mutation=bytearray(raw);mutation[position]^=1
+                        self.assertNotEqual(sha(mutation),expected)
 
     def test_raw_target_producer_cleanup_and_source_contract(self):validate_contract(self.document)
 
