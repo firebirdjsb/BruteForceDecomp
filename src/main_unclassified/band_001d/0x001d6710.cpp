@@ -1,34 +1,32 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox entry 0x001d6710, FUN_001d6710.
  * Input x86 body SHA-256: D06442E6CB2A1811303BC779CE025269F9C060A59185F5D42CB5833C0F0560BE
- * Entry: 0x001d6710, Ghidra index: 6362, label: FUN_001d6710
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: CPP_DRAFT, ABI_UNVERIFIED, NOT_NATIVE_LINKED,
+ *         CROSS_FUNCTION_UNVERIFIED, NOT_BEHAVIOR_TESTED.
+ * Explicit 32-bit guest register/stack and incoming DF model, NOT a recovered
+ * C++ signature. Original EFLAGS, guest memory faults, stack and register
+ * preservation require a complete x86 ABI implementation before linkage.
+ * Original REP MOVSD reads/writes occur individually with DF-dependent order.
  */
-#include "bf_ghidra_types.h"
-void FUN_001d6710(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3)
+#include "bf_xbe_guest32_record_model.h"
 
+void FUN_001d6710(std::uint32_t guest_begin, std::uint32_t guest_end,
+                  std::uint32_t guest_dst_end, std::uint32_t guest_eax,
+                  bool guest_df)
 {
-  undefined4 *in_EAX;
-  int iVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  if (param_1 == param_2) {
-    *in_EAX = param_3;
-    return;
-  }
-  do {
-    param_2 = param_2 + -6;
-    param_3 = param_3 + -6;
-    puVar2 = param_2;
-    puVar3 = param_3;
-    for (iVar1 = 6; iVar1 != 0; iVar1 = iVar1 + -1) {
-      *puVar3 = *puVar2;
-      puVar2 = puVar2 + 1;
-      puVar3 = puVar3 + 1;
+    std::uint32_t src = guest_end;
+    std::uint32_t dst = guest_dst_end;
+    while (src != guest_begin) {
+        src -= UINT32_C(0x18);
+        dst -= UINT32_C(0x18);
+        std::uint32_t esi = src;
+        std::uint32_t edi = dst;
+        // Original ECX=6, REP MOVSD: one guest DWORD read/write per move.
+        for (int i = 0; i < 6; ++i) {
+            const std::uint32_t value = bf_guest_read_u32(esi);
+            bf_guest_write_u32(edi, value);
+            esi += guest_df ? UINT32_C(0xfffffffc) : UINT32_C(4);
+            edi += guest_df ? UINT32_C(0xfffffffc) : UINT32_C(4);
+        }
     }
-  } while (param_2 != param_1);
-  *in_EAX = param_3;
-  return;
+    bf_guest_write_u32(guest_eax, dst);
 }
