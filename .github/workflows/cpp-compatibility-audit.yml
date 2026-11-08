@@ -227,6 +227,7 @@ jobs:
           python3 tools/test_cpp_20261107_ten_guest32_list_advance.py
           python3 tools/test_cpp_20261107_ten_short_guest32.py
           python3 tools/test_cpp_20261107_next_ten_independent_guest32.py
+          python3 tools/test_cpp_20261108_ten_guest32_rewire.py
           python3 tools/test_cpp_20261107_ten_guest32_historical.py
           python3 tools/test_cpp_20261104_heap_free_literal_overlays.py
           python3 tools/test_cpp_002e9c30_continuation.py
