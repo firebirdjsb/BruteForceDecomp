@@ -1,4 +1,5 @@
 /* Brute Force retail Xbox FUN_00262c30, Input x86 body SHA-256: 722D6CADECA5061627806734652F82BB034D39FC1B7D3F879BFFACB0E693E838.
+ * Entry: 0x00262c30
  * Six host guest parameters model the six original stack DWORDs (RET 24).
  * They do NOT establish the original Xbox C++ prototype or guest-stack ABI.
  * IMUL's signed high DWORD, SAR, unsigned JAE, and partial AL return are exact

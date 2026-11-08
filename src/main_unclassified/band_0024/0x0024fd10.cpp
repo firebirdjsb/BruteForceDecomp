@@ -1,4 +1,5 @@
 /* Brute Force retail Xbox FUN_0024fd10, Input x86 body SHA-256: 3924D5638BB6343EC50CDC84089AA8D86D7CFB40449D6F48ED661FB68229875D.
+ * Entry: 0x0024fd10
  * Input guest_ecx models original live-in ECX; guest_stack_word_0 models the
  * original RET 4 stack DWORD at entry ESP+4. These are host-side guest32
  * interfaces, NOT recovered native C++/Xbox prototypes.

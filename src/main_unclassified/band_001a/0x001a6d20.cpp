@@ -1,4 +1,5 @@
 /* Brute Force retail Xbox FUN_001a6d20, Input x86 body SHA-256: 923040CB35B330A83C7F4148D7634CD3856C85681CEBA9AEE05A008853C35D34.
+ * Entry: 0x001a6d20
  * Host guest_eax/guest_edx are original register live-ins, NOT an Xbox C++ ABI.
  * The original absolute DWORD load at guest VA 0x00387430 is kept as a guest
  * memory read. EDX live-out and guest-stack spill effects remain unmodeled.
