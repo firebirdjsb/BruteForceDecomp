@@ -1,27 +1,28 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox: FUN_00071ce0, entry 0x00071ce0.
  * Input x86 body SHA-256: B480B88E81031EB0F0B3B3B3097D72FC20C43B963286D0DA3C0828CE8D6C14E6
- * Entry: 0x00071ce0, Ghidra index: 1270, label: FUN_00071ce0
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: CPP_DRAFT, ABI_UNVERIFIED, NOT_NATIVE_LINKED,
+ *         CROSS_FUNCTION_UNVERIFIED, NOT_BEHAVIOR_TESTED.
+ * Host parameters explicitly model observed incoming 32-bit guest registers
+ * and/or stack words. They are NOT recovered original C++ prototypes.
+ * Original call/ret stack ABI, preserved registers, EFLAGS, guest mapping,
+ * faults and all caller linkage are not established by these bounded models.
  */
-#include "bf_ghidra_types.h"
-void FUN_00071ce0(int param_1,undefined1 *param_2,undefined1 *param_3)
+#include "bf_xbe_guest32_record_model.h"
 
+void FUN_00071ce0(std::uint32_t guest_base, std::uint32_t guest_dst,
+                  std::uint32_t guest_src, std::uint32_t guest_eax)
 {
-  undefined1 *puVar1;
-  undefined4 *in_EAX;
-  undefined1 *puVar2;
-  
-  if (param_2 != param_3) {
-    puVar1 = *(undefined1 **)(param_1 + 8);
-    puVar2 = param_2;
-    for (; param_3 != puVar1; param_3 = param_3 + 1) {
-      *puVar2 = *param_3;
-      puVar2 = puVar2 + 1;
+    if (guest_dst != guest_src) {
+        const std::uint32_t end = bf_guest_read_u32(guest_base + UINT32_C(8));
+        std::uint32_t cursor = guest_src;
+        std::uint32_t output = guest_dst;
+        while (cursor != end) {
+            const std::uint8_t value = bf_guest_read_u8(cursor);
+            bf_guest_write_u8(output, value);
+            ++output;
+            ++cursor;
+        }
+        bf_guest_write_u32(guest_base + UINT32_C(8), output);
     }
-    *(undefined1 **)(param_1 + 8) = puVar2;
-  }
-  *in_EAX = param_2;
-  return;
+    bf_guest_write_u32(guest_eax, guest_dst);
 }
