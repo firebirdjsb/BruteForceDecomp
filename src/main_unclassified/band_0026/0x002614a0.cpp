@@ -1,20 +1,25 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox: FUN_002614a0, entry 0x002614a0.
  * Input x86 body SHA-256: 791992BD8D647201AA014AC6C6DF474F1FC464CC8C7C87B05C16DA61DF8B41E5
- * Entry: 0x002614a0, Ghidra index: 8634, label: FUN_002614a0
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: CPP_DRAFT, ABI_UNVERIFIED, NOT_NATIVE_LINKED,
+ *         CROSS_FUNCTION_UNVERIFIED, NOT_BEHAVIOR_TESTED.
+ * Host parameters explicitly model observed incoming 32-bit guest registers
+ * and/or stack words. They are NOT recovered original C++ prototypes.
+ * Original call/ret stack ABI, preserved registers, EFLAGS, guest mapping,
+ * faults and all caller linkage are not established by these bounded models.
  */
-#include "bf_ghidra_types.h"
-void FUN_002614a0(int param_1,int param_2,undefined4 *param_3)
+#include "bf_xbe_guest32_record_model.h"
 
+void FUN_002614a0(std::uint32_t guest_begin, std::uint32_t guest_end,
+                  std::uint32_t guest_dst_end, std::uint32_t guest_eax)
 {
-  undefined4 *in_EAX;
-  
-  for (; param_1 != param_2; param_2 = param_2 + -4) {
-    param_3 = param_3 + -1;
-    *param_3 = *(undefined4 *)(param_2 + -4);
-  }
-  *in_EAX = param_3;
-  return;
+    std::uint32_t cursor = guest_end;
+    std::uint32_t dst = guest_dst_end;
+    while (cursor != guest_begin) {
+        // Original MOV EDI,[ECX-4] precedes both pointer decrements and write.
+        const std::uint32_t value = bf_guest_read_u32(cursor - UINT32_C(4));
+        cursor -= UINT32_C(4);
+        dst -= UINT32_C(4);
+        bf_guest_write_u32(dst, value);
+    }
+    bf_guest_write_u32(guest_eax, dst);
 }
