@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "scope": "Original-XBE-backed audit of five high-priority return-only C++ drafts. No source changes.",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_body_digest_note": "The 0x002EF9EA Ghidra-selected body has two discontiguous raw-backed ranges. The excluded SEH handler is separately visible in the original executable image. No complete ABI or exception handler reconstruction is claimed.",
+  "functions": [
+    {
+      "entry": "0x002ecc14",
+      "source": "src/main_unclassified/band_002e/0x002ecc14.cpp",
+      "original_body_sha256": "7FB7ECCBA31465DD8621581517417C798527E069CD33D2E544D3766B66204EF2",
+      "ghidra_selected_ranges": [
+        [
+          0,
+          89
+        ]
+      ],
+      "selected_bytes": 89,
+      "instruction_windows": [
+        [
+          0,
+          "5151"
+        ],
+        [
+          11,
+          "db2d"
+        ],
+        [
+          17,
+          "db5c240c"
+        ],
+        [
+          65,
+          "d9ee"
+        ],
+        [
+          88,
+          "c3"
+        ]
+      ],
+      "finding": "The draft returns immediately, but original branches conditionally execute x87 TBYTE reads, conversions and floating-point stack operations.",
+      "priority": "HIGH",
+      "behavior_status": "ABI_UNVERIFIED"
+    },
+    {
+      "entry": "0x002ef9ea",
+      "source": "src/main_unclassified/band_002e/0x002ef9ea.cpp",
+      "original_body_sha256": "EF9EF2A18DA9E7E4B054C1ACC328533F72141D68338BCF1458A13F9B104C826F",
+      "ghidra_selected_ranges": [
+        [
+          0,
+          29
+        ],
+        [
+          54,
+          12
+        ]
+      ],
+      "selected_bytes": 41,
+      "instruction_windows": [
+        [
+          0,
+          "6a0c"
+        ],
+        [
+          7,
+          "e8fa130000"
+        ],
+        [
+          27,
+          "eb19"
+        ],
+        [
+          54,
+          "834dfcff"
+        ],
+        [
+          63,
+          "c20400"
+        ]
+      ],
+      "excluded_executable_range": [
+        29,
+        54
+      ],
+      "finding": "The empty runtime helper omits original SEH setup, a pointer read, a recovery branch and RET 4; an additional 25-byte exception-handler region is present in the executable image but excluded from this Ghidra body digest.",
+      "priority": "HIGH",
+      "behavior_status": "ABI_UNVERIFIED"
+    },
+    {
+      "entry": "0x002f04d0",
+      "source": "src/main_unclassified/band_002f/0x002f04d0.cpp",
+      "original_body_sha256": "D0ECF339B80D438B6D0D3FCEF61D5CB5AD8EF4C6BF39BE985A29318BBC096C05",
+      "ghidra_selected_ranges": [
+        [
+          0,
+          5
+        ]
+      ],
+      "selected_bytes": 5,
+      "instruction_windows": [
+        [
+          0,
+          "d9c9"
+        ],
+        [
+          2,
+          "ddd8"
+        ],
+        [
+          4,
+          "c3"
+        ]
+      ],
+      "finding": "Original FXCH ST(1) and FSTP ST(0) modify the x87 register stack before RET. The C++ draft is a no-op.",
+      "priority": "HIGH",
+      "behavior_status": "ABI_UNVERIFIED"
+    },
+    {
+      "entry": "0x002f060d",
+      "source": "src/main_unclassified/band_002f/0x002f060d.cpp",
+      "original_body_sha256": "E6EC999D45C3C78E22ED722D9CDD003CA3E8685D7954A7D030915DF1E55EB902",
+      "ghidra_selected_ranges": [
+        [
+          0,
+          23
+        ]
+      ],
+      "selected_bytes": 23,
+      "instruction_windows": [
+        [
+          0,
+          "8b542404"
+        ],
+        [
+          4,
+          "81e200030000"
+        ],
+        [
+          10,
+          "83ca7f"
+        ],
+        [
+          13,
+          "6689542406"
+        ],
+        [
+          18,
+          "d96c2406"
+        ],
+        [
+          22,
+          "c3"
+        ]
+      ],
+      "finding": "Original code computes a guest WORD control value, overwrites bytes of the guest stack argument and executes FLDCW to change the x87 control word.",
+      "priority": "HIGH",
+      "behavior_status": "ABI_UNVERIFIED"
+    },
+    {
+      "entry": "0x002f0696",
+      "source": "src/main_unclassified/band_002f/0x002f0696.cpp",
+      "original_body_sha256": "B0971B5D2CB4945DC056293D2DAC8D989FC1D1488B22EDB4125E67FDF93C85BD",
+      "ghidra_selected_ranges": [
+        [
+          0,
+          13
+        ]
+      ],
+      "selected_bytes": 13,
+      "instruction_windows": [
+        [
+          0,
+          "66813c247f02"
+        ],
+        [
+          6,
+          "7403"
+        ],
+        [
+          8,
+          "d92c24"
+        ],
+        [
+          11,
+          "5ac3"
+        ]
+      ],
+      "finding": "Original code conditionally executes FLDCW and then POP EDX; RET. The empty draft does not preserve the x87 state or the EDX/stack effects.",
+      "priority": "HIGH",
+      "behavior_status": "ABI_UNVERIFIED"
+    }
+  ]
+}
