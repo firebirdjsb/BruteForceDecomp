@@ -84,6 +84,10 @@ uint32_t FUN_001668b0(uint32_t, uint32_t);
 uint32_t FUN_001cab70(uint32_t, uint32_t);
 uint32_t FUN_001cab20(uint32_t, uint32_t);
 
+uint32_t FUN_00236ec0(uint32_t, uint32_t, uint32_t, uint32_t);
+uint32_t FUN_0031b21f(uint32_t, uint32_t, uint32_t, uint32_t, bool);
+uint32_t FUN_00352e8d(uint32_t, uint32_t, uint32_t, bool);
+
 static uint32_t invoke(uint32_t entry, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t df)
 {
     switch (entry) {
@@ -124,6 +128,9 @@ static uint32_t invoke(uint32_t entry, uint32_t a, uint32_t b, uint32_t c, uint3
     case 0x001668b0: return FUN_001668b0(a, b);
     case 0x001cab70: return FUN_001cab70(a, b);
     case 0x001cab20: return FUN_001cab20(a, b);
+    case 0x00236ec0: return FUN_00236ec0(a, b, c, d);
+    case 0x0031b21f: return FUN_0031b21f(a, b, c, d, df != 0);
+    case 0x00352e8d: return FUN_00352e8d(a, b, c, df != 0);
     default: std::abort();
     }
 }

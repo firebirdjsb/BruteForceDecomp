@@ -93,7 +93,7 @@ def cases():
                              first, last, dst, 0)
                     yield f"{entry:#x}/count={count}/df={df}/dst={dst:#x}", host, guest, seed, expected, slot
 
-    for entry, words in SHIFT.items():
+    for entry, words in {**SHIFT, 0x00236EC0: 2}.items():
         stride = words * 4
         source = BASE + 0x680
         for df in (0, 1):
@@ -109,14 +109,18 @@ def cases():
                     if destination != source:
                         for record in range(count):
                             for word in range(words):
-                                offset = record * stride + (word * -4 if df else word * 4)
+                                offset = record * stride + (word * -4 if df and entry in SHIFT else word * 4)
                                 src = source + offset - BASE
                                 dst = destination + offset - BASE
                                 expected[dst:dst + 4] = expected[src:src + 4]
                         write(expected, owner + 8, destination + count * stride)
                     write(expected, slot, destination)
-                    host = (entry, owner, slot, destination, source, df)
-                    guest = (entry, 0, 0, 0, df, owner, slot, destination, source)
+                    if entry in SHIFT:
+                        host = (entry, owner, slot, destination, source, df)
+                        guest = (entry, 0, 0, 0, df, owner, slot, destination, source)
+                    else:
+                        host = (entry, slot, owner, destination, source, 0)
+                        guest = (entry, slot, 0, 0, df, destination, source, 0, 0, owner)
                     yield f"{entry:#x}/shift/{count}/{df}/{destination:#x}", host, guest, initial, expected, slot
 
     for entry in sorted(FORWARD):
@@ -148,6 +152,45 @@ def cases():
             host = (entry, destination, source, 0, 0, 0)
             guest = (entry, destination, source, 0, 0, 0, 0, 0, 0)
             yield f"{entry:#x}/fixed/{destination:#x}", host, guest, seed, expected, destination
+
+    def byte_copy(initial, source, destination, size, df):
+        result = bytearray(initial)
+        step = -1 if df else 1
+        words, tail = divmod(size, 4)
+        accesses = [(step * 4 * i, 4) for i in range(words)]
+        accesses.extend((step * (words * 4 + i), 1) for i in range(tail))
+        for offset, width in accesses:
+            src = source + offset - BASE
+            dst = destination + offset - BASE
+            result[dst:dst + width] = result[src:src + width]
+        return result
+
+    source, context, slot = BASE + 0x680, BASE + 0x420, BASE + 0x200
+    for size in (0, 1, 3, 4, 5, 6, 7, 13):
+        for df in (0, 1):
+            for destination in (source - 1, source + 1, context):
+                initial = bytearray(seed)
+                write(initial, context + 16, slot)
+                write(initial, slot, destination - 3)
+                expected = byte_copy(initial, source, destination, size, df)
+                host = (0x0031B21F, context, 3, source, size, df)
+                guest = (0x0031B21F, 0, context, 0, df, 3, source, size, 0)
+                yield f"31b21f/{size}/{df}/{destination:#x}", host, guest, initial, expected, size
+                for available in (max(size - 1, 0), size):
+                    initial = bytearray(seed)
+                    write(initial, context, destination)
+                    write(initial, context + 4, available)
+                    expected = initial.copy()
+                    if available >= size:
+                        expected = byte_copy(initial, source, destination, size, df)
+                        index = context - BASE
+                        cursor, remaining = struct.unpack_from("<II", expected, index)
+                        write(expected, context, (cursor + size) & 0xffffffff)
+                        write(expected, context + 4, (remaining - size) & 0xffffffff)
+                    host = (0x00352E8D, context, source, size, 0, df)
+                    guest = (0x00352E8D, 0, context, 0, df, source, size, 0, 0)
+                    yield (f"352e8d/{size}/{available}/{df}/{destination:#x}", host, guest,
+                           initial, expected, context)
 
     node, next_node, previous, head = (BASE + offset for offset in (0x200, 0x300, 0x400, 0x500))
 
@@ -222,7 +265,7 @@ def read_retail(xbe, doc):
 START = r"""
 .globl _start
 .section .bss
-input: .zero 36
+input: .zero 40
 result: .zero 4
 .section .guest,"aw"
 .zero 4096
@@ -239,7 +282,7 @@ read_exact:
     ret
 _start:
     mov $input,%ecx
-    mov $36,%edx
+    mov $40,%edx
     call read_exact
     mov $0x420000,%ecx
     mov $4096,%edx
@@ -255,6 +298,7 @@ invoke:
     mov input+4,%eax
     mov input+8,%ecx
     mov input+12,%edi
+    mov input+36,%ebx
     call *input
     cld
     mov %eax,result
@@ -308,7 +352,8 @@ def main():
     require(clang, "clang++ is required")
     doc = json.loads((ROOT / "metadata/cpp_guest32_list_and_copy_20261112.json").read_text(encoding="utf-8"))
     require(doc["original_xbe_sha256"] == XBE_SHA256, "retail identity changed")
-    require({int(entry, 16) for entry in doc["bodies"]} == set(COPY) | AUDIO | set(SHIFT) | FORWARD | set(FIXED), "model inventory changed")
+    require({int(entry, 16) for entry in doc["bodies"]} ==
+            set(COPY) | AUDIO | set(SHIFT) | FORWARD | set(FIXED) | {0x00236EC0, 0x0031B21F, 0x00352E8D}, "model inventory changed")
     paths = []
     for entry, evidence in doc["bodies"].items():
         path = source_path(ROOT, entry)
@@ -330,7 +375,8 @@ def main():
                 observed = subprocess.check_output([str(model)], input=packet(host, initial), timeout=10)
                 require(observed == packet((eax,), expected), f"{opt} fixture differs: {name}")
                 if retail:
-                    original = subprocess.check_output([str(retail)], input=packet(guest, initial), timeout=10)
+                    guest_input = (*guest, 0) if len(guest) == 9 else guest
+                    original = subprocess.check_output([str(retail)], input=packet(guest_input, initial), timeout=10)
                     require(observed == original, f"{opt} original x86 differs: {name}")
             oracle = " and retail x86" if retail else ""
             print(f"PASS {opt}: linked {len(paths)} models, {len(suite)} cases against fixtures{oracle}")

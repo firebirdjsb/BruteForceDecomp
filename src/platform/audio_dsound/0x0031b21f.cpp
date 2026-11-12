@@ -1,28 +1,16 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest memory model.
  * Input x86 body SHA-256: 92AC600166D5F80B5867992AC1BF3C9E4D6B442A19FFE829759240DE8FA9034A
  * Entry: 0x0031b21f, Ghidra index: 12292, label: FUN_0031b21f
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * This models captured inputs and guest data accesses. Native ABI_UNVERIFIED.
  */
-#include "bf_ghidra_types.h"
-void FUN_0031b21f(int param_1,undefined4 *param_2,uint param_3)
+#include "bf_xbe_guest32_record_moves.h"
 
+uint32_t FUN_0031b21f(uint32_t guest_ecx, uint32_t offset,
+                      uint32_t source, uint32_t bytes, bool guest_df)
 {
-  int in_ECX;
-  uint uVar1;
-  undefined4 *puVar2;
-  
-  puVar2 = (undefined4 *)(**(int **)(in_ECX + 0x10) + param_1);
-  for (uVar1 = param_3 >> 2; uVar1 != 0; uVar1 = uVar1 - 1) {
-    *puVar2 = *param_2;
-    param_2 = param_2 + 1;
-    puVar2 = puVar2 + 1;
-  }
-  for (param_3 = param_3 & 3; param_3 != 0; param_3 = param_3 - 1) {
-    *(undefined1 *)puVar2 = *(undefined1 *)param_2;
-    param_2 = (undefined4 *)((int)param_2 + 1);
-    puVar2 = (undefined4 *)((int)puVar2 + 1);
-  }
-  return;
+    const uint32_t slot = bf_guest_read_u32(guest_ecx + 0x10u);
+    const uint32_t base = bf_guest_read_u32(slot);
+    bf_guest_copy_rep_dwords_and_bytes(source, base + offset, bytes, guest_df);
+    return bytes;  // The original saves the full byte count in EAX.
 }

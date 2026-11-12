@@ -16,6 +16,24 @@ static inline void bf_guest_copy_record_dwords(uint32_t source, uint32_t destina
     }
 }
 
+static inline void bf_guest_copy_rep_dwords_and_bytes(uint32_t source, uint32_t destination,
+                                                       uint32_t bytes, bool guest_df)
+{
+    bf_guest_copy_record_dwords(source, destination, bytes >> 2, guest_df ? 0xfffffffcu : 4u);
+    // REP MOVSB begins at the ESI and EDI positions left by REP MOVSD.
+    const uint32_t word_bytes = bytes & 0xfffffffcu;
+    const uint32_t displacement = guest_df ? 0u - word_bytes : word_bytes;
+    source += displacement;
+    destination += displacement;
+    const uint32_t step = guest_df ? 0xffffffffu : 1u;
+    for (uint32_t i = 0; i < (bytes & 3u); ++i) {
+        const uint8_t value = bf_guest_read_u8(source);
+        bf_guest_write_u8(destination, value);
+        source += step;
+        destination += step;
+    }
+}
+
 static inline uint32_t bf_guest_shift_records_forward(uint32_t owner, uint32_t output_slot,
                                                       uint32_t destination, uint32_t source,
                                                       uint32_t words, bool guest_df)
