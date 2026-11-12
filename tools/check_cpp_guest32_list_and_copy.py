@@ -31,8 +31,34 @@ COPY = {
     0x001D65F0: (16, False, True, [(0, 4), (4, 1), (8, 4), (12, 4)]),
     0x001D6640: (16, False, True, [(0, 4), (4, 4), (8, 4), (12, 1)]),
     0x001D6BF0: (12, False, True, [(0, 4), (4, 4), (8, 1), (9, 1)]),
+    0x001D7E10: (16, False, False, [(0, 4), (4, 4), (8, 4), (12, 4)]),
+    0x001D8180: (20, False, False, [(0, 4), (4, 4), (8, 4), (12, 4), (16, 4)]),
+    0x001D64E0: (24, False, False, [(0, 4), (4, 4), (8, 4), (12, 4), (16, 4), (20, 4)]),
+    0x001D67A0: (28, False, False, [(0, 4), (4, 4), (8, 4), (12, 4), (16, 4), (20, 4), (24, 4)]),
+    0x001D84B0: (16, False, True, [(0, 4), (4, 4), (8, 4), (12, 1), (13, 1)]),
+    0x001D6B00: (24, False, True, [(0, 4), (4, 4), (8, 4), (12, 1), (13, 1), (16, 4), (20, 4)]),
+    0x001328E0: (20, False, True, [(0, 4), (4, 4), (8, 4), (12, 4), (16, 1)]),
 }
 AUDIO = {0x003118C0, 0x00315F72, 0x0031AA11, 0x0031AA47, 0x0031AE9C}
+
+
+# Forward shift takes owner/output/destination/source from the four stack DWORDs.
+SHIFT = {
+    0x0001C930: 16,
+    0x001B6D40: 10,
+    0x001B7330: 7,
+    0x001B7660: 8,
+    0x001B99C0: 13,
+    0x002463A0: 6,
+    0x002633D0: 5,
+}
+FORWARD = {0x002E0090, 0x00176700}
+FIXED = {
+    0x001667C0: (648, 4),
+    0x001668B0: (120, 4),
+    0x001CAB70: (128, 4),
+    0x001CAB20: (60, 1),
+}
 
 
 def packet(values, memory):
@@ -66,6 +92,62 @@ def cases():
                     guest = (entry, 0 if in_edi else slot, 0, slot if in_edi else 0, df,
                              first, last, dst, 0)
                     yield f"{entry:#x}/count={count}/df={df}/dst={dst:#x}", host, guest, seed, expected, slot
+
+    for entry, words in SHIFT.items():
+        stride = words * 4
+        source = BASE + 0x680
+        for df in (0, 1):
+            for count in (0, 1, 3):
+                for destination in (source, source - 1, source + 4, BASE + 0x900):
+                    # End pointer can be overwritten during copying. The output
+                    # store may also alias the updated owner field.
+                    owner = destination - 8
+                    slot = owner + 8 if count % 2 else BASE + 0x100
+                    initial = bytearray(seed)
+                    write(initial, owner + 8, source + count * stride)
+                    expected = initial.copy()
+                    if destination != source:
+                        for record in range(count):
+                            for word in range(words):
+                                offset = record * stride + (word * -4 if df else word * 4)
+                                src = source + offset - BASE
+                                dst = destination + offset - BASE
+                                expected[dst:dst + 4] = expected[src:src + 4]
+                        write(expected, owner + 8, destination + count * stride)
+                    write(expected, slot, destination)
+                    host = (entry, owner, slot, destination, source, df)
+                    guest = (entry, 0, 0, 0, df, owner, slot, destination, source)
+                    yield f"{entry:#x}/shift/{count}/{df}/{destination:#x}", host, guest, initial, expected, slot
+
+    for entry in sorted(FORWARD):
+        first = BASE + 0x600
+        for count in (0, 1, 3):
+            for destination in (first, first - 1, first + 4, BASE + 0x900):
+                slot = destination + 4
+                last = first + count * 16
+                expected = bytearray(seed)
+                for offset in range(0, count * 16, 4):
+                    src = first + offset - BASE
+                    dst = destination + offset - BASE
+                    expected[dst:dst + 4] = expected[src:src + 4]
+                write(expected, slot, destination + count * 16)
+                host = (entry, slot, first, last, destination, 0)
+                guest = (entry, slot, 0, 0, 0, first, last, destination, 0)
+                yield f"{entry:#x}/forward/{count}/{destination:#x}", host, guest, seed, expected, slot
+
+    for entry, (size, first_width) in FIXED.items():
+        source = BASE + 0x600
+        for destination in (source, source - 1, source + 1, source + 4, BASE + 0xa00):
+            expected = bytearray(seed)
+            if first_width == 1:
+                expected[destination - BASE] = expected[source - BASE]
+            for offset in range(0 if first_width == 4 else 4, size, 4):
+                src = source + offset - BASE
+                dst = destination + offset - BASE
+                expected[dst:dst + 4] = expected[src:src + 4]
+            host = (entry, destination, source, 0, 0, 0)
+            guest = (entry, destination, source, 0, 0, 0, 0, 0, 0)
+            yield f"{entry:#x}/fixed/{destination:#x}", host, guest, seed, expected, destination
 
     node, next_node, previous, head = (BASE + offset for offset in (0x200, 0x300, 0x400, 0x500))
 
@@ -226,7 +308,7 @@ def main():
     require(clang, "clang++ is required")
     doc = json.loads((ROOT / "metadata/cpp_guest32_list_and_copy_20261112.json").read_text(encoding="utf-8"))
     require(doc["original_xbe_sha256"] == XBE_SHA256, "retail identity changed")
-    require({int(entry, 16) for entry in doc["bodies"]} == set(COPY) | AUDIO, "model inventory changed")
+    require({int(entry, 16) for entry in doc["bodies"]} == set(COPY) | AUDIO | set(SHIFT) | FORWARD | set(FIXED), "model inventory changed")
     paths = []
     for entry, evidence in doc["bodies"].items():
         path = source_path(ROOT, entry)

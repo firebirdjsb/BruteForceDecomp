@@ -1,7 +1,7 @@
 #ifndef BF_XBE_GUEST32_COPY_BACK_H
 #define BF_XBE_GUEST32_COPY_BACK_H
 
-#include "bf_xbe_guest32_record_model.h"
+#include "bf_xbe_guest32_record_moves.h"
 
 // The outer loop moves backward by one record. The inner walk preserves the
 // original order of each DWORD read and write, even when the records overlap.
@@ -16,14 +16,7 @@ static inline uint32_t bf_guest_copy_back_dwords(uint32_t result, uint32_t first
     while (last != first) {
         last -= record_bytes;
         destination_end -= record_bytes;
-        uint32_t source = last;
-        uint32_t destination = destination_end;
-        for (uint32_t i = 0; i < words; ++i) {
-            const uint32_t value = bf_guest_read_u32(source);
-            bf_guest_write_u32(destination, value);
-            source += step;
-            destination += step;
-        }
+        bf_guest_copy_record_dwords(last, destination_end, words, step);
     }
     bf_guest_write_u32(result, destination_end);
     return result;

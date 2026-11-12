@@ -1,37 +1,18 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest memory model.
  * Input x86 body SHA-256: C9DAABEAC7230B27A46D57D9CC0A70FE1B673F3BABCC0BDED8889D247C734824
  * Entry: 0x001cab20, Ghidra index: 5852, label: FUN_001cab20
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * This models captured inputs and guest data accesses. Native ABI_UNVERIFIED.
  */
-#include "bf_ghidra_types.h"
-void FUN_001cab20(void)
+#include "bf_xbe_guest32_record_moves.h"
 
+uint32_t FUN_001cab20(uint32_t guest_eax, uint32_t guest_ecx)
 {
-  int iVar1;
-  undefined1 *in_EAX;
-  undefined1 *in_ECX;
-  undefined4 *puVar2;
-  int iVar3;
-  
-  *in_EAX = *in_ECX;
-  puVar2 = (undefined4 *)(in_EAX + 4);
-  iVar1 = 4 - (int)puVar2;
-  iVar3 = 2;
-  do {
-    *puVar2 = *(undefined4 *)(in_ECX + iVar1 + (int)puVar2);
-    puVar2 = puVar2 + 1;
-    iVar3 = iVar3 + -1;
-  } while (iVar3 != 0);
-  puVar2 = (undefined4 *)(in_EAX + 0xc);
-  iVar1 = 0xc - (int)puVar2;
-  iVar3 = 6;
-  do {
-    *puVar2 = *(undefined4 *)(in_ECX + iVar1 + (int)puVar2);
-    puVar2[1] = *(undefined4 *)(in_ECX + iVar1 + 4 + (int)puVar2);
-    puVar2 = puVar2 + 2;
-    iVar3 = iVar3 + -1;
-  } while (iVar3 != 0);
-  return;
+    // MOV CL preserves the three adjacent destination bytes before the
+    // original copies the two DWORDs at +4/+8 and six pairs at +0xc..+0x38.
+    bf_guest_write_u8(guest_eax, bf_guest_read_u8(guest_ecx));
+    bf_guest_copy_record_dwords(guest_ecx + 4u, guest_eax + 4u, 2u, 4u);
+    for (uint32_t offset = 12u; offset < 60u; offset += 8u)
+        bf_guest_copy_record_dwords(guest_ecx + offset, guest_eax + offset, 2u, 4u);
+    return guest_eax;
 }
