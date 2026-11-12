@@ -1,0 +1,56 @@
+{
+  "original_xbe_sha256": "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721",
+  "baseline_commit": "1abc57cd608712ad526bcb2fb95061fbfd7c8775",
+  "callers": [
+    {
+      "entry": "0x00371240",
+      "declarations": [
+        {
+          "callee": "0x00371e10",
+          "signature": "uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2)",
+          "sites": [
+            "0x003712b7"
+          ],
+          "returns": [
+            [
+              "0x00371e46",
+              8
+            ],
+            [
+              "0x00371f68",
+              8
+            ],
+            [
+              "0x00371f80",
+              8
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "bodies": {
+    "0x00371240": {
+      "sha256": "6566A182D87F809CE7D42A439BB20A82839B316B6EB40AD617A18E8E6425BD28",
+      "ranges": [
+        [
+          "0x00371240",
+          215
+        ]
+      ]
+    },
+    "0x00371e10": {
+      "sha256": "3349300F8D40720450E627988C1F02AB351F26407D6AF5E599B7C3C594A366E0",
+      "ranges": [
+        [
+          "0x00371e10",
+          237
+        ],
+        [
+          "0x00371f00",
+          131
+        ]
+      ]
+    }
+  }
+}

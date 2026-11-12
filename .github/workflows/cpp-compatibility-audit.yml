@@ -76,6 +76,8 @@ jobs:
         run: python3 tools/test_cpp_20261107_superseded_literal_ledger.py
       - name: Verify two real color-helper object links and missing-definition controls
         run: python3 tools/check_cpp_20261112_color_object_links.py
+      - name: Link and exercise four guest DWORD debug register models
+        run: python3 tools/check_cpp_d3d_debug_register_models.py
       - name: Compile link and exercise three guest DWORD initializer models
         run: python3 tools/check_cpp_guest_record_initializers.py
       - name: Verify 209 further partial DWORD operand repairs

@@ -4,9 +4,9 @@
   "callers": [
     {"entry": "0x000b1d70", "declarations": [{"callee": "0x000b8820", "signature": "undefined4 * FUN_000b8820(void)", "sites": ["0x000b1e00", "0x000b1e0b"], "returns": [["0x000b885c", 0]]}, {"callee": "0x000b87a0", "signature": "undefined4 * FUN_000b87a0(void)", "sites": ["0x000b1dd2"], "returns": [["0x000b87dc", 0]]}]},
     {"entry": "0x0025b420", "declarations": [{"callee": "0x00358ff0", "signature": "undefined4 FUN_00358ff0(int param_1,int param_2)", "sites": ["0x0025b43f"], "returns": [["0x00359000", 8], ["0x003590a0", 8]]}]},
-    {"entry": "0x003707a0", "declarations": [{"callee": "0x00371240", "signature": "void D3D8LTCG__D3D_CommonSetDebugRegisters(void)", "sites": ["0x003707a9"], "returns": [["0x00371316", 0]]}]},
-    {"entry": "0x003707c0", "declarations": [{"callee": "0x00371240", "signature": "void D3D8LTCG__D3D_CommonSetDebugRegisters(void)", "sites": ["0x003707c9"], "returns": [["0x00371316", 0]]}]},
-    {"entry": "0x003707e0", "declarations": [{"callee": "0x00371240", "signature": "void D3D8LTCG__D3D_CommonSetDebugRegisters(void)", "sites": ["0x003707e9"], "returns": [["0x00371316", 0]]}]},
+    {"entry": "0x003707a0", "declarations": [{"callee": "0x00371240", "signature": "uint32_t D3D8LTCG__D3D_CommonSetDebugRegisters(void)", "sites": ["0x003707a9"], "returns": [["0x00371316", 0]]}]},
+    {"entry": "0x003707c0", "declarations": [{"callee": "0x00371240", "signature": "uint32_t D3D8LTCG__D3D_CommonSetDebugRegisters(void)", "sites": ["0x003707c9"], "returns": [["0x00371316", 0]]}]},
+    {"entry": "0x003707e0", "declarations": [{"callee": "0x00371240", "signature": "uint32_t D3D8LTCG__D3D_CommonSetDebugRegisters(void)", "sites": ["0x003707e9"], "returns": [["0x00371316", 0]]}]},
     {"entry": "0x003720c0", "declarations": [{"callee": "0x00371ce0", "signature": "void D3D8LTCG__D3D_BlockOnTime(int param_1,uint param_2)", "sites": ["0x003720fe", "0x00372137", "0x00372145"], "returns": [["0x00371de1", 8], ["0x00371e03", 8]]}]},
     {"entry": "0x00337ba4", "declarations": [{"callee": "0x0033e8c3", "signature": "void FUN_0033e8c3(int param_1)", "sites": ["0x00337baa"], "returns": [["0x0033e942", 4]]}]},
     {"entry": "0x0033824b", "declarations": [{"callee": "0x0033e8c3", "signature": "void FUN_0033e8c3(int param_1)", "sites": ["0x00338251"], "returns": [["0x0033e942", 4]]}]}

@@ -1,18 +1,15 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest DWORD model.
  * Input x86 body SHA-256: 3E965166B55CFC7FF512C2073671D2F5DE91637DAC0EB82ABA01CE10AB6F8A05
  * Entry: 0x003707e0, Ghidra index: 13355, label: D3DDevice_SetRenderState_DoNotCullUncompressed
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
  */
-#include "bf_ghidra_types.h"
+#include "bf_xbe_guest32_record_model.h"
 // Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
-extern void D3D8LTCG__D3D_CommonSetDebugRegisters(void);
-#include "bf_xbox_d3d_state_globals_x86.h"
-void D3D8LTCG__D3DDevice_SetRenderState_DoNotCullUncompressed(undefined4 param_1)
+extern uint32_t D3D8LTCG__D3D_CommonSetDebugRegisters(void);
 
+uint32_t D3D8LTCG__D3DDevice_SetRenderState_DoNotCullUncompressed(uint32_t value)
 {
-  D3D8__D3DRS_DoNotCullUncompressed = param_1;
-  D3D8LTCG__D3D_CommonSetDebugRegisters();
-  return;
+    // Store the full stack DWORD, then carry the callee's EAX to RET 4.
+    bf_guest_write_u32(0x0037e02cu, value);
+    return D3D8LTCG__D3D_CommonSetDebugRegisters();
 }

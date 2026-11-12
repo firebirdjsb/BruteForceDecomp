@@ -1,58 +1,62 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest DWORD model.
  * Input x86 body SHA-256: 6566A182D87F809CE7D42A439BB20A82839B316B6EB40AD617A18E8E6425BD28
  * Entry: 0x00371240, Ghidra index: 13379, label: D3D_CommonSetDebugRegisters
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
  */
 #include "bf_ghidra_types.h"
-#include "bf_xbe_mapped_data_addresses_x86.h"
-#include "bf_xbox_d3d_state_globals_x86.h"
-#include "bf_xbox_d3d_device_x86.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_0037ec88;
-extern uint32_t PTR_PTR_00400094;
-void D3D8LTCG__D3D_CommonSetDebugRegisters(void)
+#include "bf_xbe_guest32_record_model.h"
 
+#include <cstring>
+
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2);
+
+uint32_t D3D8LTCG__D3D_CommonSetDebugRegisters(void)
 {
-  uint uVar1;
-  undefined4 uVar2;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  
-  puVar3 = D3D8__D3D_g_pDevice;
-  uVar1 = D3D8__D3D_g_pDevice[0x7f2];
-  D3D8__D3D_g_pDevice[0x7f2] = uVar1 & 0xfffffff7;
-  if (D3D8__D3DRS_DoNotCullUncompressed != 0) {
-    puVar3[0x7f2] = uVar1 & 0xfffffff7 | 8;
-  }
-  uVar1 = puVar3[0x7f3];
-  puVar3[0x7f3] = uVar1 & 0xe7efffff;
-  if (D3D8__D3DRS_RopZCmpAlwaysRead != 0) {
-    puVar3[0x7f3] = uVar1 & 0xe7efffff | 0x100000;
-  }
-  if (D3D8__D3DRS_RopZRead != 0) {
-    puVar3[0x7f3] = puVar3[0x7f3] | 0x8000000;
-  }
-  puVar4 = (undefined4 *)*puVar3;
-  if ((undefined4 *)puVar3[1] <= puVar4) {
-    puVar4 = (undefined4 *)D3D_MakeRequestedSpace_8(DAT_0037ec88 >> 1,DAT_0037ec88);
-  }
-  *puVar4 = 0x40110;
-  puVar4[1] = 0;
-  uVar2 = puVar3[0x7f2];
-  puVar4[2] = 0x81d8c;
-  puVar4[3] = &PTR_PTR_00400094;
-  puVar4[4] = uVar2;
-  puVar4[5] = 0x40100;
-  puVar4[6] = 9;
-  uVar2 = puVar3[0x7f3];
-  puVar4[7] = 0x81d8c;
-  puVar4[8] = &LAB_00400b80;
-  puVar4[9] = uVar2;
-  puVar4[10] = 0x40100;
-  puVar4[0xb] = 9;
-  *puVar3 = puVar4 + 0xc;
-  return;
+    // 0x00371241: load the device address once. These are byte offsets.
+    const uint32_t device = bf_guest_read_u32(0x0037dd88u);
+    const uint32_t first = device + 0x1fc8u;
+    const uint32_t second = device + 0x1fccu;
+
+    const uint32_t first_cleared = bf_guest_read_u32(first) & 0xfffffff7u;
+    bf_guest_write_u32(first, first_cleared);
+    if (bf_guest_read_u32(0x0037e02cu) != 0)
+        bf_guest_write_u32(first, first_cleared | 8u);
+
+    const uint32_t second_cleared = bf_guest_read_u32(second) & 0xe7efffffu;
+    bf_guest_write_u32(second, second_cleared);
+    if (bf_guest_read_u32(0x0037e024u) != 0)
+        bf_guest_write_u32(second, second_cleared | 0x00100000u);
+    if (bf_guest_read_u32(0x0037e028u) != 0)
+        bf_guest_write_u32(second, bf_guest_read_u32(second) | 0x08000000u);
+
+    uint32_t cursor = bf_guest_read_u32(device);
+    if (cursor >= bf_guest_read_u32(device + 4u)) {
+        // 0x003712b3 pushes the full word, then 0x003712b4 shifts it logically.
+        const uint32_t request = bf_guest_read_u32(0x0037ec88u);
+        static_assert(sizeof(int) == sizeof(request));
+        int request_bits;
+        std::memcpy(&request_bits, &request, sizeof(request));
+        cursor = D3D8LTCG__D3D_MakeRequestedSpace_8(static_cast<int>(request >> 1), request_bits);
+    }
+
+    // The register reloads at 0x003712c9 and 0x003712ef interleave with
+    // command stores. Keep their order even if the guest addresses alias.
+    bf_guest_write_u32(cursor, 0x00040110u);
+    bf_guest_write_u32(cursor + 0x04u, 0u);
+    const uint32_t first_command = bf_guest_read_u32(first);
+    bf_guest_write_u32(cursor + 0x08u, 0x00081d8cu);
+    bf_guest_write_u32(cursor + 0x0cu, 0x00400094u);
+    bf_guest_write_u32(cursor + 0x10u, first_command);
+    bf_guest_write_u32(cursor + 0x14u, 0x00040100u);
+    bf_guest_write_u32(cursor + 0x18u, 9u);
+    const uint32_t second_command = bf_guest_read_u32(second);
+    bf_guest_write_u32(cursor + 0x1cu, 0x00081d8cu);
+    bf_guest_write_u32(cursor + 0x20u, 0x00400b80u);
+    bf_guest_write_u32(cursor + 0x24u, second_command);
+    bf_guest_write_u32(cursor + 0x28u, 0x00040100u);
+    bf_guest_write_u32(cursor + 0x2cu, 9u);
+    cursor += 0x30u;
+    bf_guest_write_u32(device, cursor);
+    return cursor;  // EAX at the original RET, 0x00371316.
 }
