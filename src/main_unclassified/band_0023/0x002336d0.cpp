@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_00233_scalar_sse.h"
 void FUN_002336d0(undefined4 param_1,undefined4 param_2,undefined4 param_3)
 
 {
@@ -17,9 +18,10 @@ void FUN_002336d0(undefined4 param_1,undefined4 param_2,undefined4 param_3)
   float local_8;
   float local_4;
   
-  FUN_00233020(param_1,&local_c,&local_4);
-  FUN_00233020(param_2,&local_10,&local_8);
-  FUN_00233020(param_3,&local_18,&local_14);
+  // The retail sites 0x002336E2, 0x002336F6 and 0x0023370A push raw DWORDs.
+  bf_00233020_words(param_1,&local_c,&local_4);
+  bf_00233020_words(param_2,&local_10,&local_8);
+  bf_00233020_words(param_3,&local_18,&local_14);
   *unaff_ESI = local_14 * local_8;
   unaff_ESI[1] = local_10 * local_c * local_14 - local_18 * local_4;
   unaff_ESI[2] = local_18 * local_c + local_10 * local_14 * local_4;

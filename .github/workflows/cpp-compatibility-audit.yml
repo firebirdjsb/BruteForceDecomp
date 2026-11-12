@@ -297,6 +297,7 @@ jobs:
           python3 tools/check_cpp_heap_free_bindings.py
           python3 tools/check_cpp_tail_jumps.py
           python3 tools/check_cpp_register_handoffs.py
+          python3 tools/check_cpp_00233_scalar_sse.py
       - name: Verify bounded mixed x87/SSE operation, independent models and state guards
         run: python3 tools/test_cpp_002b6640_mixed_operation.py --compiler clang++ --compiler g++ --sanitizers --sanitizer-compiler g++
       - name: Inventory C++17 syntax separately from the historical C11 baseline
