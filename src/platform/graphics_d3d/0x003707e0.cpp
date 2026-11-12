@@ -6,11 +6,13 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern void D3D8LTCG__D3D_CommonSetDebugRegisters(void);
 #include "bf_xbox_d3d_state_globals_x86.h"
 void D3D8LTCG__D3DDevice_SetRenderState_DoNotCullUncompressed(undefined4 param_1)
 
 {
   D3D8__D3DRS_DoNotCullUncompressed = param_1;
-  D3D_CommonSetDebugRegisters();
+  D3D8LTCG__D3D_CommonSetDebugRegisters();
   return;
 }

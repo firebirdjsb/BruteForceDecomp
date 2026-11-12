@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern void D3D8LTCG__D3D_BlockOnTime(int param_1,uint param_2);
 #include "bf_xbox_d3d_device_x86.h"
 void D3D8LTCG__D3D_BlockOnResource_0(void)
 
@@ -17,17 +19,17 @@ void D3D8LTCG__D3D_BlockOnResource_0(void)
     if ((((*in_EAX & 0x70000) == 0x50000) && (puVar1 = (uint *)in_EAX[5], puVar1 != (uint *)0x0)) &&
        (((*in_EAX & 0x780000) != 0 ||
         ((in_EAX = puVar1, puVar1 != (uint *)0x0 && ((*puVar1 & 0x780000) != 0)))))) {
-      D3D_BlockOnTime(*(undefined4 *)(D3D8__D3D_g_pDevice + 0x2c),2);
+      D3D8LTCG__D3D_BlockOnTime(*(undefined4 *)(D3D8__D3D_g_pDevice + 0x2c),2);
       return;
     }
     if (((*in_EAX & 0x780000) != 0) ||
        ((((*in_EAX & 0x70000) == 0x50000 && ((uint *)in_EAX[5] != (uint *)0x0)) &&
         ((*(uint *)in_EAX[5] & 0x780000) != 0)))) {
-      D3D_BlockOnTime(*(undefined4 *)(D3D8__D3D_g_pDevice + 0x2c),2);
+      D3D8LTCG__D3D_BlockOnTime(*(undefined4 *)(D3D8__D3D_g_pDevice + 0x2c),2);
       return;
     }
     if (in_EAX[2] != 0) {
-      D3D_BlockOnTime(in_EAX[2],0x10);
+      D3D8LTCG__D3D_BlockOnTime(in_EAX[2],0x10);
     }
   }
   return;

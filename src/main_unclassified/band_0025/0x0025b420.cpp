@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern undefined4 FUN_00358ff0(int param_1,int param_2);
 bool FUN_0025b420(int param_1,char param_2)
 
 {
@@ -14,7 +16,8 @@ bool FUN_0025b420(int param_1,char param_2)
   iVar1 = *(int *)(param_1 + 0xc);
   if (iVar1 != 0) {
     *(bool *)(param_1 + 0x28) = param_2 == '\0';
-    FUN_00358ff0(iVar1,param_2);
+    // MOVZX EAX,AL at 0x0025B434 prepares the second stack DWORD.
+    FUN_00358ff0(iVar1,static_cast<uint8_t>(param_2));
   }
   return iVar1 != 0;
 }

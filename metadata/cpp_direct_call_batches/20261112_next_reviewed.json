@@ -1,0 +1,30 @@
+{
+  "original_xbe_sha256": "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721",
+  "baseline_commit": "a111b5bf40e9e168b237065e688a8c2efa75428a",
+  "callers": [
+    {"entry": "0x000b1d70", "declarations": [{"callee": "0x000b8820", "signature": "undefined4 * FUN_000b8820(void)", "sites": ["0x000b1e00", "0x000b1e0b"], "returns": [["0x000b885c", 0]]}, {"callee": "0x000b87a0", "signature": "undefined4 * FUN_000b87a0(void)", "sites": ["0x000b1dd2"], "returns": [["0x000b87dc", 0]]}]},
+    {"entry": "0x0025b420", "declarations": [{"callee": "0x00358ff0", "signature": "undefined4 FUN_00358ff0(int param_1,int param_2)", "sites": ["0x0025b43f"], "returns": [["0x00359000", 8], ["0x003590a0", 8]]}]},
+    {"entry": "0x003707a0", "declarations": [{"callee": "0x00371240", "signature": "void D3D8LTCG__D3D_CommonSetDebugRegisters(void)", "sites": ["0x003707a9"], "returns": [["0x00371316", 0]]}]},
+    {"entry": "0x003707c0", "declarations": [{"callee": "0x00371240", "signature": "void D3D8LTCG__D3D_CommonSetDebugRegisters(void)", "sites": ["0x003707c9"], "returns": [["0x00371316", 0]]}]},
+    {"entry": "0x003707e0", "declarations": [{"callee": "0x00371240", "signature": "void D3D8LTCG__D3D_CommonSetDebugRegisters(void)", "sites": ["0x003707e9"], "returns": [["0x00371316", 0]]}]},
+    {"entry": "0x003720c0", "declarations": [{"callee": "0x00371ce0", "signature": "void D3D8LTCG__D3D_BlockOnTime(int param_1,uint param_2)", "sites": ["0x003720fe", "0x00372137", "0x00372145"], "returns": [["0x00371de1", 8], ["0x00371e03", 8]]}]},
+    {"entry": "0x00337ba4", "declarations": [{"callee": "0x0033e8c3", "signature": "void FUN_0033e8c3(int param_1)", "sites": ["0x00337baa"], "returns": [["0x0033e942", 4]]}]},
+    {"entry": "0x0033824b", "declarations": [{"callee": "0x0033e8c3", "signature": "void FUN_0033e8c3(int param_1)", "sites": ["0x00338251"], "returns": [["0x0033e942", 4]]}]}
+  ],
+  "bodies": {
+    "0x000b1d70": {"sha256": "E9388D4FE47363653DF6366710FF06F991E2FF42900E584D020FC47E419B1FBD", "ranges": [["0x000b1d70", 252]]},
+    "0x000b87a0": {"sha256": "9178406DA84EDB7001CDF5060328346653D6B35F7BBD5BC0203A7B60C84A2D72", "ranges": [["0x000b87a0", 61]]},
+    "0x000b8820": {"sha256": "409311AB1FE13A4C754CD9F19BA8D42FA9A73C053691CF466DD9A9EC4A010512", "ranges": [["0x000b8820", 61]]},
+    "0x0025b420": {"sha256": "1D8467117F683272D0EE028E668F32F6E2C70262E9ABC6B503CFBFE8E190F879", "ranges": [["0x0025b420", 42]]},
+    "0x00337ba4": {"sha256": "AE07E316B920A70A62624FED0CE6D9FE17A9C9F74C0F7F57D5884A6D37E71776", "ranges": [["0x00337ba4", 24]]},
+    "0x0033824b": {"sha256": "6ED99F8C13A0FD0BB7D64E251194730970E2D30C4FB13F85593652D11419F85B", "ranges": [["0x0033824b", 24]]},
+    "0x0033e8c3": {"sha256": "7D8260287402EE83CAB3C0F4A9EDF505409DBDC10F23F279BD67AACE6824BF63", "ranges": [["0x0033e8c3", 130]]},
+    "0x00358ff0": {"sha256": "46787C51B8D657795FE0851722014815CA5DAFA0E19A48DE47C07BDC2B23316E", "ranges": [["0x00358ff0", 179]]},
+    "0x003707a0": {"sha256": "F05B8B2C2D138788184029EF0C8320CE09314EBFCBED24E4EE7761197BA06894", "ranges": [["0x003707a0", 17]]},
+    "0x003707c0": {"sha256": "354BB829F308E1F63EB1594BF05B6F556B05CDDC7FF15DA19B8EFCB1D906D107", "ranges": [["0x003707c0", 17]]},
+    "0x003707e0": {"sha256": "3E965166B55CFC7FF512C2073671D2F5DE91637DAC0EB82ABA01CE10AB6F8A05", "ranges": [["0x003707e0", 17]]},
+    "0x00371240": {"sha256": "6566A182D87F809CE7D42A439BB20A82839B316B6EB40AD617A18E8E6425BD28", "ranges": [["0x00371240", 215]]},
+    "0x00371ce0": {"sha256": "52E7C01F2598F40FE46F67BAE59B4C07D2C417CF6B73EC07A1A40ABAA3254F25", "ranges": [["0x00371ce0", 294]]},
+    "0x003720c0": {"sha256": "E1793333B649B479F84B4E87CBE31019543B4DBEE892D23869879B89D619B6BA", "ranges": [["0x003720c0", 140]]}
+  }
+}

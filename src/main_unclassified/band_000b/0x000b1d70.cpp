@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern undefined4 * FUN_000b8820(void);
+extern undefined4 * FUN_000b87a0(void);
 #include "bf_x86_word_lanes.h"
 void FUN_000b1d70(float param_1,byte param_2)
 
@@ -71,6 +74,8 @@ void FUN_000b1d70(float param_1,byte param_2)
   *(undefined1 *)(iVar2 + 0x3a) = bf_x86_word_load_byte(&uStack_4,1U);
   unaff_ESI[0x16] = (int)param_1;
   *(byte *)(unaff_ESI + 0x17) = *(byte *)(unaff_ESI + 0x17) & 0xfc | param_2 & 1;
-  *(byte *)((int)unaff_ESI + 0x13) = *(byte *)((int)unaff_ESI + 0x13) & 0xfe;
+  // 0x000B1E57 and 0x000B1E64 read and write one byte at ESI + 0x13.
+  byte &flags_at_13 = reinterpret_cast<byte *>(unaff_ESI)[0x13];
+  flags_at_13 &= 0xfe;
   return;
 }
