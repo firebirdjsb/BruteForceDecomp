@@ -1,0 +1,44 @@
+{
+  "original_xbe_sha256": "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721",
+  "baseline_commit": "6a5163b820e16819762ca6e5c46eb233c685cbaf",
+  "callers": [
+    {
+      "entry": "0x0035af40",
+      "declarations": [
+        {
+          "callee": "0x002f4b8c",
+          "signature": "undefined4 XAPILIB__Sleep(undefined4 param_1)",
+          "sites": [
+            "0x0035af42"
+          ],
+          "returns": [
+            [
+              "0x002f4b97",
+              4
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "bodies": {
+    "0x0035af40": {
+      "sha256": "A49B8532ECE990952143008830CF1BEDC5C7B6C3118C41981C31375B2A35F30D",
+      "ranges": [
+        [
+          "0x0035af40",
+          8
+        ]
+      ]
+    },
+    "0x002f4b8c": {
+      "sha256": "8E01167F1E6509BD333B5AF1A25425BC7108F92B048DE58C073498C641B66224",
+      "ranges": [
+        [
+          "0x002f4b8c",
+          14
+        ]
+      ]
+    }
+  }
+}
