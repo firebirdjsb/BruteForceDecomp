@@ -3,7 +3,7 @@
  * Entry: 0x002fe3e8, Ghidra index: 11020, label: ?_CreateFrameInfo@@YAPAUFrameInfo@@PAU1@PAX@Z
  * STATUS: X86_OPERANDS_OBSERVED, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_xbe_guest32_record_model.h"
+#include "bf_xbe_guest32_record_initializers.h"
 
 uint32_t __CreateFrameInfo__YAPAUFrameInfo__PAU1_PAX_Z(uint32_t guest_record, uint32_t word)
 {

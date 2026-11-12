@@ -19,7 +19,7 @@ BODIES = {
 }
 
 FIXTURE = r"""
-#include "bf_xbe_guest32_record_model.h"
+#include "bf_xbe_guest32_record_initializers.h"
 #include <cassert>
 #include <map>
 #include <tuple>

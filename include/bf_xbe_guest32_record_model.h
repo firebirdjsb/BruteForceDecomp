@@ -16,9 +16,5 @@ void bf_guest_write_u8(std::uint32_t guest_va, std::uint8_t value);
 // Explicit host-side guest-register models, NOT original Xbox C++ prototypes.
 void FUN_0008f6e0(std::uint32_t guest_edx);
 void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
-std::uint32_t __CreateFrameInfo__YAPAUFrameInfo__PAU1_PAX_Z(std::uint32_t guest_record,
-                                                          std::uint32_t word);
-std::uint32_t FUN_00311b03(std::uint32_t guest_ecx);
-std::uint32_t FUN_0031aa6e(std::uint32_t guest_ecx);
 
 #endif

@@ -59,14 +59,14 @@ SUPERSEDED_GUEST32_SOURCES = {
         'entry': '0x00311b03',
         'body_sha256': '7A83B0C387114D8F1A7AB1E629BFDF90497E0B11E54EDDDA319A39949712D669',
         'historical_sha256': '61a6205293acca605c07fb89e4842162cd1200ca2bacf69d404e522200c7ac11',
-        'current_sha256': 'ef3b52a1538285983561e25886d7c0d363aa83e053f7d109ccb9ac7730edd7f0',
+        'current_sha256': 'f8b3bdd8294cf940344234f18d6d74b6a3cb647286dccc83f5fb03e374cee83d',
         'fixture': 'tests/fixtures/original_0x00311b03_post_literal_20261112.txt',
     },
     '0x0031aa6e': {
         'entry': '0x0031aa6e',
         'body_sha256': 'D5A21810BF144AC242E095C71B4622FA5B696A16FE81DA5BFD9C34E1BE4542B2',
         'historical_sha256': '79023565058ae92b299fdb9ae51f478b24314f292fa8d94706a940a1359786a4',
-        'current_sha256': '8c573913d1690a5270b16cbd7a9b48d13e8970c9cc7b5b1cdce67b162587da24',
+        'current_sha256': '57badbb25e3465639311e1476b9f5d922dbcc1ae22091e06e7efeecbfdf7d1c9',
         'fixture': 'tests/fixtures/original_0x0031aa6e_post_literal_20261112.txt',
     },
     '0x0001d470': {

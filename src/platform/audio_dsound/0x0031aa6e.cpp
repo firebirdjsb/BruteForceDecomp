@@ -3,7 +3,7 @@
  * Entry: 0x0031aa6e, Ghidra index: 12270, label: FUN_0031aa6e
  * STATUS: X86_OPERANDS_OBSERVED, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_xbe_guest32_record_model.h"
+#include "bf_xbe_guest32_record_initializers.h"
 
 uint32_t FUN_0031aa6e(uint32_t guest_ecx)
 {
