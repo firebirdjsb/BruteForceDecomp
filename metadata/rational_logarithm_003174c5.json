@@ -1,0 +1,31 @@
+{
+  "artifact_sha256": {
+    "docs/evidence/rational_logarithm_003174c5.md": "779e28a69c34066a9b6fcf90537a80bafdf195e997ee5dd7020560093a25bc57",
+    "src/platform/audio_dsound/0x003174c5.cpp": "23483716d0fd537d5de229cfebb04532bd9a4f24e30817b899d5ef532867b08c",
+    "tests/support/rational_logarithm_003174c5/DERIVATION.md": "675ace46b67888bc0204b1f85437433c283f2f495239e88f6093a9c16d307a16",
+    "tests/support/rational_logarithm_003174c5/generate_vectors.py": "71b436eb7accb24207cee25f29eec5231aed2bcbaafd2612c6050f0835133000",
+    "tests/support/rational_logarithm_003174c5/rational_model.py": "85f3084f3bf7163e0e26cf297cddd1f5a80a24e3f7e7b59339ce6dc02d32e5ca",
+    "tests/support/rational_logarithm_003174c5/test_rational_model.py": "0913e21fe3e7842882d1e9a68586cda7380276ae43a16abcf85da728f5efb813"
+  },
+  "authored_unit_test_count": 13,
+  "authorship": "Four support files preserve the exact raw standalone-author bytes; independently derived, not independently human-reviewed here",
+  "bounds": "No FYL2X hardware error/PE guarantee; invalid-conversion PE and C1 unpinned; no original-CPU claim",
+  "entry": "003174c5",
+  "expected_summary": {
+    "all_32_term_cases_unique_in_all_RCs": true,
+    "edge_cases": 29,
+    "random_RC_decisions": 8192,
+    "random_cases": 2048,
+    "random_exact_rows_sha256": "34853bc560b2af52a5f0c9a31888c918c150f1cb0edd9d507d51c7567e324924",
+    "random_independent_taylor_witnesses": 64,
+    "threshold_pairs": 26
+  },
+  "original_body_sha256": "06E8630DF9ABD22BE0A0CF9161D826F46288A075FBBA5B77B8A367EA5313FAF1",
+  "output_sha256": {
+    "edge-threshold-vectors.json": "fe18f0fd7dc7a2ca97904ba0e8b24af92a234866ca4ab170d779b6e3f03a2fc8",
+    "random-certificate.json": "94fdb8effa94d9a65dfb034ff788774e04a334583a4f9a342fb321e3d6b4318b",
+    "vector-summary.json": "a2ead0b32a27cd317000a4c08c3f80c679f158f00f7c264298a5f5ffc94be740"
+  },
+  "purpose": "Ideal mathematics and captured-binary80 conditional conversion only; no syntax gain or game implementation",
+  "schema": 1
+}

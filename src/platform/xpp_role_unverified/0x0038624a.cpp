@@ -6,9 +6,16 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Exact existing callee draft declaration only; Xbox ABI_UNVERIFIED.
+ * Original caller consumes hidden ECX/EDX and preserves ECX for this
+ * callee, which saves it in ESI. The unchanged zero-argument source
+ * call omits that binding; in_ECX/in_EDX remain unbound. Downstream
+ * interfaces remain unresolved. These mismatches remain; no guest
+ * pointer/ABI bridge is added. Do not execute this caller as game code. */
+extern void FUN_0038618e(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_004a8fe0;
+extern uint16_t DAT_004a8fe0;
 undefined4 FUN_0038624a(void)
 
 {

@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "entry": "0x00343343",
+  "source": "src/platform/online_xonline/0x00343343.cpp",
+  "baseline_commit": "1ef251ddd2c9162472f87f20c923d89b3ef94b0c",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_body_sha256": "B83710B0CFFD9CA5DB33993979842E1D7A961BC547C5827CD580E7257E5CF3E1",
+  "source_before_sha256": "4e22daad0a03b13433bc973d6e3a2a535ef111810c8cae172d443eca587668e4",
+  "source_after_sha256": "3060403984f04f490bc1ed3304511620b33fef7d9ee83f06637c33a6ec3b8bbb",
+  "preimage_git_blob": "0102a60adc8b46f33dbb53ff8556ef9fcc587bee",
+  "preimage_fixture": "tests/fixtures/00343343_before.cpp.txt",
+  "signature": "int FUN_00343343(char *param_1)",
+  "replacement": {
+    "before": "    iVar3 = (int)param_1 - (int)pcVar1;",
+    "after": "    // Bounded native object only: first zero at L <= min(INT_MAX,PTRDIFF_MAX),\n    // same live char array, with the final one-past advance valid. Guest32\n    // mapping/wrap, register/flags and RET 4 transport remain ABI_UNVERIFIED.\n    iVar3 = static_cast<int>(param_1 - pcVar1);",
+    "count": 1
+  },
+  "body_ranges": [
+    {
+      "start": "00343343",
+      "end_inclusive": "00343359",
+      "length": 23,
+      "bytes_hex": "8b44240485c0740c8d50018a084084c975f92bc2c20400"
+    }
+  ],
+  "instruction_count": 10,
+  "instruction_windows": [
+    {
+      "address": "0x00343343",
+      "bytes": "8b442404",
+      "mnemonic": "MOV",
+      "operands": [
+        "EAX",
+        "dword ptr [ESP + 0x4]"
+      ]
+    },
+    {
+      "address": "0x00343347",
+      "bytes": "85c0",
+      "mnemonic": "TEST",
+      "operands": [
+        "EAX",
+        "EAX"
+      ]
+    },
+    {
+      "address": "0x00343349",
+      "bytes": "740c",
+      "mnemonic": "JZ",
+      "operands": [
+        "0x00343357"
+      ]
+    },
+    {
+      "address": "0x0034334b",
+      "bytes": "8d5001",
+      "mnemonic": "LEA",
+      "operands": [
+        "EDX",
+        "[EAX + 0x1]"
+      ]
+    },
+    {
+      "address": "0x0034334e",
+      "bytes": "8a08",
+      "mnemonic": "MOV",
+      "operands": [
+        "CL",
+        "byte ptr [EAX]"
+      ]
+    },
+    {
+      "address": "0x00343350",
+      "bytes": "40",
+      "mnemonic": "INC",
+      "operands": [
+        "EAX"
+      ]
+    },
+    {
+      "address": "0x00343351",
+      "bytes": "84c9",
+      "mnemonic": "TEST",
+      "operands": [
+        "CL",
+        "CL"
+      ]
+    },
+    {
+      "address": "0x00343353",
+      "bytes": "75f9",
+      "mnemonic": "JNZ",
+      "operands": [
+        "0x0034334e"
+      ]
+    },
+    {
+      "address": "0x00343355",
+      "bytes": "2bc2",
+      "mnemonic": "SUB",
+      "operands": [
+        "EAX",
+        "EDX"
+      ]
+    },
+    {
+      "address": "0x00343357",
+      "bytes": "c20400",
+      "mnemonic": "RET",
+      "operands": [
+        "0x4"
+      ]
+    }
+  ],
+  "private_record": {
+    "jsonl_byte_offset": 282332038,
+    "jsonl_byte_length": 3778,
+    "sha256": "0cc482d8d43e708681751a3a1e8394da22f6cb4f50c9f5eb1a0863e480f9c579"
+  },
+  "native_contract": {
+    "char_bits": 8,
+    "int_bits": 32,
+    "pointer_bits": 64,
+    "length_bound": "L <= min(INT_MAX,PTRDIFF_MAX)",
+    "nonnull_memory": "One live char array, first zero at offset L, all bytes 0..L readable, every increment including the final one-past advance valid.",
+    "null": "Return zero, no memory access or pointer arithmetic.",
+    "guest_model": "G >= 1 and G+L+1 <= UINT32_MAX; final DWORD SUB equals L <= INT_MAX.",
+    "excludes": [
+      "huge native arrays outside the length bound",
+      "guest32 mapping and wrapping",
+      "guest registers, flags and stack/RET 4 transport",
+      "faults, MMIO and concurrent access",
+      "cross-function linkage and original runtime/rebuild equivalence"
+    ]
+  },
+  "verification_boundary": {
+    "full_xbe_reauthenticated": false,
+    "original_machine_code_executed": false,
+    "canonical_native_function_executed_with_initialized_inputs": true,
+    "guest_abi_verified": false,
+    "runtime_1_to_1_verified": false
+  }
+}

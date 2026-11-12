@@ -1,0 +1,375 @@
+{
+  "schema": 1,
+  "scope": "source-interface declaration admission only",
+  "based_on_commit": "03dc660b01b358f4826cdf5bc07075f4ef60feb4",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "cases": [
+    {
+      "entry": "0x00235c00",
+      "source": "src/main_unclassified/band_0023/0x00235c00.cpp",
+      "original_body_sha256": "AC6F7D5740122A99DA800A1CCD653D3CC490655095551FD31EF83A91A0575D99",
+      "body_ranges": [
+        {
+          "start": "00235c00",
+          "end_inclusive": "00235c6c",
+          "length": 109
+        }
+      ],
+      "body_byte_count": 109,
+      "instruction_count": 39,
+      "analyzed_overrides": [],
+      "direct_calls": [
+        {
+          "address": "00235c0c",
+          "bytes": "e80c440b00",
+          "target": "0x2ea01d"
+        },
+        {
+          "address": "00235c4f",
+          "bytes": "e81c000000",
+          "target": "0x235c70"
+        },
+        {
+          "address": "00235c64",
+          "bytes": "e807000000",
+          "target": "0x235c70"
+        }
+      ],
+      "instruction_windows": {
+        "0": {
+          "address": "00235c0a",
+          "bytes": "6a68e80c440b00",
+          "scope": "official_body"
+        },
+        "1": {
+          "address": "00235c11",
+          "bytes": "8bd083c4043bd674",
+          "scope": "official_body"
+        },
+        "2": {
+          "address": "00235c3b",
+          "bytes": "8b44240c",
+          "scope": "official_body"
+        },
+        "3": {
+          "address": "00235c49",
+          "bytes": "5f8bf2895310e81c0000005ec20400",
+          "scope": "official_body"
+        },
+        "4": {
+          "address": "00235c5d",
+          "bytes": "8b4424088b7310e8070000005e",
+          "scope": "official_body"
+        }
+      },
+      "source_before_sha256": "305dfe2deb9ebed43cf72c06bb46c18e3a8665b259f733389ae5bda1af31bad0",
+      "source_after_sha256": "c6028e27d4fe5d6a32735e69fbe3084d3508fd20d4fbd4b35ee00a8e11c330b4",
+      "preimage_git_blob": "296095dab6309edf2297fdb32c22424501165f6c",
+      "added_block": "#include \"bf_002ea01d_allocator_guest32.h\"\n/* Source-draft declaration only; implicit guest EAX/ESI inputs remain ABI_UNVERIFIED. */\nextern void FUN_00235c70(void);\n",
+      "guest_size": 104
+    },
+    {
+      "entry": "0x00243e90",
+      "source": "src/main_unclassified/band_0024/0x00243e90.cpp",
+      "original_body_sha256": "59C0B5E22FF9F68FF9FFE9D21078F3E1CFCAA1250317298AC23B475FFCD511BD",
+      "body_ranges": [
+        {
+          "start": "00243e90",
+          "end_inclusive": "00243ed4",
+          "length": 69
+        }
+      ],
+      "body_byte_count": 69,
+      "instruction_count": 28,
+      "analyzed_overrides": [],
+      "direct_calls": [
+        {
+          "address": "00243e93",
+          "bytes": "e885610a00",
+          "target": "0x2ea01d"
+        },
+        {
+          "address": "00243eb6",
+          "bytes": "e835b6ddff",
+          "target": "0x1f4f0"
+        },
+        {
+          "address": "00243ec8",
+          "bytes": "e8e39ef7ff",
+          "target": "0x1bddb0"
+        }
+      ],
+      "instruction_windows": {
+        "0": {
+          "address": "00243e91",
+          "bytes": "6a30e885610a00",
+          "scope": "official_body"
+        },
+        "1": {
+          "address": "00243e98",
+          "bytes": "8bf033c083c4043bf0",
+          "scope": "official_body"
+        },
+        "2": {
+          "address": "00243ea3",
+          "bytes": "6aff50",
+          "scope": "official_body"
+        },
+        "3": {
+          "address": "00243eb0",
+          "bytes": "578bce884604e835b6ddff",
+          "scope": "official_body"
+        },
+        "4": {
+          "address": "00243ebb",
+          "bytes": "8b471c8d56208d4f205289461ce8e39ef7ff",
+          "scope": "official_body"
+        }
+      },
+      "source_before_sha256": "e36e8e76e3b7ee5a7c336218c2143e009f42e435f21a617ebe1d1aaca61b23ef",
+      "source_after_sha256": "115a81fbf88d40ffdffdadf2c4cd022ca2b0dc176a0f613038e7adf9868c80cb",
+      "preimage_git_blob": "b5b247900410b5a7f2e2423e8b7b093f9af9d3dd",
+      "added_block": "#include \"bf_002ea01d_allocator_guest32.h\"\n/* Source-draft declarations only; implicit guest ECX inputs remain ABI_UNVERIFIED. */\nextern void FUN_0001f4f0(int param_1,uint param_2,uint param_3);\nextern int FUN_001bddb0(int param_1);\n",
+      "guest_size": 48
+    }
+  ],
+  "dependencies": [
+    {
+      "entry": "0x00235c70",
+      "source": "src/main_unclassified/band_0023/0x00235c70.cpp",
+      "original_body_sha256": "3599D6C251FA887FE31DE24070FE8929C0C34C97653973C55162F47A53813240",
+      "body_ranges": [
+        {
+          "start": "00235c70",
+          "end_inclusive": "00235d0d",
+          "length": 158
+        }
+      ],
+      "body_byte_count": 158,
+      "instruction_count": 49,
+      "analyzed_overrides": [],
+      "direct_calls": [
+        {
+          "address": "00235d03",
+          "bytes": "e8d8fcf9ff",
+          "target": "0x1d59e0"
+        }
+      ],
+      "instruction_windows": {
+        "0": {
+          "address": "00235c70",
+          "bytes": "83ec0c8b08890e",
+          "scope": "official_body"
+        },
+        "1": {
+          "address": "00235cf6",
+          "bytes": "83c0388d4e3889542408895630e8d8fcf9ff8bc683c40cc3",
+          "scope": "official_body"
+        }
+      },
+      "source_sha256": "a14a4e3b771e1c530459037a6276fd5bc0c99248a60f8a51322991066b6cbea9",
+      "definition_signature": "void FUN_00235c70(void)"
+    },
+    {
+      "entry": "0x0001f4f0",
+      "source": "src/main_unclassified/band_0001/0x0001f4f0.cpp",
+      "original_body_sha256": "855A7FDD82E311A469539F6A3B49546AAF1839C87F62D8B343C64B8B67094843",
+      "body_ranges": [
+        {
+          "start": "0001f4f0",
+          "end_inclusive": "0001f595",
+          "length": 166
+        }
+      ],
+      "body_byte_count": 166,
+      "instruction_count": 72,
+      "analyzed_overrides": [],
+      "direct_calls": [
+        {
+          "address": "0001f505",
+          "bytes": "e840302d00",
+          "target": "0x2f254a"
+        },
+        {
+          "address": "0001f524",
+          "bytes": "e877000000",
+          "target": "0x1f5a0"
+        },
+        {
+          "address": "0001f52e",
+          "bytes": "e86d000000",
+          "target": "0x1f5a0"
+        },
+        {
+          "address": "0001f53f",
+          "bytes": "e81c010000",
+          "target": "0x1f660"
+        }
+      ],
+      "instruction_windows": {
+        "0": {
+          "address": "0001f4f0",
+          "bytes": "5355568b7424108b4614578b7c24183bc78bd9",
+          "scope": "official_body"
+        },
+        "1": {
+          "address": "0001f533",
+          "bytes": "5f5e5d8bc35bc20c00",
+          "scope": "official_body"
+        },
+        "2": {
+          "address": "0001f58d",
+          "bytes": "5f5e5d8bc35bc20c00",
+          "scope": "official_body"
+        }
+      },
+      "source_sha256": "3ffb58c13a07b9986eb0ef69dcdda8befd2f6293bea2cbb13836dc2c134bf37c",
+      "definition_signature": "void FUN_0001f4f0(int param_1,uint param_2,uint param_3)"
+    },
+    {
+      "entry": "0x001bddb0",
+      "source": "src/main_unclassified/band_001b/0x001bddb0.cpp",
+      "original_body_sha256": "6F96C5A10C7A6C8CE800E16AC3DC1FA0C6459AC31BAF32BD456EDDE892CE64BB",
+      "body_ranges": [
+        {
+          "start": "001bddb0",
+          "end_inclusive": "001bde6f",
+          "length": 192
+        }
+      ],
+      "body_byte_count": 192,
+      "instruction_count": 71,
+      "analyzed_overrides": [],
+      "direct_calls": [
+        {
+          "address": "001bde0e",
+          "bytes": "e82dabe7ff",
+          "target": "0x38940"
+        },
+        {
+          "address": "001bde1c",
+          "bytes": "e8fcc11200",
+          "target": "0x2ea01d"
+        },
+        {
+          "address": "001bde4c",
+          "bytes": "e83fb60800",
+          "target": "0x249490"
+        }
+      ],
+      "instruction_windows": {
+        "0": {
+          "address": "001bddce",
+          "bytes": "8965f08bd98b7508",
+          "scope": "official_body"
+        },
+        "1": {
+          "address": "001bde5b",
+          "bytes": "8bc68b4df464",
+          "scope": "official_body"
+        },
+        "2": {
+          "address": "001bde67",
+          "bytes": "5f5e5b8be55dc20400",
+          "scope": "official_body"
+        }
+      },
+      "source_sha256": "56997ed310d255716c17ff597d3493a744f2afc69e5ac35ad58f7145f96ac530",
+      "definition_signature": "int FUN_001bddb0(int param_1)"
+    },
+    {
+      "entry": "0x002ea01d",
+      "source": "src/main_unclassified/band_002e/0x002ea01d.cpp",
+      "original_body_sha256": "2BE5420D091BB8EE22CC1BAEE0A8B5141819810443556764D49A2A826495BD36",
+      "body_ranges": [
+        {
+          "start": "002ea01d",
+          "end_inclusive": "002ea02a",
+          "length": 14
+        }
+      ],
+      "body_byte_count": 14,
+      "instruction_count": 6,
+      "analyzed_overrides": [],
+      "direct_calls": [
+        {
+          "address": "002ea023",
+          "bytes": "e8a8dcd7ff",
+          "target": "0x67cd0"
+        }
+      ],
+      "instruction_windows": {
+        "0": {
+          "address": "002ea01d",
+          "bytes": "6a01ff742408",
+          "scope": "official_body"
+        },
+        "1": {
+          "address": "002ea023",
+          "bytes": "e8a8dcd7ff",
+          "scope": "official_body"
+        },
+        "2": {
+          "address": "002ea028",
+          "bytes": "5959c3",
+          "scope": "official_body"
+        }
+      },
+      "source_sha256": "224aa3712c3926241ecdaf9a65479645c29f5332196430c178eb2f85c9588519",
+      "definition_signature": "uint32_t FUN_002ea01d(uint32_t guest_size)"
+    },
+    {
+      "entry": "0x00067cd0",
+      "source": "src/main_unclassified/band_0006/0x00067cd0.cpp",
+      "original_body_sha256": "9968AC090E0AE0888EA43C9B3C5FF62D49BD0ADCDB46D431ADD6CC3ADC79067D",
+      "body_ranges": [
+        {
+          "start": "00067cd0",
+          "end_inclusive": "00067cde",
+          "length": 15
+        }
+      ],
+      "body_byte_count": 15,
+      "instruction_count": 5,
+      "analyzed_overrides": [],
+      "direct_calls": [
+        {
+          "address": "00067cd5",
+          "bytes": "ff1550c63b00",
+          "target": "dword ptr [0x3bc650]"
+        }
+      ],
+      "instruction_windows": {
+        "0": {
+          "address": "00067cd0",
+          "bytes": "8b44240450",
+          "scope": "official_body"
+        },
+        "1": {
+          "address": "00067cd5",
+          "bytes": "ff1550c63b00",
+          "scope": "official_body"
+        },
+        "2": {
+          "address": "00067cdb",
+          "bytes": "83c404c3",
+          "scope": "official_body"
+        }
+      },
+      "source_sha256": "90034faf1b38a6d2e1a972cc35600ff6bf2c179dbb1a98bc4b336c506b49f879",
+      "definition_signature": "uint32_t FUN_00067cd0(uint32_t guest_size)"
+    }
+  ],
+  "headers": [
+    {
+      "path": "include/bf_002ea01d_allocator_guest32.h",
+      "sha256": "b0444a9873a225468217278bf7aebbe617ed63461c072a1a8522ece70c184712"
+    },
+    {
+      "path": "include/bf_ghidra_types.h",
+      "sha256": "5dfa1c69c07740d45536c1f5a45479e59c97275343017b68b3ff17ed39fd6dce"
+    }
+  ]
+}

@@ -1,27 +1,24 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force retail Xbox original x86 entry: FUN_002f108b, 0x002F108B.
  * Input x86 body SHA-256: 5A528C5CD9161A40EE3ADCF2610D926C9C800753337218F0661092D1D2929180
- * Entry: 0x002f108b, Ghidra index: 10771, label: __CopyMan
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: CPP_DRAFT, ABI_UNVERIFIED, CROSS_FUNCTION_UNVERIFIED,
+ *         NOT_NATIVE_LINKED, NOT_BEHAVIOR_TESTED.
+ * The explicit host inputs model original live x86 register/stack words
+ * (2 original stack words; incoming EAX overwritten by source), not recovered Xbox C++ parameters. Native guest-memory mapping,
+ * stack/register ABI, faults and linkage remain ABI_UNVERIFIED.
+ * Original copies three DWORDs in 3 read/write pairs, preserves overlap order.
  */
-#include "bf_ghidra_types.h"
-/* Library Function - Single Match
-    __CopyMan
-   
-   Library: Visual Studio 2003 Release */
+#include "bf_xbe_guest32_record_model.h"
 
-void __CopyMan(int param_1,undefined4 *param_2)
-
+std::uint32_t FUN_002f108b(std::uint32_t guest_dst,
+                                std::uint32_t guest_src)
 {
-  int iVar1;
-  
-  iVar1 = 3;
-  param_1 = param_1 - (int)param_2;
-  do {
-    *(undefined4 *)(param_1 + (int)param_2) = *param_2;
-    param_2 = param_2 + 1;
-    iVar1 = iVar1 + -1;
-  } while (iVar1 != 0);
-  return;
+    std::uint32_t src = guest_src;
+    std::uint32_t dst = guest_dst;
+    for (unsigned i = 0; i < 3; ++i) {
+        const std::uint32_t word = bf_guest_read_u32(src);
+        bf_guest_write_u32(dst, word);
+        src += UINT32_C(4);
+        dst += UINT32_C(4);
+    }
+    return src;
 }

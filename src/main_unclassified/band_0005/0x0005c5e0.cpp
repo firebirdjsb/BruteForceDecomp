@@ -49,7 +49,7 @@ void FUN_0005c5e0(undefined4 *param_1,float param_2,uint param_3)
     }
     puVar5 = puVar10;
     puVar10 = puVar6;
-    cVar1 = *(char *)((int)puVar6 + 0x1d);
+    cVar1 = *(reinterpret_cast<char*>(puVar6) + 0x1d);
   }
   if ((puVar5 == puVar2) || (uVar9 < (uint)puVar5[3])) {
     local_10 = puVar2;

@@ -1,0 +1,87 @@
+{
+  "scope": "Four explicit corresponding signed/unsigned object-pointer argument spellings; isolated host C++17 syntax only, not Xbox ABI, runtime, or byte matching.",
+  "base_commit": "d3d193be8d198bb328101f056ae0c4d356d952e3",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "cases": [
+    {
+      "entry": "0x0004cb60",
+      "source": "src/main_unclassified/band_0004/0x0004cb60.cpp",
+      "original_body_sha256": "178A164C335DD4818DECE7D6373B8222F0ECAA113404336CF66F478024776915",
+      "source_before_sha256": "014eab53a2dad8240cc30a88f2699639292bdd305c5c89a2c115ce480166cc94",
+      "source_after_sha256": "3fe7486f54c2fe8d7007f4b9d3ae7d14f052c44bf091433b91c304f3fe45cc53",
+      "replacements": [
+        {
+          "old": "FUN_000e6e00(&local_4)",
+          "new": "FUN_000e6e00(reinterpret_cast<undefined4 *>(&local_4))",
+          "occurrences": 1
+        }
+      ],
+      "callee_source": "src/main_unclassified/band_000e/0x000e6e00.cpp",
+      "callee_source_sha256": "c22376cd82a55dd196dbef0383f5342721ce2f8fb01da559b71ada5de6777165",
+      "existing_declaration": "extern undefined4 FUN_000e6e00(undefined4 *param_1);",
+      "callee_definition": "undefined4 FUN_000e6e00(undefined4 *param_1)",
+      "rationale": "Explicit corresponding signed/unsigned object-pointer argument conversion only: int* to undefined4* (uint32_t, unsigned int here), same address and alias-compatible scalar representation. No argument count, declaration, signature, arithmetic, storage or dereference edits.",
+      "limits": "Source-matched declaration, not original XBE call verification. Existing implicit register inputs, uninitialized pseudo-register locals, guest-address operations and callee defects remain unresolved. No runtime, ABI or 1:1 certification."
+    },
+    {
+      "entry": "0x00073550",
+      "source": "src/main_unclassified/band_0007/0x00073550.cpp",
+      "original_body_sha256": "4A6F465F3CD2EA78830312C2B3618F31D8F3EE219CF81BA66ABC9DF55BBFC8A6",
+      "source_before_sha256": "19c82ca656de892930085a3a9965513a8e66c61e30d19ef24f49c1d8a023a8c5",
+      "source_after_sha256": "590983df86af868f5de4e0975ba4959bdaa33c3da5ce670736c9e5fa76d0dc14",
+      "replacements": [
+        {
+          "old": "FUN_000ff730(in_ECX + 8,iVar1,*(undefined4 *)(iVar1 + 4),&param_1)",
+          "new": "FUN_000ff730(in_ECX + 8,iVar1,*(undefined4 *)(iVar1 + 4),reinterpret_cast<undefined4 *>(&param_1))",
+          "occurrences": 1
+        }
+      ],
+      "callee_source": "src/main_unclassified/band_000f/0x000ff730.cpp",
+      "callee_source_sha256": "db33ba08d569ddf0df9bccf1014c6ed5aecd7ae3a4673c033de6f9b8692324c1",
+      "existing_declaration": "extern undefined4 FUN_000ff730(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 *param_4);",
+      "callee_definition": "undefined4 FUN_000ff730(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 *param_4)",
+      "rationale": "Explicit corresponding signed/unsigned object-pointer argument conversion only: int* to undefined4* (uint32_t, unsigned int here), same address and alias-compatible scalar representation. No argument count, declaration, signature, arithmetic, storage or dereference edits.",
+      "limits": "Source-matched declaration, not original XBE call verification. Existing implicit register inputs, uninitialized pseudo-register locals, guest-address operations and callee defects remain unresolved. No runtime, ABI or 1:1 certification."
+    },
+    {
+      "entry": "0x0008dfb0",
+      "source": "src/main_unclassified/band_0008/0x0008dfb0.cpp",
+      "original_body_sha256": "01570377E938815FE24DCF094A619448827921760948E5D0EA23BAD202E03719",
+      "source_before_sha256": "b41ffbf340ad347c792c4322e94ca5a01807dd92c7ec01f3214f3ae5365c9848",
+      "source_after_sha256": "5134aced33e6f43140d9f82ff8bffe54f576a45e5fdfc76264f909905e5a78d5",
+      "replacements": [
+        {
+          "old": "FUN_0008e030(unaff_EDI,&local_c)",
+          "new": "FUN_0008e030(unaff_EDI,reinterpret_cast<undefined4 *>(&local_c))",
+          "occurrences": 2
+        }
+      ],
+      "callee_source": "src/main_unclassified/band_0008/0x0008e030.cpp",
+      "callee_source_sha256": "d7c9630ce42047272aa3cfc211d07f69d8a3332b76720b22e0392275b30a1d55",
+      "existing_declaration": "extern float10 FUN_0008e030(undefined4 param_1,undefined4 *param_2);",
+      "callee_definition": "float10 FUN_0008e030(undefined4 param_1,undefined4 *param_2)",
+      "rationale": "Explicit corresponding signed/unsigned object-pointer argument conversion only: int* to undefined4* (uint32_t, unsigned int here), same address and alias-compatible scalar representation. No argument count, declaration, signature, arithmetic, storage or dereference edits.",
+      "limits": "Source-matched declaration, not original XBE call verification. Existing implicit register inputs, uninitialized pseudo-register locals, guest-address operations and callee defects remain unresolved. No runtime, ABI or 1:1 certification."
+    },
+    {
+      "entry": "0x000de540",
+      "source": "src/main_unclassified/band_000d/0x000de540.cpp",
+      "original_body_sha256": "35A27BDB7CB04F39D08117717AA8E985FB48073672D749F999210ADB0DB166C4",
+      "source_before_sha256": "a4030ea295d80400f760d68c2bd3a4611d72c4028a8de8fb27e2e4b7f85b6be7",
+      "source_after_sha256": "18097214919a3dfaf46b889f7efec2dd6a4485fd053c45ef56df8e26356dce63",
+      "replacements": [
+        {
+          "old": "FUN_000ff730(in_ECX + 0xc24,iVar1,*(undefined4 *)(iVar1 + 4),&param_1)",
+          "new": "FUN_000ff730(in_ECX + 0xc24,iVar1,*(undefined4 *)(iVar1 + 4),reinterpret_cast<undefined4 *>(&param_1))",
+          "occurrences": 1
+        }
+      ],
+      "callee_source": "src/main_unclassified/band_000f/0x000ff730.cpp",
+      "callee_source_sha256": "db33ba08d569ddf0df9bccf1014c6ed5aecd7ae3a4673c033de6f9b8692324c1",
+      "existing_declaration": "extern undefined4 FUN_000ff730(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 *param_4);",
+      "callee_definition": "undefined4 FUN_000ff730(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 *param_4)",
+      "rationale": "Explicit corresponding signed/unsigned object-pointer argument conversion only: int* to undefined4* (uint32_t, unsigned int here), same address and alias-compatible scalar representation. No argument count, declaration, signature, arithmetic, storage or dereference edits.",
+      "limits": "Source-matched declaration, not original XBE call verification. Existing implicit register inputs, uninitialized pseudo-register locals, guest-address operations and callee defects remain unresolved. No runtime, ABI or 1:1 certification."
+    }
+  ]
+}

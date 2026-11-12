@@ -1,0 +1,295 @@
+{
+  "schema_version": 1,
+  "base_commit": "0c60a8f7141e792eafb1ddc1e549a3c51a84c195",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_machine_code_executed": false,
+  "canonical_functions_executed": false,
+  "scope": "Two fixed-byte-offset syntax spellings inside bounded valid native objects; not guest32 wrap, register ABI, mapping or runtime equivalence.",
+  "entries": [
+    {
+      "entry": "0x001cf1d0",
+      "source": "src/main_unclassified/band_001c/0x001cf1d0.cpp",
+      "preimage_fixture": "tests/fixtures/cpp_fixed_byte_loops/0x001cf1d0.before.cpp",
+      "source_before_sha256": "c111ced0dcb8dc2157cddddf071348307ee761724f41dd98c170f6fdbcb5bb9d",
+      "source_after_sha256": "86cb4c6847236e96bde126037b5d64fc10b46518aebaf9359989fca7d2207a33",
+      "preimage_git_blob": "95ddd3047639baada1da889b1436df0d9b6ca57c",
+      "original_body_sha256": "31827F1D12C85B7E074B3237900FAE2C66A2C7EFF19B9EFCA676188C81BC265C",
+      "body_ranges": [
+        {
+          "start": "001cf1d0",
+          "end_inclusive": "001cf1fe",
+          "length": 47,
+          "bytes_hex": "8b442404568b74240c3bc674208d49008b1189108b51048950048a51088850088a510988500983c00c3bc675e35ec3"
+        }
+      ],
+      "instruction_count": 19,
+      "instruction_windows": [
+        {
+          "address": "0x001cf1d0",
+          "bytes": "8b442404"
+        },
+        {
+          "address": "0x001cf1d4",
+          "bytes": "56"
+        },
+        {
+          "address": "0x001cf1d5",
+          "bytes": "8b74240c"
+        },
+        {
+          "address": "0x001cf1d9",
+          "bytes": "3bc6"
+        },
+        {
+          "address": "0x001cf1db",
+          "bytes": "7420"
+        },
+        {
+          "address": "0x001cf1dd",
+          "bytes": "8d4900"
+        },
+        {
+          "address": "0x001cf1e0",
+          "bytes": "8b11"
+        },
+        {
+          "address": "0x001cf1e2",
+          "bytes": "8910"
+        },
+        {
+          "address": "0x001cf1e4",
+          "bytes": "8b5104"
+        },
+        {
+          "address": "0x001cf1e7",
+          "bytes": "895004"
+        },
+        {
+          "address": "0x001cf1ea",
+          "bytes": "8a5108"
+        },
+        {
+          "address": "0x001cf1ed",
+          "bytes": "885008"
+        },
+        {
+          "address": "0x001cf1f0",
+          "bytes": "8a5109"
+        },
+        {
+          "address": "0x001cf1f3",
+          "bytes": "885009"
+        },
+        {
+          "address": "0x001cf1f6",
+          "bytes": "83c00c"
+        },
+        {
+          "address": "0x001cf1f9",
+          "bytes": "3bc6"
+        },
+        {
+          "address": "0x001cf1fb",
+          "bytes": "75e3"
+        },
+        {
+          "address": "0x001cf1fd",
+          "bytes": "5e"
+        },
+        {
+          "address": "0x001cf1fe",
+          "bytes": "c3"
+        }
+      ],
+      "byte_offset": 9,
+      "destination_stride": 12,
+      "ordered_transfers": [
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          1
+        ]
+      ],
+      "source_advance": 0,
+      "replacements": [
+        {
+          "before": "    *(undefined1 *)((int)param_1 + 9) = *(undefined1 *)((int)in_ECX + 9);\n",
+          "after": "    *(undefined1 *)(reinterpret_cast<unsigned char *>(param_1) + 9) = *(undefined1 *)(reinterpret_cast<unsigned char *>(in_ECX) + 9);\n",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "entry": "0x001cf0f0",
+      "source": "src/main_unclassified/band_001c/0x001cf0f0.cpp",
+      "preimage_fixture": "tests/fixtures/cpp_fixed_byte_loops/0x001cf0f0.before.cpp",
+      "source_before_sha256": "85ee8ace472c032eb1339af0bf46982994327b17ce798103bbbb1f5d0fb93e58",
+      "source_after_sha256": "39fc177d7826c3b56b02fffad469b6c62397fc50b68f72ddd77a9f23031bacd6",
+      "preimage_git_blob": "93d567b91686a931546d6c75df5a860ce1fc7a0c",
+      "original_body_sha256": "665327B89D943F14EBBE81AAA68866D80EFE80A8203AB7E154C0317E0DE3959B",
+      "body_ranges": [
+        {
+          "start": "001cf0f0",
+          "end_inclusive": "001cf130",
+          "length": 65,
+          "bytes_hex": "8b442404568b74240c3bc674328d49008b1189108b51048950048b51088950088a510c88500c8a510d88500d8b51108950108b511489501483c0183bc675d15ec3"
+        }
+      ],
+      "instruction_count": 25,
+      "instruction_windows": [
+        {
+          "address": "0x001cf0f0",
+          "bytes": "8b442404"
+        },
+        {
+          "address": "0x001cf0f4",
+          "bytes": "56"
+        },
+        {
+          "address": "0x001cf0f5",
+          "bytes": "8b74240c"
+        },
+        {
+          "address": "0x001cf0f9",
+          "bytes": "3bc6"
+        },
+        {
+          "address": "0x001cf0fb",
+          "bytes": "7432"
+        },
+        {
+          "address": "0x001cf0fd",
+          "bytes": "8d4900"
+        },
+        {
+          "address": "0x001cf100",
+          "bytes": "8b11"
+        },
+        {
+          "address": "0x001cf102",
+          "bytes": "8910"
+        },
+        {
+          "address": "0x001cf104",
+          "bytes": "8b5104"
+        },
+        {
+          "address": "0x001cf107",
+          "bytes": "895004"
+        },
+        {
+          "address": "0x001cf10a",
+          "bytes": "8b5108"
+        },
+        {
+          "address": "0x001cf10d",
+          "bytes": "895008"
+        },
+        {
+          "address": "0x001cf110",
+          "bytes": "8a510c"
+        },
+        {
+          "address": "0x001cf113",
+          "bytes": "88500c"
+        },
+        {
+          "address": "0x001cf116",
+          "bytes": "8a510d"
+        },
+        {
+          "address": "0x001cf119",
+          "bytes": "88500d"
+        },
+        {
+          "address": "0x001cf11c",
+          "bytes": "8b5110"
+        },
+        {
+          "address": "0x001cf11f",
+          "bytes": "895010"
+        },
+        {
+          "address": "0x001cf122",
+          "bytes": "8b5114"
+        },
+        {
+          "address": "0x001cf125",
+          "bytes": "895014"
+        },
+        {
+          "address": "0x001cf128",
+          "bytes": "83c018"
+        },
+        {
+          "address": "0x001cf12b",
+          "bytes": "3bc6"
+        },
+        {
+          "address": "0x001cf12d",
+          "bytes": "75d1"
+        },
+        {
+          "address": "0x001cf12f",
+          "bytes": "5e"
+        },
+        {
+          "address": "0x001cf130",
+          "bytes": "c3"
+        }
+      ],
+      "byte_offset": 13,
+      "destination_stride": 24,
+      "ordered_transfers": [
+        [
+          0,
+          4
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          12,
+          1
+        ],
+        [
+          13,
+          1
+        ],
+        [
+          16,
+          4
+        ],
+        [
+          20,
+          4
+        ]
+      ],
+      "source_advance": 0,
+      "replacements": [
+        {
+          "before": "    *(undefined1 *)((int)param_1 + 0xd) = *(undefined1 *)((int)in_ECX + 0xd);\n",
+          "after": "    *(undefined1 *)(reinterpret_cast<unsigned char *>(param_1) + 0xd) = *(undefined1 *)(reinterpret_cast<unsigned char *>(in_ECX) + 0xd);\n",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

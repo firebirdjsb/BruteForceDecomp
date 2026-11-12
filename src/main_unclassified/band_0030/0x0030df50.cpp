@@ -30,7 +30,7 @@ void FUN_0030df50(void)
       piVar4 = (int *)(&DAT_00414da0 + (uVar1 * 0x19660d + 0x3c6ef35f >> 0x15) * 4);
       while (iVar2 != 0) {
         piVar3 = (int *)*piVar4;
-        if (piVar3 == puVar5 + -3) {
+        if (static_cast<const void*>(piVar3) == static_cast<const void*>(puVar5 + -3)) {
           *piVar4 = *(int *)*piVar4;
           break;
         }

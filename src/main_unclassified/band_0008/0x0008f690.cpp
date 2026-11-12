@@ -1,15 +1,17 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox function: FUN_0008f690, entry 0x0008f690.
  * Input x86 body SHA-256: A2E7B7D3A7DD6A4F5F264C6DEBD3A89E8588ECA8F90B3ED3FE84637F77145138
- * Entry: 0x0008f690, Ghidra index: 1754, label: FUN_0008f690
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: CPP_DRAFT, ABI_UNVERIFIED, NOT_NATIVE_LINKED, NOT_BEHAVIOR_TESTED.
+ *
+ * The host argument models the incoming EAX register, NOT an original
+ * Xbox stack argument or verified C++ calling convention. XBE 0x8F690
+ * contains only IMUL EAX,EAX,0x19660D; ADD EAX,0x3C6EF35F;
+ * SHR EAX,0x15; RET. All intermediate results wrap to 32 bits.
  */
-#include "bf_ghidra_types.h"
-uint FUN_0008f690(void)
+#include <cstdint>
 
+std::uint32_t FUN_0008f690(std::uint32_t guest_eax)
 {
-  int in_EAX;
-  
-  return in_EAX * 0x19660d + 0x3c6ef35fU >> 0x15;
+    const std::uint32_t multiplied = guest_eax * UINT32_C(0x0019660d);
+    const std::uint32_t added = multiplied + UINT32_C(0x3c6ef35f);
+    return added >> 21u;
 }

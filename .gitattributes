@@ -1,0 +1,71 @@
+# Preserve the exact historical public-source preimage, including its original whitespace.
+tests/fixtures/002338c0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve the exact historical source fixture for reversible x87 repair tests.
+tests/fixtures/0023c0e0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve the exact public-source preimage for tagged conversion tests.
+tests/fixtures/00077eb0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve the exact public-source preimage for native norm tests.
+tests/fixtures/00314c76_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact original source fixtures for fixed-byte loop reversals.
+tests/fixtures/cpp_fixed_byte_loops/*.before.cpp -text whitespace=-blank-at-eol
+
+# Preserve the exact historical source fixture for native FRNDINT tests.
+tests/fixtures/002eca8b_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical fixtures for five fixed-byte copy spellings.
+tests/fixtures/cpp_fixed_byte_copies/*.before.cpp -text whitespace=-blank-at-eol
+
+# Preserve exact preimages for four constant-offset copy spellings.
+tests/fixtures/cpp_next_byte_copies/*.before.cpp -text whitespace=-blank-at-eol
+
+# Preserve exact historical fixtures for seven byte-assignment spellings.
+tests/fixtures/cpp_additional_byte_copies/*.before.cpp -text whitespace=-blank-at-eol
+
+# Preserve the exact historical source fixture for native packed ADDPS tests.
+tests/fixtures/002b3cc0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve the exact historical preimage for bounded native byte-string length.
+tests/fixtures/00343343_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical word-string preimage.
+tests/fixtures/002eaa70_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical packed multiply/add preimage.
+tests/fixtures/002b3e60_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical in-place packed multiply/add preimage.
+tests/fixtures/002b8d10_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve the exact historical byte-to-word query preimage.
+tests/fixtures/002ee365_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical difference-products preimage.
+tests/fixtures/002ccc10_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical integer-index preimage.
+tests/fixtures/0034e2e0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical four-term operation preimage.
+tests/fixtures/003759c0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical three-term operation preimage.
+tests/fixtures/002b73d0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical subtracted three-term preimage.
+tests/fixtures/002b7360_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical ordered matrix preimage.
+tests/fixtures/002337a0_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical mixed x87/SSE source preimage.
+tests/fixtures/002b6640_before.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical timestamp leaf source preimages.
+docs/preimages/timestamp_*.cpp.txt -text whitespace=-blank-at-eol
+
+# Preserve exact historical timestamp caller preimages.
+tests/fixtures/timestamp_caller_storage/*.cpp.before -text whitespace=-blank-at-eol

@@ -41,31 +41,44 @@ def run() -> None:
                             "errors": [] if entry.endswith("30") else ["use of undeclared identifier 'FUN_00010030'"]})
         for i in range(13694-3):
             entry = f"0x{0x100000+i:08x}"
-            results.append({"entry":entry,"source":"unused", "source_sha256":"unused", "original_body_sha256":"unused", "body_provenance":"match", "status":"pass"})
-        audit = {"scope":"full_inventory","checked":13694,"checked_commit_sha":"test-sha",
+            results.append({"entry":entry,"source":"unused", "source_sha256":"a" * 64, "original_body_sha256":"b" * 64, "body_provenance":"match", "status":"pass"})
+        audit = {"scope":"full_inventory","checked":13694,"checked_commit_sha":"a" * 40,
+                 "original_function_count":13694,"passing_is_not_1_to_1":True,
                  "counts":{"pass":13692,"fail":2},"results":results}
-        edges = {"audited_commit":"test-sha","candidates":[
+        edges = {"audited_commit":"a" * 40,"candidates":[
             {"caller": caller, "callee":"0x00010030", "source":f"src/main_unclassified/band_0001/{caller}.cpp",
              "caller_draft_arity":0, "triage":"DRAFT_ARITY_MATCH_REVIEW_TYPES_AND_XBE"}
             for caller in ("0x00010010","0x00010020")]}
+        for edge, row in zip(edges["candidates"], results):
+            edge["source_sha256"] = row["source_sha256"]
+            edge["original_body_sha256"] = row["original_body_sha256"]
         (root / "audit.json").write_text(json.dumps(audit))
         (root / "edges.json").write_text(json.dumps(edges))
         cmd = [sys.executable, str(SCRIPT), "--root", str(root), "--audit", str(root / "audit.json"),
                "--edges", str(root / "edges.json"), "--out", str(root / "out.json")]
-        run = subprocess.run(cmd, capture_output=True, text=True)
-        assert run.returncode == 0, run.stderr
-        out = json.loads((root / "out.json").read_text())
-        assert out["screened"] == 2 and out["ready_for_manual_review"] == 1, out
-        assert out["candidates"][0]["status"] == "SOURCE_ONLY_CPP17_READY_FOR_MANUAL_REVIEW"
-        assert out["candidates"][1]["status"] == "QUARANTINED_CPP_TYPE_OR_OTHER_ERROR"
-        assert "void" in out["candidates"][1]["compiler_error"]
-        assert (source_dir / "0x00010010.cpp").read_text() == good
-        assert (source_dir / "0x00010020.cpp").read_text() == bad
+        bare = "use of undeclared identifier 'FUN_00010030'"
+        suggested = bare + "; did you mean 'FUN_00010010'?"
+        for diagnostic in (bare, suggested, suggested.upper()):
+            for row in results[:2]:
+                row["errors"] = [diagnostic]
+            (root / "audit.json").write_text(json.dumps(audit))
+            run = subprocess.run(cmd, capture_output=True, text=True)
+            assert run.returncode == 0, run.stderr
+            out = json.loads((root / "out.json").read_text())
+            assert out["screened"] == 2 and out["ready_for_manual_review"] == 1, out
+            assert out["candidates"][0]["status"] == "SOURCE_ONLY_CPP17_READY_FOR_MANUAL_REVIEW"
+            assert out["candidates"][1]["status"] == "QUARANTINED_CPP_TYPE_OR_OTHER_ERROR"
+            assert all(row["callee"] == "0x00010030" for row in out["candidates"])
+            assert "void" in out["candidates"][1]["compiler_error"]
+            assert (source_dir / "0x00010010.cpp").read_text() == good
+            assert (source_dir / "0x00010020.cpp").read_text() == bad
+            assert (source_dir / "0x00010030.cpp").read_text() == callee
         edges["audited_commit"] = "wrong-sha"
         (root / "edges.json").write_text(json.dumps(edges))
         run = subprocess.run(cmd, capture_output=True, text=True)
         assert run.returncode != 0 and "SHAs disagree" in run.stderr, run.stderr
-        print("PASS: source-only positive, void-return negative, no mutation, mismatched-SHA rejection")
+        print("PASS: bare/suggested diagnostics, actual missing callee, source-only positive, "
+              "void-return negative, no mutation, mismatched-SHA rejection")
 
 
 if __name__ == "__main__":

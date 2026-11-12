@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "scope": "Reusable masked signed32 scalar SSE conversion test foundation; no game-function implementation or syntax gain.",
+  "standalone_v1_archive_sha256": "393b704d8b99c70f31e17db6af0029a0521b96755132cd0a1dfea09fc444d04c",
+  "historical_native_cpu": "AMD EPYC 9V74 cloud x86-64; not original Xbox/Pentium III proof",
+  "artifact_sha256": {
+    "docs/evidence/scalar_sse_conversion_integer_model.md": "99d6f4f5c4c483fa8fb52ba9c1a4492ab0bd34a43e7b3100c424a02aba44e398",
+    "docs/evidence/scalar_sse_conversion_models.md": "fa154c494b8f406ba4ce8b7f1e5b563137d383bf8643b73c1ce9d756bf85d335",
+    "docs/evidence/scalar_sse_conversion_rational_model.md": "ed21d78573b06bbac63789660730f4f906f9ae68bd8a103e266491fac2450985",
+    "tests/support/scalar_sse_conversions/codegen.py": "18086a289bc2c2403f5db8457cdd0eaa29f277ae565266d658d3fd230df74620",
+    "tests/support/scalar_sse_conversions/conversion_model.hpp": "5af09c43f0e6a3caba65329cd554a4da8a7ea9cf6aafe4333b1585d4c6175bae",
+    "tests/support/scalar_sse_conversions/corpus.py": "a010617c6e8d22955ef590f75806ed6628e96b58a6e592870199f0ff9da3a9b3",
+    "tests/support/scalar_sse_conversions/mutations.py": "5880b677f43f6e6e958a4198ce49679b5dada968add0369e3a90bbbbd2ce1391",
+    "tests/support/scalar_sse_conversions/native_wrappers.cpp": "3f2dc11bb406ebe10b5ab1024ed3b0faaeacd0fd8b64dcec6f767c6621e1a3a8",
+    "tests/support/scalar_sse_conversions/native_wrappers.hpp": "25b848a02ed04955ea6b7e9f66176409dc59adbdcdb8ef930a4c1ebdebc0c743",
+    "tests/support/scalar_sse_conversions/rational_oracle.py": "4f8c9b9d72144ef273d6a79153a88c455bc4c83ce1f68abe4e7f518d7a248136",
+    "tests/support/scalar_sse_conversions/rational_selftest.py": "ce509b99d5836b5bb81df4774e0ada4c42702a79232dab7a612aa49d4b7dd607",
+    "tests/test_scalar_sse_conversions.cpp": "df19a6de279cb53c111d689ae1f57b2a7f00af427833ede21b10112c89eb79e3"
+  }
+}

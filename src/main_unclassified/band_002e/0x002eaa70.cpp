@@ -17,5 +17,9 @@ int FUN_002eaa70(short *param_1)
     sVar1 = *psVar2;
     psVar2 = psVar2 + 1;
   } while (sVar1 != 0);
-  return ((int)psVar2 - (int)param_1 >> 1) + -1;
+  // Bounded native object only: two's-complement 16-bit short, 32-bit int,
+  // first zero at L <= 0x3ffffffe and L+1 <= PTRDIFF_MAX in one live short array.
+  // Reads through the zero and the final one-past advance must be valid.
+  // Guest32 mapping/wrap, registers/flags and RET transport remain ABI_UNVERIFIED.
+  return static_cast<int>(psVar2 - param_1) - 1;
 }

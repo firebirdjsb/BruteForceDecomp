@@ -1,0 +1,13 @@
+# Bounded x87 storage operation at 0x0023c0e0
+
+The 126-byte stored body and 49 decoded instructions match the pinned inventory digest. The draft incorrectly interpreted raw DWORD input as float before converting it to integer. The scoped helper instead receives captured raw DWORD input and selector values and an ordinary host byte buffer. It follows the observed signed FILD and FST/FSTP order, low-byte/raw-DWORD stores, selector branches and selector-upper24|1 return. No approximate C++ floating conversion is substituted.
+
+The four-output branch stores +12, +8, +4 and +0 with the evidenced reload/pop sequence. Inputs are captured before output. Byte-unaligned storage, exact output spans and snapshot overlap are supported. Guest EAX/EDX pointer transport remains unresolved in the canonical wrapper, which is syntax-checked only and never executed.
+
+Corrected Clang O0/O2 and GCC ASan+UBSan each pass 11,058,432 comparisons. Leak checking is disabled because of the sandbox's ptrace limitation. The gate checks 64 controls without private input and 190 with the optional private body record, including exact source reversal, original SUB41 failure, instruction/source mutations, guard pages, sentinels, unsupported platforms, wrong semantics and a compiler-clobber regression. An independent integer-only binary32 rounding oracle passes another 1,200,000 comparisons. Reviewed generated measurement intervals contain no intervening library calls or compiler FP operations.
+
+Validation found and fixed two harness defects before final reruns: missing FXRSTOR/FNINIT register clobbers and capture-buffer initialization between operation and FXSAVE. Final tests retain a missing-clobber negative control. Repeated same-value writes cannot be distinguished by final ordinary-RAM contents, so write-order negatives are structural checks, not falsely reported runtime differences.
+
+Compared state comprises x87 CW, full SW, abridged tag, active 80-bit stack entries and MXCSR, plus output bytes and return word. FIP/FDP/FOP, inactive stack payloads/padding, XMM register values, MXCSR_MASK and reserved bytes are excluded. This is not complete FXSAVE or CPU-context equivalence.
+
+All exceptions must be masked, the specific next x87 push slot (TOP-1 mod 8) must be empty, and the selected 0/1/4/8/12/16-byte output span must be writable ordinary storage. Unmasked traps, inaccessible-memory recovery, MMIO, external observers, guest integer flags, GPR transport, native linkage and full original-XBE authentication remain unverified. Original ECX exits containing the raw input after its scratch-slot POP; entry ECX is not preserved by the original routine.

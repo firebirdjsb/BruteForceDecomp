@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_x86_dword_operations.h"
 extern uint32_t FUN_000120f0(int32_t in_EAX);
 
 bool FUN_00040aa0(void)
@@ -15,7 +16,8 @@ bool FUN_00040aa0(void)
   int in_ECX;
   bool bVar2;
   
-  iVar1 = FUN_000120f0();
+  uint32_t guest_eax_bits = static_cast<uint32_t>(in_ECX) - UINT32_C(0x40);
+  iVar1 = FUN_000120f0(*bf_x86_signed_dword_view(&guest_eax_bits));
   bVar2 = (*(byte *)(*(int *)(iVar1 + 0xc) + 0x1a8) & 8) != 0;
   if (bVar2) {
     *(undefined1 *)(in_ECX + 0x874) = 0;

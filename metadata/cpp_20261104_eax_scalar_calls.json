@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "scope": "Three existing integer live-in words passed to the existing EAX model. No signature, declaration, global, return model, arithmetic or pointer conversion changes.",
+  "base_commit": "44e503c4ee236bc316cc7ae0f8812d760ac635b2",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "evidence": {
+    "archive_name": "GhidraProjects.zip",
+    "archive_sha256": "7a7183991d57d12b869fcea9acc92e5ecd9d2f4e9292904a2329899955438905",
+    "method": "Exact whole original body ranges, hashes and instruction coverage match inventory. All four selected functions have no validation issues or analyzed flow overrides. Raw x86 bytes establish EAX producer, direct E8 target, continuation and existing RET/local-stack cleanup; no adjacent context is required.",
+    "boundary": "Immutable copied-project program memory, no original FileBytes; whole-XBE digest remains metadata only. No original game functions execute."
+  },
+  "cases": [
+    {
+      "entry": "0x000216b0",
+      "source": "src/main_unclassified/band_0002/0x000216b0.cpp",
+      "original_body_sha256": "E56982547F6B1154C309F0F9DB0FD6E3816592E7F8B5165FBE28353A2344182D",
+      "body_byte_count": 51,
+      "body_ranges": [
+        {
+          "start": "0x000216B0",
+          "end_inclusive": "0x000216E2",
+          "length": 51
+        }
+      ],
+      "source_before_sha256": "2a2a7d172564c7d5acfee8cba4048a8905f29fd5966cb9984217ceddb0a1da47",
+      "source_after_sha256": "8511dbc35d44aeaa4f91537e68a6ea04bb82568c20c1236b8924c8a38e3a5e22",
+      "preimage_git_blob": "b486c464de2cbdbba2baef6e5ec1413534f9b576",
+      "private_record": "all-v1/functions.jsonl#000216b0",
+      "old_call": "iVar1 = FUN_000120f0();",
+      "new_call": "iVar1 = FUN_000120f0(in_EAX);",
+      "source_argument": "in_EAX",
+      "existing_declaration": "extern uint32_t FUN_000120f0(int32_t in_EAX);",
+      "instruction_windows": [
+        {
+          "address": "0x000216b0",
+          "bytes": "56"
+        },
+        {
+          "address": "0x000216b1",
+          "bytes": "8bf0"
+        },
+        {
+          "address": "0x000216b3",
+          "bytes": "e8380affff"
+        },
+        {
+          "address": "0x000216b8",
+          "bytes": "c786ac0600000e000000"
+        },
+        {
+          "address": "0x000216df",
+          "bytes": "5e"
+        },
+        {
+          "address": "0x000216e0",
+          "bytes": "c20400"
+        }
+      ],
+      "analyzed_overrides": [],
+      "replacements": [
+        {
+          "before": "iVar1 = FUN_000120f0();",
+          "after": "iVar1 = FUN_000120f0(in_EAX);",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "entry": "0x00023ee0",
+      "source": "src/main_unclassified/band_0002/0x00023ee0.cpp",
+      "original_body_sha256": "7DEE718511B83945A878535AA238DFA83FD306C84F352806D54E2E9FA7CB54A1",
+      "body_byte_count": 53,
+      "body_ranges": [
+        {
+          "start": "0x00023EE0",
+          "end_inclusive": "0x00023F14",
+          "length": 53
+        }
+      ],
+      "source_before_sha256": "f36e496ec4b0286458ed2c91fde4d875b80b500d46430b2dc2d771a9e6784873",
+      "source_after_sha256": "23142e37dad57d333ebd7c84ce39f130927cdb7f6bb2bf1c1835331d83047988",
+      "preimage_git_blob": "1e6afc917ad017ef8e252dc30b88aa330f39de8f",
+      "private_record": "all-v1/functions.jsonl#00023ee0",
+      "old_call": "iVar1 = FUN_000120f0();",
+      "new_call": "iVar1 = FUN_000120f0(unaff_ESI);",
+      "source_argument": "unaff_ESI",
+      "existing_declaration": "extern uint32_t FUN_000120f0(int32_t in_EAX);",
+      "instruction_windows": [
+        {
+          "address": "0x00023ef4",
+          "bytes": "8bc6"
+        },
+        {
+          "address": "0x00023ef6",
+          "bytes": "e8f5e1feff"
+        },
+        {
+          "address": "0x00023efb",
+          "bytes": "8b889c050000"
+        },
+        {
+          "address": "0x00023f07",
+          "bytes": "5b"
+        },
+        {
+          "address": "0x00023f08",
+          "bytes": "c3"
+        },
+        {
+          "address": "0x00023f13",
+          "bytes": "5b"
+        },
+        {
+          "address": "0x00023f14",
+          "bytes": "c3"
+        }
+      ],
+      "analyzed_overrides": [],
+      "replacements": [
+        {
+          "before": "iVar1 = FUN_000120f0();",
+          "after": "iVar1 = FUN_000120f0(unaff_ESI);",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "entry": "0x000480f0",
+      "source": "src/main_unclassified/band_0004/0x000480f0.cpp",
+      "original_body_sha256": "D329908FCDE4C6C21641E60D3BD5DC8D4C87E811EDD8E4A496464058EE1D7D55",
+      "body_byte_count": 161,
+      "body_ranges": [
+        {
+          "start": "0x000480F0",
+          "end_inclusive": "0x00048190",
+          "length": 161
+        }
+      ],
+      "source_before_sha256": "8963b0e9e86653a0767058529342bc5e8ed513fea38a7cf2c060c64fec13fd44",
+      "source_after_sha256": "ab2b3bfe2204fa538be0638f7a9aa76d8ed7c6fd5c9ceaa0f49ca05559abf7c3",
+      "preimage_git_blob": "0c475436717680152ce9af1ec599d3e3d9161e26",
+      "private_record": "all-v1/functions.jsonl#000480f0",
+      "old_call": "iVar2 = FUN_000120f0();",
+      "new_call": "iVar2 = FUN_000120f0(unaff_ESI);",
+      "source_argument": "unaff_ESI",
+      "existing_declaration": "extern uint32_t FUN_000120f0(int32_t in_EAX);",
+      "instruction_windows": [
+        {
+          "address": "0x000480f0",
+          "bytes": "83ec08"
+        },
+        {
+          "address": "0x000480f3",
+          "bytes": "57"
+        },
+        {
+          "address": "0x000480f4",
+          "bytes": "8bc6"
+        },
+        {
+          "address": "0x000480f6",
+          "bytes": "e8f59ffcff"
+        },
+        {
+          "address": "0x000480fb",
+          "bytes": "8bf8"
+        },
+        {
+          "address": "0x0004815c",
+          "bytes": "5f"
+        },
+        {
+          "address": "0x0004815d",
+          "bytes": "83c408"
+        },
+        {
+          "address": "0x00048160",
+          "bytes": "c20400"
+        },
+        {
+          "address": "0x0004816f",
+          "bytes": "5f"
+        },
+        {
+          "address": "0x00048170",
+          "bytes": "83c408"
+        },
+        {
+          "address": "0x00048173",
+          "bytes": "c20400"
+        },
+        {
+          "address": "0x0004818a",
+          "bytes": "5f"
+        },
+        {
+          "address": "0x0004818b",
+          "bytes": "83c408"
+        },
+        {
+          "address": "0x0004818e",
+          "bytes": "c20400"
+        }
+      ],
+      "analyzed_overrides": [],
+      "replacements": [
+        {
+          "before": "iVar2 = FUN_000120f0();",
+          "after": "iVar2 = FUN_000120f0(unaff_ESI);",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "callee": {
+    "entry": "0x000120f0",
+    "source": "src/main_unclassified/band_0001/0x000120f0.cpp",
+    "source_sha256": "489e756aa67efded951953ae71a2ce264c07aebeffc30db237759f85751490e6",
+    "existing_definition_signature": "uint32_t FUN_000120f0(int32_t in_EAX)",
+    "original_body_sha256": "9FEFE68C61CEC0943A913B1988495825BFD1E3F128E1F92DB0A3DA5D8376BB9C",
+    "body_byte_count": 71,
+    "body_ranges": [
+      {
+        "start": "0x000120F0",
+        "end_inclusive": "0x00012136",
+        "length": 71
+      }
+    ],
+    "private_record": "all-v1/functions.jsonl#000120f0",
+    "instruction_windows": [
+      {
+        "address": "0x000120f0",
+        "bytes": "83ec08"
+      },
+      {
+        "address": "0x000120f3",
+        "bytes": "33c9"
+      },
+      {
+        "address": "0x000120f5",
+        "bytes": "894c2400"
+      },
+      {
+        "address": "0x000120f9",
+        "bytes": "8b5008"
+      },
+      {
+        "address": "0x00012130",
+        "bytes": "8bc6"
+      },
+      {
+        "address": "0x00012132",
+        "bytes": "5e"
+      },
+      {
+        "address": "0x00012133",
+        "bytes": "83c408"
+      },
+      {
+        "address": "0x00012136",
+        "bytes": "c3"
+      }
+    ],
+    "historical_source_fixture": "tests/fixtures/original_0x000120f0_pre_guest32_20261106.txt",
+    "current_source_sha256": "d7953dfa686e2dc4e244abd36a18233242cfee9ca548c0d4246b54145e91c5dd",
+    "current_definition_signature": "std::uint32_t FUN_000120f0(std::uint32_t guest_eax)",
+    "current_source_status": "CPP_DRAFT, ABI_UNVERIFIED, NOT_NATIVE_LINKED, NOT_BEHAVIOR_TESTED"
+  },
+  "held_lea_cases": [
+    "0x00033ac0",
+    "0x0003f5d0",
+    "0x0003f650",
+    "0x00040aa0"
+  ],
+  "verification_boundary": "Only scalar register-input argument transfer is repaired. Existing uninitialized pseudo-register locals, guest/native memory mapping, partial-register returns, other call contracts and the callee's guest32 mapping, guest-stack aliasing and original ABI remain unverified; the current callee passes isolated C++17 syntax. Runtime tests initialize synthetic int32 values and use a capture-only stand-in; no whole caller/callee execution or native linkage is claimed."
+}

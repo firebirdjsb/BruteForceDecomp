@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
 void FUN_00226360(void)
 
 {
@@ -16,7 +17,7 @@ void FUN_00226360(void)
   int unaff_EDI;
   
   if (*(int *)(unaff_EDI + 0x1ec) != in_EAX) {
-    FUN_0008f6a0();
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x1e8), static_cast<std::uint32_t>(in_EAX));
   }
   uVar1 = unaff_EBX[2];
   uVar2 = unaff_EBX[1];

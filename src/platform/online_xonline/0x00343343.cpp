@@ -20,7 +20,10 @@ int FUN_00343343(char *param_1)
       cVar2 = *param_1;
       param_1 = param_1 + 1;
     } while (cVar2 != '\0');
-    iVar3 = (int)param_1 - (int)pcVar1;
+    // Bounded native object only: first zero at L <= min(INT_MAX,PTRDIFF_MAX),
+    // same live char array, with the final one-past advance valid. Guest32
+    // mapping/wrap, register/flags and RET 4 transport remain ABI_UNVERIFIED.
+    iVar3 = static_cast<int>(param_1 - pcVar1);
   }
   return iVar3;
 }

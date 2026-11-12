@@ -15,6 +15,12 @@ void FUN_0034e2e0(uint *param_1,int param_2)
   int iVar4;
   uint *puVar5;
   uint *local_8;
+  // This stack word is an integer index after the incoming pointer is saved.
+  // For 2 <= count <= INT_MAX/2, use one live uint array with count prefix
+  // elements and count elements from param_1; count <= 1 is no-access.
+  // The unchanged backwards cursor may enter the prefix but never reads it.
+  // Guest32 address wrap, memory mapping and full ABI remain unverified.
+  int local_index;
   
   puVar2 = param_1;
   iVar4 = 1;
@@ -29,18 +35,18 @@ void FUN_0034e2e0(uint *param_1,int param_2)
   do {
     if (iVar4 < param_2) {
       local_8 = puVar2;
-      param_1 = (uint *)iVar4;
+      local_index = iVar4;
       do {
-        uVar1 = puVar2[(int)param_1];
-        iVar3 = (int)param_1;
+        uVar1 = puVar2[local_index];
+        iVar3 = local_index;
         for (puVar5 = local_8; (iVar4 <= iVar3 && (uVar1 < *puVar5)); puVar5 = puVar5 + -iVar4) {
           puVar2[iVar3] = *puVar5;
           iVar3 = iVar3 - iVar4;
         }
-        param_1 = (uint *)((int)param_1 + iVar4);
+        local_index = local_index + iVar4;
         puVar2[iVar3] = uVar1;
         local_8 = local_8 + iVar4;
-      } while ((int)param_1 < param_2);
+      } while (local_index < param_2);
     }
     iVar4 = iVar4 / 3;
   } while (0 < iVar4);

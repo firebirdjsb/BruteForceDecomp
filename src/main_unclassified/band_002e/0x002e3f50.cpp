@@ -6,19 +6,22 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Exact existing 0x002f2986 source declaration; Xbox ABI remains unverified.
+ * Its two DWORD outputs require one live two-element local array.
+ * Incoming ECX and object-address expressions below remain unresolved. */
+extern undefined4 XAPILIB__QueryPerformanceCounter(undefined4 *param_1);
 void FUN_002e3f50(void)
 
 {
   int in_ECX;
-  undefined4 local_8;
-  undefined4 local_4;
+  undefined4 local_8[2];
   
   *(undefined4 *)(in_ECX + 0x18) = 0;
   *(undefined4 *)(in_ECX + 0x1c) = 0;
   if (*(char *)(in_ECX + 0x20) != '\0') {
-    XAPILIB__QueryPerformanceCounter(&local_8);
-    *(undefined4 *)(in_ECX + 0x10) = local_8;
-    *(undefined4 *)(in_ECX + 0x14) = local_4;
+    XAPILIB__QueryPerformanceCounter(&local_8[0]);
+    *(undefined4 *)(in_ECX + 0x10) = local_8[0];
+    *(undefined4 *)(in_ECX + 0x14) = local_8[1];
   }
   return;
 }

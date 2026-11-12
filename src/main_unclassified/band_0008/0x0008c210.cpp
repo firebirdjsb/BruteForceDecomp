@@ -33,11 +33,11 @@ void FUN_0008c210(void)
       }
     }
     if (piVar2 != (int *)0x0) {
-      if ((in_EAX < 0) || (piVar3 = &DAT_003f7e3c + in_EAX * 2, 6 < in_EAX)) {
-        piVar3 = &DAT_003f7e3c;
+      if ((in_EAX < 0) || (piVar3 = reinterpret_cast<int*>(&DAT_003f7e3c + in_EAX * 2), 6 < in_EAX)) {
+        piVar3 = reinterpret_cast<int*>(&DAT_003f7e3c);
       }
       if ((in_EAX < 0) || (piVar4 = (int *)(in_EAX * 8 + 0x3f7e74), 6 < in_EAX)) {
-        piVar4 = &DAT_003f7e3c;
+        piVar4 = reinterpret_cast<int*>(&DAT_003f7e3c);
       }
       iVar1 = piVar3[1];
       piVar2[3] = (int)(float)*piVar3;

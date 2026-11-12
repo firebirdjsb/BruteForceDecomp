@@ -63,7 +63,7 @@ LAB_000a5183:
             if (uVar6 <= *(uint *)(iVar2 + 0x14)) {
               *puVar4 = 8;
               puVar4[1] = param_3;
-              piVar3 = puVar4 + 2;
+              piVar3 = reinterpret_cast<int*>(puVar4 + 2);
               goto LAB_000a5183;
             }
           }

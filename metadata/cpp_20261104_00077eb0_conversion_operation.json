@@ -1,0 +1,186 @@
+{
+  "entry": "0x00077eb0",
+  "original_body_sha256": "8BAE330E7B50ADB10BCF5AD34FC3509582B231AEFF270E5F7550654F10706160",
+  "body_bytes": 103,
+  "instruction_count": 38,
+  "source_before_sha256": "cee3b962e05dc2d415229b59095a8df8eefc6b3aa87bf5c7d08dd7db1e2bd904",
+  "source_before_git_blob": "46a55dcf8d8e1088931586dd0a3b570b52391b90",
+  "artifacts": {
+    "0x00077eb0.cpp": "12ca8885f9b075bc90cf1a54b701c0e406138dde08a7187b9f8d7d26fe5e7ad2",
+    "bf_00077eb0_conversion_operation.h": "1892140b08afc7a89459d07c0c352e9b16bcba7c0e8babdbd0a7b0b461773bda",
+    "test.cpp": "d126fc3f023608c182616b9c3d0abc20378fe99b8127f73e25df4b2fe711e7f3"
+  },
+  "artifact_source_paths": {
+    "wrapper": "src/main_unclassified/band_0007/0x00077eb0.cpp",
+    "header": "include/bf_00077eb0_conversion_operation.h",
+    "oracle": "tests/test_00077eb0_conversion_operation.cpp",
+    "preimage": "tests/fixtures/00077eb0_before.cpp.txt"
+  },
+  "evidence_boundary": "Function bytes match the canonical inventory. Threshold bytes read through an immutable view of a fresh copied Ghidra project, whose before/after file hashes match. Stored original FileBytes are absent; full original XBE was not reauthenticated. No uploaded scripts or original game code executed.",
+  "constant_evidence": {
+    "address": "0x003a4fb8",
+    "little_endian_bytes": "bd378635",
+    "raw_word": "0x358637bd",
+    "target_bytes_sha256": "498983d3523edee13fe8f5185f80bc0741b90fa7e7b6298319e77da62cf744bb",
+    "context_start": "0x003a4fa8",
+    "context_end_inclusive": "0x003a4fc7",
+    "context_bytes": 32,
+    "program_memory_context_sha256": "C04F18717657120105F71409BF6DB3130C02EE5D8D2F7351E512CE6046A9F973",
+    "runtime_boundary": "Only initial image bytes are established. Runtime immutability is not proved. The fixed-threshold helper requires those bytes to remain unchanged; runtime patching/mutation is excluded."
+  },
+  "logical_operation": {
+    "input": "Already captured uint32 kind and raw binary32 word, plus valid writable byte storage. No host float argument.",
+    "kind_1": "Raw DWORD store and raw-word result. No FP instruction or NaN canonicalization.",
+    "kind_2": "Native CVTTSS2SI m32fp to signed-int32 result bits, then four-byte integer store. Current MXCSR state is retained, including native invalid/precision flags and DAZ behavior.",
+    "kind_3": "Native FLD m32fp / FABS / FCOMP threshold / FNSTSW, preserving original instruction order and x87 state. TEST AH,5 parity logic returns and stores 0 only for ordered less-than; equal, greater or unordered return/store 1.",
+    "other": "No output access; returns (kind - 3) modulo 2^32.",
+    "output_extent_bytes": {
+      "1": 4,
+      "2": 4,
+      "3": 1,
+      "other": 0
+    },
+    "result": "Logical final EAX DWORD only. The unchanged source void wrapper discards this result; no guest register transport is implemented."
+  },
+  "original_register_contract": {
+    "inputs": "[entry ESP+4]=guest object pointer; [entry ESP+8]=raw binary32 word; object+0xc holds kind, object+4 is destination.",
+    "capture_order": "After PUSH ECX, load object pointer then kind. Read raw input on selected path before its output store. Logical API assumes input capture is already complete.",
+    "eax": "kind1 raw word; kind2 CVTTSS2SI result; kind3 0 or 1; other kind-3 modulo 2^32.",
+    "ecx_edx": "Kinds1/3/default restore incoming ECX and leave EDX unchanged. Kind2 overwrites the saved-ECX stack slot with raw input, so POP ECX returns that raw word; EDX becomes guest object pointer.",
+    "cleanup": "RET 8 on every path.",
+    "not_implemented": "Guest pointer/address mapping, original GPR/EFLAGS/stack cleanup, native caller ABI, aliasing with original guest stack/object loads before snapshot."
+  },
+  "host_contract": "GNU/Clang native x86 SSE and x87, fast math rejected. Valid output extent, byte-unaligned storage allowed. Kind2 requires all MXCSR exceptions masked. Kind3 requires all x87 exceptions masked and exactly the next push destination ((TOP-1) mod8) empty. Other paths need no free x87 stack slot. All tests are x86-64 Linux SysV; no 32-bit/other-ABI execution claim. Kind3 additionally requires the original threshold memory at 0x003a4fb8 to retain image word 0x358637bd.",
+  "compared_fxsave_fields": {
+    "control_word": "bytes 0..1, including exception masks, precision and rounding controls",
+    "status_word": "bytes 2..3, including sticky exception flags, condition bits and TOP",
+    "abridged_tag_word": "byte 4, mapping occupied physical x87 registers",
+    "active_x87_stack_values": "first 10 bytes of each 16-byte logical ST slot, only when its corresponding physical tag is nonempty using TOP",
+    "mxcsr": "bytes24..27, including SSE masks/rounding/DAZ/FTZ controls and all exception flags; kind2 may change flags."
+  },
+  "excluded_fxsave_fields": {
+    "instruction_and_data_bookkeeping": "FOP bytes 6..7, FIP bytes 8..15, FDP bytes 16..23 differ with native instruction/data addresses; not guest-address emulated",
+    "inactive_x87_payloads_and_slot_padding": "Empty-tag register contents are not logical stack values; bytes 10..15 of ST storage slots are padding",
+    "xmm_register_values": "Host compiler may use XMM registers for integer/memory movement; guest SIMD register preservation is part of the excluded ABI bridge",
+    "mxcsr_mask": "bytes 28..31 describe hardware capabilities rather than operation results",
+    "reserved_fields": "Not defined logical operation state; comparison does not assert complete FXSAVE image or CPU-context equivalence"
+  },
+  "limits": [
+    "No original executable execution, Xbox/full-game behavior, linkage or byte-identical rebuild claim.",
+    "No unmasked traps, fault recovery, MMIO or concurrent memory observers.",
+    "Source wrapper keeps its original void(int,float) signature and unresolved integer guest-address expressions; only the captured-word helper is executed/tested.",
+    "Caller declarations and existing wrongly typed callers are not repaired by this batch.",
+    "FIP/FDP/FOP differ because native instruction/data addresses differ. No full FXSAVE image or CPU-context equivalence claim.",
+    "The original FCOMP reads absolute memory each time. This fixed-threshold helper is equivalent only while that memory still contains 0x358637bd; no runtime immutability claim."
+  ],
+  "narrow_opcode_windows": [
+    {
+      "va": "0x00077eb5",
+      "bytes": "8b410c",
+      "operation": "MOV EAX,dword ptr [ECX + 0xc]"
+    },
+    {
+      "va": "0x00077ec1",
+      "bytes": "d944240c",
+      "operation": "FLD float ptr [ESP + 0xc]"
+    },
+    {
+      "va": "0x00077ec5",
+      "bytes": "d9e1",
+      "operation": "FABS"
+    },
+    {
+      "va": "0x00077ec7",
+      "bytes": "d81db84f3a00",
+      "operation": "FCOMP float ptr [0x003a4fb8]"
+    },
+    {
+      "va": "0x00077ecd",
+      "bytes": "dfe0",
+      "operation": "FNSTSW AX"
+    },
+    {
+      "va": "0x00077ecf",
+      "bytes": "f6c405",
+      "operation": "TEST AH,0x5"
+    },
+    {
+      "va": "0x00077ed2",
+      "bytes": "7a11",
+      "operation": "JP 0x00077ee5"
+    },
+    {
+      "va": "0x00077ede",
+      "bytes": "884104",
+      "operation": "MOV byte ptr [ECX + 0x4],AL"
+    },
+    {
+      "va": "0x00077ef7",
+      "bytes": "894c2400",
+      "operation": "MOV dword ptr [ESP],ECX"
+    },
+    {
+      "va": "0x00077efb",
+      "bytes": "f30f2c442400",
+      "operation": "CVTTSS2SI EAX,dword ptr [ESP]"
+    },
+    {
+      "va": "0x00077f05",
+      "bytes": "894204",
+      "operation": "MOV dword ptr [EDX + 0x4],EAX"
+    },
+    {
+      "va": "0x00077f10",
+      "bytes": "894104",
+      "operation": "MOV dword ptr [ECX + 0x4],EAX"
+    },
+    {
+      "va": "0x00077f14",
+      "bytes": "c20800",
+      "operation": "RET 0x8"
+    }
+  ],
+  "tests": {
+    "main_cases_per_configuration": 20570112,
+    "inputs": 558,
+    "kinds": 8,
+    "x87_precision_modes": [
+      0,
+      2,
+      3
+    ],
+    "x87_rounding_modes": 4,
+    "mxcsr_rounding_daz_ftz_modes": 16,
+    "stack_depths": [
+      0,
+      1,
+      4,
+      7
+    ],
+    "status_seeds": [
+      "0",
+      "003f",
+      "0200",
+      "4700",
+      "473f",
+      "477f"
+    ],
+    "additional": "Integer-only output model, exact IE/PE/DE and comparison-bit anchors, full x87 stack on non-kind3 paths, byte-unaligned buffers, captured-word overlaps and exact guard-page extents.",
+    "oracle": "Independently authored monolithic native branch sequence, not extracted machine code execution.",
+    "configurations_passed": [
+      "Clang19 C++17 O0",
+      "Clang19 C++17 O2",
+      "GCC14 C++17 O2 ASan+UBSan (ASAN_OPTIONS=detect_leaks=0)"
+    ],
+    "sanitizer_limit": "LeakSanitizer is not tested."
+  },
+  "gate_requirements": [
+    "Mandatory original-source fixture SHA/Git-blob and exact reversal, historical ABS failure at O0/O2",
+    "Helper/oracle SHA pins and original narrow instruction windows",
+    "Native operation-only codegen rejects external calls at O0/O2",
+    "Unsupported architecture/SSE and fast-math compile negatives",
+    "Behavior negatives: wrong threshold/selector/byte width, raw-bit corruption, missing FABS, rounded CVT instead of truncation",
+    "FXRSTOR clobber regression; structural native FP sequence check",
+    "Optional private whole function/constant context verification; never required by public CI"
+  ]
+}

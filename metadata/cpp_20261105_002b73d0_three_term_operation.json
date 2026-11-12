@@ -1,0 +1,37 @@
+{
+  "base_commit": "5223db822367d158ad98199f50541cd3a7bbb2fd",
+  "entry": "0x002b73d0",
+  "original_body_sha256": "D040EB9CFF629D1CE789332F83C6CC75F57B8E0DC023661597F400B4BE619636",
+  "body_bytes": 100,
+  "body_instructions": 28,
+  "source_before_sha256": "6167b07870eb16b12db086d6d828313d3274ae6deaa36bcbf0094472e6aaaa42",
+  "source_before_git_blob": "ccb62e17b83fda087a60b72c038cd353f56dc96f",
+  "model_corpus_sha256": "a5044a16d47ec792c737cb7c390849217758d43fdb33d7c6d804792b3877fc90",
+  "rational_corpus_sha256": "9354ca4130f1ca6de60a8dbbee8781db9eec4fc91a5521d6b3115d0d0d9cd521",
+  "artifacts": {
+    "src/0x002b73d0.cpp": "daa7bc97e97bdf61a6ac92036b6024071db9239c851c928c66a9fd99db104cec",
+    "include/bf_002b73d0_three_term_operation.h": "f9da31cb8ddebc54d15a494cb460612206c80f90dd12216116f166def7a8f7e9",
+    "tests/002b73d0_before.cpp.txt": "6167b07870eb16b12db086d6d828313d3274ae6deaa36bcbf0094472e6aaaa42",
+    "tests/native_test.cpp": "cc3da8f07b35f85696b5fd46804cd008b8888496b615fa4b1a0cd95fb22a30bf",
+    "tests/generate_002b73d0_three_term_integer_model.py": "9f8a96f73124e71a049f6144315fd4949ad4cd7c82a434b47d882caa8e78583f",
+    "tests/test_002b73d0_three_term_integer_model.cpp": "13a231a11e3a939f27780efa7b47b8d20b370324542e2caab3d9352f42d3dda8",
+    "tests/002b73d0_integer_model_NOTES.md": "619df82c41619aec673f88a991ce1b966f63c67e216d05f5cb911420f260e7d6",
+    "tests/generate_002b73d0_three_product_rational_model.py": "739a0bb779f6fe7f9b9862b0c638d1e4cea0fede1855129545e0f3cdf8425943",
+    "tests/test_002b73d0_three_product_rational_model.cpp": "f61e7a873f361222d6a96fabff27bfdc4e928a741b18efffbbb06b6949fa0af6",
+    "docs/PROPOSAL.md": "d510f621587496181ec311d11e176a40e926cf8cce22cc43937f80fc069d9c22"
+  },
+  "canonical_paths": {
+    "src/0x002b73d0.cpp": "src/main_unclassified/band_002b/0x002b73d0.cpp",
+    "include/bf_002b73d0_three_term_operation.h": "include/bf_002b73d0_three_term_operation.h",
+    "metadata/manifest.json": "metadata/cpp_20261105_002b73d0_three_term_operation.json",
+    "docs/PROPOSAL.md": "docs/evidence/002b73d0_three_term_operation.md",
+    "tests/002b73d0_before.cpp.txt": "tests/fixtures/002b73d0_before.cpp.txt",
+    "tests/native_test.cpp": "tests/test_002b73d0_three_term_operation.cpp",
+    "tests/002b73d0_integer_model_NOTES.md": "docs/evidence/002b73d0_integer_model_notes.md",
+    "tests/generate_002b73d0_three_term_integer_model.py": "tests/generate_002b73d0_three_term_integer_model.py",
+    "tests/test_002b73d0_three_term_integer_model.cpp": "tests/test_002b73d0_three_term_integer_model.cpp",
+    "tests/generate_002b73d0_three_product_rational_model.py": "tests/generate_002b73d0_three_product_rational_model.py",
+    "tests/test_002b73d0_three_product_rational_model.cpp": "tests/test_002b73d0_three_product_rational_model.cpp",
+    "tools/check_package.py": "tools/test_cpp_002b73d0_three_term_operation.py"
+  }
+}

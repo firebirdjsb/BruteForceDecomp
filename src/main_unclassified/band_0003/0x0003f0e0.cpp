@@ -16,7 +16,7 @@ uint FUN_0003f0e0(char param_1)
   int unaff_ESI;
   undefined3 uVar3;
   
-  iVar1 = FUN_000120f0();
+  iVar1 = FUN_000120f0(unaff_ESI);
   uVar2 = 0;
   if ((iVar1 != 0) && (uVar2 = *(uint *)(iVar1 + 0xc), (*(byte *)(uVar2 + 0x1a9) & 1) != 0)) {
     uVar3 = (undefined3)(uVar2 >> 8);

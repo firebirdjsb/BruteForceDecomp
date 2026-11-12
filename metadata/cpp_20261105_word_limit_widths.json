@@ -1,0 +1,442 @@
+{
+  "schema_version": 1,
+  "scope": "Four extern placeholder width corrections for two original WORD operands; no storage, mapping, alias, ABI or whole-function behavior claim",
+  "source_base_commit": "a8672a38c4079209c46d7d39c15d95031c800231",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "canonical_functions_executed": false,
+  "original_machine_code_executed": false,
+  "global_definitions_added": false,
+  "global_mapping_recovered": false,
+  "object_layout_or_aliases_recovered": false,
+  "abi_recovered": false,
+  "cases": [
+    {
+      "entry": "0x0037f9a9",
+      "label": "FUN_0037f9a9",
+      "source": "src/platform/xpp_role_unverified/0x0037f9a9.cpp",
+      "source_before_sha256": "7c76988588d4a62e9c946cd2380b8496652ee1e0c130100b5d8795edb0ceaded",
+      "source_after_sha256": "6f253a5efac686d0a0a89e149fadd0fbc68bb3e59461a9451e8fb5d318ecdc95",
+      "preimage_git_blob": "fa57920486c0f9e1cb7bd798e82dcb90aecbac32",
+      "original_body_sha256": "ABB9727C43B05D5F2695E3895737ABB7FB01510211E56CA72D77E6344A2C4FB4",
+      "body_ranges": [
+        {
+          "start": "0037f9a9",
+          "end_inclusive": "0037fb6d",
+          "length": 453
+        }
+      ],
+      "body_byte_count": 453,
+      "instruction_count": 142,
+      "private_index_row_sha256": "0cf9eacc141436d736279024774736db32dc28adae9cd3c5ab48b15fff1f9afa",
+      "private_record_canonical_sha256": "564e663c05110743d6a1494adbdb15767b99fca9275315774d2049f83d3df5ce",
+      "edits": [
+        {
+          "before": "extern uint32_t DAT_004a8fe0;",
+          "after": "extern uint16_t DAT_004a8fe0;",
+          "symbol": "DAT_004a8fe0",
+          "guest_operand_va": "0x004a8fe0"
+        },
+        {
+          "before": "extern uint32_t DAT_004a8fe4;",
+          "after": "extern uint16_t DAT_004a8fe4;",
+          "symbol": "DAT_004a8fe4",
+          "guest_operand_va": "0x004a8fe4"
+        }
+      ],
+      "diagnostic_count_unlimited": 19,
+      "audit_status": "fail",
+      "instruction_windows": [
+        {
+          "address": "0037fb08",
+          "bytes": "660fb6430c"
+        },
+        {
+          "address": "0037fb0d",
+          "bytes": "66a3e08f4a00"
+        },
+        {
+          "address": "0037fb13",
+          "bytes": "660fb6430d"
+        },
+        {
+          "address": "0037fb18",
+          "bytes": "66a3e48f4a00"
+        },
+        {
+          "address": "0037fb1e",
+          "bytes": "3b4b08"
+        },
+        {
+          "address": "0037fb21",
+          "bytes": "5f"
+        },
+        {
+          "address": "0037fb22",
+          "bytes": "7632"
+        },
+        {
+          "address": "0037fb24",
+          "bytes": "2a4b08"
+        },
+        {
+          "address": "0037fb27",
+          "bytes": "663bc2"
+        },
+        {
+          "address": "0037fb2a",
+          "bytes": "7413"
+        },
+        {
+          "address": "0037fb2c",
+          "bytes": "8ad1"
+        },
+        {
+          "address": "0037fb2e",
+          "bytes": "d0ea"
+        },
+        {
+          "address": "0037fb30",
+          "bytes": "660fb6f2"
+        },
+        {
+          "address": "0037fb34",
+          "bytes": "6603c6"
+        },
+        {
+          "address": "0037fb37",
+          "bytes": "66a3e48f4a00"
+        },
+        {
+          "address": "0037fb3d",
+          "bytes": "2aca"
+        },
+        {
+          "address": "0037fb3f",
+          "bytes": "660fb6c1"
+        },
+        {
+          "address": "0037fb43",
+          "bytes": "660105e08f4a00"
+        },
+        {
+          "address": "0037fb4a",
+          "bytes": "8b45fc"
+        },
+        {
+          "address": "0037fb4d",
+          "bytes": "894308"
+        },
+        {
+          "address": "0037fb50",
+          "bytes": "66a1e48f4a00"
+        },
+        {
+          "address": "0037fb56",
+          "bytes": "668b0de08f4a00"
+        },
+        {
+          "address": "0037fb5d",
+          "bytes": "5e"
+        },
+        {
+          "address": "0037fb5e",
+          "bytes": "66890de28f4a00"
+        },
+        {
+          "address": "0037fb65",
+          "bytes": "66a3e68f4a00"
+        }
+      ],
+      "indirect_import_operands": [
+        {
+          "address": "0037fa07",
+          "bytes": "ff15c0643800",
+          "analyzed_flows": [
+            "EXTERNAL:00000061"
+          ]
+        },
+        {
+          "address": "0037fa13",
+          "bytes": "ff15f4633800",
+          "analyzed_flows": [
+            "EXTERNAL:0000002e"
+          ]
+        },
+        {
+          "address": "0037fa1a",
+          "bytes": "ff15f8633800",
+          "analyzed_flows": [
+            "EXTERNAL:0000002f"
+          ]
+        }
+      ]
+    },
+    {
+      "entry": "0x0038620e",
+      "label": "FUN_0038620e",
+      "source": "src/platform/xpp_role_unverified/0x0038620e.cpp",
+      "source_before_sha256": "27f4d9fee571f917e4f69ce3784182338f6a14d171265dedde562ea2309ea2f3",
+      "source_after_sha256": "bc04f366fdf2aa1262ad465ce6642a0a60530f46bd3effe1c90d351c04c31fed",
+      "preimage_git_blob": "463bf025d4790a123c08a77b8cb418a94686eb45",
+      "original_body_sha256": "50261BA376B6D13B4548856EA3A439058A4E6CE88487D3EFCB1C18E6CBF9213F",
+      "body_ranges": [
+        {
+          "start": "0038620e",
+          "end_inclusive": "00386249",
+          "length": 60
+        }
+      ],
+      "body_byte_count": 60,
+      "instruction_count": 16,
+      "private_index_row_sha256": "56b2d53b44441a5f532771a62a2eba0b1743145b1e072e07bac18a187736125e",
+      "private_record_canonical_sha256": "73207a9115117803baaa6c387f60d017843986a1773fd2d2eac227053733c369",
+      "edits": [
+        {
+          "before": "extern uint32_t DAT_004a8fe4;",
+          "after": "extern uint16_t DAT_004a8fe4;",
+          "symbol": "DAT_004a8fe4",
+          "guest_operand_va": "0x004a8fe4"
+        }
+      ],
+      "diagnostic_count_unlimited": 1,
+      "audit_status": "fail",
+      "instruction_windows": [
+        {
+          "address": "0038620e",
+          "bytes": "668b4220"
+        },
+        {
+          "address": "00386212",
+          "bytes": "663b05e48f4a00"
+        },
+        {
+          "address": "00386219",
+          "bytes": "7606"
+        },
+        {
+          "address": "0038621b",
+          "bytes": "b800050080"
+        },
+        {
+          "address": "00386220",
+          "bytes": "c3"
+        }
+      ],
+      "indirect_import_operands": []
+    },
+    {
+      "entry": "0x0038624a",
+      "label": "FUN_0038624a",
+      "source": "src/platform/xpp_role_unverified/0x0038624a.cpp",
+      "source_before_sha256": "c786640a6cba6e97bc66ac35d4a5e3f7e308e64a33580ddb742b243eabf19cef",
+      "source_after_sha256": "d2c02157ec84ccbccb3de166bf17a2f5408e4c66668366fb8f93267ea938f4e0",
+      "preimage_git_blob": "65943c80bba5a5687412169de9e5c8bf1c8a696b",
+      "original_body_sha256": "DD000346FCE7B4B54E10A72DBEAC462BCA2790D6D2625245DE9C84078397FC72",
+      "body_ranges": [
+        {
+          "start": "0038624a",
+          "end_inclusive": "00386285",
+          "length": 60
+        }
+      ],
+      "body_byte_count": 60,
+      "instruction_count": 16,
+      "private_index_row_sha256": "0d4377c81c19fe3a76602d56dd7674ae6928387a5a0366550ae8ac69c639665f",
+      "private_record_canonical_sha256": "7005b870e9145e3d6f1bdd052cf74d7ce9e0bf0d6de9b6d588f9a7f6f7e6304f",
+      "edits": [
+        {
+          "before": "extern uint32_t DAT_004a8fe0;",
+          "after": "extern uint16_t DAT_004a8fe0;",
+          "symbol": "DAT_004a8fe0",
+          "guest_operand_va": "0x004a8fe0"
+        }
+      ],
+      "diagnostic_count_unlimited": 1,
+      "audit_status": "fail",
+      "instruction_windows": [
+        {
+          "address": "0038624a",
+          "bytes": "668b4220"
+        },
+        {
+          "address": "0038624e",
+          "bytes": "663b05e08f4a00"
+        },
+        {
+          "address": "00386255",
+          "bytes": "7606"
+        },
+        {
+          "address": "00386257",
+          "bytes": "b800050080"
+        },
+        {
+          "address": "0038625c",
+          "bytes": "c3"
+        }
+      ],
+      "indirect_import_operands": []
+    }
+  ],
+  "dependency_pins": [
+    {
+      "path": "include/bf_ghidra_types.h",
+      "sha256": "5dfa1c69c07740d45536c1f5a45479e59c97275343017b68b3ff17ed39fd6dce"
+    },
+    {
+      "path": "tools/source_layout.py",
+      "sha256": "e23db596e0823fb674db21f01a6477c60c0625084506ba030c45cbce7c7f9856"
+    },
+    {
+      "path": "tools/body_hash_labels.py",
+      "sha256": "c1379c3c4e77a26222bf754b5b8018217df169c95caec30d2f2528e91d0457f1"
+    },
+    {
+      "path": "tools/sweep_cpp_compat.py",
+      "sha256": "4f85fe07e6b611fa5a3293e956e97224889ba96400d142fce057e9f3e06355eb"
+    },
+    {
+      "path": "metadata/asm_supported_readable_names.csv",
+      "sha256": "99da6b2000ba82ed702fb654804815fba12a53b92e685a2f98f211bf1bd04bf1"
+    },
+    {
+      "path": "metadata/bulk_13694_inventory.csv",
+      "sha256": "74ae7a7ae0b3bb4e662a27826ec94228c781332b5aa9c9d6baea2709e9c6209f"
+    },
+    {
+      "path": "src/platform/xpp_role_unverified/0x0037f9a9.cpp",
+      "sha256": "6f253a5efac686d0a0a89e149fadd0fbc68bb3e59461a9451e8fb5d318ecdc95"
+    },
+    {
+      "path": "src/platform/xpp_role_unverified/0x00385128.cpp",
+      "sha256": "016afccdc5736db9faf5c919a9f901ea1d9dec47209fcd24b837d26835fb7cbb"
+    },
+    {
+      "path": "src/platform/xpp_role_unverified/0x0038524e.cpp",
+      "sha256": "91dd9eec5f9f51a40441b70eb5ddb102114a8902b82edf017c5dc497dfb4f6e2"
+    },
+    {
+      "path": "src/platform/xpp_role_unverified/0x00385d45.cpp",
+      "sha256": "13133aa928c212c977e59344ce4a04d6c187d077e95a9367eb16d768b77db469"
+    },
+    {
+      "path": "src/platform/xpp_role_unverified/0x00385d64.cpp",
+      "sha256": "e3649b2894494b0d3865321a75230affc430de9fec1a96192f70d32fee67ab37"
+    },
+    {
+      "path": "src/platform/xpp_role_unverified/0x00386141.cpp",
+      "sha256": "55e1c66027dbbaeabb88c6a22647887cb56f62dbd9d3fe1a19b1f0c7a2794714"
+    },
+    {
+      "path": "src/platform/xpp_role_unverified/0x0038618e.cpp",
+      "sha256": "fb9ef2c7a41baae87918a6f03f263925029cf4328d54afb3f88ac42953f909b5"
+    },
+    {
+      "path": "src/platform/xpp_role_unverified/0x0038620e.cpp",
+      "sha256": "bc04f366fdf2aa1262ad465ce6642a0a60530f46bd3effe1c90d351c04c31fed"
+    },
+    {
+      "path": "src/platform/xpp_role_unverified/0x0038624a.cpp",
+      "sha256": "d2c02157ec84ccbccb3de166bf17a2f5408e4c66668366fb8f93267ea938f4e0"
+    },
+    {
+      "path": "src/platform/xpp_role_unverified/0x00385df0.cpp",
+      "sha256": "bfd1c3deecc497ae7eef976425b39870bdff0d06d6aeec6a78a52da0a8e67b52"
+    }
+  ],
+  "region_labels": [
+    {
+      "source": "src/platform/xpp_role_unverified/0x0037f9a9.cpp",
+      "symbol": "DAT_004a8fe0",
+      "declaration": "extern uint16_t DAT_004a8fe0;",
+      "occurrences": 5
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x0037f9a9.cpp",
+      "symbol": "DAT_004a8fe2",
+      "declaration": "extern uint32_t DAT_004a8fe2;",
+      "occurrences": 2
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x0037f9a9.cpp",
+      "symbol": "DAT_004a8fe4",
+      "declaration": "extern uint16_t DAT_004a8fe4;",
+      "occurrences": 5
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x0037f9a9.cpp",
+      "symbol": "DAT_004a8fe6",
+      "declaration": "extern uint32_t DAT_004a8fe6;",
+      "occurrences": 2
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x00385128.cpp",
+      "symbol": "DAT_004a8fe2",
+      "declaration": "extern uint32_t DAT_004a8fe2;",
+      "occurrences": 3
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x00385128.cpp",
+      "symbol": "DAT_004a8fe6",
+      "declaration": "extern uint32_t DAT_004a8fe6;",
+      "occurrences": 3
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x0038524e.cpp",
+      "symbol": "DAT_004a8fe2",
+      "declaration": "extern uint32_t DAT_004a8fe2;",
+      "occurrences": 3
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x00385d45.cpp",
+      "symbol": "DAT_004a8fe2",
+      "declaration": "extern uint32_t DAT_004a8fe2;",
+      "occurrences": 4
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x00385d64.cpp",
+      "symbol": "DAT_004a8fe6",
+      "declaration": "extern uint32_t DAT_004a8fe6;",
+      "occurrences": 4
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x0038620e.cpp",
+      "symbol": "DAT_004a8fe4",
+      "declaration": "extern uint16_t DAT_004a8fe4;",
+      "occurrences": 2
+    },
+    {
+      "source": "src/platform/xpp_role_unverified/0x0038624a.cpp",
+      "symbol": "DAT_004a8fe0",
+      "declaration": "extern uint16_t DAT_004a8fe0;",
+      "occurrences": 2
+    }
+  ],
+  "audit_baseline": {
+    "checked_commit_sha": "34d4ef58489d8c7b3f722f0a591ac2774c9602a4",
+    "scope": "full_inventory",
+    "checked": 13694,
+    "counts": {
+      "pass": 4051,
+      "fail": 9643
+    },
+    "expected_syntax_gain": 0,
+    "entry_status_sha256": "618d303ec018a5af4a1868e3b3116b3c0115776f0f316d4bf99317a482093ec8"
+  },
+  "limitations": [
+    "Only four extern type spellings change. All bodies, signatures, missing declarations and diagnostics remain unresolved.",
+    "Absolute word operands identify accessed guest bytes, not independent original/native objects, allocation, lifetime, aliases or guest mapping.",
+    "The direct-reference census is bounded to exported instruction operands. Computed addresses, data-held addresses, external writers and unexported code are not excluded.",
+    "DAT_004a8fe2/e6 counter placeholders remain uint32_t and outside this patch; no complete region repair.",
+    "The initializer still has pointer conversion, inferred prototype and state issues. Both callers still have unbound ECX/EDX and undeclared callees.",
+    "Isolated initialized native fixtures exercise extracted value/word operations only, not the game functions or an original-machine oracle."
+  ],
+  "ci_before_sha256": "343e3e51aaddbda4536e095d7ca04c4a842cf14bd419332fd881d20a314ee38f",
+  "ci_addition": "      - name: Verify two WORD limit operands (no global mapping or ABI recovery)\n        run: python3 tools/test_cpp_20261105_word_limit_widths.py\n",
+  "ci_preserved_lines": [
+    "        run: python3 tools/test_cpp_20261105_register_source_declarations.py\n",
+    "        run: python3 tools/test_cpp_20261105_global_dword_six.py\n",
+    "        run: python3 tools/verify_cpp_guest_address_literals.py --root .\n"
+  ]
+}

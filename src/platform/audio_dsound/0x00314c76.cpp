@@ -6,9 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_00314c76_norm_operation.h"
 float10 FUN_00314c76(float *param_1)
-
 {
-  return SQRT((float10)param_1[2] * (float10)param_1[2] +
-              (float10)param_1[1] * (float10)param_1[1] + (float10)*param_1 * (float10)*param_1);
+  /* Bounded host float-buffer operation only; guest pointer/EAX/RET4 transport
+   * remains ABI_UNVERIFIED. Native binary80 type and FP preconditions apply. */
+  return bf_00314c76_norm_operation(param_1);
 }

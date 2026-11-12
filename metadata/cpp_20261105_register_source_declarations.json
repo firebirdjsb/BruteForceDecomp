@@ -1,0 +1,620 @@
+{
+  "schema_version": 1,
+  "scope": "Two exact existing zero-argument source declarations only; hidden register and guest-memory limitations remain",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "source_base_commit": "a30a381222ab60c88a88e972cd677c93106c5bf3",
+  "baseline_audit_commit": "a0d30ba20b5b7a4f222af2d42e0607388202ee1d",
+  "baseline_syntax_passes": 4049,
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "abi_recovered": false,
+  "native_linkage_tested": false,
+  "semantic_equivalence_claimed": false,
+  "historical_inventory_sha256": "74ae7a7ae0b3bb4e662a27826ec94228c781332b5aa9c9d6baea2709e9c6209f",
+  "headers": [
+    {
+      "path": "include/bf_ghidra_types.h",
+      "sha256": "5dfa1c69c07740d45536c1f5a45479e59c97275343017b68b3ff17ed39fd6dce"
+    }
+  ],
+  "validation_support_files": [
+    {
+      "path": "tools/source_layout.py",
+      "sha256": "e23db596e0823fb674db21f01a6477c60c0625084506ba030c45cbce7c7f9856"
+    },
+    {
+      "path": "tools/body_hash_labels.py",
+      "sha256": "c1379c3c4e77a26222bf754b5b8018217df169c95caec30d2f2528e91d0457f1"
+    },
+    {
+      "path": "metadata/asm_supported_readable_names.csv",
+      "sha256": "99da6b2000ba82ed702fb654804815fba12a53b92e685a2f98f211bf1bd04bf1"
+    }
+  ],
+  "cases": [
+    {
+      "entry": "0x002e5900",
+      "source": "src/main_unclassified/band_002e/0x002e5900.cpp",
+      "original_body_sha256": "C38DA8745B1C0FACD0665A954618905DBF72A8EFE5BB3ABF403EBB5D7D8A44BC",
+      "body_byte_count": 19,
+      "instruction_count": 9,
+      "body_ranges": [
+        {
+          "start": "002e5900",
+          "end_inclusive": "002e5912",
+          "length": 19
+        }
+      ],
+      "ret_sites": [
+        {
+          "address": "002e5912",
+          "bytes": "c3"
+        }
+      ],
+      "private_index_row_sha256": "391ca41ce8d44b7f89a79ec4986bc5ecbe641107d6d2d6d4f77a8313cd60f948",
+      "private_export_record_sha256": "32daab08dd681660fda05d12f845c69871308c79cd708e1b05a7211d6014ac21",
+      "historical_inventory_row": {
+        "index": "10479",
+        "entry": "0x002e5900",
+        "name": "FUN_002e5900",
+        "original_body_sha256": "C38DA8745B1C0FACD0665A954618905DBF72A8EFE5BB3ABF403EBB5D7D8A44BC",
+        "c_sha256": "990f8f5bec78762742a48588abd59785829ff0524a0960425d00e93cb87f1ace",
+        "origin": "GHIDRA_C_DRAFT",
+        "c11_syntax": "HOST_CLANG_OK",
+        "abi": "UNVERIFIED",
+        "behavior": "UNVERIFIED",
+        "issues": "implicit_registers"
+      },
+      "label": "FUN_002e5900",
+      "direct_calls": [
+        {
+          "address": "002e5906",
+          "bytes": "e835f0ffff",
+          "mnemonic": "call",
+          "target": "0x002e4940"
+        }
+      ],
+      "branches": [],
+      "definition_signature": "uint FUN_002e5900(void)",
+      "register_observations": [
+        {
+          "offset": 1,
+          "mnemonic": "lea",
+          "operands": "esi, [ecx + 0x38]"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "mov",
+          "operands": "ecx, esi"
+        },
+        {
+          "offset": 11,
+          "mnemonic": "neg",
+          "operands": "al"
+        },
+        {
+          "offset": 13,
+          "mnemonic": "sbb",
+          "operands": "eax, eax"
+        },
+        {
+          "offset": 15,
+          "mnemonic": "and",
+          "operands": "eax, esi"
+        }
+      ],
+      "instruction_windows": {
+        "002e5901": {
+          "address": "002e5901",
+          "bytes": "8d7138"
+        },
+        "002e5904": {
+          "address": "002e5904",
+          "bytes": "8bce"
+        },
+        "002e5906": {
+          "address": "002e5906",
+          "bytes": "e835f0ffff"
+        },
+        "002e590b": {
+          "address": "002e590b",
+          "bytes": "f6d8"
+        },
+        "002e590d": {
+          "address": "002e590d",
+          "bytes": "1bc0"
+        },
+        "002e590f": {
+          "address": "002e590f",
+          "bytes": "23c6"
+        },
+        "002e5912": {
+          "address": "002e5912",
+          "bytes": "c3"
+        }
+      },
+      "callee": "0x002e4940",
+      "source_before_sha256": "990f8f5bec78762742a48588abd59785829ff0524a0960425d00e93cb87f1ace",
+      "source_after_sha256": "99122c6c62464c1e547dad2e89a3abf16def015320ecebc84be50b74159d7d33",
+      "preimage_git_blob": "cc7cd7253b75f978554d1a1434675239c7670a65",
+      "added_declaration_block": "/* Exact existing callee draft declaration only; Xbox ABI_UNVERIFIED.\n * Original caller passes incoming ECX+0x38 through ECX into this callee\n * and its downstream call. The unchanged zero-argument source call omits\n * that binding; in_ECX remains unbound. No guest pointer/ABI bridge is added.\n * These mismatches remain; do not execute this caller as game code. */\nextern bool FUN_002e4940(void);\n",
+      "source_declaration": "extern bool FUN_002e4940(void);",
+      "source_call": "FUN_002e4940();",
+      "source_call_arity": 0,
+      "hidden_register_inputs_represented": false,
+      "guest_pointer_mapping_established": false,
+      "callee_function_pointer_type": "bool (*)(void)",
+      "caller_function_pointer_type": "uint (*)(void)"
+    },
+    {
+      "entry": "0x00288a70",
+      "source": "src/main_unclassified/band_0028/0x00288a70.cpp",
+      "original_body_sha256": "82562A02D09D18E96EC67699629289D977179AEBD70705D122715691910A278B",
+      "body_byte_count": 66,
+      "instruction_count": 32,
+      "body_ranges": [
+        {
+          "start": "00288a70",
+          "end_inclusive": "00288ab1",
+          "length": 66
+        }
+      ],
+      "ret_sites": [
+        {
+          "address": "00288aab",
+          "bytes": "c3"
+        },
+        {
+          "address": "00288ab1",
+          "bytes": "c3"
+        }
+      ],
+      "private_index_row_sha256": "29f556be626320195433f6365a359d0bfbe8e0798568619586853ae130c3e902",
+      "private_export_record_sha256": "b907085238e17b0989c20ed900c0dbe6bd94bd6f6c73582d1dbad9b7c6a2cb48",
+      "historical_inventory_row": {
+        "index": "9117",
+        "entry": "0x00288a70",
+        "name": "FUN_00288a70",
+        "original_body_sha256": "82562A02D09D18E96EC67699629289D977179AEBD70705D122715691910A278B",
+        "c_sha256": "7688f0050d0fe38aaa34beb5730388fcf1bb70dbfd83ee8f0bc6406ec79f5f90",
+        "origin": "GHIDRA_C_DRAFT",
+        "c11_syntax": "HOST_CLANG_OK",
+        "abi": "UNVERIFIED",
+        "behavior": "UNVERIFIED",
+        "issues": "implicit_registers"
+      },
+      "label": "FUN_00288a70",
+      "direct_calls": [
+        {
+          "address": "00288a96",
+          "bytes": "e8f5c1faff",
+          "mnemonic": "call",
+          "target": "0x00234c90"
+        }
+      ],
+      "branches": [
+        {
+          "address": "00288a77",
+          "bytes": "7504",
+          "mnemonic": "jne",
+          "target": "0x00288a7d"
+        },
+        {
+          "address": "00288a7b",
+          "bytes": "eb02",
+          "mnemonic": "jmp",
+          "target": "0x00288a7f"
+        },
+        {
+          "address": "00288a81",
+          "bytes": "7424",
+          "mnemonic": "je",
+          "target": "0x00288aa7"
+        },
+        {
+          "address": "00288a8a",
+          "bytes": "7205",
+          "mnemonic": "jb",
+          "target": "0x00288a91"
+        },
+        {
+          "address": "00288a8f",
+          "bytes": "eb03",
+          "mnemonic": "jmp",
+          "target": "0x00288a94"
+        },
+        {
+          "address": "00288a9d",
+          "bytes": "740d",
+          "mnemonic": "je",
+          "target": "0x00288aac"
+        },
+        {
+          "address": "00288a9f",
+          "bytes": "7f06",
+          "mnemonic": "jg",
+          "target": "0x00288aa7"
+        },
+        {
+          "address": "00288aa5",
+          "bytes": "75dc",
+          "mnemonic": "jne",
+          "target": "0x00288a83"
+        }
+      ],
+      "definition_signature": "undefined4 FUN_00288a70(void)",
+      "register_observations": [
+        {
+          "offset": 2,
+          "mnemonic": "mov",
+          "operands": "edi, dword ptr [eax + 4]"
+        },
+        {
+          "offset": 19,
+          "mnemonic": "mov",
+          "operands": "eax, dword ptr [esi + 8]"
+        },
+        {
+          "offset": 22,
+          "mnemonic": "cmp",
+          "operands": "dword ptr [eax + 0x18], 0x10"
+        },
+        {
+          "offset": 28,
+          "mnemonic": "mov",
+          "operands": "eax, dword ptr [eax + 4]"
+        },
+        {
+          "offset": 33,
+          "mnemonic": "add",
+          "operands": "eax, 4"
+        },
+        {
+          "offset": 36,
+          "mnemonic": "mov",
+          "operands": "edx, ebx"
+        },
+        {
+          "offset": 43,
+          "mnemonic": "test",
+          "operands": "eax, eax"
+        },
+        {
+          "offset": 60,
+          "mnemonic": "mov",
+          "operands": "eax, dword ptr [esi + 8]"
+        }
+      ],
+      "instruction_windows": {
+        "00288a72": {
+          "address": "00288a72",
+          "bytes": "8b7804"
+        },
+        "00288a77": {
+          "address": "00288a77",
+          "bytes": "7504"
+        },
+        "00288a7b": {
+          "address": "00288a7b",
+          "bytes": "eb02"
+        },
+        "00288a81": {
+          "address": "00288a81",
+          "bytes": "7424"
+        },
+        "00288a83": {
+          "address": "00288a83",
+          "bytes": "8b4608"
+        },
+        "00288a86": {
+          "address": "00288a86",
+          "bytes": "83781810"
+        },
+        "00288a8a": {
+          "address": "00288a8a",
+          "bytes": "7205"
+        },
+        "00288a8c": {
+          "address": "00288a8c",
+          "bytes": "8b4004"
+        },
+        "00288a8f": {
+          "address": "00288a8f",
+          "bytes": "eb03"
+        },
+        "00288a91": {
+          "address": "00288a91",
+          "bytes": "83c004"
+        },
+        "00288a94": {
+          "address": "00288a94",
+          "bytes": "8bd3"
+        },
+        "00288a96": {
+          "address": "00288a96",
+          "bytes": "e8f5c1faff"
+        },
+        "00288a9b": {
+          "address": "00288a9b",
+          "bytes": "85c0"
+        },
+        "00288a9d": {
+          "address": "00288a9d",
+          "bytes": "740d"
+        },
+        "00288a9f": {
+          "address": "00288a9f",
+          "bytes": "7f06"
+        },
+        "00288aa5": {
+          "address": "00288aa5",
+          "bytes": "75dc"
+        },
+        "00288aab": {
+          "address": "00288aab",
+          "bytes": "c3"
+        },
+        "00288aac": {
+          "address": "00288aac",
+          "bytes": "8b4608"
+        },
+        "00288ab1": {
+          "address": "00288ab1",
+          "bytes": "c3"
+        }
+      },
+      "callee": "0x00234c90",
+      "source_before_sha256": "7688f0050d0fe38aaa34beb5730388fcf1bb70dbfd83ee8f0bc6406ec79f5f90",
+      "source_after_sha256": "40cafa63f25d848ac187f7025a3bff85b2c09bf27d62c274beb1472ad4c19f3a",
+      "preimage_git_blob": "7607ad48f21b81a40270e6dc568865da91d8dc4e",
+      "added_declaration_block": "/* Exact existing callee draft declaration only; Xbox ABI_UNVERIFIED.\n * Original caller selects a byte-reader address in EAX and forwards incoming\n * EBX through EDX. The callee reads through EAX/EDX; neither input is bound by\n * the unchanged zero-argument source call or its register pseudo-locals.\n * The original buffer-selection sequence is also absent from this source.\n * These mismatches remain; no pointer mapping or ABI bridge is added.\n * Do not execute this caller as game code. */\nextern int FUN_00234c90(void);\n",
+      "source_declaration": "extern int FUN_00234c90(void);",
+      "source_call": "FUN_00234c90();",
+      "source_call_arity": 0,
+      "hidden_register_inputs_represented": false,
+      "guest_pointer_mapping_established": false,
+      "callee_function_pointer_type": "int (*)(void)",
+      "caller_function_pointer_type": "undefined4 (*)(void)"
+    }
+  ],
+  "dependencies": [
+    {
+      "entry": "0x002e4940",
+      "source": "src/main_unclassified/band_002e/0x002e4940.cpp",
+      "original_body_sha256": "0CE6AEE2FF2FF0098F2A03E9A1BDAA45F30DC4FD034341698484D8A7F5D7F457",
+      "body_byte_count": 12,
+      "instruction_count": 5,
+      "body_ranges": [
+        {
+          "start": "002e4940",
+          "end_inclusive": "002e494b",
+          "length": 12
+        }
+      ],
+      "ret_sites": [
+        {
+          "address": "002e494b",
+          "bytes": "c3"
+        }
+      ],
+      "private_index_row_sha256": "c4d735ddaa33b25b38a6dd3468071b7579b5d619beb82e25347f8eccd062dcb2",
+      "private_export_record_sha256": "e6b6cf37c73ea1c36767051b28359567cde81906a89e76e29f7245ff6b4fba06",
+      "historical_inventory_row": {
+        "index": "10456",
+        "entry": "0x002e4940",
+        "name": "FUN_002e4940",
+        "original_body_sha256": "0CE6AEE2FF2FF0098F2A03E9A1BDAA45F30DC4FD034341698484D8A7F5D7F457",
+        "c_sha256": "0af1cb12f14455f6033f6bc7eaf69a01ca18ec118df6eccc4df61244f69462c4",
+        "origin": "GHIDRA_C_DRAFT",
+        "c11_syntax": "HOST_CLANG_OK",
+        "abi": "UNVERIFIED",
+        "behavior": "UNVERIFIED",
+        "issues": ""
+      },
+      "label": "FUN_002e4940",
+      "direct_calls": [
+        {
+          "address": "002e4940",
+          "bytes": "e8bbfcffff",
+          "mnemonic": "call",
+          "target": "0x002e4600"
+        }
+      ],
+      "branches": [],
+      "definition_signature": "bool FUN_002e4940(void)",
+      "register_observations": [
+        {
+          "offset": 5,
+          "mnemonic": "neg",
+          "operands": "eax"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "sbb",
+          "operands": "eax, eax"
+        },
+        {
+          "offset": 9,
+          "mnemonic": "neg",
+          "operands": "eax"
+        }
+      ],
+      "instruction_windows": {
+        "002e4940": {
+          "address": "002e4940",
+          "bytes": "e8bbfcffff"
+        },
+        "002e4945": {
+          "address": "002e4945",
+          "bytes": "f7d8"
+        },
+        "002e4947": {
+          "address": "002e4947",
+          "bytes": "1bc0"
+        },
+        "002e4949": {
+          "address": "002e4949",
+          "bytes": "f7d8"
+        },
+        "002e494b": {
+          "address": "002e494b",
+          "bytes": "c3"
+        }
+      },
+      "source_sha256": "f6ecf797ccaab8662e6f905a670ce5914c7978169df5fecea2f2000aee186155",
+      "git_blob": "e2c650ecba9f9ceaac0358b88235914d94e549a6"
+    },
+    {
+      "entry": "0x00234c90",
+      "source": "src/main_unclassified/band_0023/0x00234c90.cpp",
+      "original_body_sha256": "5D97BFA692D8A1C8C5472689A0142096B1E05E53F6051C222929D197CDFEA87E",
+      "body_byte_count": 49,
+      "instruction_count": 23,
+      "body_ranges": [
+        {
+          "start": "00234c90",
+          "end_inclusive": "00234cc0",
+          "length": 49
+        }
+      ],
+      "ret_sites": [
+        {
+          "address": "00234cc0",
+          "bytes": "c3"
+        }
+      ],
+      "private_index_row_sha256": "8fa93bccf12c06f95220c5d9f79aba7fc3f596fee7cc197c216f982ebdaa991b",
+      "private_export_record_sha256": "ec0855786d662a2509347ada810bd7fa334d4bb501cbf3f692944767339ea7fa",
+      "historical_inventory_row": {
+        "index": "7810",
+        "entry": "0x00234c90",
+        "name": "FUN_00234c90",
+        "original_body_sha256": "5D97BFA692D8A1C8C5472689A0142096B1E05E53F6051C222929D197CDFEA87E",
+        "c_sha256": "306b1c2cd64b8809d6ec9bf091b19fd6acf82876ed6f558832c19fe3a9301097",
+        "origin": "GHIDRA_C_DRAFT",
+        "c11_syntax": "HOST_CLANG_OK",
+        "abi": "UNVERIFIED",
+        "behavior": "UNVERIFIED",
+        "issues": "implicit_registers"
+      },
+      "label": "FUN_00234c90",
+      "direct_calls": [],
+      "branches": [
+        {
+          "address": "00234c9a",
+          "bytes": "7c08",
+          "mnemonic": "jl",
+          "target": "0x00234ca4"
+        },
+        {
+          "address": "00234c9f",
+          "bytes": "7f03",
+          "mnemonic": "jg",
+          "target": "0x00234ca4"
+        },
+        {
+          "address": "00234cab",
+          "bytes": "7c08",
+          "mnemonic": "jl",
+          "target": "0x00234cb5"
+        },
+        {
+          "address": "00234cb0",
+          "bytes": "7f03",
+          "mnemonic": "jg",
+          "target": "0x00234cb5"
+        },
+        {
+          "address": "00234cb7",
+          "bytes": "7404",
+          "mnemonic": "je",
+          "target": "0x00234cbd"
+        },
+        {
+          "address": "00234cbb",
+          "bytes": "74d6",
+          "mnemonic": "je",
+          "target": "0x00234c93"
+        }
+      ],
+      "definition_signature": "int FUN_00234c90(void)",
+      "register_observations": [
+        {
+          "offset": 1,
+          "mnemonic": "mov",
+          "operands": "esi, eax"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "movzx",
+          "operands": "eax, byte ptr [esi]"
+        },
+        {
+          "offset": 20,
+          "mnemonic": "movzx",
+          "operands": "ecx, byte ptr [edx]"
+        },
+        {
+          "offset": 45,
+          "mnemonic": "sub",
+          "operands": "eax, ecx"
+        }
+      ],
+      "instruction_windows": {
+        "00234c91": {
+          "address": "00234c91",
+          "bytes": "8bf0"
+        },
+        "00234c93": {
+          "address": "00234c93",
+          "bytes": "0fb606"
+        },
+        "00234c9a": {
+          "address": "00234c9a",
+          "bytes": "7c08"
+        },
+        "00234c9f": {
+          "address": "00234c9f",
+          "bytes": "7f03"
+        },
+        "00234ca4": {
+          "address": "00234ca4",
+          "bytes": "0fb60a"
+        },
+        "00234cab": {
+          "address": "00234cab",
+          "bytes": "7c08"
+        },
+        "00234cb0": {
+          "address": "00234cb0",
+          "bytes": "7f03"
+        },
+        "00234cb7": {
+          "address": "00234cb7",
+          "bytes": "7404"
+        },
+        "00234cbb": {
+          "address": "00234cbb",
+          "bytes": "74d6"
+        },
+        "00234cbd": {
+          "address": "00234cbd",
+          "bytes": "2bc1"
+        },
+        "00234cc0": {
+          "address": "00234cc0",
+          "bytes": "c3"
+        }
+      },
+      "source_sha256": "306b1c2cd64b8809d6ec9bf091b19fd6acf82876ed6f558832c19fe3a9301097",
+      "git_blob": "2135401cfcd625aefe0c095a470794cfc9b926f9"
+    }
+  ],
+  "limitations": [
+    "002e5900 sets ESI to incoming ECX+0x38, forwards it through ECX to 002e4940 and consumes returned AL. Its unchanged source retains unbound in_ECX and does not bind ECX for the zero-argument call. 002e4940 forwards register state to downstream 002e4600, whose complete body and interface are outside this batch.",
+    "00288a70 selects an address in EAX from node-dependent storage and loads EDX from incoming EBX before 00234c90. The callee reads bytes through incoming EAX and EDX and returns their difference through EAX. Both zero-argument source signatures omit the register inputs; their pseudo-locals remain unbound. The original [ESI+8] lookup, [EAX+0x18] comparison and [EAX+4] versus EAX+4 buffer selection are absent from the unchanged caller source. The callee unsigned-locals-to-int return conversion is only existing source spelling, not a recovered conversion contract.",
+    "No declaration insertion repairs caller bodies, arguments, source types, return expressions, register binding, guest32 pointer mapping, object lifetime, flags or downstream interfaces. Do not execute these callers or callees as reconstructed game functions.",
+    "Every selected complete body, boundary, direct CALL, conditional/unconditional branch and RET is checked privately against pinned original body digests and independent 32-bit decoding. Downstream E8 target 002e4600 is verified as an operand only, not as a complete interface.",
+    "Complete-body export consistency is not full retail-XBE reauthentication, native linkage, gameplay, semantic equivalence or a byte-identical rebuild. Five other syntax-ready candidates remain outside the batch; no width mismatch, split-body, x87 or indirect-call candidate is admitted."
+  ]
+}

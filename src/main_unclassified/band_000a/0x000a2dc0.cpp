@@ -1,40 +1,36 @@
-/* Partial original DWORD address-value repair; other C++ errors remain.
- * ABI_UNVERIFIED: register/memory mapping and complete behavior remain unresolved. */
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original retail Xbox 0x000a2dc0: FUN_000a2dc0.
  * Input x86 body SHA-256: F87750C4AC884185F10CE87D6BF8778047D919E17A41AD117ED20CB35729B7CA
- * Entry: 0x000a2dc0, Ghidra index: 1934, label: FUN_000a2dc0
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: CPP_DRAFT, ABI_UNVERIFIED, NOT_NATIVE_LINKED,
+ *         CROSS_FUNCTION_UNVERIFIED, NOT_BEHAVIOR_TESTED.
+ * Explicit host guest_eax and guest_edi represent original live x86
+ * registers, NOT recovered Xbox stack parameters or C++ class signatures.
+ * Original x86 FLAGS, non-return register outputs, guest memory mapping,
+ * native linkage and fault timing remain unimplemented/ABI_UNVERIFIED.
+ * Full 61-byte body and ordered x86 memory operations checked privately.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t PTR_LAB_003a0af8;
-extern uint32_t PTR_LAB_003a0f0c;
-void FUN_000a2dc0(void)
+#include "bf_xbe_guest32_record_model.h"
 
+std::uint32_t FUN_000a2dc0(std::uint32_t guest_eax, std::uint32_t guest_edi)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined4 *in_EAX;
-  int unaff_EDI;
-  
-  in_EAX[1] = 0;
-  in_EAX[2] = 0;
-  in_EAX[3] = 0;
-  in_EAX[4] = 0;
-  *in_EAX = UINT32_C(0x003a0af8);
-  puVar1 = in_EAX + 7;
-  *puVar1 = UINT32_C(0x003a0f0c);
-  in_EAX[8] = 1;
-  in_EAX[9] = in_EAX;
-  iVar2 = *(int *)(unaff_EDI + 8);
-  in_EAX[6] = iVar2;
-  if (iVar2 == 0) {
-    in_EAX[6] = puVar1;
-    return;
-  }
-  **(int **)(unaff_EDI + 0xc) = (int)puVar1;
-  return;
+    const std::uint32_t base = guest_eax;
+    bf_guest_write_u32(base + UINT32_C(0x4), UINT32_C(0x0));
+    bf_guest_write_u32(base + UINT32_C(0x8), UINT32_C(0x0));
+    bf_guest_write_u32(base + UINT32_C(0xc), UINT32_C(0x0));
+    bf_guest_write_u32(base + UINT32_C(0x10), UINT32_C(0x0));
+    bf_guest_write_u32(base + UINT32_C(0x0), UINT32_C(0x3a0af8));
+    const std::uint32_t link = base + UINT32_C(0x1c);
+    bf_guest_write_u32(link, UINT32_C(0x003a0f0c));
+    bf_guest_write_u32(link + UINT32_C(4), UINT32_C(1));
+    bf_guest_write_u32(link + UINT32_C(8), base);
+    // Original source read occurs only after the preceding record stores;
+    // source and destination may alias in 32-bit guest address space.
+    const std::uint32_t next = bf_guest_read_u32(guest_edi + UINT32_C(8));
+    bf_guest_write_u32(base + UINT32_C(0x18), next);
+    if (next == 0) {
+        bf_guest_write_u32(base + UINT32_C(0x18), link);
+    } else {
+        const std::uint32_t predecessor = bf_guest_read_u32(guest_edi + UINT32_C(0xc));
+        bf_guest_write_u32(predecessor, link);
+    }
+    return base;
 }

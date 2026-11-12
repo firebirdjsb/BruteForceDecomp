@@ -1,0 +1,63 @@
+{
+  "entry": "0x002ccc10",
+  "original_body_sha256": "75A9A41869FF7B7C222C6F80344F3B6D42D3271ECBF3C1924643EBC9EBF61C05",
+  "source_before_sha256": "02257797b23c76c821d7ba66e77f90ee846912c961a40ca0eed066f37e36e568",
+  "source_before_git_blob": "daaf729311611784bf15466f839cb7b40d677d16",
+  "scope": "bounded initialized native packed difference/product operation; guest ABI and original CPU unverified",
+  "artifacts": {
+    "source": "6d09c5a0f381f6b4c227c10964a8eff778592240192a09531a890ff4f44c8e23",
+    "header": "b53748d17bee8704c52265261d549f72f15b8380257f519e1b12465616ff8f45",
+    "native": "35c5b10fa6e129a303a0577a2b56288f61818a2ab2964a889bb32aea2c46a9cb",
+    "model": "facd76369e3df59c5de15051a195d28d17254279a1d89c1fe6a9fae56cc554c2",
+    "generator": "4ec49294fb59aae1832b2e2cc00a23fdb5bd2b040f7b9a4ce3729b01c5ddf51f",
+    "primitives": "914ce626554bef5148e7224565bd074ae777e1518766193af133c20553cef4c5",
+    "notes": "f08d745e9bfa1678ac87ee2b257b710653aa618c7f4e5c4e6fb060aa1f2ff282"
+  },
+  "model_fixture_sha256": "d15e396bd2688891b51d8b0b9bc3076cfc59f6e2f5e54798b2fe8b7c6ed9bb1d",
+  "narrow_opcode_windows": [
+    {
+      "va": "0x002ccc1d",
+      "bytes": "f30f1018"
+    },
+    {
+      "va": "0x002ccc39",
+      "bytes": "0f5ccb"
+    },
+    {
+      "va": "0x002ccc40",
+      "bytes": "0f5cd3"
+    },
+    {
+      "va": "0x002ccc46",
+      "bytes": "0fc6c032"
+    },
+    {
+      "va": "0x002ccc4a",
+      "bytes": "0fc6d283"
+    },
+    {
+      "va": "0x002ccc4e",
+      "bytes": "0f59c2"
+    },
+    {
+      "va": "0x002ccc55",
+      "bytes": "0fc6d283"
+    },
+    {
+      "va": "0x002ccc59",
+      "bytes": "0f59ca"
+    },
+    {
+      "va": "0x002ccc60",
+      "bytes": "0f5cc1"
+    },
+    {
+      "va": "0x002ccc63",
+      "bytes": "f30f11000f174004"
+    },
+    {
+      "va": "0x002ccc6b",
+      "bytes": "59c21000"
+    }
+  ]
+}

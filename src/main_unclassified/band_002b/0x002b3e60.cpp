@@ -6,17 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002b3e60_multiply_add_operation.h"
 void FUN_002b3e60(float *param_1,float *param_2,float *param_3,float param_4)
 
 {
-  undefined8 uVar1;
-  undefined8 uVar2;
-  
-  uVar1 = *(undefined8 *)(param_3 + 1);
-  uVar2 = *(undefined8 *)(param_2 + 1);
-  *param_1 = *param_2 + *param_3 * param_4;
-  *(ulonglong *)(param_1 + 1) =
-       CONCAT44((float)((ulonglong)uVar2 >> 0x20) + (float)((ulonglong)uVar1 >> 0x20) * param_4,
-                (float)uVar2 + (float)uVar1 * param_4);
-  return;
+  bf_002b3e60_multiply_add_operation(param_1, param_2, param_3, param_4);
 }

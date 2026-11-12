@@ -15,7 +15,7 @@ undefined4 FUN_000216b0(undefined1 *param_1)
   int in_EAX;
   int iVar1;
   
-  iVar1 = FUN_000120f0();
+  iVar1 = FUN_000120f0(in_EAX);
   *(undefined4 *)(in_EAX + 0x6ac) = 0xe;
   *(undefined4 *)(iVar1 + 0x578) = 0x41a00000;
   FUN_0003f0e0(1);

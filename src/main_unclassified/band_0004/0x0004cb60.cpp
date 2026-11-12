@@ -25,7 +25,7 @@ undefined4 FUN_0004cb60(void)
     }
     local_4 = iVar3;
     (**(code **)(*unaff_EDI + 0x40))();
-    cVar2 = FUN_000e6e00(&local_4);
+    cVar2 = FUN_000e6e00(reinterpret_cast<undefined4 *>(&local_4));
     if (cVar2 != '\0') break;
     iVar3 = iVar3 + 0x24;
   }

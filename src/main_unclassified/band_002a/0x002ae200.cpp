@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Exact source-draft declaration only. Original callers move ESI into EAX;
+ * this void interface does not bind that hidden input or the callers'
+ * EAX=ESI return. Guest register/memory contracts remain ABI_UNVERIFIED. */
+extern void FUN_00066920(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_LAB_0038f4d0;
@@ -19,7 +23,9 @@ void FUN_002ae200(void)
   unaff_ESI[0x29] = 0;
   unaff_ESI[0x28] = 0;
   unaff_ESI[0x27] = 0;
-  *unaff_ESI = &PTR_LAB_0038f4d0;
+  /* Original 002ae221 C7 /0 stores the four-byte guest value 0x0038f4d0.
+   * No host address is substituted; guest storage remains ABI_UNVERIFIED. */
+  *unaff_ESI = UINT32_C(0x0038f4d0);
   unaff_ESI[0x2a] = 1;
   return;
 }

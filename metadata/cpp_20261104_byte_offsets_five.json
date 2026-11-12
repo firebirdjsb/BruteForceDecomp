@@ -1,0 +1,360 @@
+{
+  "schema_version": 1,
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "base_commit": "e8fff7d4560c573d1d057a250e45f4a685be9c4f",
+  "meaning": "Five one-expression byte-pointer displacement spelling repairs. Complete recorded bodies match inventory; no whole-XBE authentication, ABI, linkage, or game behavior verification.",
+  "evidence": {
+    "private_export": "Immutable Ghidra project function export, all-v1",
+    "method": "Require issue-free validation records, exact recorded-body range bytes and SHA-256 equal to inventory; retain only the small instruction windows supporting each expression.",
+    "recorded_function_body_completeness_is_not_proof_of_all_real_continuations": true
+  },
+  "verification_boundary": "Each changed expression reads one byte from a valid existing native pointer within a live buffer at the evidenced positive displacement. Pointer provenance, guest32 modular addressing/translation, object layout, register input, calling/return ABI and whole-function semantics are unresolved. No complete function or supplied original game bytes are executed. Existing control flow, read type, masks, signedness and other source bytes are unchanged.",
+  "cases": [
+    {
+      "entry": "0x0005c5e0",
+      "source": "src/main_unclassified/band_0005/0x0005c5e0.cpp",
+      "original_body_sha256": "7D57385348B8DC0B82D251543783E2E1A18993EACED091E75F7DA6EF2BAEF799",
+      "body_byte_count": 325,
+      "body_ranges": [
+        {
+          "start": "0005c5e0",
+          "end_inclusive": "0005c724",
+          "length": 325
+        }
+      ],
+      "source_before_sha256": "62f5c54fd9091988914f6711b85ea01c8dcf620071bde74383a19b11b4ddc369",
+      "source_after_sha256": "70786c25504fb0935636650982530fd541a57d334239cb9bbbd9bffa6f773e9a",
+      "preimage_git_blob": "f214b5a8b2c476bab1e9e3908f83128866b46420",
+      "replacement": {
+        "old": "*(char *)((int)puVar6 + 0x1d)",
+        "new": "*(reinterpret_cast<char*>(puVar6) + 0x1d)"
+      },
+      "pointer_type": "undefined4",
+      "read_type": "char",
+      "pointer_variable": "puVar6",
+      "displacement": 29,
+      "predicate_mask": 0,
+      "instruction_windows": [
+        {
+          "address": "0x0005c600",
+          "bytes": "39500c",
+          "observation": "CMP dword ptr [EAX + 0xc],EDX"
+        },
+        {
+          "address": "0x0005c603",
+          "bytes": "7305",
+          "observation": "JNC 0x0005c60a"
+        },
+        {
+          "address": "0x0005c605",
+          "bytes": "8b4008",
+          "observation": "MOV EAX,dword ptr [EAX + 0x8]"
+        },
+        {
+          "address": "0x0005c608",
+          "bytes": "eb04",
+          "observation": "JMP 0x0005c60e"
+        },
+        {
+          "address": "0x0005c60a",
+          "bytes": "8bf0",
+          "observation": "MOV ESI,EAX"
+        },
+        {
+          "address": "0x0005c60c",
+          "bytes": "8b00",
+          "observation": "MOV EAX,dword ptr [EAX]"
+        },
+        {
+          "address": "0x0005c60e",
+          "bytes": "80781d00",
+          "observation": "CMP byte ptr [EAX + 0x1d],0x0"
+        },
+        {
+          "address": "0x0005c612",
+          "bytes": "74ec",
+          "observation": "JZ 0x0005c600"
+        }
+      ]
+    },
+    {
+      "entry": "0x000a7770",
+      "source": "src/main_unclassified/band_000a/0x000a7770.cpp",
+      "original_body_sha256": "20D62E9FABF8825B20544E8D3E9137D599169C54596AE174646BDC3D7F64E78B",
+      "body_byte_count": 150,
+      "body_ranges": [
+        {
+          "start": "000a7770",
+          "end_inclusive": "000a7788",
+          "length": 25
+        },
+        {
+          "start": "000a7790",
+          "end_inclusive": "000a780c",
+          "length": 125
+        }
+      ],
+      "source_before_sha256": "00a8a7afd8609382dae045ea510f43b7d89c74975caa420612f14414eb446470",
+      "source_after_sha256": "a0f9c883db52179db772a3d3fd4156154d23eef5742b7ab9555c7f87a72fb02c",
+      "preimage_git_blob": "dbaf409de6798c9446a1d6d570d383bf6650e583",
+      "replacement": {
+        "old": "*(char *)((int)puVar2 + 0x19)",
+        "new": "*(reinterpret_cast<char*>(puVar2) + 0x19)"
+      },
+      "pointer_type": "undefined4",
+      "read_type": "char",
+      "pointer_variable": "puVar2",
+      "displacement": 25,
+      "predicate_mask": 0,
+      "instruction_windows": [
+        {
+          "address": "0x000a77b0",
+          "bytes": "39410c",
+          "observation": "CMP dword ptr [ECX + 0xc],EAX"
+        },
+        {
+          "address": "0x000a77b3",
+          "bytes": "7305",
+          "observation": "JNC 0x000a77ba"
+        },
+        {
+          "address": "0x000a77b5",
+          "bytes": "8b4908",
+          "observation": "MOV ECX,dword ptr [ECX + 0x8]"
+        },
+        {
+          "address": "0x000a77b8",
+          "bytes": "eb04",
+          "observation": "JMP 0x000a77be"
+        },
+        {
+          "address": "0x000a77ba",
+          "bytes": "8bf1",
+          "observation": "MOV ESI,ECX"
+        },
+        {
+          "address": "0x000a77bc",
+          "bytes": "8b09",
+          "observation": "MOV ECX,dword ptr [ECX]"
+        },
+        {
+          "address": "0x000a77be",
+          "bytes": "80791900",
+          "observation": "CMP byte ptr [ECX + 0x19],0x0"
+        },
+        {
+          "address": "0x000a77c2",
+          "bytes": "74ec",
+          "observation": "JZ 0x000a77b0"
+        }
+      ]
+    },
+    {
+      "entry": "0x000fe560",
+      "source": "src/main_unclassified/band_000f/0x000fe560.cpp",
+      "original_body_sha256": "F3C248037E052940516B2BF88D84A341657C7B99482F01B3C5580836F0F2DA69",
+      "body_byte_count": 190,
+      "body_ranges": [
+        {
+          "start": "000fe560",
+          "end_inclusive": "000fe589",
+          "length": 42
+        },
+        {
+          "start": "000fe590",
+          "end_inclusive": "000fe623",
+          "length": 148
+        }
+      ],
+      "source_before_sha256": "1de80b7a700913ad28bc135360693798f86e6245ba17bd620e2153c7c9d6f6c5",
+      "source_after_sha256": "16ac1add2177e18bae4e0ab13abe6d1109491ec513688ee54f0692fd3940e762",
+      "preimage_git_blob": "1d9311745f9b6f26d260053b8fd39c206a523230",
+      "replacement": {
+        "old": "*(byte *)((int)piVar3 + 0x65)",
+        "new": "*(reinterpret_cast<byte*>(piVar3) + 0x65)"
+      },
+      "pointer_type": "int",
+      "read_type": "byte",
+      "pointer_variable": "piVar3",
+      "displacement": 101,
+      "predicate_mask": 8,
+      "instruction_windows": [
+        {
+          "address": "0x000fe586",
+          "bytes": "b308",
+          "observation": "MOV BL,0x8"
+        },
+        {
+          "address": "0x000fe590",
+          "bytes": "8b4904",
+          "observation": "MOV ECX,dword ptr [ECX + 0x4]"
+        },
+        {
+          "address": "0x000fe593",
+          "bytes": "8b6908",
+          "observation": "MOV EBP,dword ptr [ECX + 0x8]"
+        },
+        {
+          "address": "0x000fe596",
+          "bytes": "845d65",
+          "observation": "TEST byte ptr [EBP + 0x65],BL"
+        },
+        {
+          "address": "0x000fe599",
+          "bytes": "750a",
+          "observation": "JNZ 0x000fe5a5"
+        }
+      ]
+    },
+    {
+      "entry": "0x0017bf40",
+      "source": "src/main_unclassified/band_0017/0x0017bf40.cpp",
+      "original_body_sha256": "615BCE8AF4630C29AEADD79E947A8C2D08B9497911AEB1660A22491378ED65F2",
+      "body_byte_count": 209,
+      "body_ranges": [
+        {
+          "start": "0017bf40",
+          "end_inclusive": "0017bf5c",
+          "length": 29
+        },
+        {
+          "start": "0017bf60",
+          "end_inclusive": "0017c013",
+          "length": 180
+        }
+      ],
+      "source_before_sha256": "8cd16970f721f5954b2139d45aa461d54b209afbd39c2e7ce3993043dbfd85ed",
+      "source_after_sha256": "adfd78dce6867df424623ad085b83e1a69fbb612c8b7932af55e930e90472946",
+      "preimage_git_blob": "0de731babd9346308839c822f5e8074f68e392ac",
+      "replacement": {
+        "old": "*(char *)((int)puVar4 + 0x81)",
+        "new": "*(reinterpret_cast<char*>(puVar4) + 0x81)"
+      },
+      "pointer_type": "undefined4",
+      "read_type": "char",
+      "pointer_variable": "puVar4",
+      "displacement": 129,
+      "predicate_mask": 0,
+      "instruction_windows": [
+        {
+          "address": "0x0017bf80",
+          "bytes": "39410c",
+          "observation": "CMP dword ptr [ECX + 0xc],EAX"
+        },
+        {
+          "address": "0x0017bf83",
+          "bytes": "7305",
+          "observation": "JNC 0x0017bf8a"
+        },
+        {
+          "address": "0x0017bf85",
+          "bytes": "8b4908",
+          "observation": "MOV ECX,dword ptr [ECX + 0x8]"
+        },
+        {
+          "address": "0x0017bf88",
+          "bytes": "eb04",
+          "observation": "JMP 0x0017bf8e"
+        },
+        {
+          "address": "0x0017bf8a",
+          "bytes": "8bf1",
+          "observation": "MOV ESI,ECX"
+        },
+        {
+          "address": "0x0017bf8c",
+          "bytes": "8b09",
+          "observation": "MOV ECX,dword ptr [ECX]"
+        },
+        {
+          "address": "0x0017bf8e",
+          "bytes": "80b98100000000",
+          "observation": "CMP byte ptr [ECX + 0x81],0x0"
+        },
+        {
+          "address": "0x0017bf95",
+          "bytes": "74e9",
+          "observation": "JZ 0x0017bf80"
+        }
+      ]
+    },
+    {
+      "entry": "0x0024efa0",
+      "source": "src/main_unclassified/band_0024/0x0024efa0.cpp",
+      "original_body_sha256": "1592DF2313DEAAB30484A331CDF9C97E2DE68BEFB17633068707B84807DA746B",
+      "body_byte_count": 100,
+      "body_ranges": [
+        {
+          "start": "0024efa0",
+          "end_inclusive": "0024efbc",
+          "length": 29
+        },
+        {
+          "start": "0024efc0",
+          "end_inclusive": "0024f006",
+          "length": 71
+        }
+      ],
+      "source_before_sha256": "4367030ce6a4811e538447afc8ffaeab04627f4eeb44b85ec2854b01405213f0",
+      "source_after_sha256": "d13347eea2a2ecffe0ee1c27239448d6343273ecb45e1b901e1d6318056549a0",
+      "preimage_git_blob": "08ada80490f1d53c2cd701e66968b62d0402c049",
+      "replacement": {
+        "old": "*(char *)((int)puVar2 + 0x15)",
+        "new": "*(reinterpret_cast<char*>(puVar2) + 0x15)"
+      },
+      "pointer_type": "undefined4",
+      "read_type": "char",
+      "pointer_variable": "puVar2",
+      "displacement": 21,
+      "predicate_mask": 0,
+      "instruction_windows": [
+        {
+          "address": "0x0024efc0",
+          "bytes": "39700c",
+          "observation": "CMP dword ptr [EAX + 0xc],ESI"
+        },
+        {
+          "address": "0x0024efc3",
+          "bytes": "7d05",
+          "observation": "JGE 0x0024efca"
+        },
+        {
+          "address": "0x0024efc5",
+          "bytes": "8b4008",
+          "observation": "MOV EAX,dword ptr [EAX + 0x8]"
+        },
+        {
+          "address": "0x0024efc8",
+          "bytes": "eb04",
+          "observation": "JMP 0x0024efce"
+        },
+        {
+          "address": "0x0024efca",
+          "bytes": "8bd0",
+          "observation": "MOV EDX,EAX"
+        },
+        {
+          "address": "0x0024efcc",
+          "bytes": "8b00",
+          "observation": "MOV EAX,dword ptr [EAX]"
+        },
+        {
+          "address": "0x0024efce",
+          "bytes": "8a5815",
+          "observation": "MOV BL,byte ptr [EAX + 0x15]"
+        },
+        {
+          "address": "0x0024efd1",
+          "bytes": "84db",
+          "observation": "TEST BL,BL"
+        },
+        {
+          "address": "0x0024efd3",
+          "bytes": "74eb",
+          "observation": "JZ 0x0024efc0"
+        }
+      ]
+    }
+  ]
+}

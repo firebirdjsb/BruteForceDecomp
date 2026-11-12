@@ -1,0 +1,417 @@
+{
+  "schema": 1,
+  "base_commit": "7124071d8f91eace5b5a98c662a0f920ca6e5198",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "boundary": "Exact source declaration and two-word local-storage correction only. Hidden ECX, guest object mapping, Xbox ABI, clock equality, caller runtime behavior and byte-identical rebuild remain unverified. No canonical caller or original bytes are executed. Stored full-XBE hash metadata is not full-XBE reauthentication.",
+  "declaration": "/* Exact existing 0x002f2986 source declaration; Xbox ABI remains unverified.\n * Its two DWORD outputs require one live two-element local array.\n * Incoming ECX and object-address expressions below remain unresolved. */\nextern undefined4 XAPILIB__QueryPerformanceCounter(undefined4 *param_1);\n",
+  "cases": [
+    {
+      "entry": "0x002e3f20",
+      "source": "src/main_unclassified/band_002e/0x002e3f20.cpp",
+      "preimage": "tests/fixtures/timestamp_caller_storage/0x002e3f20.cpp.before",
+      "source_before_sha256": "417b367d1265f67bb567dc0c6e314eed4f6f63493caf721b5d4cf5d8d2c5b882",
+      "source_after_sha256": "390493a7369eaa60025f3bd31c6ed41ae06fd1a2af09b8bc6afffbed9418c780",
+      "declaration_only_sha256": "9b2d8051f25b928372a9309974660a3200389a657e3228487e055727938b0bd0",
+      "preimage_git_blob": "ec4560fcda1e8ed664ef2672c69d3e07054aec51",
+      "original_body_sha256": "59688785C900233367A0C420F5D82824142759E07EE05F04D78E75A86324AE9A",
+      "edits": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\n/* Exact existing 0x002f2986 source declaration; Xbox ABI remains unverified.\n * Its two DWORD outputs require one live two-element local array.\n * Incoming ECX and object-address expressions below remain unresolved. */\nextern undefined4 XAPILIB__QueryPerformanceCounter(undefined4 *param_1);\n"
+        },
+        {
+          "before": "  undefined4 local_8;\n  undefined4 local_4;",
+          "after": "  undefined4 local_8[2];"
+        },
+        {
+          "before": "XAPILIB__QueryPerformanceCounter(&local_8);",
+          "after": "XAPILIB__QueryPerformanceCounter(&local_8[0]);"
+        },
+        {
+          "before": " = local_8;",
+          "after": " = local_8[0];"
+        },
+        {
+          "before": " = local_4;",
+          "after": " = local_8[1];"
+        }
+      ]
+    },
+    {
+      "entry": "0x002e3f50",
+      "source": "src/main_unclassified/band_002e/0x002e3f50.cpp",
+      "preimage": "tests/fixtures/timestamp_caller_storage/0x002e3f50.cpp.before",
+      "source_before_sha256": "a72a272bd46518eeb1c3f9867ec871c7ba27c8e58c43283fed01b3f070e8e350",
+      "source_after_sha256": "f67039201eabc36275815b1251ad504e07d4450b17be5108d2bbfe1d424d1fbd",
+      "declaration_only_sha256": "5f410fbe59c765f63abc109ac5458e4e03c1efdc15e6bacb3d5c0c5734a17ce1",
+      "preimage_git_blob": "668e28bf79432619599984a64d4b797d00ce1635",
+      "original_body_sha256": "8A4E0BD07C646CBC8B6722B0C9DDC41382AB28998371CD141705E273DD04AD46",
+      "edits": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\n/* Exact existing 0x002f2986 source declaration; Xbox ABI remains unverified.\n * Its two DWORD outputs require one live two-element local array.\n * Incoming ECX and object-address expressions below remain unresolved. */\nextern undefined4 XAPILIB__QueryPerformanceCounter(undefined4 *param_1);\n"
+        },
+        {
+          "before": "  undefined4 local_8;\n  undefined4 local_4;",
+          "after": "  undefined4 local_8[2];"
+        },
+        {
+          "before": "XAPILIB__QueryPerformanceCounter(&local_8);",
+          "after": "XAPILIB__QueryPerformanceCounter(&local_8[0]);"
+        },
+        {
+          "before": " = local_8;",
+          "after": " = local_8[0];"
+        },
+        {
+          "before": " = local_4;",
+          "after": " = local_8[1];"
+        }
+      ]
+    }
+  ],
+  "original_bodies": [
+    {
+      "entry": "0x002e3f20",
+      "label": "FUN_002e3f20",
+      "body_byte_count": 47,
+      "instruction_count": 17,
+      "original_body_sha256": "59688785C900233367A0C420F5D82824142759E07EE05F04D78E75A86324AE9A",
+      "windows": [
+        {
+          "address": "002e3f20",
+          "bytes_hex": "83ec08",
+          "mnemonic": "sub",
+          "operands": "esp,0x8"
+        },
+        {
+          "address": "002e3f23",
+          "bytes_hex": "56",
+          "mnemonic": "push",
+          "operands": "esi"
+        },
+        {
+          "address": "002e3f24",
+          "bytes_hex": "33c0",
+          "mnemonic": "xor",
+          "operands": "eax,eax"
+        },
+        {
+          "address": "002e3f26",
+          "bytes_hex": "8bf1",
+          "mnemonic": "mov",
+          "operands": "esi,ecx"
+        },
+        {
+          "address": "002e3f28",
+          "bytes_hex": "894618",
+          "mnemonic": "mov",
+          "operands": "DWORD PTR [esi+0x18],eax"
+        },
+        {
+          "address": "002e3f2b",
+          "bytes_hex": "89461c",
+          "mnemonic": "mov",
+          "operands": "DWORD PTR [esi+0x1c],eax"
+        },
+        {
+          "address": "002e3f2e",
+          "bytes_hex": "8d442404",
+          "mnemonic": "lea",
+          "operands": "eax,[esp+0x4]"
+        },
+        {
+          "address": "002e3f32",
+          "bytes_hex": "50",
+          "mnemonic": "push",
+          "operands": "eax"
+        },
+        {
+          "address": "002e3f33",
+          "bytes_hex": "e84eea0000",
+          "mnemonic": "call",
+          "operands": "0x2f2986"
+        },
+        {
+          "address": "002e3f38",
+          "bytes_hex": "8b4c2404",
+          "mnemonic": "mov",
+          "operands": "ecx,DWORD PTR [esp+0x4]"
+        },
+        {
+          "address": "002e3f3c",
+          "bytes_hex": "8b542408",
+          "mnemonic": "mov",
+          "operands": "edx,DWORD PTR [esp+0x8]"
+        },
+        {
+          "address": "002e3f40",
+          "bytes_hex": "894e10",
+          "mnemonic": "mov",
+          "operands": "DWORD PTR [esi+0x10],ecx"
+        },
+        {
+          "address": "002e3f43",
+          "bytes_hex": "895614",
+          "mnemonic": "mov",
+          "operands": "DWORD PTR [esi+0x14],edx"
+        },
+        {
+          "address": "002e3f46",
+          "bytes_hex": "c6462001",
+          "mnemonic": "mov",
+          "operands": "BYTE PTR [esi+0x20],0x1"
+        },
+        {
+          "address": "002e3f4a",
+          "bytes_hex": "5e",
+          "mnemonic": "pop",
+          "operands": "esi"
+        },
+        {
+          "address": "002e3f4b",
+          "bytes_hex": "83c408",
+          "mnemonic": "add",
+          "operands": "esp,0x8"
+        },
+        {
+          "address": "002e3f4e",
+          "bytes_hex": "c3",
+          "mnemonic": "ret",
+          "operands": ""
+        }
+      ],
+      "private_record_raw_sha256": "5d0c5f7ed1ac885a0fbd027426935e981ed27f1847374a1bbdd2dc004f1029b5",
+      "private_record_canonical_sha256": "123c2b1c70b3c12112bba603cf816de01bfb5c779d601d1f62ecc2e9c461563b",
+      "private_validation_row_sha256": "279cf004a14b9178cc5f9e687a6df7e6b49e6a1781c3dbc674c5b41be7dd6a8f"
+    },
+    {
+      "entry": "0x002e3f50",
+      "label": "FUN_002e3f50",
+      "body_byte_count": 50,
+      "instruction_count": 19,
+      "original_body_sha256": "8A4E0BD07C646CBC8B6722B0C9DDC41382AB28998371CD141705E273DD04AD46",
+      "windows": [
+        {
+          "address": "002e3f50",
+          "bytes_hex": "83ec08",
+          "mnemonic": "sub",
+          "operands": "esp,0x8"
+        },
+        {
+          "address": "002e3f53",
+          "bytes_hex": "56",
+          "mnemonic": "push",
+          "operands": "esi"
+        },
+        {
+          "address": "002e3f54",
+          "bytes_hex": "8bf1",
+          "mnemonic": "mov",
+          "operands": "esi,ecx"
+        },
+        {
+          "address": "002e3f56",
+          "bytes_hex": "8a4e20",
+          "mnemonic": "mov",
+          "operands": "cl,BYTE PTR [esi+0x20]"
+        },
+        {
+          "address": "002e3f59",
+          "bytes_hex": "33c0",
+          "mnemonic": "xor",
+          "operands": "eax,eax"
+        },
+        {
+          "address": "002e3f5b",
+          "bytes_hex": "3ac8",
+          "mnemonic": "cmp",
+          "operands": "cl,al"
+        },
+        {
+          "address": "002e3f5d",
+          "bytes_hex": "894618",
+          "mnemonic": "mov",
+          "operands": "DWORD PTR [esi+0x18],eax"
+        },
+        {
+          "address": "002e3f60",
+          "bytes_hex": "89461c",
+          "mnemonic": "mov",
+          "operands": "DWORD PTR [esi+0x1c],eax"
+        },
+        {
+          "address": "002e3f63",
+          "bytes_hex": "7418",
+          "mnemonic": "je",
+          "operands": "0x2e3f7d"
+        },
+        {
+          "address": "002e3f65",
+          "bytes_hex": "8d442404",
+          "mnemonic": "lea",
+          "operands": "eax,[esp+0x4]"
+        },
+        {
+          "address": "002e3f69",
+          "bytes_hex": "50",
+          "mnemonic": "push",
+          "operands": "eax"
+        },
+        {
+          "address": "002e3f6a",
+          "bytes_hex": "e817ea0000",
+          "mnemonic": "call",
+          "operands": "0x2f2986"
+        },
+        {
+          "address": "002e3f6f",
+          "bytes_hex": "8b4c2404",
+          "mnemonic": "mov",
+          "operands": "ecx,DWORD PTR [esp+0x4]"
+        },
+        {
+          "address": "002e3f73",
+          "bytes_hex": "8b542408",
+          "mnemonic": "mov",
+          "operands": "edx,DWORD PTR [esp+0x8]"
+        },
+        {
+          "address": "002e3f77",
+          "bytes_hex": "894e10",
+          "mnemonic": "mov",
+          "operands": "DWORD PTR [esi+0x10],ecx"
+        },
+        {
+          "address": "002e3f7a",
+          "bytes_hex": "895614",
+          "mnemonic": "mov",
+          "operands": "DWORD PTR [esi+0x14],edx"
+        },
+        {
+          "address": "002e3f7d",
+          "bytes_hex": "5e",
+          "mnemonic": "pop",
+          "operands": "esi"
+        },
+        {
+          "address": "002e3f7e",
+          "bytes_hex": "83c408",
+          "mnemonic": "add",
+          "operands": "esp,0x8"
+        },
+        {
+          "address": "002e3f81",
+          "bytes_hex": "c3",
+          "mnemonic": "ret",
+          "operands": ""
+        }
+      ],
+      "private_record_raw_sha256": "94b1301b8952bb7b9aa89b7549864aaa0a4192b37b0d71b331df4e1774877964",
+      "private_record_canonical_sha256": "b2a8b22e1b01f6f08b0fae710ae4616a5ff4861943904acdc4fb64fddd70bda9",
+      "private_validation_row_sha256": "d47d479d7536f13a640fd640b30c87b4e5b383206e2903db60d8b6849cb6285a"
+    },
+    {
+      "entry": "0x002f2986",
+      "label": "QueryPerformanceCounter",
+      "body_byte_count": 17,
+      "instruction_count": 7,
+      "original_body_sha256": "70BA83B459AA83150DC6FB7078B292C4A53D35AA6B26B690DEB64971B7AE4374",
+      "windows": [
+        {
+          "address": "002f2986",
+          "bytes_hex": "8b4c2404",
+          "mnemonic": "mov",
+          "operands": "ecx,DWORD PTR [esp+0x4]"
+        },
+        {
+          "address": "002f298a",
+          "bytes_hex": "0f31",
+          "mnemonic": "rdtsc",
+          "operands": ""
+        },
+        {
+          "address": "002f298c",
+          "bytes_hex": "8901",
+          "mnemonic": "mov",
+          "operands": "DWORD PTR [ecx],eax"
+        },
+        {
+          "address": "002f298e",
+          "bytes_hex": "895104",
+          "mnemonic": "mov",
+          "operands": "DWORD PTR [ecx+0x4],edx"
+        },
+        {
+          "address": "002f2991",
+          "bytes_hex": "33c0",
+          "mnemonic": "xor",
+          "operands": "eax,eax"
+        },
+        {
+          "address": "002f2993",
+          "bytes_hex": "40",
+          "mnemonic": "inc",
+          "operands": "eax"
+        },
+        {
+          "address": "002f2994",
+          "bytes_hex": "c20400",
+          "mnemonic": "ret",
+          "operands": "0x4"
+        }
+      ],
+      "private_record_raw_sha256": "9f62e8394c1073189b992d397f7baaec114d8b3e821832ae31905ce62db8e6f4",
+      "private_record_canonical_sha256": "12f7b15aa6bc439bfc46aa8555598518b92c6d48fc61386a313c6b087f669530",
+      "private_validation_row_sha256": "6a508baf00f1aa5f4977b6c81ce3ad27f9bad0bc2b7434538ce067c09099ee68"
+    }
+  ],
+  "dependency_pins": [
+    {
+      "path": "src/main_unclassified/band_002f/0x002f2986.cpp",
+      "sha256": "24850299dcde4b3111a691762fac65d76dc8dfa3a965a6f4b459fd90c826bb4b"
+    },
+    {
+      "path": "include/bf_ghidra_types.h",
+      "sha256": "5dfa1c69c07740d45536c1f5a45479e59c97275343017b68b3ff17ed39fd6dce"
+    },
+    {
+      "path": "include/bf_native_timestamp_operation.h",
+      "sha256": "4ee7bb5015f96399789defa90227fcefa9c45e8b6673e9bf58619c3375f75491"
+    },
+    {
+      "path": "tools/source_layout.py",
+      "sha256": "e23db596e0823fb674db21f01a6477c60c0625084506ba030c45cbce7c7f9856"
+    },
+    {
+      "path": "tools/body_hash_labels.py",
+      "sha256": "c1379c3c4e77a26222bf754b5b8018217df169c95caec30d2f2528e91d0457f1"
+    },
+    {
+      "path": "tools/timestamp_codegen.py",
+      "sha256": "69c91119e92d21d2c1705c4cdb144cbb5581584c76866e31a3ecebbd61b87d44"
+    },
+    {
+      "path": "tools/sweep_cpp_compat.py",
+      "sha256": "4f85fe07e6b611fa5a3293e956e97224889ba96400d142fce057e9f3e06355eb"
+    },
+    {
+      "path": "scripts/check_sources.py",
+      "sha256": "990479c537b2f1b89a16213b4e1f0853e8935a470fc3eebd6c11f88dbf450ed6"
+    }
+  ],
+  "artifact_pins": [
+    {
+      "path": "tests/test_timestamp_caller_storage.cpp",
+      "sha256": "011f4304c988a353722d456eb7a2b5691660f7b76f5bff7271e9860e90055b71"
+    },
+    {
+      "path": "tests/fixtures/timestamp_caller_storage/0x002e3f20.cpp.before",
+      "sha256": "417b367d1265f67bb567dc0c6e314eed4f6f63493caf721b5d4cf5d8d2c5b882"
+    },
+    {
+      "path": "tests/fixtures/timestamp_caller_storage/0x002e3f50.cpp.before",
+      "sha256": "a72a272bd46518eeb1c3f9867ec871c7ba27c8e58c43283fed01b3f070e8e350"
+    }
+  ]
+}

@@ -1,44 +1,46 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force retail Xbox: FUN_0005c370, original entry 0x0005c370.
  * Input x86 body SHA-256: 04B8252F4A8A504453C3CBA5513BA6D7A496176F953B20F68C5228CAD23E22AB
- * Entry: 0x0005c370, Ghidra index: 950, label: FUN_0005c370
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: CPP_DRAFT, ABI_UNVERIFIED, NOT_NATIVE_LINKED, NOT_BEHAVIOR_TESTED.
+ * Original x86 register/stack inputs are explicit host guest32 models,
+ * NOT recovered native C++ prototypes. EFLAGS and other live-out registers,
+ * guest mapping, fault timing and Xbox calling convention remain UNVERIFIED.
+ * Original memory-access order is preserved for bounded guest32 executions.
  */
-#include "bf_ghidra_types.h"
-undefined4 FUN_0005c370(int *param_1)
+#include "bf_xbe_guest32_record_model.h"
 
+static std::uint32_t bf_0005c370_sar2(std::uint32_t bits)
 {
-  uint in_EAX;
-  int in_ECX;
-  int *piVar1;
-  uint uVar2;
-  int iVar3;
-  
-  piVar1 = *(int **)(in_ECX + 4);
-  if (piVar1 == (int *)0x0) {
-    uVar2 = 0;
-  }
-  else {
-    uVar2 = *(int *)(in_ECX + 8) - (int)piVar1 >> 2;
-  }
-  if (uVar2 < in_EAX) {
-    if (piVar1 == (int *)0x0) {
-      in_EAX = 0;
+    return (bits >> 2) | ((bits & UINT32_C(0x80000000)) ? UINT32_C(0xc0000000) : 0);
+}
+
+std::uint32_t FUN_0005c370(std::uint32_t guest_ecx, std::uint32_t guest_eax,
+                           std::uint32_t guest_stack_arg0)
+{
+    const std::uint32_t begin = bf_guest_read_u32(guest_ecx + UINT32_C(4));
+    std::uint32_t cursor = begin;
+    std::uint32_t count = 0;
+    if (begin != 0) {
+        const std::uint32_t end = bf_guest_read_u32(guest_ecx + UINT32_C(8));
+        count = bf_0005c370_sar2(end - begin);
     }
-    else {
-      in_EAX = *(int *)(in_ECX + 8) - (int)piVar1 >> 2;
+    std::uint32_t eax = guest_eax;
+    if (eax > count) {
+        if (begin == 0) eax = 0;
+        else {
+            const std::uint32_t end = bf_guest_read_u32(guest_ecx + UINT32_C(8));
+            eax = bf_0005c370_sar2(end - begin);
+        }
     }
-  }
-  iVar3 = 0;
-  if (0 < (int)in_EAX) {
-    do {
-      if (*piVar1 == *param_1) {
-        return 1;
-      }
-      iVar3 = iVar3 + 1;
-      piVar1 = piVar1 + 1;
-    } while (iVar3 < (int)in_EAX);
-  }
-  return 0;
+    if (eax != 0 && (eax & UINT32_C(0x80000000)) == 0) {
+        const std::uint32_t element = bf_guest_read_u32(guest_stack_arg0);
+        std::uint32_t i = 0;
+        while (i < eax) {
+            if (bf_guest_read_u32(cursor) == element)
+                return (eax & UINT32_C(0xffffff00)) | UINT32_C(1);
+            ++i;
+            cursor += UINT32_C(4);
+        }
+    }
+    // Original XOR AL,AL / MOV AL,1 changes only the low EAX byte.
+    return eax & UINT32_C(0xffffff00);
 }

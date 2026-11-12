@@ -1,0 +1,43 @@
+{
+  "entry": "0x002b3e60",
+  "original_body_sha256": "0C046A8D9C3832CBC34F31651612C806541EAB290BA348CD2B3EE787BA9EFDAF",
+  "body_bytes": 65,
+  "instruction_count": 18,
+  "source_before_sha256": "3a5a5116aa4df1ba51bd181fa06ca96f0cd1d32a1385d3598670947e15d3289b",
+  "source_before_git_blob": "b056fbac5a85d68171c162458d8d8182edc1e1b9",
+  "artifacts": {
+    "0x002b3e60.cpp": "c137f9cdeb7be3ad19067eccf6bc6ba22d246d3fb226bf499e21bc453d0ea94e",
+    "bf_002b3e60_multiply_add_operation.h": "b4c6d4671e228eb0865060c53e86486e9a693c4d0664ebef5ea05b79142596a4",
+    "native_test.cpp": "321a6d328ed9e9374a75ff6685fb473bef1274bfcdfe221910a1a51533db43d7",
+    "model_test.cpp": "4b2cb555094b813fb1bf00c310f9036e4626885ab4e0a89e8e4dc300423c5987",
+    "generate_model.py": "914ce626554bef5148e7224565bd074ae777e1518766193af133c20553cef4c5",
+    "README.md": "9d1b36acf76c1b4ed74b25a508d67d7193f156e91d38f9b408049f891cf24f77"
+  },
+  "narrow_opcode_windows": [
+    {
+      "va": "0x002b3e69",
+      "bytes": "f30f105c2414"
+    },
+    {
+      "va": "0x002b3e73",
+      "bytes": "f30f1010"
+    },
+    {
+      "va": "0x002b3e7b",
+      "bytes": "0fc6db00"
+    },
+    {
+      "va": "0x002b3e8b",
+      "bytes": "0f59d30f58ca"
+    },
+    {
+      "va": "0x002b3e95",
+      "bytes": "f30f11080f174804"
+    },
+    {
+      "va": "0x002b3e9d",
+      "bytes": "59c21000"
+    }
+  ],
+  "boundary": "Bounded native host operation only. Guest ABI/stack aliasing, 32-bit wrapping, faults, unmasked traps and original CPU equivalence excluded. No original machine code executed."
+}

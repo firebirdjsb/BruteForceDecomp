@@ -8,6 +8,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002ea018_heap_free_guest32.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t PTR_FUN_00386ae8;
@@ -24,7 +25,7 @@ void __1exception__UAE_XZ(void)
   *in_ECX = UINT32_C(0x00386ae8);
   if (in_ECX[2] != 0) {
                     /* WARNING: Subroutine does not return */
-    thunk_FUN_00237ec0(in_ECX[1]);
+    thunk_FUN_00067bf0(in_ECX[1]);
   }
   return;
 }

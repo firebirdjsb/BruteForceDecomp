@@ -6,27 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002b73d0_three_term_operation.h"
 void FUN_002b73d0(float *param_1,float *param_2,float *param_3)
 
 {
-  float fVar1;
-  undefined8 uVar2;
-  undefined8 uVar3;
-  undefined8 uVar4;
-  float fVar5;
-  float fVar6;
-  
-  fVar1 = *param_2;
-  uVar2 = *(undefined8 *)(param_1 + 1);
-  fVar5 = (float)*(undefined8 *)(param_2 + 1);
-  fVar6 = (float)((ulonglong)*(undefined8 *)(param_2 + 1) >> 0x20);
-  uVar3 = *(undefined8 *)(param_1 + 5);
-  uVar4 = *(undefined8 *)(param_1 + 9);
-  *param_3 = *param_1 * fVar1 + param_1[4] * fVar5 + param_1[8] * fVar6;
-  *(ulonglong *)(param_3 + 1) =
-       CONCAT44((float)((ulonglong)uVar2 >> 0x20) * fVar1 +
-                (float)((ulonglong)uVar3 >> 0x20) * fVar5 +
-                (float)((ulonglong)uVar4 >> 0x20) * fVar6,
-                (float)uVar2 * fVar1 + (float)uVar3 * fVar5 + (float)uVar4 * fVar6);
-  return;
+  bf_002b73d0_three_term_operation(param_1, param_2, param_3);
 }

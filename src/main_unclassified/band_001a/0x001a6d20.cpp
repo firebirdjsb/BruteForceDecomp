@@ -1,25 +1,29 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
- * Input x86 body SHA-256: 923040CB35B330A83C7F4148D7634CD3856C85681CEBA9AEE05A008853C35D34
- * Entry: 0x001a6d20, Ghidra index: 5380, label: FUN_001a6d20
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+/* Brute Force retail Xbox FUN_001a6d20, Input x86 body SHA-256: 923040CB35B330A83C7F4148D7634CD3856C85681CEBA9AEE05A008853C35D34.
+ * Entry: 0x001a6d20
+ * Host guest_eax/guest_edx are original register live-ins, NOT an Xbox C++ ABI.
+ * The original absolute DWORD load at guest VA 0x00387430 is kept as a guest
+ * memory read. EDX live-out and guest-stack spill effects remain unmodeled.
+ * STATUS: CPP_DRAFT, ABI_UNVERIFIED, NOT_NATIVE_LINKED, NOT_BEHAVIOR_TESTED.
  */
-#include "bf_ghidra_types.h"
-uint FUN_001a6d20(void)
+#include "bf_xbe_guest32_record_model.h"
 
+std::uint32_t FUN_001a6d20(std::uint32_t guest_eax, std::uint32_t guest_edx)
 {
-  int *in_EAX;
-  int in_EDX;
-  
-  if ((*in_EAX != -0x400000) == 0) {
-    in_EDX = 1;
-  }
-  if ((uint)(*in_EAX != -0x400000) + in_EDX == 0) {
-    *in_EAX = -0x400000;
-  }
-  else if (*in_EAX == -0x400000) {
-    *in_EAX = 0;
-  }
-  return (uint)in_EAX & (*in_EAX == -0x400000) - 1;
+    const std::uint32_t original = bf_guest_read_u32(guest_eax);
+    std::uint32_t ecx = original != UINT32_C(0xffc00000) ? UINT32_C(1) : UINT32_C(0);
+    if (ecx == 0) {
+        // At original 0x1A6D3C: MOV EDX,1; not a parameter change.
+        guest_edx = UINT32_C(1);
+    }
+    ecx += guest_edx; // original ADD ECX,EDX wraps modulo 2^32.
+    if (ecx == 0) {
+        bf_guest_write_u32(guest_eax, bf_guest_read_u32(UINT32_C(0x00387430)));
+    } else {
+        if (bf_guest_read_u32(guest_eax) == UINT32_C(0xffc00000)) {
+            bf_guest_write_u32(guest_eax, UINT32_C(0));
+        }
+    }
+    // Original final [EAX] read follows all writes; preserve possible aliasing.
+    return bf_guest_read_u32(guest_eax) == UINT32_C(0xffc00000)
+        ? UINT32_C(0) : guest_eax;
 }

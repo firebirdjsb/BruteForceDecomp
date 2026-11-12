@@ -8,6 +8,7 @@ This gate finds such false positives *without* changing canonical sources.
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import hashlib
 import json
 from pathlib import Path
@@ -16,7 +17,92 @@ import subprocess
 import sys
 import tempfile
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
+from triage_cpp_declaration_edges import ERROR as UNDECLARED_CALL
+
 ELIGIBLE = "DRAFT_ARITY_MATCH_REVIEW_TYPES_AND_XBE"
+ENTRY = re.compile(r"0x[0-9a-f]{8}\Z")
+COMMIT = re.compile(r"[0-9a-f]{40}\Z")
+SHA256 = re.compile(r"[0-9a-fA-F]{64}\Z")
+
+
+def validate_audit(audit: dict, edges: dict) -> dict[str, dict]:
+    """Reject incomplete or contradictory audit metadata before any dry-run.
+
+    This checks report consistency only. Selected caller/callee source bytes
+    are still checked separately; metadata is not original-XBE evidence.
+    """
+    if not isinstance(audit, dict) or not isinstance(edges, dict):
+        raise ValueError("audit and declaration triage must be JSON objects")
+    if (audit.get("scope") != "full_inventory" or audit.get("checked") != 13694
+            or audit.get("original_function_count") != 13694
+            or audit.get("passing_is_not_1_to_1") is not True):
+        raise ValueError("requires completed 13,694-function syntax-only audit")
+    sha = audit.get("checked_commit_sha")
+    if not isinstance(sha, str) or not COMMIT.fullmatch(sha):
+        raise ValueError("missing or invalid exact audited commit SHA")
+    if edges.get("audited_commit") != sha:
+        raise ValueError("audit and declaration triage SHAs disagree")
+    rows = audit.get("results")
+    if not isinstance(rows, list) or len(rows) != 13694:
+        raise ValueError("missing or duplicate canonical audit entries")
+    results = {}
+    counts = Counter()
+    for row in rows:
+        if not isinstance(row, dict):
+            raise ValueError("invalid per-function audit result")
+        entry = row.get("entry")
+        if not isinstance(entry, str) or not ENTRY.fullmatch(entry) or entry in results:
+            raise ValueError("invalid or duplicate canonical audit identity")
+        if row.get("status") not in ("pass", "fail") or row.get("body_provenance") != "match":
+            raise ValueError("incomplete compiler status or unmatched provenance")
+        for field in ("source_sha256", "original_body_sha256"):
+            value = row.get(field)
+            if not isinstance(value, str) or not SHA256.fullmatch(value):
+                raise ValueError("missing or invalid audit source/body digest")
+        if not isinstance(row.get("source"), str) or not row["source"]:
+            raise ValueError("missing audit source path")
+        errors = row.get("errors", [])
+        if not isinstance(errors, list) or any(not isinstance(error, str) for error in errors):
+            raise ValueError("invalid compiler diagnostic list")
+        results[entry] = row
+        counts[row["status"]] += 1
+    reported = audit.get("counts")
+    if (not isinstance(reported, dict) or set(reported) - {"pass", "fail"}
+            or any(type(reported.get(status, 0)) is not int
+                   or reported.get(status, 0) != counts[status] for status in ("pass", "fail"))):
+        raise ValueError("syntax counts disagree with per-function results")
+    candidates = edges.get("candidates")
+    if not isinstance(candidates, list):
+        raise ValueError("missing declaration candidates")
+    seen = set()
+    for edge in candidates:
+        if not isinstance(edge, dict):
+            raise ValueError("invalid declaration candidate")
+        caller, callee = edge.get("caller"), edge.get("callee")
+        if (not isinstance(caller, str) or not isinstance(callee, str)
+                or not ENTRY.fullmatch(caller) or not ENTRY.fullmatch(callee)):
+            raise ValueError("invalid declaration candidate identity")
+        pair = (caller, callee)
+        if pair in seen or caller not in results:
+            raise ValueError("duplicate or missing declaration candidate identity")
+        seen.add(pair)
+        source = results[caller]
+        errors = source.get("errors", [])
+        missing = UNDECLARED_CALL.fullmatch(errors[0]) if errors else None
+        if (source["status"] != "fail" or missing is None
+                or missing[2].lower() != callee[2:]):
+            raise ValueError("candidate does not identify the caller's first undeclared-call error")
+        if any(edge.get(field) != source[field] for field in
+               ("source", "source_sha256", "original_body_sha256")):
+            raise ValueError("candidate caller does not match exact audit source")
+        if edge.get("triage") == ELIGIBLE:
+            if callee not in results:
+                raise ValueError("missing eligible callee audit identity")
+            arity = edge.get("caller_draft_arity")
+            if type(arity) is not int or arity < 0:
+                raise ValueError("invalid eligible draft arity")
+    return results
 
 
 def digest(data: bytes) -> str:
@@ -68,16 +154,8 @@ def insert_declaration(source: str, signature: str) -> str | None:
 
 def triage(root: Path, audit: dict, edges: dict, clang: str, limit: int,
            max_arity: int, only_single_error: bool) -> dict:
-    if audit.get("scope") != "full_inventory" or audit.get("checked") != 13694:
-        raise ValueError("requires completed 13,694-function exact-tree audit")
-    sha = audit.get("checked_commit_sha")
-    if not sha or edges.get("audited_commit") != sha:
-        raise ValueError("audit and declaration triage SHAs disagree")
-    if audit.get("counts", {}).get("pass", 0) + audit.get("counts", {}).get("fail", 0) != 13694:
-        raise ValueError("incomplete syntax counts")
-    results = {x["entry"]: x for x in audit["results"]}
-    if len(results) != 13694:
-        raise ValueError("missing or duplicate canonical audit entries")
+    results = validate_audit(audit, edges)
+    sha = audit["checked_commit_sha"]
     output = []
     for edge in edges["candidates"]:
         if len(output) >= limit:
@@ -89,7 +167,8 @@ def triage(root: Path, audit: dict, edges: dict, clang: str, limit: int,
         errors = cr.get("errors", [])
         if only_single_error and len(errors) != 1:
             continue
-        if not errors or f"use of undeclared identifier 'FUN_{callee[2:]}'" not in errors[0]:
+        missing = UNDECLARED_CALL.fullmatch(errors[0]) if errors else None
+        if missing is None or missing[2].lower() != callee[2:]:
             continue
         record = {"caller": caller, "callee": callee, "source": edge["source"],
                   "audited_commit": sha, "xbox_abi": "ABI_UNVERIFIED",

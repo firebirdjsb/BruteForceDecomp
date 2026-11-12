@@ -26,7 +26,7 @@ void FUN_000b2720(void)
   puVar1 = *(undefined4 **)(in_ECX + 0x18);
   for (; puVar4 != puVar1; puVar4 = (undefined4 *)*puVar4) {
     piVar2 = (int *)puVar4[2];
-    if (((*(byte *)((int)piVar2 + 0x13) & 1) == 0) && (cVar3 = FUN_000ba3b0(), cVar3 == '\0')) {
+    if (((*(reinterpret_cast<byte*>(piVar2) + 0x13) & 1) == 0) && (cVar3 = FUN_000ba3b0(), cVar3 == '\0')) {
       (**(code **)(*piVar2 + 0x18))();
     }
   }

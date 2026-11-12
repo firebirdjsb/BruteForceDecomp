@@ -6,6 +6,14 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Exact existing callee draft declaration only; Xbox ABI_UNVERIFIED.
+ * Original caller selects a byte-reader address in EAX and forwards incoming
+ * EBX through EDX. The callee reads through EAX/EDX; neither input is bound by
+ * the unchanged zero-argument source call or its register pseudo-locals.
+ * The original buffer-selection sequence is also absent from this source.
+ * These mismatches remain; no pointer mapping or ABI bridge is added.
+ * Do not execute this caller as game code. */
+extern int FUN_00234c90(void);
 undefined4 FUN_00288a70(void)
 
 {

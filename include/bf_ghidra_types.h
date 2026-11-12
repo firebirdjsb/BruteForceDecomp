@@ -82,6 +82,7 @@ static inline uint64_t bf_ghidra_concat_words(uint64_t high, uint64_t low,
 #define CONCAT11(h,l) ((uint16_t)bf_ghidra_concat_words((h),(l),1,1))
 #define CONCAT12(h,l) ((uint32_t)bf_ghidra_concat_words((h),(l),1,2))
 #define CONCAT13(h,l) ((uint32_t)bf_ghidra_concat_words((h),(l),1,3))
+#define CONCAT14(h,l) ((uint64_t)bf_ghidra_concat_words((h),(l),1,4))
 #define CONCAT21(h,l) ((uint32_t)bf_ghidra_concat_words((h),(l),2,1))
 #define CONCAT22(h,l) ((uint32_t)bf_ghidra_concat_words((h),(l),2,2))
 #define CONCAT31(h,l) ((uint32_t)bf_ghidra_concat_words((h),(l),3,1))

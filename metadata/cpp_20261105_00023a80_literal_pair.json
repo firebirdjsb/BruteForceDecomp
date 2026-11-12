@@ -1,0 +1,78 @@
+{
+  "scope": "Two immediate DWORD operands only; preserve existing hidden-register and x87 limitations and historical instruction-risk quarantine",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "source_base_commit": "5223db822367d158ad98199f50541cd3a7bbb2fd",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "historical_manifest": "metadata/cpp_20261031_guest_address_literals.json",
+  "historical_manifest_sha256": "3aa1a8a1866d144ff26b84e0f6ff56007d343ffe9d9be33de355a1be4f60fd97",
+  "historical_quarantine_cleared": false,
+  "cases": [
+    {
+      "entry": "0x00023a80",
+      "source": "src/main_unclassified/band_0002/0x00023a80.cpp",
+      "label": "FUN_00023a80",
+      "original_body_sha256": "D04B7E37315B819EEBA957A7100377FBF83497E253E26C3B17CEBD1AF75161D2",
+      "body_ranges": [
+        {
+          "start": "00023a80",
+          "end_inclusive": "00023b12",
+          "length": 147
+        }
+      ],
+      "body_byte_count": 147,
+      "instruction_count": 46,
+      "source_before_sha256": "a254fcd40d137b7f0b877a9fa444fc40af290d1141565bfea108ac6f354b8a07",
+      "preimage_git_blob": "27a159633ae3ab2c7be657a60a0e1265e3893cfd",
+      "source_after_sha256": "ac75e7dae05eafc4ec98f14575cc13137891bc9c1f8430c54dc306ca113cfaf2",
+      "added_comment": "/* Operand-only repair: the original C7 /0 stores write two guest DWORD\n * immediates, not native symbol addresses. Hidden EAX/EDX inputs, guest memory\n * and the existing x87 mismatch remain ABI_UNVERIFIED: the integer copy below\n * is not equivalent to the original FLD/FSTP for all inputs. No whole-function\n * semantic, original-machine or byte-match claim. */\n",
+      "edits": [
+        {
+          "site": "00023a83",
+          "bytes": "c7009c473a00",
+          "width_bits": 32,
+          "base_register": "EAX",
+          "displacement_bytes": 0,
+          "immediate_guest_value": "0x003a479c",
+          "before": "*in_EAX = &PTR_FUN_003a479c;",
+          "after": "*in_EAX = UINT32_C(0x003a479c);"
+        },
+        {
+          "site": "00023a94",
+          "bytes": "c74004644f3a00",
+          "width_bits": 32,
+          "base_register": "EAX",
+          "displacement_bytes": 4,
+          "immediate_guest_value": "0x003a4f64",
+          "before": "in_EAX[1] = &PTR_FUN_003a4f64;",
+          "after": "in_EAX[1] = UINT32_C(0x003a4f64);"
+        }
+      ],
+      "signature": "void FUN_00023a80(undefined4 param_1)",
+      "historical_quarantine": {
+        "entry": "0x00023a80",
+        "source": "src/main_unclassified/band_0002/0x00023a80.cpp",
+        "source_sha256": "a254fcd40d137b7f0b877a9fa444fc40af290d1141565bfea108ac6f354b8a07",
+        "body_sha256": "D04B7E37315B819EEBA957A7100377FBF83497E253E26C3B17CEBD1AF75161D2",
+        "reason": "instruction_risk_exclusion"
+      },
+      "existing_x87_mismatch": {
+        "load_site": "00023aca",
+        "load_bytes": "d902",
+        "store_site": "00023afb",
+        "store_bytes": "d95814",
+        "unchanged_source_load": "uVar1 = *in_EDX;",
+        "unchanged_source_store": "in_EAX[5] = uVar1;",
+        "integer_copy_equivalent_for_all_inputs": false
+      },
+      "hidden_register_contract_recovered": false,
+      "native_storage_mapping_recovered": false
+    }
+  ],
+  "limitations": [
+    "Only two RHS operands and one boundary comment change; types, signature, declarations, hidden registers and all other operations remain unchanged.",
+    "The existing integer copy is not equivalent to the original FLD/FSTP for all inputs. x87 exceptions, conversion, register state and whole-function behavior remain unverified.",
+    "An initialized uint32_t isolated-store fixture checks values, offsets, widths and neighboring words; it executes neither original code nor the canonical function.",
+    "Complete private body/hash/boundary/flow consistency does not reauthenticate the complete original XBE or prove game ABI, mapping, behavior or byte match."
+  ]
+}

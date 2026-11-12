@@ -1,0 +1,341 @@
+{
+  "schema_version": 1,
+  "scope": "Four LEA EAX,[entry ECX-0x40] handoffs from existing int locals. Unsigned modulo-32 arithmetic and the existing corresponding signed DWORD view preserve the exact argument bits. No new helper, signature, global or pointer-to-integer conversion.",
+  "base_commit": "e8fff7d4560c573d1d057a250e45f4a685be9c4f",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "evidence": {
+    "archive_name": "GhidraProjects.zip",
+    "archive_sha256": "7a7183991d57d12b869fcea9acc92e5ecd9d2f4e9292904a2329899955438905",
+    "method": "Exact whole original body ranges, hashes and instruction coverage match inventory. All five selected functions have no validation issues or analyzed overrides. MOV ESI,ECX and LEA EAX,[ESI-0x40], E8 target and epilogues decode from raw bytes. No adjacent context is required.",
+    "boundary": "Immutable copied-project program memory, no original FileBytes; whole-XBE digest remains metadata only. No original game functions execute."
+  },
+  "helper": {
+    "source": "include/bf_x86_dword_operations.h",
+    "source_sha256": "79e008296733510aa28210da8c8bcd1b5b243f6b00ec00465c3a4d7ac7775cf0",
+    "existing_signature": "static inline int *bf_x86_signed_dword_view(std::uint32_t *word) noexcept",
+    "boundary": "Native address of one initialized local uint32_t is used only for a corresponding signed view, not guest/native pointer mapping or pointer truncation. Existing helper assertions require matching signed/unsigned DWORD size, type and alignment."
+  },
+  "cases": [
+    {
+      "entry": "0x00033ac0",
+      "source": "src/main_unclassified/band_0003/0x00033ac0.cpp",
+      "original_body_sha256": "FF069B875EBEEC3E9E0FABD83C02392E58B07ABB263A5F2668B77352EADA4EBE",
+      "body_byte_count": 55,
+      "body_ranges": [
+        {
+          "start": "0x00033AC0",
+          "end_inclusive": "0x00033AF6",
+          "length": 55
+        }
+      ],
+      "source_before_sha256": "43fcd47583017d423fe0a2220028eebadf89e3b61995bb4a649a78d647291eee",
+      "source_after_sha256": "4aeec4e3a49f18bc44029667f498747c25dbf026e06ea5ca3a35350a30ba71ea",
+      "preimage_git_blob": "b3e278bb055b99287e89ddbc21ea674f9daaed06",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\n#include \"bf_x86_dword_operations.h\"\n",
+          "count": 1
+        },
+        {
+          "before": "  iVar1 = FUN_000120f0();",
+          "after": "  uint32_t guest_eax_bits = static_cast<uint32_t>(in_ECX) - UINT32_C(0x40);\n  iVar1 = FUN_000120f0(*bf_x86_signed_dword_view(&guest_eax_bits));",
+          "count": 1
+        }
+      ],
+      "source_block_before": "  iVar1 = FUN_000120f0();",
+      "source_block_after": "  uint32_t guest_eax_bits = static_cast<uint32_t>(in_ECX) - UINT32_C(0x40);\n  iVar1 = FUN_000120f0(*bf_x86_signed_dword_view(&guest_eax_bits));",
+      "source_input": "in_ECX",
+      "existing_declaration": "extern uint32_t FUN_000120f0(int32_t in_EAX);",
+      "instruction_windows": [
+        {
+          "address": "0x00033ac0",
+          "bytes": "56"
+        },
+        {
+          "address": "0x00033ac1",
+          "bytes": "8bf1"
+        },
+        {
+          "address": "0x00033ac3",
+          "bytes": "57"
+        },
+        {
+          "address": "0x00033ac4",
+          "bytes": "8d46c0"
+        },
+        {
+          "address": "0x00033ac7",
+          "bytes": "e824e6fdff"
+        },
+        {
+          "address": "0x00033acc",
+          "bytes": "8dbe44060000"
+        },
+        {
+          "address": "0x00033ad2",
+          "bytes": "c6807006000000"
+        },
+        {
+          "address": "0x00033af5",
+          "bytes": "5e"
+        },
+        {
+          "address": "0x00033af6",
+          "bytes": "c3"
+        }
+      ],
+      "analyzed_overrides": [],
+      "private_record": "all-v1/functions.jsonl#00033ac0"
+    },
+    {
+      "entry": "0x0003f5d0",
+      "source": "src/main_unclassified/band_0003/0x0003f5d0.cpp",
+      "original_body_sha256": "292E9A2AD106B6090937CA043037782D102FB6EAC5556C942DCEAA6F676D70C9",
+      "body_byte_count": 80,
+      "body_ranges": [
+        {
+          "start": "0x0003F5D0",
+          "end_inclusive": "0x0003F61F",
+          "length": 80
+        }
+      ],
+      "source_before_sha256": "12f6270d7271e3f3d3381ba9ba26b69be7ebd8efee44f0146d8e1db67e92a9ff",
+      "source_after_sha256": "f49bead7fa0ffa8b79a340a1e6ecce1d2691e033bf14fdc4df4e7ae278ba08f8",
+      "preimage_git_blob": "4a7ec556f01bccaf1b4b663c86861d8f505155c9",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\n#include \"bf_x86_dword_operations.h\"\n",
+          "count": 1
+        },
+        {
+          "before": "  iVar1 = FUN_000120f0();",
+          "after": "  uint32_t guest_eax_bits = static_cast<uint32_t>(in_ECX) - UINT32_C(0x40);\n  iVar1 = FUN_000120f0(*bf_x86_signed_dword_view(&guest_eax_bits));",
+          "count": 1
+        }
+      ],
+      "source_block_before": "  iVar1 = FUN_000120f0();",
+      "source_block_after": "  uint32_t guest_eax_bits = static_cast<uint32_t>(in_ECX) - UINT32_C(0x40);\n  iVar1 = FUN_000120f0(*bf_x86_signed_dword_view(&guest_eax_bits));",
+      "source_input": "in_ECX",
+      "existing_declaration": "extern uint32_t FUN_000120f0(int32_t in_EAX);",
+      "instruction_windows": [
+        {
+          "address": "0x0003f5d0",
+          "bytes": "56"
+        },
+        {
+          "address": "0x0003f5d1",
+          "bytes": "8bf1"
+        },
+        {
+          "address": "0x0003f5d3",
+          "bytes": "8d46c0"
+        },
+        {
+          "address": "0x0003f5d6",
+          "bytes": "e8152bfdff"
+        },
+        {
+          "address": "0x0003f5db",
+          "bytes": "8bc8"
+        },
+        {
+          "address": "0x0003f61e",
+          "bytes": "5e"
+        },
+        {
+          "address": "0x0003f61f",
+          "bytes": "c3"
+        }
+      ],
+      "analyzed_overrides": [],
+      "private_record": "all-v1/functions.jsonl#0003f5d0"
+    },
+    {
+      "entry": "0x0003f650",
+      "source": "src/main_unclassified/band_0003/0x0003f650.cpp",
+      "original_body_sha256": "6DB251178CC1A30E196F4EFB2EA11E1D7EEFCEE3CA811F781E0E42083E7FB643",
+      "body_byte_count": 80,
+      "body_ranges": [
+        {
+          "start": "0x0003F650",
+          "end_inclusive": "0x0003F69F",
+          "length": 80
+        }
+      ],
+      "source_before_sha256": "9815dd4216e79322ea28a7b7aefccbf6e98c82002996c2f9024bc8a95fc0a2ac",
+      "source_after_sha256": "a304d6f05a6f3b9781560ba25cde71ab2c8605589b5d1132b7c9cba35bd659d2",
+      "preimage_git_blob": "a6fbfa42b1ac6882b0d9f8e04cae38abbcf7331d",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\n#include \"bf_x86_dword_operations.h\"\n",
+          "count": 1
+        },
+        {
+          "before": "  iVar1 = FUN_000120f0();",
+          "after": "  uint32_t guest_eax_bits = static_cast<uint32_t>(in_ECX) - UINT32_C(0x40);\n  iVar1 = FUN_000120f0(*bf_x86_signed_dword_view(&guest_eax_bits));",
+          "count": 1
+        }
+      ],
+      "source_block_before": "  iVar1 = FUN_000120f0();",
+      "source_block_after": "  uint32_t guest_eax_bits = static_cast<uint32_t>(in_ECX) - UINT32_C(0x40);\n  iVar1 = FUN_000120f0(*bf_x86_signed_dword_view(&guest_eax_bits));",
+      "source_input": "in_ECX",
+      "existing_declaration": "extern uint32_t FUN_000120f0(int32_t in_EAX);",
+      "instruction_windows": [
+        {
+          "address": "0x0003f650",
+          "bytes": "56"
+        },
+        {
+          "address": "0x0003f651",
+          "bytes": "8bf1"
+        },
+        {
+          "address": "0x0003f653",
+          "bytes": "8d46c0"
+        },
+        {
+          "address": "0x0003f656",
+          "bytes": "e8952afdff"
+        },
+        {
+          "address": "0x0003f65b",
+          "bytes": "8bc8"
+        },
+        {
+          "address": "0x0003f69e",
+          "bytes": "5e"
+        },
+        {
+          "address": "0x0003f69f",
+          "bytes": "c3"
+        }
+      ],
+      "analyzed_overrides": [],
+      "private_record": "all-v1/functions.jsonl#0003f650"
+    },
+    {
+      "entry": "0x00040aa0",
+      "source": "src/main_unclassified/band_0004/0x00040aa0.cpp",
+      "original_body_sha256": "A57AD006124BE844A301166945F2D7E9810A3DF3BEE63B49D8F703840E7ED0D6",
+      "body_byte_count": 66,
+      "body_ranges": [
+        {
+          "start": "0x00040AA0",
+          "end_inclusive": "0x00040AE1",
+          "length": 66
+        }
+      ],
+      "source_before_sha256": "e596c380a2ffdfddcc258896d270dcd20ef1a46ecac6b1eb21e3033effeffb0e",
+      "source_after_sha256": "2b7c2dce2f2a1d420ed1db649be8ea63e90724f2877cdf6ec1af6b9ff419c42b",
+      "preimage_git_blob": "45886928896e6ed42962391a892ca8d9d6e3e6f3",
+      "replacements": [
+        {
+          "before": "#include \"bf_ghidra_types.h\"\n",
+          "after": "#include \"bf_ghidra_types.h\"\n#include \"bf_x86_dword_operations.h\"\n",
+          "count": 1
+        },
+        {
+          "before": "  iVar1 = FUN_000120f0();",
+          "after": "  uint32_t guest_eax_bits = static_cast<uint32_t>(in_ECX) - UINT32_C(0x40);\n  iVar1 = FUN_000120f0(*bf_x86_signed_dword_view(&guest_eax_bits));",
+          "count": 1
+        }
+      ],
+      "source_block_before": "  iVar1 = FUN_000120f0();",
+      "source_block_after": "  uint32_t guest_eax_bits = static_cast<uint32_t>(in_ECX) - UINT32_C(0x40);\n  iVar1 = FUN_000120f0(*bf_x86_signed_dword_view(&guest_eax_bits));",
+      "source_input": "in_ECX",
+      "existing_declaration": "extern uint32_t FUN_000120f0(int32_t in_EAX);",
+      "instruction_windows": [
+        {
+          "address": "0x00040aa0",
+          "bytes": "56"
+        },
+        {
+          "address": "0x00040aa1",
+          "bytes": "8bf1"
+        },
+        {
+          "address": "0x00040aa3",
+          "bytes": "8d46c0"
+        },
+        {
+          "address": "0x00040aa6",
+          "bytes": "e84516fdff"
+        },
+        {
+          "address": "0x00040aab",
+          "bytes": "8b400c"
+        },
+        {
+          "address": "0x00040ae0",
+          "bytes": "5e"
+        },
+        {
+          "address": "0x00040ae1",
+          "bytes": "c3"
+        }
+      ],
+      "analyzed_overrides": [],
+      "private_record": "all-v1/functions.jsonl#00040aa0"
+    }
+  ],
+  "callee": {
+    "entry": "0x000120f0",
+    "source": "src/main_unclassified/band_0001/0x000120f0.cpp",
+    "source_sha256": "489e756aa67efded951953ae71a2ce264c07aebeffc30db237759f85751490e6",
+    "existing_definition_signature": "uint32_t FUN_000120f0(int32_t in_EAX)",
+    "original_body_sha256": "9FEFE68C61CEC0943A913B1988495825BFD1E3F128E1F92DB0A3DA5D8376BB9C",
+    "body_byte_count": 71,
+    "body_ranges": [
+      {
+        "start": "0x000120F0",
+        "end_inclusive": "0x00012136",
+        "length": 71
+      }
+    ],
+    "private_record": "all-v1/functions.jsonl#000120f0",
+    "instruction_windows": [
+      {
+        "address": "0x000120f0",
+        "bytes": "83ec08"
+      },
+      {
+        "address": "0x000120f3",
+        "bytes": "33c9"
+      },
+      {
+        "address": "0x000120f5",
+        "bytes": "894c2400"
+      },
+      {
+        "address": "0x000120f9",
+        "bytes": "8b5008"
+      },
+      {
+        "address": "0x00012130",
+        "bytes": "8bc6"
+      },
+      {
+        "address": "0x00012132",
+        "bytes": "5e"
+      },
+      {
+        "address": "0x00012133",
+        "bytes": "83c408"
+      },
+      {
+        "address": "0x00012136",
+        "bytes": "c3"
+      }
+    ],
+    "historical_source_fixture": "tests/fixtures/original_0x000120f0_pre_guest32_20261106.txt",
+    "current_source_sha256": "d7953dfa686e2dc4e244abd36a18233242cfee9ca548c0d4246b54145e91c5dd",
+    "current_definition_signature": "std::uint32_t FUN_000120f0(std::uint32_t guest_eax)",
+    "current_source_status": "CPP_DRAFT, ABI_UNVERIFIED, NOT_NATIVE_LINKED, NOT_BEHAVIOR_TESTED"
+  },
+  "verification_boundary": "Only scalar register-input argument transfer is repaired. Existing uninitialized pseudo-register locals, guest/native memory mapping, partial-register returns, other call contracts and the callee's guest32 mapping, guest-stack aliasing and original ABI remain unverified; the current callee passes isolated C++17 syntax. Runtime tests initialize synthetic int32 values and use a capture-only stand-in; no whole caller/callee execution or native linkage is claimed."
+}

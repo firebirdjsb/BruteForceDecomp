@@ -1,0 +1,458 @@
+{
+  "schema_version": 1,
+  "scope": "Two explicit ESI/stack DWORD handoffs in 0x000beae0; no other source change, signature change, helper implementation or behavior claim.",
+  "base_commit": "08bc2a104d38cd5e678da11e2ba07cf8c3de2e2a",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_xbe_reauthenticated": false,
+  "original_game_functions_executed": false,
+  "case": {
+    "entry": "0x000beae0",
+    "source": "src/main_unclassified/band_000b/0x000beae0.cpp",
+    "original_body_sha256": "467C00416FFFD477F0637D475B41F830F4604963F4B047FCB654917302AFC4CB",
+    "body_byte_count": 90,
+    "instruction_count": 38,
+    "body_ranges": [
+      {
+        "start": "000beae0",
+        "end_inclusive": "000beb39",
+        "length": 90
+      }
+    ],
+    "private_jsonl_byte_offset": 57147392,
+    "private_jsonl_byte_length": 13749,
+    "private_validation_issues": [],
+    "source_before_sha256": "badad8cae35bb7bb0705c328a09099e28f07ee62a945c42e561f769fc4018b27",
+    "source_after_sha256": "829fe7bcb0424526ced8e1c55e6946b888875344248b117a74a8e972988f237f",
+    "preimage_git_blob": "3d57b607f70f6a80ac3e47df38dd34b1681c851a",
+    "replacements": [
+      {
+        "before": "FUN_0008f6a0(*(int *)(unaff_EDI + 0x10));",
+        "after": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(4),\n                  static_cast<std::uint32_t>(*(int *)(unaff_EDI + 0x10)));",
+        "count": 1
+      },
+      {
+        "before": "FUN_0008f6a0(0);",
+        "after": "FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x0c),\n                    UINT32_C(0));",
+        "count": 1
+      }
+    ],
+    "existing_scalar_binding": "int unaff_EDI;",
+    "existing_declaration": "extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);",
+    "instruction_windows": [
+      {
+        "address": "000beae0",
+        "bytes": "8b4710"
+      },
+      {
+        "address": "000beae3",
+        "bytes": "8b4f08"
+      },
+      {
+        "address": "000beae6",
+        "bytes": "3bc8"
+      },
+      {
+        "address": "000beaeb",
+        "bytes": "8d5f0c"
+      },
+      {
+        "address": "000beaee",
+        "bytes": "8d7704"
+      },
+      {
+        "address": "000beaf1",
+        "bytes": "7409"
+      },
+      {
+        "address": "000beaf3",
+        "bytes": "50"
+      },
+      {
+        "address": "000beaf4",
+        "bytes": "e8a70bfdff"
+      },
+      {
+        "address": "000beaf9",
+        "bytes": "83c404"
+      },
+      {
+        "address": "000beafc",
+        "bytes": "8a474c"
+      },
+      {
+        "address": "000beaff",
+        "bytes": "33ed"
+      },
+      {
+        "address": "000beb01",
+        "bytes": "a801"
+      },
+      {
+        "address": "000beb03",
+        "bytes": "740c"
+      },
+      {
+        "address": "000beb05",
+        "bytes": "396f10"
+      },
+      {
+        "address": "000beb08",
+        "bytes": "7517"
+      },
+      {
+        "address": "000beb0a",
+        "bytes": "24fe"
+      },
+      {
+        "address": "000beb0c",
+        "bytes": "88474c"
+      },
+      {
+        "address": "000beb0f",
+        "bytes": "eb10"
+      },
+      {
+        "address": "000beb11",
+        "bytes": "396b04"
+      },
+      {
+        "address": "000beb14",
+        "bytes": "740b"
+      },
+      {
+        "address": "000beb16",
+        "bytes": "55"
+      },
+      {
+        "address": "000beb17",
+        "bytes": "8bf3"
+      },
+      {
+        "address": "000beb19",
+        "bytes": "e8820bfdff"
+      },
+      {
+        "address": "000beb1e",
+        "bytes": "83c404"
+      },
+      {
+        "address": "000beb21",
+        "bytes": "896f24"
+      },
+      {
+        "address": "000beb24",
+        "bytes": "896f20"
+      },
+      {
+        "address": "000beb27",
+        "bytes": "896f1c"
+      },
+      {
+        "address": "000beb2a",
+        "bytes": "8b4748"
+      },
+      {
+        "address": "000beb2d",
+        "bytes": "5e"
+      },
+      {
+        "address": "000beb2e",
+        "bytes": "896f40"
+      },
+      {
+        "address": "000beb31",
+        "bytes": "896f44"
+      },
+      {
+        "address": "000beb34",
+        "bytes": "5d"
+      },
+      {
+        "address": "000beb35",
+        "bytes": "894728"
+      },
+      {
+        "address": "000beb38",
+        "bytes": "5b"
+      },
+      {
+        "address": "000beb39",
+        "bytes": "c3"
+      }
+    ],
+    "edges": [
+      {
+        "esi_source": "unaff_EDI",
+        "esi_displacement": 4,
+        "payload_source": "*(int *)(unaff_EDI + 0x10)",
+        "payload_kind": "existing_dword_load",
+        "producer_addresses": [
+          "000beaee"
+        ],
+        "push_address": "000beaf3",
+        "call_address": "000beaf4",
+        "cleanup_address": "000beaf9",
+        "continuation_address": "000beafc"
+      },
+      {
+        "esi_source": "unaff_EDI",
+        "esi_displacement": 12,
+        "payload_source": "0",
+        "payload_kind": "xor_ebp_zero",
+        "producer_addresses": [
+          "000beaeb",
+          "000beb17"
+        ],
+        "push_address": "000beb16",
+        "call_address": "000beb19",
+        "cleanup_address": "000beb1e",
+        "continuation_address": "000beb21"
+      }
+    ]
+  },
+  "callee": {
+    "entry": "0x0008f6a0",
+    "source": "src/main_unclassified/band_0008/0x0008f6a0.cpp",
+    "original_body_sha256": "339DC70ADE9DA431A03D8964268E2B983BF89DF209448A87B645006C63D4420D",
+    "body_byte_count": 64,
+    "instruction_count": 20,
+    "body_ranges": [
+      {
+        "start": "0008f6a0",
+        "end_inclusive": "0008f6df",
+        "length": 64
+      }
+    ],
+    "private_jsonl_byte_offset": 43016421,
+    "private_jsonl_byte_length": 7473,
+    "private_validation_issues": [],
+    "source_sha256": "6996e48e796e895c0241326081bc8f9e6609e21ebf9754312e1b5a74ee528836",
+    "header": "include/bf_xbe_guest32_record_model.h",
+    "header_sha256": "c45821aa7ca3ba0df05e69b9bbf82fd60ee5df16b3835d800408b7ea2f640130",
+    "existing_definition": "void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0)",
+    "instruction_windows": [
+      {
+        "address": "0008f6a0",
+        "bytes": "8b4604"
+      },
+      {
+        "address": "0008f6a5",
+        "bytes": "53"
+      },
+      {
+        "address": "0008f6a6",
+        "bytes": "8b5c2408"
+      },
+      {
+        "address": "0008f6ac",
+        "bytes": "8bd6"
+      },
+      {
+        "address": "0008f6ae",
+        "bytes": "e82d000000"
+      },
+      {
+        "address": "0008f6b3",
+        "bytes": "85db"
+      },
+      {
+        "address": "0008f6b5",
+        "bytes": "895e04"
+      },
+      {
+        "address": "0008f6de",
+        "bytes": "5b"
+      },
+      {
+        "address": "0008f6df",
+        "bytes": "c3"
+      }
+    ]
+  },
+  "nested_callee": {
+    "entry": "0x0008f6e0",
+    "source": "src/main_unclassified/band_0008/0x0008f6e0.cpp",
+    "original_body_sha256": "C83564B5BD0C213EA1598C92023CBE67820B89831FC3F077EBE732522791C80E",
+    "body_byte_count": 61,
+    "instruction_count": 21,
+    "body_ranges": [
+      {
+        "start": "0008f6e0",
+        "end_inclusive": "0008f71c",
+        "length": 61
+      }
+    ],
+    "private_jsonl_byte_offset": 43023894,
+    "private_jsonl_byte_length": 7784,
+    "private_validation_issues": [],
+    "source_sha256": "67cd0cf07c6a6126e16a304991b4b9d12a1e539e8ad35be1ab076ad8760a868d",
+    "instruction_windows": [
+      {
+        "address": "0008f6e0",
+        "bytes": "8b4204"
+      },
+      {
+        "address": "0008f715",
+        "bytes": "c3"
+      },
+      {
+        "address": "0008f71c",
+        "bytes": "c3"
+      }
+    ]
+  },
+  "historical_dependency_scan": {
+    "entry": "000beae0",
+    "paths_containing_entry": [
+      "metadata/bulk_13694_inventory.csv",
+      "metadata/function_groups/all_13694_functions.csv"
+    ],
+    "expected_inventory_only": [
+      "metadata/bulk_13694_inventory.csv",
+      "metadata/function_groups/all_13694_functions.csv"
+    ],
+    "metadata_pins": [
+      {
+        "path": "metadata/cpp_20261031_direct_declarations_27.json",
+        "sha256": "9b0efeb24152d5545c5974894196e0320ff6f237ceda5e70c4b5ca86b664ff26"
+      },
+      {
+        "path": "metadata/cpp_20261031_guest_address_literals.json",
+        "sha256": "3aa1a8a1866d144ff26b84e0f6ff56007d343ffe9d9be33de355a1be4f60fd97"
+      },
+      {
+        "path": "metadata/cpp_20261101_36_call_windows.csv",
+        "sha256": "4feae358d89a6a59ef584344f9ed38f93b3e40e06a65da9eba9d13bc5fdb29ce"
+      },
+      {
+        "path": "metadata/cpp_20261101_89_direct_declarations.json",
+        "sha256": "3b6b09a2775d0fd4e1cb92b1e2af00a403cf9bc270eabcd07e91a2d365313427"
+      },
+      {
+        "path": "metadata/cpp_20261101_byte_offset_20.json",
+        "sha256": "bd871a1207667d6ed5fbe69e5aa00a77ff75f96bc7775ed68ceda72eb6658ebb"
+      },
+      {
+        "path": "metadata/cpp_20261101_dword_operations.json",
+        "sha256": "556f8c76461f8c10e7e094a425263bebbad83e807a146f2d6ce5896942be0910"
+      },
+      {
+        "path": "metadata/cpp_20261101_literal_declarations.json",
+        "sha256": "a5ad8f63714151ddcc66088df4999c54cf988c4e11699f2495410f306506aeef"
+      },
+      {
+        "path": "metadata/cpp_20261101_literal_overlay_12.json",
+        "sha256": "27e728373cd2f1bc7c4b5fb1255f1ad44fb74279c90dfe57d5a63901083a3637"
+      },
+      {
+        "path": "metadata/cpp_20261101_literal_overlay_2.json",
+        "sha256": "afa76705ad5c4a4aa33351e7ff0c8684ce31668867faca550e516918318bb378"
+      },
+      {
+        "path": "metadata/cpp_20261101_remaining_literal_overlay_14.json",
+        "sha256": "04bc19746f5dfc882807a5734142ae6e3b8e7e56f6b73374b70ff142c963e77c"
+      },
+      {
+        "path": "metadata/cpp_20261101_remaining_literal_repairs.json",
+        "sha256": "e8215f264ed96b97af09c41f1c9f2e8fc26e41437225efe6cfbcce53e0d54448"
+      },
+      {
+        "path": "metadata/cpp_20261102_40_body_provenance.csv",
+        "sha256": "58cdb52e4b383142461ab83bd6ee8e146b629f0e772a83b2f861f53e039df38b"
+      },
+      {
+        "path": "metadata/cpp_20261104_0003f0e0_eax_handoff.json",
+        "sha256": "306e1f02d0440078f7c271ad8c76096ed23742ec48a9cdf2a6931b3d4d09b52e"
+      },
+      {
+        "path": "metadata/cpp_20261104_00072940_guest_calls.json",
+        "sha256": "8adb90bf21d169ef75cad50cc18d1fc5b0f95d308183344ea1fddb195abc1180"
+      },
+      {
+        "path": "metadata/cpp_20261104_00077eb0_conversion_operation.json",
+        "sha256": "a96f9c7f05a9ee633f973ee52697b471c305fbfdc2a91acb1e5eaa97d15d0790"
+      },
+      {
+        "path": "metadata/cpp_20261104_002338c0_sse_operation.json",
+        "sha256": "3c193a743be458e39f3ec6a0341160fe7af0785c24d0413e2a3c8187db07912c"
+      },
+      {
+        "path": "metadata/cpp_20261104_0023c0e0_storage_operation.json",
+        "sha256": "ffb20cf5decb187374af8b19d5fb3254996f54274cea5e11853a73f9e2e92432"
+      },
+      {
+        "path": "metadata/cpp_20261104_002e9c30_continuation.json",
+        "sha256": "347d483db4e571d6e45040c4aab25ade5ff13870408bebfc023fb9f79ebf6694"
+      },
+      {
+        "path": "metadata/cpp_20261104_00314c76_norm_operation.json",
+        "sha256": "d4e4768db5b965c3f84f1d6f75f300dc77b08021d84a751f5d1680816dcc1db2"
+      },
+      {
+        "path": "metadata/cpp_20261104_byte_offset_000b2720.json",
+        "sha256": "b1912f1ee20543ab9f8f26f831dd08a92ddd656fae2c332105dfd4d6ae5ff516"
+      },
+      {
+        "path": "metadata/cpp_20261104_byte_offsets_five.json",
+        "sha256": "924bcfde06ee2ee7f638eb591ce62bebb7167034988a10aa294ebefbe463331b"
+      },
+      {
+        "path": "metadata/cpp_20261104_eax_lea_calls.json",
+        "sha256": "3971cbb09c27c6a0d29fa97ae0f234dcafbd70a542e493b18411853eb173f2a5"
+      },
+      {
+        "path": "metadata/cpp_20261104_eax_scalar_calls.json",
+        "sha256": "c33fb2d140ca9dd03246360326815b418490a6cf1635e8a702e7e4acf5aa858f"
+      },
+      {
+        "path": "metadata/cpp_20261104_esi_stack_calls.json",
+        "sha256": "46772c94f48b3d4150e5f0ff24552f596222657246035d2b6a9a6bec8e6e8b7f"
+      },
+      {
+        "path": "metadata/cpp_20261104_fixed_byte_loops.json",
+        "sha256": "1ee61673c56784c2988ff8082fbeaa3ded33edc8c34bcabe91d323bfd69f8855"
+      },
+      {
+        "path": "metadata/cpp_20261104_four_guest_constants.json",
+        "sha256": "763c39fa5cbaed412b68c46bf92665c5a3b23af5a679cc3a730630b2a9f0b8e9"
+      },
+      {
+        "path": "metadata/cpp_20261104_guest_initializers.json",
+        "sha256": "d66a70ab9ebc052266638955ea78133344bef7568587bf918c59db0c3619226d"
+      },
+      {
+        "path": "metadata/cpp_20261104_heap_free_scalar_calls.json",
+        "sha256": "1254d95cc4a3f3b6710342e30c91dbf8fcb8a9d13b93f41d0a4672a87642992e"
+      },
+      {
+        "path": "metadata/cpp_20261104_integer_primitives.json",
+        "sha256": "c6ab37c18d9b2f7fb3e6379f088c387926bbb1c35cfafd9098af95055854ec66"
+      },
+      {
+        "path": "metadata/cpp_20261104_memory_call_declarations_2.json",
+        "sha256": "98172a862e6faf67c815c369453f73d8e0d4d05bd64c804cdaa8e94c24168bb6"
+      },
+      {
+        "path": "metadata/cpp_20261104_object_pointer_spellings.json",
+        "sha256": "8d2dfe79dee946695d463669f4c39e741cb9214ead0f8fbe2a740e293b6a17ac"
+      },
+      {
+        "path": "metadata/cpp_20261104_pointer_argument_spellings.json",
+        "sha256": "4b579e9ea27e3d19be93341e805f7b1f1a9faaf75babfae840a3cab073052ca8"
+      },
+      {
+        "path": "metadata/cpp_20261104_ushort_pointer_spelling.json",
+        "sha256": "e16e6ba967caa2a7f6414049a9c7d897b2fafae008e25caf765e429162066e15"
+      },
+      {
+        "path": "metadata/cpp_allocator_verified_call_sites.csv",
+        "sha256": "cbaa7ff562ce5cbd315ba1a04c28d5ddc965a61581f09a1320df1f772d781ad9"
+      },
+      {
+        "path": "metadata/cpp_ctor_eax_passthrough_20261101.csv",
+        "sha256": "10d378dae5ab3d8d7677c4be7f794173113030f35507d2cecdcdc35f16bc7408"
+      }
+    ]
+  },
+  "verification_boundary": "Only the two existing direct-call argument lists are repaired. Uninitialized pseudo-register locals, native pointer dereferences, signed address arithmetic outside added expressions, implicit return registers, caller ABI, aliases and guest/native translation remain unverified. Tests compile the complete canonical draft but never run it. Initialized capture-only fixtures test added arithmetic and payload bits, not game behavior. Private copied-project bytes are hash-consistent with canonical bodies, not whole-XBE reauthentication or byte-identical rebuilding."
+}

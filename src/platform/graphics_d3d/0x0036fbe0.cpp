@@ -42,7 +42,7 @@ void FUN_0036fbe0(int param_1)
   if (puVar3 != (undefined4 *)0x0) {
     *puVar3 = (uintptr_t)0x00401720U;
     puVar3[0x11] = UINT32_C(0x00401760);
-    piVar5 = puVar3 + 0x12;
+    piVar5 = reinterpret_cast<int*>(puVar3 + 0x12);
     piVar4 = (int *)(param_1 + 0x1b);
     iVar7 = 2;
     do {

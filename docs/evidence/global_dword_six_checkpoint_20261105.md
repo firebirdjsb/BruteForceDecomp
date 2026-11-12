@@ -1,0 +1,11 @@
+# Six absolute guest DWORD operands checkpoint
+
+Source commit `d215adda2981bdcf1a19c44566bf69158494c395` repairs six literal RHS operands at entry `0x00087cc0`. Existing uint32_t destination types, declarations, source signature and direct call remain unchanged. Exact original C7 /0 stores prove the guest DWORD values; host addresses of placeholder symbols do not represent those values. See [operand evidence and limitations](cpp-20261105-global-dword-six.md).
+
+The exact-tree full strict C++17 audit checks all 13,694 canonical entries: 4,036 pass (29.4728%), 9,658 fail, no provenance or checker errors. Only `0x00087cc0` improves from the preceding 4,035 checkpoint; there are no regressions or changed original-body hash labels. Report SHA-256: `87b280ee036689f6aaa18fd3330bb81541a3e77bb8861012ac3da33cd41c38ac`.
+
+The integrated private gate passes seven tests. Complete original-export body validation covers 82 bytes, 14 independent instruction boundaries, all control-flow metadata, six exact destination/immediate/width tuples and 231 private corruption controls. Exact source reversal recovers the Git preimage. Clang19 O0/O2 syntax and objects pass; original source fails with the six expected pointer-to-integer assignment errors. Public tests reject 70 metadata and 60 store-byte corruptions. Initialized uint32_t fixtures check every store with fresh seeded storage and neighbors: two positive and 72 negative O0/O2 runs. Independent review adds 1,024 seeds and rejects all six short-write mutants at both optimization levels. The preceding callback-DWORD gate also passes.
+
+Broad unittest discovery runs 368 tests: the same 14 baseline failing subchecks and one baseline provenance error, with 19 skips including omitted private exports. Failure identities exactly match the preceding checkpoint; the full suite is not green. Repository safety reports zero high-confidence alerts over 15,104 tracked paths before this document; C++17-only policy passes.
+
+This remains original operand evidence and host syntax validation. Original code and uploaded scripts were not executed. Host-symbol mapping, direct-call ABI, downstream behavior, whole-XBE authentication, original hardware equivalence and byte-identical rebuilding remain unverified. Syntax coverage is not a 1:1 game-behavior percentage.

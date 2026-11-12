@@ -15,7 +15,7 @@ void FUN_001cf1d0(undefined4 *param_1,undefined4 *param_2)
     *param_1 = *in_ECX;
     param_1[1] = in_ECX[1];
     *(undefined1 *)(param_1 + 2) = *(undefined1 *)(in_ECX + 2);
-    *(undefined1 *)((int)param_1 + 9) = *(undefined1 *)((int)in_ECX + 9);
+    *(undefined1 *)(reinterpret_cast<unsigned char *>(param_1) + 9) = *(undefined1 *)(reinterpret_cast<unsigned char *>(in_ECX) + 9);
   }
   return;
 }

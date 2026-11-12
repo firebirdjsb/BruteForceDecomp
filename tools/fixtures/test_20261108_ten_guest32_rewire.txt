@@ -1,0 +1,225 @@
+// Independent synthetic 32-bit guest-memory execution oracle (not Xbox execution).
+#include <cstdint>
+#include <cstdlib>
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <string>
+
+using U = std::uint32_t;
+struct Event {
+    char kind;
+    U address;
+    U value;
+    bool operator==(const Event &other) const {
+        return kind == other.kind && address == other.address && value == other.value;
+    }
+};
+struct State {
+    std::unordered_map<U, std::uint8_t> bytes;
+    std::vector<Event> trace;
+};
+static State *active = nullptr;
+static std::uint8_t raw8(State &s, U addr) {
+    auto i = s.bytes.find(addr);
+    return i == s.bytes.end() ? 0 : i->second;
+}
+static U raw32(State &s, U addr) {
+    U result = 0;
+    for (U i = 0; i < 4; ++i) result |= U(raw8(s, addr + i)) << (8 * i);
+    return result;
+}
+static void raw_write32(State &s, U addr, U val) {
+    for (U i = 0; i < 4; ++i) s.bytes[addr + i] = std::uint8_t(val >> (8 * i));
+}
+static void raw_write8(State &s, U addr, std::uint8_t val) {
+    s.bytes[addr] = val;
+}
+U bf_guest_read_u32(U addr) {
+    U result = raw32(*active, addr);
+    active->trace.push_back({'R', addr, result});
+    return result;
+}
+void bf_guest_write_u32(U addr, U val) {
+    active->trace.push_back({'W', addr, val});
+    raw_write32(*active, addr, val);
+}
+std::uint8_t bf_guest_read_u8(U addr) {
+    U result = raw8(*active, addr);
+    active->trace.push_back({'r', addr, result});
+    return std::uint8_t(result);
+}
+void bf_guest_write_u8(U addr, std::uint8_t val) {
+    active->trace.push_back({'w', addr, val});
+    raw_write8(*active, addr, val);
+}
+void FUN_0010f400(U,U);
+void FUN_00138f20(U,U);
+void FUN_00142850(U,U);
+void FUN_0017d180(U,U);
+void FUN_00181090(U,U);
+void FUN_0024fd10(U,U);
+void FUN_00250060(U,U);
+void FUN_00270c40(U,U);
+U FUN_001a6d20(U,U);
+U FUN_00262c30(U,U,U,U,U,U);
+
+static void ref_list(U ecx, U stack_word, U flag) {
+    // Independent register-level translation of the original x86 byte listing.
+    U eax = bf_guest_read_u32(ecx + 8);
+    U edx = bf_guest_read_u32(eax);
+    bf_guest_write_u32(ecx + 8, edx);
+    edx = bf_guest_read_u32(eax);
+    const U bl = bf_guest_read_u8(edx + flag);
+    if (bl == 0) bf_guest_write_u32(edx + 4, ecx);
+    edx = bf_guest_read_u32(ecx + 4);
+    bf_guest_write_u32(eax + 4, edx);
+    edx = bf_guest_read_u32(stack_word + 4);
+    edx = bf_guest_read_u32(edx + 4);
+    if (ecx == bf_guest_read_u32(edx + 4)) {
+        bf_guest_write_u32(edx + 4, eax);
+    } else {
+        edx = bf_guest_read_u32(ecx + 4);
+        if (ecx == bf_guest_read_u32(edx)) bf_guest_write_u32(edx, eax);
+        else bf_guest_write_u32(edx + 8, eax);
+    }
+    bf_guest_write_u32(eax, ecx);
+    bf_guest_write_u32(ecx + 4, eax);
+}
+static U ref_sentinel(U eax, U edx) {
+    U ecx = bf_guest_read_u32(eax);
+    ecx = U(ecx != UINT32_C(0xffc00000));
+    if (ecx == 0) edx = 1;
+    ecx += edx;
+    if (ecx == 0) {
+        edx = bf_guest_read_u32(UINT32_C(0x00387430));
+        bf_guest_write_u32(eax, edx);
+    } else {
+        ecx = bf_guest_read_u32(eax);
+        if (ecx == UINT32_C(0xffc00000)) bf_guest_write_u32(eax, 0);
+    }
+    edx = bf_guest_read_u32(eax);
+    return edx == UINT32_C(0xffc00000) ? U(0) : eax;
+}
+static U ref_record(U record, U index, U w0,U w1,U w2,U w3) {
+    U eax = bf_guest_read_u32(record + 0x1c);
+    if (!eax) return eax & UINT32_C(0xffffff00);
+    U ecx = bf_guest_read_u32(record + 0x20);
+    // The original signed high-multiply instruction sequence is equivalent
+    // to signed division by 20, with truncation toward zero, for all DWORDs.
+    U delta = ecx - eax;
+    std::int64_t signed_diff = (delta & 0x80000000u)
+        ? std::int64_t(delta) - INT64_C(0x100000000) : std::int64_t(delta);
+    U signed_quotient = U(signed_diff / 20);
+    eax = index;
+    if (eax >= signed_quotient) return eax & UINT32_C(0xffffff00);
+    U base = bf_guest_read_u32(record + 0x1c);
+    eax = base + index * 20u;
+    bf_guest_write_u32(eax, w0);
+    bf_guest_write_u32(eax + 4, w1);
+    bf_guest_write_u32(eax + 8, w2);
+    bf_guest_write_u32(eax + 12, w3);
+    return (eax & UINT32_C(0xffffff00)) | 1u;
+}
+static U rng_state = UINT32_C(0x72fe385b);
+static U random32() {
+    rng_state ^= rng_state << 13;
+    rng_state ^= rng_state >> 17;
+    rng_state ^= rng_state << 5;
+    return rng_state;
+}
+static bool compare(const State &a, const State &b, const std::string &what, int sample) {
+    if (a.bytes == b.bytes && a.trace == b.trace) return true;
+    std::cerr << "Mismatch " << what << " sample " << sample
+              << " traces " << a.trace.size() << " " << b.trace.size() << '\n';
+    const std::size_t n = a.trace.size() < b.trace.size() ? a.trace.size() : b.trace.size();
+    for (std::size_t i = 0; i < n; ++i) if (!(a.trace[i] == b.trace[i])) {
+        std::cerr << "event " << i << " actual " << a.trace[i].kind << ' ' << std::hex
+                  << a.trace[i].address << ' ' << a.trace[i].value << " expected "
+                  << b.trace[i].kind << ' ' << b.trace[i].address << ' ' << b.trace[i].value
+                  << std::dec << '\n'; break;
+    }
+    return false;
+}
+int main() {
+    using LF = void(*)(U,U);
+    const LF list_functions[8] = { FUN_0010f400, FUN_00138f20, FUN_00142850,
+        FUN_0017d180, FUN_00181090, FUN_0024fd10, FUN_00250060, FUN_00270c40 };
+    const U flags[8] = { 0x25, 0x21, 0x1d, 0x81, 0x41, 0x45, 0x11, 0x2d };
+    int count = 0;
+    for (int fn = 0; fn < 8; ++fn) for (int sample = 0; sample < 640; ++sample) {
+        U ecx = 0x10000u + U(sample % 5) * 0x40000u;
+        if ((sample % 13) == 0) ecx = UINT32_C(0xfffffff0);
+        U stack_word = ecx + 0x1000u;
+        U head = ecx + 0x2000u;
+        U next = ecx + 0x3000u;
+        U prev = ecx + 0x4000u;
+        U root = ecx + 0x5000u;
+        U root_child = ecx + 0x6000u;
+        const int branch = sample % 3;
+        State initial;
+        raw_write32(initial, ecx + 8, head);
+        raw_write32(initial, head, next);
+        raw_write8(initial, next + flags[fn], (sample & 1) ? 1 : 0);
+        raw_write32(initial, ecx + 4, prev);
+        raw_write32(initial, stack_word + 4, root);
+        raw_write32(initial, root + 4, root_child);
+        raw_write32(initial, root_child + 4, branch == 0 ? ecx : random32());
+        raw_write32(initial, prev, branch == 1 ? ecx : random32());
+        raw_write32(initial, prev + 8, random32());
+        if (sample % 11 == 0) { // Exercise repeated-read ordering with aliases.
+            raw_write32(initial, head, ecx + 8);
+        }
+        if (sample % 17 == 0) { // Guest pointer alias into the previous link.
+            raw_write32(initial, ecx + 4, head);
+        }
+        State actual = initial;
+        State expected = initial;
+        active = &actual;
+        list_functions[fn](ecx, stack_word);
+        active = &expected;
+        ref_list(ecx, stack_word, flags[fn]);
+        if (!compare(actual, expected, std::to_string(fn), sample)) return 1;
+        ++count;
+    }
+    for (int sample = 0; sample < 640; ++sample) {
+        U ptr = (sample % 17 == 0) ? UINT32_C(0xfffffffc) : 0x1000u;
+        U edx = (sample%5 == 0) ? UINT32_C(0xffffffff) : random32();
+        State init;
+        U initial_word = (sample % 3 == 0) ? UINT32_C(0xffc00000) : random32();
+        raw_write32(init, ptr, initial_word);
+        raw_write32(init, UINT32_C(0x00387430), random32());
+        State a = init, b = init;
+        active = &a;
+        U a_ret = FUN_001a6d20(ptr, edx);
+        active = &b;
+        U b_ret = ref_sentinel(ptr, edx);
+        if (a_ret != b_ret || !compare(a,b,"sentinel",sample)) return 2;
+        ++count;
+    }
+    for (int sample = 0; sample < 640; ++sample) {
+        U record = (sample%17 == 0) ? UINT32_C(0xffffffe0) : 0x8000u;
+        U index = (sample%7 == 0) ? 0 : ((sample%11 == 0) ? UINT32_C(0xffffffff) : U(sample%13));
+        U base = (sample%7 == 0) ? 0 : 0x40000u;
+        U end = base + U((sample%21)*20);
+        if (sample%37==0) end = base + UINT32_C(0x80000000);
+        State init;
+        raw_write32(init, record+0x1c, base);
+        raw_write32(init, record+0x20, end);
+        State a=init,b=init;
+        U v0=random32(),v1=random32(),v2=random32(),v3=random32();
+        active=&a;
+        U a_ret=FUN_00262c30(record,index,v0,v1,v2,v3);
+        active=&b;
+        U b_ret=ref_record(record,index,v0,v1,v2,v3);
+        if (a_ret != b_ret || !compare(a,b,"record",sample)) {
+            std::cerr << std::hex << "return actual " << a_ret << " expected " << b_ret
+                      << " base " << base << " end " << end << " index " << index << std::dec << '\n';
+            return 3;
+        }
+        ++count;
+    }
+    std::cout << "PASS " << count << " synthetic original-instruction memory traces; "
+              << "ABI_UNVERIFIED / NOT_GAMEPLAY_TESTED\n";
+    return 0;
+}

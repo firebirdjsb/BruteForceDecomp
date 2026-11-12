@@ -13,6 +13,6 @@ extern uint32_t PTR_PTR_00401360;
 void FUN_0030f820(void)
 
 {
-  PTR_PTR_00401360 = (undefined *)&PTR_LAB_0039e3a0;
+  PTR_PTR_00401360 = UINT32_C(0x0039e3a0);
   return;
 }

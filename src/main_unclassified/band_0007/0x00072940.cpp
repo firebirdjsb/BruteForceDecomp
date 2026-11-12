@@ -27,34 +27,34 @@ void FUN_00072940(void)
   }
   if ((*(int *)(unaff_EDI + 0x38) != 0) &&
      (FUN_00072850(unaff_EDI), *(int *)(unaff_EDI + 0x38) != 0)) {
-    FUN_0008f6a0(0);
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x34), UINT32_C(0));
   }
   if ((*(int *)(unaff_EDI + 0x38 + unaff_EBX * 8) != 0) &&
      (FUN_00072850(unaff_EDI), *(int *)(unaff_EDI + 0x38 + unaff_EBX * 8) != 0)) {
-    FUN_0008f6a0(0);
+    FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + static_cast<std::uint32_t>(unaff_EBX) * UINT32_C(8) + UINT32_C(0x34), UINT32_C(0));
   }
   switch(unaff_EBX) {
   case 0:
     if ((*(int *)(unaff_EDI + 0x40) != 0) &&
        (FUN_00072850(unaff_EDI), *(int *)(unaff_EDI + 0x40) != 0)) {
-      FUN_0008f6a0(0);
+      FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x3c), UINT32_C(0));
     }
     if ((*(int *)(unaff_EDI + 0x48) != 0) &&
        (FUN_00072850(unaff_EDI), *(int *)(unaff_EDI + 0x48) != 0)) {
-      FUN_0008f6a0(0);
+      FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x44), UINT32_C(0));
     }
     if ((*(int *)(unaff_EDI + 0x50) != 0) &&
        (FUN_00072850(unaff_EDI), *(int *)(unaff_EDI + 0x50) != 0)) {
-      FUN_0008f6a0(0);
+      FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x4c), UINT32_C(0));
     }
     if ((*(int *)(unaff_EDI + 0x58) != 0) &&
        (FUN_00072850(unaff_EDI), *(int *)(unaff_EDI + 0x58) != 0)) {
-      FUN_0008f6a0(0);
+      FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x54), UINT32_C(0));
     }
   case 2:
     if ((*(int *)(unaff_EDI + 0x60) != 0) &&
        (FUN_00072850(unaff_EDI), *(int *)(unaff_EDI + 0x60) != 0)) {
-      FUN_0008f6a0(0);
+      FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x5c), UINT32_C(0));
     }
     if (*(int *)(unaff_EDI + 0x68) == 0) {
       return;
@@ -65,7 +65,7 @@ void FUN_00072940(void)
   case 1:
     if ((*(int *)(unaff_EDI + 0x50) != 0) &&
        (FUN_00072850(unaff_EDI), *(int *)(unaff_EDI + 0x50) != 0)) {
-      FUN_0008f6a0(0);
+      FUN_0008f6a0(static_cast<std::uint32_t>(unaff_EDI) + UINT32_C(0x4c), UINT32_C(0));
     }
     if (*(int *)(unaff_EDI + 0x58) == 0) {
       return;
@@ -93,7 +93,7 @@ void FUN_00072940(void)
     goto switchD_000729a0_default;
   }
   if (*(int *)(iVar1 + 4) != 0) {
-    FUN_0008f6a0(0);
+    FUN_0008f6a0(static_cast<std::uint32_t>(iVar1), UINT32_C(0));
   }
 switchD_000729a0_default:
   return;

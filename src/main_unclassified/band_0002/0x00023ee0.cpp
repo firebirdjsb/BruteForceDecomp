@@ -16,7 +16,7 @@ undefined4 FUN_00023ee0(void)
   int unaff_ESI;
   
   if ((in_EAX != 0) && ((*(uint *)(in_EAX + 0x80) >> 6 & 1) == 0)) {
-    iVar1 = FUN_000120f0();
+    iVar1 = FUN_000120f0(unaff_ESI);
     if (*(int *)(iVar1 + 0x59c) == 0) {
       return 1;
     }

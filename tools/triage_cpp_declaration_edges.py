@@ -16,47 +16,87 @@ from pathlib import Path
 
 from source_layout import relative_source_path
 
-ERROR = re.compile(r"^use of undeclared identifier '(FUN_([0-9a-f]{8}))'$", re.I)
+# Only the first symbol identifies the missing call. Clang's optional spelling
+# suggestion is diagnostic text, never a replacement callee or ABI evidence.
+# Keep this bounded and full-matched: arbitrary diagnostic suffixes are deferred.
+ERROR = re.compile(
+    r"^use of undeclared identifier '(FUN_([0-9a-f]{8}))'"
+    r"(?:; did you mean 'FUN_[0-9a-f]{8}'\?)?$", re.I)
 BODY = re.compile(r"Input x86 body SHA-256:\s*([0-9a-f]{64})", re.I)
 
 
 def argument_count(text: str, open_paren: int) -> int | None:
-    """Count top-level C-style arguments; reject incomplete/unbalanced calls."""
-    if open_paren >= len(text) or text[open_paren] != "(":
+    """Count bounded C-style argument slots, not arbitrary C++ expressions.
+
+    Ignore comments and quoted punctuation, and balance (), [] and {}. Reject
+    malformed slots/delimiters rather than manufacturing an arity match. This
+    lexical heuristic is not a C++ parser or evidence of a guest call contract.
+    """
+    if open_paren < 0 or open_paren >= len(text) or text[open_paren] != "(":
         return None
-    depth = 0
+    stack = [")"]
     commas = 0
     has_token = False
-    quote = None
-    escaped = False
-    for char in text[open_paren:]:
-        if quote:
-            if escaped:
-                escaped = False
-            elif char == "\\":
-                escaped = True
-            elif char == quote:
-                quote = None
+    index = open_paren + 1
+    while index < len(text):
+        char = text[index]
+        if char.isspace():
+            index += 1
+            continue
+        if text.startswith("//", index):
+            newline = text.find("\n", index + 2)
+            if newline < 0:
+                return None
+            # Backslash-newline splicing needs a full preprocessing lexer.
+            if text[index:newline].rstrip("\r").endswith("\\"):
+                return None
+            index = newline + 1
+            continue
+        if text.startswith("/*", index):
+            closing = text.find("*/", index + 2)
+            if closing < 0:
+                return None
+            index = closing + 2
             continue
         if char in ("'", '"'):
-            quote = char
-        elif char == "(":
-            depth += 1
-            # A fully parenthesized expression is still one argument.
-            # Previously FUN_x((type *)(guest + 4)) was miscounted as zero.
-            if depth > 1:
-                has_token = True
-        elif char == ")":
-            depth -= 1
-            if depth == 0:
-                return 0 if not has_token else commas + 1
-            if depth < 0:
+            # Raw strings have different terminators; defer rather than guess.
+            if char == '"' and index > 0 and text[index - 1] == "R":
                 return None
-        elif depth == 1:
-            if char == ",":
-                commas += 1
-            elif not char.isspace():
-                has_token = True
+            quote = char
+            has_token = True
+            index += 1
+            while index < len(text):
+                if text[index] == "\\":
+                    index += 2
+                elif text[index] == quote:
+                    index += 1
+                    break
+                elif text[index] in "\r\n":
+                    return None
+                else:
+                    index += 1
+            else:
+                return None
+            continue
+        if char in "([{":
+            stack.append({"(": ")", "[": "]", "{": "}"}[char])
+            has_token = True
+        elif char in ")]}":
+            if char != stack[-1]:
+                return None
+            stack.pop()
+            if not stack:
+                if not has_token:
+                    return 0 if commas == 0 else None
+                return commas + 1
+        elif char == "," and len(stack) == 1:
+            if not has_token:
+                return None
+            commas += 1
+            has_token = False
+        else:
+            has_token = True
+        index += 1
     return None
 
 

@@ -23,13 +23,13 @@ int FUN_0008dfb0(float *param_1)
   local_8 = 0.0;
   local_4 = 0;
   local_c = 0;
-  fVar2 = (float10)FUN_0008e030(unaff_EDI,&local_c);
+  fVar2 = (float10)FUN_0008e030(unaff_EDI,reinterpret_cast<undefined4 *>(&local_c));
   while (local_c != 0) {
     if ((float10)local_8 < fVar2) {
       local_8 = (float)fVar2;
       iVar1 = local_c;
     }
-    fVar2 = (float10)FUN_0008e030(unaff_EDI,&local_c);
+    fVar2 = (float10)FUN_0008e030(unaff_EDI,reinterpret_cast<undefined4 *>(&local_c));
   }
   *param_1 = local_8;
   return iVar1;

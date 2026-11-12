@@ -1,0 +1,13 @@
+# Two declarations with unresolved hidden register inputs checkpoint
+
+Source commit `34d4ef58489d8c7b3f722f0a591ac2774c9602a4` adds only exact existing declarations and scope comments to 0x002e5900 and 0x00288a70. Their callees are 0x002e4940 (`bool(void)`) and 0x00234c90 (`int(void)`). Caller signatures, expressions, callee/header bytes and historical inventory remain unchanged. See [source-admission evidence and limitations](../CPP_20261105_REGISTER_SOURCE_DECLARATIONS.md).
+
+The exact-tree full strict C++17 audit checks all 13,694 canonical entries: 4,051 pass (29.5823%), 9,643 fail, no provenance or checker errors. Exactly these two callers improve from 4,049; no regressions or changed original-body hash labels occur. Report SHA-256: `ef5946d8ea74ea71f4a0bfbca182398d2ef91ddb6e640b0665f4d4b7ffccc70e`.
+
+The integrated private gate passes eight tests with 24 O0/O2 syntax/object checks and 16 rejected compile controls. Public checks reject 366 metadata and 98 instruction-window-byte mutations. Private checks cover four complete bodies, 146 bytes and 69 instructions, with 1,038 record-leaf, 292 byte, 52 index-leaf and 982 independent structural/byte/flow controls. Exact raw-byte reversals, newline mutations, dependency pins and unchanged historical rows pass.
+
+Independent review verifies full original instruction and flow evidence, all seven frozen file postimages and modes, the exact canonical diff, 24 separate O0/O2 positive compilations and 16 rejected controls. Additional routing, sparse-record newline and deep index-bound/type checks pass. The final additive CI label explicitly describes unresolved hidden register inputs. No callers are linked or executed.
+
+Broad unittest discovery runs 412 tests with the same 14 baseline failing subchecks and one provenance error, plus 28 skips. Failure identities exactly match the preceding checkpoint; the full suite is not green. Repository safety reports zero high-confidence alerts over 15,140 tracked paths before this document; C++17-only policy passes.
+
+This is source compatibility only. The first original call forwards ECX+0x38 through ECX and its callee forwards that hidden state downstream; the no-argument source omits those bindings. The second original call selects a buffer and passes hidden EAX/EDX, while that selection/register handoff is absent from its unchanged source. Guest mapping, downstream interfaces, complete function behavior, whole-XBE authentication, linkage and byte-identical rebuilding remain unresolved. Original machine-code streams and uploaded scripts were not executed. Syntax coverage is not a 1:1 game-behavior percentage.

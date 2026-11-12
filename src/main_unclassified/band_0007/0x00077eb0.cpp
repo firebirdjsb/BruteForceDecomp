@@ -6,28 +6,14 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_00077eb0_conversion_operation.h"
 void FUN_00077eb0(int param_1,float param_2)
-
 {
-  int iVar1;
-  
-  iVar1 = *(int *)(param_1 + 0xc);
-  if (iVar1 == 1) {
-    *(float *)(param_1 + 4) = param_2;
-  }
-  else {
-    if (iVar1 == 2) {
-      *(int *)(param_1 + 4) = (int)param_2;
-      return;
-    }
-    if (iVar1 == 3) {
-      if (ABS(param_2) < 1e-06) {
-        *(undefined1 *)(param_1 + 4) = 0;
-        return;
-      }
-      *(undefined1 *)(param_1 + 4) = 1;
-      return;
-    }
-  }
-  return;
+  /* ABI_UNVERIFIED: these integer-address expressions remain the old draft's
+   * unresolved guest object mapping, not a native host pointer/guest32 bridge.
+   * Only the captured-word operation below is behavior-tested. */
+  const uint32_t kind = *(uint32_t *)(param_1 + 0xc);
+  uint32_t raw_word;
+  memcpy(&raw_word, &param_2, sizeof raw_word);
+  (void)bf_00077eb0_conversion_operation(kind, raw_word, (void *)(param_1 + 4));
 }

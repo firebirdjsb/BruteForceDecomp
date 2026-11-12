@@ -1,0 +1,401 @@
+{
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "cases": [
+    {
+      "entry": "0x00095cf0",
+      "source": "src/main_unclassified/band_0009/0x00095cf0.cpp",
+      "size": 75,
+      "sha256": "0F3538441D49B226ED4E5098C9EA9AE347BC1BAB440FD802FC232EEC307CB8C6",
+      "reg": "esi",
+      "link": 68,
+      "tail": 64,
+      "init": [
+        [
+          32,
+          4,
+          0
+        ],
+        [
+          32,
+          40,
+          1065353216
+        ],
+        [
+          32,
+          48,
+          1065353216
+        ],
+        [
+          32,
+          52,
+          1065353216
+        ],
+        [
+          32,
+          8,
+          0
+        ],
+        [
+          8,
+          44,
+          0
+        ],
+        [
+          32,
+          60,
+          0
+        ],
+        [
+          32,
+          0,
+          3806536
+        ]
+      ],
+      "branch_site": "0x00095d2f",
+      "branch_target": "0x00095d35",
+      "source_sha256": "5bbd0241b9d772c5bf98d93e1dc90df5dbba231306e1f934de7bdc163c710180"
+    },
+    {
+      "entry": "0x000968e0",
+      "source": "src/main_unclassified/band_0009/0x000968e0.cpp",
+      "size": 61,
+      "sha256": "0144D044D67307F6BBFE271AFAB9348C6401A897176DD9A93814060F63E1EF2C",
+      "reg": "esi",
+      "link": 92,
+      "tail": 88,
+      "init": [
+        [
+          32,
+          4,
+          0
+        ],
+        [
+          32,
+          8,
+          0
+        ],
+        [
+          8,
+          85,
+          0
+        ],
+        [
+          8,
+          84,
+          0
+        ],
+        [
+          32,
+          0,
+          3806368
+        ]
+      ],
+      "branch_site": "0x00096911",
+      "branch_target": "0x00096917",
+      "source_sha256": "4095feb45f11aa84fd2be9f2c1e121bf65b1df7b963343bb08ef39d48a57ce9a"
+    },
+    {
+      "entry": "0x00098500",
+      "source": "src/main_unclassified/band_0009/0x00098500.cpp",
+      "size": 59,
+      "sha256": "EE6A57E0AED8109D6B74301C9D31E711D5E10C346FCB9C586F8DA93C2576E048",
+      "reg": "esi",
+      "link": 92,
+      "tail": 88,
+      "init": [
+        [
+          32,
+          4,
+          0
+        ],
+        [
+          32,
+          8,
+          0
+        ],
+        [
+          32,
+          0,
+          3806032
+        ]
+      ],
+      "branch_site": "0x0009852f",
+      "branch_target": "0x00098535",
+      "source_sha256": "ed7016627289935a929a73597536e24d307e4650f775b376404690c59a0384a2"
+    },
+    {
+      "entry": "0x0009c5e0",
+      "source": "src/main_unclassified/band_0009/0x0009c5e0.cpp",
+      "size": 76,
+      "sha256": "B3B00C206159F6F348B6EE1573F3E5E1F2AE9684A3B7EBACC303F16ED23624BC",
+      "reg": "esi",
+      "link": 220,
+      "tail": 216,
+      "init": [
+        [
+          32,
+          4,
+          0
+        ],
+        [
+          32,
+          8,
+          0
+        ],
+        [
+          8,
+          156,
+          0
+        ],
+        [
+          8,
+          194,
+          0
+        ],
+        [
+          32,
+          0,
+          3805144
+        ]
+      ],
+      "branch_site": "0x0009c61d",
+      "branch_target": "0x0009c626",
+      "source_sha256": "856254f25248e15c0a286b12ca20d7c8e25016a39e6f60ec00951a207ab6b753"
+    },
+    {
+      "entry": "0x0009da70",
+      "source": "src/main_unclassified/band_0009/0x0009da70.cpp",
+      "size": 70,
+      "sha256": "5A3B1C7B2563FC7D6C4493E5DD748F94B2A0FBCB5E1DA387FED8E949293732A2",
+      "reg": "esi",
+      "link": 132,
+      "tail": 128,
+      "init": [
+        [
+          32,
+          4,
+          0
+        ],
+        [
+          32,
+          8,
+          0
+        ],
+        [
+          8,
+          88,
+          0
+        ],
+        [
+          8,
+          89,
+          0
+        ],
+        [
+          32,
+          0,
+          3804968
+        ]
+      ],
+      "branch_site": "0x0009daa7",
+      "branch_target": "0x0009dab0",
+      "source_sha256": "7d70f77f74a75cd43c768634d707622655ee1b6f5a5691596634382532e72f91"
+    },
+    {
+      "entry": "0x000a1e90",
+      "source": "src/main_unclassified/band_000a/0x000a1e90.cpp",
+      "size": 61,
+      "sha256": "0E0F519CDB3FEE7324564E3D94E2B4E393423A2B91B9A12F3EDA4C25353B5399",
+      "reg": "edi",
+      "link": 68,
+      "tail": 64,
+      "init": [
+        [
+          32,
+          4,
+          0
+        ],
+        [
+          32,
+          8,
+          0
+        ],
+        [
+          32,
+          12,
+          0
+        ],
+        [
+          32,
+          60,
+          0
+        ],
+        [
+          32,
+          0,
+          3804120
+        ]
+      ],
+      "branch_site": "0x000a1ec1",
+      "branch_target": "0x000a1ec7",
+      "source_sha256": "160d72003f67aee6d1480927258b75e1a3ee853b1cf4a0d3900d8f198f082c2a"
+    },
+    {
+      "entry": "0x000a2dc0",
+      "source": "src/main_unclassified/band_000a/0x000a2dc0.cpp",
+      "size": 61,
+      "sha256": "F87750C4AC884185F10CE87D6BF8778047D919E17A41AD117ED20CB35729B7CA",
+      "reg": "edi",
+      "link": 28,
+      "tail": 24,
+      "init": [
+        [
+          32,
+          4,
+          0
+        ],
+        [
+          32,
+          8,
+          0
+        ],
+        [
+          32,
+          12,
+          0
+        ],
+        [
+          32,
+          16,
+          0
+        ],
+        [
+          32,
+          0,
+          3803896
+        ]
+      ],
+      "branch_site": "0x000a2df1",
+      "branch_target": "0x000a2df7",
+      "source_sha256": "64580034cf4c160440d58eb7ec46ce68e60ca2df09efa74aa3ccad5df197d5af"
+    },
+    {
+      "entry": "0x000a34a0",
+      "source": "src/main_unclassified/band_000a/0x000a34a0.cpp",
+      "size": 61,
+      "sha256": "C2667195FDC354335126E8C56BFF69617C0041709AD52E3AFDC46DA99D7C5544",
+      "reg": "edi",
+      "link": 28,
+      "tail": 24,
+      "init": [
+        [
+          32,
+          4,
+          0
+        ],
+        [
+          32,
+          8,
+          0
+        ],
+        [
+          32,
+          12,
+          0
+        ],
+        [
+          32,
+          16,
+          0
+        ],
+        [
+          32,
+          0,
+          3803560
+        ]
+      ],
+      "branch_site": "0x000a34d1",
+      "branch_target": "0x000a34d7",
+      "source_sha256": "bcf1f51561b4cd05f52df9c65784ba345bb739a48118fa7f92f8bfaa3158ebcf"
+    },
+    {
+      "entry": "0x000a3b10",
+      "source": "src/main_unclassified/band_000a/0x000a3b10.cpp",
+      "size": 71,
+      "sha256": "01FF57616C921F70EAF7BEBEEF8214CAF60507F7683C4B566EAB18B397E63417",
+      "reg": "edi",
+      "link": 48,
+      "tail": 44,
+      "init": [
+        [
+          32,
+          4,
+          0
+        ],
+        [
+          32,
+          8,
+          0
+        ],
+        [
+          32,
+          28,
+          0
+        ],
+        [
+          32,
+          32,
+          0
+        ],
+        [
+          32,
+          36,
+          0
+        ],
+        [
+          32,
+          40,
+          981668463
+        ],
+        [
+          32,
+          0,
+          3803392
+        ]
+      ],
+      "branch_site": "0x000a3b4b",
+      "branch_target": "0x000a3b51",
+      "source_sha256": "0a3b8785d64f034a881a6cee90f5683035fa7d56b0d1a73cbe0afa9e79134e65"
+    },
+    {
+      "entry": "0x000a6fd0",
+      "source": "src/main_unclassified/band_000a/0x000a6fd0.cpp",
+      "size": 59,
+      "sha256": "154B5D2CD6C7B93199924C77D290347322109C9D14A24123763D4656BEBF3357",
+      "reg": "esi",
+      "link": 56,
+      "tail": 52,
+      "init": [
+        [
+          32,
+          4,
+          0
+        ],
+        [
+          32,
+          8,
+          0
+        ],
+        [
+          32,
+          0,
+          3802728
+        ]
+      ],
+      "branch_site": "0x000a6fff",
+      "branch_target": "0x000a7005",
+      "source_sha256": "df09021d00558698c69c7449881130dcaa2ec9915b58caf3d1b302bc3bff4141"
+    }
+  ],
+  "claim": "bounded guest32 memory trace only; no verified original Xbox ABI"
+}

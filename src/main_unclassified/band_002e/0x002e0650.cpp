@@ -6,6 +6,12 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+/* Source-matched declaration only. Raw program-memory CALL/stack bytes were
+ * reviewed for this caller; stored body hashes match the canonical inventory.
+ * ABI_UNVERIFIED: host pointers/size_t are not Xbox guest-address/DWORD types.
+ * No original-XBE reauthentication, helper behavior or native linkage claim.
+ */
+extern void * __cdecl _memmove(void *__dest,void *__src,size_t __n);
 undefined4 FUN_002e0650(int param_1,uint *param_2,int param_3)
 
 {

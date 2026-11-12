@@ -1,0 +1,312 @@
+{
+  "entry": "0x0034e2e0",
+  "source": "src/platform/network_xnet/0x0034e2e0.cpp",
+  "baseline_commit": "03dc660b01b358f4826cdf5bc07075f4ef60feb4",
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "original_body_sha256": "F45E327C8D4530CC3F5B923C289E0970FD0BF16A9AD45241EA440F3E5D4A6891",
+  "source_before_sha256": "5d4ef125f7a2d28cdc2bbb954dcb7a8b0be9013f6d1ac91959b8007f0b89305e",
+  "source_after_sha256": "231736e862e008301dbc9e4278f2533ac265e60742776a2762fe1a0a81d5c4b9",
+  "preimage_git_blob": "dfce5d11c6b3e21fef7c8ae49f5db0965dc4f865",
+  "replacements": [
+    {
+      "before": "  uint *local_8;",
+      "after": "  uint *local_8;\n  // This stack word is an integer index after the incoming pointer is saved.\n  // For 2 <= count <= INT_MAX/2, use one live uint array with count prefix\n  // elements and count elements from param_1; count <= 1 is no-access.\n  // The unchanged backwards cursor may enter the prefix but never reads it.\n  // Guest32 address wrap, memory mapping and full ABI remain unverified.\n  int local_index;",
+      "count": 1
+    },
+    {
+      "before": "      param_1 = (uint *)iVar4;",
+      "after": "      local_index = iVar4;",
+      "count": 1
+    },
+    {
+      "before": "        uVar1 = puVar2[(int)param_1];",
+      "after": "        uVar1 = puVar2[local_index];",
+      "count": 1
+    },
+    {
+      "before": "        iVar3 = (int)param_1;",
+      "after": "        iVar3 = local_index;",
+      "count": 1
+    },
+    {
+      "before": "        param_1 = (uint *)((int)param_1 + iVar4);",
+      "after": "        local_index = local_index + iVar4;",
+      "count": 1
+    },
+    {
+      "before": "      } while ((int)param_1 < param_2);",
+      "after": "      } while (local_index < param_2);",
+      "count": 1
+    }
+  ],
+  "body_ranges": [
+    {
+      "start": "0034e2e0",
+      "end_inclusive": "0034e35e",
+      "length": 127,
+      "bytes_hex": "558bec518b450c566a09995ef7fe33c9413bc17c0c8d4c49013bc87ef885c97e598b750853573b4d0c894d087d3c8975fc8b45083bc18b14867c198b5dfc8b3b3bfa7610893c868bf9c1e7022bc12bdf3bc17dea014d088914868bc1c1e0020145fc8b45083b450c7cc78bc16a039959f7f98bc885c97fae5f5b5ec9c20800"
+    }
+  ],
+  "instruction_count": 61,
+  "instruction_windows": [
+    {
+      "address": "0x0034e2e0",
+      "bytes": "55"
+    },
+    {
+      "address": "0x0034e2e1",
+      "bytes": "8bec"
+    },
+    {
+      "address": "0x0034e2e3",
+      "bytes": "51"
+    },
+    {
+      "address": "0x0034e2e4",
+      "bytes": "8b450c"
+    },
+    {
+      "address": "0x0034e2e7",
+      "bytes": "56"
+    },
+    {
+      "address": "0x0034e2e8",
+      "bytes": "6a09"
+    },
+    {
+      "address": "0x0034e2ea",
+      "bytes": "99"
+    },
+    {
+      "address": "0x0034e2eb",
+      "bytes": "5e"
+    },
+    {
+      "address": "0x0034e2ec",
+      "bytes": "f7fe"
+    },
+    {
+      "address": "0x0034e2ee",
+      "bytes": "33c9"
+    },
+    {
+      "address": "0x0034e2f0",
+      "bytes": "41"
+    },
+    {
+      "address": "0x0034e2f1",
+      "bytes": "3bc1"
+    },
+    {
+      "address": "0x0034e2f3",
+      "bytes": "7c0c"
+    },
+    {
+      "address": "0x0034e2f5",
+      "bytes": "8d4c4901"
+    },
+    {
+      "address": "0x0034e2f9",
+      "bytes": "3bc8"
+    },
+    {
+      "address": "0x0034e2fb",
+      "bytes": "7ef8"
+    },
+    {
+      "address": "0x0034e2fd",
+      "bytes": "85c9"
+    },
+    {
+      "address": "0x0034e2ff",
+      "bytes": "7e59"
+    },
+    {
+      "address": "0x0034e301",
+      "bytes": "8b7508"
+    },
+    {
+      "address": "0x0034e304",
+      "bytes": "53"
+    },
+    {
+      "address": "0x0034e305",
+      "bytes": "57"
+    },
+    {
+      "address": "0x0034e306",
+      "bytes": "3b4d0c"
+    },
+    {
+      "address": "0x0034e309",
+      "bytes": "894d08"
+    },
+    {
+      "address": "0x0034e30c",
+      "bytes": "7d3c"
+    },
+    {
+      "address": "0x0034e30e",
+      "bytes": "8975fc"
+    },
+    {
+      "address": "0x0034e311",
+      "bytes": "8b4508"
+    },
+    {
+      "address": "0x0034e314",
+      "bytes": "3bc1"
+    },
+    {
+      "address": "0x0034e316",
+      "bytes": "8b1486"
+    },
+    {
+      "address": "0x0034e319",
+      "bytes": "7c19"
+    },
+    {
+      "address": "0x0034e31b",
+      "bytes": "8b5dfc"
+    },
+    {
+      "address": "0x0034e31e",
+      "bytes": "8b3b"
+    },
+    {
+      "address": "0x0034e320",
+      "bytes": "3bfa"
+    },
+    {
+      "address": "0x0034e322",
+      "bytes": "7610"
+    },
+    {
+      "address": "0x0034e324",
+      "bytes": "893c86"
+    },
+    {
+      "address": "0x0034e327",
+      "bytes": "8bf9"
+    },
+    {
+      "address": "0x0034e329",
+      "bytes": "c1e702"
+    },
+    {
+      "address": "0x0034e32c",
+      "bytes": "2bc1"
+    },
+    {
+      "address": "0x0034e32e",
+      "bytes": "2bdf"
+    },
+    {
+      "address": "0x0034e330",
+      "bytes": "3bc1"
+    },
+    {
+      "address": "0x0034e332",
+      "bytes": "7dea"
+    },
+    {
+      "address": "0x0034e334",
+      "bytes": "014d08"
+    },
+    {
+      "address": "0x0034e337",
+      "bytes": "891486"
+    },
+    {
+      "address": "0x0034e33a",
+      "bytes": "8bc1"
+    },
+    {
+      "address": "0x0034e33c",
+      "bytes": "c1e002"
+    },
+    {
+      "address": "0x0034e33f",
+      "bytes": "0145fc"
+    },
+    {
+      "address": "0x0034e342",
+      "bytes": "8b4508"
+    },
+    {
+      "address": "0x0034e345",
+      "bytes": "3b450c"
+    },
+    {
+      "address": "0x0034e348",
+      "bytes": "7cc7"
+    },
+    {
+      "address": "0x0034e34a",
+      "bytes": "8bc1"
+    },
+    {
+      "address": "0x0034e34c",
+      "bytes": "6a03"
+    },
+    {
+      "address": "0x0034e34e",
+      "bytes": "99"
+    },
+    {
+      "address": "0x0034e34f",
+      "bytes": "59"
+    },
+    {
+      "address": "0x0034e350",
+      "bytes": "f7f9"
+    },
+    {
+      "address": "0x0034e352",
+      "bytes": "8bc8"
+    },
+    {
+      "address": "0x0034e354",
+      "bytes": "85c9"
+    },
+    {
+      "address": "0x0034e356",
+      "bytes": "7fae"
+    },
+    {
+      "address": "0x0034e358",
+      "bytes": "5f"
+    },
+    {
+      "address": "0x0034e359",
+      "bytes": "5b"
+    },
+    {
+      "address": "0x0034e35a",
+      "bytes": "5e"
+    },
+    {
+      "address": "0x0034e35b",
+      "bytes": "c9"
+    },
+    {
+      "address": "0x0034e35c",
+      "bytes": "c20800"
+    }
+  ],
+  "private_record_sha256": "ed627f9734dd599bee8f9174d855dfc390b29d576c269c07ba36c91c961fc4b8",
+  "private_record_offset": 288035292,
+  "private_record_length": 21497,
+  "scope": "integer-index source representation only; bounded native operation, not guest ABI",
+  "canonical_functions_executed": false,
+  "original_machine_code_executed": false,
+  "original_xbe_reauthenticated": false,
+  "native_contract": [
+    "8-bit bytes, 32-bit uint and 32-bit int",
+    "Counts <= 1 perform no accesses and permit a null pointer.",
+    "For 2 <= N <= INT_MAX/2, param_1 points to index N of one initialized live uint array with at least 2*N elements.",
+    "The N-element guard prefix exists to make unchanged decrement pointer formation defined; it is never read or written.",
+    "The logical N-element range is writable and contains no volatile or concurrently modified memory.",
+    "No address-translation, wrap, flags, register transport or original-machine execution claim."
+  ]
+}

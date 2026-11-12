@@ -21,7 +21,7 @@ void FUN_001dcf70(void)
     in_EAX[5] = in_ECX[5];
     in_EAX[6] = in_ECX[6];
     *(undefined1 *)(in_EAX + 7) = *(undefined1 *)(in_ECX + 7);
-    *(undefined1 *)((int)in_EAX + 0x1d) = *(undefined1 *)((int)in_ECX + 0x1d);
+    *(reinterpret_cast<unsigned char *>(in_EAX) + 0x1d) = *(reinterpret_cast<unsigned char *>(in_ECX) + 0x1d);
     in_EAX[8] = in_ECX[8];
   }
   return;

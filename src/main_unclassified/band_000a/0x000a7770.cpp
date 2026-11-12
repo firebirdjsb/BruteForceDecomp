@@ -37,7 +37,7 @@ int FUN_000a7770(uint *param_1)
           local_c = puVar1;
         }
         puVar1 = puVar2;
-      } while (*(char *)((int)puVar2 + 0x19) == '\0');
+      } while (*(reinterpret_cast<char*>(puVar2) + 0x19) == '\0');
     }
     if ((local_c == local_8[0]) || (*param_1 < (uint)local_c[3])) {
       ppuVar3 = local_8;

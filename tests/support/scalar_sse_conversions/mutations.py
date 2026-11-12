@@ -1,0 +1,30 @@
+"""Compiled semantic mutations retained from independent numeric foundation."""
+MODEL="conversion_model.hpp"
+NATIVE="native_wrappers.cpp"
+MUTATIONS=[
+ ('ignore_daz',MODEL,'fraction == 0u || (csr & 0x40u) != 0u','fraction == 0u'),
+ ('ftz_is_daz',MODEL,'(csr & 0x40u) != 0u','(csr & 0x8000u) != 0u'),
+ ('subnormal_denormal_flag',MODEL,'zero ? 0u : precision','zero ? 0u : precision | 2u'),
+ ('subnormal_no_precision',MODEL,'zero ? 0u : precision','zero ? 0u : 0u'),
+ ('signed_integer_zero',MODEL,'return finish(0u, zero ? 0u : precision, csr);','return finish(sign << 31, zero ? 0u : precision, csr);'),
+ ('nan_no_invalid',MODEL,'if (exp == 255u) return finish(0x80000000u, invalid, csr);','if (exp == 255u) return finish(0x80000000u, 0u, csr);'),
+ ('quiet_nan_no_invalid',MODEL,'if (exp == 255u) return finish(0x80000000u, invalid, csr);','if (exp == 255u) return finish(0x80000000u, (fraction & 0x400000u) ? 0u : invalid, csr);'),
+ ('invalid_plus_precision',MODEL,'invalid, csr);','invalid | precision, csr);'),
+ ('indefinite_saturates',MODEL,'return finish(0x80000000u, invalid, csr);','return finish(sign ? 0x80000000u : 0x7fffffffu, invalid, csr);'),
+ ('positive_limit_valid',MODEL,'e == 31u && sign != 0u && fraction == 0u','e == 31u && fraction == 0u'),
+ ('negative_limit_invalid',MODEL,'e == 31u && sign != 0u && fraction == 0u','e == 30u && sign != 0u && fraction == 0u'),
+ ('drop_fraction_precision',MODEL,'!= 0u) flags = precision;','!= 0u) flags = 0u;'),
+ ('tt_round_magnitude_up',MODEL,'magnitude = significand >> shift;','magnitude = (significand + ((1u << shift) - 1u)) >> shift;'),
+ ('replace_sticky_flags',MODEL,'csr | raised','(csr & ~63u) | raised'),
+ ('si_unsigned_input',MODEL,'const std::uint32_t sign = bits >> 31;','const std::uint32_t sign = 0u;'),
+ ('si_nearest_only',MODEL,'const std::uint32_t rc = (csr >> 13) & 3u;','const std::uint32_t rc = 0u;'),
+ ('si_tie_away',MODEL,'(remainder == unit / 2u && (significand & 1u) != 0u)','(remainder == unit / 2u)'),
+ ('si_reversed_directions',MODEL,'(rc == 1u && sign != 0u) || (rc == 2u && sign == 0u)','(rc == 1u && sign == 0u) || (rc == 2u && sign != 0u)'),
+ ('si_precision_missing',MODEL,'flags = precision;\n            const','flags = 0u;\n            const'),
+ ('si_carry_exponent_missing',MODEL,'significand >>= 1u; ++e;','significand >>= 1u;'),
+ ('native_tt_rounds',NATIVE,'cvttss2si %%xmm0, %k[result]','cvtss2si %%xmm0, %k[result]'),
+ ('native_tt_64bit',NATIVE,'cvttss2si %%xmm0, %k[result]','cvttss2si %%xmm0, %q[result]'),
+ ('native_si_64bit',NATIVE,'cvtsi2ss %k[bits], %%xmm0','cvtsi2ss %q[bits], %%xmm0'),
+ ('native_si_zeroes_upper',NATIVE,'"cvtsi2ss %k[bits], %%xmm0\\n\\t"','"pxor %%xmm0, %%xmm0\\n\\t"\n        "cvtsi2ss %k[bits], %%xmm0\\n\\t"'),
+ ('native_no_restore',NATIVE,'"ldmxcsr %[saved]\\n\\t"','"nop\\n\\t"'),
+]

@@ -1,0 +1,134 @@
+{
+  "entry": "0x00314c76",
+  "original_body_sha256": "5F4549C0BEC7A3DC6CC1E1BCD1796F1271D397160F7620A1898D617AA5B1EB2B",
+  "body_bytes": 39,
+  "instruction_count": 17,
+  "source_before_sha256": "77f46e4fb1a41d99dbde486f8b3c9a160a7067f93582d17c40b73a6fb4d18a44",
+  "source_before_git_blob": "9f30f7c6eea4ff5779970f68a5787edaaa9ddabd",
+  "artifacts": {
+    "0x00314c76.cpp": "11d7f69e8c5e8ed5ced67d4e2121a1ef0de9f7a06d6b6d98d93d94aa5dda224a",
+    "bf_00314c76_norm_operation.h": "58b22715cabe5aed872d4c16178f8bd50e5cb5f0b44ac2ee10ccc6dfd0be4765",
+    "test.cpp": "5f0f3223215a1819d4642ac9a03e23f3302c54bc30d9e25b73f2c18b3f13c218"
+  },
+  "artifact_source_paths": {
+    "wrapper": "src/platform/audio_dsound/0x00314c76.cpp",
+    "header": "include/bf_00314c76_norm_operation.h",
+    "oracle": "tests/test_00314c76_norm_operation.cpp",
+    "preimage": "tests/fixtures/00314c76_before.cpp.txt"
+  },
+  "evidence_boundary": "Complete immutable Ghidra program-memory body matches canonical function digest, 17 instruction boundaries, with no listing overrides. Stored original FileBytes are absent; no whole-XBE reauthentication. No original machine code or uploaded scripts executed.",
+  "logical_operation": {
+    "input": "Three live readable aligned binary32 float objects, loaded in original z/y/x order. No C++ FP conversion or host sqrt fallback.",
+    "sequence": "Native x87 original stack sequence computes (x*x + y*y) + z*z then FSQRT. x87 intermediates are not silently narrowed or reassociated. Cleanup FSTP ST3, FSTP ST0, FSTP ST0 leaves one binary80 return result above the original live stack.",
+    "result": "Native binary80 long double returned in ST0 on supported host ABI. Source signature float10 FUN_00314c76(float*) is unchanged.",
+    "peak_stack": "Five additional entries at peak, one additional entry at return. The specific next five push destinations must all be empty; arbitrary free slots are insufficient."
+  },
+  "original_register_contract": {
+    "input": "[entry ESP+4] is a guest pointer to three binary32 words. MOV EAX,[ESP+4], loads +8,+4,+0.",
+    "output": "Binary80 result in x87 ST0; EAX still contains the input guest address; RET4 consumes stack argument.",
+    "not_implemented": "Guest pointer translation, EAX/other GPR or integer EFLAGS transport, original x86 stack cleanup, fault/MMIO/concurrent observer behavior."
+  },
+  "host_contract": "GNU/Clang x86-64 Linux default SysV, native binary80 long double (64-bit mantissa, max exponent16384, min exponent-16381), IEEE binary32 float. Three live readable alignof(float)-aligned input objects; all x87 exceptions masked; next five physical push destinations empty. Fast math and unsupported architecture/type rejected.",
+  "return_boundary_justification": [
+    "Capture bridge is authored out-of-line SysV assembly. It preserves RBX and caller FP state, aligns the CALL stack, restores the seed state, CALLs the full compiled candidate wrapper, then FXSAVEs immediately without a C++ long-double consumer. Only after capture does it restore caller FP state, including callee-saved CW/MXCSR controls, before its void return.",
+    "At Clang O0, helper may use FSTPT/FLDT and wrappers may add FLD ST0/FSTP ST0. GCC O0 also uses native binary80 spills. These are tested at the actual return boundary, including sparse input tags and all TOP values.",
+    "For finite binary32 inputs, nonzero squares/sums and results remain far inside binary80 exponent range: squares at least2^-298 and sum below2^258, hence nonzero result between2^-149 and2^129. No cancellation occurs. Original operations therefore yield zero, normal binary80, infinity or quiet NaN, never binary80 subnormal or signaling NaN.",
+    "Native80 copies do not narrow those values or add conversion exceptions. Extra duplicate/pop uses fewer slots than the original five-entry peak. Final original cleanup and return copies clear C1. Compared status equality is measured on tested native hardware; excluded instruction/data/opcode bookkeeping differs.",
+    "No universal CPU-context equivalence or original Pentium-III hardware execution is claimed."
+  ],
+  "compared_fxsave_fields": {
+    "control_word": "bytes 0..1, including exception masks, precision and rounding controls",
+    "status_word": "bytes 2..3, including sticky exception flags, condition bits and TOP",
+    "abridged_tag_word": "byte 4, mapping occupied physical x87 registers",
+    "active_x87_stack_values": "first 10 bytes of each 16-byte logical ST slot, only when its corresponding physical tag is nonempty using TOP",
+    "mxcsr": "bytes24..27; no SSE FP arithmetic in the operation, so every control and sticky flag must remain unchanged."
+  },
+  "excluded_fxsave_fields": {
+    "instruction_and_data_bookkeeping": "FOP bytes 6..7, FIP bytes 8..15, FDP bytes 16..23 differ with native instruction/data addresses; not guest-address emulated",
+    "inactive_x87_payloads_and_slot_padding": "Empty-tag register contents are not logical stack values; bytes 10..15 of ST storage slots are padding",
+    "xmm_register_values": "Host compiler may use XMM registers for integer/memory movement; guest SIMD register preservation is part of the excluded ABI bridge",
+    "mxcsr_mask": "bytes 28..31 describe hardware capabilities rather than operation results",
+    "reserved_fields": "Not defined logical operation state; comparison does not assert complete FXSAVE image or CPU-context equivalence"
+  },
+  "limits": [
+    "Bounded native host operation only; no full-game behavior, original Xbox execution, guest ABI bridge, native linkage or byte-identical rebuild claim.",
+    "No FIP/FDP/FOP comparison because compiled native return copies change instruction/data locations and last opcode.",
+    "No unmasked exception, invalid input memory, fault recovery, MMIO, concurrent memory observers or arbitrary byte-unaligned float-object contract.",
+    "Sanitizers cover C++ harness accesses; native assembly memory accesses additionally use guarded spans and sentinels. LeakSanitizer is disabled and untested.",
+    "Compiler/x87 implementations outside tested supported configurations are not established by these tests."
+  ],
+  "narrow_opcode_windows": [
+    {
+      "va": "0x00314c7a",
+      "bytes": "d94008",
+      "operation": "FLD float ptr [EAX + 0x8]"
+    },
+    {
+      "va": "0x00314c80",
+      "bytes": "d900",
+      "operation": "FLD float ptr [EAX]"
+    },
+    {
+      "va": "0x00314c84",
+      "bytes": "d8c9",
+      "operation": "FMUL ST1"
+    },
+    {
+      "va": "0x00314c8a",
+      "bytes": "dec1",
+      "operation": "FADDP"
+    },
+    {
+      "va": "0x00314c92",
+      "bytes": "d9fa",
+      "operation": "FSQRT"
+    },
+    {
+      "va": "0x00314c94",
+      "bytes": "dddb",
+      "operation": "FSTP ST3"
+    },
+    {
+      "va": "0x00314c9a",
+      "bytes": "c20400",
+      "operation": "RET 0x4"
+    }
+  ],
+  "capture_boundary": "Out-of-line SysV normal function, all x87/XMM registers caller-clobbered by ABI. FXRSTOR -> native CALL -> FXSAVE adjacent in authored assembly, with RBX and caller FP state preserved and normal 16-byte call alignment.",
+  "tests": {
+    "main_cases_per_configuration": 31850496,
+    "input_triples": 432,
+    "x87_pc_modes": [
+      0,
+      2,
+      3
+    ],
+    "x87_rounding_modes": 4,
+    "mxcsr_modes": 16,
+    "all_top_values": 8,
+    "sparse_tag_patterns": 8,
+    "status_seeds": [
+      "0",
+      "003f",
+      "0200",
+      "4700",
+      "473f",
+      "477f"
+    ],
+    "extra": "Independent finite order anchor x=3f800000,y=z=39800001 at PC24/nearest, distinguishing original result1+2^-23 from reversed result1; integer-encoded exact binary80 anchors, true live float objects with memcpy-in raw bits, 12-byte input ending at guard page, input sentinels, net return-stack effect and old active-stack preservation.",
+    "oracle": "Independently authored native original-sequence function; never extracted machine code execution.",
+    "passed": [
+      "Clang19 C++17 O0",
+      "Clang19 C++17 O2",
+      "GCC14 C++17 O2 ASan+UBSan (detect_leaks=0)"
+    ],
+    "sanitizer_limit": "No LeakSanitizer coverage."
+  },
+  "gate_requirements": [
+    "Mandatory historical source SHA/Git blob, exact reversal, original unresolved SQRT failure at O0/O2",
+    "Pinned helper/wrapper/oracle, narrow opcode mutations and optional full39-byte private body check",
+    "Full compiled source wrapper return-boundary tests at O0/O2; isolated codegen rejects external calls or FP narrowing",
+    "Negative reversed addition order, missing FSQRT, wrong cleanup target and binary32 return narrowing",
+    "Capture boundary structural negatives and unsupported architecture/binary80/fast-math compile negatives"
+  ]
+}
