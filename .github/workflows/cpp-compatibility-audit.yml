@@ -293,6 +293,7 @@ jobs:
           python3 scripts/verify_cpp_36_first_error_e8_xbe.py --self-test
           python3 scripts/verify_cpp_return_only_fidelity_xbe.py --self-test
           python3 tools/test_cpp_x87_runtime_epilogues.py
+          python3 tools/check_cpp_direct_call_batches.py
       - name: Verify bounded mixed x87/SSE operation, independent models and state guards
         run: python3 tools/test_cpp_002b6640_mixed_operation.py --compiler clang++ --compiler g++ --sanitizers --sanitizer-compiler g++
       - name: Inventory C++17 syntax separately from the historical C11 baseline
