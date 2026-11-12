@@ -14,8 +14,10 @@ void FUN_00263580(void)
   int *piStack00000004;
   
   if (in_ECX != (int *)0x0) {
-    piStack00000004 = (int *)*in_EAX;
-    *in_ECX = (int)piStack00000004;
+    // Original MOV EAX,[EAX]; MOV [ECX],EAX preserves one guest DWORD.
+    const int guest_target_word = *in_EAX;
+    *in_ECX = guest_target_word;
+    piStack00000004 = (int *)guest_target_word;
     if (piStack00000004 != (int *)0x0) {
                     /* WARNING: Could not recover jumptable at 0x00263592. Too many branches */
                     /* WARNING: Treating indirect jump as call */

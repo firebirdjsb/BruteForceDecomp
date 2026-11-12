@@ -6,16 +6,13 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t PTR_FUN_0039db60;
 void FUN_00139d30(void)
 
 {
   int *in_ECX;
   
   if (in_ECX != (int *)0x0) {
-    *in_ECX = (int)&PTR_FUN_0039db60;
+    *in_ECX = 0x0039db60; // Original MOV [ECX],imm32 at 0x00139D36.
     in_ECX[3] = 0;
     in_ECX[8] = 0;
     in_ECX[9] = 0;
