@@ -15,7 +15,7 @@ from source_layout import source_path
 
 
 PAIR = "0x00233020"
-ROUTINES = ("0x00232d40", "0x00232e80", PAIR, "0x00233150", "0x002331f0", "0x00233290")
+ROUTINES = ("0x00232d40", "0x00232e80", PAIR, "0x00233150", "0x002331f0", "0x00233290", "0x00233590")
 BODIES = {
     "0x00232d40": (305, "BA0A80E2791F9023E2DD7CD3B4FD59E978CEDE19F4F895C6CAFA62A2667EDF0F"),
     "0x00232e80": (156, "7852B4C395DF2F18036F550215B05358EC877C27491C0C65C12BF7D342358030"),
@@ -23,11 +23,14 @@ BODIES = {
     "0x00233150": (154, "1766A887C36D56E928CAE5AE5B510AE831035818E02349681EF194A245BB93AB"),
     "0x002331f0": (152, "65B4628918E5361443665A0347CF3E311F0D6D74565C8A9693B508101D88B561"),
     "0x00233290": (276, "51DE2978460DD0EEEAFEC427B85E551ADA075137DBCA706B5D4D32D84F101BB6"),
+    "0x00233590": (306, "D3066DA32F69FB3F4260B3EC0AE45A0D432EAFF6842D168D680295ED1947DBEF"),
     "0x00212280": (254, "02C218A4A6C70C4C0F19269A1390332F5AC6845DF3945DFCAAF26B71BF42387B"),
     "0x002336d0": (203, "32C0943726E3E1DB6E34900D11A353C763C76DF26840D9B64B8C95B83FFE2A86"),
 }
 CALL_SITES = (0x21229b, 0x2122bb, 0x2122db, 0x2336e2, 0x2336f6, 0x23370a)
 X87_CALL_SITES = (0x232eb7, 0x232efb, 0x232f0c)
+MAPPED_CALLER = (0x00266390, 421, "3F1F020A73BBB25DE750B6012A0D9B84CFC26E7C4A9BABCDB175FA24E00CE8BB")
+MAPPED_CALL_SITES = (0x2663ad, 0x2663e3)
 CONSTANTS = {
     0x0038d850: "00000000",
     0x0038d860: "0000803f",
@@ -43,8 +46,9 @@ CONSTANTS = {
     0x003a4f9c: "abaa2a3e",
     0x003a5018: "db0f4940",
     0x003a50d8: "db0fc93f",
+    0x003a5108: "00000036",
 }
-CONSTANT_RANGES = ((0x0038d850, 0x0038d960), (0x003942fc, 0x00394320), (0x003a4f74, 0x003a50dc))
+CONSTANT_RANGES = ((0x0038d850, 0x0038d960), (0x003942fc, 0x00394320), (0x003a4f74, 0x003a510c))
 
 
 def check_retail(raw, directory):
@@ -65,6 +69,11 @@ def check_retail(raw, directory):
         require(target(site, read(site, 5)) == int(PAIR, 16), f"wrong retail E8 target at {site:#x}")
     for site in X87_CALL_SITES:
         require(target(site, read(site, 5)) == 0x00232d40, f"wrong retail E8 target at {site:#x}")
+    caller, size, expected = MAPPED_CALLER
+    require(hashlib.sha256(read(caller, size)).hexdigest().upper() == expected,
+            f"original body hash differs at {caller:#x}")
+    for site in MAPPED_CALL_SITES:
+        require(target(site, read(site, 5)) == 0x00233590, f"wrong retail E8 target at {site:#x}")
     for address, expected in CONSTANTS.items():
         data = bytes.fromhex(expected)
         require(read(address, len(data)) == data, f"retail scalar constant differs at {address:#x}")
@@ -109,7 +118,7 @@ def main():
                                cwd=directory, check=True)
                 subprocess.run([str(exe)], check=True, timeout=60)
                 print(f"PASS {opt}: 72,832 input/control cases vs original i386 bodies")
-    print("PASS eight C++17 sources and scalar bit-pattern/overlap fixtures at -O0 and -O2")
+    print("PASS nine C++17 sources and scalar bit-pattern/overlap fixtures at -O0 and -O2")
 
 
 if __name__ == "__main__":

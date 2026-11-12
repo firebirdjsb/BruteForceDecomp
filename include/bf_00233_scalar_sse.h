@@ -20,4 +20,9 @@ long double FUN_00233150(float angle);
 long double FUN_002331f0(float angle);
 long double FUN_00233290(float angle);
 
+// The two original E8 sites in 0x00266390 load EAX, ESI, EDX, ECX and BL.
+// The four storage arguments are mapped native addresses for those registers.
+void FUN_00233590(const void *eax_storage, void *esi_output, void *edx_output,
+                  void *ecx_output, uint8_t bl);
+
 #endif

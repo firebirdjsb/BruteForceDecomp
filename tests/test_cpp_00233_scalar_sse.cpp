@@ -75,6 +75,12 @@ int check_anchors()
         FUN_00232e80(1.0f) != 0.0L || FUN_00232e80(-1.0f) != static_cast<long double>(3.1415927f)) {
         return 12;
     }
+    const uint32_t zero_inputs[9]{};
+    uint32_t esi, edx, ecx;
+    FUN_00233590(zero_inputs, &esi, &edx, &ecx, 1);
+    if (esi != 0x40490fdb || edx != 0x40490fdb || ecx != 0) {
+        return 15;
+    }
     set_mxcsr(entry_mxcsr);
     return 0;
 }
@@ -93,6 +99,7 @@ extern "C" void observe_retail_2331f0(uint32_t, unsigned char *, uint16_t *);
 extern "C" void observe_cpp_2331f0(uint32_t, unsigned char *, uint16_t *);
 extern "C" void observe_retail_233290(uint32_t, unsigned char *, uint16_t *);
 extern "C" void observe_cpp_233290(uint32_t, unsigned char *, uint16_t *);
+extern "C" void observe_retail_233590(const void *, void *, void *, void *, uint8_t);
 
 // A freestanding i386 test can still emit a copy for initialized local arrays.
 extern "C" void *memcpy(void *dst, const void *src, unsigned count)
@@ -132,6 +139,36 @@ static bool compare_extended(uint32_t input, uint32_t mxcsr, observe_result orig
     constexpr uint16_t status_mask = 0x3abf;
     return equal(retail_st0, cpp_st0, sizeof(retail_st0)) &&
            ((retail_status ^ cpp_status) & status_mask) == 0 && original_mxcsr == get_mxcsr();
+}
+
+static uint16_t get_x87_status()
+{
+    uint16_t status;
+    __asm__ volatile("fnstsw %0" : "=m"(status) : : "memory");
+    return status;
+}
+
+static bool compare_mapped(uint32_t input, uint32_t mxcsr, uint16_t control, bool alias, uint8_t bl)
+{
+    const uint32_t mixed = (input >> 13) | (input << 19);
+    const uint32_t words[] = {input, 0, 0, input & 0x7fffffff, 0xbf000000, mixed,
+                              input ^ 0x80000000, 0x3f800000, input};
+    unsigned char retail[50]{}, model[50]{};
+    __builtin_memcpy(retail + 1, words, sizeof(words));
+    __builtin_memcpy(model, retail, sizeof(retail));
+    const unsigned esi = alias ? 5 : 37;
+    const unsigned edx = alias ? 6 : 41;
+    const unsigned ecx = alias ? 7 : 45;
+    __asm__ volatile("fninit\n\tfldcw %0" : : "m"(control) : "memory");
+    set_mxcsr(mxcsr);
+    observe_retail_233590(retail + 1, retail + esi, retail + edx, retail + ecx, bl);
+    const uint16_t retail_status = get_x87_status();
+    const uint32_t retail_mxcsr = get_mxcsr();
+    __asm__ volatile("fninit\n\tfldcw %0" : : "m"(control) : "memory");
+    set_mxcsr(mxcsr);
+    FUN_00233590(model + 1, model + esi, model + edx, model + ecx, bl);
+    return equal(retail, model, sizeof(retail)) &&
+           ((retail_status ^ get_x87_status()) & 0x3abf) == 0 && retail_mxcsr == get_mxcsr();
 }
 
 static int compare(uint32_t input, uint32_t mxcsr, uint16_t control)
@@ -178,6 +215,14 @@ static int compare(uint32_t input, uint32_t mxcsr, uint16_t control)
     }
     if (!compare_extended(input, mxcsr, observe_retail_232e80, observe_cpp_232e80, single_status, control)) {
         return 14;
+    }
+    if (!compare_mapped(input, mxcsr, control, false, 0) ||
+        !compare_mapped(input, mxcsr, control, false, 0x80)) {
+        return 16;
+    }
+    if (!compare_mapped(input, mxcsr, control, true, 0) ||
+        !compare_mapped(input, mxcsr, control, true, 0x80)) {
+        return 17;
     }
     return 0;
 }

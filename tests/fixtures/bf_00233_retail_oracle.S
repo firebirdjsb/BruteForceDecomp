@@ -34,6 +34,20 @@ observe observe_cpp_2331f0, _Z12FUN_002331f0f
 observe observe_retail_233290, retail_233290
 observe observe_cpp_233290, _Z12FUN_00233290f
 
+.global observe_retail_233590
+observe_retail_233590:
+    pushl %ebx
+    pushl %esi
+    movl 12(%esp), %eax
+    movl 16(%esp), %esi
+    movl 20(%esp), %edx
+    movl 24(%esp), %ecx
+    movb 28(%esp), %bl
+    call retail_233590
+    popl %esi
+    popl %ebx
+    ret
+
 retail_232d40:
     .incbin "232d40.bin"
     # Preserve the E8 displacement between the two retail routines.
@@ -50,6 +64,8 @@ retail_2331f0:
     .incbin "2331f0.bin"
 retail_233290:
     .incbin "233290.bin"
+retail_233590:
+    .incbin "233590.bin"
 
 # The retail instructions reference absolute VAs. The verifier maps the
 # extracted constant range at its original VA with --section-start.
