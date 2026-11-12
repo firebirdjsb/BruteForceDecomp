@@ -1,22 +1,21 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest memory model.
  * Input x86 body SHA-256: 9B98D09132EF469E6BE5F4287FA887863C5FCF47A86BFBFAF554CFA690020585
  * Entry: 0x0031aa47, Ghidra index: 12269, label: FUN_0031aa47
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * This models captured inputs and guest data accesses. Native ABI_UNVERIFIED.
  */
-#include "bf_ghidra_types.h"
-void FUN_0031aa47(int *param_1,int param_2,int *param_3)
+#include "bf_xbe_guest32_audio_links.h"
 
+uint32_t FUN_0031aa47(uint32_t node, uint32_t value, uint32_t head)
 {
-  int iVar1;
-  
-  iVar1 = *param_3;
-  param_1[1] = (int)param_3;
-  *param_1 = iVar1;
-  *(int **)(iVar1 + 4) = param_1;
-  *(int **)param_1[1] = param_1;
-  param_1[3] = 0;
-  param_1[2] = param_2;
-  return;
+    const uint32_t next = bf_guest_read_u32(head);
+    bf_guest_write_u32(node + 4u, head);
+    bf_guest_write_u32(node, next);
+    bf_guest_write_u32(next + 4u, node);
+    const uint32_t head_after_store = bf_guest_read_u32(node + 4u);
+    bf_guest_write_u32(head_after_store, node);
+    (void)bf_guest_read_u32(node + 0x0cu);  // AND memory,0 reads then writes.
+    bf_guest_write_u32(node + 0x0cu, 0u);
+    bf_guest_write_u32(node + 8u, value);
+    return node;  // EAX survives the stack cleanup.
 }

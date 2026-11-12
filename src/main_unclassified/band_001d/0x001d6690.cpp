@@ -1,34 +1,14 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest memory model.
  * Input x86 body SHA-256: C97E21991E98CF4F28774BE43164863959569F0C512B21960024748E5D226E11
  * Entry: 0x001d6690, Ghidra index: 6360, label: FUN_001d6690
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * This models captured inputs and guest data accesses. Native ABI_UNVERIFIED.
  */
-#include "bf_ghidra_types.h"
-void FUN_001d6690(undefined4 *param_1,undefined4 *param_2,undefined4 *param_3)
+#include "bf_xbe_guest32_copy_back.h"
 
+uint32_t FUN_001d6690(uint32_t guest_eax, uint32_t first, uint32_t last,
+                      uint32_t destination_end, bool guest_df)
 {
-  undefined4 *in_EAX;
-  int iVar1;
-  undefined4 *puVar2;
-  undefined4 *puVar3;
-  
-  if (param_1 == param_2) {
-    *in_EAX = param_3;
-    return;
-  }
-  do {
-    param_2 = param_2 + -7;
-    param_3 = param_3 + -7;
-    puVar2 = param_2;
-    puVar3 = param_3;
-    for (iVar1 = 7; iVar1 != 0; iVar1 = iVar1 + -1) {
-      *puVar3 = *puVar2;
-      puVar2 = puVar2 + 1;
-      puVar3 = puVar3 + 1;
-    }
-  } while (param_2 != param_1);
-  *in_EAX = param_3;
-  return;
+    // EAX is the output-slot address. REP MOVSD moves 7 DWORDs per record.
+    return bf_guest_copy_back_dwords(guest_eax, first, last, destination_end, 7u, guest_df);
 }
