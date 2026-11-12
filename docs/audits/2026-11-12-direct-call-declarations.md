@@ -42,3 +42,13 @@ retail instruction writes immediate guest address `0x0039DB60`. At
 `0x00263584` and `0x00263588`, the original loads and stores a DWORD through
 EAX. The draft retains that DWORD for the store. Both drafts still need
 guest indirect-tail dispatch and original register and stack integration.
+
+## Single-instruction jump entries
+
+Five DirectSound drafts contained decompiled target code even though their
+complete retail bodies are each one direct relative JMP. The models now
+update guest EIP to the verified target without creating a guest return
+address. The original body digests and destinations passed the private XBE
+gate and the C++ models passed the linked fixture at `-O0` and `-O2`.
+Entries with existing source call sites were deferred until their guest call
+interfaces can be reviewed together.

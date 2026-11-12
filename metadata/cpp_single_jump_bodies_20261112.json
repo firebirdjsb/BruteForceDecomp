@@ -1,0 +1,9 @@
+{"original_xbe_sha256": "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721",
+ "cases": [
+    {"entry": "0x00312bed", "symbol": "DSOUND__IDirectSoundStream_SetVolume", "sha256": "3C295A6735660FA07245D8375A355BD0286DE399D464E3638623C39501DE71D0", "size": 5, "target": "0x003128b6"},
+    {"entry": "0x00312bf2", "symbol": "DSOUND__IDirectSoundStream_SetPitch", "sha256": "FAC99F18E6801C750C6DD00A7ED2B7198DF934CEF079D88A302C5EA6E3759FD9", "size": 5, "target": "0x00312864"},
+    {"entry": "0x00312c01", "symbol": "DSOUND__IDirectSoundStream_SetMixBinVolumes_8", "sha256": "D2EBC250D596551312E959C229A777E0EB411B50D2A16DCE052A2E3AD395C151", "size": 5, "target": "0x003129ac"},
+    {"entry": "0x00312c06", "symbol": "DSOUND__IDirectSoundStream_Pause", "sha256": "E67FB6A884326DE86B3A27E7CB0B4963584485B4E033835E78D6079A1BA1C997", "size": 5, "target": "0x003125ad"},
+    {"entry": "0x00313a25", "symbol": "DSOUND__IDirectSoundStream_SetMode", "sha256": "6AFBBCA40C10FF8DAF80CD885DB2F7C950AE1C8A1B29CA097BE8549D25D0497F", "size": 5, "target": "0x003136e4"}
+ ]
+}
