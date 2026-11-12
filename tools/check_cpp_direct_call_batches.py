@@ -62,6 +62,11 @@ def verify_sources(root, batch):
             declaration = ALLOCATOR if callee == "0x002ea01d" else f"extern {signature};"
             require(text.splitlines().count(declaration) == 1, f"declaration differs at {entry}")
             require(bool(call["sites"]) and bool(call["returns"]), f"missing edge evidence at {entry}")
+            name = signature.split("(", 1)[0].split()[-1]
+            call_text = text.replace(declaration, "", 1)
+            call_text = re.sub(r"/\*.*?\*/|//[^\n]*", "", call_text, flags=re.S)
+            require(len(re.findall(r"\b" + re.escape(name) + r"\s*\(", call_text)) == len(call["sites"]),
+                    f"source call count differs for {name} at {entry}")
             for site in call["sites"]:
                 require(site not in seen_sites, f"duplicate call site {site}")
                 seen_sites.add(site)

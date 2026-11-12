@@ -6,6 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern undefined4 FUN_00312d43(undefined4 param_1,int param_2);
+extern void FUN_00311c80(byte *param_1);
+extern undefined4 DSOUND__CMcpxVoiceClient_SetMixBins(void);
+extern undefined4 DSOUND__CMcpxVoiceClient_SetPitch(void);
 void DSOUND__CDirectSoundVoice_SetFormat(int param_1,undefined4 param_2)
 
 {
@@ -17,9 +22,9 @@ void DSOUND__CDirectSoundVoice_SetFormat(int param_1,undefined4 param_2)
   }
   iVar1 = (**(code **)(**(int **)(param_1 + 0xc) + 0x10))();
   if (-1 < iVar1) {
-    iVar1 = CMcpxVoiceClient_SetMixBins();
+    iVar1 = DSOUND__CMcpxVoiceClient_SetMixBins();
     if (-1 < iVar1) {
-      CMcpxVoiceClient_SetPitch();
+      DSOUND__CMcpxVoiceClient_SetPitch();
     }
   }
   return;

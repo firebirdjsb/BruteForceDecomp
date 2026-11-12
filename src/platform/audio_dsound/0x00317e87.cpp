@@ -6,6 +6,13 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern void FUN_003118f0(void);
+extern void FUN_003161b3(int param_1);
+extern undefined4 FUN_0031618c(int param_1);
+extern void FUN_003174e3(void);
+extern void FUN_00318d9f(void);
+extern void FUN_00311923(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t _DAT_fe820010;

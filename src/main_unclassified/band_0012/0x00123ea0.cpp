@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern void FUN_00123f60(void);
+extern void FUN_00126320(void);
+extern undefined1 FUN_0012eab0(char param_1);
 /* XBE 0x00123f17: fcomp m32fp [0x003c05fc], a four-byte float.
  * Original file bits 0x40800000 (4.0f); symbol linkage remains ABI_UNVERIFIED. */
 extern float DAT_003c05fc;

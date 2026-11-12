@@ -6,6 +6,14 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern uint FUN_002e76c0(void);
+extern undefined1 FUN_002e4840(int param_1);
+extern void FUN_002e4850(int param_1,char param_2);
+extern void FUN_002e4490(void);
+extern void FUN_002e44e0(void);
+extern void FUN_002e75c0(char param_1);
+extern undefined4 FUN_002e7a40(int param_1);
 void FUN_002e5c20(int param_1)
 
 {

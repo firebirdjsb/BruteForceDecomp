@@ -6,6 +6,12 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern int DSOUND__CMcpxBuffer_Play(uint param_1);
+extern uint FUN_003166f1(uint param_1);
+extern void FUN_003118f0(void);
+extern void FUN_00311923(void);
+extern void FUN_003194ea(void);
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint32_t DAT_0032ff48;
@@ -32,7 +38,7 @@ int DSOUND__CMcpxBuffer_SetCurrentPosition(uint param_1)
     if (((*(ushort *)(in_ECX + 0x12) & 0x203) == 0x203) &&
        ((uint)(*(int *)(*(int *)(in_ECX + 0x88) + 0xcc) + *(int *)(*(int *)(in_ECX + 0x88) + 200))
         <= param_1)) {
-      local_8 = CMcpxBuffer_Play(0);
+      local_8 = DSOUND__CMcpxBuffer_Play(0);
       if (local_8 < 0) goto LAB_00319849;
     }
     uVar1 = FUN_003166f1(param_1);
