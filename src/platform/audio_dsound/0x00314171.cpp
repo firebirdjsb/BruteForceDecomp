@@ -6,9 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern undefined4 DSOUND__CDirectSound_SetDistanceFactor(int param_1,undefined4 param_2,byte param_3);
 void DSOUND__IDirectSound_SetDistanceFactor(int param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  CDirectSound_SetDistanceFactor(-(uint)(param_1 != 0) & param_1 - 8U,param_2,param_3);
+  DSOUND__CDirectSound_SetDistanceFactor(-(uint)(param_1 != 0) & param_1 - 8U,param_2,param_3);
   return;
 }

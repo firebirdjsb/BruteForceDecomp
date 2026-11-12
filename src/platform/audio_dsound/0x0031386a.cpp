@@ -6,9 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern undefined4 DSOUND__CDirectSound_CommitDeferredSettings(int param_1);
 void DSOUND__IDirectSound_CommitDeferredSettings(int param_1)
 
 {
-  CDirectSound_CommitDeferredSettings(-(uint)(param_1 != 0) & param_1 - 8U);
+  DSOUND__CDirectSound_CommitDeferredSettings(-(uint)(param_1 != 0) & param_1 - 8U);
   return;
 }

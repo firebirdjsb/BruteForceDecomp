@@ -6,6 +6,9 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern undefined4 DSOUND__XAudioCalculatePitch(int param_1);
+extern void DSOUND__CDirectSoundVoice_SetPitch(int param_1,undefined4 param_2);
 void DSOUND__CDirectSoundVoice_SetFrequency(int param_1,int param_2)
 
 {
@@ -14,7 +17,7 @@ void DSOUND__CDirectSoundVoice_SetFrequency(int param_1,int param_2)
   if (param_2 == 0) {
     param_2 = *(int *)(*(int *)(param_1 + 0x10) + 0x10);
   }
-  uVar1 = XAudioCalculatePitch(param_2);
-  CDirectSoundVoice_SetPitch(param_1,uVar1);
+  uVar1 = DSOUND__XAudioCalculatePitch(param_2);
+  DSOUND__CDirectSoundVoice_SetPitch(param_1,uVar1);
   return;
 }

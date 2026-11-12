@@ -6,9 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern undefined4 DSOUND__CDirectSoundBuffer_SetHeadroom(undefined4 param_1,undefined4 param_2);
 void DSOUND__IDirectSoundBuffer_SetHeadroom(int param_1,undefined4 param_2)
 
 {
-  CDirectSoundBuffer_SetHeadroom(-(uint)(param_1 != 0) & param_1 - 0x1cU,param_2);
+  DSOUND__CDirectSoundBuffer_SetHeadroom(-(uint)(param_1 != 0) & param_1 - 0x1cU,param_2);
   return;
 }

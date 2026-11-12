@@ -6,6 +6,10 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern undefined4 FUN_0031672b(void);
+extern undefined4 DSOUND__CMcpxStream_Stop_Ex(int param_1,int param_2,undefined4 param_3);
+extern void FUN_00318d9f(void);
 undefined4 DSOUND__CMcpxStream_Discontinuity(void)
 
 {
@@ -15,7 +19,7 @@ undefined4 DSOUND__CMcpxStream_Discontinuity(void)
   uVar2 = 0;
   iVar1 = FUN_0031672b();
   if (iVar1 == 0) {
-    uVar2 = CMcpxStream_Stop_Ex(0,0,1);
+    uVar2 = DSOUND__CMcpxStream_Stop_Ex(0,0,1);
   }
   else {
     FUN_00318d9f();

@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern undefined4 DSOUND__CDirectSoundVoice_CommitDeferredSettings(int param_1);
 undefined4
 DSOUND__CDirectSoundVoice_SetVelocity
           (int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,byte param_5)
@@ -19,7 +21,7 @@ DSOUND__CDirectSoundVoice_SetVelocity
   pbVar1 = (byte *)(*(int *)(*(int *)(param_1 + 0x10) + 0xb4) + 0x78);
   *pbVar1 = *pbVar1 | 0x80;
   if ((param_5 & 1) == 0) {
-    CDirectSoundVoice_CommitDeferredSettings(param_1);
+    DSOUND__CDirectSoundVoice_CommitDeferredSettings(param_1);
   }
   return 0;
 }

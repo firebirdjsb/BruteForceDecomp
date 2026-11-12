@@ -6,6 +6,8 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern uint DSOUND__CMcpxVoiceClient_Commit3dSettings(void);
 undefined4 DSOUND__CDirectSoundVoice_CommitDeferredSettings(int param_1)
 
 {
@@ -14,7 +16,7 @@ undefined4 DSOUND__CDirectSoundVoice_CommitDeferredSettings(int param_1)
   
   puVar1 = (uint *)(*(int *)(*(int *)(param_1 + 0x10) + 0xb4) + 0x78);
   *puVar1 = *puVar1 | *(uint *)(*(int *)(*(int *)(param_1 + 8) + 8) + 0xa4);
-  uVar2 = CMcpxVoiceClient_Commit3dSettings();
+  uVar2 = DSOUND__CMcpxVoiceClient_Commit3dSettings();
   puVar1 = (uint *)(*(int *)(*(int *)(param_1 + 0x10) + 0xb4) + 0x78);
   *puVar1 = *puVar1 & ~uVar2;
   return 0;

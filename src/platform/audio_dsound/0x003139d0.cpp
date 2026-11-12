@@ -6,9 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern undefined4 DSOUND__CDirectSoundBuffer_SetPlayRegion(int param_1,int param_2,int param_3);
 void DSOUND__IDirectSoundBuffer_SetPlayRegion(int param_1,undefined4 param_2,undefined4 param_3)
 
 {
-  CDirectSoundBuffer_SetPlayRegion(-(uint)(param_1 != 0) & param_1 - 0x1cU,param_2,param_3);
+  DSOUND__CDirectSoundBuffer_SetPlayRegion(-(uint)(param_1 != 0) & param_1 - 0x1cU,param_2,param_3);
   return;
 }
