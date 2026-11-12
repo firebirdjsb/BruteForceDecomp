@@ -1,28 +1,18 @@
-/* Partial original DWORD address values; other C++ errors remain.
- * Complete register/memory contracts and behavior are ABI_UNVERIFIED. */
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest DWORD memory operations.
  * Input x86 body SHA-256: 7A83B0C387114D8F1A7AB1E629BFDF90497E0B11E54EDDDA319A39949712D669
  * Entry: 0x00311b03, Ghidra index: 11914, label: FUN_00311b03
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: X86_OPERANDS_OBSERVED, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_0032fe68;
-extern uint32_t PTR_FUN_00386988;
-void FUN_00311b03(void)
+#include "bf_xbe_guest32_record_model.h"
 
+uint32_t FUN_00311b03(uint32_t guest_ecx)
 {
-  undefined4 *puVar1;
-  undefined4 *in_ECX;
-  
-  puVar1 = in_ECX + 4;
-  in_ECX[1] = 2;
-  *in_ECX = UINT32_C(0x00386988);
-  DAT_0032fe68 = in_ECX;
-  in_ECX[5] = puVar1;
-  *puVar1 = puVar1;
-  return;
+    // 0x00311B05 computes the guest address of the embedded record at +0x10.
+    const uint32_t link = guest_ecx + 0x10u;
+    bf_guest_write_u32(guest_ecx + 4u, 2u);
+    bf_guest_write_u32(guest_ecx, 0x00386988u);
+    bf_guest_write_u32(0x0032fe68u, guest_ecx);
+    bf_guest_write_u32(guest_ecx + 0x14u, link);
+    bf_guest_write_u32(link, link);
+    return guest_ecx; // MOV EAX,ECX at entry supplies the original return word.
 }
