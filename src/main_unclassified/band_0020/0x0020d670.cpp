@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbe_guest32_record_model.h"
 void FUN_0020d670(int param_1,int param_2)
 
 {
@@ -13,8 +14,11 @@ void FUN_0020d670(int param_1,int param_2)
   
   for (; param_1 != param_2; param_1 = param_1 + 0x24) {
     if (param_1 != unaff_EDI) {
-      if (*(int *)(unaff_EDI + 4) != *(int *)(param_1 + 4)) {
-        FUN_0008f6a0(*(int *)(unaff_EDI + 4));
+      const uint32_t destination_word = *(uint32_t *)(param_1 + 4);
+      const uint32_t source_word = *(uint32_t *)(unaff_EDI + 4);
+      if (source_word != destination_word) {
+        // ESI is the current destination. 0x0020D68E pushes the source DWORD.
+        FUN_0008f6a0(static_cast<uint32_t>(param_1), source_word);
       }
       *(undefined4 *)(param_1 + 8) = *(undefined4 *)(unaff_EDI + 8);
       *(undefined4 *)(param_1 + 0xc) = *(undefined4 *)(unaff_EDI + 0xc);

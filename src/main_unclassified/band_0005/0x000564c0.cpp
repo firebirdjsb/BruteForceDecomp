@@ -6,7 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern uint32_t FUN_000120f0(uint32_t guest_eax);
 extern void FUN_00056530(int param_1,int param_2);
 extern void FUN_00056980(int param_1,undefined4 param_2);
 
@@ -18,7 +18,8 @@ void FUN_000564c0(void)
   undefined4 unaff_ESI;
   undefined4 unaff_EDI;
   
-  piVar1 = (int *)FUN_000120f0();
+  // 0x000564C3 copies the incoming ESI DWORD into EAX.
+  piVar1 = (int *)FUN_000120f0(unaff_ESI);
   pfVar2 = (float *)(**(code **)(*piVar1 + 0x54))();
   if (1.6899998 < *pfVar2 * *pfVar2 + pfVar2[2] * pfVar2[2]) {
     FUN_00056530(unaff_EDI,unaff_ESI);

@@ -6,12 +6,12 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbe_guest32_record_model.h"
 /* TODO: Ghidra data labels have unresolved type and storage identities.
  * These declarations only allow syntax analysis; they are NOT verified types. */
 extern uint FUN_000c8ba0(void);
 extern void FUN_001f7540(undefined4 param_1,int param_2);
 extern int FUN_000c85d0(int param_1);
-extern void FUN_0008f6e0(std::uint32_t guest_edx);
 
 extern uint32_t DAT_00414da0;
 void FUN_000c8a30(void)
@@ -60,11 +60,15 @@ void FUN_000c8a30(void)
             uVar3 = *(int *)(in_EAX + 0x90) - *(int *)(in_EAX + 0x8c) >> 3;
           }
           if ((uVar5 == uVar3) && ((*(byte *)(uVar6 + 0x26) & 8) != 0)) {
-            uVar5 = *(uint *)(*(int *)(in_EAX + 0x8c) + 4 + local_10);
-            puVar7 = (undefined4 *)(*(int *)(in_EAX + 0x8c) + local_10);
+            // 0x000C8B01..0x000C8B10 load the table base and add the DWORD offset.
+            const uint32_t guest_record_va = *(uint32_t *)(in_EAX + 0x8c) +
+                                             static_cast<uint32_t>(local_10);
+            uVar5 = *(uint *)(guest_record_va + 4u);
+            puVar7 = (undefined4 *)guest_record_va;
             if (uVar5 != uVar6) {
               if (uVar5 != 0) {
-                FUN_0008f6e0();
+                // 0x000C8B19 passes this same guest address in EDX.
+                FUN_0008f6e0(guest_record_va);
               }
               puVar7[1] = uVar6;
               if ((uVar6 & 1) == 0) {

@@ -6,7 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern uint32_t FUN_000120f0(uint32_t guest_eax);
 
 void FUN_00041ff0(void)
 
@@ -22,7 +22,8 @@ void FUN_00041ff0(void)
   int local_8;
   int local_4;
   
-  iVar3 = FUN_000120f0();
+  // 0x00041FF4 copies the incoming ESI DWORD into EAX.
+  iVar3 = FUN_000120f0(static_cast<uint32_t>(unaff_ESI));
   if (((iVar3 != 0) && (*(int *)(unaff_ESI + 0x934) != 0)) &&
      ((*(int *)(unaff_ESI + 0x938) - *(int *)(unaff_ESI + 0x934)) / 0x18 != 0)) {
     local_4 = *(int *)(unaff_ESI + 0x940) + 1;

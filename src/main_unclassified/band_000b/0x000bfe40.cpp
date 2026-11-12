@@ -6,7 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
-extern void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0);
+#include "bf_xbe_guest32_record_model.h"
 
 void FUN_000bfe40(void)
 
@@ -23,7 +23,9 @@ void FUN_000bfe40(void)
   if (fVar3 < *(float *)(unaff_EDI + 0x28)) {
     *(float *)(unaff_EDI + 0x28) = fVar3;
     if (*(int *)(unaff_EDI + 0x10) != in_ECX) {
-      FUN_0008f6a0();
+      // 0x000BFE72 forms ESI = EDI + 0x0C. 0x000BFE77 pushes entry ECX.
+      FUN_0008f6a0(static_cast<uint32_t>(unaff_EDI) + 0x0cu,
+                   static_cast<uint32_t>(in_ECX));
     }
     uVar1 = unaff_EBX[2];
     uVar2 = unaff_EBX[1];

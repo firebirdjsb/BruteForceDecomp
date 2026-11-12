@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbe_guest32_record_model.h"
 int FUN_0020d9c0(int param_1,int param_2)
 
 {
@@ -13,8 +14,11 @@ int FUN_0020d9c0(int param_1,int param_2)
   
   for (; param_1 != param_2; param_1 = param_1 + 0x24) {
     if (in_EAX != param_1) {
-      if (*(int *)(param_1 + 4) != *(int *)(in_EAX + 4)) {
-        FUN_0008f6a0(*(int *)(param_1 + 4));
+      const uint32_t destination_word = *(uint32_t *)(in_EAX + 4);
+      const uint32_t source_word = *(uint32_t *)(param_1 + 4);
+      if (source_word != destination_word) {
+        // ESI starts at entry EAX and advances by 0x24 per record.
+        FUN_0008f6a0(static_cast<uint32_t>(in_EAX), source_word);
       }
       *(undefined4 *)(in_EAX + 8) = *(undefined4 *)(param_1 + 8);
       *(undefined4 *)(in_EAX + 0xc) = *(undefined4 *)(param_1 + 0xc);

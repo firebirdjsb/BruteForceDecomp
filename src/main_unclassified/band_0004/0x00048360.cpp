@@ -13,7 +13,7 @@ extern void FUN_000489d0(void);
 extern void FUN_00048ab0(void);
 extern void FUN_00048bb0(void);
 extern void FUN_00048d30(void);
-extern uint32_t FUN_000120f0(int32_t in_EAX);
+extern uint32_t FUN_000120f0(uint32_t guest_eax);
 
 void FUN_00048360(int param_1,int param_2)
 
@@ -126,7 +126,10 @@ void FUN_00048360(int param_1,int param_2)
   *(byte *)(param_1 + 0x374) =
        *(byte *)(param_1 + 0x374) ^
        (*(char *)(param_2 + 0x3cc) << 3 ^ *(byte *)(param_1 + 0x374)) & 8;
-  iVar4 = FUN_000120f0();
+  // 0x00048362 loads the second guest stack DWORD into EBX.
+  // 0x000486CC reloads that slot after EBX was used as a temporary address.
+  // 0x0004872D copies that DWORD into EAX.
+  iVar4 = FUN_000120f0(static_cast<uint32_t>(param_2));
   bVar3 = *(byte *)(param_1 + 0x374) ^ (*(byte *)(iVar4 + 0x670) ^ *(byte *)(param_1 + 0x374)) & 1;
   *(byte *)(param_1 + 0x374) = bVar3;
   if ((bVar3 & 1) != 0) {

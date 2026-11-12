@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+extern uint32_t FUN_000120f0(uint32_t guest_eax);
 undefined4 FUN_001730c0(undefined4 param_1,undefined4 *param_2)
 
 {
@@ -14,7 +15,8 @@ undefined4 FUN_001730c0(undefined4 param_1,undefined4 *param_2)
   int iVar3;
   undefined4 *puVar4;
   
-  iVar3 = FUN_000120f0();
+  // 0x001730C1..0x001730C7 load the first stack DWORD and subtract 0x80 in EAX.
+  iVar3 = FUN_000120f0(param_1 - 0x80u);
   puVar4 = (undefined4 *)(**(code **)(*(int *)(iVar3 + 0x48) + 0xc))();
   uVar1 = puVar4[2];
   uVar2 = puVar4[1];

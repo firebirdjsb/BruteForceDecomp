@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_xbe_guest32_record_model.h"
 void FUN_001f7bf0(void)
 
 {
@@ -14,8 +15,10 @@ void FUN_001f7bf0(void)
   
   if (in_ECX != 0) {
     *(undefined4 *)(in_ECX + 4) = 0;
-    if (*(int *)(in_EAX + 4) != 0) {
-      FUN_0008f6a0(*(int *)(in_EAX + 4));
+    const uint32_t guest_word = *(uint32_t *)(in_EAX + 4);
+    if (guest_word != 0) {
+      // 0x001F7BF1 binds ESI to entry ECX. 0x001F7C05 pushes the loaded DWORD.
+      FUN_0008f6a0(static_cast<uint32_t>(in_ECX), guest_word);
     }
   }
   return;
