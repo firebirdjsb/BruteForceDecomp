@@ -32,9 +32,9 @@ class SupercededLiteralLedgerTests(unittest.TestCase):
         self.cases = {}
         for path in MANIFESTS:
             for case in json.loads((ROOT / path).read_text())['cases']:
-                if case['entry'] in {'0x001736a0', '0x002e7580'}:
+                if case['entry'] in {'0x001736a0', '0x002e7580', '0x00311b03', '0x0031aa6e'}:
                     self.cases[case['entry']] = case
-        self.assertEqual(set(self.cases), {'0x001736a0', '0x002e7580'})
+        self.assertEqual(set(self.cases), {'0x001736a0', '0x002e7580', '0x00311b03', '0x0031aa6e'})
 
     def test_both_old_and_live_sources_hash_pinned(self):
         for entry, case in self.cases.items():

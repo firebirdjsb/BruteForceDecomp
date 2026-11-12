@@ -74,6 +74,10 @@ jobs:
         run: python3 tools/verify_cpp_dword_operations.py
       - name: Verify superseded guest32 historical literal ledgers and live source pins
         run: python3 tools/test_cpp_20261107_superseded_literal_ledger.py
+      - name: Verify two real color-helper object links and missing-definition controls
+        run: python3 tools/check_cpp_20261112_color_object_links.py
+      - name: Compile link and exercise three guest DWORD initializer models
+        run: python3 tools/check_cpp_guest_record_initializers.py
       - name: Verify 209 further partial DWORD operand repairs
         run: python3 tools/verify_cpp_remaining_literal_repairs.py
       - name: Verify 20 original-XBE-gated byte-offset syntax repairs
