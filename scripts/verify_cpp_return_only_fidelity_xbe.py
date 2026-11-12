@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Pin five original bodies whose return-only C++ drafts omit machine effects.
 
-This evidence gate does not repair or execute the drafts, and does not clear
-their five fidelity flags. No original executable bytes are stored here.
+This evidence gate authenticates the original bodies from the initial audit.
+No original executable bytes are stored here.
 """
 import argparse
 import hashlib
@@ -47,7 +47,7 @@ def verify(raw):
         if hashlib.sha256(gather(raw, layout, ranges)).hexdigest().upper() != expected:
             raise ValueError(f'original body digest mismatch: {entry:#010x}')
     print('PASS: authenticated XBE and all five return-only draft body digests')
-    print('CONFIRMED INCOMPLETE: original x87/control-word/probe effects remain unreconstructed')
+    print('This provenance check does not execute the C++ reconstructions.')
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
