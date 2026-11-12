@@ -49,6 +49,7 @@ int check_anchors()
         uint32_t second, third;
         bf_00233020_words(value.input, &second, &third);
         if (second != value.second || third != value.third ||
+            bf_00233150_word(value.input) != value.second ||
             bf_002331f0_word(value.input) != value.third) {
             return 1;
         }
@@ -65,6 +66,10 @@ int check_anchors()
             return 3;
         }
     }
+    set_mxcsr(0x1f80);
+    if (bf_00233290_word(0) != 0 || bf_00233290_word(0x80000000) != 0x80000000) {
+        return 10;
+    }
     set_mxcsr(entry_mxcsr);
     return 0;
 }
@@ -73,8 +78,12 @@ int check_anchors()
 
 #ifdef BF_RETAIL_I386_ORACLE
 extern "C" void retail_233020(uint32_t, void *, void *);
+extern "C" void observe_retail_233150(uint32_t, unsigned char *, uint16_t *);
+extern "C" void observe_cpp_233150(uint32_t, unsigned char *, uint16_t *);
 extern "C" void observe_retail_2331f0(uint32_t, unsigned char *, uint16_t *);
 extern "C" void observe_cpp_2331f0(uint32_t, unsigned char *, uint16_t *);
+extern "C" void observe_retail_233290(uint32_t, unsigned char *, uint16_t *);
+extern "C" void observe_cpp_233290(uint32_t, unsigned char *, uint16_t *);
 
 // A freestanding i386 test can still emit a copy for initialized local arrays.
 extern "C" void *memcpy(void *dst, const void *src, unsigned count)
@@ -94,6 +103,26 @@ extern "C" void *memset(void *dst, int value, unsigned count)
         out[i] = static_cast<unsigned char>(value);
     }
     return dst;
+}
+
+using observe_result = void (*)(uint32_t, unsigned char *, uint16_t *);
+
+static bool compare_extended(uint32_t input, uint32_t mxcsr, observe_result original,
+                             observe_result model, uint32_t &original_mxcsr)
+{
+    unsigned char retail_st0[10], cpp_st0[10];
+    uint16_t retail_status, cpp_status;
+    __asm__ volatile("fninit" : : : "memory");
+    set_mxcsr(mxcsr);
+    original(input, retail_st0, &retail_status);
+    original_mxcsr = get_mxcsr();
+    __asm__ volatile("fninit" : : : "memory");
+    set_mxcsr(mxcsr);
+    model(input, cpp_st0, &cpp_status);
+    // Compare TOP and the architecturally defined FLD exception/status bits.
+    constexpr uint16_t status_mask = 0x3abf;
+    return equal(retail_st0, cpp_st0, sizeof(retail_st0)) &&
+           ((retail_status ^ cpp_status) & status_mask) == 0 && original_mxcsr == get_mxcsr();
 }
 
 static int compare(uint32_t input, uint32_t mxcsr)
@@ -117,24 +146,23 @@ static int compare(uint32_t input, uint32_t mxcsr)
         return 5;
     }
 
-    unsigned char retail_st0[10], cpp_st0[10];
-    uint16_t retail_status, cpp_status;
-    __asm__ volatile("fninit" : : : "memory");
-    set_mxcsr(mxcsr);
-    observe_retail_2331f0(input, retail_st0, &retail_status);
-    const uint32_t single_status = get_mxcsr();
-    __asm__ volatile("fninit" : : : "memory");
-    set_mxcsr(mxcsr);
-    observe_cpp_2331f0(input, cpp_st0, &cpp_status);
-    // Compare TOP and the architecturally defined FLD exception/status bits.
-    constexpr uint16_t status_mask = 0x3abf;
-    if (!equal(retail_st0, cpp_st0, sizeof(retail_st0)) ||
-        ((retail_status ^ cpp_status) & status_mask) != 0 || single_status != get_mxcsr()) {
+    uint32_t single_status;
+    if (!compare_extended(input, mxcsr, observe_retail_2331f0, observe_cpp_2331f0, single_status)) {
         return 6;
     }
     set_mxcsr(mxcsr);
     if (bf_002331f0_word(input) != retail_third || single_status != get_mxcsr()) {
         return 7;
+    }
+    if (!compare_extended(input, mxcsr, observe_retail_233150, observe_cpp_233150, single_status)) {
+        return 8;
+    }
+    set_mxcsr(mxcsr);
+    if (bf_00233150_word(input) != retail_second || single_status != get_mxcsr()) {
+        return 9;
+    }
+    if (!compare_extended(input, mxcsr, observe_retail_233290, observe_cpp_233290, single_status)) {
+        return 11;
     }
     return 0;
 }

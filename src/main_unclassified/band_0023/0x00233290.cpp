@@ -1,41 +1,32 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - bounded scalar SSE and result transport.
  * Input x86 body SHA-256: 51DE2978460DD0EEEAFEC427B85E551ADA075137DBCA706B5D4D32D84F101BB6
  * Entry: 0x00233290, Ghidra index: 7781, label: FUN_00233290
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: X86_OPERANDS_OBSERVED, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-#include <xmmintrin.h>
-float10 FUN_00233290(float param_1)
+#include "bf_00233_scalar_sse.h"
+#include "bf_00233_sse_operations.h"
 
+uint32_t bf_00233290_word(uint32_t angle)
 {
-  uint uVar1;
-  uint uVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float reciprocal;
-  float fVar7;
-  
-  fVar3 = ABS(param_1) * 0.63661975;
-  uVar1 = (uint)(fVar3 + 1.0);
-  fVar4 = (fVar3 + 1.0) - (float)(int)uVar1;
-  if ((uVar1 & 1) != 0) {
-    fVar4 = 1.0 - fVar4;
-  }
-  uVar2 = (uint)fVar3;
-  fVar3 = fVar3 - (float)(int)uVar2;
-  if ((uVar2 & 1) != 0) {
-    fVar3 = 1.0 - fVar3;
-  }
-  fVar5 = fVar4 * fVar4;
-  fVar7 = fVar3 * fVar3;
-  reciprocal = _mm_cvtss_f32(_mm_rcp_ss(_mm_set_ss(
-      (((fVar5 * -0.004681754 + 0.079692625) * fVar5 + -0.6459641) * fVar5 +
-       1.5707964) * fVar4)));
-  return (float10)(reciprocal *
-                  (((fVar7 * -0.004681754 + 0.079692625) * fVar7 + -0.6459641) * fVar7 + 1.5707964)
-                  * (float)((uint)fVar3 |
-                           (uint)param_1 & 0x80000000 ^ (uVar1 & 2) << 0x1e ^ (uVar2 & 2) << 0x1e));
+    using namespace bf_00233_sse;
+    const __m128 magnitude = scaled_magnitude(angle);
+    const __m128 shifted = add(magnitude, load(one));
+    const int32_t shifted_index = truncate(shifted);
+    const __m128 shifted_fraction = fold(shifted, shifted_index, convert(shifted_index));
+    const int32_t base_index = truncate(magnitude);
+    const __m128 base_fraction = fold(magnitude, base_index, convert(base_index));
+
+    // The two XORs at 0x002332EB and 0x0023332D transfer both quadrant signs
+    // to the numerator. The denominator retains its original folded sign.
+    const uint32_t sign = (angle & sign_mask) ^ quadrant_sign(shifted_index) ^ quadrant_sign(base_index);
+    const scalar_pair values = evaluate_pair(shifted_fraction, base_fraction, 0, sign);
+    __m128 reciprocal = values.shifted;
+    // 0x00233392 uses the CPU's approximate RCPSS, followed by MULSS.
+    __asm__ volatile("rcpss %0, %0" : "+x"(reciprocal) : : "memory");
+    return capture_lane(multiply(reciprocal, values.base));
+}
+
+long double FUN_00233290(float angle)
+{
+    return bf_00233_sse::transport_result(bf_00233290_word(bf_00233_sse::capture(angle)));
 }

@@ -103,5 +103,63 @@ inline uint32_t quadrant_sign(int32_t index)
     return (static_cast<uint32_t>(index) << 30) & sign_mask;
 }
 
+inline __m128 evaluate(__m128 fraction, uint32_t sign)
+{
+    const __m128 square = multiply(fraction, fraction);
+    __m128 polynomial = multiply(square, load(coefficient_3));
+    polynomial = add(polynomial, load(coefficient_2));
+    polynomial = multiply(polynomial, square);
+    polynomial = add(polynomial, load(coefficient_1));
+    polynomial = multiply(polynomial, square);
+    const __m128 signed_fraction = _mm_or_ps(fraction, load(sign));
+    polynomial = add(polynomial, load(coefficient_0));
+    return multiply(polynomial, signed_fraction);
+}
+
+struct scalar_pair {
+    __m128 shifted, base;
+};
+
+inline scalar_pair evaluate_pair(__m128 shifted_fraction, __m128 base_fraction,
+                                 uint32_t shifted_sign, uint32_t base_sign)
+{
+    // The original 0x00233020 and 0x00233290 interleave both evaluations.
+    const __m128 shifted_square = multiply(shifted_fraction, shifted_fraction);
+    const __m128 base_square = multiply(base_fraction, base_fraction);
+    __m128 shifted_poly = multiply(shifted_square, load(coefficient_3));
+    __m128 base_poly = multiply(base_square, load(coefficient_3));
+    shifted_poly = add(shifted_poly, load(coefficient_2));
+    base_poly = add(base_poly, load(coefficient_2));
+    shifted_poly = multiply(shifted_poly, shifted_square);
+    base_poly = multiply(base_poly, base_square);
+    shifted_poly = add(shifted_poly, load(coefficient_1));
+    base_poly = add(base_poly, load(coefficient_1));
+    shifted_poly = multiply(shifted_poly, shifted_square);
+    const __m128 signed_shifted = _mm_or_ps(shifted_fraction, load(shifted_sign));
+    base_poly = multiply(base_poly, base_square);
+    const __m128 signed_base = _mm_or_ps(base_fraction, load(base_sign));
+    shifted_poly = add(shifted_poly, load(coefficient_0));
+    base_poly = add(base_poly, load(coefficient_0));
+    const __m128 shifted = multiply(shifted_poly, signed_shifted);
+    const __m128 base = multiply(base_poly, signed_base);
+    return {shifted, base};
+}
+
+__attribute__((always_inline)) inline long double transport_result(uint32_t word)
+{
+#if LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384
+    // Each original single-result entry reloads its final DWORD with FLD m32fp.
+    long double result;
+    __asm__ volatile("flds %1" : "=t"(result) : "m"(word) : "memory");
+    return result;
+#else
+    // Existing host signature projects the numeric result on binary64 hosts.
+    // Native Xbox ST(0) transport on those hosts remains ABI_UNVERIFIED.
+    float result;
+    __builtin_memcpy(&result, &word, sizeof(result));
+    return static_cast<long double>(result);
+#endif
+}
+
 } // namespace bf_00233_sse
 #endif

@@ -1,24 +1,23 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - bounded scalar SSE and result transport.
  * Input x86 body SHA-256: 1766A887C36D56E928CAE5AE5B510AE831035818E02349681EF194A245BB93AB
  * Entry: 0x00233150, Ghidra index: 7779, label: FUN_00233150
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: X86_OPERANDS_OBSERVED, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-float10 FUN_00233150(float param_1)
+#include "bf_00233_scalar_sse.h"
+#include "bf_00233_sse_operations.h"
 
+uint32_t bf_00233150_word(uint32_t angle)
 {
-  uint uVar1;
-  float fVar2;
-  float fVar3;
-  
-  uVar1 = (uint)(ABS(param_1) * 0.63661975);
-  fVar2 = ABS(param_1) * 0.63661975 - (float)(int)uVar1;
-  if ((uVar1 & 1) != 0) {
-    fVar2 = 1.0 - fVar2;
-  }
-  fVar3 = fVar2 * fVar2;
-  return (float10)((((fVar3 * -0.004681754 + 0.079692625) * fVar3 + -0.6459641) * fVar3 + 1.5707964)
-                  * (float)((uint)fVar2 | (uint)param_1 & 0x80000000 ^ (uVar1 & 2) << 0x1e));
+    using namespace bf_00233_sse;
+    const __m128 magnitude = scaled_magnitude(angle);
+    const int32_t index = truncate(magnitude);
+    const __m128 fraction = fold(magnitude, index, convert(index));
+    // XOR at 0x002331A3 combines the original input sign and quadrant sign.
+    const uint32_t sign = (angle & sign_mask) ^ quadrant_sign(index);
+    return capture_lane(evaluate(fraction, sign));
+}
+
+long double FUN_00233150(float angle)
+{
+    return bf_00233_sse::transport_result(bf_00233150_word(bf_00233_sse::capture(angle)));
 }

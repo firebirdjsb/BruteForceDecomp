@@ -18,26 +18,11 @@ void bf_00233020_words(uint32_t angle, void *second_stack_output, void *third_st
     const __m128 shifted_fraction = fold(shifted, shifted_index, shifted_integer);
     const __m128 base_fraction = fold(magnitude, base_index, base_integer);
 
-    // Original scalar arithmetic interleaves the two polynomial evaluations.
-    const __m128 shifted_square = multiply(shifted_fraction, shifted_fraction);
-    const __m128 base_square = multiply(base_fraction, base_fraction);
-    __m128 shifted_poly = multiply(shifted_square, load(coefficient_3));
-    __m128 base_poly = multiply(base_square, load(coefficient_3));
-    shifted_poly = add(shifted_poly, load(coefficient_2));
-    base_poly = add(base_poly, load(coefficient_2));
-    shifted_poly = multiply(shifted_poly, shifted_square);
-    base_poly = multiply(base_poly, base_square);
-    shifted_poly = add(shifted_poly, load(coefficient_1));
-    base_poly = add(base_poly, load(coefficient_1));
-    shifted_poly = multiply(shifted_poly, shifted_square);
-    const __m128 signed_shifted = _mm_or_ps(shifted_fraction, load(quadrant_sign(shifted_index)));
-    base_poly = multiply(base_poly, base_square);
     const uint32_t base_sign = (angle & sign_mask) ^ quadrant_sign(base_index);
-    const __m128 signed_base = _mm_or_ps(base_fraction, load(base_sign));
-    shifted_poly = add(shifted_poly, load(coefficient_0));
-    base_poly = add(base_poly, load(coefficient_0));
-    const uint32_t shifted_word = capture_lane(multiply(shifted_poly, signed_shifted));
-    const uint32_t base_word = capture_lane(multiply(base_poly, signed_base));
+    const scalar_pair result = evaluate_pair(shifted_fraction, base_fraction,
+                                             quadrant_sign(shifted_index), base_sign);
+    const uint32_t shifted_word = capture_lane(result.shifted);
+    const uint32_t base_word = capture_lane(result.base);
 
     // 0x00233142 stores the third stack output before 0x00233148 stores the
     // second. Each store copies exactly one binary32 word, including aliases.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify two scalar SSE reconstructions and their original CALL bindings."""
+"""Verify four scalar SSE reconstructions and original CALL bindings."""
 import argparse
 import hashlib
 from pathlib import Path
@@ -14,10 +14,12 @@ from source_layout import source_path
 
 
 PAIR = "0x00233020"
-SINGLE = "0x002331f0"
+ROUTINES = (PAIR, "0x00233150", "0x002331f0", "0x00233290")
 BODIES = {
     PAIR: (303, "2382652B390516BB996BB81A12D1F0BCAF195D5E559D7A59ADD4AE5B0DD53096"),
-    SINGLE: (152, "65B4628918E5361443665A0347CF3E311F0D6D74565C8A9693B508101D88B561"),
+    "0x00233150": (154, "1766A887C36D56E928CAE5AE5B510AE831035818E02349681EF194A245BB93AB"),
+    "0x002331f0": (152, "65B4628918E5361443665A0347CF3E311F0D6D74565C8A9693B508101D88B561"),
+    "0x00233290": (276, "51DE2978460DD0EEEAFEC427B85E551ADA075137DBCA706B5D4D32D84F101BB6"),
     "0x00212280": (254, "02C218A4A6C70C4C0F19269A1390332F5AC6845DF3945DFCAAF26B71BF42387B"),
     "0x002336d0": (203, "32C0943726E3E1DB6E34900D11A353C763C76DF26840D9B64B8C95B83FFE2A86"),
 }
@@ -44,7 +46,7 @@ def check_retail(raw, directory):
         body = read(int(entry, 16), size)
         require(hashlib.sha256(body).hexdigest().upper() == expected,
                 f"original body hash differs at {entry}")
-        if entry in (PAIR, SINGLE):
+        if entry in ROUTINES:
             (directory / (entry[4:] + ".bin")).write_bytes(body)
     for site in CALL_SITES:
         require(target(site, read(site, 5)) == int(PAIR, 16), f"wrong retail E8 target at {site:#x}")
@@ -69,7 +71,7 @@ def main():
     flags = [clang, "-std=c++17", "-pedantic-errors", "-I", str(ROOT / "include")]
     fixture = ROOT / "tests/test_cpp_00233_scalar_sse.cpp"
     oracle = ROOT / "tests/fixtures/bf_00233_retail_oracle.S"
-    routines = [str(paths[PAIR]), str(paths[SINGLE])]
+    routines = [str(paths[entry]) for entry in ROUTINES]
     with tempfile.TemporaryDirectory(prefix="bf-00233-sse-") as tmp:
         directory = Path(tmp)
         if args.xbe:
@@ -89,7 +91,7 @@ def main():
                                cwd=directory, check=True)
                 subprocess.run([str(exe)], check=True, timeout=60)
                 print(f"PASS {opt}: 65,936 input/control cases vs original i386 bodies")
-    print("PASS four C++17 sources and scalar bit-pattern/overlap fixtures at -O0 and -O2")
+    print("PASS six C++17 sources and scalar bit-pattern/overlap fixtures at -O0 and -O2")
 
 
 if __name__ == "__main__":
