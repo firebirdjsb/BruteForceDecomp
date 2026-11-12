@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+uint32_t bf_00232d40_word(uint32_t input);
+long double FUN_00232d40(float input);
+long double FUN_00232e80(float input);
+
 // Bounded operations over captured guest binary32 words. Output addresses
 // designate mapped native storage. Whole guest register and stack transport
 // and guest exception delivery are outside these interfaces.

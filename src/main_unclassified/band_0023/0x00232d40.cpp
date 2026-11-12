@@ -1,49 +1,56 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - bounded scalar SSE and result transport.
  * Input x86 body SHA-256: BA0A80E2791F9023E2DD7CD3B4FD59E978CEDE19F4F895C6CAFA62A2667EDF0F
  * Entry: 0x00232d40, Ghidra index: 7775, label: FUN_00232d40
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: X86_OPERANDS_OBSERVED, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-float10 FUN_00232d40(float param_1)
+#include "bf_00233_scalar_sse.h"
+#include "bf_00233_sse_operations.h"
 
+uint32_t bf_00232d40_word(uint32_t input)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float fVar4;
-  float fVar5;
-  float fVar6;
-  float fVar7;
-  
-  fVar7 = ABS(param_1);
-  fVar6 = param_1;
-  fVar5 = fVar7;
-  if (0.57 <= fVar7) {
-    fVar6 = SQRT((1.0 - fVar7) * 0.5);
-    fVar5 = fVar6;
-  }
-  fVar1 = fVar6 * fVar6;
-  fVar2 = fVar6 * fVar1 * fVar1;
-  fVar3 = fVar2 * fVar1;
-  fVar4 = fVar3 * fVar1;
-  fVar6 = fVar6 + fVar6 * fVar1 * 0.16666667 + fVar2 * 0.075 + fVar3 * 0.04464286 +
-          fVar4 * 0.030381944;
-  if (0.32 <= fVar5) {
-    fVar4 = fVar4 * fVar1;
-    fVar5 = fVar4 * fVar1;
-    fVar2 = fVar5 * fVar1;
-    fVar6 = fVar6 + fVar4 * 0.022372158 + fVar5 * 0.017352764 + fVar2 * 0.013964844 +
-            fVar2 * fVar1 * 0.011551801;
-  }
-  if (0.57 <= fVar7) {
-    if (param_1 < 0.0) {
-      fVar6 = fVar6 + fVar6 + -1.5707964;
+    using namespace bf_00233_sse;
+    const __m128 original = load(input);
+    __m128 magnitude = load(input & ~sign_mask);
+    __m128 argument = original;
+    // 0x00232D56 compares magnitude to the binary32 word at 0x00394318.
+    const bool reduced = !below(magnitude, load(0x3f11eb85u));
+    if (reduced) {
+        // 0x00232D70 uses the binary32 word 0.5 at 0x0038D880.
+        argument = square_root(multiply(subtract(load(one), magnitude), load(0x3f000000u)));
+        magnitude = argument;
     }
-    else {
-      fVar6 = 1.5707964 - (fVar6 + fVar6);
+
+    // Binary32 coefficients at 0x003A4F9C and 0x00394314 down to 0x003942FC.
+    constexpr uint32_t short_terms[] = {0x3e2aaaabu, 0x3d99999au, 0x3d36db6eu};
+    constexpr uint32_t extra_terms[] = {0x3cb745d1u, 0x3c8e2762u, 0x3c64cccdu, 0x3c3d43c4u};
+    const __m128 squared = multiply(argument, argument);
+    __m128 power = argument;
+    __m128 result = argument;
+    for (uint32_t coefficient : short_terms) {
+        power = multiply(power, squared);
+        result = add(result, multiply(power, load(coefficient)));
     }
-  }
-  return (float10)fVar6;
+    power = multiply(power, squared);
+    const __m128 last_short_term = multiply(power, load(0x3cf8e38eu));
+    // The COMISS at 0x00232DDC precedes the last short addition.
+    const bool short_only = below(magnitude, load(0x3ea3d70au));
+    result = add(result, last_short_term);
+    if (!short_only) {
+        for (uint32_t coefficient : extra_terms) {
+            power = multiply(power, squared);
+            result = add(result, multiply(power, load(coefficient)));
+        }
+    }
+    if (reduced) {
+        result = add(result, result);
+        // Comparison zero and corrections are at 0x0038D850, 0x0038D8D0 and 0x0038D8C0.
+        result = below(original, load(0)) ? add(result, load(0xbfc90fdbu))
+                                         : subtract(load(0x3fc90fdbu), result);
+    }
+    return capture_lane(result);
+}
+
+long double FUN_00232d40(float input)
+{
+    return bf_00233_sse::transport_result(bf_00232d40_word(bf_00233_sse::capture(input)));
 }

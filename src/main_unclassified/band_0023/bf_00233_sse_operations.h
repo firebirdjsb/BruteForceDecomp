@@ -68,6 +68,21 @@ inline __m128 subtract(__m128 lhs, __m128 rhs)
     return lhs;
 }
 
+inline __m128 square_root(__m128 lane)
+{
+    __asm__ volatile("sqrtss %0, %0" : "+x"(lane) : : "memory");
+    return lane;
+}
+
+inline bool below(__m128 lhs, __m128 rhs)
+{
+    unsigned char taken;
+    // COMISS and JB use CF, including for an unordered comparison.
+    __asm__ volatile("comiss %2, %1\n\tsetb %0"
+                     : "=qm"(taken) : "x"(lhs), "x"(rhs) : "cc", "memory");
+    return taken != 0;
+}
+
 inline int32_t truncate(__m128 lane)
 {
     int32_t result;

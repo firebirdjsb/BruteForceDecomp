@@ -70,6 +70,11 @@ int check_anchors()
     if (bf_00233290_word(0) != 0 || bf_00233290_word(0x80000000) != 0x80000000) {
         return 10;
     }
+    if (bf_00232d40_word(0) != 0 || bf_00232d40_word(0x80000000) != 0x80000000 ||
+        bf_00232d40_word(0x3f800000) != 0x3fc90fdb || bf_00232d40_word(0xbf800000) != 0xbfc90fdb ||
+        FUN_00232e80(1.0f) != 0.0L || FUN_00232e80(-1.0f) != static_cast<long double>(3.1415927f)) {
+        return 12;
+    }
     set_mxcsr(entry_mxcsr);
     return 0;
 }
@@ -78,6 +83,10 @@ int check_anchors()
 
 #ifdef BF_RETAIL_I386_ORACLE
 extern "C" void retail_233020(uint32_t, void *, void *);
+extern "C" void observe_retail_232d40(uint32_t, unsigned char *, uint16_t *);
+extern "C" void observe_cpp_232d40(uint32_t, unsigned char *, uint16_t *);
+extern "C" void observe_retail_232e80(uint32_t, unsigned char *, uint16_t *);
+extern "C" void observe_cpp_232e80(uint32_t, unsigned char *, uint16_t *);
 extern "C" void observe_retail_233150(uint32_t, unsigned char *, uint16_t *);
 extern "C" void observe_cpp_233150(uint32_t, unsigned char *, uint16_t *);
 extern "C" void observe_retail_2331f0(uint32_t, unsigned char *, uint16_t *);
@@ -108,15 +117,15 @@ extern "C" void *memset(void *dst, int value, unsigned count)
 using observe_result = void (*)(uint32_t, unsigned char *, uint16_t *);
 
 static bool compare_extended(uint32_t input, uint32_t mxcsr, observe_result original,
-                             observe_result model, uint32_t &original_mxcsr)
+                             observe_result model, uint32_t &original_mxcsr, uint16_t control = 0x037f)
 {
     unsigned char retail_st0[10], cpp_st0[10];
     uint16_t retail_status, cpp_status;
-    __asm__ volatile("fninit" : : : "memory");
+    __asm__ volatile("fninit\n\tfldcw %0" : : "m"(control) : "memory");
     set_mxcsr(mxcsr);
     original(input, retail_st0, &retail_status);
     original_mxcsr = get_mxcsr();
-    __asm__ volatile("fninit" : : : "memory");
+    __asm__ volatile("fninit\n\tfldcw %0" : : "m"(control) : "memory");
     set_mxcsr(mxcsr);
     model(input, cpp_st0, &cpp_status);
     // Compare TOP and the architecturally defined FLD exception/status bits.
@@ -125,7 +134,7 @@ static bool compare_extended(uint32_t input, uint32_t mxcsr, observe_result orig
            ((retail_status ^ cpp_status) & status_mask) == 0 && original_mxcsr == get_mxcsr();
 }
 
-static int compare(uint32_t input, uint32_t mxcsr)
+static int compare(uint32_t input, uint32_t mxcsr, uint16_t control)
 {
     uint32_t retail_second, retail_third, cpp_second, cpp_third;
     set_mxcsr(mxcsr);
@@ -164,6 +173,12 @@ static int compare(uint32_t input, uint32_t mxcsr)
     if (!compare_extended(input, mxcsr, observe_retail_233290, observe_cpp_233290, single_status)) {
         return 11;
     }
+    if (!compare_extended(input, mxcsr, observe_retail_232d40, observe_cpp_232d40, single_status, control)) {
+        return 13;
+    }
+    if (!compare_extended(input, mxcsr, observe_retail_232e80, observe_cpp_232e80, single_status, control)) {
+        return 14;
+    }
     return 0;
 }
 
@@ -177,14 +192,22 @@ extern "C" int verify_retail()
         0x3f800000, 0xbf800000, 0x3fc90fda, 0x3fc90fdb, 0x3fc90fdc, 0x40490fdb,
         0x4096cbe4, 0x40c90fdb, 0x4f490fda, 0x4f490fdb, 0x4f490fdc, 0x7f7fffff,
         0xff7fffff, 0x7f800000, 0xff800000, 0x7fc12345, 0xffc54321, 0x7fa00001, 0xff800001,
+        0x3ea3d709, 0x3ea3d70a, 0x3ea3d70b, 0x3effffff, 0x3f000000, 0x3f000001,
+        0xbeffffff, 0xbf000000, 0xbf000001, 0x3f11eb84, 0x3f11eb85, 0x3f11eb86, 0xbf800000,
     };
     uint32_t random = 0x842cfab1u;
     for (uint32_t mode = 0; mode < 16; ++mode) {
         const uint32_t mxcsr = 0x1f80u | ((mode & 3u) << 13) |
                                ((mode & 4u) << 4) | ((mode & 8u) << 12);
-        for (uint32_t input : special) {
-            if (const int result = compare(input, mxcsr)) {
-                return result;
+        constexpr uint16_t precision[] = {0, 0x0200, 0x0300};
+        for (uint16_t pc : precision) {
+            for (uint16_t rc = 0; rc < 4; ++rc) {
+                const uint16_t control = 0x007f | pc | (rc << 10);
+                for (uint32_t input : special) {
+                    if (const int result = compare(input, mxcsr, control)) {
+                        return result;
+                    }
+                }
             }
         }
         for (unsigned i = 0; i < 4096; ++i) {
@@ -192,7 +215,8 @@ extern "C" int verify_retail()
             random ^= random >> 17;
             random ^= random << 5;
             const uint32_t sticky = i & 0x3fu;
-            if (const int result = compare(random, mxcsr | sticky)) {
+            const uint16_t control = 0x007f | precision[i % 3] | ((i & 3u) << 10);
+            if (const int result = compare(random, mxcsr | sticky, control)) {
                 return result;
             }
         }
