@@ -6,9 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern int XAPILIB__WaitForSingleObjectEx(undefined4 param_1,undefined4 param_2,int param_3);
 void XAPILIB__WaitForSingleObject(undefined4 param_1,undefined4 param_2)
 
 {
-  WaitForSingleObjectEx(param_1,param_2,0);
+  XAPILIB__WaitForSingleObjectEx(param_1,param_2,0);
   return;
 }

@@ -6,9 +6,11 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern undefined4 XAPILIB__IsBadReadPtr(uint param_1,int param_2);
 void XAPILIB__IsBadCodePtr(undefined4 param_1)
 
 {
-  IsBadReadPtr(param_1,1);
+  XAPILIB__IsBadReadPtr(param_1,1);
   return;
 }
