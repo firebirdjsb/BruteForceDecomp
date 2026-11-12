@@ -6,35 +6,36 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002ea018_heap_free_guest32.h"
 void FUN_00160180(void)
 
 {
   int unaff_ESI;
   
-  if (*(int *)(unaff_ESI + 0x118) != 0) {
-                    /* WARNING: Subroutine does not return */
-    thunk_FUN_00237ec0(*(int *)(unaff_ESI + 0x118));
+  if (const uint32_t guest_allocation_va = static_cast<uint32_t>(*(int *)(unaff_ESI + 0x118));
+    guest_allocation_va != 0) {
+    thunk_FUN_00237ec0(guest_allocation_va);
   }
   *(undefined4 *)(unaff_ESI + 0x118) = 0;
   *(undefined4 *)(unaff_ESI + 0x11c) = 0;
   *(undefined4 *)(unaff_ESI + 0x120) = 0;
-  if (*(int *)(unaff_ESI + 0x108) != 0) {
-                    /* WARNING: Subroutine does not return */
-    thunk_FUN_00237ec0(*(int *)(unaff_ESI + 0x108));
+  if (const uint32_t guest_allocation_va = static_cast<uint32_t>(*(int *)(unaff_ESI + 0x108));
+    guest_allocation_va != 0) {
+    thunk_FUN_00237ec0(guest_allocation_va);
   }
   *(undefined4 *)(unaff_ESI + 0x108) = 0;
   *(undefined4 *)(unaff_ESI + 0x10c) = 0;
   *(undefined4 *)(unaff_ESI + 0x110) = 0;
-  if (*(int *)(unaff_ESI + 0xf8) != 0) {
-                    /* WARNING: Subroutine does not return */
-    thunk_FUN_00237ec0(*(int *)(unaff_ESI + 0xf8));
+  if (const uint32_t guest_allocation_va = static_cast<uint32_t>(*(int *)(unaff_ESI + 0xf8));
+    guest_allocation_va != 0) {
+    thunk_FUN_00237ec0(guest_allocation_va);
   }
   *(undefined4 *)(unaff_ESI + 0xf8) = 0;
   *(undefined4 *)(unaff_ESI + 0xfc) = 0;
   *(undefined4 *)(unaff_ESI + 0x100) = 0;
-  if (*(int *)(unaff_ESI + 0xe8) != 0) {
-                    /* WARNING: Subroutine does not return */
-    thunk_FUN_00237ec0(*(int *)(unaff_ESI + 0xe8));
+  if (const uint32_t guest_allocation_va = static_cast<uint32_t>(*(int *)(unaff_ESI + 0xe8));
+    guest_allocation_va != 0) {
+    thunk_FUN_00237ec0(guest_allocation_va);
   }
   *(undefined4 *)(unaff_ESI + 0xe8) = 0;
   *(undefined4 *)(unaff_ESI + 0xec) = 0;

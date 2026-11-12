@@ -6,20 +6,19 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002ea018_heap_free_guest32.h"
 void FUN_00068730(void)
 
 {
   int unaff_ESI;
   
   if (0xf < *(uint *)(unaff_ESI + 0x44)) {
-                    /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(*(undefined4 *)(unaff_ESI + 0x30));
   }
   *(undefined4 *)(unaff_ESI + 0x44) = 0xf;
   *(undefined4 *)(unaff_ESI + 0x40) = 0;
   *(undefined1 *)(unaff_ESI + 0x30) = 0;
   if (0xf < *(uint *)(unaff_ESI + 0x20)) {
-                    /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(*(undefined4 *)(unaff_ESI + 0xc));
   }
   *(undefined4 *)(unaff_ESI + 0x1c) = 0;

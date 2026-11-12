@@ -6,6 +6,7 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002ea018_heap_free_guest32.h"
 extern void FUN_000e35e0(byte param_1);
 
 void FUN_0006a470(void)
@@ -21,7 +22,6 @@ void FUN_0006a470(void)
     for (; iVar2 != iVar1; iVar2 = iVar2 + 4) {
       FUN_000e35e0(0);
     }
-                    /* WARNING: Subroutine does not return */
     thunk_FUN_00237ec0(*(undefined4 *)(unaff_EDI + 0x1c));
   }
   *(undefined4 *)(unaff_EDI + 0x1c) = 0;
@@ -31,6 +31,5 @@ void FUN_0006a470(void)
     *(undefined4 *)(unaff_EDI + 0x14) = 0;
     return;
   }
-                    /* WARNING: Subroutine does not return */
   thunk_FUN_00237ec0(*(int *)(unaff_EDI + 0x14));
 }

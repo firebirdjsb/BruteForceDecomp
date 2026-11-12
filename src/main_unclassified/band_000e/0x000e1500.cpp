@@ -6,35 +6,36 @@
  * may be inaccurate. C syntax validity never proves original runtime behavior.
  */
 #include "bf_ghidra_types.h"
+#include "bf_002ea018_heap_free_guest32.h"
 void FUN_000e1500(void)
 
 {
   int unaff_ESI;
   
-  if (*(int *)(unaff_ESI + 0x34) != 0) {
-                    /* WARNING: Subroutine does not return */
-    thunk_FUN_00237ec0(*(int *)(unaff_ESI + 0x34));
+  if (const uint32_t guest_allocation_va = static_cast<uint32_t>(*(int *)(unaff_ESI + 0x34));
+    guest_allocation_va != 0) {
+    thunk_FUN_00237ec0(guest_allocation_va);
   }
   *(undefined4 *)(unaff_ESI + 0x34) = 0;
   *(undefined4 *)(unaff_ESI + 0x38) = 0;
   *(undefined4 *)(unaff_ESI + 0x3c) = 0;
-  if (*(int *)(unaff_ESI + 0x24) != 0) {
-                    /* WARNING: Subroutine does not return */
-    thunk_FUN_00237ec0(*(int *)(unaff_ESI + 0x24));
+  if (const uint32_t guest_allocation_va = static_cast<uint32_t>(*(int *)(unaff_ESI + 0x24));
+    guest_allocation_va != 0) {
+    thunk_FUN_00237ec0(guest_allocation_va);
   }
   *(undefined4 *)(unaff_ESI + 0x24) = 0;
   *(undefined4 *)(unaff_ESI + 0x28) = 0;
   *(undefined4 *)(unaff_ESI + 0x2c) = 0;
-  if (*(int *)(unaff_ESI + 0x14) != 0) {
-                    /* WARNING: Subroutine does not return */
-    thunk_FUN_00237ec0(*(int *)(unaff_ESI + 0x14));
+  if (const uint32_t guest_allocation_va = static_cast<uint32_t>(*(int *)(unaff_ESI + 0x14));
+    guest_allocation_va != 0) {
+    thunk_FUN_00237ec0(guest_allocation_va);
   }
   *(undefined4 *)(unaff_ESI + 0x14) = 0;
   *(undefined4 *)(unaff_ESI + 0x18) = 0;
   *(undefined4 *)(unaff_ESI + 0x1c) = 0;
-  if (*(int *)(unaff_ESI + 4) != 0) {
-                    /* WARNING: Subroutine does not return */
-    thunk_FUN_00237ec0(*(int *)(unaff_ESI + 4));
+  if (const uint32_t guest_allocation_va = static_cast<uint32_t>(*(int *)(unaff_ESI + 4));
+    guest_allocation_va != 0) {
+    thunk_FUN_00237ec0(guest_allocation_va);
   }
   *(undefined4 *)(unaff_ESI + 4) = 0;
   *(undefined4 *)(unaff_ESI + 8) = 0;
