@@ -1,43 +1,34 @@
-/* Partial original DWORD address values; other C++ errors remain.
- * Complete register/memory contracts and behavior are ABI_UNVERIFIED. */
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original retail Xbox guest register model.
  * Input x86 body SHA-256: A40C381CF72B4B50AB316CF2079A43553BE3C1484D8EA2AB7EA52896561FD020
- * Entry: 0x0025bd50, Ghidra index: 8547, label: FUN_0025bd50
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * Entry: 0x0025bd50, label: FUN_0025bd50
+ * ABI_UNVERIFIED: host guest-state adapter with a flat memory backend.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t PTR_FUN_003931b0;
-extern uint32_t PTR_LAB_003931a4;
-extern uint32_t PTR_LAB_003931e4;
-extern uint32_t PTR_LAB_00393208;
-void FUN_0025bd50(void)
+#include "bf_xbe_guest32_constructors.h"
 
+void FUN_0025bd50(bf_guest32_constructor_state& guest)
 {
-  undefined4 *puVar1;
-  int iVar2;
-  undefined4 *in_EAX;
-  int unaff_ESI;
-  
-  in_EAX[1] = UINT32_C(0x003931b0);
-  in_EAX[3] = 0;
-  in_EAX[4] = 0;
-  in_EAX[2] = 0xffffffff;
-  *in_EAX = UINT32_C(0x00393208);
-  in_EAX[1] = UINT32_C(0x003931e4);
-  puVar1 = in_EAX + 6;
-  *puVar1 = UINT32_C(0x003931a4);
-  in_EAX[7] = 1;
-  in_EAX[8] = in_EAX;
-  iVar2 = *(int *)(unaff_ESI + 8);
-  in_EAX[5] = iVar2;
-  if (iVar2 == 0) {
-    in_EAX[5] = puVar1;
-    return;
-  }
-  **(int **)(unaff_ESI + 0xc) = (int)puVar1;
-  return;
+    using namespace bf_guest32_constructor;
+
+    write32(guest, 0x0025bd50u, guest.eax + 4u, 0x3931b0u);
+    write32(guest, 0x0025bd57u, guest.eax + 0xcu, 0u);
+    write32(guest, 0x0025bd5eu, guest.eax + 0x10u, 0u);
+    write32(guest, 0x0025bd65u, guest.eax + 8u, 0xffffffffu);
+    write32(guest, 0x0025bd6cu, guest.eax, 0x393208u);
+    write32(guest, 0x0025bd72u, guest.eax + 4u, 0x3931e4u);
+    guest.ecx = guest.eax + 0x18u;
+    write32(guest, 0x0025bd7cu, guest.ecx, 0x3931a4u);
+    write32(guest, 0x0025bd82u, guest.ecx + 4u, 1u);
+    write32(guest, 0x0025bd89u, guest.ecx + 8u, guest.eax);
+    guest.edx = read32(guest, 0x0025bd8cu, guest.esi + 8u);
+    logic_flags(guest, guest.edx);
+    write32(guest, 0x0025bd91u, guest.eax + 0x14u, guest.edx);
+    if ((guest.eflags & zero) != 0) {
+        write32(guest, 0x0025bd96u, guest.eax + 0x14u, guest.ecx);
+        ret(guest, 0x0025bd99u);
+        return;
+    }
+
+    guest.edx = read32(guest, 0x0025bd9au, guest.esi + 0xcu);
+    write32(guest, 0x0025bd9du, guest.edx, guest.ecx);
+    ret(guest, 0x0025bd9fu);
 }
