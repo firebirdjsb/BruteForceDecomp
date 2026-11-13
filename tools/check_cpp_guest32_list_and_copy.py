@@ -5,6 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 import random
+import re
 import shutil
 import struct
 import subprocess
@@ -90,6 +91,21 @@ PACKED = {
     0x001DD070: ('one', 28, [(0, 4), (4, 4), (8, 1), (9, 4), (13, 1), (16, 4), (20, 4), (24, 4)]),
 }
 
+# Bytes before and after the E8 call establish the two register transfers,
+# duplicate fourth stack word, 16-byte cleanup and plain RET.
+COPY_CALL_SHAPES = {
+    "esi": (
+        bytes.fromhex("8b44240c 8b542408 50 51 8b4c2414 8bc4 8908 51 8bc4 8910 "
+                      "51 8b4c2414 8bc4 8908 8bc6"),
+        bytes.fromhex("83c410 8bc6 c3"),
+    ),
+    "eax": (
+        bytes.fromhex("8b542408 57 8bf8 8b442410 50 51 8b4c2418 8bc4 8908 51 8bc4 "
+                      "51 8b4c2418 8910 8bc4 8908"),
+        bytes.fromhex("83c410 8bc7 5f c3"),
+    ),
+}
+
 
 def packet(values, memory):
     return struct.pack(f"<{len(values)}I", *values) + memory
@@ -100,9 +116,48 @@ def write(memory, address, word, width=4):
     memory[offset:offset + width] = word.to_bytes(width, "little")
 
 
-def cases():
+def copy_caller_cases(callers, seed):
+    for entry_text, evidence in callers.items():
+        entry, callee = int(entry_text, 16), int(evidence["target"], 16)
+        if callee in COPY:
+            stride, string_move, in_edi, fields = COPY[callee]
+            require(not string_move, f"unexpected DF-sensitive caller target at {entry_text}")
+        else:
+            kind, stride, fields = PACKED[callee]
+            require(kind == "ediback", f"unexpected packed caller target at {entry_text}")
+            in_edi = True
+        require(in_edi == (evidence["output_register"] == "eax"),
+                f"callee output register differs for {entry_text}")
+        first = BASE + 0x600
+        for count in (0, 1, 3):
+            last = first + count * stride
+            for delta in (-1, 0, 1, 0x300):
+                dst = first + delta
+                end = dst + count * stride
+                for slot in (BASE + 0x100, first + 1, dst + 3):
+                    expected = bytearray(seed)
+                    for row in range(count - 1, -1, -1):
+                        for field, width in fields:
+                            src_idx = first + row * stride + field - BASE
+                            dst_idx = dst + row * stride + field - BASE
+                            expected[dst_idx:dst_idx + width] = expected[src_idx:src_idx + width]
+                    write(expected, slot, dst)
+                    for df in (0, 1):
+                        # Poison other incoming registers. ESI is input to the first
+                        # family only. Neither caller receives the slot in ECX or EDI.
+                        eax = slot if in_edi else 0x12345678
+                        esi = 0x87654321 if in_edi else slot
+                        host = (entry, slot, first, last, end, df)
+                        guest = (entry, eax, 0x23456789, 0x3456789a, df, first, last, end,
+                                 0x456789ab, 0x56789abc, 0x6789abcd, esi)
+                        label = f"{entry_text}/caller/{count}/{delta}/{slot:#x}/{df}"
+                        yield label, host, guest, seed, expected, slot
+
+
+def cases(callers):
     rng = random.Random(0x3118C0)
     seed = bytes(rng.randrange(256) for _ in range(SIZE))
+    yield from copy_caller_cases(callers, seed)
     for entry, (stride, string_move, in_edi, accesses) in COPY.items():
         for count in (0, 1, 3):
             for df in (0, 1):
@@ -501,6 +556,18 @@ def read_retail(xbe, doc):
     call = doc["direct_call"]
     site = int(call["site"], 16)
     require(target(site, read(site, 5)) == int(call["callee"], 16), "retail unlink call changed")
+    for entry_text, evidence in doc["copy_callers"].items():
+        entry = int(entry_text, 16)
+        body = read(entry, evidence["size"])
+        require(hashlib.sha256(body).hexdigest().upper() == evidence["sha256"],
+                f"retail caller body hash changed at {entry_text}")
+        site = int(evidence["site"], 16)
+        before, after = COPY_CALL_SHAPES[evidence["output_register"]]
+        require(site == entry + len(before) and body[:len(before)] == before and
+                body[len(before) + 5:] == after, f"retail caller shape differs at {entry_text}")
+        require(target(site, read(site, 5)) == int(evidence["target"], 16),
+                f"retail caller target differs at {entry_text}")
+        result[entry] = body
     return result
 
 
@@ -509,8 +576,9 @@ def read_retail(xbe, doc):
 START = r"""
 .globl _start
 .section .bss
-input: .zero 44
+input: .zero 48
 result: .zero 4
+saved_esp: .zero 4
 .section .guest,"aw"
 .zero 4096
 .section .text
@@ -526,7 +594,7 @@ read_exact:
     ret
 _start:
     mov $input,%ecx
-    mov $44,%edx
+    mov $48,%edx
     call read_exact
     mov $0x420000,%ecx
     mov $4096,%edx
@@ -544,9 +612,17 @@ invoke:
     mov input+12,%edi
     mov input+36,%ebx
     mov input+40,%edx
+    mov input+44,%esi
+    mov %esp,saved_esp
     call *input
     cld
     mov %eax,result
+    # Only copy-caller packets set ESI. Their plain RET restores outer ESP.
+    cmpl $0,input+44
+    je emit
+    cmp saved_esp,%esp
+    jne fail
+emit:
     mov $4,%eax
     mov $1,%ebx
     mov $result,%ecx
@@ -607,13 +683,27 @@ def main():
         require(read_body_digest(path.read_text(encoding="utf-8")) == (evidence["sha256"], False),
                 f"source body identity changed at {entry}")
         paths.append(str(path))
+    callers = doc["copy_callers"]
+    require(len(callers) == 18 and len({item["target"] for item in callers.values()}) == 18,
+            "unexpected copy caller inventory")
+    require(sum(item["output_register"] == "esi" for item in callers.values()) == 9,
+            "unexpected copy caller register families")
+    for entry, evidence in callers.items():
+        path = source_path(ROOT, entry)
+        source = path.read_text(encoding="utf-8")
+        require(read_body_digest(source) == (evidence["sha256"], False),
+                f"source caller body identity changed at {entry}")
+        require(evidence["target"] in doc["bodies"], f"missing copy target for {entry}")
+        calls = re.findall(r"\bFUN_([0-9a-f]{8})\s*\(", source.partition("{")[2])
+        require(calls == [evidence["target"][2:]], f"source caller target differs at {entry}")
+        paths.append(str(path))
     raw = read_retail(args.xbe, doc) if args.xbe else None
     with tempfile.TemporaryDirectory(prefix="bf-guest-list-copy-") as folder:
         directory = Path(folder)
         retail = native_runner(directory, raw) if args.retail_native else None
         model = directory / "model.exe"
         fixture = ROOT / "tests/fixtures/guest32_list_and_copy_20261112.cpp"
-        suite = list(cases())
+        suite = list(cases(callers))
         for opt in ("-O0", "-O2"):
             subprocess.run([clang, "-std=c++17", "-pedantic-errors", "-Wall", "-Wextra", "-Werror",
                             opt, "-I", str(ROOT / "include"), str(fixture), *paths, "-o", str(model)],
@@ -625,7 +715,7 @@ def main():
                     raise ValueError(f"{opt} fixture failed to execute: {name}") from exc
                 require(observed == packet((eax,), expected), f"{opt} fixture differs: {name}")
                 if retail:
-                    guest_input = (*guest, *([0] * (11 - len(guest))))
+                    guest_input = (*guest, *([0] * (12 - len(guest))))
                     original = subprocess.check_output([str(retail)], input=packet(guest_input, initial), timeout=10)
                     require(observed == original, f"{opt} original x86 differs: {name}")
             oracle = " and retail x86" if retail else ""

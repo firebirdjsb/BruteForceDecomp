@@ -363,6 +363,26 @@
     "0x0024aae0": {"sha256": "1C41D7FBBAC11776EE41826DB252BB866B09FC997FB685F1C8829804798C824B", "ranges": [["0x0024aae0", 120]], "returns": [["0x0024ab4f", 0], ["0x0024ab57", 0]]},
     "0x0027a870": {"sha256": "EDFD67C7526707A17748505A6D3BBDBD9E17835E3F255B92CA9A3BF191CF4770", "ranges": [["0x0027a870", 85]], "returns": [["0x0027a8bb", 0], ["0x0027a8c4", 0]]}
   },
+  "copy_callers": {
+    "0x00132790": {"target": "0x001328e0", "site": "0x001327b3", "size": 47, "sha256": "A5397B934BDB15E6879399A830E6C37219D3E1B235EF8ADD539C2EA89BDF25B1", "output_register": "eax"},
+    "0x001cec00": {"target": "0x001d64e0", "site": "0x001cec22", "size": 45, "sha256": "01C8668D636BA0B7EDE9D41462C4EEB43768B061FDC4A0D4305BFEE41F4C284C", "output_register": "esi"},
+    "0x001ced00": {"target": "0x001d65f0", "site": "0x001ced23", "size": 47, "sha256": "73AD093F3390E9DE8BEC96FA6662D8214E05A0A0C73DA5E639FAB65B437C7A73", "output_register": "eax"},
+    "0x001ceea0": {"target": "0x001d67a0", "site": "0x001ceec2", "size": 45, "sha256": "9B336ADF59E2B6166596D205A5DAF7462B48AFE5F8B0358EFFA50AED09B68992", "output_register": "esi"},
+    "0x001cef00": {"target": "0x001d6840", "site": "0x001cef22", "size": 45, "sha256": "17DE0E74456EE622C4EAF7C4119ED29E0C482B7C8D4EAEFAC23EF0E1093CF5F9", "output_register": "esi"},
+    "0x001cf040": {"target": "0x001d6640", "site": "0x001cf063", "size": 47, "sha256": "68B1A6C3C73F19988A50ECECF1976C61101497FE2FB83610D76BD8E26ECC0A8F", "output_register": "eax"},
+    "0x001cf140": {"target": "0x001d6b00", "site": "0x001cf163", "size": 47, "sha256": "32A684EE4A8F7668F9F6C8FFD37B9D0BF9A5D4CF2B3CC77640684BFAB91ABAC1", "output_register": "eax"},
+    "0x001cf200": {"target": "0x001d6bf0", "site": "0x001cf223", "size": 47, "sha256": "69543FA8D83C952FC0E6108C06433F5DA2C5B831DD9B225CC807FB715531C3AF", "output_register": "eax"},
+    "0x001cfc30": {"target": "0x001d7790", "site": "0x001cfc53", "size": 47, "sha256": "69F01002C380738F966BB3E96D20D6AED0B6AB4D8EF99842630DC616A393C7B9", "output_register": "eax"},
+    "0x001d0140": {"target": "0x001d7e10", "site": "0x001d0162", "size": 45, "sha256": "517456E86D17D73E13BA2F2B3AFBBD7A3C052F21AC6AB47005031CA9D9D39E00", "output_register": "esi"},
+    "0x001d03d0": {"target": "0x001d8180", "site": "0x001d03f2", "size": 45, "sha256": "1DC20D1DF1E5391816AE0952D66EB7066C64165D799D5442054862687B3BE192", "output_register": "esi"},
+    "0x001d0610": {"target": "0x001d84b0", "site": "0x001d0633", "size": 47, "sha256": "5D534A188FF2036D29ABB4B0204B4169974A09A484D574BB0C68281F0666B0C5", "output_register": "eax"},
+    "0x001d0ba0": {"target": "0x001d8b50", "site": "0x001d0bc3", "size": 47, "sha256": "AF0DE4228F70A28D92E6EEF8DCBBEF5E5253011BA2A46882EB703F6CDACDEF5A", "output_register": "eax"},
+    "0x001d0dc0": {"target": "0x001d8d60", "site": "0x001d0de2", "size": 45, "sha256": "F520270003D5722DAE604D6004E60618F8B1351E72E51C17D91291EA61EA04BD", "output_register": "esi"},
+    "0x001d1370": {"target": "0x0024aa10", "site": "0x001d1392", "size": 45, "sha256": "55CE2C9E082CCE9378DB4E141209D277E389BB5E928A2A53DA915E1BD1AC8371", "output_register": "esi"},
+    "0x001d1450": {"target": "0x001d9380", "site": "0x001d1473", "size": 47, "sha256": "3887BC031B836BD26AFE01038B0012DDA27B4210136357E836E3B7901E0A6F75", "output_register": "eax"},
+    "0x00249230": {"target": "0x0024aae0", "site": "0x00249252", "size": 45, "sha256": "B953570C6D176CFBDD8297601A2A02D452F218550A2F3CD50EBF3B059D803282", "output_register": "esi"},
+    "0x0027a840": {"target": "0x0027a870", "site": "0x0027a862", "size": 45, "sha256": "6CBDFC619734BDAA05A4EB65F81C07A08CFBA6B5BD1FB4C69303406D1773E381", "output_register": "esi"}
+  },
   "direct_call": {
     "caller": "0x0031ae9c",
     "site": "0x0031aeac",
