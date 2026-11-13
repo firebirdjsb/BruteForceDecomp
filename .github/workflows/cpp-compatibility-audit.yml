@@ -316,6 +316,7 @@ jobs:
           python3 tools/check_cpp_direct_call_batches.py
           python3 tools/check_cpp_heap_free_bindings.py
           python3 tools/check_cpp_tail_jumps.py
+          python3 tools/check_cpp_guest_tail_bridge_models.py
           python3 tools/check_cpp_register_handoffs.py
           python3 tools/check_cpp_00233_scalar_sse.py
       - name: Verify bounded mixed x87/SSE operation, independent models and state guards

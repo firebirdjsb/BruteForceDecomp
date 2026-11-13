@@ -1,17 +1,15 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - bounded guest32 tail bridge instruction model.
  * Input x86 body SHA-256: AC05680707522784D92909F95679F5ECFA3E96325F516C14EDA9841B907A19DF
  * Entry: 0x00345079, Ghidra index: 12777, label: FUN_00345079
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_TAIL_BRIDGE_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * Models only MOV ECX,[0x0040f5b4] then JMP 0x003474f9.
+ * guest_ecx and guest_eip are machine-state values, not recovered C++ parameters.
+ * The target body and its return state are not executed or inferred here.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_0040f5b4;
-void FUN_00345079(int param_1,int param_2,int param_3)
+#include "bf_xbe_guest_tail_bridge_models.h"
 
+void FUN_00345079(uint32_t& guest_ecx, uint32_t& guest_eip)
 {
-  XONLINES__socket(DAT_0040f5b4,param_1,param_2,param_3);
-  return;
+    guest_ecx = bf_guest_read_u32(0x0040f5b4u);
+    guest_eip = 0x003474f9u;
 }
