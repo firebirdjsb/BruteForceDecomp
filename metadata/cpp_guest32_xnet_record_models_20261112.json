@@ -1,0 +1,42 @@
+{
+  "baseline_commit": "8fe7f510180e5effc0673e38450096cf7240fc9c",
+  "source_audit_commit": "f03a57af3133bbc59e56ec7a11c6a2d8fa6e56b6",
+  "original_xbe_sha256": "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721",
+  "scope": "captured guest register and guest memory behavior only; Xbox ABI and higher-level meaning remain unverified",
+  "bodies": {
+    "0x00353101": {
+      "sha256": "8AC7EEF6FD7151AA8AB1EF7ECF11B0455DBAD5E1A9EEE96A27460D843BD56479",
+      "ranges": [["0x00353101", 36]],
+      "returns": [["0x00353122", 4]],
+      "inputs": ["ECX captured at entry", "DWORD stack value at entry ESP+4"],
+      "eax_output": "entry stack value plus 0x64, retained from LEA",
+      "memory_order": [
+        "R32 [stack_arg+0x64]",
+        "R32 [stack_arg+0x68]",
+        "W32 [tail] = first",
+        "W32 [first+4] = tail",
+        "R32 [stack_arg+0x60]",
+        "W32 [stack_arg+0x60] = 0",
+        "W32 [stack_arg+0x68] = head",
+        "W32 [head] = head",
+        "R8 [ECX+0x7d]",
+        "W8 [ECX+0x7d] = old-1 modulo 256"
+      ]
+    },
+    "0x003537fa": {
+      "sha256": "1D502B4BFB2E66B77D41EC80291DD8224F9681A1214B33890E45D962C6376618",
+      "ranges": [["0x003537FA", 47]],
+      "returns": [["0x00353828", 0]],
+      "inputs": ["ECX captured at entry"],
+      "eax_output": "zero at sentinel/end, otherwise the node base whose byte at +0xc has bit 0x40 set",
+      "memory_order": [
+        "R32 [ECX+0x64]",
+        "for each nonzero candidate node: R8 [node+0x0c]",
+        "if bit 0x40 is clear: R32 [node+0x64]"
+      ],
+      "writes": []
+    },
+    "0x00353829": {"sha256": "2295C49345F17CBD4B0C62F25CF3CC4239DF20F6DCC47C527D581E7A48C25F87", "ranges": [["0x00353829", 28]], "returns": [["0x00353844", 0]], "inputs": ["ECX captured at entry"], "eax_output": "first callee EAX retained across optional unlink"}
+  },
+  "calls": [["0x0035382d", "0x003537fa"], ["0x0035383b", "0x00353101"]]
+}
