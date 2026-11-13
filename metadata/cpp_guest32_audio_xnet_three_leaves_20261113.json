@@ -1,0 +1,10 @@
+{
+  "original_xbe_sha256": "B6EA5D4DD6500AE86C3F5E3E4618BC9B1E3FACDDCB483170DFEE7A787087C721",
+  "checked_audit_commit": "d1d16835a42d154da9fdcd5c7db0f1c150e049ea",
+  "status": "guest32 model evidence; ABI and runtime behavior remain unverified",
+  "bodies": {
+    "0x00315838": {"start": "0x00315838", "length": 39, "sha256": "8D158D0CCD65EF260CAF2DE3C9B121BD3FB57E78D1130CAD0FCD7B15BC7AF0A1", "ret": "c20800"},
+    "0x0031685c": {"start": "0x0031685C", "length": 90, "sha256": "AA30EE6943B1C1C966487F29B937976B5B0BDFBCEDC3F4EB1F51AFE8A2A31237", "ret": "c20400"},
+    "0x00353125": {"start": "0x00353125", "length": 45, "sha256": "6F784386D5CD73546AE3E47A32F520807A751D36C3B6F84F38F49BFD421E121F", "ret": "c20800"}
+  }
+}

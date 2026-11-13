@@ -1,35 +1,43 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - bounded guest32 memory model.
  * Input x86 body SHA-256: AA30EE6943B1C1C966487F29B937976B5B0BDFBCEDC3F4EB1F51AFE8A2A31237
  * Entry: 0x0031685c, Ghidra index: 12151, label: CMcpxStream_GetStatus
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * Inputs are captured ECX and [ESP+4]; return EAX and RET 4 are preserved.
  */
-#include "bf_ghidra_types.h"
-undefined4 DSOUND__CMcpxStream_GetStatus(uint *param_1)
+#include "bf_xbe_guest32_audio_xnet_leaves.h"
 
+uint32_t DSOUND__CMcpxStream_GetStatus(uint32_t guest_ecx,
+                                      uint32_t stack_arg_0)
 {
-  ushort uVar1;
-  int in_ECX;
-  
-  uVar1 = *(ushort *)(in_ECX + 0x12);
-  *param_1 = (uint)(*(int **)(in_ECX + 0xb8) != (int *)(in_ECX + 0xb8));
-  if ((uVar1 & 0x2000) != 0) {
-    *(byte *)((int)param_1 + 2) = *(byte *)((int)param_1 + 2) | 8;
-  }
-  if (((byte)uVar1 & 3) == 3) {
-    if ((uVar1 & 0x444) != 0) {
-      *(byte *)((int)param_1 + 2) = *(byte *)((int)param_1 + 2) | 2;
-      if ((uVar1 & 0x400) == 0) {
-        return 0;
-      }
-      *param_1 = *param_1 | 0x40000;
-      return 0;
+    const uint16_t flags = bf_guest_read_u16(guest_ecx + 0x12u);
+    const uint32_t link_head = guest_ecx + 0xb8u;
+    const uint32_t linked = bf_guest_read_u32(link_head) != link_head ? 1u : 0u;
+    bf_guest_write_u32(stack_arg_0, linked);
+
+    if ((flags & 0x2000u) != 0) {
+        const uint32_t status_byte = stack_arg_0 + 2u;
+        const uint8_t old_status = bf_guest_read_u8(status_byte);
+        bf_guest_write_u8(status_byte, static_cast<uint8_t>(old_status | 8u));
     }
-  }
-  else if ((uVar1 & 0x8001) != 0x8001) {
-    return 0;
-  }
-  *(byte *)((int)param_1 + 2) = *(byte *)((int)param_1 + 2) | 1;
-  return 0;
+
+    if ((flags & 3u) == 3u) {
+        if ((flags & 0x444u) != 0) {
+            const uint32_t status_byte = stack_arg_0 + 2u;
+            const uint8_t old_status = bf_guest_read_u8(status_byte);
+            bf_guest_write_u8(status_byte, static_cast<uint8_t>(old_status | 2u));
+            if ((flags & 0x400u) == 0)
+                return 0u;
+
+            const uint32_t old_output = bf_guest_read_u32(stack_arg_0);
+            bf_guest_write_u32(stack_arg_0, old_output | 0x40000u);
+            return 0u;
+        }
+    } else if ((flags & 0x8001u) != 0x8001u) {
+        return 0u;
+    }
+
+    const uint32_t status_byte = stack_arg_0 + 2u;
+    const uint8_t old_status = bf_guest_read_u8(status_byte);
+    bf_guest_write_u8(status_byte, static_cast<uint8_t>(old_status | 1u));
+    return 0u;
 }
