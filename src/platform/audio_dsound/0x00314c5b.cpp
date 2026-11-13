@@ -1,29 +1,12 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - direct guest jump instruction model.
  * Input x86 body SHA-256: B0400ADBFB73F8B43072493BD3F7BA646661794997FD32FCF7A5DF24CEB6EEB4
  * Entry: 0x00314c5b, Ghidra index: 12085, label: thunk_FUN_00314a29
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_DIRECT_JUMP_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
+ * Models only the observed E9 tail jump; it does not execute the target body.
  */
-#include "bf_ghidra_types.h"
-void thunk_FUN_00314a29(void)
+#include <stdint.h>
 
+void thunk_FUN_00314a29(uint32_t& guest_eip)
 {
-  int iVar1;
-  int *in_ECX;
-  
-  if ((*(byte *)(in_ECX + 1) & 2) != 0) {
-    XAPILIB__CancelIo(*in_ECX);
-  }
-  if ((in_ECX[1] & 1U) != 0) {
-    *in_ECX = 0;
-    in_ECX[1] = in_ECX[1] & 0xfffffffe;
-    return;
-  }
-  iVar1 = *in_ECX;
-  if ((iVar1 != 0) && (iVar1 != -1)) {
-    XAPILIB__CloseHandle(iVar1);
-    *in_ECX = 0;
-  }
-  return;
+    guest_eip = 0x00314a29u;  // E9 rel32 destination; no guest return address is pushed.
 }

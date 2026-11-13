@@ -1,34 +1,12 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - direct guest jump instruction model.
  * Input x86 body SHA-256: FF96C9DA17D207BE8475A5FFF373EA6D0167DE0187BCBF8197BF1BD6CB9B460C
  * Entry: 0x003139f0, Ghidra index: 12028, label: IDirectSoundStream_SetAllParameters
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_DIRECT_JUMP_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
+ * Models only the observed E9 tail jump; it does not execute the target body.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_0032f7dc;
-extern uint32_t PTR_LAB_00040000_1_0032f7e8;
-undefined4
-DSOUND__IDirectSoundStream_SetAllParameters(int param_1,undefined4 param_2,undefined4 param_3)
+#include <stdint.h>
 
+void DSOUND__IDirectSoundStream_SetAllParameters(uint32_t& guest_eip)
 {
-  char cVar1;
-  undefined4 uVar2;
-  
-  cVar1 = DirectSoundEnterCriticalSection();
-  if (DAT_0032f7dc == 0) {
-    uVar2 = CDirectSoundVoice_SetAllParameters(param_1 + 4,param_2,param_3);
-    if (cVar1 != '\0') {
-      RtlLeaveCriticalSection(&PTR_LAB_00040000_1_0032f7e8);
-    }
-  }
-  else {
-    if (cVar1 != '\0') {
-      RtlLeaveCriticalSection(&PTR_LAB_00040000_1_0032f7e8);
-    }
-    uVar2 = 0x80004005;
-  }
-  return uVar2;
+    guest_eip = 0x003135dau;  // E9 rel32 destination; no guest return address is pushed.
 }
