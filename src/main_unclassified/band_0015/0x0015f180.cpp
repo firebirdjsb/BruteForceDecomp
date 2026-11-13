@@ -1,29 +1,13 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest32 memory and tail transfer.
  * Input x86 body SHA-256: EF7D357A255BC511D387000D056FEA14F4D7498234D951806CDA005373164E6E
  * Entry: 0x0015f180, Ghidra index: 4571, label: FUN_0015f180
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t PTR_FUN_0039aab0;
-extern uint32_t PTR_FUN_0039adec;
-extern uint32_t PTR_LAB_0039a8c0;
-extern uint32_t PTR_LAB_0039aa9c;
-extern uint32_t PTR_LAB_0039aaa8;
-void FUN_0015f180(void)
+#include "bf_xbe_guest32_tail_writes.h"
 
+void FUN_0015f180(bf_guest32_tail_write_state& guest)
 {
-  undefined4 *in_ECX;
-  
-  *in_ECX = &PTR_FUN_0039aab0;
-  in_ECX[0x12] = &PTR_FUN_0039adec;
-  in_ECX[0x1a] = &PTR_LAB_0039a8c0;
-  *(undefined ***)(*(int *)(in_ECX[0x13] + 4) + 0x4c + (int)in_ECX) = &PTR_LAB_0039aaa8;
-  *(undefined ***)(*(int *)(in_ECX[0x13] + 4) + 0x50 + (int)in_ECX) = &PTR_LAB_0039aa9c;
-  *(int *)(*(int *)(in_ECX[0x13] + 4) + 0x48 + (int)in_ECX) = *(int *)(in_ECX[0x13] + 4) + -0x180;
-  FUN_00156c50();
-  return;
+    bf_guest32_adjust_tail(guest, 0x0015f180u, 0x00156c50u,
+                           0x39aab0u, 0x39adecu, 0x39a8c0u,
+                           0x39aaa8u, 0x39aa9cu, 0x180u);
 }

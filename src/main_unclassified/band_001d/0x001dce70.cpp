@@ -1,23 +1,11 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest32 memory and tail transfer.
  * Input x86 body SHA-256: CFFC76EA16D640B59C26BC6FA671677A45B46C990C38C2D2DDB364F036094C24
  * Entry: 0x001dce70, Ghidra index: 6599, label: FUN_001dce70
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-void FUN_001dce70(void)
+#include "bf_xbe_guest32_tail_writes.h"
 
+void FUN_001dce70(bf_guest32_tail_write_state& guest)
 {
-  undefined4 *in_EAX;
-  undefined4 *in_ECX;
-  undefined4 *puStack00000004;
-  
-  if (in_EAX != (undefined4 *)0x0) {
-    *in_EAX = *in_ECX;
-    puStack00000004 = in_EAX + 1;
-    FUN_001cb6b0();
-    return;
-  }
-  return;
+    bf_guest32_copy_tail(guest, 0x001dce70u, 0x001cb6b0u);
 }

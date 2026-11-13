@@ -1,0 +1,18 @@
+{
+  "original_xbe_sha256": "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721",
+  "cases": [
+    {"entry": "0x0015f180", "sha256": "EF7D357A255BC511D387000D056FEA14F4D7498234D951806CDA005373164E6E", "size": 69, "immediates": ["0x39aab0", "0x39adec", "0x39a8c0", "0x39aaa8", "0x39aa9c", "0x180"], "kind": "adjust", "target": "0x00156c50"},
+    {"entry": "0x00162f70", "sha256": "D1ACEB619F9F84AA73B34ECA391EDA877CD41C7886080E181670726953EE3B4E", "size": 69, "immediates": ["0x39a8e0", "0x39adec", "0x39a8c0", "0x39a8b8", "0x39a8ac", "0x170"], "kind": "adjust", "target": "0x00156c50"},
+    {"entry": "0x001dce10", "sha256": "E865D9B893E6813E8AC96A6B77F4D2B91667A011FD638706D560D106072E0736", "size": 26, "kind": "copy", "target": "0x001cb420"},
+    {"entry": "0x001dce70", "sha256": "CFFC76EA16D640B59C26BC6FA671677A45B46C990C38C2D2DDB364F036094C24", "size": 26, "kind": "copy", "target": "0x001cb6b0"},
+    {"entry": "0x001dceb0", "sha256": "6DA913F43A5C73F5AA2D4C39CB21855F8F1D7292B4F330B8864126BBF114713C", "size": 26, "kind": "copy", "target": "0x001bddb0"},
+    {"entry": "0x001dd0f0", "sha256": "2A84417DDD1E7D2E7982747EA32F8724C25FAED0D3D8520633DD2DBC2D8AA838", "size": 26, "kind": "copy", "target": "0x001cbc10"},
+    {"entry": "0x001dd1a0", "sha256": "8210CB8F690C06B9E3D6F87E3957FFC61F249842707D2A19CDEE259D086C6F26", "size": 26, "kind": "copy", "target": "0x001cca00"},
+    {"entry": "0x0024bb60", "sha256": "8706A4F80BD5ACB09DF5E6CA46D90749EB96DDF907E2C41CF3BFF8F8FB3BA148", "size": 26, "kind": "copy", "target": "0x001e0dd0"},
+    {"entry": "0x0029feb0", "sha256": "4373B32A81628BE559152A3B13E08400620782641BBEA189542B2BD44E61AF6F", "size": 16, "kind": "ecx", "target": "0x002a6df0"},
+    {"entry": "0x0029fec0", "sha256": "4D7D9BFFF80A87E7E250007326C726B300FBA029235F2EAEE9822C164B00EC62", "size": 16, "kind": "ecx", "target": "0x002a75d0"},
+    {"entry": "0x002a8680", "sha256": "EC80CAC862792BF5AD1630D3E68ECC0DE76A52B79681BFB0EC1BDBA7B6725F4C", "size": 16, "kind": "edx", "target": "0x002a6320"},
+    {"entry": "0x002a8690", "sha256": "F00FDFE8A337EACD478CE0175B4221931A3E3CB488E22582E1D415C8CCAD954D", "size": 16, "kind": "edx", "target": "0x002a62a0"},
+    {"entry": "0x002a8720", "sha256": "99D655E9D209D46B4DB06B762A080CDC1B1BD9A95AE6B9D954A61B043B053872", "size": 16, "kind": "edx", "target": "0x002a6ec0"}
+  ]
+}
