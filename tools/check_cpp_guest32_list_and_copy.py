@@ -192,6 +192,148 @@ def cases():
                     yield (f"352e8d/{size}/{available}/{df}/{destination:#x}", host, guest,
                            initial, expected, context)
 
+    def read32(memory, address):
+        return struct.unpack_from("<I", memory, address - BASE)[0]
+
+    def transfer(memory, source, destination, width):
+        start, end = source - BASE, destination - BASE
+        memory[end:end + width] = memory[start:start + width]
+
+    def leaf(entry, host, initial, expected, eax, *, label, regs=(0, 0, 0, 0), stack=(), df=0):
+        reg_eax, ecx, edi, edx = regs
+        guest = (entry, reg_eax, ecx, edi, df, *stack, *([0] * (4 - len(stack))), 0, edx)
+        return label, (entry, *host, *([0] * (4 - len(host))), df), guest, initial, expected, eax
+
+    owner, a, b = BASE + 0x180, BASE + 0x700, BASE + 0x800
+    for first in (0, a):
+        for last in (0, b):
+            for slot in (owner + 0x64, a, BASE + 0xa00):
+                initial = bytearray(seed)
+                write(initial, owner + 0x68, first)
+                write(initial, owner + 0x74, last)
+                expected = initial.copy()
+                for offset, value in ((0, read32(initial, first) if first else 0), (4, first),
+                                      (8, read32(initial, last) if last else 0), (12, last)):
+                    write(expected, slot + offset, value)
+                yield leaf(0x23B80, (slot, owner), initial, expected, slot,
+                           label=f"23b80/{first}/{last}/{slot}", regs=(slot, owner, 0, 0))
+
+    for length in (0, 2, 3, 12):
+        for needle in (0, 7, 8, 9, 10):
+            initial = bytearray(seed)
+            cursor = a if length else 0
+            write(initial, owner + 0x4c, cursor)
+            write(initial, owner + 0x50, cursor + length)
+            for index, value in enumerate((7, 8, 9)):
+                write(initial, a + index * 4, value)
+            result = {0: 7, 7: 8, 8: 9}.get(needle, 0) if length == 12 else 0
+            yield leaf(0x235D10, (owner, needle), initial, initial, result,
+                       label=f"235d10/{length}/{needle}", regs=(0, 0, needle, owner))
+
+    for destination in (0, a - 1, a, a + 1, b):
+        expected = bytearray(seed)
+        if destination:
+            for offset, width in ((0, 4), (4, 2), (6, 1), (8, 4), (12, 4), (16, 4), (20, 4)):
+                transfer(expected, a + offset, destination + offset, width)
+        yield leaf(0x1DCF30, (destination, a), seed, expected, destination,
+                   label=f"1dcf30/{destination}", regs=(destination, a, 0, 0), stack=(0x8abcdef0,))
+
+    for size in (0, 3, 4, 7, 11):
+        for df in (0, 1):
+            for destination in (b, a + 1, a + 0x10):
+                initial = bytearray(seed)
+                # Use a repeated low byte in the payload so aliasing the size
+                # can change it without producing an unmapped terminator.
+                initial[a - BASE:a - BASE + 0x60] = bytes(0x60)
+                write(initial, a + 0x3c, size)
+                initial[a + 0x40 - BASE] = 9
+                expected = initial.copy()
+                for index, offset in enumerate((0x38, 8, 12, 16, 20, 24, 28, 44, 40)):
+                    transfer(expected, a + offset, destination + index * 4, 4)
+                expected = byte_copy(expected, a + 0x40, destination + 0x2c,
+                                     read32(expected, a + 0x3c), df)
+                result = read32(expected, a + 0x3c)
+                write(expected, destination + 0x2c + result, 0, 1)
+                write(expected, destination + 0x130, 0, 1)
+                yield leaf(0x2F466F, (a, destination), initial, expected, result,
+                           label=f"2f466f/{size}/{df}/{destination}", stack=(a, destination), df=df)
+
+    for df in (0, 1):
+        for count, available in ((0, 7), (5, 0), (5, 13), (15, 7)):
+            for destination in (a + 1, b, owner + 0x14):
+                initial = bytearray(seed)
+                context = owner + 0x200
+                for addr, value in ((owner + 0xc, destination), (owner + 0x10, count),
+                                    (owner + 0x14, 0xfffffffb),
+                                    (owner + 0x1c, context), (context + 0x10, a),
+                                    (context + 0x14, available), (context + 8, 0x2468ace0)):
+                    write(initial, addr, value)
+                amount = min(count, available)
+                expected = initial.copy()
+                result = owner
+                if amount:
+                    expected = byte_copy(initial, a, destination, amount, df)
+                    # Keep the pointer valid in fixture cases that alias fields.
+                    if read32(expected, owner + 0x1c) != context:
+                        continue
+                    for addr, delta in ((owner + 0xc, amount), (context + 0x10, amount),
+                                        (owner + 0x14, amount), (owner + 0x10, -amount),
+                                        (context + 0x14, -amount)):
+                        write(expected, addr, (read32(expected, addr) + delta) & 0xffffffff)
+                    if read32(expected, context + 0x14) == 0:
+                        write(expected, context + 0x10, read32(expected, context + 8))
+                    result = context
+                yield leaf(0x251790, (owner,), initial, expected, result,
+                           label=f"251790/{count}/{available}/{df}/{destination}", regs=(owner, 0, 0, 0), df=df)
+
+    for df in (0, 1):
+        for source in (a, b, a + 4):
+            for count in (0, 1, 3, 0x40000003):
+                initial = bytearray(seed)
+                write(initial, a + 0x104, 2)
+                write(initial, source + 0x104, count)
+                expected = initial.copy()
+                if source != a:
+                    start = a + read32(initial, a + 0x104) * 4 + 4
+                    expected = byte_copy(initial, source + 4, start, (count * 4) & 0xffffffff, df)
+                    write(expected, a + 0x104, (read32(expected, a + 0x104) + read32(expected, source + 0x104)) & 0xffffffff)
+                    first = read32(expected, a + 0x10c) | read32(expected, source + 0x10c)
+                    second = read32(expected, a + 0x110)
+                    write(expected, a + 0x10c, first)
+                    write(expected, a + 0x110, second | read32(expected, source + 0x110))
+                yield leaf(0x162C60, (a, source), initial, expected, a,
+                           label=f"162c60/{count}/{df}/{source}", regs=(a, 0, 0, source), df=df)
+
+    for df in (0, 1):
+        for sizes in (None, (), (0,), (3, 7)):
+            for update in (0, 1):
+                initial = bytearray(seed)
+                record, table, obj = owner, a, BASE + 0x400
+                device = BASE - 0x2600
+                write(initial, record, 0 if sizes is None else table)
+                write(initial, record + 4, b)
+                write(initial, record + 8, 0x60)
+                write(initial, record + 12, 0xf1234567)
+                write(initial, obj, device)
+                write(initial, obj + 0x818, 0xffffffc0)
+                cursor = table
+                for index, size in enumerate(sizes or ()):
+                    write(initial, cursor, size)
+                    write(initial, cursor + 4, index * 0x20)
+                    cursor += 8 + size
+                write(initial, cursor, 0xffffffff)
+                expected = initial.copy()
+                cursor = table
+                for index, size in enumerate(sizes or ()):
+                    expected = byte_copy(expected, cursor + 8, b + index * 0x20, size, df)
+                    cursor += 8 + size
+                write(expected, b + 0x60, 0x01234568)
+                if update:
+                    write(expected, device + 0x324c, 0x01234567)
+                    write(expected, obj + 0x818, 0x20)
+                yield leaf(0x377F00, (obj, record, update), initial, expected, 0x01234567,
+                           label=f"377f00/{sizes}/{update}/{df}", stack=(obj, record, update), df=df)
+
     node, next_node, previous, head = (BASE + offset for offset in (0x200, 0x300, 0x400, 0x500))
 
     def audio(entry, args, ecx, stack, fields, changes, eax):
@@ -265,7 +407,7 @@ def read_retail(xbe, doc):
 START = r"""
 .globl _start
 .section .bss
-input: .zero 40
+input: .zero 44
 result: .zero 4
 .section .guest,"aw"
 .zero 4096
@@ -282,7 +424,7 @@ read_exact:
     ret
 _start:
     mov $input,%ecx
-    mov $40,%edx
+    mov $44,%edx
     call read_exact
     mov $0x420000,%ecx
     mov $4096,%edx
@@ -299,6 +441,7 @@ invoke:
     mov input+8,%ecx
     mov input+12,%edi
     mov input+36,%ebx
+    mov input+40,%edx
     call *input
     cld
     mov %eax,result
@@ -353,7 +496,9 @@ def main():
     doc = json.loads((ROOT / "metadata/cpp_guest32_list_and_copy_20261112.json").read_text(encoding="utf-8"))
     require(doc["original_xbe_sha256"] == XBE_SHA256, "retail identity changed")
     require({int(entry, 16) for entry in doc["bodies"]} ==
-            set(COPY) | AUDIO | set(SHIFT) | FORWARD | set(FIXED) | {0x00236EC0, 0x0031B21F, 0x00352E8D}, "model inventory changed")
+            set(COPY) | AUDIO | set(SHIFT) | FORWARD | set(FIXED) |
+            {0x00236EC0, 0x0031B21F, 0x00352E8D, 0x00023B80, 0x00235D10,
+             0x001DCF30, 0x002F466F, 0x00251790, 0x00162C60, 0x00377F00}, "model inventory changed")
     paths = []
     for entry, evidence in doc["bodies"].items():
         path = source_path(ROOT, entry)
@@ -372,10 +517,13 @@ def main():
                             opt, "-I", str(ROOT / "include"), str(fixture), *paths, "-o", str(model)],
                            check=True, timeout=60)
             for name, host, guest, initial, expected, eax in suite:
-                observed = subprocess.check_output([str(model)], input=packet(host, initial), timeout=10)
+                try:
+                    observed = subprocess.check_output([str(model)], input=packet(host, initial), timeout=10)
+                except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
+                    raise ValueError(f"{opt} fixture failed to execute: {name}") from exc
                 require(observed == packet((eax,), expected), f"{opt} fixture differs: {name}")
                 if retail:
-                    guest_input = (*guest, 0) if len(guest) == 9 else guest
+                    guest_input = (*guest, *([0] * (11 - len(guest))))
                     original = subprocess.check_output([str(retail)], input=packet(guest_input, initial), timeout=10)
                     require(observed == original, f"{opt} original x86 differs: {name}")
             oracle = " and retail x86" if retail else ""

@@ -1,34 +1,29 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest memory model.
  * Input x86 body SHA-256: 1D49C32F591AE3EAD5734B8CA10CA633CC5436483EB2E4C62480A0F7C90B9230
  * Entry: 0x00235d10, Ghidra index: 7823, label: FUN_00235d10
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * Captured inputs and guest data accesses. Native ABI_UNVERIFIED.
  */
-#include "bf_ghidra_types.h"
-int FUN_00235d10(void)
+#include "bf_xbe_guest32_record_moves.h"
 
+uint32_t FUN_00235d10(uint32_t guest_edx, uint32_t guest_edi)
 {
-  int iVar1;
-  int *piVar2;
-  int in_EDX;
-  int unaff_EDI;
-  
-  piVar2 = *(int **)(in_EDX + 0x4c);
-  if ((piVar2 == (int *)0x0) || (*(int *)(in_EDX + 0x50) - (int)piVar2 >> 2 == 0)) {
-    return 0;
-  }
-  if (unaff_EDI != 0) {
-    do {
-      if (piVar2 == *(int **)(in_EDX + 0x50)) {
-        return 0;
-      }
-      iVar1 = *piVar2;
-      piVar2 = piVar2 + 1;
-    } while (iVar1 != unaff_EDI);
-    if (piVar2 == *(int **)(in_EDX + 0x50)) {
-      return 0;
+    uint32_t cursor = bf_guest_read_u32(guest_edx + 0x4cu);
+    if (cursor == 0u)
+        return 0u;
+    const uint32_t size_bits = bf_guest_read_u32(guest_edx + 0x50u) - cursor;
+    // SAR by two produces zero only for DWORD values 0 through 3.
+    if (size_bits < 4u)
+        return 0u;
+    if (guest_edi == 0u)
+        return bf_guest_read_u32(cursor);
+
+    const uint32_t end = bf_guest_read_u32(guest_edx + 0x50u);
+    while (cursor != end) {
+        const uint32_t word = bf_guest_read_u32(cursor);
+        cursor += 4u;
+        if (word == guest_edi)
+            return cursor == end ? 0u : bf_guest_read_u32(cursor);
     }
-  }
-  return *piVar2;
+    return 0u;
 }

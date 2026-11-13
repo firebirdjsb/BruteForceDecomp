@@ -1,50 +1,42 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest memory model.
  * Input x86 body SHA-256: 6DDC202022C8594B9E6813487A19175C086735E7E9E3D9175B77FA0A58161B6A
  * Entry: 0x00251790, Ghidra index: 8369, label: FUN_00251790
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * Captured inputs and guest data accesses. Native ABI_UNVERIFIED.
  */
-#include "bf_ghidra_types.h"
-void FUN_00251790(void)
+#include "bf_xbe_guest32_record_moves.h"
 
+uint32_t FUN_00251790(uint32_t guest_eax, bool guest_df)
 {
-  int *piVar1;
-  int iVar2;
-  int in_EAX;
-  uint uVar3;
-  uint uVar4;
-  undefined4 *puVar5;
-  undefined4 *puVar6;
-  
-  uVar4 = *(uint *)(*(int *)(in_EAX + 0x1c) + 0x14);
-  if (*(uint *)(in_EAX + 0x10) < uVar4) {
-    uVar4 = *(uint *)(in_EAX + 0x10);
-  }
-  if (uVar4 != 0) {
-    puVar5 = *(undefined4 **)(*(int *)(in_EAX + 0x1c) + 0x10);
-    puVar6 = *(undefined4 **)(in_EAX + 0xc);
-    for (uVar3 = uVar4 >> 2; uVar3 != 0; uVar3 = uVar3 - 1) {
-      *puVar6 = *puVar5;
-      puVar5 = puVar5 + 1;
-      puVar6 = puVar6 + 1;
+    const uint32_t requested = bf_guest_read_u32(guest_eax + 0x10u);
+    const uint32_t input = bf_guest_read_u32(guest_eax + 0x1cu);
+    const uint32_t available = bf_guest_read_u32(input + 0x14u);
+    const uint32_t bytes = available <= requested ? available : requested;
+    if (bytes == 0u)
+        return guest_eax;
+
+    const uint32_t source = bf_guest_read_u32(input + 0x10u);
+    const uint32_t destination = bf_guest_read_u32(guest_eax + 0x0cu);
+    bf_guest_copy_rep_dwords_and_bytes(source, destination, bytes, guest_df);
+
+    const uint32_t output_cursor = bf_guest_read_u32(guest_eax + 0x0cu);
+    const uint32_t input_after_copy = bf_guest_read_u32(guest_eax + 0x1cu);
+    bf_guest_write_u32(guest_eax + 0x0cu, output_cursor + bytes);
+    const uint32_t input_cursor = bf_guest_read_u32(input_after_copy + 0x10u);
+    bf_guest_write_u32(input_after_copy + 0x10u, input_cursor + bytes);
+
+    const uint32_t written = bf_guest_read_u32(guest_eax + 0x14u);
+    const uint32_t remaining = bf_guest_read_u32(guest_eax + 0x10u);
+    const uint32_t input_before_subtract = bf_guest_read_u32(guest_eax + 0x1cu);
+    bf_guest_write_u32(guest_eax + 0x14u, written + bytes);
+    bf_guest_write_u32(guest_eax + 0x10u, remaining - bytes);
+    const uint32_t input_remaining = bf_guest_read_u32(input_before_subtract + 0x14u);
+    bf_guest_write_u32(input_before_subtract + 0x14u, input_remaining - bytes);
+
+    const uint32_t result = bf_guest_read_u32(guest_eax + 0x1cu);
+    if (bf_guest_read_u32(result + 0x14u) == 0u) {
+        const uint32_t initial = bf_guest_read_u32(result + 8u);
+        bf_guest_write_u32(result + 0x10u, initial);
     }
-    for (uVar3 = uVar4 & 3; uVar3 != 0; uVar3 = uVar3 - 1) {
-      *(undefined1 *)puVar6 = *(undefined1 *)puVar5;
-      puVar5 = (undefined4 *)((int)puVar5 + 1);
-      puVar6 = (undefined4 *)((int)puVar6 + 1);
-    }
-    *(uint *)(in_EAX + 0xc) = *(int *)(in_EAX + 0xc) + uVar4;
-    piVar1 = (int *)(*(int *)(in_EAX + 0x1c) + 0x10);
-    *piVar1 = *piVar1 + uVar4;
-    *(uint *)(in_EAX + 0x14) = *(int *)(in_EAX + 0x14) + uVar4;
-    *(uint *)(in_EAX + 0x10) = *(int *)(in_EAX + 0x10) - uVar4;
-    piVar1 = (int *)(*(int *)(in_EAX + 0x1c) + 0x14);
-    *piVar1 = *piVar1 - uVar4;
-    iVar2 = *(int *)(in_EAX + 0x1c);
-    if (*(int *)(iVar2 + 0x14) == 0) {
-      *(undefined4 *)(iVar2 + 0x10) = *(undefined4 *)(iVar2 + 8);
-    }
-  }
-  return;
+    return result;
 }

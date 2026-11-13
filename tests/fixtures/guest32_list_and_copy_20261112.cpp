@@ -33,6 +33,11 @@ uint32_t bf_guest_read_u32(uint32_t address)
     return value;
 }
 
+uint16_t bf_guest_read_u16(uint32_t address)
+{
+    return static_cast<uint16_t>(uint16_t(at(address)) | (uint16_t(at(address + 1u)) << 8));
+}
+
 void bf_guest_write_u8(uint32_t address, uint8_t value)
 {
     at(address) = value;
@@ -88,6 +93,14 @@ uint32_t FUN_00236ec0(uint32_t, uint32_t, uint32_t, uint32_t);
 uint32_t FUN_0031b21f(uint32_t, uint32_t, uint32_t, uint32_t, bool);
 uint32_t FUN_00352e8d(uint32_t, uint32_t, uint32_t, bool);
 
+uint32_t FUN_00023b80(uint32_t, uint32_t);
+uint32_t FUN_00235d10(uint32_t, uint32_t);
+uint32_t FUN_001dcf30(uint32_t, uint32_t);
+uint32_t FUN_002f466f(uint32_t, uint32_t, bool);
+uint32_t FUN_00251790(uint32_t, bool);
+uint32_t FUN_00162c60(uint32_t, uint32_t, bool);
+uint32_t FUN_00377f00(uint32_t, uint32_t, uint32_t, bool);
+
 static uint32_t invoke(uint32_t entry, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t df)
 {
     switch (entry) {
@@ -131,6 +144,13 @@ static uint32_t invoke(uint32_t entry, uint32_t a, uint32_t b, uint32_t c, uint3
     case 0x00236ec0: return FUN_00236ec0(a, b, c, d);
     case 0x0031b21f: return FUN_0031b21f(a, b, c, d, df != 0);
     case 0x00352e8d: return FUN_00352e8d(a, b, c, df != 0);
+    case 0x00023b80: return FUN_00023b80(a, b);
+    case 0x00235d10: return FUN_00235d10(a, b);
+    case 0x001dcf30: return FUN_001dcf30(a, b);
+    case 0x002f466f: return FUN_002f466f(a, b, df != 0);
+    case 0x00251790: return FUN_00251790(a, df != 0);
+    case 0x00162c60: return FUN_00162c60(a, b, df != 0);
+    case 0x00377f00: return FUN_00377f00(a, b, c, df != 0);
     default: std::abort();
     }
 }

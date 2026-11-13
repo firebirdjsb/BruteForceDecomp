@@ -1,36 +1,29 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest memory model.
  * Input x86 body SHA-256: 65EDEB4E2ED26384C743B6D9D1E04FEB6003851BABF50272E311470D1AABFBE4
  * Entry: 0x00162c60, Ghidra index: 4655, label: FUN_00162c60
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * Captured inputs and guest data accesses. Native ABI_UNVERIFIED.
  */
-#include "bf_ghidra_types.h"
-void FUN_00162c60(void)
+#include "bf_xbe_guest32_record_moves.h"
 
+uint32_t FUN_00162c60(uint32_t guest_eax, uint32_t guest_edx, bool guest_df)
 {
-  undefined4 *in_EAX;
-  uint uVar1;
-  int iVar2;
-  undefined4 *in_EDX;
-  undefined4 *puVar3;
-  undefined4 *puVar4;
-  
-  if (in_EDX != in_EAX) {
-    puVar4 = in_EAX + in_EAX[0x41] + 1;
-    puVar3 = in_EDX;
-    for (uVar1 = in_EDX[0x41] & 0x3fffffff; puVar3 = puVar3 + 1, uVar1 != 0; uVar1 = uVar1 - 1) {
-      *puVar4 = *puVar3;
-      puVar4 = puVar4 + 1;
-    }
-    for (iVar2 = 0; iVar2 != 0; iVar2 = iVar2 + -1) {
-      *(undefined1 *)puVar4 = *(undefined1 *)puVar3;
-      puVar3 = (undefined4 *)((int)puVar3 + 1);
-      puVar4 = (undefined4 *)((int)puVar4 + 1);
-    }
-    in_EAX[0x41] = in_EAX[0x41] + in_EDX[0x41];
-    in_EAX[0x43] = in_EAX[0x43] | in_EDX[0x43];
-    in_EAX[0x44] = in_EAX[0x44] | in_EDX[0x44];
-  }
-  return;
+    if (guest_edx == guest_eax)
+        return guest_eax;
+
+    const uint32_t bytes = bf_guest_read_u32(guest_edx + 0x104u) << 2;
+    const uint32_t output_count = bf_guest_read_u32(guest_eax + 0x104u);
+    bf_guest_copy_rep_dwords_and_bytes(guest_edx + 4u, guest_eax + output_count * 4u + 4u,
+                                       bytes, guest_df);
+
+    const uint32_t input_count = bf_guest_read_u32(guest_edx + 0x104u);
+    const uint32_t count_after_copy = bf_guest_read_u32(guest_eax + 0x104u);
+    const uint32_t first_mask = bf_guest_read_u32(guest_eax + 0x10cu);
+    bf_guest_write_u32(guest_eax + 0x104u, count_after_copy + input_count);
+    const uint32_t input_first = bf_guest_read_u32(guest_edx + 0x10cu);
+    const uint32_t second_mask = bf_guest_read_u32(guest_eax + 0x110u);
+    bf_guest_write_u32(guest_eax + 0x10cu, first_mask | input_first);
+    const uint32_t input_second = bf_guest_read_u32(guest_edx + 0x110u);
+    bf_guest_write_u32(guest_eax + 0x110u, second_mask | input_second);
+    return guest_eax;
 }
