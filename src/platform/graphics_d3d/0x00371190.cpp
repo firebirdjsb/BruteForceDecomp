@@ -1,35 +1,25 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest command model.
  * Input x86 body SHA-256: 833E08B044C713D46344500DBC0951B52D860FDDB510CE974DE6EEFECD74FA93
  * Entry: 0x00371190, Ghidra index: 13377, label: FUN_00371190
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * Device is the stack DWORD. Cursor is EDX. Returns EAX at RET 4.
  */
-#include "bf_ghidra_types.h"
-#include "bf_xbox_d3d_state_globals_x86.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_0037dfd4;
-undefined4 * FUN_00371190(int param_1)
+#include "bf_d3d_guest_command_cursor.h"
 
+uint32_t FUN_00371190(uint32_t guest_stack_device, uint32_t guest_edx)
 {
-  char cVar1;
-  uint uVar2;
-  undefined4 *in_EDX;
-  
-  uVar2 = 0x100001;
-  if (D3D8__D3DRS_YuvEnable != 0) {
-    uVar2 = 0x10100001;
-  }
-  if (DAT_0037dfd4 == 2) {
-    uVar2 = uVar2 | 0x10000;
-  }
-  if ((*(int *)(param_1 + 0x15b8) != 0) &&
-     ((((cVar1 = *(char *)(*(int *)(param_1 + 0x15b8) + 0xd), cVar1 == '-' || (cVar1 == '+')) ||
-       (cVar1 == '1')) || (cVar1 == '/')))) {
-    uVar2 = uVar2 | 0x1000;
-  }
-  *in_EDX = 0x40290;
-  in_EDX[1] = uVar2;
-  return in_EDX + 2;
+    uint32_t value = bf_guest_read_u32(0x0037e018u) == 0u ? 0x100001u : 0x10100001u;
+    if (bf_guest_read_u32(0x0037dfd4u) == 2u)
+        value |= 0x10000u;
+
+    const uint32_t surface = bf_guest_read_u32(guest_stack_device + 0x15b8u);
+    if (surface != 0u) {
+        const uint8_t format = bf_guest_read_u8(surface + 0x0du);
+        if (format == 0x2du || format == 0x2bu || format == 0x31u || format == 0x2fu)
+            value |= 0x1000u;
+    }
+
+    bf_guest_write_u32(guest_edx, 0x40290u);
+    bf_guest_write_u32(guest_edx + 4u, value);
+    return guest_edx + 8u;
 }

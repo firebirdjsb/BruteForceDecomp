@@ -1,0 +1,42 @@
+{
+  "original_xbe_sha256": "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721",
+  "baseline_commit": "f12513fb95dfa9d48833cae4692d15be6126f3ca",
+  "tail_site": "0x0037031e",
+  "tail_target": "0x00370260",
+  "entries": [
+    {"entry": "0x0036ccf0", "register": "edi", "stack_words": 4, "ret_sites": ["0x0036cd4b"]},
+    {"entry": "0x0036dcc0", "register": "esi", "stack_words": 0, "ret_sites": ["0x0036ddcc"]},
+    {"entry": "0x0036fb10", "register": null, "stack_words": 1, "ret_sites": ["0x0036fbcd", "0x0036fbd5"]},
+    {"entry": "0x00370260", "register": null, "stack_words": 1, "ret_sites": ["0x00370299", "0x003702ce"]},
+    {"entry": "0x003702e0", "register": null, "stack_words": 1, "ret_sites": []},
+    {"entry": "0x00370600", "register": null, "stack_words": 1, "ret_sites": ["0x0037067d"]},
+    {"entry": "0x00370680", "register": null, "stack_words": 1, "ret_sites": ["0x003706b0"]},
+    {"entry": "0x00370b40", "register": "esi", "stack_words": 1, "ret_sites": ["0x00370c41"]},
+    {"entry": "0x00370c50", "register": "eax", "stack_words": 2, "ret_sites": ["0x00370cb7"]},
+    {"entry": "0x00371190", "register": "edx", "stack_words": 1, "ret_sites": ["0x003711ea"]}
+  ],
+  "callers": [
+    {"entry": "0x0036ccf0", "declarations": [{"callee": "0x00371e10", "sites": ["0x0036cd07"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x0036dcc0", "declarations": [{"callee": "0x00371e10", "sites": ["0x0036dd17"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x0036fb10", "declarations": [{"callee": "0x00371e10", "sites": ["0x0036fb85"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x00370260", "declarations": [{"callee": "0x00371e10", "sites": ["0x00370277"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x003702e0", "declarations": [{"callee": "0x00371e10", "sites": ["0x003702f7"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x00370600", "declarations": [{"callee": "0x00371e10", "sites": ["0x0037064d"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x00370680", "declarations": [{"callee": "0x00371e10", "sites": ["0x003706a0"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}, {"callee": "0x00371190", "sites": ["0x003706a8"], "returns": [["0x003711ea", 4]]}]},
+    {"entry": "0x00370b40", "declarations": [{"callee": "0x00371e10", "sites": ["0x00370b77"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x00370c50", "declarations": [{"callee": "0x00371e10", "sites": ["0x00370c84"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]}
+  ],
+  "bodies": {
+    "0x0036ccf0": {"sha256": "84892FD91701A334D23318907B5952C91002DDE988022EE5BC07894CCCC2F0CE", "ranges": [["0x0036ccf0", 94]]},
+    "0x0036dcc0": {"sha256": "8F5E31D43BFA9F871371299FD043C0657EAFA7CB3D3FEAC268A401E998A90BC2", "ranges": [["0x0036dcc0", 269]]},
+    "0x0036fb10": {"sha256": "C3DDBF9795B85A15EE3FD9295CB1975B8B4E22A68D02A6E0614D2C42C5B020D5", "ranges": [["0x0036fb10", 200]]},
+    "0x00370260": {"sha256": "C62A502E5284077FF4D8515D87DA71709248DD37A10EC741B581E218B3FF77F6", "ranges": [["0x00370260", 113]]},
+    "0x003702e0": {"sha256": "F8439DE13AEC578CFB318ACD8FE282755EAC266C107669EE85BCF6A95231E0CF", "ranges": [["0x003702e0", 67]]},
+    "0x00370600": {"sha256": "1CC73261414035383C4E2020B65DD5E643922DC390434039BFC7F6B7BBB3BA77", "ranges": [["0x00370600", 128]]},
+    "0x00370680": {"sha256": "FEBB01B929F5EF645654E7C2B55C19EAC704C001EB6C3FADA99A22DC08243942", "ranges": [["0x00370680", 51]]},
+    "0x00370b40": {"sha256": "F7031B90D85ED4BC929FF757E3D19FBC74EDDD279832D7169E8F1FB0003FAA9D", "ranges": [["0x00370b40", 260]]},
+    "0x00370c50": {"sha256": "B166EB9066C8FF377E84318040CAC7FD8E365838EB407C5B3359A60333489FB9", "ranges": [["0x00370c50", 106]]},
+    "0x00371190": {"ranges": [["0x00371190", 93]], "sha256": "833E08B044C713D46344500DBC0951B52D860FDDB510CE974DE6EEFECD74FA93"},
+    "0x00371e10": {"sha256": "3349300F8D40720450E627988C1F02AB351F26407D6AF5E599B7C3C594A366E0", "ranges": [["0x00371e10", 237], ["0x00371f00", 131]]}
+  }
+}

@@ -48,7 +48,6 @@ ADDITIONAL_DECLARATIONS = (
     ("0x0036d4d0", "extern uint32_t D3D8LTCG__D3D_g_DeferredTextureState;"),
     ("0x0036d4d0", "extern uint32_t D3D8__D3DRS_FogEnable;"),
     ("0x0036ee50", "extern uint32_t D3D_g_Stream;"),
-    ("0x00370c50", "extern uint32_t D3D_g_DeferredTextureState;"),
     ("0x00370d50", "extern uint32_t D3D_g_DeferredTextureState;"),
     ("0x00373730", "extern uint32_t D3D_g_Stream;"),
     ("0x00376e10", "extern uint32_t D3D8LTCG__D3D_g_Stream;"),
@@ -76,8 +75,12 @@ def main():
         text = source_path(args.repo, entry).read_text(encoding="utf-8")
         if declaration not in text:
             raise SystemExit(f"FAIL missing syntax-only guest declaration: {entry}")
+    bump = source_path(args.repo, "0x00370c50").read_text(encoding="utf-8")
+    if ("extern uint32_t D3D_g_DeferredTextureState;" not in bump
+            and "0x0037bb30u + ((guest_eax << 5) + state) * 4u" not in bump):
+        raise SystemExit("FAIL missing deferred-state guest base at 0x00370c50")
     print(f"PASS: {len(INSTRUCTIONS)} original x86 instructions and "
-          f"{len(FILES) + len(ADDITIONAL_DECLARATIONS)} C11 declarations/includes")
+          f"{len(FILES) + len(ADDITIONAL_DECLARATIONS) + 1} source guest-base checks")
     print("No guest memory mapping, cross-TU linking or runtime equivalence is implied.")
 
 if __name__ == "__main__":

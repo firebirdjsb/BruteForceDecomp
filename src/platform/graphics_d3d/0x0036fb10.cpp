@@ -1,60 +1,54 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest command model.
  * Input x86 body SHA-256: C3DDBF9795B85A15EE3FD9295CB1975B8B4E22A68D02A6E0614D2C42C5B020D5
  * Entry: 0x0036fb10, Ghidra index: 13332, label: FUN_0036fb10
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * Output address is the stack DWORD. Models forward REP STOS with DF clear.
  */
+#include "bf_d3d_guest_command_cursor.h"
 #include "bf_ghidra_types.h"
-#include "bf_xbox_d3d_device_x86.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_0037ec88;
-void FUN_0036fb10(int *param_1)
 
+// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED.
+extern uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2);
+
+uint32_t FUN_0036fb10(uint32_t output_address)
 {
-  int *piVar1;
-  int iVar2;
-  uint uVar3;
-  int *piVar4;
-  int iVar5;
-  uint uVar6;
-  uint uVar7;
-  uint uVar8;
-  int *piVar9;
-  
-  piVar1 = D3D8__D3D_g_pDevice;
-  iVar5 = *D3D8__D3D_g_pDevice - *(int *)(D3D8__D3D_g_pDevice[0xd3] + 4);
-  iVar2 = 0x420 - iVar5;
-  uVar8 = (int)(iVar2 + (iVar2 >> 0x1f & 7U)) >> 3;
-  if ((0 < (int)uVar8) && (-1 < (char)D3D8__D3D_g_pDevice[2])) {
-    D3D8__D3D_g_pDevice[2] = D3D8__D3D_g_pDevice[2] | 0x80;
-    piVar4 = (int *)*piVar1;
-    if ((int *)(piVar1[1] + 0x200) <= piVar4 + uVar8 + 1) {
-      uVar6 = uVar8 * 4 + 0x208;
-      uVar3 = DAT_0037ec88 >> 1;
-      if (DAT_0037ec88 >> 1 < uVar6) {
-        uVar3 = uVar6;
-      }
-      uVar7 = DAT_0037ec88;
-      if (DAT_0037ec88 < uVar6) {
-        uVar7 = uVar6;
-      }
-      piVar4 = (int *)D3D8LTCG__D3D_MakeRequestedSpace_8(uVar3,uVar7);
+    const uint32_t device = bf_guest_read_u32(0x0037dd88u);
+    const uint32_t record = bf_guest_read_u32(device + 0x34cu);
+    const uint32_t cursor = bf_guest_read_u32(device);
+    const uint32_t used = cursor - bf_guest_read_u32(record + 4u);
+    const uint32_t spare = 0x420u - used;
+    // CDQ/AND/ADD/SAR computes signed truncation toward zero, with x86 wrap.
+    const uint32_t biased = spare + ((spare & 0x80000000u) != 0u ? 7u : 0u);
+    if ((biased & 0x80000000u) != 0u || biased < 8u) {
+        bf_guest_write_u32(output_address, used);
+        return biased;
     }
-    *piVar4 = uVar8 * 0x40000 + 0x40000100;
-    piVar9 = piVar4;
-    for (uVar6 = uVar8 & 0x3fffffff; piVar9 = piVar9 + 1, uVar6 != 0; uVar6 = uVar6 - 1) {
-      *piVar9 = 0;
+
+    const uint32_t flags = bf_guest_read_u32(device + 8u);
+    if ((flags & 0x80u) != 0u) {
+        bf_guest_write_u32(output_address, used);
+        return flags;
     }
-    for (iVar2 = 0; iVar2 != 0; iVar2 = iVar2 + -1) {
-      *(undefined1 *)piVar9 = 0;
-      piVar9 = (int *)((int)piVar9 + 1);
+    bf_guest_write_u32(device + 8u, flags | 0x80u);
+    const uint32_t count = biased >> 3;
+    uint32_t write_cursor = bf_guest_read_u32(device);
+    const uint32_t limit = bf_guest_read_u32(device + 4u) + 0x200u;
+    if (write_cursor + count * 4u + 4u >= limit) {
+        const uint32_t request = bf_guest_read_u32(0x0037ec88u);
+        const uint32_t minimum = count * 4u + 0x208u;
+        const uint32_t half = request >> 1;
+        write_cursor = D3D8LTCG__D3D_MakeRequestedSpace_8(
+            bf_d3d_guest_signed_dword(half < minimum ? minimum : half),
+            bf_d3d_guest_signed_dword(request < minimum ? minimum : request));
     }
-    *piVar1 = (int)(piVar4 + uVar8 + 1);
-    *param_1 = (int)(piVar4 + uVar8 + 1) - *(int *)(piVar1[0xd3] + 4);
-    return;
-  }
-  *param_1 = iVar5;
-  return;
+
+    bf_guest_write_u32(write_cursor, 0x40000100u + (count << 18));
+    for (uint32_t word = 0; word < count; ++word)
+        bf_guest_write_u32(write_cursor + 4u + word * 4u, 0u);
+    const uint32_t advanced = write_cursor + 4u + count * 4u;
+    const uint32_t final_record = bf_guest_read_u32(device + 0x34cu);
+    bf_guest_write_u32(device, advanced);
+    const uint32_t result = advanced - bf_guest_read_u32(final_record + 4u);
+    bf_guest_write_u32(output_address, result);
+    return result;
 }

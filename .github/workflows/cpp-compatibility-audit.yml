@@ -80,6 +80,8 @@ jobs:
         run: python3 tools/check_cpp_d3d_guest_command_writers.py
       - name: Link and check three D3D texture and color command writers
         run: python3 tools/check_cpp_d3d_guest_texture_writers.py
+      - name: Link and exercise mixed-input D3D guest command models
+        run: python3 tools/check_cpp_d3d_guest_mixed_writers.py
       - name: Link and exercise four guest DWORD debug register models
         run: python3 tools/check_cpp_d3d_debug_register_models.py
       - name: Link two guest XNET record models
