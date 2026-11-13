@@ -1,51 +1,77 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest DWORD dispatch stores.
  * Input x86 body SHA-256: FE3B9A017F31847F12ED380AA857D366575B43EB83DDF2B52F72AB200F7A94C6
  * Entry: 0x0035feb0, Ghidra index: 13223, label: FUN_0035feb0
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
+ * The original RET has no immediate. Return-address transport and
+ * guest memory faults remain owned by the unresolved executing backend.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_00414b10;
-extern uint32_t DAT_00414b30;
-extern uint32_t DAT_00414b38;
-extern uint32_t DAT_004c07e0;
-extern uint32_t _DAT_00414b1c;
-extern uint32_t _DAT_00414b28;
-extern uint32_t _DAT_00414b44;
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+#include "bf_0035feb0_guest_model.h"
 
-void FUN_0035feb0(int param_1)
+namespace {
+constexpr std::uint32_t carry_flag = 0x001u;
+constexpr std::uint32_t parity_flag = 0x004u;
+constexpr std::uint32_t auxiliary_flag = 0x010u;
+constexpr std::uint32_t zero_flag = 0x040u;
+constexpr std::uint32_t sign_flag = 0x080u;
+constexpr std::uint32_t overflow_flag = 0x800u;
+constexpr std::uint32_t all_arithmetic_flags = 0x8d5u;
 
+std::uint32_t szp(std::uint32_t value, std::uint32_t sign_bit)
 {
-  uint uVar1;
-  uint *in_ECX;
-  
-  /* 0x35fed8..0x35ff2c: MOV DWORD code-address immediates.
-   * ABI_UNVERIFIED: these uint32_t globals hold raw guest words. */
-  if (DAT_004c07e0 == 1) {
-    uVar1 = *in_ECX;
-    if (((uVar1 & 1) == 0) || (0x2000 < uVar1)) {
-      DAT_00414b38 = UINT32_C(0x0035fe10);
-      DAT_00414b10 = UINT32_C(0x0035fe60);
-      _DAT_00414b44 = in_ECX;
-      *in_ECX = 0x82;
-      _DAT_00414b1c = UINT32_C(0x0035fa10);
-      _DAT_00414b28 = UINT32_C(0x0035fae0);
-      DAT_00414b30 = 1;
-      return;
+    const std::uint32_t low_byte = value & 0xffu;
+    const std::uint32_t folded = (low_byte ^ (low_byte >> 4u)) & 0xfu;
+    const bool even_parity = ((0x6996u >> folded) & 1u) == 0u;
+    return (even_parity ? parity_flag : 0u) |
+           (value == 0u ? zero_flag : 0u) |
+           ((value & sign_bit) != 0u ? sign_flag : 0u);
+}
+
+std::uint32_t cmp_flags(std::uint32_t left, std::uint32_t right)
+{
+    const std::uint32_t difference = left - right;
+    return szp(difference, 0x80000000u) |
+           (left < right ? carry_flag : 0u) |
+           (((left ^ right ^ difference) & 0x10u) != 0u ? auxiliary_flag : 0u) |
+           (((left ^ right) & (left ^ difference) & 0x80000000u) != 0u ? overflow_flag : 0u);
+}
+
+void write_dispatch(std::uint32_t first, std::uint32_t second)
+{
+    bf_guest_write_u32(0x00414b38u, first);  // First MOV [disp32], imm32.
+    bf_guest_write_u32(0x00414b10u, second); // Second slot write stays ordered.
+}
+}
+
+bf_0035feb0_guest_result FUN_0035feb0(std::uint32_t guest_ecx, std::uint32_t guest_esp)
+{
+    const std::uint32_t mode = bf_guest_read_u32(0x004c07e0u);
+    if (mode != 1u) {
+        write_dispatch(0x0035fbb0u, 0x0035fc70u);
+        return {mode, 1u, all_arithmetic_flags, cmp_flags(mode, 1u)};
     }
-    uVar1 = uVar1 + param_1 * 4;
-    *in_ECX = uVar1;
-    if ((uVar1 & 2) == 0) {
-      DAT_00414b38 = UINT32_C(0x0035fa10);
-      DAT_00414b10 = UINT32_C(0x0035fae0);
-      return;
+
+    const std::uint32_t word = bf_guest_read_u32(guest_ecx);
+    if ((word & 1u) != 0u && word <= 0x2000u) {
+        // MOV EDX,[ESP+4]; LEA EAX,[EAX+EDX*4] wraps as a guest DWORD.
+        const std::uint32_t argument = bf_guest_read_u32(guest_esp + 4u);
+        const std::uint32_t value = word + argument * 4u;
+        const std::uint32_t tested = value & 2u;
+        bf_guest_write_u32(guest_ecx, value);
+        if (tested == 0u)
+            write_dispatch(0x0035fa10u, 0x0035fae0u);
+        else
+            write_dispatch(0x0035fbb0u, 0x0035fc70u);
+        // TEST AL,2 defines CF=OF=0 and SZP, with AF undefined.
+        return {value, argument, all_arithmetic_flags & ~auxiliary_flag, szp(tested, 0x80u)};
     }
-  }
-  DAT_00414b38 = UINT32_C(0x0035fbb0);
-  DAT_00414b10 = UINT32_C(0x0035fc70);
-  return;
+
+    write_dispatch(0x0035fe10u, 0x0035fe60u);
+    bf_guest_write_u32(0x00414b44u, guest_ecx);
+    bf_guest_write_u32(guest_ecx, 0x82u);
+    bf_guest_write_u32(0x00414b1cu, 0x0035fa10u);
+    bf_guest_write_u32(0x00414b28u, 0x0035fae0u);
+    bf_guest_write_u32(0x00414b30u, 1u);
+    if ((word & 1u) == 0u)
+        return {word, 1u, all_arithmetic_flags & ~auxiliary_flag, szp(0u, 0x80u)};
+    return {word, 1u, all_arithmetic_flags, cmp_flags(word, 0x2000u)};
 }
