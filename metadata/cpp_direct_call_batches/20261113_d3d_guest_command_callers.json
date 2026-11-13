@@ -1,0 +1,31 @@
+{
+  "original_xbe_sha256": "b6ea5d4dd6500ae86c3f5e3e4618bc9b1e3facddcb483170dfee7a787087c721",
+  "baseline_commit": "d1d16835a42d154da9fdcd5c7db0f1c150e049ea",
+  "callers": [
+    {"entry": "0x003701c0", "declarations": [{"callee": "0x00371e10", "signature": "uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2)", "sites": ["0x003701d7"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x00370200", "declarations": [{"callee": "0x00371e10", "signature": "uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2)", "sites": ["0x00370218"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x00370260", "declarations": [{"callee": "0x00371e10", "signature": "uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2)", "sites": ["0x00370277"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x00370330", "declarations": [{"callee": "0x00371e10", "signature": "uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2)", "sites": ["0x00370347"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x00370420", "declarations": [{"callee": "0x00371e10", "signature": "uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2)", "sites": ["0x00370437"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x003704b0", "declarations": [{"callee": "0x00371e10", "signature": "uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2)", "sites": ["0x003704c7"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x00370530", "declarations": [{"callee": "0x00371e10", "signature": "uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2)", "sites": ["0x00370551"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x003706c0", "declarations": [{"callee": "0x00371e10", "signature": "uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2)", "sites": ["0x003706e0"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x00370730", "declarations": [{"callee": "0x00371e10", "signature": "uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2)", "sites": ["0x00370750"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x00370990", "declarations": [{"callee": "0x00371e10", "signature": "uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2)", "sites": ["0x003709a7"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]},
+    {"entry": "0x00370a90", "declarations": [{"callee": "0x00371e10", "signature": "uint D3D8LTCG__D3D_MakeRequestedSpace_8(int param_1,int param_2)", "sites": ["0x00370abb"], "returns": [["0x00371e46", 8], ["0x00371f68", 8], ["0x00371f80", 8]]}]}
+  ],
+  "bodies": {
+    "0x00371e10": {"sha256": "3349300F8D40720450E627988C1F02AB351F26407D6AF5E599B7C3C594A366E0", "ranges": [["0x00371e10", 237], ["0x00371f00", 131]]},
+    "0x003701c0": {"sha256": "77F1D7D75B0F12227B431FD7EECB875B3B4A8BFE65D59AEFD5EB5725C57DFC84", "ranges": [["0x003701c0", 62]]},
+    "0x00370200": {"sha256": "BAB7F79E826F66A1BA7DC8093B0AAAC4F7B100B904063860DEC38B17F9FB3E34", "ranges": [["0x00370200", 86]]},
+    "0x00370260": {"sha256": "C62A502E5284077FF4D8515D87DA71709248DD37A10EC741B581E218B3FF77F6", "ranges": [["0x00370260", 113]]},
+    "0x00370330": {"sha256": "B0CDCDC2B1DD35EEED531E6E5ECCAB19163D81D19E01B5F7C3B341D2EC5484EF", "ranges": [["0x00370330", 66]]},
+    "0x00370420": {"sha256": "C3C30E5D45B3BA170A1AB5CF2CC2468DE6811590AC894962EA0E0BC151FABF7F", "ranges": [["0x00370420", 141]]},
+    "0x003704b0": {"sha256": "E5B2F1DC8A785E05B43D0052869DB493C566B6FFFCBA86720EAE02625CB3F970", "ranges": [["0x003704b0", 118]]},
+    "0x00370530": {"sha256": "0C2A1AAF687BE48CB8A6DF0F45B5D8BF413E96B8D68092C35864DA718073D3C4", "ranges": [["0x00370530", 89]]},
+    "0x003706c0": {"sha256": "103D3D3EEFA7BDFB6391D6672D7B8C559CBA91B74AB2770C7ECAF1EBD663D02F", "ranges": [["0x003706c0", 107]]},
+    "0x00370730": {"sha256": "AF9800A4CD38954D0BEDD46CE41F69753A59A03E5F2FF0B7B91A589F6F1FC689", "ranges": [["0x00370730", 107]]},
+    "0x00370990": {"sha256": "C414576EE62DEF21FC8AE5EFF82912E4AADBEC79F03F69E8FEACE1E167BDFC7D", "ranges": [["0x00370990", 91]]},
+    "0x00370a90": {"sha256": "8A42821254B1DC069AED610F1B837B90CF1E9FE7C4E228DE6876C57DF4EEB5E2", "ranges": [["0x00370a90", 76]]}
+  }
+}
