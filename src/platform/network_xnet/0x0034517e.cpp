@@ -1,22 +1,12 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - conditional guest tail transfer.
  * Input x86 body SHA-256: 2571B5753CA16F0E395A99AFDFF1B39E5619DACF520B3055BCB79E2282E47027
  * Entry: 0x0034517e, Ghidra index: 12797, label: FUN_0034517e
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_0040f5b4;
-undefined4 FUN_0034517e(void)
+#include "bf_xbe_guest32_xnet_conditional_tail.h"
 
+void FUN_0034517e(bf_xnet_conditional_tail_state& guest)
 {
-  undefined4 uVar1;
-  
-  if (DAT_0040f5b4 == 0) {
-    return 0x276d;
-  }
-  uVar1 = FUN_0034b32f();
-  return uVar1;
+    guest.ecx = bf_guest_read_u32(0x0040f5b4u);
+    bf_xnet_conditional_tail(guest, 0x0034517eu, 6u, 0x0034b32fu, 12u);
 }
