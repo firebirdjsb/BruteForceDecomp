@@ -1,14 +1,11 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - framed guest tail transfer.
  * Input x86 body SHA-256: B12F8BBAC395D9896035EA3A372FF7653E701E427B8D4523D9900F71862467D6
  * Entry: 0x00345123, Ghidra index: 12791, label: FUN_00345123
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-void FUN_00345123(void)
+#include "bf_xbe_guest32_framed_tail.h"
 
+void FUN_00345123(bf_guest32_framed_tail_state& guest)
 {
-  FUN_00347434();
-  return;
+    bf_guest32_framed_tail(guest, 0x00345123u, 0x0040f5b4u, 0x00347434u);
 }
