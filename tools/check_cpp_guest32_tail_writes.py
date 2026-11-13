@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check 13 linked guest tail transfers, optionally against their retail x86 bodies."""
+"""Check linked guest tail transfers and stack copies, optionally against their retail x86 bodies."""
 import argparse
 import hashlib
 import json
@@ -25,7 +25,7 @@ FIXTURE = r"""
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include "bf_xbe_guest32_tail_writes.h"
+#include "bf_xbe_guest32_stack_copy.h"
 
 static std::uint8_t globals[0x3000], memory[0x3000];
 static std::uint8_t* ptr(std::uint32_t address)
@@ -48,19 +48,19 @@ void bf_guest_write_u32(std::uint32_t address, std::uint32_t value)
 }
 int main()
 {
-    std::uint32_t input[6];
+    std::uint32_t input[8];
     if (std::fread(input, sizeof(input), 1, stdin) != 1 ||
         std::fread(globals, sizeof(globals), 1, stdin) != 1 ||
         std::fread(memory, sizeof(memory), 1, stdin) != 1)
         return 1;
-    bf_guest32_tail_write_state guest{input[1], input[2], input[3], input[4],
-                                      input[0], input[5], 0xffffffffu};
+    bf_guest32_stack_copy_state guest{{input[1], input[2], input[3], input[4],
+                                       input[0], input[5], 0xffffffffu}, input[6], input[7]};
     switch (input[0]) {
 @DISPATCH@
     default: return 2;
     }
     const std::uint32_t result[] = {guest.eax, guest.ecx, guest.edx, guest.esp,
-                                    guest.eip, guest.eflags, guest.eflags_defined};
+                                    guest.eip, guest.eflags, guest.esi, guest.edi, guest.eflags_defined};
     return std::fwrite(result, sizeof(result), 1, stdout) != 1 ||
            std::fwrite(globals, sizeof(globals), 1, stdout) != 1 ||
            std::fwrite(memory, sizeof(memory), 1, stdout) != 1;
@@ -70,6 +70,10 @@ int main()
 
 def verify_encoding(body, case):
     kind = case["kind"]
+    if kind == "stack_copy":
+        require(body.startswith(bytes.fromhex("8b4c2408568b7424083bf1")) and
+                body.endswith(bytes.fromhex("8b4c241089085ec3")), "stack copy frame differs")
+        return None
     if kind == "copy":
         require(body[:18] == bytes.fromhex("85c074138b11891083c10483c00489442404") and
                 body[23:] == bytes.fromhex("c20400"), "copy/branch/RET encoding differs")
@@ -96,9 +100,9 @@ def verify_encoding(body, case):
 def native_oracle(folder, image, cases):
     require(hashlib.sha256(image).hexdigest() == XBE_SHA256, "retail XBE digest differs")
     layout = sections(image)
-    asm = START.replace("0x37d000", "0x39a000").replace("input: .zero 12", "input: .zero 24").replace(
-        "result: .zero 16", "result: .zero 24\nhost_stack: .long 0").replace(
-        "    mov $12,%edx\n    call read_exact", "    mov $24,%edx\n    call read_exact").replace(
+    asm = START.replace("0x37d000", "0x39a000").replace("input: .zero 12", "input: .zero 32").replace(
+        "result: .zero 16", "result: .zero 32\nhost_stack: .long 0").replace(
+        "    mov $12,%edx\n    call read_exact", "    mov $32,%edx\n    call read_exact").replace(
         "    pushl input+4\n    call *input\n    mov %eax,result",
         """    mov %esp,host_stack
     pushl input+20
@@ -107,33 +111,39 @@ def native_oracle(folder, image, cases):
     mov input+8,%ecx
     mov input+12,%edx
     mov input+16,%esp
+    mov input+24,%esi
+    mov input+28,%edi
     jmp *input
 capture:
     mov %eax,result
     mov %ecx,result+4
     mov %edx,result+8
     mov %esp,result+12
+    mov %esi,result+24
+    mov %edi,result+28
     mov host_stack,%esp
     pushfl
     pop %eax
-    mov %eax,result+20""").replace("    mov $16,%edx\n    call write_block", "    mov $24,%edx\n    call write_block")
+    mov %eax,result+20""").replace("    mov $16,%edx\n    call write_block", "    mov $32,%edx\n    call write_block")
     flags = ["--section-start=.guest=0x420000", "--section-start=.globals=0x39a000"]
     destinations = {RETURN_PC}
     for case in cases:
-        entry, size, target = int(case["entry"], 16), case["size"], int(case["target"], 16)
+        entry, size = int(case["entry"], 16), case["size"]
         offset = file_offset(layout, entry, size)
         body = image[offset:offset + size]
         require(hashlib.sha256(body).hexdigest().upper() == case["sha256"], "body digest differs")
         jump = verify_encoding(body, case)
-        require(jump_target(entry + jump, body[jump:jump + 5]) == target, "jump target differs")
-        altered = body[jump:jump + 4] + bytes((body[jump + 4] ^ 1,))
-        require(jump_target(entry + jump, altered) != target, "jump mutation survived")
-        file_offset(layout, target, 1)
+        if jump is not None:
+            target = int(case["target"], 16)
+            require(jump_target(entry + jump, body[jump:jump + 5]) == target, "jump target differs")
+            altered = body[jump:jump + 4] + bytes((body[jump + 4] ^ 1,))
+            require(jump_target(entry + jump, altered) != target, "jump mutation survived")
+            file_offset(layout, target, 1)
+            destinations.add(target)
         name = f"body_{entry:x}"
         (folder / name).write_bytes(body)
         flags.append(f"--section-start=.{name}={entry:#x}")
         asm += f'\n.section .{name},"ax"\n.incbin "{name}"\n'
-        destinations.add(target)
     for target in sorted(destinations):
         name = f"target_{target:x}"
         flags.append(f"--section-start=.{name}={target:#x}")
@@ -164,17 +174,45 @@ def add_four(value):
 
 
 def expected(case, packet):
-    _, eax, ecx, edx, esp, flags = struct.unpack_from("<6I", packet)
-    globals_ = bytearray(packet[24:24 + SIZE])
-    memory = bytearray(packet[24 + SIZE:])
+    _, eax, ecx, edx, esp, flags, esi, edi = struct.unpack_from("<8I", packet)
+    globals_ = bytearray(packet[32:32 + SIZE])
+    memory = bytearray(packet[32 + SIZE:])
     def read(address):
         if GLOBALS <= address < GLOBALS + SIZE:
             return dword(globals_, address, base=GLOBALS)
         return dword(memory, address)
-    eip = int(case["target"], 16)
+    eip = int(case.get("target", "0"), 16)
     defined = 0xffffffff
     kind = case["kind"]
-    if kind == "copy" and eax == 0:
+    if kind == "stack_copy":
+        stride = case["record_bytes"]
+        first, last, destination = (dword(memory, esp + n) for n in (4, 8, 12))
+        ecx = last
+        dword(memory, esp - 4, esi)
+        if first == last:
+            ecx = destination
+            dword(memory, eax, ecx)
+        else:
+            edx = destination
+            dword(memory, esp - 8, edi)
+            while ecx != first:
+                ecx -= stride
+                edx -= stride
+                high = 8 if stride == 12 else 12
+                dword(memory, esp + (4 if stride == 12 else 8), dword(memory, ecx + high))
+                if stride != 12:
+                    dword(memory, esp + 4, dword(memory, ecx + 8))
+                dword(memory, esp + 12, dword(memory, ecx + 4))
+                for offset in range(0, stride, 4):
+                    source = {4: esp + 12, 8: esp + 4, 12: esp + 8}.get(offset, ecx + offset)
+                    dword(memory, edx + offset, dword(memory, source))
+            edi = dword(memory, esp - 8)
+            dword(memory, eax, edx)
+        esi = dword(memory, esp - 4)
+        eip = dword(memory, esp)
+        esp += 4
+        flags = (flags & ~0x8d5) | 0x44  # The final CMP compares equal.
+    elif kind == "copy" and eax == 0:
         eip = dword(memory, esp)
         esp += 8
         flags = (flags & ~0x8c5) | 0x44
@@ -207,7 +245,7 @@ def expected(case, packet):
         eax = read(dword(memory, ecx + 0x4c) + 4)
         edx = (eax - bias) & 0xffffffff
         dword(memory, (ecx + 0x48 + eax) & 0xffffffff, edx)
-    return (eax, ecx, edx, esp, eip, flags, defined), globals_ + memory
+    return (eax, ecx, edx, esp, eip, flags, esi, edi, defined), globals_ + memory
 
 
 def packets(case):
@@ -215,7 +253,21 @@ def packets(case):
     esp = GUEST + 0x1100
     kind = case["kind"]
     initial = bytes((i * 73 + (i >> 4)) & 0xff for i in range(SIZE))
-    if kind == "copy":
+    if kind == "stack_copy":
+        stride = case["record_bytes"]
+        inputs = []
+        for first in (0x420800, esp + 16):
+            for count in (0, 1, 3):
+                for destination in (0x420b00, first + stride * count,
+                                    first + stride * count + 2, esp + 4 + stride):
+                    # Keep multi-record destination writes away from the return PC.
+                    if count > 1 and destination == esp + 4 + stride:
+                        continue
+                    for eax in (0x420250, esp - 4):
+                        writes = ((esp + 4, first), (esp + 8, first + stride * count),
+                                  (esp + 12, destination))
+                        inputs.append((eax, 0x50607080, writes))
+    elif kind == "copy":
         pairs = [(0, 0), (0x420240, 0x420220), (0x420220, 0x420220),
                  (0x420221, 0x420220), (esp, 0x420220),
                  (esp + 4, esp), (0x420240, esp + 4)]
@@ -238,7 +290,7 @@ def packets(case):
             if kind == "adjust":
                 for address in case["immediates"][3:5]:
                     dword(globals_, int(address, 16) + 4, 0x150, base=GLOBALS)
-            yield struct.pack("<6I", entry, eax, ecx, 0xdeadbeef, esp, flags) + globals_ + memory
+            yield struct.pack("<8I", entry, eax, ecx, 0xdeadbeef, esp, flags, 0x98765432, 0x2468ace1) + globals_ + memory
 
 
 def run(exe, packet):
@@ -252,14 +304,15 @@ def main():
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     cases = manifest["cases"]
     require(manifest["original_xbe_sha256"] == XBE_SHA256, "manifest XBE digest differs")
-    require(len(cases) == len({case["entry"] for case in cases}) == 13, "entry inventory differs")
+    require(len(cases) == len({case["entry"] for case in cases}) == 16, "entry inventory differs")
     paths, dispatch = [], []
     for case in cases:
         entry = case["entry"]
         path = source_path(ROOT, entry)
         require(read_body_digest(path.read_text(encoding="utf-8")) == (case["sha256"], False),
                 f"source body hash differs at {entry}")
-        require(source_path(ROOT, case["target"]).is_file(), f"target source missing at {entry}")
+        if "target" in case:
+            require(source_path(ROOT, case["target"]).is_file(), f"target source missing at {entry}")
         paths.append(str(path))
         dispatch.append(f"    case {entry}u: FUN_{entry[2:]}(guest); break;")
     clang = shutil.which("clang++")
@@ -276,8 +329,9 @@ def main():
                 if oracle:
                     actual = run(oracle, packet)
                     require(struct.unpack_from("<5I", actual) == regs[:5] and
-                            ((struct.unpack_from("<I", actual, 20)[0] ^ regs[5]) & regs[6]) == 0
-                            and actual[24:] == memory, f"retail state differs at {case['entry']}")
+                            ((struct.unpack_from("<I", actual, 20)[0] ^ regs[5]) & regs[8]) == 0
+                            and struct.unpack_from("<2I", actual, 24) == regs[6:8]
+                            and actual[32:] == memory, f"retail state differs at {case['entry']}")
                 suite.append((case["entry"], packet, regs, memory))
         for opt in ("-O0", "-O2"):
             exe = folder / "model"
@@ -286,8 +340,8 @@ def main():
                            check=True, timeout=60)
             for entry, packet, regs, memory in suite:
                 actual = run(exe, packet)
-                observed = struct.unpack_from("<7I", actual)
-                require(observed == regs and actual[28:] == memory,
+                observed = struct.unpack_from("<9I", actual)
+                require(observed == regs and actual[36:] == memory,
                         f"{opt}: modeled state differs at {entry}: {observed} != {regs}")
             print(f"PASS {opt}: {len(cases)} linked models, {len(suite)} state cases" +
                   (" compared with retail x86" if oracle else ""))
