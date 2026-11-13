@@ -84,6 +84,8 @@ jobs:
         run: python3 tools/check_cpp_guest32_xnet_record_models.py
       - name: Verify three audio and XNET guest memory traces
         run: python3 tools/check_cpp_guest32_audio_xnet_three_leaves.py
+      - name: Check four Bink guest table expansion models
+        run: python3 tools/test_cpp_bink32a_guest_models.py
       - name: Check guest table write order and CMP flags
         run: python3 tools/test_cpp_0030dbb0_guest_model.py
       - name: Link guest list and record-copy models with explicit direction and widths
