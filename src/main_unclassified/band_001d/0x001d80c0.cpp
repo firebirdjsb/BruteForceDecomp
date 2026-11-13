@@ -1,37 +1,26 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest memory model.
  * Input x86 body SHA-256: D534555DF68FF0CA29D38FDD36F2B9FCCA2195589374DDBFE013A494E182DB52
  * Entry: 0x001d80c0, Ghidra index: 6418, label: FUN_001d80c0
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * Captured inputs, guest data accesses, and EAX. Native ABI_UNVERIFIED.
  */
-#include "bf_ghidra_types.h"
-void FUN_001d80c0(int *param_1,int param_2,int param_3,int param_4)
+#include "bf_xbe_guest32_record_model.h"
 
+uint32_t FUN_001d80c0(uint32_t output_slot, uint32_t first, uint32_t last, uint32_t destination_end)
 {
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  
-  if (param_2 != param_3) {
-    puVar1 = (undefined4 *)(param_3 + 9);
-    puVar2 = (undefined4 *)(param_4 + 9);
-    do {
-      *(undefined4 *)(param_4 + -0x1c) = *(undefined4 *)(param_3 + -0x1c);
-      param_3 = param_3 + -0x1c;
-      param_4 = param_4 + -0x1c;
-      *(undefined4 *)((int)puVar2 + -0x21) = *(undefined4 *)((int)puVar1 + -0x21);
-      *(undefined1 *)((int)puVar2 + -0x1d) = *(undefined1 *)((int)puVar1 + -0x1d);
-      puVar2[-7] = puVar1[-7];
-      *(undefined1 *)(puVar2 + -6) = *(undefined1 *)(puVar1 + -6);
-      *(undefined4 *)((int)puVar2 + -0x15) = *(undefined4 *)((int)puVar1 + -0x15);
-      *(undefined4 *)((int)puVar2 + -0x11) = *(undefined4 *)((int)puVar1 + -0x11);
-      *(undefined4 *)((int)puVar2 + -0xd) = *(undefined4 *)((int)puVar1 + -0xd);
-      puVar1 = puVar1 + -7;
-      puVar2 = puVar2 + -7;
-    } while (param_3 != param_2);
-    *param_1 = param_4;
-    return;
-  }
-  *param_1 = param_4;
-  return;
+    // Copy the observed fields in order. Unwritten padding retains its bytes.
+    while (last != first) {
+        last -= 28u;
+        destination_end -= 28u;
+        bf_guest_write_u32(destination_end, bf_guest_read_u32(last));
+        bf_guest_write_u32(destination_end + 0x4u, bf_guest_read_u32(last + 0x4u));
+        bf_guest_write_u8(destination_end + 0x8u, bf_guest_read_u8(last + 0x8u));
+        bf_guest_write_u32(destination_end + 0x9u, bf_guest_read_u32(last + 0x9u));
+        bf_guest_write_u8(destination_end + 0xdu, bf_guest_read_u8(last + 0xdu));
+        bf_guest_write_u32(destination_end + 0x10u, bf_guest_read_u32(last + 0x10u));
+        bf_guest_write_u32(destination_end + 0x14u, bf_guest_read_u32(last + 0x14u));
+        bf_guest_write_u32(destination_end + 0x18u, bf_guest_read_u32(last + 0x18u));
+    }
+    bf_guest_write_u32(output_slot, destination_end);
+    return output_slot;
 }

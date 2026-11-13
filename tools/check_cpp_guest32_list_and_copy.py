@@ -38,6 +38,9 @@ COPY = {
     0x001D84B0: (16, False, True, [(0, 4), (4, 4), (8, 4), (12, 1), (13, 1)]),
     0x001D6B00: (24, False, True, [(0, 4), (4, 4), (8, 4), (12, 1), (13, 1), (16, 4), (20, 4)]),
     0x001328E0: (20, False, True, [(0, 4), (4, 4), (8, 4), (12, 4), (16, 1)]),
+    0x001D8D60: (36, False, False, [(i, 4) for i in range(0, 36, 4)]),
+    0x0024AAE0: (48, False, False, [(i, 4) for i in range(0, 48, 4)]),
+    0x0027A870: (16, False, False, [(i, 4) for i in range(0, 16, 4)]),
 }
 AUDIO = {0x003118C0, 0x00315F72, 0x0031AA11, 0x0031AA47, 0x0031AE9C}
 
@@ -58,6 +61,33 @@ FIXED = {
     0x001668B0: (120, 4),
     0x001CAB70: (128, 4),
     0x001CAB20: (60, 1),
+}
+
+
+CURSOR = {
+    0x0001C5D0: 0xA9,
+    0x00075720: 0x29,
+    0x00076220: 0x19,
+    0x00139260: 0x21,
+    0x00142510: 0x1D,
+    0x0017D4C0: 0x81,
+    0x00180D60: 0x41,
+    0x0024F7D0: 0x45,
+    0x002506C0: 0x11,
+    0x0025DDE0: 0x25,
+    0x00270DF0: 0x2D,
+}
+PACKED = {
+    0x001CFB40: ('fill', 24, [(0, 4), (4, 2), (6, 1), (8, 4), (12, 4), (16, 4), (20, 4)]),
+    0x001D0300: ('fill', 28, [(0, 4), (4, 4), (8, 1), (9, 4), (13, 1), (16, 4), (20, 4), (24, 4)]),
+    0x001D7650: ('forward', 24, [(0, 4), (4, 2), (6, 1), (8, 4), (12, 4), (16, 4), (20, 4)]),
+    0x001D8050: ('forward', 28, [(0, 4), (4, 4), (8, 1), (9, 4), (13, 1), (16, 4), (20, 4), (24, 4)]),
+    0x001D76B0: ('stackback', 24, [(0, 4), (4, 2), (6, 1), (8, 4), (12, 4), (16, 4), (20, 4)]),
+    0x001D80C0: ('stackback', 28, [(0, 4), (4, 4), (8, 1), (9, 4), (13, 1), (16, 4), (20, 4), (24, 4)]),
+    0x001D7790: ('ediback', 36, [(0, 4), (4, 4), (8, 4), (12, 4), (16, 4), (20, 4), (24, 4), (28, 1), (29, 1), (32, 4)]),
+    0x001D8B50: ('ediback', 60, [(0, 4), (4, 4), (8, 4), (12, 1), (13, 1), (16, 4), (20, 4), (24, 4), (28, 4), (32, 4), (36, 4), (40, 4), (44, 4), (48, 4), (52, 4), (56, 1)]),
+    0x001D9380: ('ediback', 28, [(0, 1), (1, 1), (2, 1), (4, 4), (8, 4), (12, 4), (16, 4), (20, 4), (24, 4)]),
+    0x001DD070: ('one', 28, [(0, 4), (4, 4), (8, 1), (9, 4), (13, 1), (16, 4), (20, 4), (24, 4)]),
 }
 
 
@@ -203,6 +233,78 @@ def cases():
         reg_eax, ecx, edi, edx = regs
         guest = (entry, reg_eax, ecx, edi, df, *stack, *([0] * (4 - len(stack))), 0, edx)
         return label, (entry, *host, *([0] * (4 - len(host))), df), guest, initial, expected, eax
+
+    for entry, flag in CURSOR.items():
+        root, child, inner, outer, grandparent, sentinel = (BASE + i * 0x180 for i in range(1, 7))
+        for mode in range(8):
+            for slot in ((BASE + 0x40, grandparent + 8) if mode == 6 else (BASE + 0x40,)):
+                initial = bytearray(seed)
+                for address in (root, child, inner, outer, grandparent, sentinel):
+                    write(initial, address + flag, 0, 1)
+                write(initial, slot, root)
+                write(initial, sentinel + flag, 0x80, 1)
+                write(initial, root + 8, child if mode < 3 else sentinel)
+                write(initial, root + 4, sentinel if mode == 3 else outer)
+                write(initial, child, sentinel if mode == 1 else inner)
+                write(initial, inner, sentinel)
+                write(initial, outer + 4, sentinel if mode == 5 else grandparent)
+                write(initial, outer + 8, root if mode > 4 else inner)
+                write(initial, grandparent + 4, sentinel)
+                if slot != grandparent + 8:
+                    write(initial, grandparent + 8, outer if mode == 6 else root)
+                if mode == 0:
+                    write(initial, root + flag, 1, 1)
+                expected = initial.copy()
+                result, stored = (
+                    (root, None), (sentinel, child), (sentinel, inner), (sentinel, sentinel),
+                    (outer, outer), (sentinel, sentinel), (sentinel, sentinel), (grandparent, grandparent)
+                )[mode]
+                if stored is not None:
+                    write(expected, slot, stored)
+                yield leaf(entry, (slot,), initial, expected, result,
+                           label=f"{entry:#x}/cursor/{mode}/{slot:#x}", regs=(0, 0, 0, slot))
+
+    for entry, (kind, stride, fields) in PACKED.items():
+        first = BASE + 0x600
+        for count in (0, 1, 3):
+            last = first + count * stride
+            for offset in (-1, 0, 1, 0x300):
+                expected = bytearray(seed)
+                destination, slot = first + offset, BASE + 0x100
+                if kind == "one":
+                    if count > 1:
+                        continue
+                    destination = destination if count else 0
+                    for field, width in fields if count else ():
+                        transfer(expected, first + field, destination + field, width)
+                    host, regs, stack, result = (destination, first), (destination, first, 0, 0), (), destination
+                elif kind == "fill":
+                    for record in range(count):
+                        for field, width in fields:
+                            transfer(expected, destination + field, first + record * stride + field, width)
+                    host, regs, stack = (destination, first, last), (0, destination, 0, 0), (first, last)
+                    result = last + (20 if stride == 24 else 9) if count else last
+                elif kind == "forward":
+                    for record in range(count):
+                        for field, width in fields:
+                            index = record * stride + field
+                            transfer(expected, first + index, destination + index, width)
+                    host, regs, stack = (destination, first, last), (destination, 0, 0, 0), (first, last)
+                    result = destination + count * stride
+                else:
+                    end = destination + count * stride
+                    for record in range(count - 1, -1, -1):
+                        for field, width in fields:
+                            index = record * stride + field
+                            transfer(expected, first + index, destination + index, width)
+                    write(expected, slot, destination)
+                    host, result = (slot, first, last, end), slot
+                    if kind == "stackback":
+                        regs, stack = (0, 0, 0, 0), (slot, first, last, end)
+                    else:
+                        regs, stack = (0, 0, slot, 0), (first, last, end)
+                yield leaf(entry, host, seed, expected, result,
+                           label=f"{entry:#x}/packed/{count}/{offset}", regs=regs, stack=stack or ((0,) if kind == "one" else ()))
 
     owner, a, b = BASE + 0x180, BASE + 0x700, BASE + 0x800
     for first in (0, a):
@@ -496,7 +598,7 @@ def main():
     doc = json.loads((ROOT / "metadata/cpp_guest32_list_and_copy_20261112.json").read_text(encoding="utf-8"))
     require(doc["original_xbe_sha256"] == XBE_SHA256, "retail identity changed")
     require({int(entry, 16) for entry in doc["bodies"]} ==
-            set(COPY) | AUDIO | set(SHIFT) | FORWARD | set(FIXED) |
+            set(COPY) | AUDIO | set(SHIFT) | FORWARD | set(FIXED) | set(CURSOR) | set(PACKED) |
             {0x00236EC0, 0x0031B21F, 0x00352E8D, 0x00023B80, 0x00235D10,
              0x001DCF30, 0x002F466F, 0x00251790, 0x00162C60, 0x00377F00}, "model inventory changed")
     paths = []

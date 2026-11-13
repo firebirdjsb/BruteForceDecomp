@@ -1,35 +1,25 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest memory model.
  * Input x86 body SHA-256: CA3F5377911F05068DE6ACCC34880EA24F9965C0513ECABA5099FDC4C82720EA
  * Entry: 0x001d8050, Ghidra index: 6417, label: FUN_001d8050
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * Captured inputs, guest data accesses, and EAX. Native ABI_UNVERIFIED.
  */
-#include "bf_ghidra_types.h"
-undefined4 * FUN_001d8050(undefined4 *param_1,undefined4 *param_2)
+#include "bf_xbe_guest32_record_model.h"
 
+uint32_t FUN_001d8050(uint32_t destination, uint32_t first, uint32_t last)
 {
-  undefined4 *in_EAX;
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  
-  if (param_1 != param_2) {
-    puVar1 = (undefined4 *)((int)in_EAX + 9);
-    puVar2 = (undefined4 *)((int)param_1 + 9);
-    do {
-      *in_EAX = *param_1;
-      *(undefined4 *)((int)puVar1 + -5) = *(undefined4 *)((int)puVar2 + -5);
-      *(undefined1 *)((int)puVar1 + -1) = *(undefined1 *)((int)puVar2 + -1);
-      *puVar1 = *puVar2;
-      *(undefined1 *)(puVar1 + 1) = *(undefined1 *)(puVar2 + 1);
-      *(undefined4 *)((int)puVar1 + 7) = *(undefined4 *)((int)puVar2 + 7);
-      *(undefined4 *)((int)puVar1 + 0xb) = *(undefined4 *)((int)puVar2 + 0xb);
-      *(undefined4 *)((int)puVar1 + 0xf) = *(undefined4 *)((int)puVar2 + 0xf);
-      param_1 = param_1 + 7;
-      in_EAX = in_EAX + 7;
-      puVar1 = puVar1 + 7;
-      puVar2 = puVar2 + 7;
-    } while (param_1 != param_2);
-  }
-  return in_EAX;
+    // Copy the observed fields in order. Unwritten padding retains its bytes.
+    while (first != last) {
+        bf_guest_write_u32(destination, bf_guest_read_u32(first));
+        bf_guest_write_u32(destination + 0x4u, bf_guest_read_u32(first + 0x4u));
+        bf_guest_write_u8(destination + 0x8u, bf_guest_read_u8(first + 0x8u));
+        bf_guest_write_u32(destination + 0x9u, bf_guest_read_u32(first + 0x9u));
+        bf_guest_write_u8(destination + 0xdu, bf_guest_read_u8(first + 0xdu));
+        bf_guest_write_u32(destination + 0x10u, bf_guest_read_u32(first + 0x10u));
+        bf_guest_write_u32(destination + 0x14u, bf_guest_read_u32(first + 0x14u));
+        bf_guest_write_u32(destination + 0x18u, bf_guest_read_u32(first + 0x18u));
+        first += 28u;
+        destination += 28u;
+    }
+    return destination;
 }

@@ -101,6 +101,31 @@ uint32_t FUN_00251790(uint32_t, bool);
 uint32_t FUN_00162c60(uint32_t, uint32_t, bool);
 uint32_t FUN_00377f00(uint32_t, uint32_t, uint32_t, bool);
 
+uint32_t FUN_0001c5d0(uint32_t);
+uint32_t FUN_00075720(uint32_t);
+uint32_t FUN_00076220(uint32_t);
+uint32_t FUN_00139260(uint32_t);
+uint32_t FUN_00142510(uint32_t);
+uint32_t FUN_0017d4c0(uint32_t);
+uint32_t FUN_00180d60(uint32_t);
+uint32_t FUN_0024f7d0(uint32_t);
+uint32_t FUN_002506c0(uint32_t);
+uint32_t FUN_0025dde0(uint32_t);
+uint32_t FUN_00270df0(uint32_t);
+uint32_t FUN_001cfb40(uint32_t, uint32_t, uint32_t);
+uint32_t FUN_001d0300(uint32_t, uint32_t, uint32_t);
+uint32_t FUN_001d7650(uint32_t, uint32_t, uint32_t);
+uint32_t FUN_001d8050(uint32_t, uint32_t, uint32_t);
+uint32_t FUN_001d76b0(uint32_t, uint32_t, uint32_t, uint32_t);
+uint32_t FUN_001d80c0(uint32_t, uint32_t, uint32_t, uint32_t);
+uint32_t FUN_001d7790(uint32_t, uint32_t, uint32_t, uint32_t);
+uint32_t FUN_001d8b50(uint32_t, uint32_t, uint32_t, uint32_t);
+uint32_t FUN_001d9380(uint32_t, uint32_t, uint32_t, uint32_t);
+uint32_t FUN_001dd070(uint32_t, uint32_t);
+uint32_t FUN_001d8d60(uint32_t, uint32_t, uint32_t, uint32_t);
+uint32_t FUN_0024aae0(uint32_t, uint32_t, uint32_t, uint32_t);
+uint32_t FUN_0027a870(uint32_t, uint32_t, uint32_t, uint32_t);
+
 static uint32_t invoke(uint32_t entry, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t df)
 {
     switch (entry) {
@@ -151,6 +176,30 @@ static uint32_t invoke(uint32_t entry, uint32_t a, uint32_t b, uint32_t c, uint3
     case 0x00251790: return FUN_00251790(a, df != 0);
     case 0x00162c60: return FUN_00162c60(a, b, df != 0);
     case 0x00377f00: return FUN_00377f00(a, b, c, df != 0);
+    case 0x0001c5d0: return FUN_0001c5d0(a);
+    case 0x00075720: return FUN_00075720(a);
+    case 0x00076220: return FUN_00076220(a);
+    case 0x00139260: return FUN_00139260(a);
+    case 0x00142510: return FUN_00142510(a);
+    case 0x0017d4c0: return FUN_0017d4c0(a);
+    case 0x00180d60: return FUN_00180d60(a);
+    case 0x0024f7d0: return FUN_0024f7d0(a);
+    case 0x002506c0: return FUN_002506c0(a);
+    case 0x0025dde0: return FUN_0025dde0(a);
+    case 0x00270df0: return FUN_00270df0(a);
+    case 0x001cfb40: return FUN_001cfb40(a, b, c);
+    case 0x001d0300: return FUN_001d0300(a, b, c);
+    case 0x001d7650: return FUN_001d7650(a, b, c);
+    case 0x001d8050: return FUN_001d8050(a, b, c);
+    case 0x001d76b0: return FUN_001d76b0(a, b, c, d);
+    case 0x001d80c0: return FUN_001d80c0(a, b, c, d);
+    case 0x001d7790: return FUN_001d7790(a, b, c, d);
+    case 0x001d8b50: return FUN_001d8b50(a, b, c, d);
+    case 0x001d9380: return FUN_001d9380(a, b, c, d);
+    case 0x001dd070: return FUN_001dd070(a, b);
+    case 0x001d8d60: return FUN_001d8d60(a, b, c, d);
+    case 0x0024aae0: return FUN_0024aae0(a, b, c, d);
+    case 0x0027a870: return FUN_0027a870(a, b, c, d);
     default: std::abort();
     }
 }

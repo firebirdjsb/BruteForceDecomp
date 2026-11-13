@@ -1,34 +1,27 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest memory model.
  * Input x86 body SHA-256: 7E27F8FA4C2B78CDA1BD44466F1C2243E1490A968AA8B9C1A14F8203A50FEFE9
  * Entry: 0x001d7650, Ghidra index: 6399, label: FUN_001d7650
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * Captured inputs, guest data accesses, and EAX. Native ABI_UNVERIFIED.
  */
-#include "bf_ghidra_types.h"
-undefined4 * FUN_001d7650(undefined4 *param_1,undefined4 *param_2)
+#include "bf_xbe_guest32_record_model.h"
 
+uint16_t bf_guest_read_u16(uint32_t guest_va);
+void bf_guest_write_u16(uint32_t guest_va, uint16_t value);
+
+uint32_t FUN_001d7650(uint32_t destination, uint32_t first, uint32_t last)
 {
-  undefined4 *in_EAX;
-  undefined4 *puVar1;
-  undefined4 *puVar2;
-  
-  if (param_1 != param_2) {
-    puVar1 = in_EAX + 5;
-    puVar2 = param_1 + 5;
-    do {
-      *in_EAX = *param_1;
-      *(undefined2 *)(puVar1 + -4) = *(undefined2 *)(puVar2 + -4);
-      *(undefined1 *)((int)puVar1 + -0xe) = *(undefined1 *)((int)puVar2 + -0xe);
-      puVar1[-3] = puVar2[-3];
-      puVar1[-2] = puVar2[-2];
-      puVar1[-1] = puVar2[-1];
-      *puVar1 = *puVar2;
-      param_1 = param_1 + 6;
-      in_EAX = in_EAX + 6;
-      puVar1 = puVar1 + 6;
-      puVar2 = puVar2 + 6;
-    } while (param_1 != param_2);
-  }
-  return in_EAX;
+    // Copy the observed fields in order. Unwritten padding retains its bytes.
+    while (first != last) {
+        bf_guest_write_u32(destination, bf_guest_read_u32(first));
+        bf_guest_write_u16(destination + 0x4u, bf_guest_read_u16(first + 0x4u));
+        bf_guest_write_u8(destination + 0x6u, bf_guest_read_u8(first + 0x6u));
+        bf_guest_write_u32(destination + 0x8u, bf_guest_read_u32(first + 0x8u));
+        bf_guest_write_u32(destination + 0xcu, bf_guest_read_u32(first + 0xcu));
+        bf_guest_write_u32(destination + 0x10u, bf_guest_read_u32(first + 0x10u));
+        bf_guest_write_u32(destination + 0x14u, bf_guest_read_u32(first + 0x14u));
+        first += 24u;
+        destination += 24u;
+    }
+    return destination;
 }
