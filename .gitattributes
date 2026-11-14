@@ -69,3 +69,7 @@ docs/preimages/timestamp_*.cpp.txt -text whitespace=-blank-at-eol
 
 # Preserve exact historical timestamp caller preimages.
 tests/fixtures/timestamp_caller_storage/*.cpp.before -text whitespace=-blank-at-eol
+
+# Preserve exact constructor draft preimages for the historical literal checks.
+tests/fixtures/original_0x*_post_literal_20261113.txt -text whitespace=-blank-at-eol
+tests/fixtures/original_0x000a3b80_pre_constructor_20261113.txt -text whitespace=-blank-at-eol
