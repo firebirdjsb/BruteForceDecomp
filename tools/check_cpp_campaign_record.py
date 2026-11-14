@@ -43,6 +43,35 @@ def authenticate_caller(image):
         o = file_offset(layout, pc, len(encoding))
         require(image[o:o + len(encoding)] == encoding, "campaign reference changed")
 
+    authenticate_hash_calls(image, layout)
+
+
+def authenticate_hash_calls(image, layout):
+    # Authenticate both complete caller bodies and the EDX handoff into the leaf.
+    callers = (
+        (((0x0007AB60, 964), (0x0007AF29, 90)),
+         "EFC1A175E8B539FFF9B5917D4698BB7D713A5225641E489CB18559F91B6CB380",
+         0x0007AEC1, bytes.fromhex("8bd5")),
+        (((0x0007E570, 1085),),
+         "21A1025E979A9BBABFEEC77B76FB338541F4F386BA0753D53466E4EDFBD40E78",
+         0x0007E926, bytes.fromhex("8d542440")),
+    )
+    leaf = fixture.BODIES["0x002383b0"]
+    leaf_offset = file_offset(layout, 0x002383B0, leaf[0])
+    require(hashlib.sha256(image[leaf_offset:leaf_offset + leaf[0]]).hexdigest().upper() == leaf[1],
+            "campaign byte hash body changed")
+    for ranges, digest, site, context in callers:
+        body = hashlib.sha256()
+        for start, length in ranges:
+            offset = file_offset(layout, start, length)
+            body.update(image[offset:offset + length])
+        require(body.hexdigest().upper() == digest, f"campaign hash caller body changed at {ranges[0][0]:#x}")
+        offset = file_offset(layout, site - len(context), len(context) + 5)
+        require(image[offset:offset + len(context)] == context, "campaign hash EDX handoff changed")
+        call_offset = offset + len(context)
+        require(target(site, image[call_offset:call_offset + 5]) == 0x002383B0,
+                "campaign byte hash call changed")
+
 
 def cases(returns):
     for index, delta in enumerate((0x400, 0x401, -0x44, -0x9C)):
