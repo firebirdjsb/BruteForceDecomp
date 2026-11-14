@@ -1,61 +1,34 @@
-/* The original 32-bit x86 ABI is not established by this C11 translation. */
-#include <stdint.h>
-#include "bf_external_symbols.h"
-#include <limits.h>
-#include <stddef.h>
-#include <stdbool.h>
-#include <string.h>
-#include <math.h>
-#if defined(__SSE__) || defined(__x86_64__)
-#include <xmmintrin.h>
-#include <emmintrin.h>
-extern void FUN_0008f6e0(std::uint32_t guest_edx);
+/* Brute Force original Xbox - ordered guest32 record teardown.
+ * Input x86 body SHA-256: 13315B827ED2EE66B7AFD9AF3DF4ECCB0AA1F94B40D4F4E83D6D48B8EB5A39A2
+ * Entry: 0x00012440, Ghidra index: 17, label: FUN_00012440
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ */
+#include "bf_guest32_linked_records.h"
 
-#endif
-#ifndef __fastcall
-#define __fastcall /* TODO: Calling convention unresolved */
-#endif
-#ifndef __thiscall
-#define __thiscall /* TODO: Calling convention unresolved */
-#endif
-/* TODO: Ghidra float10 is x87 extended precision; target ABI unverified. */
-typedef long double float10;
-static inline int32_t BF_u32_to_i32(uint32_t n){int32_t o;memcpy(&o,&n,4);return o;}
-static inline uint32_t BF_i32_to_u32(int32_t n){uint32_t o;memcpy(&o,&n,4);return o;}
-static inline float BF_u32_to_float(uint32_t n){float o;memcpy(&o,&n,4);return o;}
-static inline uint32_t BF_float_to_u32(float n){uint32_t o;memcpy(&o,&n,4);return o;}
-static inline int32_t BF_float_to_i32(float n){uint32_t b=BF_float_to_u32(n);return BF_u32_to_i32(b);}
-#define BF_BITS_TO_I32(x) _Generic((x), float:BF_float_to_i32, default:BF_u32_to_i32)((x))
-#define BF_BITS_TO_U32(x) _Generic((x), float:BF_float_to_u32, default:BF_i32_to_u32)((x))
-#define BF_BITS_TO_F32(x) BF_u32_to_float((uint32_t)(uintptr_t)(x))
-
-// Brute Force: 0x00012440 | Ghidra label FUN_00012440
-// Ghidra function-body SHA-256: 13315B827ED2EE66B7AFD9AF3DF4ECCB0AA1F94B40D4F4E83D6D48B8EB5A39A2
-// HUMAN REVIEW REQUIRED. Not compiled, tested or byte-equivalent.
-
-// DRAFT: not validated against the original executable.
-// Entry: 0x00012440; unverified source reconstruction, not recovered original code.
-// TODO: Requires <cstdint> and declarations for the referenced external symbols.
-void /* TODO: The unaff_ESI parameter(s) explicitly MODEL incoming register/FS or post-call values.
-   They are NOT established original stack parameters or ABI declarations. */
-FUN_00012440(uint32_t * unaff_ESI)
+void FUN_00012440(bf_guest32_constructor_state& guest)
 {
-    /* TODO: original x86 is 32-bit; host pointer width need not be 32-bit. */
-
-    // TODO: Recover the calling convention and bind the unresolved identifier
-    // unaff_ESI to the incoming ESI value as uint32_t*.
-    // Ghidra supplies no initialization for this register-derived pointer.
-    // TODO: Confirm the declarations of PTR_FUN_003a4f64, PTR_LAB_003a4f50,
-    // and FUN_0008f6e0. Calls below retain the decompiler's empty argument lists;
-    // their actual ABI and implicit register inputs remain unresolved.
-
-    unaff_ESI[1] = ((uint32_t)(&PTR_FUN_003a4f64)); // +0x04
-    if (unaff_ESI[9] != 0) { // +0x24: compare a 32-bit word against zero.
-        FUN_0008f6e0();
+    using namespace bf_guest32_constructor;
+    guest.edx = guest.esi + 0x20u;
+    write32(guest, 0x00012443u, guest.esi + 4u, 0x003a4f64u);
+    guest.eax = read32(guest, 0x0001244au, guest.edx + 4u);
+    logic_flags(guest, guest.eax);
+    if (guest.eax != 0u) {
+        push(guest, 0x00012451u, 0x00012456u);
+        FUN_0008f6e0(guest);
+        if (guest.eip != 0x00012456u)
+            return;
     }
-    if (unaff_ESI[4] != 0) { // +0x10: read after the preceding possible call.
-        FUN_0008f6e0();
+
+    // The first unlink may change this field through an alias.
+    guest.eax = read32(guest, 0x00012456u, guest.esi + 0x10u);
+    logic_flags(guest, guest.eax);
+    guest.edx = guest.esi + 0xcu;
+    if (guest.eax != 0u) {
+        push(guest, 0x00012460u, 0x00012465u);
+        FUN_0008f6e0(guest);
+        if (guest.eip != 0x00012465u)
+            return;
     }
-    *unaff_ESI = ((uint32_t)(&PTR_LAB_003a4f50)); // +0x00
-    return;
+    write32(guest, 0x00012465u, guest.esi, 0x003a4f50u);
+    ret(guest, 0x0001246bu);
 }

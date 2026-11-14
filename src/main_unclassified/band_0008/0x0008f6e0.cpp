@@ -5,6 +5,8 @@
  * WARNING: Host parameter models original incoming EDX, NOT native Xbox ABI.
  */
 #include "bf_xbe_guest32_record_model.h"
+#include "bf_guest32_linked_records.h"
+#include "bf_xbe_guest32_record_leaves.h"
 
 void FUN_0008f6e0(std::uint32_t guest_edx)
 {
@@ -32,4 +34,43 @@ void FUN_0008f6e0(std::uint32_t guest_edx)
             return;
         }
     }
+}
+
+void FUN_0008f6e0(bf_guest32_constructor_state& guest)
+{
+    using namespace bf_guest32_constructor;
+    guest.eax = read32(guest, 0x0008f6e0u, guest.edx + 4u);
+    logic_flags(guest, guest.eax & 1u, 0x80u);
+    if ((guest.eax & 1u) == 0u) {
+        // IMUL flags are replaced by ADD. SHR EAX,21 is visible at the store.
+        guest.eax = bf_guest32_leaf_add(guest, guest.eax * 0x19660du, 0x3c6ef35fu);
+        const auto hash = guest.eax;
+        guest.eax >>= 21u;
+        constexpr std::uint32_t shift_flags = carry | parity | zero | sign;
+        guest.eflags = (guest.eflags & ~shift_flags) | szp(guest.eax, 0x80000000u) |
+                       ((hash & 0x100000u) != 0u ? carry : 0u);
+        guest.eflags_defined = (guest.eflags_defined | shift_flags) & ~(auxiliary | overflow);
+        guest.eax = 0x00414da0u + guest.eax * 4u;
+        write32(guest, 0x0008f6fcu, guest.edx + 4u, 0u);
+        auto link = read32(guest, 0x0008f703u, guest.eax);
+        compare_zero(guest, link);
+        while (link != 0u) {
+            guest.ecx = read32(guest, 0x0008f708u, guest.eax);
+            bf_guest32_leaf_sub(guest, guest.ecx, guest.edx);
+            if (guest.ecx == guest.edx) {
+                guest.ecx = read32(guest, 0x0008f716u, guest.eax);
+                guest.edx = read32(guest, 0x0008f718u, guest.ecx);
+                write32(guest, 0x0008f71au, guest.eax, guest.edx);
+                break;
+            }
+            guest.eax = guest.ecx;
+            link = read32(guest, 0x0008f710u, guest.eax);
+            compare_zero(guest, link);
+            if (link == 0u) {
+                ret(guest, 0x0008f715u);
+                return;
+            }
+        }
+    }
+    ret(guest, 0x0008f71cu);
 }
