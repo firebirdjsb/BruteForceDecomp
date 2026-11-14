@@ -121,4 +121,7 @@ void FUN_00162d00(bf_guest32_constructor_state& guest);
 void FUN_00236cf0(bf_guest32_constructor_state& guest);
 void FUN_002fe7f5(bf_guest32_constructor_state& guest);
 
+void FUN_002ed1a8(bf_guest32_constructor_state& guest);
+void FUN_002949b0(bf_guest32_constructor_state& guest);
+
 #endif

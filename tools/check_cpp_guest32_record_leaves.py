@@ -37,6 +37,8 @@ BODIES = {
     "0x00162d00": (91, "4A02D41EB754FC8AF2F1FA1AED4343C4C331D06BC9F365E6248D90DE0A16DD45"),
     "0x00236cf0": (88, "F036B2FDE00DBD97E894915F8CE78DAB0D894AD820A4B52EE7E9F86F40DC14FA"),
     "0x002fe7f5": (94, "1375F1D9E4548AE56A29ECE864F13A6FD2D2AAFD5945E1FCBDC719E22FE0F6CC"),
+    "0x002ed1a8": (71, "8F54B9FF97497C6688D9B05235C4EB054996BC0EC9EB5E6E690F01D526D7A722"),
+    "0x002949b0": (87, "9258407C12F3B8AF378DC5C6D9B2E1364822DC4764662975B1175C96A122911A"),
 }
 BASE = 0x460000
 SIZE = 0x10000
@@ -55,6 +57,7 @@ WINDOWS = (
     ("type_tables", 0x37eca4, TYPE_TABLES_SIZE),
     ("lookup_table", 0x4071d8, LOOKUP_TABLE_SIZE),
     ("audio_slot", 0x32fdec, 4),
+    ("character_types", 0x4a8d5c, 264),
 )
 SLOTS_SIZE = sum(size for _, _, size in WINDOWS)
 NATIVE = ROOT / "tests/fixtures/guest32_constructors_native.s"
@@ -68,6 +71,7 @@ static std::uint8_t memory[0x10000];
 static std::uint32_t head, filter;
 static std::uint8_t suffix[32], type_tables[32], lookup_table[32];
 static std::uint32_t audio_slot;
+static std::uint8_t character_types[264];
 static std::uint8_t* address(std::uint32_t addr, unsigned width)
 {
     if (addr >= 0x460000u && addr <= 0x470000u - width)
@@ -84,6 +88,8 @@ static std::uint8_t* address(std::uint32_t addr, unsigned width)
         return lookup_table + (addr - 0x4071d8u);
     if (addr == 0x32fdecu && width == 4u)
         return reinterpret_cast<std::uint8_t*>(&audio_slot);
+    if (addr >= 0x4a8d5cu && addr <= 0x4a8e64u - width)
+        return character_types + (addr - 0x4a8d5cu);
     std::abort();
 }
 std::uint32_t bf_guest_read_u32(std::uint32_t addr)
@@ -125,6 +131,7 @@ int main()
             std::fread(type_tables, sizeof(type_tables), 1, stdin) != 1 ||
             std::fread(lookup_table, sizeof(lookup_table), 1, stdin) != 1 ||
             std::fread(&audio_slot, sizeof(audio_slot), 1, stdin) != 1 ||
+            std::fread(character_types, sizeof(character_types), 1, stdin) != 1 ||
             std::fread(suffix, sizeof(suffix), 1, stdin) != 1 ||
             std::fread(memory, sizeof(memory), 1, stdin) != 1)
             return 1;
@@ -138,6 +145,7 @@ int main()
             std::fwrite(type_tables, sizeof(type_tables), 1, stdout) != 1 ||
             std::fwrite(lookup_table, sizeof(lookup_table), 1, stdout) != 1 ||
             std::fwrite(&audio_slot, sizeof(audio_slot), 1, stdout) != 1 ||
+            std::fwrite(character_types, sizeof(character_types), 1, stdout) != 1 ||
             std::fwrite(memory, sizeof(memory), 1, stdout) != 1)
             return 1;
     }
@@ -221,6 +229,7 @@ def corpus(returns):
             head, filter_value = 0, rng.getrandbits(32)
             type_tables = bytearray(TYPE_TABLES_SIZE)
             lookup = bytearray(LOOKUP_TABLE_SIZE)
+            character_types = bytearray(WINDOWS[-1][2])
             audio = rng.getrandbits(32) if entry == "0x0031acb1" else 0
             expected_table_result = None
             address = int(entry, 16)
@@ -414,8 +423,37 @@ def corpus(returns):
                 store(frame + 8, second)
                 match = next((i for i in range(len(text)) if text[i:i + len(pattern)] == pattern), None)
                 expected_table_result = first if not pattern else (0 if match is None else first + 2 * match)
+            elif entry == "0x002ed1a8":
+                data = table + scenario % 3
+                text = ([1, 0x81, 0x81, 1], [0xff, 0x81, 1], [1], [0x81],
+                        [0x81, 0x81, 0x81, 1], [0xff, 0xff, 1])[scenario % 6]
+                for i, value in enumerate(text):
+                    store(data + i, value, "<B")
+                for byte in (0x81, 0xff):
+                    character_types[5 + byte] = 4
+                struct.pack_into("<I", character_types, 0, 0 if scenario % 5 == 1 else 1)
+                store(frame + 4, data + (len(text) if scenario % 5 == 0 else 0))
+                store(frame + 8, data + len(text))
+            elif entry == "0x002949b0":
+                store(0x469888, obj)
+                store(obj + 0x60, table)
+                for offset in range(0x174, 0x2e8, 12):
+                    store(table + offset, (0, 0xffffffff, 0x80000000)[scenario % 3])
+                records = table + (0x174, 0x180, 0x2e0)[scenario % 3]
+                buckets = table + 0x500 + scenario % 2
+                first = obj + 0x200
+                second = [obj + 0x208, first, frame - 8][scenario // 4]
+                store(records, 4)
+                store(records + 8, buckets)
+                pointers = (first, 0, 0x003b9768, second)
+                if scenario == 11:
+                    # This first node aliases the count, so the outer pass rereads zero.
+                    pointers = (records, 0, 0x003b9768, second)
+                for i, ptr in enumerate(pointers):
+                    store(buckets + 4 * i, ptr)
             store(frame, returns[scenario % len(returns)])
-            slots = struct.pack("<II", head, filter_value) + type_tables + lookup + struct.pack("<I", audio)
+            slots = (struct.pack("<II", head, filter_value) + type_tables + lookup
+                     + struct.pack("<I", audio) + character_types)
             yield entry, regs, slots, memory, expected_table_result
 
 
@@ -442,10 +480,12 @@ def validate(result, cases):
         require(state[7] == regs[7] + 4 + cleanup and state[8] == expected_pc,
                 f"return stack differs at {entry}")
         require(after_head == head, f"head slot was written at {entry}")
-        require(result[pos + 52:pos + 40 + SLOTS_SIZE] == slots[8:-4], f"table was written at {entry}")
-        expected_audio = regs[2] if entry == "0x0031acb1" else struct.unpack_from("<I", slots, SLOTS_SIZE - 4)[0]
-        after_audio = struct.unpack_from("<I", result, pos + 40 + SLOTS_SIZE)[0]
-        require(after_audio == expected_audio, f"audio guest slot differs at {entry}")
+        expected_slots = bytearray(slots)
+        if entry == "0x002f4cb2":
+            struct.pack_into("<I", expected_slots, 4, struct.unpack_from("<I", memory, regs[7] - BASE + 4)[0])
+        if entry == "0x0031acb1":
+            struct.pack_into("<I", expected_slots, 8 + TYPE_TABLES_SIZE + LOOKUP_TABLE_SIZE, regs[2])
+        require(result[pos + 44:pos + 44 + SLOTS_SIZE] == expected_slots, f"fixed guest slots differ at {entry}")
         if expected_table_result is not None:
             require(state[0] == expected_table_result, f"table search returned a different record at {entry}")
         if entry == "0x002f4cb2":
