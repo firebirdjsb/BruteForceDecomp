@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Link seven guest register/memory leaves and run optional retail x86 comparisons."""
+"""Link ten guest register/memory leaves and run optional retail x86 comparisons."""
 import argparse
 import hashlib
 from pathlib import Path
@@ -22,6 +22,9 @@ BODIES = {
     "0x002fe401": (27, "ECC913B9CBAD7BF2D299650DE49CB003011D5CBA2B8BDD8439355D467D10C5D4"),
     "0x0033f199": (33, "9D9650E91A1DEED74220BFEE4B2A32485F40E88CBB22715AB532A74171139F99"),
     "0x0034c50e": (42, "B76ECA04939394168681CE37423799EC147B8F47C5703CC64C632C179347479B"),
+    "0x001f1b40": (79, "DC7833FDA4E6D81AAC734C2C5F121B4B8FAA6001AD589EED7AF561F889F9C3B6"),
+    "0x002f56db": (62, "142180E6CA59889EB454AD465D4EC9ACCF9AA0A0DC33985FB0BF58CD719E7E6D"),
+    "0x00341b2d": (72, "BFE1C8694A389FF580B6DBF4FC619A1D08B0466D13D4148C2278E078F393B88C"),
 }
 BASE = 0x460000
 SIZE = 0x10000
@@ -30,15 +33,18 @@ STACK = BASE + 0x7000
 OBJECT = BASE + 0x2000
 FILTER = 0x4a90dc
 HEAD = 0x414b48
+SUFFIX = 0x387860
+SUFFIX_SIZE = 32
 NATIVE = ROOT / "tests/fixtures/guest32_constructors_native.s"
 FIXTURE = r"""
-#include "bf_xbe_guest32_record_leaves.h"
+#include "bf_xbe_guest32_string_leaves.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 
 static std::uint8_t memory[0x10000];
 static std::uint32_t head, filter;
+static std::uint8_t suffix[32];
 static std::uint8_t* address(std::uint32_t addr, unsigned width)
 {
     if (addr >= 0x460000u && addr <= 0x470000u - width)
@@ -47,6 +53,8 @@ static std::uint8_t* address(std::uint32_t addr, unsigned width)
         return reinterpret_cast<std::uint8_t*>(&head);
     if (addr == 0x4a90dcu && width == 4u)
         return reinterpret_cast<std::uint8_t*>(&filter);
+    if (addr >= 0x387860u && addr <= 0x387880u - width)
+        return suffix + (addr - 0x387860u);
     std::abort();
 }
 std::uint32_t bf_guest_read_u32(std::uint32_t addr)
@@ -61,6 +69,14 @@ std::uint16_t bf_guest_read_u16(std::uint32_t addr)
     std::memcpy(&result, address(addr, sizeof(result)), sizeof(result));
     return result;
 }
+std::uint8_t bf_guest_read_u8(std::uint32_t addr)
+{
+    return *address(addr, 1);
+}
+void bf_guest_write_u8(std::uint32_t addr, std::uint8_t value)
+{
+    *address(addr, 1) = value;
+}
 void bf_guest_write_u32(std::uint32_t addr, std::uint32_t value)
 {
     std::memcpy(address(addr, sizeof(value)), &value, sizeof(value));
@@ -73,6 +89,7 @@ int main()
         if (std::fread(&guest, sizeof(guest), 1, stdin) != 1 ||
             std::fread(&head, sizeof(head), 1, stdin) != 1 ||
             std::fread(&filter, sizeof(filter), 1, stdin) != 1 ||
+            std::fread(suffix, sizeof(suffix), 1, stdin) != 1 ||
             std::fread(memory, sizeof(memory), 1, stdin) != 1)
             return 1;
         switch (guest.eip) {
@@ -102,6 +119,13 @@ def native_oracle(temp, image):
         path.write_bytes(body)
         sections_asm.append(f'.section .retail_{entry},"ax"\n.incbin "{path}"\n')
         sections_ld.append(f".retail_{entry} {entry} : {{ *(.retail_{entry}) }}")
+    suffix_offset = file_offset(layout, SUFFIX, SUFFIX_SIZE)
+    suffix = image[suffix_offset:suffix_offset + SUFFIX_SIZE]
+    require(b"\0" in suffix, "retail byte-string data has no terminator in window")
+    literal_path = temp / "suffix.bin"
+    literal_path.write_bytes(suffix)
+    sections_asm.append(f'.section .suffix,"aw"\n.incbin "{literal_path}"\n')
+    sections_ld.append(".suffix 0x387860 : { *(.suffix) }")
     # Keep fixed-address configuration slots outside the synthetic data/stack span.
     asm = NATIVE.read_text(encoding="ascii").replace(
         "    pushl request+40", """    mov $3, %eax
@@ -145,7 +169,7 @@ def native_oracle(temp, image):
     returns = sorted(int(line.split()[0], 16) for line in symbols.splitlines()
                      if line.split()[-1] in {"normal_return", "alternate_return"})
     require(len(returns) == 2, "missing native return labels")
-    return exe, returns
+    return exe, returns, suffix
 
 
 def corpus(returns):
@@ -211,6 +235,31 @@ def corpus(returns):
                 store(frame + 4, first)
                 store(frame + 8, count * stride)
                 store(frame + 12, target | 0xbad00000)
+            elif entry == "0x001f1b40":
+                source = obj + 0x138
+                output = (table, source, source - 2, table + 1)[scenario % 4]
+                component = table + 0x340
+                first = (b"", b"dir", b"d", b"\x98")[scenario % 4]
+                second = (b"", b"foo/bar", b"/x/y", b"//z")[scenario % 4]
+                memory[source - BASE:source - BASE + len(first) + 1] = first + b"\0"
+                memory[component - BASE:component - BASE + len(second) + 1] = second + b"\0"
+                regs[2], regs[3] = output, component
+            elif entry == "0x002f56db":
+                source = obj + 0x100
+                output = (table, source, source - 2, table + 1)[scenario % 4]
+                first = (b"", b"alpha", b"abc", b"x\x90y")[scenario % 4]
+                memory[source - BASE:source - BASE + len(first) + 1] = first + b"\0"
+                store(frame + 4, source)
+                store(frame + 8, output)
+            elif entry == "0x00341b2d":
+                index = table + 0x340
+                source = obj + 0x100
+                text = (b"", b" \tdata \t", b"   ", b"\t", b"no-trim",
+                        b" x", b"z ", b"\tx\t", b"   x ", b"\xff", b"x\t\t", b" x y ")[scenario]
+                memory[source - BASE - 1] = ord("!")
+                memory[source - BASE:source - BASE + len(text) + 1] = text + b"\0"
+                store(index, source)
+                store(frame + 4, index)
             store(frame, returns[scenario % len(returns)])
             yield entry, regs, head, filter_value, memory
 
@@ -230,7 +279,8 @@ def validate(result, cases):
         state = struct.unpack_from("<11I", result, pos)
         after_head, after_filter = struct.unpack_from("<II", result, pos + 44)
         cleanup = {"0x002de8b0": 4, "0x002de920": 4, "0x002f4cb2": 4,
-                   "0x0033f199": 8, "0x0034c50e": 12}.get(entry, 0)
+                   "0x0033f199": 8, "0x0034c50e": 12, "0x002f56db": 8,
+                   "0x00341b2d": 4}.get(entry, 0)
         expected_pc = struct.unpack_from("<I", memory, regs[7] - BASE)[0]
         require(state[7] == regs[7] + 4 + cleanup and state[8] == expected_pc,
                 f"return stack differs at {entry}")
@@ -261,9 +311,10 @@ def main():
         temp = Path(directory)
         fixture = temp / "fixture.cpp"
         fixture.write_text(FIXTURE.replace("@DISPATCH@", "\n".join(dispatch)), encoding="utf-8")
-        oracle, returns = native_oracle(temp, args.xbe.read_bytes()) if args.xbe else (None, (0x8048100, 0x8048200))
+        oracle, returns, suffix = (native_oracle(temp, args.xbe.read_bytes()) if args.xbe else
+                                   (None, (0x8048100, 0x8048200), b"synthetic-suffix\0".ljust(SUFFIX_SIZE, b"\0")))
         cases = list(corpus(returns))
-        model_requests = b"".join(struct.pack("<14I", i, *regs, head, filter_value) + memory
+        model_requests = b"".join(struct.pack("<14I", i, *regs, head, filter_value) + suffix + memory
                                   for i, (_, regs, head, filter_value, memory) in enumerate(cases))
         if oracle:
             native_requests = b"".join(struct.pack("<12I", i, *regs) + memory +

@@ -1,37 +1,34 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest byte-string and stack effects.
  * Input x86 body SHA-256: 142180E6CA59889EB454AD465D4EC9ACCF9AA0A0DC33985FB0BF58CD719E7E6D
  * Entry: 0x002f56db, Ghidra index: 10894, label: FUN_002f56db
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-void FUN_002f56db(char *param_1,int param_2)
+#include "bf_xbe_guest32_string_leaves.h"
 
+void FUN_002f56db(bf_guest32_constructor_state& guest)
 {
-  char *pcVar1;
-  char cVar2;
-  char *pcVar3;
-  char *pcVar4;
-  int iVar5;
-  
-  pcVar1 = param_1 + 1;
-  pcVar3 = param_1;
-  do {
-    cVar2 = *pcVar3;
-    pcVar3 = pcVar3 + 1;
-  } while (cVar2 != '\0');
-  iVar5 = param_2 - (int)param_1;
-  do {
-    cVar2 = *param_1;
-    param_1[iVar5] = cVar2;
-    param_1 = param_1 + 1;
-  } while (cVar2 != '\0');
-  pcVar4 = "\\ContentMeta.xbx";
-  do {
-    cVar2 = *pcVar4;
-    pcVar4[(int)(pcVar3 + (param_2 - (int)pcVar1) + -0x387860)] = cVar2;
-    pcVar4 = pcVar4 + 1;
-  } while (cVar2 != '\0');
-  return;
+    using namespace bf_guest32_constructor;
+    constexpr std::uint32_t entry = 0x002f56dbu;
+    guest.ecx = read32(guest, entry, guest.esp + 4u);
+    push(guest, entry + 4u, guest.esi);
+    guest.eax = guest.ecx;
+    push(guest, entry + 7u, guest.edi);
+    guest.esi = guest.eax + 1u;
+    bf_guest32_scan_nul(guest, entry + 0xbu);
+    guest.edi = read32(guest, entry + 0x12u, guest.esp + 16u);
+    bf_guest32_leaf_sub(guest, guest.eax, guest.esi);
+    guest.eax -= guest.esi;
+    guest.esi = guest.edi;
+    bf_guest32_leaf_sub(guest, guest.esi, guest.ecx);
+    guest.esi -= guest.ecx;
+    bf_guest32_copy_nul(guest, entry + 0x1cu, guest.esi);
+
+    guest.eax = bf_guest32_leaf_add(guest, guest.eax, guest.edi);
+    guest.ecx = 0x00387860u; // XBE-backed NUL-terminated data, read through guest memory.
+    guest.edi = pop(guest, entry + 0x2du);
+    bf_guest32_leaf_sub(guest, guest.eax, guest.ecx);
+    guest.eax -= guest.ecx;
+    guest.esi = pop(guest, entry + 0x30u);
+    bf_guest32_copy_nul(guest, entry + 0x31u, guest.eax);
+    bf_guest32_leaf_ret(guest, entry + 0x3bu, 8u);
 }
