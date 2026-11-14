@@ -257,7 +257,7 @@ def authenticate(image):
     return bodies
 
 
-def emulate(bodies, regs, memory, scripted):
+def emulate(bodies, regs, memory, scripted, *, allowed_widths=(4,), instruction_limit=128):
     from unicorn import Uc, UC_ARCH_X86, UC_MODE_32, UC_HOOK_CODE, UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE
     from unicorn.x86_const import (UC_X86_REG_EAX, UC_X86_REG_EBX, UC_X86_REG_ECX, UC_X86_REG_EDX,
                                    UC_X86_REG_ESI, UC_X86_REG_EDI, UC_X86_REG_EBP, UC_X86_REG_ESP,
@@ -295,13 +295,13 @@ def emulate(bodies, regs, memory, scripted):
 
     def record_read(_cpu, _event, address, size, _value, _data):
         nonlocal next_read
-        require(size == 4, f"retail memory width {size} at {address:#x}")
+        require(size in allowed_widths, f"retail memory width {size} at {address:#x}")
         if next_read is not None and address == next_read[0]:
             value = next_read[1]
             cpu.mem_write(address, words([value]))
             next_read = next(scripted, None)
         else:
-            value, = struct.unpack("<I", cpu.mem_read(address, size))
+            value = int.from_bytes(cpu.mem_read(address, size), "little")
         effects.append((READ, address, value))
 
     def record_write(_cpu, _event, address, size, value, _data):
@@ -311,7 +311,7 @@ def emulate(bodies, regs, memory, scripted):
     cpu.hook_add(UC_HOOK_CODE, record_code)
     cpu.hook_add(UC_HOOK_MEM_READ, record_read)
     cpu.hook_add(UC_HOOK_MEM_WRITE, record_write)
-    cpu.emu_start(regs[8], RETURN, timeout=1_000_000, count=128)
+    cpu.emu_start(regs[8], RETURN, timeout=1_000_000, count=instruction_limit)
     state = [cpu.reg_read(reg) for reg in identities]
     require(state[8] == RETURN and next_read is None, "retail fixture did not return")
     return state, effects

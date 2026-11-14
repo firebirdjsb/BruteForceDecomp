@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Link two D3D packet writers and compare their ordered retail guest effects."""
+"""Link guest REP MOVSD routines and compare their ordered retail effects."""
 import argparse
 import hashlib
 from pathlib import Path
@@ -15,11 +15,15 @@ from source_layout import source_path
 BODIES = {
     0x00370E10: (77, "6C032181F7B88352120F449AB12B68941B5211F005218032B2B26C810467E956"),
     0x0036EF80: (96, "E2CA26B1B1B04ECBA639E49668C899006CC5BC74D620652103AB7C3B51AE4AE9"),
+    0x003306DE: (100, "4FF181C43BEFEC6C313C6A58F578D60B09AFAC675B35D520CCF791857F2687BA"),
 }
 TABLE = 0x37BB88
 SOURCE = 0x465400
 DESTINATION = 0x466000
 DEVICE = 0x460000
+LAUNCH_GLOBAL = 0x386444
+LAUNCH_ROOT = 0x464000
+LAUNCH_PAGE = 0x465000
 
 
 def corpus():
@@ -51,6 +55,32 @@ def corpus():
         memory = {STACK: RETURN, STACK + 4: SOURCE, STACK + 8: 1, SOURCE: 1}
         yield f"source-arg/{df}", 0x0036EF80, df, STACK + 4, memory, STACK + 12, 12
 
+        for kind in ("null-root", "null-page", "plain", "extended", "sentinel", "overlap",
+                     "shared-output", "stack-output", "fallback-copy"):
+            out_a, out_b = 0x469000, 0x469004
+            dst = 0x46D000
+            page = LAUNCH_PAGE
+            if kind == "overlap":
+                dst = page + 0x404
+            if kind in ("shared-output", "fallback-copy"):
+                out_a = out_b
+            if kind == "stack-output":
+                out_b = STACK - 4
+            memory = {STACK: RETURN, STACK + 4: out_a, STACK + 8: out_b, STACK + 12: dst,
+                      LAUNCH_GLOBAL: 0 if kind in ("null-root", "fallback-copy") else LAUNCH_ROOT,
+                      LAUNCH_ROOT: 0 if kind == "null-page" else page,
+                      out_a: 0x87654321, out_b: 0x12345678}
+            source = out_b + 0x400 if kind == "fallback-copy" else page + 0x400
+            step = -4 if df else 4
+            for i in range(0x300):
+                memory[source + i * step] = 0x78560000 + i
+                memory.setdefault(dst + i * step, 0)
+            memory.update({page: 0xffffffff if kind == "sentinel" else 0x13572468,
+                           page + 0x214: int(kind in ("extended", "shared-output", "stack-output")),
+                           page + 0x218: 0x24681357})
+            result = int(kind in ("extended", "shared-output", "stack-output"))
+            yield f"launch/{df}/{kind}", 0x003306DE, df, 0x11119999, memory, result, 16
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -81,11 +111,22 @@ def main():
         cases.append((label, regs, memory, result, cleanup))
     payload = b"".join(pairs(list(memory.items())) + pairs([]) + words(regs)
                        for _, regs, memory, _, _ in cases)
-    references = [emulate(bodies, regs, memory, []) for _, regs, memory, _, _ in cases] if bodies else None
+    references = [emulate(bodies, regs, memory, [], allowed_widths=(1, 4), instruction_limit=1024)
+                  for _, regs, memory, _, _ in cases] if bodies else None
 
     compiler = shutil.which("clang++")
     require(compiler, "clang++ is required")
     fixture_code = FIXTURE.replace('#include "bf_d3d_guest_kick.h"', '#include "bf_d3d_guest_packet_writers.h"')
+    fixture_code = fixture_code.replace("effects.size() > 128u", "effects.size() > 2048u")
+    fixture_code = fixture_code.replace("void bf_guest_write_u32", """
+std::uint8_t bf_guest_read_u8(Word address)
+{
+    const auto value = static_cast<std::uint8_t>(memory[address]);
+    effects.push_back({1u, address, value});
+    return value;
+}
+
+void bf_guest_write_u32""")
     with tempfile.TemporaryDirectory(prefix="bf-d3d-packet-writers-") as directory:
         fixture = Path(directory) / "fixture.cpp"
         fixture.write_text(fixture_code.replace("@DISPATCH@", "\n".join(dispatch)), encoding="utf-8")
@@ -110,12 +151,21 @@ def main():
                     require(state[1] == 0xB00, f"{label}: lost aliased saved EBX")
                 if label.startswith("source-arg"):
                     require((WRITE, STACK + 4, 0x40B04) in effects, f"{label}: source slot reload lost")
+                if label.startswith("launch"):
+                    kind = label.rsplit("/", 1)[1]
+                    copies = kind not in ("null-root", "null-page", "sentinel")
+                    output_writes = 3 if kind == "plain" or kind == "overlap" or kind == "sentinel" else (
+                        4 if result else 2
+                    )
+                    require(sum(kind == WRITE for kind, _, _ in effects) ==
+                            3 + output_writes + (0x300 if copies else 0),
+                            f"{label}: wrong number of writes")
                 if references:
                     native, native_effects = references[index]
                     require(state[:9] == tuple(native[:9]), f"{label}: registers differ")
                     require((state[9] ^ native[9]) & state[10] == 0, f"{label}: defined flags differ")
                     require(effects == native_effects, f"{label}: ordered memory effects differ")
-            print(f"PASS {opt}: {len(BODIES)} linked objects, {len(cases)} packet cases" +
+            print(f"PASS {opt}: {len(BODIES)} linked objects, {len(cases)} guest copy cases" +
                   (" against executed retail x86" if references else ""))
 
 

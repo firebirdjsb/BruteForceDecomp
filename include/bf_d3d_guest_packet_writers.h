@@ -22,5 +22,6 @@ inline void rep_movsd(bf_guest32_constructor_state& guest, std::uint32_t site)
 
 void FUN_00370e10(bf_guest32_constructor_state& guest);
 void FUN_0036ef80(bf_guest32_constructor_state& guest);
+void FUN_003306de(bf_guest32_constructor_state& guest);
 
 #endif
