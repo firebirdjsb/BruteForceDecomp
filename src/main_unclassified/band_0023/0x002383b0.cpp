@@ -1,34 +1,39 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest32 byte hash used by campaign loading.
  * Input x86 body SHA-256: D410734EA4A6CB1222DACFB5476C267844303F561A7367F821575587A489FA6C
  * Entry: 0x002383b0, Ghidra index: 7871, label: FUN_002383b0
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_003bc150;
-extern uint32_t DAT_003bc550;
-uint FUN_002383b0(void)
+#include "bf_xbe_guest32_string_leaves.h"
 
+void FUN_002383b0(bf_guest32_constructor_state& guest)
 {
-  char *pcVar1;
-  char cVar2;
-  uint uVar3;
-  char *in_EDX;
-  
-  if (in_EDX != (char *)0x0) {
-    uVar3 = 0xffffffff;
-    cVar2 = *in_EDX;
-    while (cVar2 != '\0') {
-      uVar3 = uVar3 >> 8 ^
-              *(uint *)(&DAT_003bc150 + (((byte)(&DAT_003bc550)[cVar2] ^ uVar3) & 0xff) * 4);
-      pcVar1 = in_EDX + 1;
-      in_EDX = in_EDX + 1;
-      cVar2 = *pcVar1;
+    using namespace bf_guest32_constructor;
+    logic_flags(guest, guest.edx);
+    if (guest.edx == 0u) {
+        guest.eax = 0u;
+        logic_flags(guest, guest.eax);
+        ret(guest, 0x002383b6u);
+        return;
     }
-    return ~uVar3;
-  }
-  return 0;
+
+    auto byte = bf_guest32_byte_read(guest, 0x002383b7u, guest.edx);
+    guest.ecx = bf_guest32_set_low_byte(guest.ecx, byte);
+    guest.eax = 0xffffffffu;
+    logic_flags(guest, byte, 0x80u);
+    while (byte != 0u) {
+        // MOVSX indexes the table through signed CL, including bytes 0x80–0xff.
+        guest.ecx = (static_cast<std::uint32_t>(byte) ^ 0x80u) - 0x80u;
+        guest.ecx = bf_guest32_byte_read(guest, 0x002383c3u, 0x003bc550u + guest.ecx);
+        guest.ecx = (guest.ecx ^ guest.eax) & 0xffu;
+        logic_flags(guest, guest.ecx);
+        guest.ecx = read32(guest, 0x002383d2u, 0x003bc150u + guest.ecx * 4u);
+        guest.eax = (guest.eax >> 8u) ^ guest.ecx;
+        logic_flags(guest, guest.eax);
+        byte = bf_guest32_byte_read(guest, 0x002383deu, guest.edx + 1u);
+        guest.ecx = bf_guest32_set_low_byte(guest.ecx, byte);
+        increment(guest, guest.edx);
+        logic_flags(guest, byte, 0x80u);
+    }
+    guest.eax = ~guest.eax;
+    ret(guest, 0x002383e8u);
 }

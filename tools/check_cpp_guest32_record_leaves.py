@@ -39,6 +39,7 @@ BODIES = {
     "0x002fe7f5": (94, "1375F1D9E4548AE56A29ECE864F13A6FD2D2AAFD5945E1FCBDC719E22FE0F6CC"),
     "0x002ed1a8": (71, "8F54B9FF97497C6688D9B05235C4EB054996BC0EC9EB5E6E690F01D526D7A722"),
     "0x002949b0": (87, "9258407C12F3B8AF378DC5C6D9B2E1364822DC4764662975B1175C96A122911A"),
+    "0x002383b0": (57, "D410734EA4A6CB1222DACFB5476C267844303F561A7367F821575587A489FA6C"),
 }
 BASE = 0x460000
 SIZE = 0x10000
@@ -51,6 +52,8 @@ SUFFIX = 0x387860
 SUFFIX_SIZE = 32
 TYPE_TABLES_SIZE = 32
 LOOKUP_TABLE_SIZE = 32
+HASH_BASE = 0x3bc150
+HASH_SIZE = 0x480
 WINDOWS = (
     ("head", HEAD, 4),
     ("filter", FILTER, 4),
@@ -58,6 +61,7 @@ WINDOWS = (
     ("lookup_table", 0x4071d8, LOOKUP_TABLE_SIZE),
     ("audio_slot", 0x32fdec, 4),
     ("character_types", 0x4a8d5c, 264),
+    ("hash_tables", HASH_BASE, HASH_SIZE),
 )
 SLOTS_SIZE = sum(size for _, _, size in WINDOWS)
 NATIVE = ROOT / "tests/fixtures/guest32_constructors_native.s"
@@ -71,7 +75,7 @@ static std::uint8_t memory[0x10000];
 static std::uint32_t head, filter;
 static std::uint8_t suffix[32], type_tables[32], lookup_table[32];
 static std::uint32_t audio_slot;
-static std::uint8_t character_types[264];
+static std::uint8_t character_types[264], hash_tables[0x480];
 static std::uint8_t* address(std::uint32_t addr, unsigned width)
 {
     if (addr >= 0x460000u && addr <= 0x470000u - width)
@@ -90,6 +94,8 @@ static std::uint8_t* address(std::uint32_t addr, unsigned width)
         return reinterpret_cast<std::uint8_t*>(&audio_slot);
     if (addr >= 0x4a8d5cu && addr <= 0x4a8e64u - width)
         return character_types + (addr - 0x4a8d5cu);
+    if (addr >= 0x3bc150u && addr <= 0x3bc5d0u - width)
+        return hash_tables + (addr - 0x3bc150u);
     std::abort();
 }
 std::uint32_t bf_guest_read_u32(std::uint32_t addr)
@@ -132,6 +138,7 @@ int main()
             std::fread(lookup_table, sizeof(lookup_table), 1, stdin) != 1 ||
             std::fread(&audio_slot, sizeof(audio_slot), 1, stdin) != 1 ||
             std::fread(character_types, sizeof(character_types), 1, stdin) != 1 ||
+            std::fread(hash_tables, sizeof(hash_tables), 1, stdin) != 1 ||
             std::fread(suffix, sizeof(suffix), 1, stdin) != 1 ||
             std::fread(memory, sizeof(memory), 1, stdin) != 1)
             return 1;
@@ -146,6 +153,7 @@ int main()
             std::fwrite(lookup_table, sizeof(lookup_table), 1, stdout) != 1 ||
             std::fwrite(&audio_slot, sizeof(audio_slot), 1, stdout) != 1 ||
             std::fwrite(character_types, sizeof(character_types), 1, stdout) != 1 ||
+            std::fwrite(hash_tables, sizeof(hash_tables), 1, stdout) != 1 ||
             std::fwrite(memory, sizeof(memory), 1, stdout) != 1)
             return 1;
     }
@@ -229,7 +237,8 @@ def corpus(returns):
             head, filter_value = 0, rng.getrandbits(32)
             type_tables = bytearray(TYPE_TABLES_SIZE)
             lookup = bytearray(LOOKUP_TABLE_SIZE)
-            character_types = bytearray(WINDOWS[-1][2])
+            character_types = bytearray(264)
+            hash_tables = bytearray(HASH_SIZE)
             audio = rng.getrandbits(32) if entry == "0x0031acb1" else 0
             expected_table_result = None
             address = int(entry, 16)
@@ -451,9 +460,24 @@ def corpus(returns):
                     pointers = (records, 0, 0x003b9768, second)
                 for i, ptr in enumerate(pointers):
                     store(buckets + 4 * i, ptr)
+            elif entry == "0x002383b0":
+                hash_tables[:] = rng.randbytes(HASH_SIZE)
+                address = table + scenario % 3
+                payload = (b"", b"", b"CAMPAIGN", b"campaign",
+                           b"\x80", b"\xffz", b"\x80\xff\x7f",
+                           b"\x01\x80", b"\xff", b"_", b"ab", b"bA")[scenario]
+                memory[address - BASE:address - BASE + len(payload) + 1] = payload + b"\0"
+                regs[3] = address if scenario else 0
+                word = 0xffffffff
+                for byte in payload:
+                    signed = byte if byte < 0x80 else byte - 0x100
+                    normalized = hash_tables[0x400 + signed]
+                    index = (normalized ^ word) & 0xff
+                    word = (word >> 8) ^ struct.unpack_from("<I", hash_tables, index * 4)[0]
+                expected_table_result = word ^ 0xffffffff
             store(frame, returns[scenario % len(returns)])
             slots = (struct.pack("<II", head, filter_value) + type_tables + lookup
-                     + struct.pack("<I", audio) + character_types)
+                     + struct.pack("<I", audio) + character_types + hash_tables)
             yield entry, regs, slots, memory, expected_table_result
 
 
