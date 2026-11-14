@@ -31,6 +31,19 @@ typedef struct bf_stack_probe_002ebea0_result {
     uint32_t fault_address;
 } bf_stack_probe_002ebea0_result;
 
+/* Canonical host-side C++17 entry. The linkage supports the C oracle fixtures.
+ * The state and callback contract is the same as the instruction model below.
+ * The original x86 calling convention and guest exception delivery are separate. */
+#ifdef __cplusplus
+extern "C" {
+#endif
+bf_stack_probe_002ebea0_result FUN_002ebea0(
+    bf_stack_probe_002ebea0_state input,
+    const bf_stack_probe_002ebea0_memory *memory);
+#ifdef __cplusplus
+}
+#endif
+
 enum {
     BF_SP_002EBEA0_CF = 0x001,
     BF_SP_002EBEA0_PF = 0x004,

@@ -1,5 +1,11 @@
 /* Portable contract tests; formula/trace checks are not a native x86 oracle. */
 #include "bf_x86_stack_probe_002ebea0.h"
+
+#ifdef BF_STACK_PROBE_CANONICAL
+#define PROBE_UNDER_TEST FUN_002ebea0
+#else
+#define PROBE_UNDER_TEST bf_stack_probe_002ebea0
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -190,7 +196,7 @@ static bf_stack_probe_002ebea0_result execute(bus *b,
                                              bf_stack_probe_002ebea0_state in)
 {
     const bf_stack_probe_002ebea0_memory mem={b,read32,write32};
-    return bf_stack_probe_002ebea0(in,&mem);
+    return PROBE_UNDER_TEST(in,&mem);
 }
 static void compare_events(const bus *a, const bus *b, unsigned count,
                             bool last_failed)

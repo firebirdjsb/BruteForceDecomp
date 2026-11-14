@@ -8,6 +8,12 @@
 #include <string.h>
 #include "bf_x86_stack_probe_002ebea0.h"
 
+#ifdef BF_STACK_PROBE_CANONICAL
+#define PROBE_UNDER_TEST FUN_002ebea0
+#else
+#define PROBE_UNDER_TEST bf_stack_probe_002ebea0
+#endif
+
 _Static_assert(sizeof(void *) == 4, "native oracle requires an i686 process");
 _Static_assert(offsetof(bf_stack_probe_002ebea0_state, eflags) == 16,
                "trampoline state layout");
@@ -63,7 +69,7 @@ static int native_case(native_memory *m, unsigned char *initial,
     memcpy(expected, m->bytes, NATIVE_BYTES);
     memcpy(m->bytes, initial, NATIVE_BYTES);
     const bf_stack_probe_002ebea0_memory memory = {m, native_read, native_write};
-    bf_stack_probe_002ebea0_result modeled = bf_stack_probe_002ebea0(input, &memory);
+    bf_stack_probe_002ebea0_result modeled = PROBE_UNDER_TEST(input, &memory);
     const uint32_t compared_flags = UINT32_C(0x8c5) | UINT32_C(0x400);
     if (modeled.status != BF_STACK_PROBE_OK ||
         actual.eax != modeled.state.eax || actual.ecx != modeled.state.ecx ||
