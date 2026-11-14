@@ -80,3 +80,4 @@ tests/fixtures/original_0x00372180_partial_edge_20261031.txt -text whitespace=-b
 
 # Preserve exact historical literal sources superseded by the guest32 leaves.
 tests/fixtures/original_0x*_post_literal_20261114.txt -text whitespace=-blank-at-eol
+tests/fixtures/original_0x0012aba0_pre_guest32_20261114.txt -text whitespace=-blank-at-eol

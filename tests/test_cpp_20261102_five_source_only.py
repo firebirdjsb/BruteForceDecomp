@@ -72,9 +72,10 @@ class FiveSourceOnlyHistoryTests(unittest.TestCase):
             header_path = root / "include/bf_ghidra_types.h"
             header_path.write_bytes(self.header)
             for ident in set(VERIFY.CALLERS) | set(VERIFY.CALLEES):
-                path = VERIFY.source_path(root, ident)
+                path = root / VERIFY.ITERATOR_DRAFT if ident == "0012aba0" else VERIFY.source_path(root, ident)
                 path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_bytes(VERIFY.source_path(ROOT, ident).read_bytes())
+                source = ROOT / VERIFY.ITERATOR_DRAFT if ident == "0012aba0" else VERIFY.source_path(ROOT, ident)
+                path.write_bytes(source.read_bytes())
             VERIFY.assert_source_only(root)
             for ident, (_, _, declarations) in VERIFY.CALLERS.items():
                 path = VERIFY.source_path(root, ident)
@@ -93,7 +94,7 @@ class FiveSourceOnlyHistoryTests(unittest.TestCase):
                             VERIFY.assert_source_only(root)
                 path.write_bytes(original)
             for ident in VERIFY.CALLEES:
-                path = VERIFY.source_path(root, ident)
+                path = root / VERIFY.ITERATOR_DRAFT if ident == "0012aba0" else VERIFY.source_path(root, ident)
                 original = path.read_bytes()
                 with self.subTest(callee=ident):
                     path.write_bytes(original + b"\n")

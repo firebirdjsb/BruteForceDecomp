@@ -1,42 +1,57 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest32 iterator update.
  * Input x86 body SHA-256: 499A2146F4B3AEE2E10A784082225CC5F60EDC497100359BBE57EE0597DEB91C
  * Entry: 0x0012aba0, Ghidra index: 3772, label: FUN_0012aba0
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
  */
-#include "bf_ghidra_types.h"
-void FUN_0012aba0(void)
+#include "bf_xbe_guest32_record_leaves.h"
 
+void FUN_0012aba0(bf_guest32_constructor_state& guest)
 {
-  char cVar1;
-  int iVar2;
-  int *piVar3;
-  int *piVar4;
-  int *in_EDX;
-  
-  iVar2 = *in_EDX;
-  if (*(char *)(iVar2 + 0x15) == '\0') {
-    piVar3 = *(int **)(iVar2 + 8);
-    if (*(char *)((int)piVar3 + 0x15) == '\0') {
-      cVar1 = *(char *)(*piVar3 + 0x15);
-      piVar4 = (int *)*piVar3;
-      while (cVar1 == '\0') {
-        cVar1 = *(char *)(*piVar4 + 0x15);
-        piVar3 = piVar4;
-        piVar4 = (int *)*piVar4;
-      }
-      *in_EDX = (int)piVar3;
-      return;
+    using namespace bf_guest32_constructor;
+    const auto read_flag = [&](std::uint32_t site, std::uint32_t node, std::uint32_t& reg) {
+        guest.eip = site;
+        const auto flag = bf_guest_read_u8(node + 0x15u);
+        reg = (reg & 0xffffff00u) | flag;
+        logic_flags(guest, flag, 0x80u);
+        return flag != 0u;
+    };
+
+    guest.eax = read32(guest, 0x0012aba0u, guest.edx);
+    if (read_flag(0x0012aba2u, guest.eax, guest.ecx)) {
+        ret(guest, 0x0012abf6u);
+        return;
     }
-    iVar2 = *(int *)(iVar2 + 4);
-    cVar1 = *(char *)(iVar2 + 0x15);
-    while ((cVar1 == '\0' && (*in_EDX == *(int *)(iVar2 + 8)))) {
-      *in_EDX = iVar2;
-      iVar2 = *(int *)(iVar2 + 4);
-      cVar1 = *(char *)(iVar2 + 0x15);
+
+    guest.ecx = read32(guest, 0x0012aba9u, guest.eax + 8u);
+    push(guest, 0x0012abacu, guest.ebx);
+    if (!read_flag(0x0012abadu, guest.ecx, guest.ebx)) {
+        guest.eax = read32(guest, 0x0012abb4u, guest.ecx);
+        if (!read_flag(0x0012abb6u, guest.eax, guest.ebx)) {
+            do {
+                guest.ecx = guest.eax;
+                guest.eax = read32(guest, 0x0012abc2u, guest.ecx);
+            } while (!read_flag(0x0012abc4u, guest.eax, guest.ebx));
+        }
+        write32(guest, 0x0012abcbu, guest.edx, guest.ecx);
+        guest.ebx = pop(guest, 0x0012abcdu);
+        ret(guest, 0x0012abceu);
+        return;
     }
-    *in_EDX = iVar2;
-  }
-  return;
+
+    guest.eax = read32(guest, 0x0012abcfu, guest.eax + 4u);
+    bool stop = read_flag(0x0012abd2u, guest.eax, guest.ecx);
+    while (!stop) {
+        guest.ecx = read32(guest, 0x0012abe0u, guest.edx);
+        const auto child = read32(guest, 0x0012abe2u, guest.eax + 8u);
+        bf_guest32_leaf_sub(guest, guest.ecx, child);
+        if (guest.ecx != child)
+            break;
+        write32(guest, 0x0012abe7u, guest.edx, guest.eax);
+        // The store may alias the next parent field. Read it afterwards.
+        guest.eax = read32(guest, 0x0012abe9u, guest.eax + 4u);
+        stop = read_flag(0x0012abecu, guest.eax, guest.ecx);
+    }
+    write32(guest, 0x0012abf3u, guest.edx, guest.eax);
+    guest.ebx = pop(guest, 0x0012abf5u);
+    ret(guest, 0x0012abf6u);
 }

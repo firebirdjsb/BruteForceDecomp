@@ -90,7 +90,9 @@ def block(row):
     return NOTE + ''.join('extern ' + s + ';\n' for s in row['declarations'])
 
 def preimage(entry):
-    raw = source_path(ROOT, entry).read_bytes()
+    path = (ROOT / 'tests/fixtures/original_0x0012aba0_pre_guest32_20261114.txt'
+            if entry == '0x0012aba0' else source_path(ROOT, entry))
+    raw = path.read_bytes()
     text = project_pinned_counter_callee(entry, raw).decode()
     if entry in CASES:
         addition = block(CASES[entry])

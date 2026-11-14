@@ -16,6 +16,7 @@ BODIES = {
     0x00370E10: (77, "6C032181F7B88352120F449AB12B68941B5211F005218032B2B26C810467E956"),
     0x0036EF80: (96, "E2CA26B1B1B04ECBA639E49668C899006CC5BC74D620652103AB7C3B51AE4AE9"),
     0x003306DE: (100, "4FF181C43BEFEC6C313C6A58F578D60B09AFAC675B35D520CCF791857F2687BA"),
+    0x0012ABA0: (87, "499A2146F4B3AEE2E10A784082225CC5F60EDC497100359BBE57EE0597DEB91C"),
 }
 TABLE = 0x37BB88
 SOURCE = 0x465400
@@ -26,7 +27,45 @@ LAUNCH_ROOT = 0x464000
 LAUNCH_PAGE = 0x465000
 
 
+def iterator_cases():
+    cursor = DEVICE + 0x300
+    node, left, child, sentinel, parent, grandparent = (DEVICE + i * 0x100 for i in range(5, 11))
+    for kind in ("unchanged", "left-tip", "left-chain", "parent-flag", "parent-mismatch", "parent-chain",
+                 "saved-ebx-alias", "parent-slot-alias"):
+        slot = cursor
+        memory = {STACK: RETURN, node + 0x15: 0, node + 8: left, left + 0x15: 0,
+                  left: child, child + 0x15: 0, child: sentinel, sentinel + 0x15: 0x80,
+                  node + 4: parent, parent + 0x15: 0, parent + 4: grandparent,
+                  parent + 8: node, grandparent + 0x15: 0x7f}
+        eax, ecx = sentinel, child
+        if kind == "unchanged":
+            memory[node + 0x15] = 0xfe
+            eax, ecx = node, 0x13579bfe
+        if kind == "left-tip":
+            memory[child + 0x15] = 1
+            eax, ecx = child, left
+        if kind in ("parent-flag", "parent-mismatch", "parent-chain", "parent-slot-alias"):
+            memory[left + 0x15] = 0xff
+            eax, ecx = grandparent, node | 0x7f
+            if kind == "parent-flag":
+                memory[parent + 0x15] = 0xf1
+                eax, ecx = parent, left | 0xf1
+            if kind == "parent-mismatch":
+                memory[parent + 8] = child
+                eax, ecx = parent, node
+            if kind == "parent-slot-alias":
+                # The iterator cell occupies the parent link that gets reloaded.
+                slot = parent + 4
+                eax, ecx = parent, parent
+        if kind == "saved-ebx-alias":
+            slot = STACK - 4
+        memory[slot] = node
+        yield kind, slot, memory, eax, ecx
+
+
 def corpus():
+    for kind, slot, memory, eax, _ in iterator_cases():
+        yield f"iterator/{kind}", 0x0012ABA0, 0, slot, memory, eax, 4
     for df in (0, 1):
         for bank in (0, 0x80000000):
             for alias in (False, True):
@@ -105,9 +144,12 @@ def main():
             bodies[entry] = body
 
     cases = []
+    iterator_ecx = {f"iterator/{k}": ecx for k, _, _, _, ecx in iterator_cases()}
     for label, entry, df, dst, memory, result, cleanup in corpus():
         regs = [dst, 0x01234567, 0x13579BDF, DEVICE, 0x76543210, 0xFEDCBA98,
                 0x89ABCDEF, STACK, entry, 0x897 | (df << 10), FLAGS]
+        if entry == 0x0012ABA0:
+            regs[3] = dst
         cases.append((label, regs, memory, result, cleanup))
     payload = b"".join(pairs(list(memory.items())) + pairs([]) + words(regs)
                        for _, regs, memory, _, _ in cases)
@@ -117,6 +159,9 @@ def main():
     compiler = shutil.which("clang++")
     require(compiler, "clang++ is required")
     fixture_code = FIXTURE.replace('#include "bf_d3d_guest_kick.h"', '#include "bf_d3d_guest_packet_writers.h"')
+    fixture_code = fixture_code.replace("using Word = std::uint32_t;",
+                                        "void FUN_0012aba0(bf_guest32_constructor_state& guest);\n"
+                                        "using Word = std::uint32_t;")
     fixture_code = fixture_code.replace("effects.size() > 128u", "effects.size() > 2048u")
     fixture_code = fixture_code.replace("void bf_guest_write_u32", """
 std::uint8_t bf_guest_read_u8(Word address)
@@ -145,8 +190,15 @@ void bf_guest_write_u32""")
                 label, regs, _, result, cleanup = cases[index]
                 require(state[0] == result and state[7:9] == (regs[7] + cleanup, RETURN),
                         f"{label}: returned cursor or stack differs")
-                require(state[9] & 0x400 == regs[9] & 0x400 and state[10] == FLAGS,
+                is_iterator = regs[8] == 0x0012ABA0
+                final_compare = label in ("iterator/parent-mismatch", "iterator/parent-slot-alias")
+                flag_mask = FLAGS & ~0x10 if is_iterator and not final_compare else FLAGS
+                require(state[9] & 0x400 == regs[9] & 0x400 and state[10] == flag_mask,
                         f"{label}: direction or flags mask differs")
+                if is_iterator:
+                    require(state[2] == iterator_ecx[label], f"{label}: ECX high bytes differ")
+                    require(state[1] == (DEVICE + 0x700 if label == "iterator/saved-ebx-alias" else regs[1]),
+                            f"{label}: EBX restore differs")
                 if label.startswith("saved-ebx"):
                     require(state[1] == 0xB00, f"{label}: lost aliased saved EBX")
                 if label.startswith("source-arg"):

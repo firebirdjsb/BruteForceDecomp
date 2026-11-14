@@ -39,6 +39,7 @@ HEADER_BLOB = "dd77bc872c0f6240d6035f775b1d64df7cc33094"
 # Verify both endpoints and the reversible edit; do not replace the old pin.
 EVOLVED_HEADER_BLOB = "b282a40b581257dce6d7e459c873a4e4be12e36f"
 HEADER_ADDITION = b"#define CONCAT14(h,l) ((uint64_t)bf_ghidra_concat_words((h),(l),1,4))\n"
+ITERATOR_DRAFT = "tests/fixtures/original_0x0012aba0_pre_guest32_20261114.txt"
 
 
 def blob_sha(data: bytes) -> str:
@@ -47,6 +48,12 @@ def blob_sha(data: bytes) -> str:
 
 def source_path(root: Path, ident: str) -> Path:
     return root / "src" / "main_unclassified" / ("band_" + ident[:4]) / ("0x" + ident + ".cpp")
+
+
+def historical_iterator_draft(root: Path) -> bytes:
+    draft = (root / ITERATOR_DRAFT).read_bytes()
+    assert blob_sha(draft) == CALLEES["0012aba0"][0], "0012aba0: archived callee source drift"
+    return draft
 
 
 def assert_header_history(header: bytes) -> None:
@@ -68,7 +75,7 @@ def assert_source_only(root: Path) -> None:
         assert old.count('#include "bf_ghidra_types.h"') == 1
         assert text.index(block) == text.index('#include "bf_ghidra_types.h"') + len('#include "bf_ghidra_types.h"\n')
     for ident, (sha, signature) in CALLEES.items():
-        content = source_path(root, ident).read_bytes()
+        content = historical_iterator_draft(root) if ident == "0012aba0" else source_path(root, ident).read_bytes()
         assert blob_sha(content) == sha, f"{ident}: callee source drift"
         assert signature in content.decode().splitlines(), f"{ident}: callee signature drift"
 

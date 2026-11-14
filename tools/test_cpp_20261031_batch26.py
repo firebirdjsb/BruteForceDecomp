@@ -61,7 +61,9 @@ class SourceMatchedBatch30(unittest.TestCase):
                 self.assertIn(f"Entry: 0x{caller}", text)
                 self.assertRegex(text, r"Input x86 body SHA-256: [0-9A-F]{64}")
                 self.assertIn("ABI_UNVERIFIED", text)
-                draft = source(callee).read_text(encoding="utf-8")
+                draft_path = (ROOT / "tests/fixtures/original_0x0012aba0_pre_guest32_20261114.txt"
+                              if callee == "0012aba0" else source(callee))
+                draft = draft_path.read_text(encoding="utf-8")
                 self.assertIn(f"Entry: 0x{callee}", draft)
                 norm = lambda s: re.sub(r"\s+", "", s)
                 self.assertIn(norm(signature), norm(draft))
