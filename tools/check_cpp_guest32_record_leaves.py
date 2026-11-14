@@ -34,6 +34,9 @@ BODIES = {
     "0x001eb060": (48, "A48461E76CAB08D93A3DC89FCDB119355B51D94704F330866C9F8389158189CA"),
     "0x000d0830": (86, "657B86EB3F69AD621B91DA27D47A0F2E983E2D2F7FDE04370D77C2FC69CBC145"),
     "0x001664b0": (88, "44CCAF35353636DF62DB82941AC88CAD9A7952D51FEB51B1A80D67E0A10ECB51"),
+    "0x00162d00": (91, "4A02D41EB754FC8AF2F1FA1AED4343C4C331D06BC9F365E6248D90DE0A16DD45"),
+    "0x00236cf0": (88, "F036B2FDE00DBD97E894915F8CE78DAB0D894AD820A4B52EE7E9F86F40DC14FA"),
+    "0x002fe7f5": (94, "1375F1D9E4548AE56A29ECE864F13A6FD2D2AAFD5945E1FCBDC719E22FE0F6CC"),
 }
 BASE = 0x460000
 SIZE = 0x10000
@@ -369,6 +372,48 @@ def corpus(returns):
                     store(source + 4, returns[scenario % len(returns)])
                 regs[3] = source
                 store(frame + 4, destination)
+            elif entry == "0x00162d00":
+                regs[2] = obj
+                option = obj + 0x600
+                payload = table + 0x400
+                store(obj + 0x108, (0, 1, 0xff)[scenario % 3], "<B")
+                store(option + 0x26, (0, 0x40, 0x41, 0xff)[scenario % 4], "<B")
+                store(option + 0xc, payload)
+                store(payload + 0xa8, (0x800, 0, 0xfff807ff, 0x80000800)[scenario % 4])
+                count = scenario % 4
+                store(obj + 0x104, count)
+                for i in range(count):
+                    store(obj + 4 + i * 4, option if i == scenario // 3 else option + 2 + i)
+                store(frame + 4, option)
+            elif entry == "0x00236cf0":
+                regs[2] = (0, 0xffffffff, obj)[scenario % 3]
+                regs[3] = (table + 0x200, table + 0x200, obj + 0x4c, frame + 4)[scenario // 3]
+                field = 0 if scenario == 2 else table + 0x400
+                store(obj + 0x4c, field)
+                if scenario == 8:
+                    # The initial destination store aliases the live beginning pointer.
+                    field = obj
+                store(obj + 0x50, (field - 1, field, field + 3, field + 4)[scenario // 3] & 0xffffffff)
+                if field:
+                    store(field, rng.getrandbits(32))
+                store(frame + 4, rng.getrandbits(32))
+            elif entry == "0x002fe7f5":
+                first, second = obj + scenario % 2, table + scenario % 2
+                strings = [
+                    ([], []), ([0x8000], []), ([], [1]), ([1], [1]), ([1], [1, 2]),
+                    ([1, 2, 3], [2, 3]), ([1, 2, 3], [3, 4]), ([0xffff, 0x8000], [0x8000]),
+                    ([1, 1, 1, 2], [1, 1, 2]), ([1, 1, 1, 2], [1, 1, 3]),
+                    ([0xffff, 0xffff, 0x8000], [0xffff, 0xffff]),
+                    ([0x8000, 0x8000, 0xffff], [0x8000, 0xffff]),
+                ]
+                text, pattern = strings[scenario]
+                for base, words in ((first, text), (second, pattern)):
+                    for i, word in enumerate(words + [0]):
+                        store(base + 2 * i, word, "<H")
+                store(frame + 4, first)
+                store(frame + 8, second)
+                match = next((i for i in range(len(text)) if text[i:i + len(pattern)] == pattern), None)
+                expected_table_result = first if not pattern else (0 if match is None else first + 2 * match)
             store(frame, returns[scenario % len(returns)])
             slots = struct.pack("<II", head, filter_value) + type_tables + lookup + struct.pack("<I", audio)
             yield entry, regs, slots, memory, expected_table_result
@@ -391,7 +436,8 @@ def validate(result, cases):
         after_head, after_filter = struct.unpack_from("<II", result, pos + 44)
         cleanup = {"0x002de8b0": 4, "0x002de920": 4, "0x002f4cb2": 4,
                    "0x0033f199": 8, "0x0034c50e": 12, "0x002f56db": 8,
-                   "0x00341b2d": 4, "0x00380f37": 4, "0x00380e30": 8, "0x001664b0": 4}.get(entry, 0)
+                   "0x00341b2d": 4, "0x00380f37": 4, "0x00380e30": 8, "0x001664b0": 4,
+                   "0x00162d00": 4, "0x00236cf0": 4}.get(entry, 0)
         expected_pc = struct.unpack_from("<I", memory, regs[7] - BASE)[0]
         require(state[7] == regs[7] + 4 + cleanup and state[8] == expected_pc,
                 f"return stack differs at {entry}")
