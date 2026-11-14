@@ -1,27 +1,43 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest32 register and memory model.
  * Input x86 body SHA-256: E06286D5BAAE0A34FBF1F05B3AAA7DE7AE87AC4FE20E386CD2256E306D21759E
  * Entry: 0x0037fc73, Ghidra index: 13510, label: GetTypeInformation_4
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-#include "bf_xbox_xapi_device_identities_x86.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t PTR_DAT_0037eca8;
-undefined * XAPILIB__GetTypeInformation_4(void)
+#include "bf_xbe_guest32_record_leaves.h"
 
+void XAPILIB__GetTypeInformation_4(bf_guest32_constructor_state& guest)
 {
-  undefined **ppuVar1;
-  int in_ECX;
-  
-  ppuVar1 = &g_DeviceTypeInfoTableBegin;
-  while ((*ppuVar1 == (undefined *)0x0 || (*(int *)(*ppuVar1 + 4) != in_ECX))) {
-    ppuVar1 = ppuVar1 + 1;
-    if ((undefined **)((int)&PTR_DAT_0037eca8 + 3) < ppuVar1) {
-      return (undefined *)0x0;
+    using namespace bf_guest32_constructor;
+    constexpr std::uint32_t entry = 0x0037fc73u;
+
+    guest.eax = 0x0037eca4u;
+    push(guest, entry + 5u, guest.esi);
+    guest.edx = guest.eax;
+    guest.esi = 0x0037ecacu;
+    bf_guest32_leaf_sub(guest, guest.edx, guest.esi);
+
+    for (;;) {
+        guest.edx = read32(guest, entry + 17u, guest.eax);
+        logic_flags(guest, guest.edx);
+        if (guest.edx != 0u) {
+            const std::uint32_t field = read32(guest, entry + 23u, guest.edx + 4u);
+            bf_guest32_leaf_sub(guest, field, guest.ecx);
+            if (field == guest.ecx) {
+                guest.eax = read32(guest, entry + 39u, guest.eax);
+                guest.esi = pop(guest, entry + 41u);
+                bf_guest32_leaf_ret(guest, entry + 42u, 0u);
+                return;
+            }
+        }
+
+        guest.eax = bf_guest32_leaf_add(guest, guest.eax, 4u);
+        bf_guest32_leaf_sub(guest, guest.eax, guest.esi);
+        if (guest.eax >= guest.esi)
+            break;
     }
-  }
-  return *ppuVar1;
+
+    guest.eax = 0u;
+    logic_flags(guest, guest.eax);
+    guest.esi = pop(guest, entry + 37u);
+    bf_guest32_leaf_ret(guest, entry + 38u, 0u);
 }

@@ -106,4 +106,7 @@ void FUN_002fe401(bf_guest32_constructor_state& guest);
 void FUN_0033f199(bf_guest32_constructor_state& guest);
 void FUN_0034c50e(bf_guest32_constructor_state& guest);
 
+void XAPILIB__GetTypeInformation_4(bf_guest32_constructor_state& guest);
+void FUN_00380f37(bf_guest32_constructor_state& guest);
+
 #endif

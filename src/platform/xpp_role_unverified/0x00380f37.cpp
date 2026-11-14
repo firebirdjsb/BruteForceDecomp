@@ -1,28 +1,52 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest32 register and memory model.
  * Input x86 body SHA-256: F42F3999A755312D4FAD55D13904CEA37A7E05F639DE3A1372FB987054AE30B2
  * Entry: 0x00380f37, Ghidra index: 13542, label: FUN_00380f37
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t PTR_DAT_0037ecb4;
-extern uint32_t PTR_DAT_0037ecc0;
-undefined * FUN_00380f37(undefined4 param_1)
+#include "bf_xbe_guest32_record_leaves.h"
 
+void FUN_00380f37(bf_guest32_constructor_state& guest)
 {
-  char *pcVar1;
-  undefined **ppuVar2;
-  
-  ppuVar2 = &PTR_DAT_0037ecb4;
-  while (((pcVar1 = *ppuVar2, pcVar1 == (char *)0x0 || ((char)((uint)param_1 >> 8) != pcVar1[1])) ||
-         ((char)param_1 != *pcVar1))) {
-    ppuVar2 = ppuVar2 + 1;
-    if ((undefined **)((int)&PTR_DAT_0037ecc0 + 3) < ppuVar2) {
-      return (undefined *)0x0;
+    using namespace bf_guest32_constructor;
+    constexpr std::uint32_t entry = 0x00380f37u;
+
+    push(guest, entry, guest.esi);
+    guest.eax = 0x0037ecb4u;
+    guest.esi = 0x0037ecc4u;
+    bf_guest32_leaf_sub(guest, guest.eax, guest.esi);
+    guest.ecx = guest.eax;
+
+    guest.edx = read32(guest, entry + 17u, guest.esp + 8u);
+    for (;;) {
+        guest.eax = read32(guest, entry + 21u, guest.ecx);
+        logic_flags(guest, guest.eax);
+        if (guest.eax != 0u) {
+            guest.eip = entry + 27u;
+            const std::uint8_t record_high = bf_guest_read_u8(guest.eax + 1u);
+            const std::uint8_t key_high = static_cast<std::uint8_t>(guest.edx >> 8u);
+            bf_guest32_leaf_sub(guest, key_high, record_high, 0xffu);
+            if (key_high == record_high) {
+                guest.eip = entry + 32u;
+                const std::uint8_t record_low = bf_guest_read_u8(guest.eax);
+                const std::uint8_t key_low = static_cast<std::uint8_t>(guest.edx);
+                bf_guest32_leaf_sub(guest, key_low, record_low, 0xffu);
+                if (key_low == record_low) {
+                    guest.eax = read32(guest, entry + 49u, guest.ecx);
+                    guest.esi = pop(guest, entry + 45u);
+                    bf_guest32_leaf_ret(guest, entry + 46u, 4u);
+                    return;
+                }
+            }
+        }
+
+        guest.ecx = bf_guest32_leaf_add(guest, guest.ecx, 4u);
+        bf_guest32_leaf_sub(guest, guest.ecx, guest.esi);
+        if (guest.ecx >= guest.esi)
+            break;
     }
-  }
-  return *ppuVar2;
+
+    guest.eax = 0u;
+    logic_flags(guest, guest.eax);
+    guest.esi = pop(guest, entry + 45u);
+    bf_guest32_leaf_ret(guest, entry + 46u, 4u);
 }
