@@ -12,12 +12,17 @@ from body_hash_labels import read_body_digest
 from check_cpp_direct_call_batches import ROOT, XBE_SHA256, file_offset, require, sections, target
 from source_layout import source_path
 
-# The 0x00372050 body has two ordered Ghidra ranges separated by eight bytes.
-BODY_RANGES = {0x00372050: ((0x00372050, 56), (0x00372090, 34))}
+# Non-contiguous Ghidra ranges in hashing order.
+BODY_RANGES = {
+    0x00371BC0: ((0x00371BC0, 218), (0x00371CA0, 49)),
+    0x00372050: ((0x00372050, 56), (0x00372090, 34)),
+}
 
 BODIES = {
     0x00371B60: (95, "F16934FA75EF9CF1324CBB5368F2B7FE11D39CEC94FB54FB787CD3D3E3E4FAC6",
                  "FUN_00371b60"),
+    0x00371BC0: (273, "E945A86206E9B4901F3631DED512414FF06A5B87AAA2E84BFB3AF558E749BB89",
+                 "FUN_00371bc0"),
     0x00371FA0: (171, "379B43248B1DB7734516CBE34FF3B71249CEB0E75905F1D604FD6FAB97FF73B7",
                  "D3D8LTCG__CDevice_KickOff_0__LTCG_edx1"),
     0x00372050: (98, "DEBF01DFDEECBEBCD09E17F114EACEE09C45CADFCFD56C6A417C8D51CA1279BF",
@@ -131,8 +136,55 @@ def pairs(entries):
     return words([len(entries), *(word for pair in entries for word in pair)])
 
 
+def search_cases():
+    # Inline ring entries are 12 bytes apart, starting at device+0x4c.
+    for name, start, end, base, adjustment, records, expected_index in (
+        ("inline-single", 2, 4, 100, 20, {1: 95}, 1),
+        ("inline-scan", 2, 8, 100, 20, {1: 90, 2: 100, 3: 121}, 1),
+        ("inline-reject", 2, 8, 100, 20, {1: 90, 2: 89}, None),
+        ("inline-ring-wrap", 126, 130, 100, 20, {63: 120, 0: 120}, 63),
+        ("inline-boundary", 2, 130, 100, 20, {1: 200, 2: 199}, None),
+        ("inline-fallback", 2, 400, 100, 20, {8: 200, 9: 199}, None),
+    ):
+        regs = [start, 0x13579bdf, 0x2468ace0, 0x11112222, 0x33334444, 0x55556666,
+                0x77778888, STACK, 0x00371BC0, 0xC97, FLAGS]
+        memory = {STACK: RETURN, STACK - 4: 0xCAFE9898, 0x37DD88: DEVICE, DEVICE: base,
+                  DEVICE + 0x2C: end, DEVICE + 0x40: adjustment, DEVICE + 0x48: RECORD,
+                  DEVICE + 0x34: 3, RECORD + 36: 1}
+        memory.update({DEVICE + 0x50 + index * 12: value for index, value in records.items()})
+        result = 0 if expected_index is None else DEVICE + 0x4C + expected_index * 12
+        yield name, regs, memory, [], result
+
+    for name, current, starts, keys, table, expected_index in (
+        ("external-single", 3, (0, 0, 0, 250), (110, 120, 130, 140), RECORD, 3),
+        ("external-scan", 3, (250, 250, 250, 250), (90, 100, 125, 150), RECORD, 0),
+        ("external-advance-before-match", 3, (10, 20, 250, 250), (90, 92, 110, 120), RECORD, 2),
+        ("external-reject", 3, (250, 250, 250, 250), (90, 89, 125, 150), RECORD, None),
+        ("external-stack-alias", 3, (250, 250, 250, 250), (90, 100, 125, 150), STACK - 8, 0),
+        ("external-fresh-device-base", 3, (250, 250, 250, 250), (90, 100, 125, 150), RECORD, None),
+        ("external-fresh-spill", 3, (250, 250, 250, 250), (90, 100, 125, 150), RECORD, None),
+    ):
+        regs = [200, 0x13579bdf, 0x2468ace0, 0x11112222, 0x33334444, 0x55556666,
+                0x77778888, STACK, 0x00371BC0, 0xC97, FLAGS]
+        memory = {STACK: RETURN, 0x37DD88: DEVICE, DEVICE: 100, DEVICE + 0x2C: 500,
+                  DEVICE + 0x34: current, DEVICE + 0x38: 3, DEVICE + 0x40: 20, DEVICE + 0x48: table}
+        for index, (start, key) in enumerate(zip(starts, keys)):
+            memory[table + index * 12] = start
+            memory[table + index * 12 + 4] = key
+        result = 0 if expected_index is None else table + expected_index * 12
+        scripted = []
+        if name == "external-fresh-device-base":
+            scripted = [(DEVICE, 100), (DEVICE, 99)]
+        if name == "external-fresh-spill":
+            scripted = [(STACK - 8, 121)]
+        yield name, regs, memory, scripted, result
+
+
 def corpus():
+    yield from search_cases()
     for entry in BODIES:
+        if entry == 0x00371BC0:
+            continue
         for i in range(12):
             regs = [0x91929394, 0xABACADAE, DEVICE, DEVICE, 0xE1E2E3E4,
                     RECORD, 0xA1A2A3A4, STACK, entry, 0xC97, FLAGS]
@@ -182,7 +234,7 @@ def corpus():
                             ])
                         scripted.extend([(WAIT_BASE + 0x3240, 0x102),
                                          (WAIT_BASE + 0x3244, 0x102), (STATUS_WORD, 0)])
-            yield f"{entry:#010x} scenario {i}", regs, memory, scripted
+            yield f"{entry:#010x} scenario {i}", regs, memory, scripted, None
 
 
 def authenticate(image):
@@ -290,8 +342,8 @@ def main():
     bodies = authenticate(args.xbe.read_bytes()) if args.xbe else None
     cases = list(corpus())
     input_data = b"".join(pairs(list(memory.items())) + pairs(scripted) + words(regs)
-                          for _, regs, memory, scripted in cases)
-    expected = [emulate(bodies, regs, memory, scripted) for _, regs, memory, scripted in cases] if bodies else None
+                          for _, regs, memory, scripted, _ in cases)
+    expected = [emulate(bodies, regs, memory, scripted) for _, regs, memory, scripted, _ in cases] if bodies else None
     compiler = shutil.which("clang++")
     require(compiler, "clang++ is required")
     previous = None
@@ -309,9 +361,13 @@ def main():
             actual = list(outputs(data))
             require(len(actual) == len(cases), "incomplete fixture result")
             for index, (state, effects) in enumerate(actual):
-                context, regs, _, scripted = cases[index]
+                context, regs, _, scripted, search_result = cases[index]
                 require(state[7:9] == (regs[7] + 4, RETURN), f"{context} return stack differs")
-                require(sum(row[0] == FENCE for row in effects) == bool(scripted), f"{context} fence count differs")
+                fences = bool(scripted) and regs[8] != 0x00371BC0
+                require(sum(row[0] == FENCE for row in effects) == fences, f"{context} fence count differs")
+                if search_result is not None:
+                    require(state[0] == search_result, f"{context} search result differs")
+                    require(state[10] == FLAGS, f"{context} ADD ESP flags must be defined")
                 if expected:
                     native, native_effects = expected[index]
                     require(state[:9] == tuple(native[:9]), f"{context} guest registers differ")
