@@ -1,36 +1,29 @@
-/* Partial original DWORD address values; other C++ errors remain.
- * Complete register/memory contracts and behavior are ABI_UNVERIFIED. */
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest32 register and memory model.
  * Input x86 body SHA-256: 04C1F0EC26656E5F4F9FD009CB04AA1AC49F0C0B61D0FC1101981D3BBAE3B3AA
  * Entry: 0x001f2b00, Ghidra index: 7012, label: FUN_001f2b00
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t PTR_FUN_00396840;
-void FUN_001f2b00(void)
+#include "bf_xbe_guest32_record_leaves.h"
 
+void FUN_001f2b00(bf_guest32_constructor_state& guest)
 {
-  undefined4 *in_EAX;
-  
-  *(undefined1 *)((int)in_EAX + 5) = 0;
-  *(undefined1 *)(in_EAX + 1) = 0;
-  in_EAX[2] = 0;
-  in_EAX[0x2f] = 0xbaad00;
-  *in_EAX = UINT32_C(0x00396840);
-  in_EAX[0x2d] = in_EAX + 3;
-  in_EAX[0x2e] = in_EAX + 0x18;
-  in_EAX[0x34] = 0;
-  in_EAX[0x33] = 0;
-  in_EAX[0x32] = 0;
-  in_EAX[0x31] = 0;
-  in_EAX[0x38] = 0;
-  in_EAX[0x37] = 0;
-  in_EAX[0x36] = 0;
-  in_EAX[0x35] = 0;
-  in_EAX[0x30] = 0;
-  return;
+    using namespace bf_guest32_constructor;
+    constexpr std::uint32_t entry = 0x001f2b00u;
+
+    guest.ecx = 0u;
+    logic_flags(guest, guest.ecx);
+    write8(guest, entry + 2u, guest.eax + 5u, 0u);
+    write8(guest, entry + 5u, guest.eax + 4u, 0u);
+    write32(guest, entry + 8u, guest.eax + 8u, guest.ecx);
+    write32(guest, entry + 0xbu, guest.eax + 0xbcu, 0x00baad00u);
+    write32(guest, entry + 0x15u, guest.eax, 0x00396840u);
+    guest.edx = guest.eax + 0xcu;
+    write32(guest, entry + 0x1eu, guest.eax + 0xb4u, guest.edx);
+    guest.edx = guest.eax + 0x60u;
+    write32(guest, entry + 0x27u, guest.eax + 0xb8u, guest.edx);
+
+    constexpr std::uint32_t offsets[] = {0xd0u, 0xccu, 0xc8u, 0xc4u, 0xe0u, 0xdcu, 0xd8u, 0xd4u, 0xc0u};
+    for (std::uint32_t i = 0; i < sizeof(offsets) / sizeof(offsets[0]); ++i)
+        write32(guest, entry + 0x2du + i * 6u, guest.eax + offsets[i], guest.ecx);
+    ret(guest, entry + 0x63u);
 }

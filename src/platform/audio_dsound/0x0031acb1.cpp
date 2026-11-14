@@ -1,31 +1,22 @@
-/* Partial original DWORD address values; other C++ errors remain.
- * Complete register/memory contracts and behavior are ABI_UNVERIFIED. */
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest32 register and memory model.
  * Input x86 body SHA-256: AA8482391521EB9D331F447F461828B9D1A1CCF340AFAB49B3DD1EAC2B72B996
  * Entry: 0x0031acb1, Ghidra index: 12277, label: FUN_0031acb1
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_0032fdec;
-extern uint32_t PTR_FUN_00386ad8;
-void FUN_0031acb1(void)
+#include "bf_xbe_guest32_record_leaves.h"
 
+void FUN_0031acb1(bf_guest32_constructor_state& guest)
 {
-  undefined4 *puVar1;
-  undefined4 *in_ECX;
-  
-  puVar1 = in_ECX + 2;
-  in_ECX[1] = 1;
-  *in_ECX = UINT32_C(0x00386ad8);
-  DAT_0032fdec = in_ECX;
-  in_ECX[3] = puVar1;
-  *puVar1 = puVar1;
-  puVar1 = in_ECX + 4;
-  in_ECX[5] = puVar1;
-  *puVar1 = puVar1;
-  return;
+    using namespace bf_guest32_constructor;
+    guest.eax = guest.ecx;
+    guest.ecx = guest.eax + 8u;
+    write32(guest, 0x0031acb6u, guest.eax + 4u, 1u);
+    write32(guest, 0x0031acbdu, guest.eax, 0x00386ad8u);
+    write32(guest, 0x0031acc3u, 0x0032fdecu, guest.eax);
+    write32(guest, 0x0031acc8u, guest.eax + 0xcu, guest.ecx);
+    write32(guest, 0x0031accbu, guest.ecx, guest.ecx);
+    guest.ecx = guest.eax + 0x10u;
+    write32(guest, 0x0031acd0u, guest.eax + 0x14u, guest.ecx);
+    write32(guest, 0x0031acd3u, guest.ecx, guest.ecx);
+    ret(guest, 0x0031acd5u);
 }

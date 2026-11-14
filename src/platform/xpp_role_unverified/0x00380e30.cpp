@@ -1,43 +1,54 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest32 register and memory model.
  * Input x86 body SHA-256: 8B566564561C29B4AA98BCA7F59410558E878B97D2ED2BF41444CA5475E03B0E
  * Entry: 0x00380e30, Ghidra index: 13538, label: FUN_00380e30
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
  */
-#include "bf_ghidra_types.h"
-void FUN_00380e30(undefined4 param_1,undefined4 param_2)
+#include "bf_xbe_guest32_record_leaves.h"
 
+void FUN_00380e30(bf_guest32_constructor_state& guest)
 {
-  undefined4 *in_ECX;
-  int iVar1;
-  undefined4 *puVar2;
-  
-  *(undefined1 *)(in_ECX + 0x28) = 0;
-  *(undefined1 *)((int)in_ECX + 0xa1) = 0;
-  in_ECX[0x26] = param_1;
-  in_ECX[0x27] = param_2;
-  puVar2 = in_ECX;
-  for (iVar1 = 0xc; iVar1 != 0; iVar1 = iVar1 + -1) {
-    *puVar2 = 0;
-    puVar2 = puVar2 + 1;
-  }
-  *(undefined2 *)puVar2 = 0;
-  puVar2 = (undefined4 *)((int)in_ECX + 0x32);
-  for (iVar1 = 0xc; iVar1 != 0; iVar1 = iVar1 + -1) {
-    *puVar2 = 0;
-    puVar2 = puVar2 + 1;
-  }
-  *(undefined2 *)puVar2 = 0;
-  puVar2 = in_ECX + 0x19;
-  for (iVar1 = 0xc; iVar1 != 0; iVar1 = iVar1 + -1) {
-    *puVar2 = 0;
-    puVar2 = puVar2 + 1;
-  }
-  *(undefined2 *)puVar2 = 0;
-  in_ECX[0x29] = 0;
-  in_ECX[0x2a] = 0;
-  in_ECX[0x2b] = 0;
-  in_ECX[0x2c] = 0;
-  return;
+    using namespace bf_guest32_constructor;
+    constexpr std::uint32_t entry = 0x00380e30u;
+    guest.eax = read32(guest, entry, guest.esp + 4u);
+    push(guest, entry + 4u, guest.edi);
+    guest.edx = guest.ecx;
+
+    // Both AND instructions perform a byte read before the byte write.
+    for (std::uint32_t i = 0; i < 2u; ++i) {
+        const auto pc = entry + 7u + 7u * i;
+        const auto address = guest.edx + 0xa0u + i;
+        guest.eip = pc;
+        (void)bf_guest_read_u8(address);
+        write8(guest, pc, address, 0u);
+        logic_flags(guest, 0u, 0x80u);
+    }
+    write32(guest, entry + 0x15u, guest.edx + 0x98u, guest.eax);
+    guest.eax = read32(guest, entry + 0x1bu, guest.esp + 0xcu);
+    write32(guest, entry + 0x1fu, guest.edx + 0x9cu, guest.eax);
+
+    constexpr std::uint32_t block_pc[] = {0x27u, 0x32u, 0x3eu};
+    constexpr std::uint32_t repeat_pc[] = {0x2cu, 0x38u, 0x44u};
+    const bool backward = (guest.eflags & direction) != 0u;
+    for (std::uint32_t i = 0; i < 3u; ++i) {
+        guest.eax = 0u;
+        logic_flags(guest, guest.eax);
+        // Each immediate is pushed and reloaded even when the frame overlaps a block.
+        push(guest, entry + block_pc[i], 12u);
+        guest.ecx = pop(guest, entry + block_pc[i] + 2u);
+        guest.edi = guest.edx + 0x32u * i;
+        rep_stosd(guest, entry + repeat_pc[i]);
+        guest.eip = entry + repeat_pc[i] + 2u;
+        bf_guest_write_u16(guest.edi, static_cast<std::uint16_t>(guest.eax));
+        guest.edi += backward ? 0xfffffffeu : 2u;
+    }
+    guest.eax = 0u;
+    logic_flags(guest, guest.eax);
+    guest.edi = guest.edx + 0xa4u;
+    for (std::uint32_t i = 0; i < 4u; ++i) {
+        write32(guest, entry + 0x50u + i, guest.edi, guest.eax);
+        guest.edi += backward ? 0xfffffffcu : 4u;
+    }
+    guest.eax = guest.edx;
+    guest.edi = pop(guest, entry + 0x56u);
+    bf_guest32_leaf_ret(guest, entry + 0x57u, 8u);
 }

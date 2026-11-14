@@ -1,45 +1,43 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest32 register and memory model.
  * Input x86 body SHA-256: 657B86EB3F69AD621B91DA27D47A0F2E983E2D2F7FDE04370D77C2FC69CBC145
  * Entry: 0x000d0830, Ghidra index: 2578, label: FUN_000d0830
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
  */
-#include "bf_ghidra_types.h"
-void FUN_000d0830(void)
+#include "bf_xbe_guest32_record_leaves.h"
 
+void FUN_000d0830(bf_guest32_constructor_state& guest)
 {
-  int *piVar1;
-  int iVar2;
-  uint in_EAX;
-  int *piVar3;
-  int *in_ECX;
-  
-  piVar3 = (int *)((in_EAX & 0xffff) * 0x10 + in_ECX[5]);
-  piVar1 = (int *)piVar3[1];
-  iVar2 = *piVar3;
-  if (piVar1 == (int *)0x0) {
-    *in_ECX = iVar2;
-  }
-  else {
-    *piVar1 = iVar2;
-  }
-  if (iVar2 == 0) {
-    in_ECX[1] = (int)piVar1;
-  }
-  else {
-    *(int **)(iVar2 + 4) = piVar1;
-  }
-  piVar3[1] = 0;
-  *piVar3 = 0;
-  if ((undefined4 *)in_ECX[3] != (undefined4 *)0x0) {
-    *(undefined4 *)in_ECX[3] = piVar3;
-    piVar3[1] = in_ECX[3];
-    in_ECX[3] = (int)piVar3;
-    return;
-  }
-  piVar3[1] = 0;
-  in_ECX[2] = (int)piVar3;
-  in_ECX[3] = (int)piVar3;
-  return;
+    using namespace bf_guest32_constructor;
+    guest.edx = read32(guest, 0x000d0830u, guest.ecx + 0x14u);
+    guest.eax = bf_guest32_leaf_add(guest, (guest.eax & 0xffffu) << 4u, guest.edx);
+    guest.edx = read32(guest, 0x000d083bu, guest.eax + 4u);
+    logic_flags(guest, guest.edx);
+    push(guest, 0x000d0840u, guest.esi);
+    guest.esi = read32(guest, 0x000d0841u, guest.eax);
+    if (guest.edx != 0u)
+        write32(guest, 0x000d0845u, guest.edx, guest.esi);
+    else
+        write32(guest, 0x000d0849u, guest.ecx, guest.esi);
+    logic_flags(guest, guest.esi);
+    if (guest.esi != 0u)
+        write32(guest, 0x000d084fu, guest.esi + 4u, guest.edx);
+    else
+        write32(guest, 0x000d0854u, guest.ecx + 4u, guest.edx);
+    write32(guest, 0x000d0857u, guest.eax + 4u, 0u);
+    write32(guest, 0x000d085eu, guest.eax, 0u);
+    guest.edx = read32(guest, 0x000d0864u, guest.ecx + 0xcu);
+    logic_flags(guest, guest.edx);
+    guest.esi = pop(guest, 0x000d0869u);
+    if (guest.edx != 0u) {
+        write32(guest, 0x000d086cu, guest.edx, guest.eax);
+        guest.edx = read32(guest, 0x000d086eu, guest.ecx + 0xcu);
+        write32(guest, 0x000d0871u, guest.eax + 4u, guest.edx);
+        write32(guest, 0x000d0874u, guest.ecx + 0xcu, guest.eax);
+        ret(guest, 0x000d0877u);
+        return;
+    }
+    write32(guest, 0x000d0878u, guest.eax + 4u, 0u);
+    write32(guest, 0x000d087fu, guest.ecx + 8u, guest.eax);
+    write32(guest, 0x000d0882u, guest.ecx + 0xcu, guest.eax);
+    ret(guest, 0x000d0885u);
 }

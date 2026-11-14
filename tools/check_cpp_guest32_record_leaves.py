@@ -27,6 +27,13 @@ BODIES = {
     "0x00341b2d": (72, "BFE1C8694A389FF580B6DBF4FC619A1D08B0466D13D4148C2278E078F393B88C"),
     "0x0037fc73": (43, "E06286D5BAAE0A34FBF1F05B3AAA7DE7AE87AC4FE20E386CD2256E306D21759E"),
     "0x00380f37": (53, "F42F3999A755312D4FAD55D13904CEA37A7E05F639DE3A1372FB987054AE30B2"),
+    "0x0031acb1": (37, "AA8482391521EB9D331F447F461828B9D1A1CCF340AFAB49B3DD1EAC2B72B996"),
+    "0x0013b770": (80, "90E019EDD1630FAE19D0A6D9246F6264FDB7E3989EA841EAA50B0D430010C5BB"),
+    "0x001f2b00": (100, "04C1F0EC26656E5F4F9FD009CB04AA1AC49F0C0B61D0FC1101981D3BBAE3B3AA"),
+    "0x00380e30": (90, "8B566564561C29B4AA98BCA7F59410558E878B97D2ED2BF41444CA5475E03B0E"),
+    "0x001eb060": (48, "A48461E76CAB08D93A3DC89FCDB119355B51D94704F330866C9F8389158189CA"),
+    "0x000d0830": (86, "657B86EB3F69AD621B91DA27D47A0F2E983E2D2F7FDE04370D77C2FC69CBC145"),
+    "0x001664b0": (88, "44CCAF35353636DF62DB82941AC88CAD9A7952D51FEB51B1A80D67E0A10ECB51"),
 }
 BASE = 0x460000
 SIZE = 0x10000
@@ -37,8 +44,16 @@ FILTER = 0x4a90dc
 HEAD = 0x414b48
 SUFFIX = 0x387860
 SUFFIX_SIZE = 32
-TABLES_SIZE = 32
-SLOTS_SIZE = 8 + TABLES_SIZE
+TYPE_TABLES_SIZE = 32
+LOOKUP_TABLE_SIZE = 32
+WINDOWS = (
+    ("head", HEAD, 4),
+    ("filter", FILTER, 4),
+    ("type_tables", 0x37eca4, TYPE_TABLES_SIZE),
+    ("lookup_table", 0x4071d8, LOOKUP_TABLE_SIZE),
+    ("audio_slot", 0x32fdec, 4),
+)
+SLOTS_SIZE = sum(size for _, _, size in WINDOWS)
 NATIVE = ROOT / "tests/fixtures/guest32_constructors_native.s"
 FIXTURE = r"""
 #include "bf_xbe_guest32_string_leaves.h"
@@ -48,7 +63,8 @@ FIXTURE = r"""
 
 static std::uint8_t memory[0x10000];
 static std::uint32_t head, filter;
-static std::uint8_t suffix[32], type_tables[32];
+static std::uint8_t suffix[32], type_tables[32], lookup_table[32];
+static std::uint32_t audio_slot;
 static std::uint8_t* address(std::uint32_t addr, unsigned width)
 {
     if (addr >= 0x460000u && addr <= 0x470000u - width)
@@ -61,6 +77,10 @@ static std::uint8_t* address(std::uint32_t addr, unsigned width)
         return suffix + (addr - 0x387860u);
     if (addr >= 0x37eca4u && addr <= 0x37ecc4u - width)
         return type_tables + (addr - 0x37eca4u);
+    if (addr >= 0x4071d8u && addr <= 0x4071f8u - width)
+        return lookup_table + (addr - 0x4071d8u);
+    if (addr == 0x32fdecu && width == 4u)
+        return reinterpret_cast<std::uint8_t*>(&audio_slot);
     std::abort();
 }
 std::uint32_t bf_guest_read_u32(std::uint32_t addr)
@@ -83,6 +103,10 @@ void bf_guest_write_u8(std::uint32_t addr, std::uint8_t value)
 {
     *address(addr, 1) = value;
 }
+void bf_guest_write_u16(std::uint32_t addr, std::uint16_t value)
+{
+    std::memcpy(address(addr, sizeof(value)), &value, sizeof(value));
+}
 void bf_guest_write_u32(std::uint32_t addr, std::uint32_t value)
 {
     std::memcpy(address(addr, sizeof(value)), &value, sizeof(value));
@@ -96,6 +120,8 @@ int main()
             std::fread(&head, sizeof(head), 1, stdin) != 1 ||
             std::fread(&filter, sizeof(filter), 1, stdin) != 1 ||
             std::fread(type_tables, sizeof(type_tables), 1, stdin) != 1 ||
+            std::fread(lookup_table, sizeof(lookup_table), 1, stdin) != 1 ||
+            std::fread(&audio_slot, sizeof(audio_slot), 1, stdin) != 1 ||
             std::fread(suffix, sizeof(suffix), 1, stdin) != 1 ||
             std::fread(memory, sizeof(memory), 1, stdin) != 1)
             return 1;
@@ -107,6 +133,8 @@ int main()
             std::fwrite(&head, sizeof(head), 1, stdout) != 1 ||
             std::fwrite(&filter, sizeof(filter), 1, stdout) != 1 ||
             std::fwrite(type_tables, sizeof(type_tables), 1, stdout) != 1 ||
+            std::fwrite(lookup_table, sizeof(lookup_table), 1, stdout) != 1 ||
+            std::fwrite(&audio_slot, sizeof(audio_slot), 1, stdout) != 1 ||
             std::fwrite(memory, sizeof(memory), 1, stdout) != 1)
             return 1;
     }
@@ -134,50 +162,39 @@ def native_oracle(temp, image):
     literal_path.write_bytes(suffix)
     sections_asm.append(f'.section .suffix,"aw"\n.incbin "{literal_path}"\n')
     sections_ld.append(".suffix 0x387860 : { *(.suffix) }")
-    # Keep fixed-address configuration slots outside the synthetic data/stack span.
+    # Copy each fixed-address window between the IO buffer and guest memory.
+    loads, stores, offset = [], [], 0
+    for name, address, size in WINDOWS:
+        sections_ld.append(f".{name} {address:#x} (NOLOAD) : {{ . += {size}; }}")
+        slot = f"$slots+{offset}"
+        count = f"    mov ${size // 4}, %ecx\n    rep movsl\n"
+        loads.append(f"    mov {slot}, %esi\n    mov ${address:#x}, %edi\n" + count)
+        stores.append(f"    mov ${address:#x}, %esi\n    mov {slot}, %edi\n" + count)
+        offset += size
     asm = NATIVE.read_text(encoding="ascii").replace(
-        "    pushl request+40", """    mov $3, %eax
+        "    pushl request+40", f"""    mov $3, %eax
     xor %ebx, %ebx
     mov $slots, %ecx
-    mov $40, %edx
+    mov ${SLOTS_SIZE}, %edx
     int $0x80
-    cmp $40, %eax
+    cmp ${SLOTS_SIZE}, %eax
     jne failed
-    mov slots, %eax
-    mov %eax, 0x414b48
-    mov slots+4, %eax
-    mov %eax, 0x4a90dc
     cld
-    mov $slots+8, %esi
-    mov $0x37eca4, %edi
-    mov $8, %ecx
-    rep movsl
-
+{''.join(loads)}
     pushl request+40""").replace(
-        "    jmp _start", """    mov 0x414b48, %eax
-    mov %eax, slots
-    mov 0x4a90dc, %eax
-    mov %eax, slots+4
-    mov $0x37eca4, %esi
-    mov $slots+8, %edi
-    mov $8, %ecx
-    rep movsl
-    mov $4, %eax
+        "    jmp _start", f"""{''.join(stores)}    mov $4, %eax
     mov $1, %ebx
     mov $slots, %ecx
-    mov $40, %edx
+    mov ${SLOTS_SIZE}, %edx
     int $0x80
-    cmp $40, %eax
+    cmp ${SLOTS_SIZE}, %eax
     jne failed
     jmp _start""")
     sources = temp / "oracle.s"
-    sources.write_text(asm + "\n.lcomm slots, 40\n" + "\n".join(sections_asm), encoding="ascii")
+    sources.write_text(asm + f"\n.lcomm slots, {SLOTS_SIZE}\n" + "\n".join(sections_asm), encoding="ascii")
     script = temp / "oracle.ld"
     script.write_text("ENTRY(_start)\nSECTIONS {\n" + "\n".join(sections_ld) +
-                      "\n.type_tables 0x37eca4 (NOLOAD) : { . += 32; }\n"
-                      ".head 0x414b48 (NOLOAD) : { . += 4; }\n"
-                      ".guest 0x460000 (NOLOAD) : { . += 0x10000; }\n"
-                      ".filter 0x4a90dc (NOLOAD) : { . += 4; }\n"
+                      "\n.guest 0x460000 (NOLOAD) : { . += 0x10000; }\n"
                       ".text 0x8048000 : { *(.text) }\n"
                       ".bss 0x8050000 (NOLOAD) : { *(.bss) }\n}\n", encoding="ascii")
     obj, exe = temp / "oracle.o", temp / "oracle"
@@ -199,7 +216,9 @@ def corpus(returns):
             frame = STACK
             table = BASE + 0x3100
             head, filter_value = 0, rng.getrandbits(32)
-            type_tables = bytearray(TABLES_SIZE)
+            type_tables = bytearray(TYPE_TABLES_SIZE)
+            lookup = bytearray(LOOKUP_TABLE_SIZE)
+            audio = rng.getrandbits(32) if entry == "0x0031acb1" else 0
             expected_table_result = None
             address = int(entry, 16)
             flags = (rng.getrandbits(12) & FLAGS) | 2
@@ -305,8 +324,54 @@ def corpus(returns):
                         # A mismatching high byte skips the low-byte compare.
                         field = key if matches else key ^ (0x100 if slot % 2 else 1)
                         store(record, field, "<H")
+            elif entry == "0x0031acb1":
+                regs[2] = obj
+                if scenario in (3, 4):
+                    regs[7] = frame = obj + 0x28 + scenario
+            elif entry == "0x00380e30":
+                regs[2] = obj
+                if scenario % 2:
+                    regs[9] |= 0x400
+                if scenario in (8, 10):
+                    # Saved EDI aliases the end of a block, with the return above it.
+                    regs[7] = frame = obj + 0xb4
+                store(frame + 4, rng.getrandbits(32))
+                store(frame + 8, rng.getrandbits(32))
+            elif entry == "0x001eb060":
+                keys = [0, 0x80000000, 0xffffffff]
+                pointers = [obj, obj + 4, obj + 8]
+                length = scenario % 4
+                for i in range(length):
+                    struct.pack_into("<II", lookup, i * 8, pointers[i], keys[i])
+                selected = scenario % 6 // 2
+                regs[3] = keys[selected] if scenario % 2 else 0x55aa
+                expected_table_result = pointers[selected] if scenario % 2 and selected < length else (
+                    pointers[0] if length else 0
+                )
+            elif entry == "0x000d0830":
+                index = scenario % 4
+                node = table + index * 16
+                regs[0] = (rng.getrandbits(16) << 16) | index
+                regs[2] = obj
+                store(obj + 0x14, table)
+                store(node, (0, table + 0x80, node)[scenario % 3])
+                store(node + 4, (0, table + 0x60, obj + 0xc, node)[scenario // 3])
+                store(obj + 0xc, (0, table + 0xa0, node)[scenario % 3])
+                if scenario == 11:
+                    regs[7] = frame = node + 8
+            elif entry == "0x001664b0":
+                source = table + 0x200 + scenario % 3
+                destination = (table + 0x400, source, source + 2, source - 7)[scenario % 4]
+                if scenario == 11:
+                    # The first DWORD of the payload controls the live outer counter.
+                    destination = frame - 4
+                    store(source, 1)
+                    store(source + 4, returns[scenario % len(returns)])
+                regs[3] = source
+                store(frame + 4, destination)
             store(frame, returns[scenario % len(returns)])
-            yield entry, regs, head, filter_value, type_tables, memory, expected_table_result
+            slots = struct.pack("<II", head, filter_value) + type_tables + lookup + struct.pack("<I", audio)
+            yield entry, regs, slots, memory, expected_table_result
 
 
 def execute(exe, inputs, temp):
@@ -319,18 +384,22 @@ def execute(exe, inputs, temp):
 def validate(result, cases):
     size = 44 + SLOTS_SIZE + SIZE
     require(len(result) == len(cases) * size, "truncated host result")
-    for index, (entry, regs, head, filter_value, type_tables, memory, expected_table_result) in enumerate(cases):
+    for index, (entry, regs, slots, memory, expected_table_result) in enumerate(cases):
         pos = index * size
         state = struct.unpack_from("<11I", result, pos)
+        head, filter_value = struct.unpack_from("<II", slots)
         after_head, after_filter = struct.unpack_from("<II", result, pos + 44)
         cleanup = {"0x002de8b0": 4, "0x002de920": 4, "0x002f4cb2": 4,
                    "0x0033f199": 8, "0x0034c50e": 12, "0x002f56db": 8,
-                   "0x00341b2d": 4, "0x00380f37": 4}.get(entry, 0)
+                   "0x00341b2d": 4, "0x00380f37": 4, "0x00380e30": 8, "0x001664b0": 4}.get(entry, 0)
         expected_pc = struct.unpack_from("<I", memory, regs[7] - BASE)[0]
         require(state[7] == regs[7] + 4 + cleanup and state[8] == expected_pc,
                 f"return stack differs at {entry}")
         require(after_head == head, f"head slot was written at {entry}")
-        require(result[pos + 52:pos + 44 + SLOTS_SIZE] == type_tables, f"table was written at {entry}")
+        require(result[pos + 52:pos + 40 + SLOTS_SIZE] == slots[8:-4], f"table was written at {entry}")
+        expected_audio = regs[2] if entry == "0x0031acb1" else struct.unpack_from("<I", slots, SLOTS_SIZE - 4)[0]
+        after_audio = struct.unpack_from("<I", result, pos + 40 + SLOTS_SIZE)[0]
+        require(after_audio == expected_audio, f"audio guest slot differs at {entry}")
         if expected_table_result is not None:
             require(state[0] == expected_table_result, f"table search returned a different record at {entry}")
         if entry == "0x002f4cb2":
@@ -364,14 +433,14 @@ def main():
                                    (None, (0x8048100, 0x8048200), b"synthetic-suffix\0".ljust(SUFFIX_SIZE, b"\0")))
         cases = list(corpus(returns))
         model_requests = b"".join(
-            struct.pack("<14I", i, *regs, head, filter_value) + tables + suffix + memory
-            for i, (_, regs, head, filter_value, tables, memory, _) in enumerate(cases)
+            struct.pack("<12I", i, *regs) + slots + suffix + memory
+            for i, (_, regs, slots, memory, _) in enumerate(cases)
         )
         native_size = 40 + SLOTS_SIZE + SIZE
         if oracle:
             native_requests = b"".join(
-                struct.pack("<12I", i, *regs) + memory + struct.pack("<II", head, filter_value) + tables
-                for i, (_, regs, head, filter_value, tables, memory, _) in enumerate(cases)
+                struct.pack("<12I", i, *regs) + memory + slots
+                for i, (_, regs, slots, memory, _) in enumerate(cases)
             )
             try:
                 reference = execute(oracle, native_requests, temp)
