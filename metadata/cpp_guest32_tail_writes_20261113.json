@@ -16,6 +16,8 @@
     {"entry": "0x002a8720", "sha256": "99D655E9D209D46B4DB06B762A080CDC1B1BD9A95AE6B9D954A61B043B053872", "size": 16, "kind": "edx", "target": "0x002a6ec0"},
     {"entry": "0x00053ca0", "sha256": "7C9FE9337E3CA9D2F5A9F5D3823DFD888D6BA233DD5E89A61402869AD2FBD3A3", "size": 73, "record_bytes": 12, "kind": "stack_copy"},
     {"entry": "0x0028e3d0", "sha256": "1D3AD800DC1C24713B9552A408D0534621FF800CC43554997D59D54E863A2763", "size": 87, "record_bytes": 16, "kind": "stack_copy"},
-    {"entry": "0x0016dea0", "sha256": "6E4B034EB91B937250B053A11FCE137C0E1D4CD0F14DA16448025927225F81B8", "size": 93, "record_bytes": 20, "kind": "stack_copy"}
+    {"entry": "0x0016dea0", "sha256": "6E4B034EB91B937250B053A11FCE137C0E1D4CD0F14DA16448025927225F81B8", "size": 93, "record_bytes": 20, "kind": "stack_copy"},
+    {"entry": "0x001dc900", "sha256": "99F40E802EF678971CF8BD63145C7234E04613C740C852FFD035DA3E80242BCE", "size": 29, "kind": "forward_call", "callee": "0x001d69d0"},
+    {"entry": "0x001d69d0", "sha256": "DD041D32D8D0107AABA701FE848C765E1594DCB88D5BB6C1A9D76DFFC95343F5", "size": 89, "kind": "forward_stack"}
   ]
 }

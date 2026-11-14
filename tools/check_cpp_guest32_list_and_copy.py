@@ -106,6 +106,9 @@ COPY_CALL_SHAPES = {
     ),
 }
 
+FORWARD_CALL_PREFIX = bytes.fromhex("51 8b442400 8b4c240c 8b542408 50 8b442414 51 52")
+FORWARD_CALL_SUFFIX = bytes.fromhex("83c410 c3")
+
 
 def packet(values, memory):
     return struct.pack(f"<{len(values)}I", *values) + memory
@@ -154,10 +157,37 @@ def copy_caller_cases(callers, seed):
                         yield label, host, guest, seed, expected, slot
 
 
-def cases(callers):
+def forward_caller_cases(callers, seed):
+    for row in callers:
+        caller, callee = (int(row[key], 16) for key in ("entry", "target"))
+        stride = row["stride"]
+        for count in (0, 1, 3):
+            first = BASE + 0x600
+            last = first + count * stride
+            for delta in (-4, -1, 0, 1, 4, stride, 0x300):
+                dst = first + delta
+                expected = bytearray(seed)
+                for i in range(count):
+                    for field, width in row["fields"]:
+                        src_idx = first + i * stride + field - BASE
+                        dst_idx = dst + i * stride + field - BASE
+                        expected[dst_idx:dst_idx + width] = expected[src_idx:src_idx + width]
+                for df in (0, 1):
+                    for entry in (caller, callee):
+                        eax = dst if entry == callee else 0x13579bdf
+                        stack = (first, last, dst if entry == caller else 0x456789ab)
+                        host = (entry, dst, first, last, 0, df)
+                        guest = (entry, eax, 0x23456789, 0x3456789a, df, *stack,
+                                 0x56789abc, 0x6789abcd, 0x789abcde, 0x89abcdef)
+                        label = f"{entry:#x}/forward/{count}/{delta}/{df}"
+                        yield label, host, guest, seed, expected, dst + count * stride
+
+
+def cases(callers, forward_callers):
     rng = random.Random(0x3118C0)
     seed = bytes(rng.randrange(256) for _ in range(SIZE))
     yield from copy_caller_cases(callers, seed)
+    yield from forward_caller_cases(forward_callers, seed)
     for entry, (stride, string_move, in_edi, accesses) in COPY.items():
         for count in (0, 1, 3):
             for df in (0, 1):
@@ -568,6 +598,24 @@ def read_retail(xbe, doc):
         require(target(site, read(site, 5)) == int(evidence["target"], 16),
                 f"retail caller target differs at {entry_text}")
         result[entry] = body
+    for row in doc["forward_copy_callers"]:
+        caller, callee, site = (int(row[key], 16) for key in ("entry", "target", "site"))
+        prefix_size = len(FORWARD_CALL_PREFIX)
+        body = read(caller, prefix_size + 5 + len(FORWARD_CALL_SUFFIX))
+        require(hashlib.sha256(body).hexdigest().upper() == row["sha256"],
+                f"retail forward caller hash changed at {caller:#x}")
+        require(site == caller + prefix_size and body[:prefix_size] == FORWARD_CALL_PREFIX and
+                body[prefix_size + 5:] == FORWARD_CALL_SUFFIX,
+                f"retail forward caller shape changed at {caller:#x}")
+        require(target(site, body[prefix_size:prefix_size + 5]) == callee,
+                f"retail forward caller target differs at {caller:#x}")
+        target_body = read(callee, row["target_size"])
+        require(hashlib.sha256(target_body).hexdigest().upper() == row["target_sha256"],
+                f"retail forward callee hash changed at {callee:#x}")
+        for ret in row["target_returns"]:
+            require(read(int(ret, 16), 1) == b"\xc3", f"retail forward RET changed at {ret}")
+        result[caller] = body
+        result[callee] = target_body
     return result
 
 
@@ -617,7 +665,7 @@ invoke:
     call *input
     cld
     mov %eax,result
-    # Only copy-caller packets set ESI. Their plain RET restores outer ESP.
+    # Only the explicit copy-edge packets set ESI. Their plain RET restores ESP.
     cmpl $0,input+44
     je emit
     cmp saved_esp,%esp
@@ -697,13 +745,28 @@ def main():
         calls = re.findall(r"\bFUN_([0-9a-f]{8})\s*\(", source.partition("{")[2])
         require(calls == [evidence["target"][2:]], f"source caller target differs at {entry}")
         paths.append(str(path))
+    forward_callers = doc["forward_copy_callers"]
+    forward_entries = [row[key] for row in forward_callers for key in ("entry", "target")]
+    require(len(forward_entries) == len(set(forward_entries)) == 26 and
+            not set(forward_entries).intersection(callers, doc["bodies"]),
+            "unexpected forward copy inventory")
+    for row in forward_callers:
+        for key, digest in (("entry", "sha256"), ("target", "target_sha256")):
+            path = source_path(ROOT, row[key])
+            source = path.read_text(encoding="utf-8")
+            require(read_body_digest(source) == (row[digest], False),
+                    f"source body identity changed at {row[key]}")
+            if key == "entry":
+                calls = re.findall(r"\bFUN_([0-9a-f]{8})\s*\(", source.partition("{")[2])
+                require(calls == [row["target"][2:]], f"source caller target differs at {row[key]}")
+            paths.append(str(path))
     raw = read_retail(args.xbe, doc) if args.xbe else None
     with tempfile.TemporaryDirectory(prefix="bf-guest-list-copy-") as folder:
         directory = Path(folder)
         retail = native_runner(directory, raw) if args.retail_native else None
         model = directory / "model.exe"
         fixture = ROOT / "tests/fixtures/guest32_list_and_copy_20261112.cpp"
-        suite = list(cases(callers))
+        suite = list(cases(callers, forward_callers))
         for opt in ("-O0", "-O2"):
             subprocess.run([clang, "-std=c++17", "-pedantic-errors", "-Wall", "-Wextra", "-Werror",
                             opt, "-I", str(ROOT / "include"), str(fixture), *paths, "-o", str(model)],

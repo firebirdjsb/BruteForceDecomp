@@ -11,7 +11,8 @@ import tempfile
 
 from body_hash_labels import read_body_digest
 from check_cpp_d3d_guest_command_writers import START
-from check_cpp_direct_call_batches import ROOT, XBE_SHA256, file_offset, require, sections
+from check_cpp_direct_call_batches import ROOT, XBE_SHA256, file_offset, require, sections, target
+from check_cpp_guest32_list_and_copy import FORWARD_CALL_PREFIX, FORWARD_CALL_SUFFIX
 from check_cpp_tail_jumps import jump_target
 from source_layout import source_path
 
@@ -21,11 +22,12 @@ GLOBALS = 0x39a000
 GUEST = 0x420000
 SIZE = 0x3000
 RETURN_PC = 0x370000
+EBX = 0xa1b2c3d4
 FIXTURE = r"""
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include "bf_xbe_guest32_stack_copy.h"
+#include "bf_xbe_guest32_forward_stack_copy.h"
 
 static std::uint8_t globals[0x3000], memory[0x3000];
 static std::uint8_t* ptr(std::uint32_t address)
@@ -53,14 +55,15 @@ int main()
         std::fread(globals, sizeof(globals), 1, stdin) != 1 ||
         std::fread(memory, sizeof(memory), 1, stdin) != 1)
         return 1;
-    bf_guest32_stack_copy_state guest{{input[1], input[2], input[3], input[4],
-                                       input[0], input[5], 0xffffffffu}, input[6], input[7]};
+    bf_guest32_forward_stack_copy_state guest{{{input[1], input[2], input[3], input[4],
+                                                input[0], input[5], 0xffffffffu}, input[6], input[7]},
+                                               0xa1b2c3d4u};
     switch (input[0]) {
 @DISPATCH@
     default: return 2;
     }
     const std::uint32_t result[] = {guest.eax, guest.ecx, guest.edx, guest.esp,
-                                    guest.eip, guest.eflags, guest.esi, guest.edi, guest.eflags_defined};
+                                    guest.eip, guest.eflags, guest.esi, guest.edi, guest.ebx, guest.eflags_defined};
     return std::fwrite(result, sizeof(result), 1, stdout) != 1 ||
            std::fwrite(globals, sizeof(globals), 1, stdout) != 1 ||
            std::fwrite(memory, sizeof(memory), 1, stdout) != 1;
@@ -70,6 +73,17 @@ int main()
 
 def verify_encoding(body, case):
     kind = case["kind"]
+    if kind == "forward_call":
+        site = len(FORWARD_CALL_PREFIX)
+        require(body[:site] == FORWARD_CALL_PREFIX and body[site + 5:] == FORWARD_CALL_SUFFIX,
+                "forward stack caller encoding differs")
+        require(target(int(case["entry"], 16) + site, body[site:site + 5]) == int(case["callee"], 16),
+                "forward stack caller target differs")
+        return None
+    if kind == "forward_stack":
+        require(body.startswith(bytes.fromhex("568b742408578b7c24103bf7")) and
+                body.endswith(bytes.fromhex("5b5f5ec3")), "forward stack operand encoding differs")
+        return None
     if kind == "stack_copy":
         require(body.startswith(bytes.fromhex("8b4c2408568b7424083bf1")) and
                 body.endswith(bytes.fromhex("8b4c241089085ec3")), "stack copy frame differs")
@@ -101,7 +115,7 @@ def native_oracle(folder, image, cases):
     require(hashlib.sha256(image).hexdigest() == XBE_SHA256, "retail XBE digest differs")
     layout = sections(image)
     asm = START.replace("0x37d000", "0x39a000").replace("input: .zero 12", "input: .zero 32").replace(
-        "result: .zero 16", "result: .zero 32\nhost_stack: .long 0").replace(
+        "result: .zero 16", "result: .zero 36\nhost_stack: .long 0").replace(
         "    mov $12,%edx\n    call read_exact", "    mov $32,%edx\n    call read_exact").replace(
         "    pushl input+4\n    call *input\n    mov %eax,result",
         """    mov %esp,host_stack
@@ -113,6 +127,7 @@ def native_oracle(folder, image, cases):
     mov input+16,%esp
     mov input+24,%esi
     mov input+28,%edi
+    mov $0xa1b2c3d4,%ebx
     jmp *input
 capture:
     mov %eax,result
@@ -121,10 +136,11 @@ capture:
     mov %esp,result+12
     mov %esi,result+24
     mov %edi,result+28
+    mov %ebx,result+32
     mov host_stack,%esp
     pushfl
     pop %eax
-    mov %eax,result+20""").replace("    mov $16,%edx\n    call write_block", "    mov $32,%edx\n    call write_block")
+    mov %eax,result+20""").replace("    mov $16,%edx\n    call write_block", "    mov $36,%edx\n    call write_block")
     flags = ["--section-start=.guest=0x420000", "--section-start=.globals=0x39a000"]
     destinations = {RETURN_PC}
     for case in cases:
@@ -163,9 +179,9 @@ def dword(memory, address, value=None, base=GUEST):
     struct.pack_into("<I", memory, offset, value & 0xffffffff)
 
 
-def add_four(value):
-    result = (value + 4) & 0xffffffff
-    flags = (1 if result < value else 0) | (0x10 if (value ^ 4 ^ result) & 0x10 else 0)
+def add_flags(value, amount):
+    result = (value + amount) & 0xffffffff
+    flags = (1 if result < value else 0) | (0x10 if (value ^ amount ^ result) & 0x10 else 0)
     flags |= 4 if (result & 0xff).bit_count() % 2 == 0 else 0
     flags |= 0x40 if result == 0 else 0
     flags |= 0x80 if result & 0x80000000 else 0
@@ -184,7 +200,11 @@ def expected(case, packet):
     eip = int(case.get("target", "0"), 16)
     defined = 0xffffffff
     kind = case["kind"]
-    if kind == "stack_copy":
+    ebx = EBX
+    if kind in ("forward_call", "forward_stack"):
+        eip, eax, ecx, edx, esp, flags, esi, edi, ebx = forward_stack_expected(
+            kind, memory, eax, ecx, edx, esp, flags, esi, edi)
+    elif kind == "stack_copy":
         stride = case["record_bytes"]
         first, last, destination = (dword(memory, esp + n) for n in (4, 8, 12))
         ecx = last
@@ -221,11 +241,11 @@ def expected(case, packet):
         edx = dword(memory, ecx)
         dword(memory, eax, edx)
         ecx = (ecx + 4) & 0xffffffff
-        eax, arith = add_four(eax)
+        eax, arith = add_flags(eax, 4)
         flags = (flags & ~0x8d5) | arith
         dword(memory, esp + 4, eax)
     elif kind in ("ecx", "edx"):
-        updated, arith = add_four(dword(memory, esp + 4))
+        updated, arith = add_flags(dword(memory, esp + 4), 4)
         dword(memory, esp + 4, updated)
         flags = (flags & ~0x8d5) | arith
         if kind == "ecx":
@@ -245,7 +265,43 @@ def expected(case, packet):
         eax = read(dword(memory, ecx + 0x4c) + 4)
         edx = (eax - bias) & 0xffffffff
         dword(memory, (ecx + 0x48 + eax) & 0xffffffff, edx)
-    return (eax, ecx, edx, esp, eip, flags, esi, edi, defined), globals_ + memory
+    return (eax, ecx, edx, esp, eip, flags, esi, edi, ebx, defined), globals_ + memory
+
+
+def forward_stack_expected(kind, memory, eax, ecx, edx, esp, flags, esi, edi):
+    first, last = (dword(memory, esp + n) for n in (4, 8))
+    continuation = 0x001dc919
+    if kind == "forward_call":
+        eax = dword(memory, esp + 12)
+        for delta, value in ((-4, ecx), (-8, ecx), (-12, last), (-16, first), (-20, continuation)):
+            dword(memory, esp + delta, value)
+        esp -= 20
+        ecx, edx = last, first
+    stack = esp
+    dword(memory, stack - 4, esi)
+    dword(memory, stack - 8, edi)
+    ebx = EBX
+    if first != last:
+        dword(memory, stack - 12, ebx)
+        while first != last:
+            for src, dst in ((first, eax), (first + 12, stack + 8), (first + 8, stack + 4),
+                             (first + 4, eax + 4), (stack + 4, eax + 8), (stack + 8, eax + 12),
+                             (first + 16, eax + 16), (first + 20, eax + 20)):
+                dword(memory, dst, dword(memory, src))
+            first += 24
+            eax += 24
+        ebx = dword(memory, stack - 12)
+        ecx, edx = eax + 12, first + 8
+    esi, edi = (dword(memory, stack - n) for n in (4, 8))
+    eip = dword(memory, stack)
+    esp = stack + 4
+    flags = (flags & ~0x8d5) | 0x44
+    if kind == "forward_call" and eip == continuation:
+        esp, arithmetic = add_flags(esp, 16)
+        flags = (flags & ~0x8d5) | arithmetic
+        eip = dword(memory, esp)
+        esp += 4
+    return eip, eax, ecx, edx, esp, flags, esi, edi, ebx
 
 
 def packets(case):
@@ -253,7 +309,25 @@ def packets(case):
     esp = GUEST + 0x1100
     kind = case["kind"]
     initial = bytes((i * 73 + (i >> 4)) & 0xff for i in range(SIZE))
-    if kind == "stack_copy":
+    if kind in ("forward_call", "forward_stack"):
+        inputs = []
+        stack = esp - 20 if kind == "forward_call" else esp
+        for first in (0x420800, esp + 20, stack - 24):
+            for count in (0, 1, 3):
+                for dst in (0x420b00, first - 1, first + 2, stack + 4, stack - 24):
+                    if count and any(dst <= pc + 3 and dst + 24 * count > pc
+                                     for pc in (stack, esp)):
+                        continue
+                    writes = ((esp + 4, first), (esp + 8, first + 24 * count), (esp + 12, dst))
+                    inputs.append((dst, 0x50607080, writes))
+        if kind == "forward_call":
+            # The destination aliases the callee's two spill slots and the
+            # caller's return cell. Keep the latter executable in the oracle.
+            first, dst = 0x420800, stack + 4
+            writes = ((esp + 4, first), (esp + 8, first + 24), (esp + 12, dst),
+                      (first + 16, RETURN_PC))
+            inputs.append((dst, 0x50607080, writes))
+    elif kind == "stack_copy":
         stride = case["record_bytes"]
         inputs = []
         for first in (0x420800, esp + 16):
@@ -304,7 +378,7 @@ def main():
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     cases = manifest["cases"]
     require(manifest["original_xbe_sha256"] == XBE_SHA256, "manifest XBE digest differs")
-    require(len(cases) == len({case["entry"] for case in cases}) == 16, "entry inventory differs")
+    require(len(cases) == len({case["entry"] for case in cases}) == 18, "entry inventory differs")
     paths, dispatch = [], []
     for case in cases:
         entry = case["entry"]
@@ -329,9 +403,9 @@ def main():
                 if oracle:
                     actual = run(oracle, packet)
                     require(struct.unpack_from("<5I", actual) == regs[:5] and
-                            ((struct.unpack_from("<I", actual, 20)[0] ^ regs[5]) & regs[8]) == 0
-                            and struct.unpack_from("<2I", actual, 24) == regs[6:8]
-                            and actual[32:] == memory, f"retail state differs at {case['entry']}")
+                            ((struct.unpack_from("<I", actual, 20)[0] ^ regs[5]) & regs[9]) == 0
+                            and struct.unpack_from("<3I", actual, 24) == regs[6:9]
+                            and actual[36:] == memory, f"retail state differs at {case['entry']}")
                 suite.append((case["entry"], packet, regs, memory))
         for opt in ("-O0", "-O2"):
             exe = folder / "model"
@@ -340,8 +414,8 @@ def main():
                            check=True, timeout=60)
             for entry, packet, regs, memory in suite:
                 actual = run(exe, packet)
-                observed = struct.unpack_from("<9I", actual)
-                require(observed == regs and actual[36:] == memory,
+                observed = struct.unpack_from("<10I", actual)
+                require(observed == regs and actual[40:] == memory,
                         f"{opt}: modeled state differs at {entry}: {observed} != {regs}")
             print(f"PASS {opt}: {len(cases)} linked models, {len(suite)} state cases" +
                   (" compared with retail x86" if oracle else ""))

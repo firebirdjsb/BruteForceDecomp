@@ -145,6 +145,33 @@ uint32_t FUN_001d1450(uint32_t, uint32_t, uint32_t, uint32_t);
 uint32_t FUN_001cfc30(uint32_t, uint32_t, uint32_t, uint32_t);
 uint32_t FUN_001d0ba0(uint32_t, uint32_t, uint32_t, uint32_t);
 
+uint32_t FUN_00249a00(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_00050a90(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001392c0(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_0024c6a0(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001dc820(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001e0760(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001dc840(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001e07a0(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001dc8e0(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001d6800(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001dc920(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001e07e0(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_0017d560(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001d7dd0(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001dc8c0(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001d6750(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_0015ea20(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_0015eaa0(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001dcb00(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001e0aa0(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001dc9c0(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_001d7730(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_0015ea60(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_0015eaf0(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_0024ba70(uint32_t destination, uint32_t first, uint32_t last);
+uint32_t FUN_0024c6e0(uint32_t destination, uint32_t first, uint32_t last);
+
 static uint32_t invoke(uint32_t entry, uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t df)
 {
     switch (entry) {
@@ -237,6 +264,32 @@ static uint32_t invoke(uint32_t entry, uint32_t a, uint32_t b, uint32_t c, uint3
     case 0x001d1450: return FUN_001d1450(a, b, c, d);
     case 0x001cfc30: return FUN_001cfc30(a, b, c, d);
     case 0x001d0ba0: return FUN_001d0ba0(a, b, c, d);
+    case 0x00249a00: return FUN_00249a00(a, b, c);
+    case 0x00050a90: return FUN_00050a90(a, b, c);
+    case 0x001392c0: return FUN_001392c0(a, b, c);
+    case 0x0024c6a0: return FUN_0024c6a0(a, b, c);
+    case 0x001dc820: return FUN_001dc820(a, b, c);
+    case 0x001e0760: return FUN_001e0760(a, b, c);
+    case 0x001dc840: return FUN_001dc840(a, b, c);
+    case 0x001e07a0: return FUN_001e07a0(a, b, c);
+    case 0x001dc8e0: return FUN_001dc8e0(a, b, c);
+    case 0x001d6800: return FUN_001d6800(a, b, c);
+    case 0x001dc920: return FUN_001dc920(a, b, c);
+    case 0x001e07e0: return FUN_001e07e0(a, b, c);
+    case 0x0017d560: return FUN_0017d560(a, b, c);
+    case 0x001d7dd0: return FUN_001d7dd0(a, b, c);
+    case 0x001dc8c0: return FUN_001dc8c0(a, b, c);
+    case 0x001d6750: return FUN_001d6750(a, b, c);
+    case 0x0015ea20: return FUN_0015ea20(a, b, c);
+    case 0x0015eaa0: return FUN_0015eaa0(a, b, c);
+    case 0x001dcb00: return FUN_001dcb00(a, b, c);
+    case 0x001e0aa0: return FUN_001e0aa0(a, b, c);
+    case 0x001dc9c0: return FUN_001dc9c0(a, b, c);
+    case 0x001d7730: return FUN_001d7730(a, b, c);
+    case 0x0015ea60: return FUN_0015ea60(a, b, c);
+    case 0x0015eaf0: return FUN_0015eaf0(a, b, c);
+    case 0x0024ba70: return FUN_0024ba70(a, b, c);
+    case 0x0024c6e0: return FUN_0024c6e0(a, b, c);
     default: std::abort();
     }
 }

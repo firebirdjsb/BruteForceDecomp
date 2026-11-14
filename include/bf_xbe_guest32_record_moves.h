@@ -54,9 +54,8 @@ static inline uint32_t bf_guest_shift_records_forward(uint32_t owner, uint32_t o
     return output_slot;
 }
 
-static inline uint32_t bf_guest_copy_records_forward(uint32_t output_slot, uint32_t first,
-                                                     uint32_t last, uint32_t destination,
-                                                     uint32_t words)
+static inline uint32_t bf_guest_copy_records_forward_eax(uint32_t destination, uint32_t first,
+                                                         uint32_t last, uint32_t words)
 {
     const uint32_t stride = words * 4u;
     while (first != last) {
@@ -64,7 +63,14 @@ static inline uint32_t bf_guest_copy_records_forward(uint32_t output_slot, uint3
         first += stride;
         destination += stride;
     }
-    bf_guest_write_u32(output_slot, destination);
+    return destination;
+}
+
+static inline uint32_t bf_guest_copy_records_forward(uint32_t output_slot, uint32_t first,
+                                                     uint32_t last, uint32_t destination,
+                                                     uint32_t words)
+{
+    bf_guest_write_u32(output_slot, bf_guest_copy_records_forward_eax(destination, first, last, words));
     return output_slot;
 }
 

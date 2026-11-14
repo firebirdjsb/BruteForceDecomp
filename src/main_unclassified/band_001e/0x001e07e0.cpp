@@ -1,22 +1,22 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - ordered guest forward copy.
  * Input x86 body SHA-256: 8ABD734FE093C8B6E9F616366AF827B0A60D324F0C8EC0CCC330C1173276F239
  * Entry: 0x001e07e0, Ghidra index: 6710, label: FUN_001e07e0
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
+ * Requires data disjoint from the private stack frames and argument slots.
+ * Captures data and EAX. Other registers, EFLAGS and faults are outside this model.
  */
-#include "bf_ghidra_types.h"
-void FUN_001e07e0(undefined4 *param_1,undefined4 *param_2)
+#include "bf_xbe_guest32_record_moves.h"
 
+uint32_t FUN_001e07e0(uint32_t destination, uint32_t first, uint32_t last)
 {
-  undefined4 *in_EAX;
-  
-  for (; param_1 != param_2; param_1 = param_1 + 3) {
-    *in_EAX = *param_1;
-    in_EAX[1] = param_1[1];
-    *(undefined1 *)(in_EAX + 2) = *(undefined1 *)(param_1 + 2);
-    *(reinterpret_cast<unsigned char *>(in_EAX) + 9) = *(reinterpret_cast<unsigned char *>(param_1) + 9);
-    in_EAX = in_EAX + 3;
-  }
-  return;
+    // Copy the observed fields in order, preserving the padding bytes.
+    while (first != last) {
+        bf_guest_write_u32(destination, bf_guest_read_u32(first));
+        bf_guest_write_u32(destination + 4u, bf_guest_read_u32(first + 4u));
+        bf_guest_write_u8(destination + 8u, bf_guest_read_u8(first + 8u));
+        bf_guest_write_u8(destination + 9u, bf_guest_read_u8(first + 9u));
+        first += 12u;
+        destination += 12u;
+    }
+    return destination;
 }
