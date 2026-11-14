@@ -102,6 +102,8 @@ jobs:
         run: python3 tools/check_cpp_guest_record_initializers.py
       - name: Link and exercise retail guest constructor models
         run: python3 tools/check_cpp_guest32_constructors.py
+      - name: Link and exercise seven guest register and memory leaves
+        run: python3 tools/check_cpp_guest32_record_leaves.py
       - name: Verify 209 further partial DWORD operand repairs
         run: python3 tools/verify_cpp_remaining_literal_repairs.py
       - name: Verify 20 original-XBE-gated byte-offset syntax repairs

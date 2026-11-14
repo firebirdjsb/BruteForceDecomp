@@ -1,18 +1,18 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest32 register and memory model.
  * Input x86 body SHA-256: DC8EB4151F3CAD9B7E0F4F0C466867D35C68ADD00F3F247A56719AD8D221E73C
  * Entry: 0x002f4cb2, Ghidra index: 10878, label: SetUnhandledExceptionFilter
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-#include "bf_xbox_xapi_tls_filter_source.h"
-undefined4 XAPILIB__SetUnhandledExceptionFilter(undefined4 param_1)
+#include "bf_xbe_guest32_record_leaves.h"
 
+void XAPILIB__SetUnhandledExceptionFilter(bf_guest32_constructor_state& guest)
 {
-  undefined4 uVar1;
-  
-  uVar1 = g_XapiCurrentTopLevelFilter;
-  g_XapiCurrentTopLevelFilter = param_1;
-  return uVar1;
+    using namespace bf_guest32_constructor;
+    constexpr std::uint32_t entry = 0x002f4cb2u;
+    constexpr std::uint32_t slot = 0x004a90dcu;
+    // The slot holds opaque guest code-address bits. The wrapper only exchanges them.
+    guest.ecx = read32(guest, entry, guest.esp + 4u);
+    guest.eax = read32(guest, entry + 4u, slot);
+    write32(guest, entry + 9u, slot, guest.ecx);
+    bf_guest32_leaf_ret(guest, entry + 0xfu, 4u);
 }

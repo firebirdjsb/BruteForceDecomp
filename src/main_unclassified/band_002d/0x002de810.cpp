@@ -1,41 +1,50 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest32 register and memory model.
  * Input x86 body SHA-256: 0B48DCDA345DC860A3F8C1F6ADCF5FE1D36B617096D170D7120547E4C2E6EAFE
  * Entry: 0x002de810, Ghidra index: 10332, label: FUN_002de810
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-void FUN_002de810(void)
+#include "bf_xbe_guest32_record_leaves.h"
 
+void FUN_002de810(bf_guest32_constructor_state& guest)
 {
-  int in_EAX;
-  undefined4 *puVar1;
-  int iVar2;
-  
-  *(undefined4 *)(in_EAX + 0xc) = 0;
-  *(int *)(in_EAX + 0x1a8) = in_EAX + 0x1b8;
-  *(undefined4 *)(in_EAX + 0x1b4) = 4;
-  iVar2 = 3;
-  *(undefined4 *)(in_EAX + 0x1ac) = 3;
-  *(undefined4 *)(in_EAX + 0x1b0) = 3;
-  *(int *)(in_EAX + 0x1a0) = in_EAX + 0x80;
-  *(int *)(in_EAX + 0x1a4) = in_EAX + 0x110;
-  *(undefined4 *)(in_EAX + 0x214) = 0;
-  *(undefined4 *)(in_EAX + 0x224) = 0;
-  *(undefined4 *)(in_EAX + 0x234) = 0;
-  *(undefined4 *)(in_EAX + 0x244) = 0;
-  *(undefined4 *)(in_EAX + 0x254) = 0;
-  puVar1 = (undefined4 *)(in_EAX + 0x2f4);
-  do {
-    puVar1[-1] = puVar1 + 3;
-    *puVar1 = 1;
-    puVar1[1] = 1;
-    puVar1[2] = 4;
-    puVar1[-3] = puVar1 + -0x1b;
-    puVar1[-2] = puVar1 + -0xf;
-    puVar1 = puVar1 + 0x36;
-    iVar2 = iVar2 + -1;
-  } while (iVar2 != 0);
-  return;
+    using namespace bf_guest32_constructor;
+    constexpr std::uint32_t entry = 0x002de810u;
+    const std::uint32_t object = guest.eax;
+    guest.ecx = 0u;
+    logic_flags(guest, guest.ecx);
+    write32(guest, entry + 0x02u, object + 0xcu, guest.ecx);
+    guest.edx = object + 0x1b8u;
+    write32(guest, entry + 0x0bu, object + 0x1a8u, guest.edx);
+    write32(guest, entry + 0x11u, object + 0x1b4u, 4u);
+    push(guest, entry + 0x1bu, guest.ebx);
+    push(guest, entry + 0x1cu, guest.edi);
+    guest.edx = 3u;
+    write32(guest, entry + 0x22u, object + 0x1acu, guest.edx);
+    write32(guest, entry + 0x28u, object + 0x1b0u, guest.edx);
+    guest.edi = object + 0x80u;
+    write32(guest, entry + 0x34u, object + 0x1a0u, guest.edi);
+    guest.edi = object + 0x110u;
+    write32(guest, entry + 0x40u, object + 0x1a4u, guest.edi);
+    for (std::uint32_t i = 0; i < 5u; ++i)
+        write32(guest, entry + 0x46u + i * 6u, object + 0x214u + i * 0x10u, guest.ecx);
+
+    guest.ecx = object + 0x2f4u;
+    guest.edi = 1u;
+    do {
+        const std::uint32_t row = guest.ecx;
+        guest.ebx = row + 0xcu;
+        write32(guest, entry + 0x73u, row - 4u, guest.ebx);
+        guest.ebx = row - 0x6cu;
+        write32(guest, entry + 0x79u, row, guest.edi);
+        write32(guest, entry + 0x7bu, row + 4u, guest.edi);
+        write32(guest, entry + 0x7eu, row + 8u, 4u);
+        write32(guest, entry + 0x85u, row - 0xcu, guest.ebx);
+        guest.ebx = row - 0x3cu;
+        write32(guest, entry + 0x8bu, row - 8u, guest.ebx);
+        guest.ecx = bf_guest32_leaf_add(guest, guest.ecx, 0xd8u);
+        bf_guest32_leaf_dec(guest, guest.edx);
+    } while (guest.edx != 0u);
+    guest.edi = pop(guest, entry + 0x97u);
+    guest.ebx = pop(guest, entry + 0x98u);
+    ret(guest, entry + 0x99u);
 }

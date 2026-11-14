@@ -1,26 +1,29 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - guest32 register and memory model.
  * Input x86 body SHA-256: ECC913B9CBAD7BF2D299650DE49CB003011D5CBA2B8BDD8439355D467D10C5D4
  * Entry: 0x002fe401, Ghidra index: 11021, label: FUN_002fe401
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-/* TODO: Ghidra data labels have unresolved type and storage identities.
- * These declarations only allow syntax analysis; they are NOT verified types. */
-extern uint32_t DAT_00414b48;
-undefined4 FUN_002fe401(int param_1)
+#include "bf_xbe_guest32_record_leaves.h"
 
+void FUN_002fe401(bf_guest32_constructor_state& guest)
 {
-  int *piVar1;
-  
-  piVar1 = DAT_00414b48;
-  while( true ) {
-    if (piVar1 == (int *)0x0) {
-      return 1;
+    using namespace bf_guest32_constructor;
+    constexpr std::uint32_t entry = 0x002fe401u;
+    guest.eax = read32(guest, entry, 0x00414b48u);
+    logic_flags(guest, guest.eax); // The initial JMP reaches the same TEST as the loop.
+    while (guest.eax != 0u) {
+        guest.ecx = read32(guest, entry + 7u, guest.eax);
+        const std::uint32_t key = read32(guest, entry + 9u, guest.esp + 4u);
+        bf_guest32_leaf_sub(guest, guest.ecx, key);
+        if (guest.ecx == key) {
+            guest.eax = 0u;
+            logic_flags(guest, guest.eax);
+            ret(guest, entry + 0x1au);
+            return;
+        }
+        guest.eax = read32(guest, entry + 0xfu, guest.eax + 4u);
+        logic_flags(guest, guest.eax);
     }
-    if (*piVar1 == param_1) break;
-    piVar1 = (int *)piVar1[1];
-  }
-  return 0;
+    increment(guest, guest.eax);
+    ret(guest, entry + 0x17u);
 }
