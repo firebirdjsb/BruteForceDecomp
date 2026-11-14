@@ -82,6 +82,8 @@ jobs:
         run: python3 tools/check_cpp_d3d_guest_texture_writers.py
       - name: Link and exercise mixed-input D3D guest command models
         run: python3 tools/check_cpp_d3d_guest_mixed_writers.py
+      - name: Link and exercise D3D kickoff and store-fence guest models
+        run: python3 tools/check_cpp_d3d_guest_kick.py
       - name: Link and exercise four guest DWORD debug register models
         run: python3 tools/check_cpp_d3d_debug_register_models.py
       - name: Link two guest XNET record models

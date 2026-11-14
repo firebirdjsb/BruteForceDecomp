@@ -73,3 +73,7 @@ tests/fixtures/timestamp_caller_storage/*.cpp.before -text whitespace=-blank-at-
 # Preserve exact constructor draft preimages for the historical literal checks.
 tests/fixtures/original_0x*_post_literal_20261113.txt -text whitespace=-blank-at-eol
 tests/fixtures/original_0x000a3b80_pre_constructor_20261113.txt -text whitespace=-blank-at-eol
+
+# Preserve the exact inputs of the historical D3D declaration check.
+tests/fixtures/original_0x00371fa0_partial_edge_20261031.txt -text whitespace=-blank-at-eol
+tests/fixtures/original_0x00372180_partial_edge_20261031.txt -text whitespace=-blank-at-eol
