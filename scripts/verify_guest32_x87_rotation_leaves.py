@@ -25,6 +25,12 @@ BODIES = {
     0x16B210: (186, "04e4cc89ae8134becaefd9af755ffdc2966459c8015922640ec79cfc63f69301"),
     0x73D80: (186, "45cd1f6b008ae51d58f77facc075b0e7fcb35f76f722edc43baf4a407ee23d90"),
 }
+INITIALIZERS = {
+    0x39380: (133, "e0e604cfafd570e5cf46e0e0e3223ef9f90f1c9fe60dbdeb08deb81c55134133"),
+    0x13E800: (133, "793b11e56d85b39e3f2b6cb3ba69f9ce2c25892a0b0cdc7feb2f0053c62dbfb6"),
+    0x20E080: (133, "c2c47719abf4375300ca16b4eeb11aaadc637921a514a2624cfa825154bc83d6"),
+}
+BODIES.update(INITIALIZERS)
 REGS = [getattr(x86, "UC_X86_REG_" + name) for name in
         ("EAX", "EBX", "ECX", "EDX", "ESI", "EDI", "EBP", "ESP", "EIP", "EFLAGS")]
 FP_REGS = [getattr(x86, "UC_X86_REG_" + name) for name in
@@ -34,17 +40,18 @@ STACK = BASE + 0x2000
 State = ct.c_uint32 * 11
 Read = ct.CFUNCTYPE(ct.c_uint32, ct.c_uint32)
 Write = ct.CFUNCTYPE(None, ct.c_uint32, ct.c_uint32)
-Execute = ct.CFUNCTYPE(ct.c_bool, ct.c_uint32, ct.c_uint32, ct.c_uint32, ct.c_uint32, ct.c_uint32)
+Execute = ct.CFUNCTYPE(ct.c_bool, *([ct.c_uint32] * 7))
 
 ADAPTER = r"""
-#include "bf_x87_rotation_leaves.h"
+#include "bf_x87_rotation_initializers.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iterator>
 
 using read_callback = std::uint32_t (*)(std::uint32_t);
 using write_callback = void (*)(std::uint32_t, std::uint32_t);
-using x87_callback = bool (*)(std::uint32_t, std::uint32_t, std::uint32_t, std::uint32_t, std::uint32_t);
+using x87_callback = bool (*)(std::uint32_t, std::uint32_t, std::uint32_t, std::uint32_t,
+                             std::uint32_t, std::uint32_t, std::uint32_t);
 struct x87_fixture {
     x87_callback callback;
     const bf_guest32_constructor_state& state;
@@ -59,7 +66,7 @@ static bool execute(void* context, std::uint32_t eip, bf_x87_rotation_opcode op,
 {
     const auto& fixture = *static_cast<x87_fixture*>(context);
     return fixture.callback(eip, static_cast<std::uint32_t>(op), operand,
-                            fixture.state.eax, fixture.state.esp);
+                            fixture.state.eax, fixture.state.ecx, fixture.state.edx, fixture.state.esp);
 }
 
 extern "C" bool run(std::uint32_t entry, std::uint32_t* registers, read_callback read,
@@ -80,6 +87,9 @@ extern "C" bool run(std::uint32_t entry, std::uint32_t* registers, read_callback
     case 0x720d0u: ok = FUN_000720d0(state, operations); break;
     case 0x16b210u: ok = FUN_0016b210(state, operations); break;
     case 0x73d80u: ok = FUN_00073d80(state, operations); break;
+    case 0x39380u: ok = FUN_00039380(state, operations); break;
+    case 0x13e800u: ok = FUN_0013e800(state, operations); break;
+    case 0x20e080u: ok = FUN_0020e080(state, operations); break;
     default: std::abort();
     }
     const std::uint32_t result[] = {state.eax, state.ebx, state.ecx, state.edx, state.esi,
@@ -99,7 +109,8 @@ def fixture(entry, number):
     address = BASE + 0x100 + number % 4
     if number % 3 == 0:
         aliased_pair_output = {0x1FA20: 0x18, 0x72010: 0x1c, 0x73D80: 0x18,
-                               0x720D0: 0x18, 0x16B210: 0x10}[entry]
+                               0x720D0: 0x18, 0x16B210: 0x10,
+                               0x39380: 0x18, 0x13E800: 0x18, 0x20E080: 0x18}[entry]
         address = STACK - 0x10 - aliased_pair_output + (4 if number % 2 else 0)
     memory = bytearray(rng.randbytes(SIZE))
     angles = (0, 0x80000000, 1, 0x80000001, 0x3f800000, 0x41210000, 0xc1200000, 0x7f800000,
@@ -132,22 +143,23 @@ def prepare(entry, body, fixture, traces):
     return cpu
 
 
-def instruction_bytes(op, operand, eax, esp, modrm):
-    register_encodings = (b"\xd9\xfb", b"\xd9\xc1", b"\xd9\xc9", b"\xde\xc1", b"\xde\xe9", b"\xd8\xc9")
+def instruction_bytes(op, operand, registers, modrm):
+    register_encodings = (b"\xd9\xfb", b"\xd9\xc1", b"\xd9\xc9", b"\xde\xc1",
+                          b"\xde\xe9", b"\xd8\xc9", b"\xd9\xe0")
     if op >= 3:
         return register_encodings[op - 3]
     prefix, extension = ((0xd9, 0), (0xd9, 0x18), (0xd8, 8))[op]
-    # Each retail memory form uses either [EAX] / [EAX+disp8] or
-    # [ESP+disp8]. Verify the typed callback VA against the decoded base.
-    if modrm & 7 == 4:
-        displacement = (operand - esp) & 0xffffffff
+    base = modrm & 7
+    if base == 4:
+        displacement = (operand - registers[3]) & 0xffffffff
         assert displacement <= 0x7f
         return bytes((prefix, 0x44 + extension, 0x24, displacement))
-    displacement = (operand - eax) & 0xffffffff
+    assert base < 3
+    displacement = (operand - registers[base]) & 0xffffffff
     assert displacement <= 0x7f
     if displacement == 0:
-        return bytes((prefix, extension))
-    return bytes((prefix, 0x40 + extension, displacement))
+        return bytes((prefix, extension + base))
+    return bytes((prefix, 0x40 + extension + base, displacement))
 
 
 def compare(model, entry, body, values, cutoff=None):
@@ -171,15 +183,16 @@ def compare(model, entry, body, values, cutoff=None):
     callback_errors = []
 
     @Execute
-    def execute(eip, op, operand, eax, esp):
+    def execute(eip, op, operand, eax, ecx, edx, esp):
         try:
             if eip == cutoff:
                 return False
             assert entry <= eip <= entry + len(body) - 2
-            expected = instruction_bytes(op, operand, eax, esp, body[eip - entry + 1])
+            bases = (eax, ecx, edx, esp)
+            expected = instruction_bytes(op, operand, bases, body[eip - entry + 1])
             assert eip + len(expected) <= entry + len(body)
-            backend.reg_write(x86.UC_X86_REG_EAX, eax)
-            backend.reg_write(x86.UC_X86_REG_ESP, esp)
+            for register, value in zip((REGS[0], REGS[2], REGS[3], REGS[7]), bases):
+                backend.reg_write(register, value)
             assert bytes(backend.mem_read(eip, len(expected))) == expected, (hex(eip), op, hex(operand))
             backend.emu_start(eip, eip + len(expected), count=1)
             assert backend.reg_read(x86.UC_X86_REG_EIP) == eip + len(expected)
@@ -192,8 +205,13 @@ def compare(model, entry, body, values, cutoff=None):
     assert not callback_errors, callback_errors
     assert completed == (cutoff is None)
     expected = [original.reg_read(reg) for reg in REGS]
-    assert registers[8] == stop and registers[10] == 0xffffffff
-    assert list(registers)[:10] == expected, (hex(entry), cutoff, list(registers), expected)
+    xor_offsets = {0x39380: 0x33, 0x13E800: 0x33, 0x20E080: 0x40}
+    mask = 0xffffffff
+    if entry in INITIALIZERS and cutoff is not None and cutoff > entry + xor_offsets[entry]:
+        mask &= ~0x10  # XOR leaves AF undefined until the final ADD ESP,16.
+    assert registers[8] == stop and registers[10] == mask
+    assert list(registers)[:9] == expected[:9], (hex(entry), cutoff, list(registers), expected)
+    assert (registers[9] ^ expected[9]) & mask == 0
     assert [backend.reg_read(reg) for reg in FP_REGS] == [original.reg_read(reg) for reg in FP_REGS]
     assert backend.mem_read(BASE, SIZE) == original.mem_read(BASE, SIZE)
     assert model_trace == original_trace, (hex(entry), cutoff, model_trace, original_trace)
@@ -240,7 +258,10 @@ def main():
                     count += 1
                 # Stop before LOAD, FSINCOS, both frame STORES, and the
                 # third pair's final binary32 store.
-                offsets = (0x13, 0x17, 0x1d, 0x23, len(body) - 13)
+                last_store = 0x58 if entry == 0x20E080 else len(body) - 13
+                offsets = (0x13, 0x17, 0x1d, 0x23, last_store)
+                if entry in INITIALIZERS:
+                    offsets += ({0x39380: 0x64, 0x13E800: 0x59, 0x20E080: 0x37}[entry],)
                 if entry == 0x720D0:
                     offsets += (0x7213F - entry, 0x7214A - entry)
                 for offset in offsets:

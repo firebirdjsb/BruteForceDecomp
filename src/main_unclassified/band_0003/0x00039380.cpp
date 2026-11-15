@@ -1,27 +1,23 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - explicit guest32 and x87 operation model.
  * Input x86 body SHA-256: E0E604CFAFD570E5CF46E0E0E3223EF9F90F1C9FE60DBDEB08DEB81C55134133
  * Entry: 0x00039380, Ghidra index: 396, label: FUN_00039380
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-float * FUN_00039380(float *param_1,float param_2)
+#include "bf_x87_rotation_initializers.h"
 
+bool FUN_00039380(bf_guest32_constructor_state& guest, const bf_x87_rotation_operations& x87)
 {
-  float10 fVar1;
-  float10 fVar2;
-  
-  fVar1 = (float10)fcos((float10)param_2);
-  fVar2 = (float10)fsin((float10)param_2);
-  *param_1 = (float)fVar1;
-  param_1[1] = 0.0;
-  param_1[2] = (float)fVar2;
-  param_1[3] = 0.0;
-  param_1[4] = 1.0;
-  param_1[5] = 0.0;
-  param_1[6] = -(float)fVar2;
-  param_1[7] = 0.0;
-  param_1[8] = (float)fVar1;
-  return param_1;
+    using namespace bf_x87_rotation;
+    constexpr std::array<initializer_store, 9> stores{{
+        {pointer_register::edx, initializer_value::cosine, true},
+        {pointer_register::ecx, initializer_value::clear_eax_and_store},
+        {pointer_register::edx, initializer_value::sine, true},
+        {pointer_register::ecx, initializer_value::zero},
+        {pointer_register::edx, initializer_value::one},
+        {pointer_register::ecx, initializer_value::zero},
+        {pointer_register::edx, initializer_value::negative_sine, true},
+        {pointer_register::ecx, initializer_value::zero},
+        {pointer_register::edx, initializer_value::cosine, true}
+    }};
+    return initialize(guest, x87, 0x00039380u, stores);
 }

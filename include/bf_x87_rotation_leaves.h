@@ -6,7 +6,7 @@
 #include "bf_xbe_guest32_record_leaves.h"
 
 enum class bf_x87_rotation_opcode {
-    fld_m32, fstp_m32, fmul_m32, fsincos, fld_st1, fxch_st1, faddp_st1, fsubp_st1, fmul_st1
+    fld_m32, fstp_m32, fmul_m32, fsincos, fld_st1, fxch_st1, faddp_st1, fsubp_st1, fmul_st1, fchs
 };
 
 struct bf_x87_rotation_operations {
@@ -33,6 +33,36 @@ struct component_pair {
     pair_schedule schedule = pair_schedule::add_then_subtract;
 };
 
+inline bool start(bf_guest32_constructor_state& guest, const bf_x87_rotation_operations& x87,
+                  std::uint32_t entry, std::uint32_t cosine_offset)
+{
+    using namespace bf_guest32_constructor;
+    using op = bf_x87_rotation_opcode;
+    const auto step = [&](std::uint32_t site, op operation, std::uint32_t address = 0u) {
+        guest.eip = site;
+        return x87.execute(x87.context, site, operation, address);
+    };
+    bf_guest32_leaf_sub(guest, guest.esp, 0x10u);
+    guest.esp -= 0x10u;
+    guest.eax = guest.esp + cosine_offset;
+    guest.ecx = guest.esp + (4u - cosine_offset);
+    write32(guest, entry + 0x0bu, guest.esp + 0xcu, guest.eax);
+    write32(guest, entry + 0x0fu, guest.esp + 0x8u, guest.ecx);
+    if (!step(entry + 0x13u, op::fld_m32, guest.esp + 0x18u) ||
+        !step(entry + 0x17u, op::fsincos))
+        return false;
+
+    // FSINCOS leaves cosine in ST(0) and sine in ST(1) on its normal path.
+    // Keep both original stores even when the backend reports C2 or masked faults.
+    guest.eax = read32(guest, entry + 0x19u, guest.esp + 0xcu);
+    if (!step(entry + 0x1du, op::fstp_m32, guest.eax))
+        return false;
+    guest.eax = read32(guest, entry + 0x1fu, guest.esp + 0x8u);
+    if (!step(entry + 0x23u, op::fstp_m32, guest.eax))
+        return false;
+    return true;
+}
+
 inline bool run(bf_guest32_constructor_state& guest, const bf_x87_rotation_operations& x87,
                 std::uint32_t entry, const std::array<component_pair, 3>& components)
 {
@@ -48,23 +78,7 @@ inline bool run(bf_guest32_constructor_state& guest, const bf_x87_rotation_opera
         instruction += size;
         return step(site, operation, address);
     };
-    bf_guest32_leaf_sub(guest, guest.esp, 0x10u);
-    guest.esp -= 0x10u;
-    guest.eax = guest.esp;
-    guest.ecx = guest.esp + 4u;
-    write32(guest, entry + 0x0bu, guest.esp + 0xcu, guest.eax);
-    write32(guest, entry + 0x0fu, guest.esp + 0x8u, guest.ecx);
-    if (!step(entry + 0x13u, op::fld_m32, guest.esp + 0x18u) ||
-        !step(entry + 0x17u, op::fsincos))
-        return false;
-
-    // FSINCOS leaves cosine in ST(0) and sine in ST(1) on its normal path.
-    // Keep both original stores even when the backend reports C2 or masked faults.
-    guest.eax = read32(guest, entry + 0x19u, guest.esp + 0xcu);
-    if (!step(entry + 0x1du, op::fstp_m32, guest.eax))
-        return false;
-    guest.eax = read32(guest, entry + 0x1fu, guest.esp + 0x8u);
-    if (!step(entry + 0x23u, op::fstp_m32, guest.eax))
+    if (!start(guest, x87, entry, 0u))
         return false;
 
     const auto load_object = [&] {
