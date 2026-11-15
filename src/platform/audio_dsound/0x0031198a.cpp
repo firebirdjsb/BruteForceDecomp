@@ -1,23 +1,32 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - explicit guest32 call and return model.
  * Input x86 body SHA-256: E67E2460D9F65EE794B0EC38E78CA61BA2BED9B03EC1976DB770EEA560232518
  * Entry: 0x0031198a, Ghidra index: 11902, label: DSound_CRefCount_Release
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
  */
-#include "bf_ghidra_types.h"
-undefined4 DSOUND__DSound_CRefCount_Release(undefined4 *param_1)
+#include "bf_guest32_indirect_wrappers.h"
 
+void DSOUND__DSound_CRefCount_Release(bf_guest32_constructor_state& guest, bf_guest32_dispatch& dispatch)
 {
-  int iVar1;
-  undefined4 uVar2;
-  
-  if ((param_1[1] == 0) || (iVar1 = param_1[1] + -1, param_1[1] = iVar1, iVar1 != 0)) {
-    uVar2 = param_1[1];
-  }
-  else {
-    (**(code **)*param_1)(1);
-    uVar2 = 0;
-  }
-  return uVar2;
+    using namespace bf_guest32_constructor;
+    guest.ecx = read32(guest, 0x0031198au, guest.esp + 4u);
+    guest.eax = read32(guest, 0x0031198eu, guest.ecx + 4u);
+    logic_flags(guest, guest.eax);
+    if (guest.eax != 0u) {
+        bf_guest32_leaf_dec(guest, guest.eax);
+        logic_flags(guest, guest.eax);
+        write32(guest, 0x00311998u, guest.ecx + 4u, guest.eax);
+        if (guest.eax == 0u) {
+            guest.eax = read32(guest, 0x0031199du, guest.ecx);
+            push(guest, 0x0031199fu, 1u);
+            const auto target = read32(guest, 0x003119a1u, guest.eax);
+            if (!bf_guest32_call_indirect(guest, 0x003119a1u, 0x003119a3u, target, dispatch))
+                return;
+            guest.eax = 0u;
+            logic_flags(guest, guest.eax);
+            bf_guest32_leaf_ret(guest, 0x003119aau, 4u);
+            return;
+        }
+    }
+    guest.eax = read32(guest, 0x003119a7u, guest.ecx + 4u);
+    bf_guest32_leaf_ret(guest, 0x003119aau, 4u);
 }

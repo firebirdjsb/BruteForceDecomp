@@ -1,22 +1,22 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - explicit guest32 call and return model.
  * Input x86 body SHA-256: 4A8177662C75769C41C98596F54EC585833D3D8EBB2830F05C3092B57F003045
  * Entry: 0x00330c3e, Ghidra index: 12374, label: FUN_00330c3e
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
  */
-#include "bf_ghidra_types.h"
-undefined4 FUN_00330c3e(undefined4 *param_1)
+#include "bf_guest32_indirect_wrappers.h"
 
+void FUN_00330c3e(bf_guest32_constructor_state& guest, bf_guest32_dispatch& dispatch)
 {
-  undefined4 uVar1;
-  int in_ECX;
-  
-  if (in_ECX == 0) {
-    uVar1 = 0x80150005;
-  }
-  else {
-    uVar1 = (*(code *)*param_1)(param_1);
-  }
-  return uVar1;
+    using namespace bf_guest32_constructor;
+    logic_flags(guest, guest.ecx);
+    if (guest.ecx == 0u) {
+        guest.eax = 0x80150005u;
+    } else {
+        guest.eax = read32(guest, 0x00330c49u, guest.esp + 4u);
+        push(guest, 0x00330c4du, guest.eax);
+        const auto target = read32(guest, 0x00330c4eu, guest.eax);
+        if (!bf_guest32_call_indirect(guest, 0x00330c4eu, 0x00330c50u, target, dispatch))
+            return;
+    }
+    bf_guest32_leaf_ret(guest, 0x00330c50u, 4u);
 }

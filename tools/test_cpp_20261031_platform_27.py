@@ -2,6 +2,7 @@
 """Platform source-only call declaration tests; guest Xbox ABI remains unverified."""
 from __future__ import annotations
 
+import hashlib
 import re
 import shutil
 import subprocess
@@ -60,7 +61,12 @@ class SourceMatchedPlatform27(unittest.TestCase):
                 self.assertIn(f"Entry: 0x{caller}", caller_source)
                 self.assertRegex(caller_source, r"Input x86 body SHA-256: [0-9A-F]{64}")
                 self.assertIn("ABI_UNVERIFIED", caller_source)
-                callee_source = source(callee).read_text(encoding="utf-8")
+                callee_path = source(callee)
+                if callee == "00380eda":
+                    callee_path = ROOT / "tests/fixtures/original_0x00380eda_pre_guest32_20261115.txt"
+                    self.assertEqual(hashlib.sha256(callee_path.read_bytes()).hexdigest(),
+                                     "0b27de16b6f9b8f849d136451e07e191579c674ed22ef84598aa780b4f1bfaa5")
+                callee_source = callee_path.read_text(encoding="utf-8")
                 self.assertIn(f"Entry: 0x{callee}", callee_source)
                 canonical = lambda s: re.sub(r"\s+", "", s)
                 self.assertIn(canonical(signature), canonical(callee_source))
