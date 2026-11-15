@@ -1,32 +1,14 @@
-/* Brute Force original Xbox - independent, unverified C11 draft.
+/* Brute Force original Xbox - explicit guest32 and x87 operation model.
  * Input x86 body SHA-256: B16E4A7481C301116D37734B35C45967572E26C940C471C194EA19897C4D640A
  * Entry: 0x0001fa20, Ghidra index: 153, label: FUN_0001fa20
- * STATUS: GHIDRA_C_DRAFT, ABI_UNVERIFIED, NOT_COMPILED_FOR_XBOX.
- * WARNING: Ghidra's inferred types, register pseudo-parameters, and call prototypes
- * may be inaccurate. C syntax validity never proves original runtime behavior.
+ * STATUS: GUEST32_MODEL, ABI_UNVERIFIED, NOT_NATIVE_LINKED.
  */
-#include "bf_ghidra_types.h"
-float * FUN_0001fa20(float *param_1,float param_2)
+#include "bf_x87_rotation_leaves.h"
 
+bool FUN_0001fa20(bf_guest32_constructor_state& guest, const bf_x87_rotation_operations& x87)
 {
-  float fVar1;
-  float fVar2;
-  float fVar3;
-  float10 fVar4;
-  float10 fVar5;
-  
-  fVar4 = (float10)fcos((float10)param_2);
-  fVar5 = (float10)fsin((float10)param_2);
-  fVar1 = (float)fVar4;
-  fVar2 = (float)fVar5;
-  fVar3 = *param_1;
-  *param_1 = fVar3 * fVar1 + fVar2 * param_1[6];
-  param_1[6] = fVar1 * param_1[6] - fVar3 * fVar2;
-  fVar3 = param_1[1];
-  param_1[1] = fVar3 * fVar1 + fVar2 * param_1[7];
-  param_1[7] = fVar1 * param_1[7] - fVar3 * fVar2;
-  fVar3 = param_1[2];
-  param_1[2] = fVar3 * fVar1 + fVar2 * param_1[8];
-  param_1[8] = fVar1 * param_1[8] - fVar3 * fVar2;
-  return param_1;
+    constexpr std::array<bf_x87_rotation::component_pair, 3> components{{
+        {0u, 0x18u}, {4u, 0x1cu}, {8u, 0x20u}
+    }};
+    return bf_x87_rotation::run(guest, x87, 0x0001fa20u, components);
 }
