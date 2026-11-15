@@ -321,7 +321,7 @@ class GuestInitializerTests(unittest.TestCase):
             reverse_source(source, case)
             self.assertIn('extern ' + m['callees'][1]['signature'] + ';', source)
         for callee in m['callees']:
-            path = ('tests/fixtures/original_0x0008f6a0_pre_guest_state_20261115.txt'
+            path = ('tests/fixtures/original_0x0008f6a0_esi_handoffs_20261104.txt'
                     if callee['entry'] == '0x0008f6a0' else callee['source'])
             source = (ROOT/path).read_text()
             self.assertEqual(sha(source.encode()), callee['source_sha256'])

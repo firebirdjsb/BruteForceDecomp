@@ -112,6 +112,8 @@ jobs:
         run: python3 tools/check_cpp_campaign_record.py
       - name: Link and exercise the gameplay record teardown calls
         run: python3 tools/check_cpp_gameplay_record_links.py
+      - name: Link and exercise gameplay callback record dependencies
+        run: python3 tools/check_cpp_gameplay_callback_records.py
       - name: Link and exercise Xbox guest indirect wrappers
         run: python3 tools/check_cpp_guest32_indirect_wrappers.py
       - name: Verify 209 further partial DWORD operand repairs
