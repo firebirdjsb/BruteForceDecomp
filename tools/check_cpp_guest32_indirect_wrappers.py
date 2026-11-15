@@ -152,6 +152,7 @@ def main():
             for index, ((label, regs, _, want), (state, accesses)) in enumerate(zip(cases, actual)):
                 require(state[7:9] == (STACK + 8, RETURN), f"{label}: return and cleanup differ")
                 require(state[0] == want, f"{label}: EAX differs")
+                require(state[10] == (FLAGS & ~0x10), f"{label}: defined flags differ")
                 if native:
                     original, original_accesses = native[index]
                     require(state[:9] == tuple(original[:9]), f"{label}: guest registers differ")
