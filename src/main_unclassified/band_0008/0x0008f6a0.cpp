@@ -26,3 +26,42 @@ void FUN_0008f6a0(std::uint32_t guest_esi, std::uint32_t guest_word_0)
     bf_guest_write_u32(guest_esi, bf_guest_read_u32(bucket_va));
     bf_guest_write_u32(bucket_va, guest_esi);
 }
+
+#include "bf_guest32_linked_records.h"
+#include "bf_xbe_guest32_record_leaves.h"
+
+void FUN_0008f6a0(bf_guest32_constructor_state& guest)
+{
+    using namespace bf_guest32_constructor;
+    guest.eax = read32(guest, 0x0008f6a0u, guest.esi + 4u);
+    logic_flags(guest, guest.eax);
+    push(guest, 0x0008f6a5u, guest.ebx);
+    guest.ebx = read32(guest, 0x0008f6a6u, guest.esp + 8u);
+    if (guest.eax != 0u) {
+        guest.edx = guest.esi;
+        push(guest, 0x0008f6aeu, 0x0008f6b3u);
+        FUN_0008f6e0(guest);
+        if (guest.eip != 0x0008f6b3u)
+            return;
+    }
+
+    logic_flags(guest, guest.ebx);
+    write32(guest, 0x0008f6b5u, guest.esi + 4u, guest.ebx);
+    if (guest.ebx != 0u) {
+        logic_flags(guest, guest.ebx & 1u, 0x80u);
+        if ((guest.ebx & 1u) == 0u) {
+            const auto hash = bf_guest32_leaf_add(guest, guest.ebx * 0x19660du, 0x3c6ef35fu);
+            guest.ebx = hash >> 21u;
+            constexpr auto shift_flags = carry | parity | zero | sign;
+            guest.eflags = (guest.eflags & ~shift_flags) | szp(guest.ebx, 0x80000000u) |
+                           ((hash & 0x100000u) != 0u ? carry : 0u);
+            guest.eflags_defined = (guest.eflags_defined | shift_flags) & ~(auxiliary | overflow);
+            const auto bucket = 0x00414da0u + guest.ebx * 4u;
+            guest.eax = read32(guest, 0x0008f6ceu, bucket);
+            write32(guest, 0x0008f6d5u, guest.esi, guest.eax);
+            write32(guest, 0x0008f6d7u, bucket, guest.esi);
+        }
+    }
+    guest.ebx = pop(guest, 0x0008f6deu);
+    ret(guest, 0x0008f6dfu);
+}

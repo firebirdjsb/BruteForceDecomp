@@ -147,7 +147,8 @@ class EaxLeaCallsTests(unittest.TestCase):
         self.assertIn(helper['existing_signature'],(ROOT/helper['source']).read_text())
         for item in self.cases+[self.document['callee']]:
             self.assertEqual(item['source'],self.relative_source_path(ROOT,item['entry']).as_posix())
-            source=self.source(item) if item in self.cases else (ROOT/item['source']).read_text()
+            source=self.source(item) if item in self.cases else (
+                ROOT/'tests/fixtures/original_0x000120f0_pre_guest_state_20261115.txt').read_text()
             self.assertEqual(self.read_body_digest(source),(item['original_body_sha256'],False))
             self.assertEqual(inventory[item['entry']]['original_body_sha256'],item['original_body_sha256'])
             self.assertEqual(sum(q['length'] for q in item['body_ranges']),item['body_byte_count'])

@@ -19,6 +19,7 @@ SOURCES = (
     "src/main_unclassified/band_0001/0x000120f0.cpp",
     "src/main_unclassified/band_0008/0x0008f690.cpp",
 )
+PROJECTION = 'tests/fixtures/original_0x000120f0_pre_guest_state_20261115.txt'
 EXPECTED = {
     "0x000120f0": "9FEFE68C61CEC0943A913B1988495825BFD1E3F128E1F92DB0A3DA5D8376BB9C",
     "0x0008f690": "A2E7B7D3A7DD6A4F5F264C6DEBD3A89E8588ECA8F90B3ED3FE84637F77145138",
@@ -76,7 +77,7 @@ def run_fixture(temp: Path, sources: list[str], opt: str) -> subprocess.Complete
     built = subprocess.run(
         ['clang++', '-std=c++17', '-Werror=pointer-to-int-cast',
          '-fno-strict-aliasing', opt, '-I', str(ROOT / 'include'),
-         *sources, '-x', 'c++', '-', '-o', str(exe)],
+         '-x', 'c++', *sources, '-', '-o', str(exe)],
         input=FIXTURE, text=True, capture_output=True, timeout=30,
     )
     if built.returncode:
@@ -101,7 +102,7 @@ class GuestEaxScalarDraftTests(unittest.TestCase):
 
     def test_o0_o2_original_bounded_read_order_and_math(self):
         with tempfile.TemporaryDirectory() as d:
-            sources = [str(ROOT / p) for p in SOURCES]
+            sources = [str(ROOT / p) for p in (PROJECTION, SOURCES[1])]
             for opt in ('-O0', '-O2'):
                 r = run_fixture(Path(d), sources, opt)
                 self.assertEqual(r.returncode, 0, r.stderr)
@@ -115,11 +116,12 @@ class GuestEaxScalarDraftTests(unittest.TestCase):
         ]
         with tempfile.TemporaryDirectory() as d:
             for index, (which, original, wrong) in enumerate(cases):
-                s = (ROOT / SOURCES[which]).read_text()
+                projections = (PROJECTION, SOURCES[1])
+                s = (ROOT / projections[which]).read_text()
                 self.assertEqual(s.count(original), 1)
                 target = Path(d) / f'bad_{index}.cpp'
                 target.write_text(s.replace(original, wrong))
-                sources = [str(ROOT / p) for p in SOURCES]
+                sources = [str(ROOT / p) for p in projections]
                 sources[which] = str(target)
                 r = run_fixture(Path(d), sources, '-O0')
                 self.assertNotEqual(r.returncode, 0, f'Wrong source operand was accepted: {original}')

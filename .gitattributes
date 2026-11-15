@@ -87,3 +87,4 @@ tests/fixtures/original_0x0008f6e0_esi_handoffs_20261104.txt -text whitespace=-b
 tests/fixtures/original_0x0008f6a0_esi_handoffs_20261104.txt -text whitespace=-blank-at-eol
 tests/fixtures/original_0x00330c53_pre_guest32_20261115.txt -text whitespace=-blank-at-eol
 tests/fixtures/original_0x00380eda_pre_guest32_20261115.txt -text whitespace=-blank-at-eol
+tests/fixtures/original_0x*_pre_guest_state_20261115.txt -text whitespace=-blank-at-eol

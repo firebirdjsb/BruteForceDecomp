@@ -29,3 +29,43 @@ std::uint32_t FUN_000120f0(std::uint32_t guest_eax)
     // specifically ABI_UNVERIFIED, not claimed to be simulated here.
     return UINT32_C(0);
 }
+
+#include "bf_guest32_linked_records.h"
+#include "bf_xbe_guest32_record_leaves.h"
+
+void FUN_000120f0(bf_guest32_constructor_state& guest)
+{
+    using namespace bf_guest32_constructor;
+    bf_guest32_leaf_sub(guest, guest.esp, 8u);
+    guest.esp -= 8u;
+    guest.ecx = 0u;
+    logic_flags(guest, guest.ecx);
+    write32(guest, 0x000120f5u, guest.esp, guest.ecx);
+    guest.edx = read32(guest, 0x000120f9u, guest.eax + 8u);
+    logic_flags(guest, guest.edx);
+    if (guest.edx == 0u) {
+        guest.eax += 12u;
+    } else {
+        guest.ecx = 1u;
+        write32(guest, 0x0001210au, guest.esp + 4u, 0u);
+        guest.eax = guest.esp;
+    }
+    logic_flags(guest, guest.ecx & 1u, 0x80u);
+    push(guest, 0x00012119u, guest.esi);
+    guest.esi = read32(guest, 0x0001211au, guest.eax + 4u);
+    if ((guest.ecx & 1u) != 0u) {
+        guest.eax = read32(guest, 0x0001211fu, guest.esp + 8u);
+        logic_flags(guest, guest.eax);
+        if (guest.eax != 0u) {
+            guest.edx = guest.esp + 4u;
+            push(guest, 0x0001212bu, 0x00012130u);
+            FUN_0008f6e0(guest);
+            if (guest.eip != 0x00012130u)
+                return;
+        }
+    }
+    guest.eax = guest.esi;
+    guest.esi = pop(guest, 0x00012132u);
+    guest.esp = bf_guest32_leaf_add(guest, guest.esp, 8u);
+    ret(guest, 0x00012136u);
+}

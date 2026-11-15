@@ -257,7 +257,8 @@ def authenticate(image):
     return bodies
 
 
-def emulate(bodies, regs, memory, scripted, *, allowed_widths=(4,), instruction_limit=128):
+def emulate(bodies, regs, memory, scripted, *, allowed_widths=(4,), allowed_write_widths=(4,),
+            instruction_limit=128):
     from unicorn import Uc, UC_ARCH_X86, UC_MODE_32, UC_HOOK_CODE, UC_HOOK_MEM_READ, UC_HOOK_MEM_WRITE
     from unicorn.x86_const import (UC_X86_REG_EAX, UC_X86_REG_EBX, UC_X86_REG_ECX, UC_X86_REG_EDX,
                                    UC_X86_REG_ESI, UC_X86_REG_EDI, UC_X86_REG_EBP, UC_X86_REG_ESP,
@@ -305,7 +306,7 @@ def emulate(bodies, regs, memory, scripted, *, allowed_widths=(4,), instruction_
         effects.append((READ, address, value))
 
     def record_write(_cpu, _event, address, size, value, _data):
-        require(size == 4, f"retail memory width {size} at {address:#x}")
+        require(size in allowed_write_widths, f"retail memory width {size} at {address:#x}")
         effects.append((WRITE, address, value & MASK))
 
     cpu.hook_add(UC_HOOK_CODE, record_code)

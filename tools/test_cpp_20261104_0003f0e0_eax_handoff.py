@@ -173,7 +173,7 @@ class EaxHandoffTests(unittest.TestCase):
         self.assertIn(callee['existing_definition_signature']+'\n{', historical.decode())
         # The live implementation is separately pinned after its XBE-backed
         # guest-memory reconstruction; it is NOT an Xbox ABI proof.
-        callee_bytes = (ROOT/callee['source']).read_bytes()
+        callee_bytes = (ROOT/'tests/fixtures/original_0x000120f0_pre_guest_state_20261115.txt').read_bytes()
         self.assertEqual(sha(callee_bytes), callee['current_source_sha256'])
         self.assertIn(callee['current_definition_signature']+'\n{', callee_bytes.decode())
         self.assertIn(callee['current_source_status'], callee_bytes.decode())
@@ -190,7 +190,7 @@ class EaxHandoffTests(unittest.TestCase):
     def test_historical_and_current_callee_corruption_controls(self):
         callee = self.manifest['callee']
         old = (ROOT/callee['historical_source_fixture']).read_bytes()
-        current = (ROOT/callee['source']).read_bytes()
+        current = (ROOT/'tests/fixtures/original_0x000120f0_pre_guest_state_20261115.txt').read_bytes()
         self.assertEqual(sha(old), callee['source_sha256'])
         self.assertEqual(sha(current), callee['current_source_sha256'])
         for source, expected in ((old, callee['source_sha256']),

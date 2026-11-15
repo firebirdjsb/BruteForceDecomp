@@ -55,6 +55,13 @@ HEAP_FREE_BATCHES = {
 # its entry or widening the original literal operation allowlist.
 # Source fixture is pinned to the SHA of commit 6eea3e8 and the manifest.
 SUPERSEDED_GUEST32_SOURCES = {
+    '0x00023b20': {
+        'entry': '0x00023b20',
+        'body_sha256': '9CE7FD9D9BC4D6F77E95EBDFFD8D7F549F0100D0380FB6FC4B80B70894B869A8',
+        'historical_sha256': 'd655d70f5cd0574e35dd6d345d31b1bc04024e701d39c1ef4e04951c995d1541',
+        'current_sha256': 'bf30e1a678cbc3140ade7a917abf23e9171c0f2676a037ce50d46396a9cf72ac',
+        'fixture': 'tests/fixtures/original_0x00023b20_pre_guest_state_20261115.txt',
+    },
     '0x0013b770': {
         'entry': '0x0013b770',
         'body_sha256': '90E019EDD1630FAE19D0A6D9246F6264FDB7E3989EA841EAA50B0D430010C5BB',
