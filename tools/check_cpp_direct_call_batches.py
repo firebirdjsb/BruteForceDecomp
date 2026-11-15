@@ -21,6 +21,20 @@ from verify_nine_cpp_call_edges_xbe import XBE_SHA256, file_offset, sections
 
 NOTE = "// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED."
 ALLOCATOR = '#include "bf_002ea01d_allocator_guest32.h"'
+SUPERSEDED_CALLEE_DRAFTS = {
+    "0x00330c53": (
+        "tests/fixtures/original_0x00330c53_pre_guest32_20261115.txt",
+        "2a3fb772bf4767ea71b1a8de996894efdbd410e68b204de2465f7dee8916e7f5",
+    ),
+    "0x00380eda": (
+        "tests/fixtures/original_0x00380eda_pre_guest32_20261115.txt",
+        "0b27de16b6f9b8f849d136451e07e191579c674ed22ef84598aa780b4f1bfaa5",
+    ),
+    "0x002383b0": (
+        "tests/fixtures/original_0x002383b0_pre_guest32_20261114.txt",
+        "a3c2a1bbd8908da54cf11391612a12463426ad7bb25e4898e327055ea4424a93",
+    ),
+}
 
 
 def require(condition, message):
@@ -57,8 +71,16 @@ def verify_sources(root, batch):
         require(text.count(NOTE) == 1 and row["declarations"], f"missing declaration block at {entry}")
         for call in row["declarations"]:
             callee, signature = call["callee"], call["signature"]
-            require(re.search(r"(?m)^" + re.escape(signature) + r"\s*\{", texts[callee]) is not None,
-                    f"canonical definition differs at {callee}")
+            definition = texts[callee]
+            if callee in SUPERSEDED_CALLEE_DRAFTS:
+                path, digest = SUPERSEDED_CALLEE_DRAFTS[callee]
+                raw = (root / path).read_bytes()
+                require(hashlib.sha256(raw).hexdigest() == digest, f"historical draft drift at {callee}")
+                definition = raw.decode("utf-8")
+                require(read_body_digest(definition) == (bodies[callee]["sha256"], False),
+                        f"historical body label changed at {callee}")
+            require(re.search(r"(?m)^" + re.escape(signature) + r"\s*\{", definition) is not None,
+                    f"source-matched definition differs at {callee}")
             declaration = ALLOCATOR if callee == "0x002ea01d" else f"extern {signature};"
             require(text.splitlines().count(declaration) == 1, f"declaration differs at {entry}")
             require(bool(call["sites"]) and bool(call["returns"]), f"missing edge evidence at {entry}")
