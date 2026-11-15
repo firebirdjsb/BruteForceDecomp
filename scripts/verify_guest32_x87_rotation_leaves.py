@@ -21,6 +21,8 @@ from source_layout import source_path
 BODIES = {
     0x1FA20: (186, "b16e4a7481c301116d37734b35c45967572e26c940c471c194ea19897c4d640a"),
     0x72010: (188, "a95c8217acb8bc3d13d783997451dd938dd268136cd6012a0440386683b583e1"),
+    0x720D0: (184, "723b012e6f127378c9d8ab2ec462c347f0a6025cb1e12af0388cc929cf1d3dca"),
+    0x16B210: (186, "04e4cc89ae8134becaefd9af755ffdc2966459c8015922640ec79cfc63f69301"),
     0x73D80: (186, "45cd1f6b008ae51d58f77facc075b0e7fcb35f76f722edc43baf4a407ee23d90"),
 }
 REGS = [getattr(x86, "UC_X86_REG_" + name) for name in
@@ -75,6 +77,8 @@ extern "C" bool run(std::uint32_t entry, std::uint32_t* registers, read_callback
     switch (entry) {
     case 0x1fa20u: ok = FUN_0001fa20(state, operations); break;
     case 0x72010u: ok = FUN_00072010(state, operations); break;
+    case 0x720d0u: ok = FUN_000720d0(state, operations); break;
+    case 0x16b210u: ok = FUN_0016b210(state, operations); break;
     case 0x73d80u: ok = FUN_00073d80(state, operations); break;
     default: std::abort();
     }
@@ -90,11 +94,13 @@ def fixture(entry, number):
     rng = Random(entry + number)
     registers = State(*(rng.getrandbits(32) for _ in range(7)), STACK, entry, 0x202 | (rng.getrandbits(12) & 0x8d5),
                       0xFFFFFFFF)
-    # Rotate unaligned storage and deliberately alias the saved binary32
-    # cosine slot with the last output to require the original access order.
+    # Rotate unaligned storage and let an output overwrite either saved
+    # binary32 trigonometric value before a later instruction reads it.
     address = BASE + 0x100 + number % 4
     if number % 3 == 0:
-        address = STACK - (0x2c if entry == 0x73d80 else 0x30)
+        aliased_pair_output = {0x1FA20: 0x18, 0x72010: 0x1c, 0x73D80: 0x18,
+                               0x720D0: 0x18, 0x16B210: 0x10}[entry]
+        address = STACK - 0x10 - aliased_pair_output + (4 if number % 2 else 0)
     memory = bytearray(rng.randbytes(SIZE))
     angles = (0, 0x80000000, 1, 0x80000001, 0x3f800000, 0x41210000, 0xc1200000, 0x7f800000,
               0xff800000, 0x7f800001, 0x7fc0abcd, 0x7f7fffff, 0xff7fffff, rng.getrandbits(32))
@@ -127,7 +133,7 @@ def prepare(entry, body, fixture, traces):
 
 
 def instruction_bytes(op, operand, eax, esp, modrm):
-    register_encodings = (b"\xd9\xfb", b"\xd9\xc1", b"\xd9\xc9", b"\xde\xc1", b"\xde\xe9")
+    register_encodings = (b"\xd9\xfb", b"\xd9\xc1", b"\xd9\xc9", b"\xde\xc1", b"\xde\xe9", b"\xd8\xc9")
     if op >= 3:
         return register_encodings[op - 3]
     prefix, extension = ((0xd9, 0), (0xd9, 0x18), (0xd8, 8))[op]
@@ -226,7 +232,7 @@ def main():
             model = ct.CDLL(str(library)).run
             model.argtypes = [ct.c_uint32, ct.POINTER(ct.c_uint32), Read, Write, Execute]
             model.restype = ct.c_bool
-            count = 0
+            count = stops = 0
             for entry, body in bodies.items():
                 for number in range(84):
                     values = fixture(entry, number)
@@ -234,10 +240,14 @@ def main():
                     count += 1
                 # Stop before LOAD, FSINCOS, both frame STORES, and the
                 # third pair's final binary32 store.
-                for offset in (0x13, 0x17, 0x1d, 0x23, len(body) - 13):
+                offsets = (0x13, 0x17, 0x1d, 0x23, len(body) - 13)
+                if entry == 0x720D0:
+                    offsets += (0x7213F - entry, 0x7214A - entry)
+                for offset in offsets:
                     compare(model, entry, body, fixture(entry, 6), entry + offset)
                     count += 1
-            print(f"{optimization}: {count} retail/model comparisons, including 15 x87 callback stops")
+                    stops += 1
+            print(f"{optimization}: {count} retail/model comparisons, including {stops} x87 callback stops")
 
 
 if __name__ == "__main__":

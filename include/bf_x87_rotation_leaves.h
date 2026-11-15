@@ -6,7 +6,7 @@
 #include "bf_xbe_guest32_record_leaves.h"
 
 enum class bf_x87_rotation_opcode {
-    fld_m32, fstp_m32, fmul_m32, fsincos, fld_st1, fxch_st1, faddp_st1, fsubp_st1
+    fld_m32, fstp_m32, fmul_m32, fsincos, fld_st1, fxch_st1, faddp_st1, fsubp_st1, fmul_st1
 };
 
 struct bf_x87_rotation_operations {
@@ -20,11 +20,17 @@ bool FUN_0001fa20(bf_guest32_constructor_state&, const bf_x87_rotation_operation
 bool FUN_00072010(bf_guest32_constructor_state&, const bf_x87_rotation_operations&);
 bool FUN_00073d80(bf_guest32_constructor_state&, const bf_x87_rotation_operations&);
 
+bool FUN_000720d0(bf_guest32_constructor_state&, const bf_x87_rotation_operations&);
+bool FUN_0016b210(bf_guest32_constructor_state&, const bf_x87_rotation_operations&);
+
 namespace bf_x87_rotation {
+
+enum class pair_schedule { add_then_subtract, subtract_then_add, subtract_then_add_sine_first };
 
 struct component_pair {
     std::uint32_t first;
     std::uint32_t second;
+    pair_schedule schedule = pair_schedule::add_then_subtract;
 };
 
 inline bool run(bf_guest32_constructor_state& guest, const bf_x87_rotation_operations& x87,
@@ -70,24 +76,44 @@ inline bool run(bf_guest32_constructor_state& guest, const bf_x87_rotation_opera
         // EAX-relative [EAX] occupies two instruction bytes, [EAX+disp8] three.
         const auto first_length = pair.first == 0u ? 2u : 3u;
         load_object();
-        if (!next(first_length, op::fld_m32, guest.eax + pair.first) ||
-            !next(4u, op::fld_m32, guest.esp + 4u) ||
-            !next(3u, op::fmul_m32, guest.eax + pair.second) ||
-            !next(2u, op::fld_st1) ||
-            !next(4u, op::fmul_m32, guest.esp) ||
-            !next(2u, op::faddp_st1) ||
-            !next(first_length, op::fstp_m32, guest.eax + pair.first))
+        if (!next(first_length, op::fld_m32, guest.eax + pair.first))
+            return false;
+        if (pair.schedule == pair_schedule::add_then_subtract) {
+            if (!next(4u, op::fld_m32, guest.esp + 4u) ||
+                !next(3u, op::fmul_m32, guest.eax + pair.second) ||
+                !next(2u, op::fld_st1) ||
+                !next(4u, op::fmul_m32, guest.esp) ||
+                !next(2u, op::faddp_st1))
+                return false;
+        } else {
+            if (!next(4u, op::fld_m32, guest.esp) ||
+                !next(2u, op::fmul_st1) ||
+                !next(4u, op::fld_m32, guest.esp + 4u) ||
+                !next(3u, op::fmul_m32, guest.eax + pair.second) ||
+                !next(2u, op::fsubp_st1))
+                return false;
+        }
+        if (!next(first_length, op::fstp_m32, guest.eax + pair.first))
             return false;
 
-        // Reload the pointer after the first binary32 store, which can alias
-        // the argument or cosine/sine stack slots.
+        // The first binary32 store can alias the object argument or a local.
         load_object();
-        if (!next(4u, op::fld_m32, guest.esp) ||
-            !next(3u, op::fmul_m32, guest.eax + pair.second) ||
-            !next(2u, op::fxch_st1) ||
-            !next(4u, op::fmul_m32, guest.esp + 4u) ||
-            !next(2u, op::fsubp_st1) ||
-            !next(3u, op::fstp_m32, guest.eax + pair.second))
+        if (pair.schedule == pair_schedule::subtract_then_add_sine_first) {
+            // 0x0007213f multiplies retained ST(0) by sine before loading
+            // cosine. This changes the operand order and omits FXCH.
+            if (!next(4u, op::fmul_m32, guest.esp + 4u) ||
+                !next(4u, op::fld_m32, guest.esp) ||
+                !next(3u, op::fmul_m32, guest.eax + pair.second))
+                return false;
+        } else {
+            if (!next(4u, op::fld_m32, guest.esp) ||
+                !next(3u, op::fmul_m32, guest.eax + pair.second) ||
+                !next(2u, op::fxch_st1) ||
+                !next(4u, op::fmul_m32, guest.esp + 4u))
+                return false;
+        }
+        const auto finish = pair.schedule == pair_schedule::add_then_subtract ? op::fsubp_st1 : op::faddp_st1;
+        if (!next(2u, finish) || !next(3u, op::fstp_m32, guest.eax + pair.second))
             return false;
     }
     load_object();
