@@ -90,3 +90,5 @@ tests/fixtures/original_0x00380eda_pre_guest32_20261115.txt -text whitespace=-bl
 tests/fixtures/original_0x*_pre_guest_state_20261115.txt -text whitespace=-blank-at-eol
 tests/fixtures/original_0x002383b0_pre_guest32_20261114.txt -text whitespace=-blank-at-eol
 tests/fixtures/original_0x00183530_pre_guest32_20261115.txt -text whitespace=-blank-at-eol
+tests/fixtures/original_0x001cefe0_pre_guest32_20261115.txt -text whitespace=-blank-at-eol
+tests/fixtures/original_0x001d6920_pre_guest32_20261115.txt -text whitespace=-blank-at-eol
