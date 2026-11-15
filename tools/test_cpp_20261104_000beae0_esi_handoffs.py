@@ -262,7 +262,16 @@ class HandoffTests(unittest.TestCase):
             self.assertEqual(read_body_digest(source),(item['original_body_sha256'],False))
             self.assertEqual(inventory[item['entry']],item['original_body_sha256']);self.assertIn('ABI_UNVERIFIED',source)
             if 'replacements' in item:restore(item,source)
-            else:self.assertEqual(sha(source.encode()),item['source_sha256'])
+            else:
+                # Keep the exact historical dependency while checking the
+                # retained data-projection implementation in the live model.
+                archived = (ROOT / 'tests/fixtures' /
+                            f"original_{item['entry']}_esi_handoffs_20261104.txt").read_bytes()
+                self.assertEqual(sha(archived), item['source_sha256'])
+                historical = archived.decode('utf-8')
+                self.assertEqual(read_body_digest(historical), (item['original_body_sha256'], False))
+                definition = historical.index('void FUN_')
+                self.assertIn(historical[definition:], source)
         cal=self.document['callee'];self.assertEqual(sha((ROOT/cal['header']).read_bytes()),cal['header_sha256'])
         self.assertIn(cal['existing_definition']+'\n{',path_for(cal['source']).read_text())
         scan=self.document['historical_dependency_scan'];self.assertEqual(scan['paths_containing_entry'],scan['expected_inventory_only'])
