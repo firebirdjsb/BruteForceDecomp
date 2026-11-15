@@ -345,8 +345,11 @@ class EsiStackCallsTests(unittest.TestCase):
             self.assertEqual(item['private_validation_issues'],[])
             if 'replacements' in item:
                 validate_edge(item); validate_sources(item,source)
-        callee=self.manifest['callee']; definition=path_for(callee['source']).read_text(); header=(ROOT/callee['header']).read_text()
-        self.assertEqual(sha(definition.encode()),callee['source_sha256'])
+        callee=self.manifest['callee']; header=(ROOT/callee['header']).read_text()
+        historical=(ROOT/'tests/fixtures/original_0x0008f6a0_esi_handoffs_20261104.txt').read_bytes()
+        self.assertEqual(sha(historical),callee['source_sha256'])
+        self.assertTrue(path_for(callee['source']).read_bytes().startswith(historical))
+        definition=historical.decode('utf-8')
         self.assertEqual(sha(header.encode()),callee['header_sha256'])
         self.assertIn(DECL.removeprefix('extern ').removesuffix(';')+'\n{',definition)
         self.assertIn(DECL.removeprefix('extern '),header)

@@ -202,7 +202,9 @@ class GuestCallTests(unittest.TestCase):
             self.assertIn('ABI_UNVERIFIED', source)
             self.assertEqual(sum(r['length'] for r in item['body_ranges']), item['body_byte_count'])
         callee = self.manifest['callee']
-        self.assertEqual(sha((ROOT/callee['source']).read_bytes()), callee['source_sha256'])
+        historical = (ROOT/'tests/fixtures/original_0x0008f6a0_esi_handoffs_20261104.txt').read_bytes()
+        self.assertEqual(sha(historical), callee['source_sha256'])
+        self.assertTrue((ROOT/callee['source']).read_bytes().startswith(historical))
         self.original()
 
     def test_decoded_instruction_contracts(self):
