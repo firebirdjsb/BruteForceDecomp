@@ -21,6 +21,12 @@ from verify_nine_cpp_call_edges_xbe import XBE_SHA256, file_offset, sections
 
 NOTE = "// Source-matched C++17 declarations for original direct calls. Xbox ABI_UNVERIFIED."
 ALLOCATOR = '#include "bf_002ea01d_allocator_guest32.h"'
+SUPERSEDED_CALLER_DRAFTS = {
+    "0x00183530": (
+        "tests/fixtures/original_0x00183530_pre_guest32_20261115.txt",
+        "17da147114b576b4ecd73115a119b4a86e1360f025b680c52e73aeecbb015d93",
+    ),
+}
 SUPERSEDED_CALLEE_DRAFTS = {
     "0x00330c53": (
         "tests/fixtures/original_0x00330c53_pre_guest32_20261115.txt",
@@ -47,6 +53,16 @@ def target(va, opcode):
     return (va + 5 + int.from_bytes(opcode[1:], "little", signed=True)) & 0xffffffff
 
 
+def historical_draft(root, archives, entry, body):
+    path, digest = archives[entry]
+    path = root / path
+    raw = path.read_bytes()
+    require(hashlib.sha256(raw).hexdigest() == digest, f"historical draft drift at {entry}")
+    text = raw.decode("utf-8")
+    require(read_body_digest(text) == (body["sha256"], False), f"historical body label changed at {entry}")
+    return path, text
+
+
 def verify_sources(root, batch):
     require(batch["original_xbe_sha256"] == XBE_SHA256, "unexpected retail identity")
     bodies = batch["bodies"]
@@ -65,20 +81,20 @@ def verify_sources(root, batch):
         texts[entry] = text
 
     seen_sites = set()
+    compile_paths = []
     for row in cases:
         entry = row["entry"]
         text = texts[entry]
+        path = source_path(root, entry)
+        if entry in SUPERSEDED_CALLER_DRAFTS:
+            path, text = historical_draft(root, SUPERSEDED_CALLER_DRAFTS, entry, bodies[entry])
+        compile_paths.append(path)
         require(text.count(NOTE) == 1 and row["declarations"], f"missing declaration block at {entry}")
         for call in row["declarations"]:
             callee, signature = call["callee"], call["signature"]
             definition = texts[callee]
             if callee in SUPERSEDED_CALLEE_DRAFTS:
-                path, digest = SUPERSEDED_CALLEE_DRAFTS[callee]
-                raw = (root / path).read_bytes()
-                require(hashlib.sha256(raw).hexdigest() == digest, f"historical draft drift at {callee}")
-                definition = raw.decode("utf-8")
-                require(read_body_digest(definition) == (bodies[callee]["sha256"], False),
-                        f"historical body label changed at {callee}")
+                _, definition = historical_draft(root, SUPERSEDED_CALLEE_DRAFTS, callee, bodies[callee])
             require(re.search(r"(?m)^" + re.escape(signature) + r"\s*\{", definition) is not None,
                     f"source-matched definition differs at {callee}")
             declaration = ALLOCATOR if callee == "0x002ea01d" else f"extern {signature};"
@@ -96,7 +112,7 @@ def verify_sources(root, batch):
             for site, pop in call["returns"]:
                 require(inside(bodies[callee], int(site, 16), 3 if pop else 1),
                         f"return lies outside body at {site}")
-    return [source_path(root, row["entry"]) for row in cases]
+    return compile_paths
 
 
 def inside(body, va, size):
@@ -144,7 +160,7 @@ def compile_sources(root, files):
     def check(path):
         for opt in ("-O0", "-O2"):
             result = subprocess.run(
-                [clang, "-std=c++17", "-fsyntax-only", opt, "-Werror=return-type",
+                [clang, "-std=c++17", "-x", "c++", "-fsyntax-only", opt, "-Werror=return-type",
                  "-Werror=float-conversion", "-Werror=implicit-int-float-conversion",
                  "-I", str(root / "include"), str(path)],
                 capture_output=True, text=True, timeout=60, check=False,
