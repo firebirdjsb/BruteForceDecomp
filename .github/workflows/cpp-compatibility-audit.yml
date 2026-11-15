@@ -112,6 +112,8 @@ jobs:
         run: python3 tools/check_cpp_campaign_record.py
       - name: Link and exercise the guest byte hash lookup
         run: python3 tools/check_cpp_guest_hash_lookup.py
+      - name: Link and exercise the guest backward record copy
+        run: python3 tools/check_cpp_guest_backward_record.py
       - name: Link and exercise the gameplay record teardown calls
         run: python3 tools/check_cpp_gameplay_record_links.py
       - name: Link and exercise gameplay callback record dependencies
