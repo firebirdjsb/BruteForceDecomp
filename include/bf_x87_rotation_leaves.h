@@ -6,17 +6,20 @@
 #include "bf_xbe_guest32_record_leaves.h"
 
 enum class bf_x87_rotation_opcode {
-    fld_m32, fstp_m32, fmul_m32, fsincos, fld_st1, fxch_st1, faddp_st1, fsubp_st1, fmul_st1, fchs
+    fld_m32, fstp_m32, fmul_m32, fsincos, fld_st1, fxch_st1, faddp_st1, fsubp_st1, fmul_st1, fchs,
+    fld_st, fmul_st, fstp_st, fsqrt, fdivr_m32
 };
 
 struct bf_x87_rotation_operations {
     void* context;
     // Executes one complete x87 instruction, including waiting exceptions and
-    // any DWORD memory access. The backend owns the guest x87 environment.
-    bool (*execute)(void*, std::uint32_t eip, bf_x87_rotation_opcode, std::uint32_t guest_va);
+    // any DWORD memory access. Operand is a guest VA or the indexed ST slot.
+    // The backend owns the guest x87 environment.
+    bool (*execute)(void*, std::uint32_t eip, bf_x87_rotation_opcode, std::uint32_t operand);
 };
 
 bool FUN_0001fa20(bf_guest32_constructor_state&, const bf_x87_rotation_operations&);
+bool FUN_0001fc70(bf_guest32_constructor_state&, const bf_x87_rotation_operations&);
 bool FUN_00072010(bf_guest32_constructor_state&, const bf_x87_rotation_operations&);
 bool FUN_00073d80(bf_guest32_constructor_state&, const bf_x87_rotation_operations&);
 

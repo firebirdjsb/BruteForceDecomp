@@ -31,6 +31,9 @@ INITIALIZERS = {
     0x20E080: (133, "c2c47719abf4375300ca16b4eeb11aaadc637921a514a2624cfa825154bc83d6"),
 }
 BODIES.update(INITIALIZERS)
+AXIS_ANGLE = 0x1FC70
+ANGLE_SCALE = 0x3A5198
+BODIES[AXIS_ANGLE] = (156, "4e6025aacf00495bb6609f771a3831233d1b48e19edcb42cb224b95792c2f2c9")
 REGS = [getattr(x86, "UC_X86_REG_" + name) for name in
         ("EAX", "EBX", "ECX", "EDX", "ESI", "EDI", "EBP", "ESP", "EIP", "EFLAGS")]
 FP_REGS = [getattr(x86, "UC_X86_REG_" + name) for name in
@@ -83,6 +86,7 @@ extern "C" bool run(std::uint32_t entry, std::uint32_t* registers, read_callback
     bool ok;
     switch (entry) {
     case 0x1fa20u: ok = FUN_0001fa20(state, operations); break;
+    case 0x1fc70u: ok = FUN_0001fc70(state, operations); break;
     case 0x72010u: ok = FUN_00072010(state, operations); break;
     case 0x720d0u: ok = FUN_000720d0(state, operations); break;
     case 0x16b210u: ok = FUN_0016b210(state, operations); break;
@@ -107,7 +111,7 @@ def fixture(entry, number):
     # Rotate unaligned storage and let an output overwrite either saved
     # binary32 trigonometric value before a later instruction reads it.
     address = BASE + 0x100 + number % 4
-    if number % 3 == 0:
+    if entry != AXIS_ANGLE and number % 3 == 0:
         aliased_pair_output = {0x1FA20: 0x18, 0x72010: 0x1c, 0x73D80: 0x18,
                                0x720D0: 0x18, 0x16B210: 0x10,
                                0x39380: 0x18, 0x13E800: 0x18, 0x20E080: 0x18}[entry]
@@ -115,16 +119,30 @@ def fixture(entry, number):
     memory = bytearray(rng.randbytes(SIZE))
     angles = (0, 0x80000000, 1, 0x80000001, 0x3f800000, 0x41210000, 0xc1200000, 0x7f800000,
               0xff800000, 0x7f800001, 0x7fc0abcd, 0x7f7fffff, 0xff7fffff, rng.getrandbits(32))
-    struct.pack_into("<III", memory, STACK - BASE, RET, address, angles[number % len(angles)])
+    angle = angles[number % len(angles)]
+    if entry == AXIS_ANGLE:
+        axis = BASE + 0x180 + number % 4
+        if number % 3 == 0:
+            address = axis  # The cosine store changes a later axis load.
+        elif number % 3 == 1:
+            address = STACK - 0x14  # The destination aliases x87 local stores.
+        words = tuple(angles[(number + i) % len(angles)] for i in range(3))
+        struct.pack_into("<III", memory, axis - BASE, *words)
+        struct.pack_into("<IIII", memory, STACK - BASE, RET, address, axis, angle)
+    else:
+        struct.pack_into("<III", memory, STACK - BASE, RET, address, angle)
     cw = 0x7f | ((0, 2, 3)[number % 3] << 8) | ((number // 3 % 4) << 10)
     return registers, memory, cw, number % 7
 
 
-def prepare(entry, body, fixture, traces):
+def prepare(entry, body, fixture, traces, angle_scale):
     registers, memory, cw, depth = fixture
     cpu = Uc(UC_ARCH_X86, UC_MODE_32)
     cpu.mem_map(entry & ~0xfff, 0x2000)
     cpu.mem_write(entry, body)
+    if entry == AXIS_ANGLE:
+        cpu.mem_map(ANGLE_SCALE & ~0xfff, 0x1000)
+        cpu.mem_write(ANGLE_SCALE, angle_scale)
     cpu.mem_map(RET, 0x1000)
     cpu.mem_write(RET, b"\xd9\xe8" * depth)  # Prepopulate up to six x87 slots with FLD1.
     cpu.mem_map(BASE, SIZE)
@@ -146,9 +164,17 @@ def prepare(entry, body, fixture, traces):
 def instruction_bytes(op, operand, registers, modrm):
     register_encodings = (b"\xd9\xfb", b"\xd9\xc1", b"\xd9\xc9", b"\xde\xc1",
                           b"\xde\xe9", b"\xd8\xc9", b"\xd9\xe0")
-    if op >= 3:
+    if 3 <= op <= 9:
         return register_encodings[op - 3]
-    prefix, extension = ((0xd9, 0), (0xd9, 0x18), (0xd8, 8))[op]
+    if 10 <= op <= 12:
+        assert 0 <= operand < 8
+        prefix, second = ((0xd9, 0xc0), (0xd8, 0xc8), (0xdd, 0xd8))[op - 10]
+        return bytes((prefix, second + operand))
+    if op == 13:
+        return bytes((0xd9, 0xfa))
+    prefix, extension = {0: (0xd9, 0), 1: (0xd9, 0x18), 2: (0xd8, 8), 14: (0xd8, 0x38)}[op]
+    if modrm == extension + 5:
+        return bytes((prefix, modrm)) + struct.pack("<I", operand)
     base = modrm & 7
     if base == 4:
         displacement = (operand - registers[3]) & 0xffffffff
@@ -162,10 +188,10 @@ def instruction_bytes(op, operand, registers, modrm):
     return bytes((prefix, 0x40 + extension + base, displacement))
 
 
-def compare(model, entry, body, values, cutoff=None):
+def compare(model, entry, body, values, angle_scale, cutoff=None):
     original_trace, model_trace = [], []
-    original = prepare(entry, body, values, original_trace)
-    backend = prepare(entry, body, values, model_trace)
+    original = prepare(entry, body, values, original_trace, angle_scale)
+    backend = prepare(entry, body, values, model_trace, angle_scale)
     registers = State(*values[0])
     stop = cutoff if cutoff is not None else RET
     original.emu_start(entry, stop, count=256)
@@ -231,6 +257,7 @@ def main():
         offset = file_offset(layout, va, size)
         return image[offset:offset + size]
 
+    angle_scale = read(ANGLE_SCALE, 4)
     bodies, sources = {}, []
     for entry, (size, digest) in BODIES.items():
         body = read(entry, size)
@@ -254,7 +281,7 @@ def main():
             for entry, body in bodies.items():
                 for number in range(84):
                     values = fixture(entry, number)
-                    compare(model, entry, body, values)
+                    compare(model, entry, body, values, angle_scale)
                     count += 1
                 # Stop before LOAD, FSINCOS, both frame STORES, and the
                 # third pair's final binary32 store.
@@ -264,8 +291,10 @@ def main():
                     offsets += ({0x39380: 0x64, 0x13E800: 0x59, 0x20E080: 0x37}[entry],)
                 if entry == 0x720D0:
                     offsets += (0x7213F - entry, 0x7214A - entry)
+                if entry == AXIS_ANGLE:
+                    offsets = (0x03, 0x0b, 0x1d, 0x25, 0x53, 0x5b, 0x63, 0x81, 0x8f)
                 for offset in offsets:
-                    compare(model, entry, body, fixture(entry, 6), entry + offset)
+                    compare(model, entry, body, fixture(entry, 6), angle_scale, entry + offset)
                     count += 1
                     stops += 1
             print(f"{optimization}: {count} retail/model comparisons, including {stops} x87 callback stops")
